@@ -24,7 +24,7 @@ def deltaPhi(phi1, phi2):
     else:
         return 2*pi-PHI
 
-def deltaR(phi1, ph2, eta1, eta2):
+def deltaR(phi1, phi2, eta1, eta2):
     deta = eta1 - eta2
     dphi = abs(phi1-phi2)
     if (dphi>pi) : dphi = 2*pi-dphi

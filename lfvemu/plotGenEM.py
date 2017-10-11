@@ -74,7 +74,7 @@ plotter.mc_samples = new_mc_samples
 
 
 
-histoname = [('eGenPdgId', 'e pdgId', 1)] # list of tuples containing (histoname, xaxis title, rebin)
+histoname = [('eGenPdgId','e pdgId',1),('eEta','e Eta',1),("ePt", "e Pt",1),("ePhi", "e Phi",1),("mPt", "m Pt",1),("mEta", "m Eta",1),("mPhi", "m Phi",1),("j1pt", "jet1 Pt",1),("j2pt", "jet2 Pt",1),("e_m_Mass", "e m Mass", 1),("vbfNJets20", "# of Jets above 20Gev", 1),("vbfj1pt", "Jet1 Pt", 1),("vbfj1eta", "Jet1 Eta", 1),("vbfj2pt", "Jet2 Pt", 1),("vbfj2eta", "Jet2 Eta", 1),("vbfdijetpt", "Jets Pt", 1),("vbfMass", "Jets Mass", 1),("vbfDeta", "Delta Eta Jets", 1),("vbfDphi", "Delta Phi Jets", 1)] # list of tuples containing (histoname, xaxis title, rebin)
 
 
 foldername = channel

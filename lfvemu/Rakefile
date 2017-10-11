@@ -29,7 +29,7 @@ end
 #
 samples = Hash[
 #               "ggEMuMC" => get_sample_names('GluGlu_LFV_HToEMu_M125_13TeV_powheg_pythia'),
-#               "vbfEMuMC" => get_sample_names('VBF_LFV_HToEMu_M125_13TeV_powheg_pythia8')
+                "vbfEMuMC" => get_sample_names('VBF_LFV_HToEMu_M125_13TeV_powheg_pythia8'),
                 "ggEMuMC" => get_sample_names('GluGluHToTauTau_M125_13TeV_powheg_pythia8'),
      		"dyEMuMC" => get_sample_names('DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8')
 ]
@@ -51,7 +51,7 @@ def get_plotter_results(analyzer)
 end
 
 
-task :genKinEMu => get_analyzer_results("LFVEMuAnalyserGen.py", samples['ggEMuMC'] + samples['dyEMuMC'])
+task :genKinEMu => get_analyzer_results("LFVEMuAnalyserGen.py", samples['ggEMuMC'] + samples['dyEMuMC'] + samples['vbfEMuMC'])
 
 $etdir = "plots/#{$jobid}/LFVEMuAnalyzerGen/em/"
 directory $etdir 
