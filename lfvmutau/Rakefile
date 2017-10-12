@@ -27,19 +27,17 @@ def get_sample_names(substring)
   return inputs
 end
 #
+
 samples = Hash[
-                "zHToTTMC" => get_sample_names('ZHToTauTau_M125_13TeV_powheg_pythia8_v6-v1'),
-                "wplusHToTTMC" => get_sample_names('WplusHToTauTau_M125_13TeV_powheg_pythia8_v6-v1'),
-                "wminusHToTTMC" => get_sample_names('WminusHToTauTau_M125_13TeV_powheg_pythia8_v6-v1'),
-     		"vbfHToMTMC" => get_sample_names('VBF_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v6-v1'),
-		"vbfHToETMC" => get_sample_names('VBF_LFV_HToETau_M125_13TeV_powheg_pythia8_v6-v1'),
-                "vbfHToWWMC" => get_sample_names('VBFHToWWTo2L2Nu_M125_13TeV_powheg_pythia8_v6-v1'),
-                "vbfHToTTMC" => get_sample_names('VBFHToTauTau_M125_13TeV_powheg_pythia8_v6-v1'),
-     		"ttHJetToTTMC" => get_sample_names('ttHJetToTT_M125_13TeV_amcatnloFXFX_madspin_pythia8_v6_ext4-v1'),
-		"ggHToMTMC" => get_sample_names('GluGlu_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v6-v1'),
-                "ggHToETMC" => get_sample_names('GluGlu_LFV_HToETau_M125_13TeV_powheg_pythia8_v6-v1'),
-                "ggHToWWMC" => get_sample_names('GluGluHToWWTo2L2Nu_M125_13TeV_powheg_pythia8_v6-v1'),
-     		"ggHToTTMC" => get_sample_names('GluGluHToTauTau_M125_13TeV_powheg_pythia8_v6-v1')
+                "run2017Av2" => get_sample_names('data_SingleMuon_Run2017A_PromptReco-v2'),
+                "run2017Av3" => get_sample_names('data_SingleMuon_Run2017A_PromptReco-v3'),
+                "run2017Bv1" => get_sample_names('data_SingleMuon_Run2017B_PromptReco-v1'),
+     		"run2017Bv2" => get_sample_names('data_SingleMuon_Run2017B_PromptReco-v2'),
+		"run2017Cv1" => get_sample_names('data_SingleMuon_Run2017C_PromptReco-v1'),
+                "run2017Cv2" => get_sample_names('data_SingleMuon_Run2017C_PromptReco-v2'),
+                "run2017Cv3" => get_sample_names('data_SingleMuon_Run2017C_PromptReco-v3'),
+     		"run2017Dv1" => get_sample_names('data_SingleMuon_Run2017D_PromptReco-v1'),
+		"run2017Ev1" => get_sample_names('data_SingleMuon_Run2017E_PromptReco-v1')
 ]
 
 
@@ -59,9 +57,9 @@ def get_plotter_results(analyzer)
 end
 
 
-task :genKinMuTau => get_analyzer_results("LFVMuTauAnalyserGen.py", samples['zHToTTMC'] + samples['wplusHToTTMC'] + samples['wminusHToTTMC'] + samples['vbfHToMTMC'] + samples['vbfHToETMC'] + samples['vbfHToWWMC'] + samples['vbfHToTTMC'] + samples['ttHJetToTTMC'] + samples['ggHToMTMC'] + samples['ggHToETMC'] + samples['ggHToWWMC'] + samples['ggHToTTMC'])
+task :MuMu => get_analyzer_results("LFVMuTauAnalyser.py", samples['run2017Av2'] + samples['run2017Av3'] + samples['run2017Bv1'] + samples['run2017Bv2'] + samples['run2017Cv1'] + samples['run2017Cv2'] + samples['run2017Cv3'] + samples['run2017Dv1'] + samples['run2017Ev1'])
 
-$etdir = "plots/#{$jobid}/LFVMuTauAnalyzerGen/mt_now/"
+$etdir = "plots/#{$jobid}/LFVMuTauAnalyzer/mt_now/"
 directory $etdir 
 file  "#{$etdir}/plot#{$period}.root" do |t|
   sh "echo $jobid"

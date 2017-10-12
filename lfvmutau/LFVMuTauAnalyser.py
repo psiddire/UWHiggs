@@ -1,4 +1,5 @@
-from MuTauTree import MuTauTree
+#from MuTauTree import MuTauTree
+from MuMuTree import MuMuTree
 import sys
 import logging
 logging.basicConfig(stream=sys.stderr, level=logging.WARNING)
@@ -30,15 +31,16 @@ def deltaR(phi1, phi2, eta1, eta2):
     if (dphi>pi) : dphi = 2*pi-dphi
     return sqrt(deta*deta + dphi*dphi);
 
-class LFVMuTauAnalyserGen(MegaBase):
-    tree = 'mt/final/Ntuple'
+class LFVMuTauAnalyser(MegaBase):
+    tree = 'mm/final/Ntuple'
     def __init__(self, tree, outfile, **kwargs):
-        logging.debug('LFVMuTauAnalyserGen constructor')
-        self.channel='MT'
+        logging.debug('LFVMuTauAnalyser constructor')
+        self.channel='MM'
         target = os.path.basename(os.environ['megatarget'])
+#        self.is_data = target.startswith('data_')
 
-        super(LFVMuTauAnalyserGen, self).__init__(tree, outfile, **kwargs)
-        self.tree = MuTauTree(tree)
+        super(LFVMuTauAnalyser, self).__init__(tree, outfile, **kwargs)
+        self.tree = MuMuTree(tree)
         self.out=outfile
         self.histograms = {}
         self.histo_locations = {}
@@ -48,39 +50,14 @@ class LFVMuTauAnalyserGen(MegaBase):
 
 
     def begin(self):
-        folder = ['mt',"fromHiggs"]
+        folder = ['mm']
         for f in folder:
             
        # f='mt' this is the name of the folder with histo in the output file
-            self.book(f,"tPt", "t Pt", 200, 0, 200 )
-            self.book(f,"tEta", "t Eta", 100, -10, 10 )
-            self.book(f,"tPhi", "t Phi", 100, -10, 10 )
-            self.book(f,"mPt", "m Pt", 200, 0, 200 )
-            self.book(f,"mEta", "m Eta", 100, -10, 10 )
-            self.book(f,"mPhi", "m Phi", 100, -10, 10 )
-            self.book(f,"j1pt", "jet1 Pt", 200, 0, 200 )
-            self.book(f,"j2pt", "jet2 Pt", 200, 0, 200 )
-            self.book(f,"m_t_Mass", "m t Mass", 300, 0, 300 )
-            self.book(f,"vbfNJets20", "# of Jets above 20Gev", 100, 0, 10 )
-            self.book(f,"vbfj1pt", "Jet1 Pt", 200, 0, 200 )
-            self.book(f,"vbfj1eta", "Jet1 Eta", 100, -10, 10 )
-            self.book(f,"vbfj2pt", "Jet2 Pt", 200, 0, 200 )
-            self.book(f,"vbfj2eta", "Jet2 Eta", 100, -10, 10 )
-            self.book(f,"vbfdijetpt", "Jets Pt", 200, 0, 200 )
-            self.book(f,"vbfMass", "Jets Mass", 200, 0, 200 )
-            self.book(f,"vbfDeta", "Delta Eta Jets", 100, 0, 10 )
-            self.book(f,"vbfDphi", "Delta Phi Jets", 100, 0, 10 )
-            self.book(f,"m_t_collinearmass", "Collinear Mass", 300, 0, 300)
-            self.book(f,"tGenPt", "t Gen Pt", 200, 0, 200 )
-            self.book(f,"mGenPt", "m Gen Pt", 200, 0, 200 )
-            self.book(f,"tGenPhi", "t Gen Phi", 100, -10, 10 )
-            self.book(f,"mGenPhi", "m Gen Phi", 100, -10, 10 )
-            self.book(f,"tGenEta", "t Gen Eta", 100, -10, 10 )
-            self.book(f,"mGenEta", "m Gen Eta", 100, -10, 10 )
-            self.book(f,"mGenMotherPdgId", "mGenMotherPdgId", 100, -50, 50 )
-            self.book(f,"tGenMotherPdgId", "tGenMotherPdgId", 100, -50, 50 )
-            self.book(f,"tGenCharge", "t Gen Charge", 100, -2, 2 )
-           
+            self.book(f,"m1Pt", "m1 Pt", 200, 0, 200 )
+            self.book(f,"m2Pt", "m2 Pt", 200, 0, 200 )
+            self.book(f,"m1_m2_Mass", "m1 m2 Mass", 200, 0, 200 )
+                      
 
         for key, value in self.histograms.iteritems():
             location = os.path.dirname(key)
@@ -131,14 +108,13 @@ class LFVMuTauAnalyserGen(MegaBase):
     
     def process(self):
          for row in self.tree:
-             dirnames = ['mt']
-             weight_to_use = row.GenWeight #it should be changed when using corrections
-         #    if row.tGenPdgID
-#             print row.tGenMotherPdgId, row.tGenPdgId
-             if row.tGenMotherPdgId==25 and row.mGenMotherPdgId==25:
-                 dirnames.append("fromHiggs")
-             for dirname in dirnames:    
-                 self.fill_histos(dirname, row, weight_to_use)
+             dirname = 'mm'
+#            weight_to_use = row.GenWeight #it should be changed when using corrections
+#            if row.tGenPdgID:
+#                print row.tGenMotherPdgId, row.tGenPdgId
+#            if row.tGenMotherPdgId==25 and row.mGenMotherPdgId==25:
+#                dirnames.append("fromHiggs")
+             self.fill_histos(dirname, row, 1)
 
 
     def finish(self):
