@@ -1,0 +1,160 @@
+# Get common recipes
+recipes = ENV['fsa'] + '/PlotTools/rake/recipes.rake'
+import recipes
+
+require ENV['CMSSW_BASE'] + '/src/FinalStateAnalysis/PlotTools/rake/tools.rb'
+require 'pathname'
+
+$jobid = ENV['jobid']
+$blind = ENV['blind']
+
+# Figure out what run period we are in
+$period = '13TeV'
+PU = ENV['PU']
+#if $jobid.include? '8TeV'
+#  $period = '8TeV'
+#end
+
+
+################################################################################
+## Sample names ################################################################
+################################################################################
+#
+# Get sample names containing a substring
+def get_sample_names(substring)
+  inputs = Dir.glob("inputs/#{$jobid}/*.txt").select {|x| x.include? substring}
+  inputs = inputs.map{|x| File.basename(x).sub(".txt", "")}
+  return inputs
+end
+#
+samples = Hash[
+                "zHToTTMC" => get_sample_names('ZHToTauTau_M125_13TeV_powheg_pythia8_v6-v1'),
+                "wplusHToTTMC" => get_sample_names('WplusHToTauTau_M125_13TeV_powheg_pythia8_v6-v1'),
+                "wminusHToTTMC" => get_sample_names('WminusHToTauTau_M125_13TeV_powheg_pythia8_v6-v1'),
+     		"vbfHToMTMC" => get_sample_names('VBF_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v6-v1'),
+		"vbfHToETMC" => get_sample_names('VBF_LFV_HToETau_M125_13TeV_powheg_pythia8_v6-v1'),
+                "vbfHToWWMC" => get_sample_names('VBFHToWWTo2L2Nu_M125_13TeV_powheg_pythia8_v6-v1'),
+                "vbfHToTTMC" => get_sample_names('VBFHToTauTau_M125_13TeV_powheg_pythia8_v6-v1'),
+     		"ttHJetToTTMC" => get_sample_names('ttHJetToTT_M125_13TeV_amcatnloFXFX_madspin_pythia8_v6_ext4-v1'),
+		"ggHToMTMC" => get_sample_names('GluGlu_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v6-v1'),
+                "ggHToETMC" => get_sample_names('GluGlu_LFV_HToETau_M125_13TeV_powheg_pythia8_v6-v1'),
+                "ggHToWWMC" => get_sample_names('GluGluHToWWTo2L2Nu_M125_13TeV_powheg_pythia8_v6-v1'),
+     		"ggHToTTMC" => get_sample_names('GluGluHToTauTau_M125_13TeV_powheg_pythia8_v6-v1')
+
+"wmHToTT" => get_sample_names('WminusHToTauTau_M125_13TeV_powheg_pythia8_v6-v1')
+"wpHToTT" => get_sample_names('WplusHToTauTau_M125_13TeV_powheg_pythia8_v6-v1')
+"wgLNuEE" => get_sample_names('WGstarToLNuEE_012Jets_13TeV-madgraph_v6-v1')
+"wgLNuMuMu" => get_sample_names('WGstarToLNuMuMu_012Jets_13TeV-madgraph_v6-v1')
+"zzTo2L2Q" => get_sample_names('ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8_v6-v1')
+"zzTo4L" => get_sample_names('ZZTo4L_13TeV-amcatnloFXFX-pythia8_v6_ext1-v1')
+"ewkwm2JWToLNu" => get_sample_names('EWKWMinus2Jets_WToLNu_M-50_13TeV-madgraph-pythia8_v6')
+"ewkwp2JWToLNu" => get_sample_names('EWKWPlus2Jets_WToLNu_M-50_13TeV-madgraph-pythia8_v6')
+"ewkz2JZToLL" => get_sample_names('EWKZ2Jets_ZToLL_M-50_13TeV-madgraph-pythia8_v6')
+"ewkz2JZToNuNu" => get_sample_names('EWKZ2Jets_ZToNuNu_13TeV-madgraph-pythia8_v6')
+"wGToLNuG" => get_sample_names('WGToLNuG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_v6')
+"ww" => get_sample_names('WW_TuneCUETP8M1_13TeV-pythia8_v6')
+"wz" => get_sample_names('WZ_TuneCUETP8M1_13TeV-pythia8_v6')
+"zz" => get_sample_names('ZZ_TuneCUETP8M1_13TeV-pythia8_v6')
+"wzJToLLLNu" => get_sample_names('WZJToLLLNu_TuneCUETP8M1_13TeV-amcnlo-pythia8_v6-v1')
+"wzTo1L1Nu2Q" => get_sample_names('WZTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8_v6-v3')
+"wzTo1L3Nu" => get_sample_names('WZTo1L3Nu_13TeV_amcatnloFXFX_madspin_pythia8_v6-v1')
+"wzTo2L2Q" => get_sample_names('WZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8_v6-v1')
+"wwTo1L1Nu2Q" => get_sample_names('WWTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8_v6-v1')
+"www4F" => get_sample_names('WWW_4F_TuneCUETP8M1_13TeV-amcatnlo-pythia8_v6-v1')
+]
+
+
+DY1JetsToLL_M-10to50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v6-v1
+DY1JetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v6-v1
+DY2JetsToLL_M-10to50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v6-v1
+DY2JetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v6-v1
+DY3JetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v6-v1
+DY4JetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v6-v1
+DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v6-v1
+
+DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v6_ext1-v2
+DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v6_ext2-v1
+
+#EWKWMinus2Jets_WToLNu_M-50_13TeV-madgraph-pythia8_v6-v1
+#EWKWMinus2Jets_WToLNu_M-50_13TeV-madgraph-pythia8_v6_ext1-v1
+#EWKWMinus2Jets_WToLNu_M-50_13TeV-madgraph-pythia8_v6_ext2-v1
+
+#EWKWPlus2Jets_WToLNu_M-50_13TeV-madgraph-pythia8_v6-v1
+#EWKWPlus2Jets_WToLNu_M-50_13TeV-madgraph-pythia8_v6_ext1-v1
+#EWKWPlus2Jets_WToLNu_M-50_13TeV-madgraph-pythia8_v6_ext2-v1
+
+#EWKZ2Jets_ZToLL_M-50_13TeV-madgraph-pythia8_v6-v1
+#EWKZ2Jets_ZToLL_M-50_13TeV-madgraph-pythia8_v6_ext2-v1
+
+#EWKZ2Jets_ZToNuNu_13TeV-madgraph-pythia8_v6-v1
+#EWKZ2Jets_ZToNuNu_13TeV-madgraph-pythia8_v6_ext1-v1
+#EWKZ2Jets_ZToNuNu_13TeV-madgraph-pythia8_v6_ext2-v1
+
+W1JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v6-v1
+W2JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v6-v1
+W2JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v6_ext1-v1
+W3JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v6-v1
+W3JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v6_ext1-v1
+W4JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v6-v1
+W4JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v6_ext1-v1
+W4JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v6_ext2-v1
+
+WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v6-v1
+WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v6_ext2-v1
+
+#WGToLNuG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_v6_ext1-v1
+#WGToLNuG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_v6_ext2-v1
+
+#WGstarToLNuEE_012Jets_13TeV-madgraph_v6-v1
+#WGstarToLNuMuMu_012Jets_13TeV-madgraph_v6-v1
+
+#WWTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8_v6-v1
+#WWW_4F_TuneCUETP8M1_13TeV-amcatnlo-pythia8_v6-v1
+
+#WW_TuneCUETP8M1_13TeV-pythia8_v6-v1
+#WW_TuneCUETP8M1_13TeV-pythia8_v6_ext1-v1
+
+#WZJToLLLNu_TuneCUETP8M1_13TeV-amcnlo-pythia8_v6-v1
+#WZTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8_v6-v3
+#WZTo1L3Nu_13TeV_amcatnloFXFX_madspin_pythia8_v6-v1
+#WZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8_v6-v1
+
+#WZ_TuneCUETP8M1_13TeV-pythia8_v6-v1
+#WZ_TuneCUETP8M1_13TeV-pythia8_v6_ext1-v1
+
+#WminusHToTauTau_M125_13TeV_powheg_pythia8_v6-v1
+#WplusHToTauTau_M125_13TeV_powheg_pythia8_v6-v1
+#ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8_v6-v1
+#ZZTo4L_13TeV-amcatnloFXFX-pythia8_v6_ext1-v1
+
+#ZZ_TuneCUETP8M1_13TeV-pythia8_v6-v1
+#ZZ_TuneCUETP8M1_13TeV-pythia8_v6_ext1-v1
+
+
+
+
+
+# Function to get the .root files for an analyzer and samples
+def get_analyzer_results(analyzer, the_samples)
+  output = Array.new
+  analyzer_base = analyzer.sub('.py', '')
+  the_samples.each do |sample|
+    output << "results/#{$jobid}/#{analyzer_base}/#{sample}.root"
+  end
+  return output
+end
+def get_plotter_results(analyzer)
+  output = Array.new
+  analyzer_base = analyzer.sub('.py', '')
+end
+
+
+task :genMuMu => get_analyzer_results("MuMuAnalyserGen.py", samples['zHToTTMC'] + samples['wplusHToTTMC'] + samples['wminusHToTTMC'] + samples['vbfHToMTMC'] + samples['vbfHToETMC'] + samples['vbfHToWWMC'] + samples['vbfHToTTMC'] + samples['ttHJetToTTMC'] + samples['ggHToMTMC'] + samples['ggHToETMC'] + samples['ggHToWWMC'] + samples['ggHToTTMC'])
+
+$etdir = "plots/#{$jobid}/MuMuAnalyzerGen/mm_now/"
+directory $etdir 
+file  "#{$etdir}/plot#{$period}.root" do |t|
+  sh "echo $jobid"
+  sh "python myNewPlotterReco.py" 
+  
+end

@@ -1,4 +1,3 @@
-#from MuTauTree import MuTauTree
 from MuMuTree import MuMuTree
 import sys
 import logging
@@ -8,6 +7,7 @@ import ROOT
 import math
 import glob
 import array
+import baseSelections as selections
 from FinalStateAnalysis.PlotTools.decorators import memo
 from FinalStateAnalysis.PlotTools.decorators import memo_last
 import FinalStateAnalysis.PlotTools.pytree as pytree
@@ -31,15 +31,15 @@ def deltaR(phi1, phi2, eta1, eta2):
     if (dphi>pi) : dphi = 2*pi-dphi
     return sqrt(deta*deta + dphi*dphi);
 
-class LFVMuTauAnalyser(MegaBase):
+class MuMuAnalyser(MegaBase):
     tree = 'mm/final/Ntuple'
     def __init__(self, tree, outfile, **kwargs):
-        logging.debug('LFVMuTauAnalyser constructor')
+        logging.debug('MuMuAnalyser constructor')
         self.channel='MM'
         target = os.path.basename(os.environ['megatarget'])
 #        self.is_data = target.startswith('data_')
 
-        super(LFVMuTauAnalyser, self).__init__(tree, outfile, **kwargs)
+        super(MuMuAnalyser, self).__init__(tree, outfile, **kwargs)
         self.tree = MuMuTree(tree)
         self.out=outfile
         self.histograms = {}
@@ -50,14 +50,13 @@ class LFVMuTauAnalyser(MegaBase):
 
 
     def begin(self):
-        folder = ['mm']
-        for f in folder:
-            
+        folder = ['mm','Iso1','Iso0p5','Iso0p25','Iso0p15','Iso0p1']
+        for f in folder:    
        # f='mt' this is the name of the folder with histo in the output file
             self.book(f,"m1Pt", "m1 Pt", 200, 0, 200 )
             self.book(f,"m2Pt", "m2 Pt", 200, 0, 200 )
             self.book(f,"m1_m2_Mass", "m1 m2 Mass", 200, 0, 200 )
-                      
+        
 
         for key, value in self.histograms.iteritems():
             location = os.path.dirname(key)
@@ -71,7 +70,6 @@ class LFVMuTauAnalyser(MegaBase):
         
         for attr, value in self.histo_locations[folder_str].iteritems():
             name = attr
-
             if value.InheritsFrom('TH2'):
                 if attr in self.hfunc:
                     try:
@@ -99,7 +97,6 @@ class LFVMuTauAnalyser(MegaBase):
                     else:
                         value.Fill( result, out_weight )
                 else:
-                    #print attr, weight
                     value.Fill( getattr(row,attr), weight ) if weight is not None else value.Fill( getattr(row,attr) )
 
 
@@ -108,13 +105,24 @@ class LFVMuTauAnalyser(MegaBase):
     
     def process(self):
          for row in self.tree:
-             dirname = 'mm'
-#            weight_to_use = row.GenWeight #it should be changed when using corrections
-#            if row.tGenPdgID:
-#                print row.tGenMotherPdgId, row.tGenPdgId
-#            if row.tGenMotherPdgId==25 and row.mGenMotherPdgId==25:
-#                dirnames.append("fromHiggs")
-             self.fill_histos(dirname, row, 1)
+             if row.singleIsoMu27Pass == 0 and row.singleMu27Pass == 0:
+                 continue
+             dirnames = ['mm']
+             if row.bjetCISVVeto30Medium!=0 : continue
+             if not selections.muSelection(row, 'm1') or not selections.muSelection(row, 'm2'): continue
+             if not row.m1PFIDLoose == 1 or not row.m2PFIDLoose == 1: continue
+             if row.m1RelPFIsoDBDefaultR04 < 1 and row.m2RelPFIsoDBDefaultR04 < 1:
+                 dirnames.append('Iso1')
+             if row.m1RelPFIsoDBDefaultR04 < 0.5 and row.m2RelPFIsoDBDefaultR04 < 0.5:
+                 dirnames.append('Iso0p5')
+             if row.m1RelPFIsoDBDefaultR04 < 0.25 and row.m2RelPFIsoDBDefaultR04 < 0.25:
+                 dirnames.append('Iso0p25')
+             if row.m1RelPFIsoDBDefaultR04 < 0.15 and row.m2RelPFIsoDBDefaultR04 < 0.15:
+                 dirnames.append('Iso0p15')
+             if row.m1RelPFIsoDBDefaultR04 < 0.1 and row.m2RelPFIsoDBDefaultR04 < 0.1:
+                 dirnames.append('Iso0p1')
+             for dirname in dirnames:    
+                 self.fill_histos(dirname, row, 1.0)
 
 
     def finish(self):

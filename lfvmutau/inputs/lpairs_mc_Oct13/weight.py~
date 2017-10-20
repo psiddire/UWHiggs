@@ -1,0 +1,15 @@
+file1 = open("WW_TuneCUETP8M1_13TeV-pythia8_v6_ext1-v1_weight.log").readlines()
+for lines in file1:
+    k=lines.split()
+    print k[1]
+
+file2 = open("WW_TuneCUETP8M1_13TeV-pythia8_v6_ext1-v1_weight.log").readlines()
+for lines in file2:
+    l=lines.split()
+    print l[1]
+
+m = str(format(float(k[1])+float(l[1]), '.6f'))
+
+outfile = "test.log"
+with open(outfile, 'w') as fout:
+    fout.write(k[0] + m)

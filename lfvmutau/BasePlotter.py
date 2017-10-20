@@ -130,7 +130,7 @@ class BasePlotter(Plotter):
         self.sqrts  = 13
         jobid = os.environ['jobid']
         self.use_embedded = use_embedded
-        print "\nPlotting mu tau for %s\n" % jobid
+        print "\nPlotting mu mu for %s\n" % jobid
         
         files     = glob.glob('results/%s/LFVMuTauAnalyserGen/*.root' % jobid)
         lumifiles = glob.glob('inputs/%s/*.lumicalc.sum' % jobid)

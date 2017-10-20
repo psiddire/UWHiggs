@@ -1,18 +1,4 @@
-mkdir -p `dirname results/lpairs_data_Oct9/LFVMuTauAnalyser/data_SingleMuon_Run2017A_PromptReco-v2.root`
-mkdir -p `dirname results/lpairs_data_Oct9/LFVMuTauAnalyser/data_SingleMuon_Run2017A_PromptReco-v3.root`
-#using farmout:1
-#dry run:1
-export megatarget=results/lpairs_data_Oct9/LFVMuTauAnalyser/data_SingleMuon_Run2017A_PromptReco-v2.root
-mkdir -p batch_logs
-mega-farmout LFVMuTauAnalyser.py inputs/lpairs_data_Oct9/data_SingleMuon_Run2017A_PromptReco-v2.txt results/lpairs_data_Oct9/LFVMuTauAnalyser/data_SingleMuon_Run2017A_PromptReco-v2.root --verbose >& batch_logs/results_lpairs_data_Oct9_LFVMuTauAnalyser_data_SingleMuon_Run2017A_PromptReco-v2.log &
-sleep 10s
 mkdir -p `dirname results/lpairs_data_Oct9/LFVMuTauAnalyser/data_SingleMuon_Run2017B_PromptReco-v1.root`
-#using farmout:1
-#dry run:1
-export megatarget=results/lpairs_data_Oct9/LFVMuTauAnalyser/data_SingleMuon_Run2017A_PromptReco-v3.root
-mkdir -p batch_logs
-mega-farmout LFVMuTauAnalyser.py inputs/lpairs_data_Oct9/data_SingleMuon_Run2017A_PromptReco-v3.txt results/lpairs_data_Oct9/LFVMuTauAnalyser/data_SingleMuon_Run2017A_PromptReco-v3.root --verbose >& batch_logs/results_lpairs_data_Oct9_LFVMuTauAnalyser_data_SingleMuon_Run2017A_PromptReco-v3.log &
-sleep 10s
 mkdir -p `dirname results/lpairs_data_Oct9/LFVMuTauAnalyser/data_SingleMuon_Run2017B_PromptReco-v2.root`
 #using farmout:1
 #dry run:1
@@ -48,16 +34,9 @@ export megatarget=results/lpairs_data_Oct9/LFVMuTauAnalyser/data_SingleMuon_Run2
 mkdir -p batch_logs
 mega-farmout LFVMuTauAnalyser.py inputs/lpairs_data_Oct9/data_SingleMuon_Run2017C_PromptReco-v3.txt results/lpairs_data_Oct9/LFVMuTauAnalyser/data_SingleMuon_Run2017C_PromptReco-v3.root --verbose >& batch_logs/results_lpairs_data_Oct9_LFVMuTauAnalyser_data_SingleMuon_Run2017C_PromptReco-v3.log &
 sleep 10s
-mkdir -p `dirname results/lpairs_data_Oct9/LFVMuTauAnalyser/data_SingleMuon_Run2017E_PromptReco-v1.root`
 #using farmout:1
 #dry run:1
 export megatarget=results/lpairs_data_Oct9/LFVMuTauAnalyser/data_SingleMuon_Run2017D_PromptReco-v1.root
 mkdir -p batch_logs
 mega-farmout LFVMuTauAnalyser.py inputs/lpairs_data_Oct9/data_SingleMuon_Run2017D_PromptReco-v1.txt results/lpairs_data_Oct9/LFVMuTauAnalyser/data_SingleMuon_Run2017D_PromptReco-v1.root --verbose >& batch_logs/results_lpairs_data_Oct9_LFVMuTauAnalyser_data_SingleMuon_Run2017D_PromptReco-v1.log &
-sleep 10s
-#using farmout:1
-#dry run:1
-export megatarget=results/lpairs_data_Oct9/LFVMuTauAnalyser/data_SingleMuon_Run2017E_PromptReco-v1.root
-mkdir -p batch_logs
-mega-farmout LFVMuTauAnalyser.py inputs/lpairs_data_Oct9/data_SingleMuon_Run2017E_PromptReco-v1.txt results/lpairs_data_Oct9/LFVMuTauAnalyser/data_SingleMuon_Run2017E_PromptReco-v1.root --verbose >& batch_logs/results_lpairs_data_Oct9_LFVMuTauAnalyser_data_SingleMuon_Run2017E_PromptReco-v1.log &
 sleep 10s
