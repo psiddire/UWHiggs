@@ -54,7 +54,11 @@ class MuMuAnalyserGen(MegaBase):
             
        # f='mt' this is the name of the folder with histo in the output file
             self.book(f,"m1Pt", "m1 Pt", 200, 0, 200 )
+            self.book(f,"m1Eta", "m1 Eta", 100, -10, 10 )
+            self.book(f,"m1Phi", "m1 Phi", 100, -10, 10 )
             self.book(f,"m2Pt", "m2 Pt", 200, 0, 200 )
+            self.book(f,"m2Eta", "m2 Eta", 100, -10, 10 )
+            self.book(f,"m2Phi", "m2 Phi", 100, -10, 10 )
             self.book(f,"m1_m2_Mass", "m1 m2 Mass", 200, 0, 200 )
             self.book(f,"m1GenPt", "m1 Gen Pt", 200, 0, 200 )
             self.book(f,"m2GenPt", "m2 Gen Pt", 200, 0, 200 )

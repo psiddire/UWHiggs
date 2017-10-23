@@ -33,9 +33,9 @@ mc_samples = [
     'WGstarToLNuMuMu*',
     'ZZTo2L2Q*',
     'ZZTo4L*',
-#    'EWKWMinus2Jets*',
+    'EWKWMinus2Jets*',
     'WminusHToTauTau_M125*',
-#    'EWKWPlus2Jets*',
+    'EWKWPlus2Jets*',
     'WplusHToTauTau_M125*',
 #    'EWKZ2Jets_ZToLL*'
 #    'EWKZ2Jets_ZToNuNu*',
@@ -81,9 +81,6 @@ sqrts = 13
 outputdir = 'plots/%s/MuMuAnalyserGen/' % (jobid)
 if not os.path.exists(outputdir):
     os.makedirs(outputdir)
-#print "outputdir", outputdir
-#print "files", files
-#print lumifiles    
 #plotter = BasePlotter(files, lumifiles, outputdir, None, 1000.) 
 plotter = Plotter(files, lumifiles, outputdir) 
 
@@ -94,13 +91,6 @@ WSMH = views.StyleView(
           filter(lambda x : x.startswith('WminusHToTauTau_M125') or x.startswith('WplusHToTauTau_M125') , mc_samples )]
     ), **remove_name_entry(data_styles['WH*'])
 )
-
-#EWK = views.StyleView(
-#    views.SumView(
-#        *[ plotter.get_view(regex) for regex in \
-#          filter(lambda x : x.startswith('EWKZ2Jets_ZToLL') or x.startswith('EWKZ2Jets_ZToNuNu') , mc_samples )]
-#    ), **remove_name_entry(data_styles['EWK*'])
-#)
 
 EWKDiboson = views.StyleView(
     views.SumView( 
@@ -117,30 +107,25 @@ WJ = views.StyleView(
     ), **remove_name_entry(data_styles['WplusJets*'])#'Wplus*Jets*''WplusJets*'
 )
 
-DY = views.StyleView(
-    views.SumView(
-        *[ plotter.get_view(regex) for regex in \
-          filter(lambda x : x.startswith('DY1JetsToLL_M-10to50') or x.startswith('DY1JetsToLL_M-50') or x.startswith('DY2JetsToLL_M-10to50') or x.startswith('DY2JetsToLL_M-50') or x.startswith('DY3JetsToLL_M-50') or x.startswith('DY4JetsToLL_M-50') or x.startswith('DYJetsToLL_M-10to50') or x.startswith('DYJetsToLL_M-50') , mc_samples )]
-    ), **remove_name_entry(data_styles['Zjets*'])
-)
-
+DY = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x :  x.startswith('DY') , mc_samples )]), **remove_name_entry(data_styles['Zjets*']))
+EWK = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x :  x.startswith('EWK') , mc_samples )]), **remove_name_entry(data_styles['WZ*ZToTauTau*']))
 
 plotter.views['WSMH']={'view' : WSMH }
 plotter.views['EWKDiboson']={'view' : EWKDiboson }
 plotter.views['WJ']={'view' : WJ }
 plotter.views['DY']={'view' : DY }
-
+plotter.views['EWK']={'view' : EWK }
 
 new_mc_samples = []
-new_mc_samples.extend(['WSMH', 'EWKDiboson', 'WJ', 'DY'])
-#new_mc_samples.extend(['ggSMH'])
+new_mc_samples.extend(['WSMH', 'EWKDiboson', 'WJ', 'DY', 'EWK'])
 plotter.mc_samples = new_mc_samples
 
+histoname = ['m1Pt','m2Pt','m1_m2_Mass','m1Eta','m2Eta','m1Phi','m2Phi']
+axistitle = ['m1 p_{T} (GeV)','m2 p_{T} (GeV)','m1-m2 Inv Mass (GeV)','m1 #eta','m2 #eta','m1 #phi','m2 #phi']
+ll = [['data'],['WSMH','EWKDiboson','WJ','DY','EWK']]
 
-histoname = ['m1Pt','m2Pt','m1_m2_Mass']#,'m1GenPt','m2GenPt']
-axistitle = ['m1 p_{T} (GeV)','m2 p_{T} (GeV)','m1-m2 Inv Mass (GeV)']#,'m1 Gen p_{T} (GeV)','m2 Gen p_{T} (GeV)']
 
-foldername = channel#+"/fromHiggs"
+foldername = channel
 if not os.path.exists(outputdir+'/'+foldername):
     os.makedirs(outputdir+'/'+foldername)
 
@@ -152,8 +137,13 @@ for n,h in enumerate(histoname):
     plotter.pad.SetLogy(True)
     
 #    plotter.plot_mc(foldername, h, 1, xaxis= axistitle[n], leftside=False, show_ratio=False, ratio_range=1.5,  sort=False)
-    plotter.plot_mc_vs_data(foldername, h, 1, xaxis= axistitle[n], leftside=False, xrange=[0,200], show_ratio=True, ratio_range=1.5, sort=True)
+    print "histo", h
+    if h=='m1Pt' or h=='m2Pt' or h=='m1_m2_Mass':
+        plotter.plot_mc_vs_data(foldername, h, 1, xaxis=axistitle[n], legend_label=ll, leftside=False, xrange=[0,200], show_ratio=True, ratio_range=1.5, sort=True)
+    else:
+        plotter.plot_mc_vs_data(foldername, h, 1, xaxis=axistitle[n], legend_label=ll, leftside=False, xrange=[-5,10], show_ratio=True, ratio_range=1.5, sort=True)
     plotter.save(foldername+'/'+h)
 #rebin=rebins[n]
+
 
 

@@ -96,7 +96,7 @@ task :genMuMu => get_analyzer_results("MuMuAnalyserGen.py", samples['wmHToTT'] +
 #samples['run2017Av2'] + samples['run2017Av3'] + samples['run2017Bv1'] + samples['run2017Bv2'] + samples['run2017Cv1'] + samples['run2017Cv2'] + samples['run2017Cv3'] + samples['run2017Dv1'] + samples['run2017Ev1']
 
 
-$etdir = "plots/#{$jobid}/MuMuAnalyzer/mt_now/"
+$etdir = "plots/#{$jobid}/MuMuAnalyzerGen/mt_now/"
 directory $etdir 
 file  "#{$etdir}/plot#{$period}.root" do |t|
   sh "echo $jobid"
