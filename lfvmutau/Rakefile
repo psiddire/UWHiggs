@@ -2,10 +2,14 @@
 recipes = ENV['fsa'] + '/PlotTools/rake/recipes.rake'
 import recipes
 
+require ENV['CMSSW_BASE'] + '/src/FinalStateAnalysis/PlotTools/rake/tools.rb'
+require 'pathname'
+
 $jobid = ENV['jobid']
+$blind = ENV['blind']
 
 # Figure out what run period we are in
-$period = '8TeV'
+$period = '13TeV'
 PU = ENV['PU']
 #if $jobid.include? '8TeV'
 #  $period = '8TeV'
@@ -24,45 +28,35 @@ def get_sample_names(substring)
 end
 #
 samples = Hash[
-  "ttbar" => get_sample_names('TTJets'),
-  "ttbar05" => get_sample_names('TTJets'),	
-  "wjets" => get_sample_names('Wplus'),
-  "wwjets" => get_sample_names('WWJets'),
-  "zjets" => get_sample_names('Zjets_M50'),
-
-  "old_signal" => get_sample_names('H2Tau_M-126'),
-  "new_signal" => get_sample_names('Minus'),	
-  "data_mt" => get_sample_names('data_SingleMu'),
-  "DY" => get_sample_names('DY'),
-  "embedded" => get_sample_names('Embedded')
-
-  "extra" => Array['T_tW-channel-DR_TuneZ2star_8TeV-powheg-tauola','Tbar_tW-channel-DR_TuneZ2star_8TeV-powheg-tauola','Tbar_t-channel','T_t-channel'],
-  "ewk" => Array['Zjets_M50', 
-          'WWJetsTo2L2Nu_TuneZ2_8TeV',
-          'TTJets_FullLeptMGDecays_8TeV-madgraph-tauola','TTJets_SemiLeptMGDecays_8TeV-madgraph-tauola'], 
-          # Maria's version
-  #"ttbar" => Array['TTJets_FullLeptMGDecays_8TeV-madgraph-tauola','TTJets_SemiLeptMGDecays_8TeV-madgraph-tauola'],
-  "wjetsmin" => get_sample_names('WplusJets_madgraph_Extension'),
-  "data_Embed_login05"=>get_sample_names('data_Embed'),
-  "signal" => get_sample_names('LFV'),
-  "sm" => Array['VBF_H2Tau_M-125','GGH_H2Tau_M-125'],
+     		"vbfHMT" => get_sample_names('VBF_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v11-v1'),
+		"ggHMT" => get_sample_names('GluGlu_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v11-v1'),
+		"DY" => get_sample_names('DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8'),
+		"DY1" => get_sample_names('DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8'),	
+		"DY2" => get_sample_names('DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8'),	
+		"DY3" => get_sample_names('DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v10-v2'),
+		"DY4" => get_sample_names('DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v10-v1'),
+		"W" => get_sample_names('WJetsToLNu_2J_TuneCP5_13TeV-amcatnloFXFX-pythia8_v11-v1'),
+		"W1" => get_sample_names('W1JetsToLNu_LHEWpT_50-150_TuneCP5_13TeV-amcnloFXFX-pythia8'),
+		"W2" => get_sample_names('W2JetsToLNu_LHEWpT_50-150_TuneCP5_13TeV-amcnloFXFX-pythia8'),
+		"W3" => get_sample_names('W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v10-v3'),
+		"W4" => get_sample_names('W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v10-v1'),
+		"STtantitop" => get_sample_names('ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v10-v1'),
+		"STttop" => get_sample_names('ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v10-v1'),
+		"STtWantitop" => get_sample_names('ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v10-v1'),
+		"STtWtop" => get_sample_names('ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v10-v1'),
+		"TT" => get_sample_names('TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8_v10-v1'),
+		"vbfHTT" => get_sample_names('VBFHToTauTau_M125_13TeV_powheg_pythia8_v10-v1'),
+		"ggHTT" => get_sample_names('GluGluHToTauTau_M125_13TeV_powheg_pythia8_v10-v1'),
+		"WWTo1L1Nu2Q" => get_sample_names('WWTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8_v10-v1'),
+		"WZTo1L1Nu2Q" => get_sample_names('WZTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8_v10-v1'),
+		"WZTo2L2Q" => get_sample_names('WZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8_v11-v1'),
+		"ZZTo2L2Q" => get_sample_names('ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8_v11-v1'),
+		"Wminus" => get_sample_names('WminusHToTauTau_M125_13TeV_powheg_pythia8_v11-v1'),
+		"Wplus" => get_sample_names('WplusHToTauTau_M125_13TeV_powheg_pythia8_v11-v1'),
+		"ZH" => get_sample_names('ZHToTauTau_M125_13TeV_powheg_pythia8_v11-v1'),
+		"ttH" => get_sample_names('ttHToTauTau_M125_TuneCP5_13TeV-powheg-pythia8_v11-v1'),
 ]
 
-#samples = Hash[
-  #"ewk" => Array[ 
-  #'TTplusJets_madgraph'], 
-  
-#"ttbar" => get_sample_names('TTJets'),
- # "wjets" => get_sample_names('Wplus')
-#  "wwjets" => get_sample_names('WWJets'),
-#  "zjets" => Array['Zjets_M50'],
-
- # "old_signal" => get_sample_names('H2Tau_M-126'),
-#  "new_signal" => get_sample_names('Minus'),   
-#  "sm" => Array['VBF_H2Tau_M-125'],
-        #'GluGlu_H2Tau_M-125'], not working (July 1 2013)
-#  "data_mt" => get_sample_names("data_SingleMu") 
-#]
 
 # Function to get the .root files for an analyzer and samples
 def get_analyzer_results(analyzer, the_samples)
@@ -73,22 +67,20 @@ def get_analyzer_results(analyzer, the_samples)
   end
   return output
 end
-
-################################################################################
-## Recipes to analyze the GG channel of the LFV HToMuTau analysis
-##  targets:
-##     mt
-################################################################################
-
-task :mttight => get_analyzer_results("AnalyzeMuTauTightvbfNew.py", samples['zjets'] + samples['wjets'] + samples['sm']+samples['new_signal'] + samples['data_mt'] + samples['ttbar'] + samples['wwjets'] + samples['DY'] + samples['embedded']
-	)
+def get_plotter_results(analyzer)
+  output = Array.new
+  analyzer_base = analyzer.sub('.py', '')
+end
 
 
-##use $PU = false for samples with no pileup
-task :pu1mttight  => get_analyzer_results(  "AnalyzeMuTauTightvbfNew.py",samples['old_signal'])
-#Task for samples on login05
-task :mttight05 => get_analyzer_results("AnalyzeMuTauTightvbf.py", samples['wjets'] + samples['ttbar05'])
-task :analyzeMuTauMC => get_analyzer_results("AnalyzeGG.py", samples['ewk'] + samples['wjets'] +samples['sm']+samples['extra'])
-task :analyzeMuTauData => get_analyzer_results("AnalyzeGG.py", samples['data_mt'])
+#task :genMuTau => get_analyzer_results("NewAnalyzeMuTau.py", samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TT'] + samples['vbfHTT'] + samples['ggHTT'] + samples['WWTo1L1Nu2Q'] + samples['WZTo1L1Nu2Q'] + samples['WZTo2L2Q'] + samples['ZZTo2L2Q'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ttH'] + samples['ggHMT'] + samples['vbfHMT'] + samples['DY'] + samples['W'] + samples['DY1']+ samples['DY2'] + samples['DY3']+ samples['DY4'] + samples['W1'] + samples['W2'] + samples['W3'] + samples['W4'])
 
-# Missing cleaning of my analyzer for Embedded Samples 
+task :genMuTau => get_analyzer_results("NewAnalyzeMuTau.py", samples['W2'] + samples['STtWantitop'])
+
+$etdir = "plots/#{$jobid}/AnalyzerMuTau/mt_now/"
+directory $etdir 
+file  "#{$etdir}/plot#{$period}.root" do |t|
+  sh "echo $jobid"
+  sh "python myNewPlotterReco.py" 
+  
+end
