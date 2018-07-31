@@ -1,6 +1,3 @@
-#export jobidmt='LFV_Mar15_mc'
-#export jobidmt='lpairs_mc_Jun21'
 #export jobidmt='lpairs_mc_Jun1'
-#export jobidmt='lpairs_data_May23'
-export jobidmt='mc2017_ntuples_Jun18' 
-#export jobidmt='combined_mc'
+export jobidmt='lpairs_data_Aug1'
+export jobid=$jobidmt

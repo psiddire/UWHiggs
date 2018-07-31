@@ -1,5 +1,5 @@
-#export MEGAPATH=/hdfs/store/user/ndev
 export MEGAPATH=/hdfs/store/user/psiddire
+#export MEGAPATH=/hdfs/store/user/tmitchel
 export farmout=1
 export dryrun=1
 export CutFlow=1

@@ -1,48 +1,45 @@
 Rake.application.options.trace_rules = true
 
 def get_sample_names(substring)
-    inputs = Dir.glob("inputs/mc2017_ntuples_Jun18/*.txt").select {|x| x.include? substring}
+    inputs = Dir.glob("inputs/lpairs_mc_Jun1/*.txt").select {|x| x.include? substring}
     inputs = inputs.map{|x| File.basename(x).sub(".txt", ".txt")}
     inputs.push(substring+'.txt')
     return inputs
 end
 
 samples = Hash[
-                "vbfHToMTMC" => get_sample_names('VBF_LFV_HToMuTau_M125_13TeV_powheg_pythia8'),
-                "ggHToMTMC" => get_sample_names('GluGlu_LFV_HToMuTau_M125_13TeV_powheg_pythia8'),
-                "dy" => get_sample_names('DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8'),
-                "dy1" => get_sample_names('DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8'),
-                "dy2" => get_sample_names('DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8'),
-                "dy3" => get_sample_names('DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8'),
-                "dy4" => get_sample_names('DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8'),
-                "w" => get_sample_names('WJetsToLNu_2J_TuneCP5_13TeV-amcatnloFXFX-pythia8'),
-                "w1" => get_sample_names('W1JetsToLNu_LHEWpT_50-150_TuneCP5_13TeV-amcnloFXFX-pythia8'),
-                "w2" => get_sample_names('W2JetsToLNu_LHEWpT_50-150_TuneCP5_13TeV-amcnloFXFX-pythia8'),
-                "w3" => get_sample_names('W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8'),
-                "w4" => get_sample_names('W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8'),
-		"wz" => get_sample_names('WZTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8'),
+                "dy" => get_sample_names('DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14'),
+                "dy1" => get_sample_names('DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14'),
+                "dy2" => get_sample_names('DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14'),
+                "dy3" => get_sample_names('DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14'),
+                "dy4" => get_sample_names('DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14'),
+                "w" => get_sample_names('WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14'),
+                "w1" => get_sample_names('W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14'),
+                "w2" => get_sample_names('W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14'),
+                "w3" => get_sample_names('W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14'),
+                "w4" => get_sample_names('W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14'),
 ]
 
 def concat_text_files(the_samples)
     i = 0
     loop do
     	 if(the_samples.length==4)
-		sh "cat inputs/mc2017_ntuples_Jun18/#{the_samples[i]} inputs/mc2017_ntuples_Jun18/#{the_samples[i+1]} inputs/mc2017_ntuples_Jun18/#{the_samples[i+2]} > inputs/mc2017_ntuples_Jun18/#{the_samples[i+3]}"
-	 	sh "rm -rf inputs/mc2017_ntuples_Jun18/#{the_samples[i]}"
-	 	sh "rm -rf inputs/mc2017_ntuples_Jun18/#{the_samples[i+1]}"
-		sh "rm -rf inputs/mc2017_ntuples_Jun18/#{the_samples[i+2]}"
+		sh "cat inputs/lpairs_mc_Jun1/#{the_samples[i]} inputs/lpairs_mc_Jun1/#{the_samples[i+1]} inputs/lpairs_mc_Jun1/#{the_samples[i+2]} > inputs/lpairs_mc_Jun1/#{the_samples[i+3]}"
+	 	#sh "rm -rf inputs/lpairs_mc_Jun1/#{the_samples[i]}"
+	 	#sh "rm -rf inputs/lpairs_mc_Jun1/#{the_samples[i+1]}"
+		#sh "rm -rf inputs/lpairs_mc_Jun1/#{the_samples[i+2]}"
 		i += 4
 	 else
-		sh "cat inputs/mc2017_ntuples_Jun18/#{the_samples[i]} inputs/mc2017_ntuples_Jun18/#{the_samples[i+1]} > inputs/mc2017_ntuples_Jun18/#{the_samples[i+2]}"
-                sh "rm -rf inputs/mc2017_ntuples_Jun18/#{the_samples[i]}"
-                sh "rm -rf inputs/mc2017_ntuples_Jun18/#{the_samples[i+1]}"
+		sh "cat inputs/lpairs_mc_Jun1/#{the_samples[i]} inputs/lpairs_mc_Jun1/#{the_samples[i+1]} > inputs/lpairs_mc_Jun1/#{the_samples[i+2]}"
+                #sh "rm -rf inputs/lpairs_mc_Jun1/#{the_samples[i]}"
+                #sh "rm -rf inputs/lpairs_mc_Jun1/#{the_samples[i+1]}"
 		i += 3
 	 end	
-	 if i == 13  #edit this value according to number of samples
+	 if i == 9  #edit this value according to number of samples
        	    break
     	 end
     end
 end
 
-task :concatText => concat_text_files(samples['dy'] + samples['dy1'] + samples['dy2'] + samples['wz'])
-#task :concatText => concat_text_files(samples['dy'] + samples['dy1'] + samples['dy2'] + samples['w1'] + samples['w2'])
+task :concatText => concat_text_files(samples['dy'] + samples['dy2'] + samples['w'])
+

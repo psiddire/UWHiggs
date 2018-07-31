@@ -1,12 +1,10 @@
 #!/bin/bash
 
 # Get the data
-#export datasrc=/hdfs/store/user/ndev
-#export MEGAPATH=/hdfs/store/user/ndev
-#export datasrc=/hdfs/store/user/psiddire
-#export MEGAPATH=/hdfs/store/user/psiddire
-export datasrc=/hdfs/store/user/tmitchel
-export MEGAPATH=/hdfs/store/user/tmitchel
+export datasrc=/hdfs/store/user/psiddire
+export MEGAPATH=/hdfs/store/user/psiddire
+#export datasrc=/hdfs/store/user/tmitchel
+#export MEGAPATH=/hdfs/store/user/tmitchel
 
 source jobid.sh
 export jobid=$jobidmt
@@ -19,7 +17,7 @@ export jobid=$jobidmt
 #ls *pyx | sed "s|pyx|so|" | xargs rake 
 #ls *pyx | sed "s|pyx|so|" | xargs -n 1 -P 10 rake
 
-rake "meta:getinputs[$jobid, $datasrc, mt/metaInfo, mt/summedWeights]"
-#rake "meta:getmeta[inputs/$jobid, mt/metaInfo, 13, mt/summedWeights]"
+#rake "meta:getinputs[$jobid, $datasrc, mt/metaInfo, mt/summedWeights]"
+rake "meta:getmeta[inputs/$jobid, mt/metaInfo, 13, mt/summedWeights]"
 
 

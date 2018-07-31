@@ -1,5 +1,6 @@
 from BasePlotter import BasePlotter
 import rootpy.plotting.views as views
+from FinalStateAnalysis.PlotTools.Plotter import Plotter
 from FinalStateAnalysis.PlotTools.RebinView  import RebinView
 from FinalStateAnalysis.MetaData.data_styles import data_styles, colors
 from FinalStateAnalysis.PlotTools.decorators import memo
@@ -10,7 +11,7 @@ import glob
 import math
 import logging
 import sys
-logging.basicConfig(stream=sys.stderr, level=logging.WARNING)
+logging.basicConfig(stream=sys.stderr, level=logging.ERROR)
 from fnmatch import fnmatch
 from yellowhiggs import xs, br, xsbr
 from FinalStateAnalysis.PlotTools.MegaBase import make_dirs
@@ -31,30 +32,32 @@ mc_samples = [
     'VBF_LFV_HToMuTau*',
     'GluGlu_LFV_HToMuTau*',
     'DYJetsToLL*',
-    'DY1JetsToLL*',
-    'DY2JetsToLL*',
-    'DY3JetsToLL*',
-    'DY4JetsToLL*',
+#    'DY1JetsToLL*',
+#    'DY2JetsToLL*',
+#    'DY3JetsToLL*',
+#    'DY4JetsToLL*',
     'WJetsToLNu*',
-    'W1JetsToLNu*',
-    'W2JetsToLNu*',
-    'W3JetsToLNu*',
-    'W4JetsToLNu*',
+#    'W1JetsToLNu*',
+#    'W2JetsToLNu*',
+#    'W3JetsToLNu*',
+#    'W4JetsToLNu*',
     'GluGluHToTauTau*',
     'VBFHToTauTau*',
     'WminusHToTauTau*',
     'WplusHToTauTau*',
     'ttHToTauTau*',
     'ZHToTauTau*',
-    'TT*',
+    'TTTo2L2Nu*',
+    'TTToSemiLeptonic*',
+    'TTToHadronic*',
     'ST_tW_antitop*',
     'ST_tW_top*',
     'ST_t-channel_antitop*',
     'ST_t-channel_top*',
-    'WZTo1L1Nu2Q*',
-    'WZTo2L2Q*',
-    'WWTo1L1Nu2Q*',
-    'ZZTo2L2Q*',
+    'WZ*',
+    'WW*',
+    'ZZ*',
+    'data*',
 ]
 files=[]
 lumifiles=[]
@@ -66,11 +69,12 @@ for x in mc_samples:
 
 period = '13TeV'
 sqrts = 13
-outputdir = 'plots/%s/NewAnalyzeMuTau/18July/' % (jobid)
+outputdir = 'plots/%s/NewAnalyzeMuTau/31July_New/' % (jobid)
 if not os.path.exists(outputdir):
     os.makedirs(outputdir)
 
-plotter = BasePlotter(files, lumifiles, outputdir, None, 1000.) 
+#plotter = BasePlotter(files, lumifiles, outputdir, None, 1000.) 
+plotter = Plotter(files, lumifiles, outputdir)#, None, 41859.674)
 
 vbfHMT = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'VBF_LFV_HToMuTau' in x , mc_samples)]), **remove_name_entry(data_styles['VBF_LFV*']))
 ggHMT = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'GluGlu_LFV_HToMuTau' in x , mc_samples)]), **remove_name_entry(data_styles['GluGlu_LFV*']))
@@ -83,7 +87,7 @@ WJ = views.StyleView(
 )
 SMH = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'HToTauTau' in x , mc_samples)]), **remove_name_entry(data_styles['*HToTauTau*']))
 TT = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in  filter(lambda x : x.startswith('TT') or x.startswith('ST'), mc_samples)]), **remove_name_entry(data_styles['TT*']))
-#singleT = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in  filter(lambda x : x.startswith('ST'), mc_samples)]), **remove_name_entry(data_styles['T*_t*']))
+#singleT = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in  filter(lambda x : x.startswith('ST'), mc_samples)]), **remove_name_entry(data_styles['TT*']))
 EWKDiboson = views.StyleView(
     views.SumView( 
         *[ plotter.get_view(regex) for regex in \
@@ -114,6 +118,7 @@ for fn in foldername:
         os.makedirs(outputdir+'/'+fn)
 
     for n,h in enumerate(histoname):
-        plotter.simpleplot_mc(fn, ['VBF_LFV_HToMuTau_M125*','GluGlu_LFV_HToMuTau_M125*'], h[0], rebin=h[2], xaxis=h[1], leftside=False, xrange=None , preprocess=None, sort=True, forceLumi=1000)
+        #plotter.simpleplot_mc(fn, ['VBF_LFV_HToMuTau_M125*','GluGlu_LFV_HToMuTau_M125*'], h[0], rebin=h[2], xaxis=h[1], leftside=False, xrange=None , preprocess=None, sort=True, forceLumi=1000)
+        plotter.plot_mc_vs_data(fn, h[0], 1, xaxis = h[1], leftside=False, xrange=None, preprocess=None, show_ratio=True, ratio_range=1.0, sort=True)
         plotter.save(fn+'/'+h[0])
 

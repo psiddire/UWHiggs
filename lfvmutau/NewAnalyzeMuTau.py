@@ -15,7 +15,7 @@ import math
 from cutflowtracker import cut_flow_tracker
 from math import sqrt, pi
 
-cut_flow_step = ['allEvents', 'oppSign', 'passTrigger', 'passKinematics', 'passObj1iso', 'passObj1id', 'passObj2mediso', 'passObj2id', 'passVetoes', 'passbjetVeto']
+cut_flow_step = ['allEvents', 'oppSign', 'passTrigger', 'passKinematics', 'passObj1iso', 'passObj1id', 'passObj2iso', 'passObj2id', 'passVetoes', 'passbjetVeto']
 
 def deltaPhi(phi1, phi2):
   PHI = abs(phi1-phi2)
@@ -32,8 +32,8 @@ def visibleMass(row):
   return (vm+vt).M()
 
 def collMass(row):
-  met = row.type1_pfMetEt
-  metPhi = row.type1_pfMetPhi
+  met = row.puppiMetEt#type1_pfMetEt
+  metPhi = row.puppiMetPhi#type1_pfMetPhi
   ptnu = abs(met*math.cos(deltaPhi(metPhi, row.tPhi)))
   visfrac = row.tPt/(row.tPt+ptnu)
   m_t_Mass = visibleMass(row)
@@ -48,7 +48,7 @@ class NewAnalyzeMuTau(MegaBase):
     target = os.path.basename(os.environ['megatarget'])
     self.is_data = target.startswith('data_')
     self.is_mc = not (self.is_data)
-    self.is_DY = bool('JetsToLL' in target)
+    self.is_DY = bool('DY' in target)
     self.is_W = bool('JetsToLNu' in target)
 
     super(NewAnalyzeMuTau, self).__init__(tree, outfile, **kwargs)
@@ -58,19 +58,19 @@ class NewAnalyzeMuTau(MegaBase):
 
 
     self.DYweight = {
-      0 : 0.028297612,
-      1 : 0.011321265,
-      2 : 0.011538154,
-      3 : 0.013597357,
-      4 : 0.010029191
+      0 : 0.123783322,#0.061666112,
+      1 : 0.023097619,#0.019443059,
+      2 : 0.027516949,#0.022352395,
+      3 : 0.058070292,#0.039434916,
+      4 : 0.010457258#0.009637152
       }
 
     self.Wweight = {
-      0 : 0.666313389,
-      1 : 0.10051414,
-      2 : 0.057422414,
-      3 : 0.055690606,
-      4 : 0.051449877
+      0 : 1.37434619,#1.352888833,
+      1 : 1.193586512,#1.177368991,
+      2 : 0.363115256,#0.361599983,
+      3 : 0.056158658,#0.056122286,
+      4 : 0.053636133#0.053602954
       }
 
 
@@ -80,29 +80,29 @@ class NewAnalyzeMuTau(MegaBase):
     return True
 
 
-  def event_weight(self, row, sys_shifts, weight_to_use):
+  #def event_weight(self, row):
 
-    mcweight = weight_to_use
+    #mcweight = row.GenWeight
     #mcweight = mcweight*pucorrector(row.nTruePU)
 
-    if self.is_DY:
-      if row.numGenJets < 5:
-        mcweight = mcweight*self.DYweight[row.numGenJets]
-      else:
-        mcweight = mcweight*self.DYweight[0]
+    #if self.is_DY:
+    #  if row.numGenJets < 5:
+    #    mcweight = mcweight*self.DYweight[row.numGenJets]*0.001
+    #  else:
+    #    mcweight = mcweight*self.DYweight[0]*0.001
 
-    if self.is_W:
-      if row.numGenJets < 5:
-        mcweight = mcweight*self.Wweight[row.numGenJets]
-      else:
-        mcweight = mcweight*self.Wweight[0]
+    #if self.is_W:
+    #  if row.numGenJets < 5:
+    #    mcweight = mcweight*self.Wweight[row.numGenJets]*0.001
+    #  else:
+    #    mcweight = mcweight*self.Wweight[0]*0.001
 
-    if self.is_data:
-      mcweight = 1.
+    #if self.is_data:
+    #   mcweight = 1.
 
-    weights = {'': mcweight}
+    #weights = {'': mcweight}
 
-    return weights
+    #return weights
 
 
   def trigger(self, row):
@@ -112,7 +112,7 @@ class NewAnalyzeMuTau(MegaBase):
 
 
   def kinematics(self, row):
-    if row.mPt < 29 or abs(row.mEta) >= 2.1:
+    if row.mPt < 29 or abs(row.mEta) >= 2.4:
       return False
     if row.tPt < 30 or abs(row.tEta) >= 2.3:
       return False
@@ -151,14 +151,15 @@ class NewAnalyzeMuTau(MegaBase):
     return row.bjetDeepCSVVeto30Loose
 
 
+
   def begin(self):
-    names=['pass29cuttrigger','pass30cuttrigger','passallselections']
+    names=['passtrigger','pass29cuttrigger','passallselections']
     namesize = len(names)
     for x in range(0,namesize):
-      self.book(names[x], "mPt", "Muon  Pt", 150, 0, 300)
-      self.book(names[x], "tPt", "Tau  Pt", 150, 0, 300)
-      self.book(names[x], "m_t_Mass", "Muon + Tau Mass", 150, 0, 300)
-      self.book(names[x], "m_t_CollinearMass", "Muon + Tau Collinear Mass", 150, 0, 300)      
+      self.book(names[x], "mPt", "Muon  Pt", 30, 0, 300)
+      self.book(names[x], "tPt", "Tau  Pt", 30, 0, 300)
+      self.book(names[x], "m_t_Mass", "Muon + Tau Mass", 30, 0, 300)
+      self.book(names[x], "m_t_CollinearMass", "Muon + Tau Collinear Mass", 30, 0, 300)      
 
     self.book('', "CUT_FLOW", "Cut Flow", len(cut_flow_step), 0, len(cut_flow_step))
             
@@ -182,14 +183,18 @@ class NewAnalyzeMuTau(MegaBase):
     cut_flow_histo = self.cut_flow_histo
     cut_flow_trk   = cut_flow_tracker(cut_flow_histo)
     for row in self.tree:
-      sys_shifts=[]
-      try:
+      if self.is_data:
+        weight = 1.0 
+      else:
         weight = row.GenWeight
-        weight_map = self.event_weight(row, sys_shifts, weight)
-        if weight_map[''] == 0: continue
-        weight = weight_map['']
-      except AttributeError:
-        weight = 1.0
+      #try:
+        #weight = row.GenWeight
+        #weight_map = self.event_weight(row)
+        #if weight_map[''] == 0: continue
+        #weight = weight_map['']
+      #except AttributeError:
+        #weight = 1.0
+
 
       cut_flow_trk.new_row(row.run,row.lumi,row.evt)
       cut_flow_trk.Fill('allEvents')
@@ -199,11 +204,10 @@ class NewAnalyzeMuTau(MegaBase):
       if not self.trigger(row):
         continue
       cut_flow_trk.Fill('passTrigger')
+      self.fill_histos(row, weight, 'passtrigger')
 
       if row.mPt > 29:
         self.fill_histos(row, weight, 'pass29cuttrigger')
-      if row.mPt > 30:
-        self.fill_histos(row, weight, 'pass30cuttrigger')
 
       if not self.kinematics(row):
         continue
@@ -216,15 +220,15 @@ class NewAnalyzeMuTau(MegaBase):
       cut_flow_trk.Fill('passObj1id')
       if not self.obj2_mediso(row):
         continue
-      cut_flow_trk.Fill('passObj2mediso')
+      cut_flow_trk.Fill('passObj2iso')
       if not self.obj2_id(row):
         continue
       cut_flow_trk.Fill('passObj2id')
       if not self.vetos(row):
         continue      
       cut_flow_trk.Fill('passVetoes')
-      if self.bjetveto(row):
-        continue
+      #if self.bjetveto(row):
+      #  continue
       cut_flow_trk.Fill('passbjetVeto')
       self.fill_histos(row, weight, 'passallselections')
 
