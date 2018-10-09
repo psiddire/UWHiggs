@@ -1,0 +1,7 @@
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeEEMu/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeEEMu/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeEEMu.py inputs/lpairs_data_Sep1/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeEEMu/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeEEMu_ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v1.log &
+sleep 10s

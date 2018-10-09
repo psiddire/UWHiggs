@@ -33,14 +33,20 @@ samples = Hash[
                 "eraD" => get_sample_names('data_SingleMuon_ReReco_Run2017D'),
                 "eraE" => get_sample_names('data_SingleMuon_ReReco_Run2017E'),
                 "eraF" => get_sample_names('data_SingleMuon_ReReco_Run2017F'),
+		"newB" => get_sample_names('data_SingleMuon_Run2017B-31Mar2018'),	
+                "newC" => get_sample_names('data_SingleMuon_Run2017C-31Mar2018'),
+                "newD" => get_sample_names('data_SingleMuon_Run2017D-31Mar2018'),
+                "newE" => get_sample_names('data_SingleMuon_Run2017E-31Mar2018'),
+                "newF" => get_sample_names('data_SingleMuon_Run2017F-31Mar2018'),
      		"vbfHMT" => get_sample_names('VBF_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1'),
 		"ggHMT" => get_sample_names('GluGlu_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1'),
 		"DY" => get_sample_names('DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1'),
+		"DYlow" => get_sample_names('DYJetsToLL_M-5to50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v2'),
 		"DY1" => get_sample_names('DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14_ext1-v1'),	
-		"DY2" => get_sample_names('DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14_ext1-v1'),
+		"DY2" => get_sample_names('DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1'),
 		"DY3" => get_sample_names('DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14_ext1-v1'),
 		"DY4" => get_sample_names('DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1'),
-		"W" => get_sample_names('WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14_ext1-v2'),
+		"W" => get_sample_names('WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v2'),
 		"W1" => get_sample_names('W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v3'),
 		"W2" => get_sample_names('W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v4'),
 		"W3" => get_sample_names('W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1'),
@@ -79,11 +85,12 @@ def get_plotter_results(analyzer)
 end
 
 
-task :MuTau => get_analyzer_results("NewAnalyzeMuTau.py", samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TTTo2L2Nu'] + samples['TTToHadronic'] + samples['TTToSemiLeptonic'] + samples['vbfHTT'] + samples['ggHTT'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ttH'] + samples['ggHMT'] + samples['vbfHMT'] + samples['DY'] + samples['W'])
+task :MuTau => get_analyzer_results("NewAnalyzeMuTau.py", samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TTTo2L2Nu'] + samples['TTToHadronic'] + samples['TTToSemiLeptonic'] + samples['vbfHTT'] + samples['ggHTT'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ttH'] + samples['ggHMT'] + samples['vbfHMT'] + samples['DY'] + samples['W'] + samples['DY1'] + samples['DY2'] + samples['DY3']+ samples['DY4'] + samples['W1'] + samples['W2'] + samples['W3'] + samples['W4'])
 
-#task :MuTau => get_analyzer_results("NewAnalyzeMuTau.py", samples['DY'] + samples['W'])
+#task :MuTau => get_analyzer_results("NewAnalyzeMuTau.py", samples['DY1'])
 
-#task :MuTau => get_analyzer_results("NewAnalyzeMuTau.py", samples['DY1'] + samples['DY2'] + samples['DY3']+ samples['DY4'] + samples['W1'] + samples['W2'] + samples['W3'] + samples['W4'])
+#task :PileUp => get_analyzer_results("PileupAnalyzer.py", samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TTTo2L2Nu'] + samples['TTToHadronic'] + samples['TTToSemiLeptonic'] + samples['vbfHTT'] + samples['ggHTT'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ttH'] + samples['ggHMT'] + samples['vbfHMT'] + samples['DY'] + samples['W'] + samples['DY1'] + samples['DY2'] + samples['DY3']+ samples['DY4'] + samples['W1'] + samples['W2'] + samples['W3'] + samples['W4'])
+
 
 $etdir = "plots/#{$jobid}/AnalyzerMuTau/mt_now/"
 directory $etdir 

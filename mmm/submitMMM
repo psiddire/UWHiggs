@@ -1,0 +1,224 @@
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/data_SingleMuon_ReReco_Run2017B.root`
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/data_SingleMuon_ReReco_Run2017C.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/data_SingleMuon_ReReco_Run2017B.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/data_SingleMuon_ReReco_Run2017B.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/data_SingleMuon_ReReco_Run2017B.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_data_SingleMuon_ReReco_Run2017B.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/data_SingleMuon_ReReco_Run2017D.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/data_SingleMuon_ReReco_Run2017C.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/data_SingleMuon_ReReco_Run2017C.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/data_SingleMuon_ReReco_Run2017C.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_data_SingleMuon_ReReco_Run2017C.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/data_SingleMuon_ReReco_Run2017E.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/data_SingleMuon_ReReco_Run2017D.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/data_SingleMuon_ReReco_Run2017D.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/data_SingleMuon_ReReco_Run2017D.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_data_SingleMuon_ReReco_Run2017D.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/data_SingleMuon_ReReco_Run2017F.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/data_SingleMuon_ReReco_Run2017E.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/data_SingleMuon_ReReco_Run2017E.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/data_SingleMuon_ReReco_Run2017E.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_data_SingleMuon_ReReco_Run2017E.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/data_SingleMuon_ReReco_Run2017F.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/data_SingleMuon_ReReco_Run2017F.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/data_SingleMuon_ReReco_Run2017F.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_data_SingleMuon_ReReco_Run2017F.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_v14-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_TTToHadronic_TuneCP5_13TeV-powheg-pythia8_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/VBFHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_v14-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_v14-v2.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_v14-v2.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_v14-v2.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/GluGluHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/VBFHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/VBFHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/VBFHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_VBFHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/WW_TuneCP5_13TeV-pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/GluGluHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/GluGluHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/GluGluHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_GluGluHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/WZ_TuneCP5_13TeV-pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/WW_TuneCP5_13TeV-pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/WW_TuneCP5_13TeV-pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/WW_TuneCP5_13TeV-pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_WW_TuneCP5_13TeV-pythia8_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/ZZ_TuneCP5_13TeV-pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/WZ_TuneCP5_13TeV-pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/WZ_TuneCP5_13TeV-pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/WZ_TuneCP5_13TeV-pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_WZ_TuneCP5_13TeV-pythia8_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/WminusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/ZZ_TuneCP5_13TeV-pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/ZZ_TuneCP5_13TeV-pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/ZZ_TuneCP5_13TeV-pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_ZZ_TuneCP5_13TeV-pythia8_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/WplusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/WminusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/WminusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/WminusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_WminusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/ZHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/WplusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/WplusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/WplusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_WplusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/ttHToTauTau_M125_TuneCP5_13TeV-powheg-pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/ZHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/ZHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/ZHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_ZHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/ttHToTauTau_M125_TuneCP5_13TeV-powheg-pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/ttHToTauTau_M125_TuneCP5_13TeV-powheg-pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/ttHToTauTau_M125_TuneCP5_13TeV-powheg-pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_ttHToTauTau_M125_TuneCP5_13TeV-powheg-pythia8_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v2.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v2.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v2.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v3.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v4.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v3.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v3.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v3.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v3.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v4.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v4.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v4.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v4.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/lpairs_data_Sep1/AnalyzeMuMuMu/QCD_Pt-20toInf_MuEnrichedPt15_TuneCP5_13TeV_pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
+sleep 10s
+#using farmout:1
+#dry run:1
+export megatarget=results/lpairs_data_Sep1/AnalyzeMuMuMu/QCD_Pt-20toInf_MuEnrichedPt15_TuneCP5_13TeV_pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuMuMu.py inputs/lpairs_data_Sep1/QCD_Pt-20toInf_MuEnrichedPt15_TuneCP5_13TeV_pythia8_v14-v1.txt results/lpairs_data_Sep1/AnalyzeMuMuMu/QCD_Pt-20toInf_MuEnrichedPt15_TuneCP5_13TeV_pythia8_v14-v1.root --verbose >& batch_logs/results_lpairs_data_Sep1_AnalyzeMuMuMu_QCD_Pt-20toInf_MuEnrichedPt15_TuneCP5_13TeV_pythia8_v14-v1.log &
+sleep 10s
