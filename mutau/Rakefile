@@ -36,6 +36,7 @@ samples = Hash[
      		"vbfHMT" => get_sample_names('VBF_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1'),
 		"ggHMT" => get_sample_names('GluGlu_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1'),
 		"DY" => get_sample_names('DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1'),
+		"DY10" => get_sample_names('DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1'),
 		"DY1" => get_sample_names('DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1'),	
 		"DY2" => get_sample_names('DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1'),
 		"DY3" => get_sample_names('DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1'),
@@ -81,10 +82,9 @@ end
 
 #task :MuTau => get_analyzer_results("AnalyzeMuTau.py", samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TTTo2L2Nu'] + samples['TTToHadronic'] + samples['TTToSemiLeptonic'] + samples['vbfHTT'] + samples['ggHTT'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ttH'] + samples['ggHMT'] + samples['vbfHMT'] + samples['DY'] + samples['W'] + samples['DY1'] + samples['DY2'] + samples['DY3']+ samples['DY4'] + samples['W1'] + samples['W2'] + samples['W3'] + samples['W4'] + samples['QCD'])
 
-task :MuTau => get_analyzer_results("AnalyzeMuTau.py", samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TTTo2L2Nu'] + samples['TTToHadronic'] + samples['TTToSemiLeptonic'] + samples['vbfHTT'] + samples['ggHTT'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ttH'] + samples['ggHMT'] + samples['vbfHMT'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3']+ samples['DY4'])
+#task :MuTau => get_analyzer_results("AnalyzeMuTau.py", samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TTTo2L2Nu'] + samples['TTToHadronic'] + samples['TTToSemiLeptonic'] + samples['vbfHTT'] + samples['ggHTT'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ttH'] + samples['ggHMT'] + samples['vbfHMT'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['DY10'])
 
-#task :FR => get_analyzer_results("AnalyzeFakeRate.py", samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TTTo2L2Nu'] + samples['TTToHadronic'] + samples['TTToSemiLeptonic'] + samples['vbfHTT'] + samples['ggHTT'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ttH'] + samples['ggHMT'] + samples['vbfHMT'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3']+ samples['DY4'])
-
+task :MuTau => get_analyzer_results("AnalyzeMuTau.py", samples['eraC'])
 
 $etdir = "plots/#{$jobid}/AnalyzerMuTau/mt_now/"
 directory $etdir 
