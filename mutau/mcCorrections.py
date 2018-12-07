@@ -5,6 +5,7 @@ import FinalStateAnalysis.TagAndProbe.PileupWeight as PileupWeight
 from FinalStateAnalysis.PlotTools.decorators import memo, memo_last
 #import FinalStateAnalysis.TagAndProbe.EGammaPOGCorrections as EGammaPOGCorrections
 import FinalStateAnalysis.TagAndProbe.MuonPOGCorrections as MuonPOGCorrections
+import FinalStateAnalysis.TagAndProbe.DYCorrection as DYCorrection
 import FinalStateAnalysis.TagAndProbe.FakeRate as FakeRate
 
 @memo
@@ -89,5 +90,6 @@ muonIso_loose_tightid = MuonPOGCorrections.make_muon_pog_LooseIso_2017ReReco('Ti
 efficiency_trigger_mu_2017 = MuonPOGCorrections.make_muon_pog_IsoMu27_2017ReReco()
 fakerate_weight = FakeRate.FakeRateWeight()
 fakerateMuon_weight = FakeRate.FakeRateMuonWeight()
-#muonTracking = MuonPOGCorrections.mu_trackingEta_2016
-#DYreweight = HetauCorrection.make_DYreweight()
+muonTracking = MuonPOGCorrections.mu_trackingEta_2017
+DYreweight = DYCorrection.make_DYreweight()
+DYreweight1D = DYCorrection.make_DYreweight1D()

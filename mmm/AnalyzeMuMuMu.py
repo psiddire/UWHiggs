@@ -155,11 +155,11 @@ class AnalyzeMuMuMu(MegaBase):
         else:
           mcweight = mcweight*self.Wweight[0]
       elif self.is_WW:
-        mcweight = mcweight*0.637#0.407
+        mcweight = mcweight*0.407
       elif self.is_WZ:
-        mcweight = mcweight*0.502#0.294
+        mcweight = mcweight*0.294
       elif self.is_ZZ:
-        mcweight = mcweight*0.354#0.261
+        mcweight = mcweight*0.261
     weights = {'': mcweight}
     return weights
 
@@ -197,7 +197,7 @@ class AnalyzeMuMuMu(MegaBase):
 
 
   def obj3_id(self, row):
-    return bool(row.m3PFIDMedium)
+    return bool(row.m3PFIDTight)
 
 
   def obj3_iso(self, row):
@@ -267,6 +267,7 @@ class AnalyzeMuMuMu(MegaBase):
         continue
       if not self.obj2_iso(row):
         continue
+
       if not self.is_data:
         tEff = self.triggerEff(row.m1Pt, abs(row.m1Eta))
         m1ID = self.muonTightID(row.m1Pt, abs(row.m1Eta))
@@ -279,10 +280,10 @@ class AnalyzeMuMuMu(MegaBase):
         continue
       if not self.vetos(row):
         continue
-      if not self.bjetveto(row):
-        continue
-      if row.evt==preevt:
-        continue
+      #if not self.bjetveto(row):
+      #  continue
+      #if row.evt==preevt:
+      #  continue
       self.fill_histos(row, weight, 'initial')
 
       if not self.obj3_id(row):
@@ -306,7 +307,7 @@ class AnalyzeMuMuMu(MegaBase):
         m3Iso = self.muonTightIsoMediumID(row.m3Pt, abs(row.m3Eta))
       self.fill_histos(row, weight*m3ID*m3Iso, 'muontight')
 
-      preevt=row.evt
+      #preevt=row.evt
 
 
   def finish(self):

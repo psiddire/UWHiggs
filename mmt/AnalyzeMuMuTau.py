@@ -110,7 +110,7 @@ class AnalyzeMuMuTau(MegaBase):
     self.muonTightID = mcCorrections.muonID_tight if not self.is_data else 1.
     self.muonMediumID = mcCorrections.muonID_medium if not self.is_data else 1.
     self.muonLooseID = mcCorrections.muonID_loose if not self.is_data else 1.
-    self.muonTightIso = mcCorrections.muonIso_tight if not self.is_data else 1.
+    self.muonTightIsoTightID = mcCorrections.muonIso_tight if not self.is_data else 1.
     self.muonLooseIsoLooseID = mcCorrections.muonIso_loose_looseid if not self.is_data else 1.
     self.muonLooseIsoMediumID = mcCorrections.muonIso_loose_mediumid if not self.is_data else 1.
     self.muonLooseIsoTightID = mcCorrections.muonIso_loose_tightid if not self.is_data else 1.
@@ -193,7 +193,7 @@ class AnalyzeMuMuTau(MegaBase):
  
  
   def obj1_iso(self,row):
-    return bool(row.m1RelPFIsoDBDefaultR04 < 0.25)
+    return bool(row.m1RelPFIsoDBDefaultR04 < 0.15)
   
   
   def obj2_id(self, row):
@@ -201,7 +201,7 @@ class AnalyzeMuMuTau(MegaBase):
 
 
   def obj2_iso(self, row):
-    return bool(row.m2RelPFIsoDBDefaultR04 < 0.25)
+    return bool(row.m2RelPFIsoDBDefaultR04 < 0.15)
 
 
   def tau_id(self, row):
@@ -294,18 +294,18 @@ class AnalyzeMuMuTau(MegaBase):
       if not self.vetos(row):
         continue
 
-      if not self.bjetveto(row):
-        continue
+      #if not self.bjetveto(row):
+      #  continue
 
-      if row.evt==preevt:
-        continue
+      #if row.evt==preevt:
+      #  continue
 
       if not self.is_data:
         tEff = self.triggerEff(row.m1Pt, abs(row.m1Eta))
         m1ID = self.muonTightID(row.m1Pt, abs(row.m1Eta))
-        m1Iso = self.muonLooseIsoTightID(row.m1Pt, abs(row.m1Eta))
+        m1Iso = self.muonTightIsoTightID(row.m1Pt, abs(row.m1Eta))
         m2ID = self.muonTightID(row.m2Pt, abs(row.m2Eta))
-        m2Iso = self.muonLooseIsoTightID(row.m2Pt, abs(row.m2Eta))
+        m2Iso = self.muonTightIsoTightID(row.m2Pt, abs(row.m2Eta))
         weight = weight*tEff*m1ID*m1Iso*m2ID*m2Iso
       self.fill_histos(row, weight, 'initial')
 
@@ -326,7 +326,7 @@ class AnalyzeMuMuTau(MegaBase):
         elif abs(row.tEta) < 1.7:                                                                                                                                                                                        
           weight = weight*0.93                                                                                                                                                                                           
         else:                                                                                                                                                                                                            
-          weight = weight*1.61                                                                                                                                                                                           
+          weight = weight*1.61 
         #if abs(row.tEta) < 1.46:                                                                                                                                                                                         
         #   weight = weight*1.09                                                                                                                                                             
         # elif abs(row.tEta) > 1.558:                                                                                                                                                                                      

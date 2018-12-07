@@ -53,6 +53,10 @@ mc_samples = [
     'WZ*',
     'WW*',
     'ZZ*',
+    'EWKWMinus2Jets*',
+    'EWKWPlus2Jets*',
+    'EWKZ2Jets_ZToLL*',
+    'EWKZ2Jets_ZToNuNu*',
     'data*',
 ]
 files=[]
@@ -66,24 +70,31 @@ for x in mc_samples:
 
 period = '13TeV'
 sqrts = 13
-outputdir = 'plots/%s/AnalyzeMuTau/Oct11/' % (jobid)
+
+jno = ''
+j0 = '0Jet'
+j1 = '1Jet'
+j2 = '2Jet'
+j2vbf = '2JetVBF'
+j = jno
+#s1 = 'TightWOS'+j
+#s2 = 'TauLooseWOS'+j
+#s3 = 'MuonLooseWOS'+j
+#s4 = 'MuonLooseTauLooseWOS'+j
+#s1 = 'TightSS'+j
+#s2 = 'TauLooseSS'+j
+#s3 = 'MuonLooseSS'+j
+#s4 = 'MuonLooseTauLooseSS'+j
+s1 = 'TightOS'+j
+s2 = 'TauLooseOS'+j
+s3 = 'MuonLooseOS'+j
+s4 = 'MuonLooseTauLooseOS'+j 
+
+outputdir = 'plots/%s/AnalyzeMuTau/Nov19/%s/' % (jobid, s1)
 if not os.path.exists(outputdir):
     os.makedirs(outputdir)
 
 plotter = Plotter(files, lumifiles, outputdir)
-
-s1 = 'TightWOS'
-s2 = 'TauLooseWOS'
-s3 = 'MuonLooseWOS'
-s4 = 'MuonLooseTauLooseWOS'
-#s1 = 'TightSS'
-#s2 = 'TauLooseSS'
-#s3 = 'MuonLooseSS'
-#s4 = 'MuonLooseTauLooseSS'
-#s1 = 'TightOS'
-#s2 = 'TauLooseOS'
-#s3 = 'MuonLooseOS'
-#s4 = 'MuonLooseTauLooseOS' 
 
 DYtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x :  x.startswith('DY') , mc_samples)])
 DYall = views.SubdirectoryView(DYtotal, s1)
@@ -94,6 +105,16 @@ DYmt = views.SumView(DYtfakes, DYmfakes)
 DYfakes = SubtractionView(DYmt, DYmtfakes, restrict_positive=True)
 DY = views.StyleView(SubtractionView(DYall, DYfakes, restrict_positive=True), **remove_name_entry(data_styles['DY*']))
 DY = views.TitleView(DY, "DY")
+
+EWKtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x :  x.startswith('EWK') , mc_samples)])
+EWKall = views.SubdirectoryView(EWKtotal, s1)
+EWKtfakes = views.SubdirectoryView(EWKtotal, s2)
+EWKmfakes = views.SubdirectoryView(EWKtotal, s3)
+EWKmtfakes = views.SubdirectoryView(EWKtotal, s4)
+EWKmt = views.SumView(EWKtfakes, EWKmfakes)
+EWKfakes = SubtractionView(EWKmt, EWKmtfakes, restrict_positive=True)
+EWK = views.StyleView(SubtractionView(EWKall, EWKfakes, restrict_positive=True), **remove_name_entry(data_styles['W*Jets*']))
+EWK = views.TitleView(EWK, "EWK")
 
 SMHtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'HToTauTau' in x , mc_samples)])
 SMHall = views.SubdirectoryView(SMHtotal, s1)
@@ -144,7 +165,9 @@ QCD = views.StyleView(SubtractionView(fakesMT, fakesTauMuon, restrict_positive=T
 QCD = views.TitleView(QCD, "Fakes")
 
 vbfHMT = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'VBF_LFV_HToMuTau' in x , mc_samples)]), **remove_name_entry(data_styles['VBF_LFV*']))
+vbfHMT = views.TitleView(vbfHMT, "VBF (BR 5%)")
 ggHMT = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'GluGlu_LFV_HToMuTau' in x , mc_samples)]), **remove_name_entry(data_styles['GluGlu_LFV*']))
+ggHMT = views.TitleView(ggHMT, "GG (BR 5%)")
 #SMH = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'HToTauTau' in x , mc_samples)]), **remove_name_entry(data_styles['*HToTauTau*']))
 #TT = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in  filter(lambda x : x.startswith('TT'), mc_samples)]), **remove_name_entry(data_styles['TT*']))
 #ST = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in  filter(lambda x : x.startswith('ST'), mc_samples)]), **remove_name_entry(data_styles['ST*']))
@@ -155,6 +178,7 @@ ggHMT = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in f
 plotter.views['vbfHMT']={'view' : vbfHMT }
 plotter.views['ggHMT']={'view' : ggHMT }
 plotter.views['DY']={'view' : DY }
+plotter.views['EWK']={'view' : EWK }
 plotter.views['SMH']={'view' : SMH }
 plotter.views['TT']={'view' : TT }
 plotter.views['ST']={'view' : ST }
@@ -162,10 +186,12 @@ plotter.views['QCD']={'view' : QCD }
 plotter.views['EWKDiboson']={'view' : EWKDiboson }
 
 new_mc_samples = []
-new_mc_samples.extend(['QCD', 'TT', 'ST', 'EWKDiboson', 'DY', 'SMH'])
+new_mc_samples.extend(['QCD', 'TT', 'ST', 'EWKDiboson', 'EWK', 'DY', 'SMH'])
 plotter.mc_samples = new_mc_samples
 
-histoname = [("mPt", "Muon Pt (GeV)", 1),("tPt", "Tau Pt (GeV)", 1),("mEta", "Muon Eta", 1),("tEta", "Tau Eta", 1),("mPhi", "Muon Phi", 1),("tPhi", "Tau Phi", 1),("puppiMetEt", "Puppi MET Et (GeV)", 1),("type1_pfMetEt", "Type1 MET Et (GeV)", 1),("puppiMetPhi", "Puppi MET Phi", 1),("type1_pfMetPhi", "Type1 MET Phi", 1),("m_t_Mass", "Muon + Tau Mass (GeV)", 1),("m_t_CollinearMass", "Muon + Tau Collinear Mass (GeV)", 1),("numOfJets", "Number of Jets", 1),("numOfVtx", "Number of Vertices", 1),("deltaPhiMuMET", "Delta Phi Mu MET", 1),("deltaPhiTauMET", "Delta Phi Tau MET", 1),("MTMuMET", "Muon MET Transverse Mass (GeV)", 1),("MTTauMET", "Tau MET Transverse Mass (GeV)", 1)]
+histoname = [("mPt", "Muon Pt (GeV)", 1),("tPt", "Tau Pt (GeV)", 1),("mEta", "Muon Eta", 1),("tEta", "Tau Eta", 1),("mPhi", "Muon Phi", 1),("tPhi", "Tau Phi", 1),("puppiMetEt", "Puppi MET Et (GeV)", 1),("type1_pfMetEt", "Type1 MET Et", 1),("puppiMetPhi", "Puppi MET Phi", 1),("type1_pfMetPhi", "Type1 MET Phi", 1),("m_t_Mass", "Muon + Tau Mass (GeV)", 1),("m_t_CollinearMass", "Muon + Tau Collinear Mass (GeV)", 1),("numOfJets", "Number of Jets", 1),("numOfVtx", "Number of Vertices", 1),("dEtaMuTau", "Delta Eta Mu Tau", 1),("dPhiMuMET", "Delta Phi Mu MET", 1),("dPhiTauMET", "Delta Phi Tau MET", 1),("dPhiMuTau", "Delta Phi Mu Tau", 1),("MTMuMET", "Muon MET Transverse Mass (GeV)", 1),("MTTauMET", "Tau MET Transverse Mass (GeV)", 1)]
+
+#histoname = [("bdtDiscriminator", "BDT Discriminator", 1)]
 
 foldername = channel
 
@@ -174,7 +200,7 @@ for fn in foldername:
         os.makedirs(outputdir+'/'+fn)
 
     for n,h in enumerate(histoname):
-        plotter.plot_mc_vs_data(fn, ['VBF_LFV_HToMuTau_M125*', 'GluGlu_LFV_HToMuTau_M125*'], h[0], 1, xaxis = h[1], leftside=False, xrange=None, preprocess=None, show_ratio=True, ratio_range=1.5, sort=True, blind_region=False, control=s1)
+        plotter.plot_mc_vs_data(fn, ['VBF_LFV_HToMuTau_M125*', 'GluGlu_LFV_HToMuTau_M125*'], h[0], 1, xaxis = h[1], leftside=False, xrange=None, preprocess=None, show_ratio=True, ratio_range=1.5, sort=True, blind_region=False, control=s1, jets=j)
         #plotter.save(fn+'/'+h[0])
         plotter.save(h[0])
 
