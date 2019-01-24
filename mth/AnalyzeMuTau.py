@@ -28,8 +28,8 @@ rnd = gRandom.Rndm
 MetCorrection = True
 target = os.path.basename(os.environ['megatarget'])
 
-#f = ROOT.TFile("htt_scalefactors_v17_5.root")
-#ws = f.Get("w")
+f = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/htt_scalefactors_v17_5.root")
+ws = f.Get("w")
 
 #enable_roc_corrections = True
 #if enable_roc_corrections:
@@ -84,6 +84,17 @@ def collMass(row):
   visfrac = row['tPt']/(row['tPt']+ptnu)
   m_t_Mass = visibleMass(row)
   return (m_t_Mass/sqrt(visfrac))
+
+
+def topPtreweight(pt1, pt2):
+    if pt1 > 400 : pt1 = 400
+    if pt2 > 400 : pt2 = 400
+    a = 0.0615
+    b = -0.0005
+    wt1 = math.exp(a + b * pt1)
+    wt2 = math.exp(a + b * pt2)
+    wt = sqrt(wt1 * wt2)
+    return wt
 
 
 if bool('DYJetsToLL_M-50' in target):
@@ -197,9 +208,6 @@ class AnalyzeMuTau(MegaBase):
     self.is_recoilC = bool(('HTo' in target) or ('Jets' in target))
     if self.is_recoilC and MetCorrection:
       self.Metcorected = RecoilCorrector("Type1_PFMET_2017.root")
-    #self.var_d_star =['mPt', 'tPt', 'dPhiMuTau', 'dEtaMuTau', 'type1_pfMetEt', 'm_t_collinearMass', 'MTTauMET', 'dPhiTauMET'] 
-    #self.xml_name = os.path.join(os.getcwd(), "dataset/weights/TMVAClassification_BDT.weights.xml")
-    #self.functor = FunctorFromMVA('BDT method', self.xml_name, *self.var_d_star)
 
     super(AnalyzeMuTau, self).__init__(tree, outfile, **kwargs)
     self.tree = MuTauTree.MuTauTree(tree)
@@ -224,12 +232,20 @@ class AnalyzeMuTau(MegaBase):
     self.embedmID = mcCorrections.embedmID
     self.embedmIso = mcCorrections.embedmIso
 
+    #self.DYweight = {
+    #  0 : 2.79668853,
+    #  1 : 0.492824977,
+    #  2 : 1.014457295,
+    #  3 : 0.64402901,
+    #  4 : 0.449235695
+    #  }
+
     self.DYweight = {
-      0 : 2.79668853,#2.666650438,
-      1 : 0.492824977,#0.488401071,#0.465691805,
-      2 : 1.014457295,#0.967287905,
-      3 : 0.64402901,#0.638831427,#0.609127575,
-      4 : 0.449235695#0.439586278#0.419146762
+      0 : 2.666650438,
+      1 : 0.469910012,
+      2 : 0.967287905,
+      3 : 0.614083486,
+      4 : 0.428347508
       }
 
     self.tauSF={ 
@@ -400,10 +416,10 @@ class AnalyzeMuTau(MegaBase):
     #else:
     #  muSF = 1
 
-    #if self.is_embed:
-    #  ws.var("m_pt").setVal(row.mPt)
-    #  ws.var("m_eta").setVal(row.mEta)
-    #  ws.var("m_iso").setVal(row.mRelPFIsoDBDefaultR04)
+    if self.is_embed:
+      ws.var("m_pt").setVal(row.mPt)
+      ws.var("m_eta").setVal(row.mEta)
+      ws.var("m_iso").setVal(row.mRelPFIsoDBDefaultR04)
     if self.is_DY:
       subtemp["isZmumu"] = row.isZmumu
       subtemp["isZee"] = row.isZee
@@ -444,9 +460,19 @@ class AnalyzeMuTau(MegaBase):
     subtemp["dimuonVeto"] = row.dimuonVeto
     subtemp["bjetDeepCSVVeto30Medium"] = row.bjetDeepCSVVeto30Medium
     subtemp["vbfNJets30"] = row.vbfNJets30
+    subtemp["vbfNJets20"] = row.vbfNJets20
     subtemp["vbfMass"] = row.vbfMass
+    subtemp["vbfDeta"] = row.vbfDeta
+    subtemp["vbfj1eta"] = row.vbfj1eta
+    subtemp["vbfj1pt"] = row.vbfj1pt
+    subtemp["vbfj2eta"] = row.vbfj2eta
+    subtemp["vbfj2pt"] = row.vbfj2pt
+    subtemp["tgenpt"] = row.tGenPt
+    subtemp["tgenmotherpt"] = row.tGenMotherPt
     subtemp["genMass"] = row.genMass
     subtemp["genpT"] = row.genpT
+    subtemp["topQuarkPt1"] = row.topQuarkPt1
+    subtemp["topQuarkPt2"] = row.topQuarkPt2
     subtemp['jb1pt'] = row.jb1pt
     subtemp['jb1hadronflavor'] = row.jb1hadronflavor
     subtemp['jb2pt'] = row.jb2pt
@@ -549,10 +575,8 @@ class AnalyzeMuTau(MegaBase):
 
       weight = 1.0
       if not self.is_data and not self.is_embed:
-
         #nbtagged = newrow['bjetDeepCSVVeto30Medium']
         #btagweight = bTagSF.bTagEventWeight(nbtagged, newrow['jb1pt'], newrow['jb1hadronflavor'], newrow['jb2pt'], newrow['jb2hadronflavor'], 1, 0, 0)
-
         mtracking = self.muTracking(newrow['mEta'])[0]
         tEff = self.triggerEff(newrow['mPt'], abs(newrow['mEta']))
         mID = self.muonTightID(newrow['mPt'], abs(newrow['mEta']))
@@ -564,14 +588,14 @@ class AnalyzeMuTau(MegaBase):
         if self.is_DY:
           #dyweight = self.DYreweight1D(newrow['genpT'])
           dyweight = self.DYreweight(newrow['genMass'], newrow['genpT'])
-          weight = weight*dyweight#*0.00007357
+          weight = weight*dyweight
           if newrow['numGenJets'] < 5:
             weight = weight*self.DYweight[newrow['numGenJets']]*dyweight
           else:
             weight = weight*self.DYweight[0]*dyweight
         if self.is_DYlow:
-          dyweight = self.DYreweight1D(newrow['genpT']) 
-          weight = weight*23.105*dyweight#19.52494171#20.47706732
+          dyweight = self.DYreweight(newrow['genMass'], newrow['genpT']) 
+          weight = weight*23.105*dyweight
         if self.is_GluGlu:
           weight = weight*0.000519
         if self.is_VBF:
@@ -607,11 +631,14 @@ class AnalyzeMuTau(MegaBase):
         if self.is_STtWtop:
           weight = weight*0.00552
         if self.is_TTTo2L2Nu:
-          weight = weight*0.00574
+          topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
+          weight = weight*0.00574*topweight
         if self.is_TTToHadronic:
-          weight = weight*0.385
+          topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
+          weight = weight*0.385*topweight
         if self.is_TTToSemiLeptonic:
-          weight = weight*0.00118
+          topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
+          weight = weight*0.00118*topweight
         if self.is_VBFH:
           weight = weight*0.000864
         if self.is_GluGluH:
@@ -634,27 +661,24 @@ class AnalyzeMuTau(MegaBase):
             weight = weight*1.19
 
       if self.is_embed:
-        weight = weight*newrow['GenWeight']#*tID*m_trg_sf*m_id_sf*m_iso_sf
-        #tID = 0.97
-        #if newrow['tDecayMode'] == 0:
-        #  weight = weight*0.975
-        #elif newrow['tDecayMode'] == 1:
-        #  weight = weight*0.975*1.051
-        #elif newrow['tDecayMode'] == 10:
-        #  weight = weight*pow(0.975, 3)
-        #m_trg_sf = ws.function("m_trg27_embed_kit_ratio").getVal()
-        #m_id_sf = ws.function("m_id_embed_kit_ratio").getVal()
-        #m_iso_sf = ws.function("m_iso_binned_embed_kit_ratio").getVal()
-        #if m_trg_sf > 100:
-        #  continue
+        tID = 0.97
+        if newrow['tDecayMode'] == 0:
+          dm = 0.975
+        elif newrow['tDecayMode'] == 1:
+          dm = 0.975*1.051
+        elif newrow['tDecayMode'] == 10:
+          dm = pow(0.975, 3)
+        m_trg_sf = ws.function("m_trg27_embed_kit_ratio").getVal()
+        m_id_sf = ws.function("m_id_embed_kit_ratio").getVal()
+        m_iso_sf = ws.function("m_iso_binned_embed_kit_ratio").getVal()
+        weight = weight*newrow['GenWeight']*tID*m_trg_sf*m_id_sf*m_iso_sf*dm
+        #print "Trg: ", m_trg_sf, " Id: ", m_id_sf, " Iso: ", m_iso_sf, " Product: ", m_trg_sf*m_id_sf*m_iso_sf*dm*tID*weight
         #m_sel_trg_sf = ws.function("m_sel_trg_ratio").getVal()
         #m_sel_embed_func1 = ws.function("m_sel_idEmb_ratio").functor(ROOT.RooArgList(ws.argSet("gt1_pt,gt1_eta")))
         #print arr.array([newrow['mPt'], newrow['mEta']])
         #m_sel_id_sf1 = m_sel_embed_func1.eval(newrow['mPt'], newrow['mEta'])
         #m_sel_embed_func2 = ws.function("m_sel_idEmb_ratio").functor(ROOT.RooArgList(ws.argSet("gt2_pt,gt2_eta")))
         #m_sel_id_sf2 = m_sel_embed_func2.eval(arr.array('d', [newrow['tPt'], newrow['tEta']]))
-        #print newrow['mPt'], " ", newrow['mEta'], " ", newrow['mRelPFIsoDBDefaultR04']
-        #print "Trg: ", m_trg_sf, " Id: ", m_id_sf, " Iso: ", m_iso_sf#, " m_sel_trg_sf: ", m_sel_trg_sf, " m_sel_id_sf1: ", m_sel_id_sf1, " m_sel_id_sf2: ", m_sel_id_sf1 
         #m_trg_sf = self.embedTrg(newrow['mPt'], newrow['mEta'])
         #m_id_sf = self.embedmID(newrow['mPt'], newrow['mEta'])
         #m_iso_sf = self.embedmIso(newrow['mPt'], newrow['mEta'])
@@ -665,9 +689,6 @@ class AnalyzeMuTau(MegaBase):
         tIso = 1
         if not self.is_data and not self.is_embed:
           mIso = self.muonTightIsoTightID(newrow['mPt'], abs(newrow['mEta']))
-        #if self.is_embed:
-        #  mIso = w.function("m_iso_binned_embed_kit_ratio").getVal()
-        #  tIso = self.tauSF['loose']
         if self.oppositesign(newrow):
           if transverseMass(newrow['mPt'], newrow['mEta'], newrow['mPhi'], newrow['mMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) > 60:
             if transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) > 80:
@@ -706,9 +727,6 @@ class AnalyzeMuTau(MegaBase):
         tIso = 1
         if not self.is_data and not self.is_embed:
           mIso = self.muonLooseIsoTightID(newrow['mPt'], abs(newrow['mEta']))
-        #if self.is_embed:
-        #  mIso = w.function("m_iso_binned_embed_kit_ratio").getVal()
-        #  tIso = self.tauSF['tight']
         if self.oppositesign(newrow):
           if transverseMass(newrow['mPt'], newrow['mEta'], newrow['mPhi'], newrow['mMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) > 60:
             if transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) > 80:
@@ -748,9 +766,6 @@ class AnalyzeMuTau(MegaBase):
         tIso = 1
         if not self.is_data and not self.is_embed:
           mIso = self.muonLooseIsoTightID(newrow['mPt'], abs(newrow['mEta']))
-        #if self.is_embed:
-        #  mIso = w.function("m_iso_binned_embed_kit_ratio").getVal()
-        #  tIso = self.tauSF['loose']
         if self.oppositesign(newrow):
           if transverseMass(newrow['mPt'], newrow['mEta'], newrow['mPhi'], newrow['mMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) > 60:
             if transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) > 80:
@@ -788,9 +803,6 @@ class AnalyzeMuTau(MegaBase):
         tIso = 1
         if not self.is_data and not self.is_embed:
           mIso = self.muonTightIsoTightID(newrow['mPt'], abs(newrow['mEta']))
-        #if self.is_embed:
-        #  mIso = w.function("m_iso_binned_embed_kit_ratio").getVal()
-        #  tIso = self.tauSF['tight']
         if self.oppositesign(newrow):
           if transverseMass(newrow['mPt'], newrow['mEta'], newrow['mPhi'], newrow['mMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) > 60:
             if transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) > 80:

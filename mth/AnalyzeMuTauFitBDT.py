@@ -76,6 +76,17 @@ def collMass(row):
   return (m_t_Mass/sqrt(visfrac))
 
 
+def topPtreweight(pt1, pt2):
+    if pt1 > 400 : pt1 = 400
+    if pt2 > 400 : pt2 = 400
+    a = 0.0615
+    b = -0.0005 
+    wt1 = math.exp(a + b * pt1)
+    wt2 = math.exp(a + b * pt2)
+    wt = sqrt(wt1 * wt2)
+    return wt
+
+
 if bool('DYJetsToLL_M-50' in target):
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'DY')
 elif bool('DYJetsToLL_M-10to50' in target):
@@ -186,15 +197,15 @@ class AnalyzeMuTauFitBDT(MegaBase):
     self.is_recoilC = bool(('HTo' in target) or ('Jets' in target))
     if self.is_recoilC and MetCorrection:
       self.Metcorected = RecoilCorrector("Type1_PFMET_2017.root")
-    self.var_d_star =['mPt', 'tPt', 'dPhiMuTau', 'dEtaMuTau', 'type1_pfMetEt', 'm_t_collinearMass', 'MTTauMET', 'dPhiTauMET', 'vbfMass']#, 'vbfDeta'] 
-    self.xml_name = os.path.join(os.getcwd(), "bdtdata/datasetSVM/weights/TMVAClassification_SVM.weights.xml")
+    self.var_d_star =['mPt', 'tPt', 'dPhiMuTau', 'dEtaMuTau', 'type1_pfMetEt', 'm_t_collinearMass', 'MTTauMET', 'dPhiTauMET'] 
+    self.xml_name = os.path.join(os.getcwd(), "bdtdata/datasetGradient/weights/TMVAClassification_BDTG.weights.xml")
     self.functor = FunctorFromMVA('BDT method', self.xml_name, *self.var_d_star)
-    #self.xml_name0 = os.path.join(os.getcwd(), "bdtdata/dataset0Jet/weights/TMVAClassification_BDT.weights.xml")
-    #self.functor0 = FunctorFromMVA('BDT method', self.xml_name0, *self.var_d_star)
-    #self.xml_name1 = os.path.join(os.getcwd(), "bdtdata/dataset1Jet/weights/TMVAClassification_BDT.weights.xml")
-    #self.functor1 = FunctorFromMVA('BDT method', self.xml_name1, *self.var_d_star)
-    #self.xml_name2 = os.path.join(os.getcwd(), "bdtdata/dataset2Jet/weights/TMVAClassification_BDT.weights.xml")
-    #self.functor2 = FunctorFromMVA('BDT method', self.xml_name2, *self.var_d_star)
+    self.var_d_star01 = ['mPt', 'tPt', 'dPhiMuTau', 'dEtaMuTau', 'type1_pfMetEt', 'm_t_collinearMass', 'MTTauMET', 'dPhiTauMET'] 
+    self.xml_name01 = os.path.join(os.getcwd(), "bdtdata/dataset01Jet/weights/TMVAClassification_BDTG.weights.xml")
+    self.functor01 = FunctorFromMVA('BDT method', self.xml_name01, *self.var_d_star01)
+    self.var_d_star2 = ['mPt', 'tPt', 'dPhiMuTau', 'dEtaMuTau', 'type1_pfMetEt', 'm_t_collinearMass', 'MTTauMET', 'dPhiTauMET', 'vbfMass', 'vbfDeta'] 
+    self.xml_name2 = os.path.join(os.getcwd(), "bdtdata/dataset2Jet/weights/TMVAClassification_BDTG.weights.xml")
+    self.functor2 = FunctorFromMVA('BDT method', self.xml_name2, *self.var_d_star2)
 
     super(AnalyzeMuTauFitBDT, self).__init__(tree, outfile, **kwargs)
     self.tree = MuTauTree.MuTauTree(tree)
@@ -220,11 +231,11 @@ class AnalyzeMuTauFitBDT(MegaBase):
     self.embedmIso = mcCorrections.embedmIso
 
     self.DYweight = {
-      0 : 2.79668853,
-      1 : 0.492824977,
-      2 : 1.014457295,
-      3 : 0.64402901,
-      4 : 0.449235695
+      0 : 2.666650438,
+      1 : 0.469910012,
+      2 : 0.967287905,
+      3 : 0.614083486,
+      4 : 0.428347508
       }
 
     self.tauSF={ 
@@ -290,11 +301,14 @@ class AnalyzeMuTauFitBDT(MegaBase):
 
 
   def begin(self):
-    names=['TauLooseOS', 'MuonLooseOS', 'MuonLooseTauLooseOS', 'TightOS', 'TauLooseOS0Jet', 'MuonLooseOS0Jet', 'MuonLooseTauLooseOS0Jet', 'TightOS0Jet', 'TauLooseOS1Jet', 'MuonLooseOS1Jet', 'MuonLooseTauLooseOS1Jet', 'TightOS1Jet', 'TauLooseOS2Jet', 'MuonLooseOS2Jet', 'MuonLooseTauLooseOS2Jet', 'TightOS2Jet','TauLooseOS2JetVBF', 'MuonLooseOS2JetVBF', 'MuonLooseTauLooseOS2JetVBF', 'TightOS2JetVBF']
+    names=['TauLooseOS', 'MuonLooseOS', 'MuonLooseTauLooseOS', 'TightOS', 'TauLooseOS0Jet', 'MuonLooseOS0Jet', 'MuonLooseTauLooseOS0Jet', 'TightOS0Jet', 'TauLooseOS1Jet', 'MuonLooseOS1Jet', 'MuonLooseTauLooseOS1Jet', 'TightOS1Jet', 'TauLooseOS2Jet', 'MuonLooseOS2Jet', 'MuonLooseTauLooseOS2Jet', 'TightOS2Jet']
+    vbfnames=['TauLooseOS2JetVBF', 'MuonLooseOS2JetVBF', 'MuonLooseTauLooseOS2JetVBF', 'TightOS2JetVBF']
     namesize = len(names)
     for x in range(0, namesize):
-      self.book(names[x], "bdtDiscriminator", "SVM Discriminator", 10, 0.0, 1.0)
-
+      self.book(names[x], "bdtDiscriminator", "BDT Discriminator", 20, -1.0, 1.0)
+    vbfnamesize = len(vbfnames)
+    for x in range(0, vbfnamesize):
+      self.book(vbfnames[x], "bdtDiscriminator", "BDT Discriminator", 10, -1.0, 1.0)
 
   def fill_histos(self, mva, weight, name=''):
     histos = self.histograms
@@ -378,6 +392,8 @@ class AnalyzeMuTauFitBDT(MegaBase):
     subtemp['jb1hadronflavor'] = row.jb1hadronflavor
     subtemp['jb2pt'] = row.jb2pt
     subtemp['jb2hadronflavor'] = row.jb2hadronflavor
+    subtemp['topQuarkPt1'] = row.topQuarkPt1
+    subtemp['topQuarkPt2'] = row.topQuarkPt2
     return subtemp
 
 
@@ -467,20 +483,19 @@ class AnalyzeMuTauFitBDT(MegaBase):
       if not self.vetos(newrow):
         continue      
 
-      if self.is_DY:
-        if not bool(newrow['isZmumu'] or newrow['isZee']):
-          continue
+      #if self.is_DY:
+      #  if not bool(newrow['isZmumu'] or newrow['isZee']):
+      #    continue
 
-      self.var_d_0 = {'mPt' : newrow['mPt'], 'tPt' : newrow['tPt'], 'dPhiMuTau' : deltaPhi(newrow['mPhi'], newrow['tPhi']), 'dEtaMuTau' : abs(newrow['mEta'] - newrow['tEta']), 'type1_pfMetEt' : newrow['type1_pfMetEt'], 'm_t_collinearMass' : collMass(newrow), 'MTTauMET' : transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']), 'dPhiTauMET' : deltaPhi(newrow['tPhi'], newrow['type1_pfMetPhi']), 'vbfMass' : newrow['vbfMass']}#, 'vbfDeta' : newrow['vbfDeta']}
+      self.var_d_0 = {'mPt' : newrow['mPt'], 'tPt' : newrow['tPt'], 'dPhiMuTau' : deltaPhi(newrow['mPhi'], newrow['tPhi']), 'dEtaMuTau' : abs(newrow['mEta'] - newrow['tEta']), 'type1_pfMetEt' : newrow['type1_pfMetEt'], 'm_t_collinearMass' : collMass(newrow), 'MTTauMET' : transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']), 'dPhiTauMET' : deltaPhi(newrow['tPhi'], newrow['type1_pfMetPhi'])}
       MVA = self.functor(**self.var_d_0)
-      print MVA
-      #MVA0 = self.functor0(**self.var_d_0)
-      #MVA1 = self.functor1(**self.var_d_0)
-      #MVA2 = self.functor2(**self.var_d_0)
+      self.var_d_01 = {'mPt' : newrow['mPt'], 'tPt' : newrow['tPt'], 'dPhiMuTau' : deltaPhi(newrow['mPhi'], newrow['tPhi']), 'dEtaMuTau' : abs(newrow['mEta'] - newrow['tEta']), 'type1_pfMetEt' : newrow['type1_pfMetEt'], 'm_t_collinearMass' : collMass(newrow), 'MTTauMET' : transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']), 'dPhiTauMET' : deltaPhi(newrow['tPhi'], newrow['type1_pfMetPhi'])}
+      MVA01 = self.functor01(**self.var_d_01)
+      self.var_d_2 = {'mPt' : newrow['mPt'], 'tPt' : newrow['tPt'], 'dPhiMuTau' : deltaPhi(newrow['mPhi'], newrow['tPhi']), 'dEtaMuTau' : abs(newrow['mEta'] - newrow['tEta']), 'type1_pfMetEt' : newrow['type1_pfMetEt'], 'm_t_collinearMass' : collMass(newrow), 'MTTauMET' : transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']), 'dPhiTauMET' : deltaPhi(newrow['tPhi'], newrow['type1_pfMetPhi']), 'vbfMass' : newrow['vbfMass'], 'vbfDeta' : newrow['vbfDeta']} 
+      MVA2 = self.functor2(**self.var_d_2)
 
       weight = 1.0
       if not self.is_data and not self.is_embed:
-
         mtracking = self.muTracking(newrow['mEta'])[0]
         tEff = self.triggerEff(newrow['mPt'], abs(newrow['mEta']))
         mID = self.muonTightID(newrow['mPt'], abs(newrow['mEta']))
@@ -491,13 +506,13 @@ class AnalyzeMuTauFitBDT(MegaBase):
         weight = newrow['GenWeight']*pucorrector(newrow['nTruePU'])*tEff*mID*mtracking*tID
         if self.is_DY:
           dyweight = self.DYreweight(newrow['genMass'], newrow['genpT'])
-          weight = weight*dyweight#*0.00007357
+          weight = weight*dyweight
           if newrow['numGenJets'] < 5:
             weight = weight*self.DYweight[newrow['numGenJets']]*dyweight
           else:
             weight = weight*self.DYweight[0]*dyweight
         if self.is_DYlow:
-          dyweight = self.DYreweight1D(newrow['genpT']) 
+          dyweight = self.DYreweight(newrow['genMass'], newrow['genpT']) 
           weight = weight*23.105*dyweight
         if self.is_GluGlu:
           weight = weight*0.000519
@@ -534,11 +549,14 @@ class AnalyzeMuTauFitBDT(MegaBase):
         if self.is_STtWtop:
           weight = weight*0.00552
         if self.is_TTTo2L2Nu:
-          weight = weight*0.00574
+          topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
+          weight = weight*0.00574*topweight
         if self.is_TTToHadronic:
-          weight = weight*0.385
+          topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
+          weight = weight*0.385*topweight
         if self.is_TTToSemiLeptonic:
-          weight = weight*0.00118
+          topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
+          weight = weight*0.00118*topweight
         if self.is_VBFH:
           weight = weight*0.000864
         if self.is_GluGluH:
@@ -577,9 +595,9 @@ class AnalyzeMuTauFitBDT(MegaBase):
           elif newrow['vbfNJets30']==1:
             self.fill_histos(MVA, weight*frTau*mIso*tIso, 'TauLooseOS1Jet')
           elif newrow['vbfNJets30']==2 and newrow['vbfMass'] < 550:
-            self.fill_histos(MVA, weight*frTau*mIso*tIso, 'TauLooseOS2Jet')
+            self.fill_histos(MVA2, weight*frTau*mIso*tIso, 'TauLooseOS2Jet')
           elif newrow['vbfNJets30']==2 and newrow['vbfMass'] > 550:
-            self.fill_histos(MVA, weight*frTau*mIso*tIso, 'TauLooseOS2JetVBF')
+            self.fill_histos(MVA2, weight*frTau*mIso*tIso, 'TauLooseOS2JetVBF')
 
       if not self.obj1_tight(newrow) and self.obj1_loose(newrow) and self.obj2_tight(newrow):
         frMuon = self.fakeRateMuon(newrow['mPt'])
@@ -595,9 +613,9 @@ class AnalyzeMuTauFitBDT(MegaBase):
           elif newrow['vbfNJets30']==1:
             self.fill_histos(MVA, weight*frMuon*mIso*tIso, 'MuonLooseOS1Jet')
           elif newrow['vbfNJets30']==2 and newrow['vbfMass'] > 550:
-            self.fill_histos(MVA, weight*frMuon*mIso*tIso, 'MuonLooseOS2Jet')
+            self.fill_histos(MVA2, weight*frMuon*mIso*tIso, 'MuonLooseOS2Jet')
           elif newrow['vbfNJets30']==2 and newrow['vbfMass'] > 550:
-            self.fill_histos(MVA, weight*frMuon*mIso*tIso, 'MuonLooseOS2JetVBF')
+            self.fill_histos(MVA2, weight*frMuon*mIso*tIso, 'MuonLooseOS2JetVBF')
 
       if not self.obj2_tight(newrow) and self.obj2_loose(newrow) and not self.obj1_tight(newrow) and self.obj1_loose(newrow):
         frTau = self.fakeRate(newrow['tPt'], newrow['tEta'], newrow['tDecayMode'])
@@ -614,9 +632,9 @@ class AnalyzeMuTauFitBDT(MegaBase):
           elif newrow['vbfNJets30']==1:
             self.fill_histos(MVA, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseOS1Jet')
           elif newrow['vbfNJets30']==2 and newrow['vbfMass'] < 550:
-            self.fill_histos(MVA, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseOS2Jet')
+            self.fill_histos(MVA2, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseOS2Jet')
           elif newrow['vbfNJets30']==2 and newrow['vbfMass'] > 550:
-            self.fill_histos(MVA, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseOS2JetVBF')
+            self.fill_histos(MVA2, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseOS2JetVBF')
 
       if self.obj2_tight(newrow) and self.obj1_tight(newrow):
         mIso = 1
@@ -631,9 +649,9 @@ class AnalyzeMuTauFitBDT(MegaBase):
           elif newrow['vbfNJets30']==1:
             self.fill_histos(MVA, weight*mIso*tIso, 'TightOS1Jet')
           elif newrow['vbfNJets30']==2 and newrow['vbfMass'] < 550:
-            self.fill_histos(MVA, weight*mIso*tIso, 'TightOS2Jet')
+            self.fill_histos(MVA2, weight*mIso*tIso, 'TightOS2Jet')
           elif newrow['vbfNJets30']==2 and newrow['vbfMass'] > 550:
-            self.fill_histos(MVA, weight*mIso*tIso, 'TightOS2JetVBF')
+            self.fill_histos(MVA2, weight*mIso*tIso, 'TightOS2JetVBF')
 
 
   def finish(self):

@@ -265,11 +265,11 @@ class AnalyzeMuTauSys(MegaBase):
     self.embedmIso = mcCorrections.embedmIso
 
     self.DYweight = {
-      0 : 2.79668853,
-      1 : 0.492824977,
-      2 : 1.014457295,
-      3 : 0.64402901,
-      4 : 0.449235695
+      0 : 2.666650438,
+      1 : 0.469910012,
+      2 : 0.967287905,
+      3 : 0.614083486,
+      4 : 0.428347508
       }
 
     self.tauSF={ 
@@ -383,28 +383,28 @@ class AnalyzeMuTauSys(MegaBase):
       self.fill_histos(mesrow, weight, name+'/mesDown')
       if bool(not self.is_DY) and row['tZTTGenMatching']==5:
         scalerow = self.deepcopyrow(row)
-        normtPt = mesrow['tPt']
-        normmet = mesrow['type1_pfMetEt']
-        if mesrow['tDecayMode']==0:
-          mesrow['tPt'] = normtPt * 1.008
-          mesrow['type1_pfMetEt'] = normmet - 0.008 * normtPt
+        normtPt = scalerow['tPt']
+        normmet = scalerow['type1_pfMetEt']
+        if scalerow['tDecayMode']==0:
+          scalerow['tPt'] = normtPt * 1.008
+          scalerow['type1_pfMetEt'] = normmet - 0.008 * normtPt
           self.fill_histos(scalerow, weight, name+'/scaletDM0Up')
-          mesrow['tPt'] = normtPt * 0.992
-          mesrow['type1_pfMetEt'] = normmet + 0.008 * normtPt
+          scalerow['tPt'] = normtPt * 0.992
+          scalerow['type1_pfMetEt'] = normmet + 0.008 * normtPt
           self.fill_histos(scalerow, weight, name+'/scaletDM0Down')
-        elif mesrow['tDecayMode']==1:
-          mesrow['tPt'] = normtPt * 1.008
-          mesrow['type1_pfMetEt'] = normmet - 0.008 * normtPt
+        elif scalerow['tDecayMode']==1:
+          scalerow['tPt'] = normtPt * 1.008
+          scalerow['type1_pfMetEt'] = normmet - 0.008 * normtPt
           self.fill_histos(scalerow, weight, name+'/scaletDM1Up')
-          mesrow['tPt'] = normtPt * 0.992
-          mesrow['type1_pfMetEt'] = normmet + 0.008 * normtPt
+          scalerow['tPt'] = normtPt * 0.992
+          scalerow['type1_pfMetEt'] = normmet + 0.008 * normtPt
           self.fill_histos(scalerow, weight, name+'/scaletDM1Down')
-        elif mesrow['tDecayMode']==10:
-          mesrow['tPt'] = normtPt * 1.009
-          mesrow['type1_pfMetEt'] = normmet - 0.009 * normtPt
+        elif scalerow['tDecayMode']==10:
+          scalerow['tPt'] = normtPt * 1.009
+          scalerow['type1_pfMetEt'] = normmet - 0.009 * normtPt
           self.fill_histos(scalerow, weight, name+'/scaletDM10Up')
-          mesrow['tPt'] = normtPt * 0.991
-          mesrow['type1_pfMetEt'] = normmet + 0.009 * normtPt
+          scalerow['tPt'] = normtPt * 0.991
+          scalerow['type1_pfMetEt'] = normmet + 0.009 * normtPt
           self.fill_histos(scalerow, weight, name+'/scaletDM10Down')
       uesrow = self.deepcopyrow(row)
       uesrow['type1_pfMetEt'] = self.metTauC(uesrow['tPt'], uesrow['tDecayMode'], uesrow['tZTTGenMatching'], uesrow['type1_pfMet_shiftedPt_UnclusteredEnUp'])
@@ -751,7 +751,7 @@ class AnalyzeMuTauSys(MegaBase):
           else:
             weight = weight*self.DYweight[0]*dyweight
         if self.is_DYlow:
-          dyweight = self.DYreweight1D(newrow['genpT']) 
+          dyweight = self.DYreweight(newrow['genMass'], newrow['genpT']) 
           weight = weight*23.105*dyweight
         if self.is_GluGlu:
           weight = weight*0.000519
