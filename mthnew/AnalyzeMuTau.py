@@ -98,16 +98,6 @@ elif bool('DY3JetsToLL' in target):
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'DY3')
 elif bool('DY4JetsToLL' in target):
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'DY4')
-elif bool('WJetsToLNu' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W')
-elif bool('W1JetsToLNu' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W1')
-elif bool('W2JetsToLNu' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W2')
-elif bool('W3JetsToLNu' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W3')
-elif bool('W4JetsToLNu' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W4')
 elif bool('WW_TuneCP5' in target):
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'WW')
 elif bool('WZ_TuneCP5' in target):
@@ -547,9 +537,6 @@ class AnalyzeMuTau(MegaBase):
         if not bool(newrow['isZmumu'] or newrow['isZee']):
           continue
 
-      if not self.bjetveto(newrow):
-        continue
-
       weight = 1.0
       if not self.is_data and not self.is_embed:
         mtracking = self.muTracking(newrow['mEta'])[0]
@@ -565,7 +552,6 @@ class AnalyzeMuTau(MegaBase):
           wmc.var("z_gen_pt").setVal(newrow['genpT'])
           zptweight = wmc.function("zptmass_weight_nom").getVal()
           dyweight = self.DYreweight(newrow['genMass'], newrow['genpT'])
-          weight = weight*dyweight
           if newrow['numGenJets'] < 5:
             weight = weight*self.DYweight[newrow['numGenJets']]*dyweight
           else:
@@ -611,14 +597,14 @@ class AnalyzeMuTau(MegaBase):
         if self.is_STtWtop:
           weight = weight*0.00552
         if self.is_TTTo2L2Nu:
-          topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
-          weight = weight*0.0057*topweight
+          #topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
+          weight = weight*0.0057#*topweight
         if self.is_TTToHadronic:
-          topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
-          weight = weight*0.379*topweight
+          #topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
+          weight = weight*0.379#*topweight
         if self.is_TTToSemiLeptonic:
-          topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
-          weight = weight*0.00116*topweight
+          #topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
+          weight = weight*0.00116#*topweight
         if self.is_VBFH:
           weight = weight*0.000864
         if self.is_GluGluH:

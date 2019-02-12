@@ -35,7 +35,7 @@ channel = ['']
 
 for x in mc_samples:
     print x
-    files.extend(glob.glob('results/%s/AnalyzeMuTau/%s' % (jobid, x)))
+    files.extend(glob.glob('results/%s/AnalyzeMuTauTTbar/%s' % (jobid, x)))
     lumifiles.extend(glob.glob('inputs/%s/%s.lumicalc.sum' % (jobid, x)))
 
 period = '13TeV'
@@ -44,20 +44,20 @@ sqrts = 13
 jet = ['', '0Jet', '1Jet', '2Jet', '2JetVBF']
 
 for j in jet:
-    s1 = 'TightWOS'+j
-    s2 = 'TauLooseWOS'+j
-    s3 = 'MuonLooseWOS'+j
-    s4 = 'MuonLooseTauLooseWOS'+j
+    #s1 = 'TightWOS'+j
+    #s2 = 'TauLooseWOS'+j
+    #s3 = 'MuonLooseWOS'+j
+    #s4 = 'MuonLooseTauLooseWOS'+j
     #s1 = 'TightSS'+j
     #s2 = 'TauLooseSS'+j
     #s3 = 'MuonLooseSS'+j
     #s4 = 'MuonLooseTauLooseSS'+j
-    #s1 = 'TightOS'+j
-    #s2 = 'TauLooseOS'+j
-    #s3 = 'MuonLooseOS'+j
-    #s4 = 'MuonLooseTauLooseOS'+j 
+    s1 = 'TightOS'+j
+    s2 = 'TauLooseOS'+j
+    s3 = 'MuonLooseOS'+j
+    s4 = 'MuonLooseTauLooseOS'+j 
     
-    outputdir = 'plots/%s/AnalyzeMuTau/Jan16Embed/%s/' % (jobid, s1)
+    outputdir = 'plots/%s/AnalyzeMuTauTTbar/Feb12Corr/%s/' % (jobid, s1)
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
@@ -182,6 +182,6 @@ for j in jet:
 
         for n,h in enumerate(histoname):
             #plotter.pad.SetLogy(True)
-            plotter.plot_mc_vs_data(fn, ['VBF_LFV_HToMuTau_M125*', 'GluGlu_LFV_HToMuTau_M125*'], h[0], 1, xaxis = h[1], leftside=False, xrange=None, preprocess=None, show_ratio=True, ratio_range=1.5, sort=True, blind_region=False, control=s1, jets=j)
+            plotter.plot_mc_vs_data(fn, ['VBF_LFV_HToMuTau_M125*', 'GluGlu_LFV_HToMuTau_M125*'], h[0], 1, xaxis = h[1], leftside=False, xrange=None, preprocess=None, show_ratio=True, ratio_range=1.5, sort=True, blind_region=True, control=s1, jets=j)
             plotter.save(h[0])
 

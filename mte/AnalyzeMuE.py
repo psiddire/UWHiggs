@@ -6,7 +6,7 @@ Authors: Maria Cepeda, Aaron Levine, Evan K. Friis, UW
 
 '''
 
-import MuETree
+import EMTree
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 import glob
 import os
@@ -126,8 +126,8 @@ elif bool('QCD' in target):
 else:
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'DY')
 
-class AnalyzeMuE(MegaBase):
-  tree = 'me/final/Ntuple'
+class AnalyzeEM(MegaBase):
+  tree = 'em/final/Ntuple'
   
   def __init__(self, tree, outfile, **kwargs):
 
@@ -163,8 +163,8 @@ class AnalyzeMuE(MegaBase):
     if self.is_recoilC and MetCorrection:
       self.Metcorected = RecoilCorrector("Type1_PFMET_2017.root")
 
-    super(AnalyzeMuE, self).__init__(tree, outfile, **kwargs)
-    self.tree = MuETree.MuETree(tree)
+    super(AnalyzeEM, self).__init__(tree, outfile, **kwargs)
+    self.tree = EMTree.EMTree(tree)
     self.out = outfile
     self.histograms = {}
 
@@ -215,7 +215,7 @@ class AnalyzeMuE(MegaBase):
   def kinematics(self, row):
     if row.mPt < 29 or abs(row.mEta) >= 2.4:
       return False
-    if row.ePt < 13 or abs(row.eEta) >= 2.5:
+    if row.ePt < 13 or abs(row.eEta) >= 2.5:# or abs(row.eEta) < 1.4442 or (abs(row.eEta) > 1.566 and abs(row.eEta) < 2.3):#13#2.5
       return False
     return True
 
@@ -395,6 +395,7 @@ class AnalyzeMuE(MegaBase):
         continue
       if self.bjetveto(row):
         continue
+      
       cut_flow_trk.Fill('passbjetVeto')
 
       self.fill_histos(row, weight, 'passallselections')

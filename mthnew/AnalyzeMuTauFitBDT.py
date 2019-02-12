@@ -521,7 +521,6 @@ class AnalyzeMuTauFitBDT(MegaBase):
         weight = newrow['GenWeight']*pucorrector(newrow['nTruePU'])*tEff*mID*mtracking*tID
         if self.is_DY:
           dyweight = self.DYreweight(newrow['genMass'], newrow['genpT'])
-          weight = weight*dyweight
           if newrow['numGenJets'] < 5:
             weight = weight*self.DYweight[newrow['numGenJets']]*dyweight
           else:
@@ -564,14 +563,14 @@ class AnalyzeMuTauFitBDT(MegaBase):
         if self.is_STtWtop:
           weight = weight*0.00552
         if self.is_TTTo2L2Nu:
-          topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
-          weight = weight*0.0057*topweight
+          #topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
+          weight = weight*0.0057#*topweight
         if self.is_TTToHadronic:
-          topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
-          weight = weight*0.379*topweight
+          #topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
+          weight = weight*0.379#*topweight
         if self.is_TTToSemiLeptonic:
-          topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
-          weight = weight*0.00116*topweight
+          #topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
+          weight = weight*0.00116#*topweight
         if self.is_VBFH:
           weight = weight*0.000864
         if self.is_GluGluH:

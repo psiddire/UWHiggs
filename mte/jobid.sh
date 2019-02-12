@@ -1,4 +1,4 @@
-#export jobidmt='MCJan10'
-export jobidmt='DataJan10'
-#export jobidmt='EmbedJan10'
-export jobid=$jobidmt
+#export jobidem='MCJan20'
+export jobidem='DataJan20'
+#export jobidem='EmbedJan20'
+export jobid=$jobidem

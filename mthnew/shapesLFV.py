@@ -40,7 +40,7 @@ def positivize(histogram):
             output.AddAt(0, i)
     return output
 
-mc_samples = ['DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM*', 'DY1JetsToLL*', 'DY2JetsToLL*', 'DY3JetsToLL*', 'DY4JetsToLL*', 'GluGlu_LFV*', 'data*']
+mc_samples = ['VBF_LFV*', 'data*']
 
 for x in mc_samples:
     files.extend(glob.glob('results/%s/AnalyzeMuTauSys/%s.root' % (jobid, x)))
@@ -56,9 +56,9 @@ f = ROOT.TFile( 'shapesLFV.root', 'RECREATE')
 
 dirs = ['0Jet', '1Jet', '2Jet', '2JetVBF']
 
-v = [views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('DY1') or x.startswith('DY2') or x.startswith('DY3') or x.startswith('DY4') or x.startswith('DYJetsToLL_M-50') , mc_samples )]), views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'LFV' in x , mc_samples)])]
+v = [views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'LFV' in x , mc_samples)])]
 
-b = ['DY', 'LFV125']
+b = ['LFV125']
 
 for di in dirs:
     d = f.mkdir(di)
@@ -85,6 +85,26 @@ for di in dirs:
         dytrup.SetName(b[i]+"_Trigger_UncertaintyUp")
         dytrdown = DY.Get("trDown/m_t_CollinearMass")
         dytrdown.SetName(b[i]+"_Trigger_UncertaintyDown")
+
+        dyptup = DY.Get("DYptreweightUp/m_t_CollinearMass")
+        dyptup.SetName(b[i]+"_pTreweight_UncertaintyUp")
+        dyptdown = DY.Get("DYptreweightDown/m_t_CollinearMass")
+        dyptdown.SetName(b[i]+"_pTreweight_UncertaintyDown")
+
+        dymtfakeup = DY.Get("mtfakeUp/m_t_CollinearMass")
+        dymtfakeup.SetName(b[i]+"_mtfake_UncertaintyUp")
+        dymtfakedown = DY.Get("mtfakeDown/m_t_CollinearMass")
+        dymtfakedown.SetName(b[i]+"_mtfake_UncertaintyDown")
+
+        dyetfakeup = DY.Get("etfakeUp/m_t_CollinearMass")
+        dyetfakeup.SetName(b[i]+"_etfake_UncertaintyUp")
+        dyetfakedown = DY.Get("etfakeDown/m_t_CollinearMass")
+        dyetfakedown.SetName(b[i]+"_etfake_UncertaintyDown")
+
+        dyetefakeup = DY.Get("etefakeUp/m_t_CollinearMass")
+        dyetefakeup.SetName(b[i]+"_etefake_UncertaintyUp")
+        dyetefakedown = DY.Get("etefakeDown/m_t_CollinearMass")
+        dyetefakedown.SetName(b[i]+"_etefake_UncertaintyDown")
 
         dytes0up = DY.Get("scaletDM0Up/m_t_CollinearMass")
         dytes0up.SetName(b[i]+"_TESDM0Up")
@@ -223,8 +243,8 @@ for di in dirs:
         dyjetRSdown.SetName(b[i]+"_JetRelativeSampleDown")
 
         dyall = DYall.Get("m_t_CollinearMass")
-        dytfakes = DYmfakes.Get("m_t_CollinearMass")
-        dymfakes = DYtfakes.Get("m_t_CollinearMass")
+        dytfakes = DYtfakes.Get("m_t_CollinearMass")
+        dymfakes = DYmfakes.Get("m_t_CollinearMass")
         dymtfakes = DYmtfakes.Get("m_t_CollinearMass")
         dytfakesup = DYtfakes.Get("TauFakeUp/m_t_CollinearMass") 
         dytfakesdown = DYtfakes.Get("TauFakeDown/m_t_CollinearMass")
@@ -235,30 +255,42 @@ for di in dirs:
         dymtmfakesup = DYmtfakes.Get("MuonFakeUp/m_t_CollinearMass")
         dymtmfakesdown = DYmtfakes.Get("MuonFakeDown/m_t_CollinearMass")
         dy1 = dyall.Clone()
-        dy1.add(dytfakesup, -1)
-        dy1.add(dymfakes, -1)
-        dy1.add(dymttfakesup)
+        dy1t = dytfakesup.Clone()
+        dy1t.add(dymfakes)
+        dy1t.add(dymttfakesup, -1)
+        dy1t = positivize(dy1t)
+        dy1.add(dy1t, -1)
         dy1 = positivize(dy1)
         dy1.SetName(b[i]+"_TauFakesUp")
         dy2 = dyall.Clone()
-        dy2.add(dytfakesdown, -1)
-        dy2.add(dymfakes, -1)
-        dy2.add(dymttfakesdown)
+        dy2t = dytfakesdown.Clone()
+        dy2t.add(dymfakes)
+        dy2t.add(dymttfakesdown, -1)
+        dy2t = positivize(dy2t)
+        dy2.add(dy2t, -1)
         dy2 = positivize(dy2)
         dy2.SetName(b[i]+"_TauFakesDown")
         dy3 = dyall.Clone()
-        dy3.add(dytfakes, -1)
-        dy3.add(dymfakesup, -1)
-        dy3.add(dymtmfakesup)
+        dy3t = dytfakes.Clone()
+        dy3t.add(dymfakesup)
+        dy3t.add(dymtmfakesup, -1)
+        dy3t = positivize(dy3t)
+        dy3.add(dy3t, -1)
         dy3 = positivize(dy3)
         dy3.SetName(b[i]+"_MuonFakesUp")
         dy4 = dyall.Clone()
-        dy4.add(dytfakes, -1)
-        dy4.add(dymfakesdown, -1)
-        dy4.add(dymtmfakesdown)
+        dy4t = dytfakes.Clone()
+        dy4t.add(dymfakesdown)
+        dy4t.add(dymtmfakesdown, -1)
+        dy4t = positivize(dy4t)
+        dy4.add(dy4t, -1)
         dy4 = positivize(dy4)
         dy4.SetName(b[i]+"_MuonFakesDown")
         dyall.Delete()
+        dy1t.Delete()
+        dy2t.Delete()
+        dy3t.Delete()
+        dy4t.Delete()
         dytfakes.Delete()
         dymfakes.Delete()
         dymtfakes.Delete()

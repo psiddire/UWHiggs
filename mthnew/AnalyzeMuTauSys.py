@@ -18,6 +18,7 @@ import itertools
 import operator
 import mcCorrections
 from RecoilCorrector import RecoilCorrector
+from MEtSys import MEtSys
 from cutflowtracker import cut_flow_tracker
 from math import sqrt, pi
 from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVA
@@ -256,6 +257,7 @@ class AnalyzeMuTauSys(MegaBase):
     self.is_recoilC = bool(('HTo' in target) or ('Jets' in target))
     if self.is_recoilC and MetCorrection:
       self.Metcorected = RecoilCorrector("Type1_PFMET_2017.root")
+      self.MetSys = MEtSys("MEtSys_2017.root")
 
     super(AnalyzeMuTauSys, self).__init__(tree, outfile, **kwargs)
     self.tree = MuTauTree.MuTauTree(tree)
@@ -359,7 +361,7 @@ class AnalyzeMuTauSys(MegaBase):
     vbffolder = []
     names = ['TauLooseOS', 'MuonLooseOS', 'MuonLooseTauLooseOS', 'TightOS', 'TauLooseOS0Jet', 'MuonLooseOS0Jet', 'MuonLooseTauLooseOS0Jet', 'TightOS0Jet', 'TauLooseOS1Jet', 'MuonLooseOS1Jet', 'MuonLooseTauLooseOS1Jet', 'TightOS1Jet', 'TauLooseOS2Jet', 'MuonLooseOS2Jet', 'MuonLooseTauLooseOS2Jet', 'TightOS2Jet'] 
     vbfnames = ['TauLooseOS2JetVBF', 'MuonLooseOS2JetVBF', 'MuonLooseTauLooseOS2JetVBF', 'TightOS2JetVBF']
-    sys = ['', 'puUp', 'puDown', 'trUp', 'trDown', 'scaletDM0Up', 'scaletDM0Down', 'scaletDM1Up', 'scaletDM1Down', 'scaletDM10Up', 'scaletDM10Down', 'mesUp', 'mesDown', 'UnclusteredEnDown', 'UnclusteredEnUp', 'AbsoluteFlavMapUp', 'AbsoluteFlavMapDown', 'AbsoluteMPFBiasUp', 'AbsoluteMPFBiasDown', 'JetAbsoluteScaleUp', 'JetAbsoluteScaleDown', 'JetAbsoluteStatUp', 'JetAbsoluteStatDown', 'JetFlavorQCDUp', 'JetFlavorQCDDown', 'JetFragmentationUp', 'JetFragmentationDown', 'JetPileUpDataMCUp', 'JetPileUpDataMCDown', 'JetPileUpPtBBUp', 'JetPileUpPtBBDown', 'JetPileUpPtEC1Up', 'JetPileUpPtEC1Down', 'JetPileUpPtEC2Up', 'JetPileUpPtEC2Down', 'JetPileUpPtHFUp', 'JetPileUpPtHFDown', 'JetPileUpPtRefUp', 'JetPileUpPtRefDown', 'JetRelativeFSRUp', 'JetRelativeFSRDown', 'JetRelativeJEREC1Up', 'JetRelativeJEREC1Down', 'JetRelativeJEREC2Up', 'JetRelativeJEREC2Down', 'JetRelativeJERHFUp', 'JetRelativeJERHFDown', 'JetRelativePtBBUp', 'JetRelativePtBBDown', 'JetRelativePtEC1Up', 'JetRelativePtEC1Down', 'JetRelativePtEC2Up', 'JetRelativePtEC2Down', 'JetRelativePtHFUp', 'JetRelativePtHFDown', 'JetRelativeStatECUp', 'JetRelativeStatECDown', 'JetRelativeStatFSRUp', 'JetRelativeStatFSRDown', 'JetRelativeStatHFUp', 'JetRelativeStatHFDown', 'JetSinglePionECALUp', 'JetSinglePionECALDown', 'JetSinglePionHCALUp', 'JetSinglePionHCALDown', 'JetTimePtEtaUp', 'JetTimePtEtaDown', 'JetRelativeBalUp', 'JetRelativeBalDown', 'JetRelativeSampleUp', 'JetRelativeSampleDown']
+    sys = ['', 'puUp', 'puDown', 'trUp', 'trDown', 'recrespUp', 'recrespDown', 'recresoUp', 'recresoDown', 'embtrUp', 'embtrDown', 'embtrkUp', 'embtrkDown', 'mtfakeUp', 'mtfakeDown', 'etfakeUp', 'etfakeDown', 'etefakeUp', 'etefakeDown', 'scaletDM0Up', 'scaletDM0Down', 'scaletDM1Up', 'scaletDM1Down', 'scaletDM10Up', 'scaletDM10Down', 'mesUp', 'mesDown', 'DYptreweightUp', 'DYptreweightDown', 'UnclusteredEnDown', 'UnclusteredEnUp', 'AbsoluteFlavMapUp', 'AbsoluteFlavMapDown', 'AbsoluteMPFBiasUp', 'AbsoluteMPFBiasDown', 'JetAbsoluteScaleUp', 'JetAbsoluteScaleDown', 'JetAbsoluteStatUp', 'JetAbsoluteStatDown', 'JetFlavorQCDUp', 'JetFlavorQCDDown', 'JetFragmentationUp', 'JetFragmentationDown', 'JetPileUpDataMCUp', 'JetPileUpDataMCDown', 'JetPileUpPtBBUp', 'JetPileUpPtBBDown', 'JetPileUpPtEC1Up', 'JetPileUpPtEC1Down', 'JetPileUpPtEC2Up', 'JetPileUpPtEC2Down', 'JetPileUpPtHFUp', 'JetPileUpPtHFDown', 'JetPileUpPtRefUp', 'JetPileUpPtRefDown', 'JetRelativeFSRUp', 'JetRelativeFSRDown', 'JetRelativeJEREC1Up', 'JetRelativeJEREC1Down', 'JetRelativeJEREC2Up', 'JetRelativeJEREC2Down', 'JetRelativeJERHFUp', 'JetRelativeJERHFDown', 'JetRelativePtBBUp', 'JetRelativePtBBDown', 'JetRelativePtEC1Up', 'JetRelativePtEC1Down', 'JetRelativePtEC2Up', 'JetRelativePtEC2Down', 'JetRelativePtHFUp', 'JetRelativePtHFDown', 'JetRelativeStatECUp', 'JetRelativeStatECDown', 'JetRelativeStatFSRUp', 'JetRelativeStatFSRDown', 'JetRelativeStatHFUp', 'JetRelativeStatHFDown', 'JetSinglePionECALUp', 'JetSinglePionECALDown', 'JetSinglePionHCALUp', 'JetSinglePionHCALDown', 'JetTimePtEtaUp', 'JetTimePtEtaDown', 'JetRelativeBalUp', 'JetRelativeBalDown', 'JetRelativeSampleUp', 'JetRelativeSampleDown']#'TopptreweightUp', 'TopptreweightDown'
     fakes = ['MuonLooseOS/MuonFakeUp', 'MuonLooseOS0Jet/MuonFakeUp', 'MuonLooseOS1Jet/MuonFakeUp', 'MuonLooseOS2Jet/MuonFakeUp', 'MuonLooseOS/MuonFakeDown', 'MuonLooseOS0Jet/MuonFakeDown', 'MuonLooseOS1Jet/MuonFakeDown', 'MuonLooseOS2Jet/MuonFakeDown', 'TauLooseOS/TauFakeUp', 'TauLooseOS0Jet/TauFakeUp', 'TauLooseOS1Jet/TauFakeUp', 'TauLooseOS2Jet/TauFakeUp', 'TauLooseOS/TauFakeDown', 'TauLooseOS0Jet/TauFakeDown', 'TauLooseOS1Jet/TauFakeDown', 'TauLooseOS2Jet/TauFakeDown', 'MuonLooseTauLooseOS/TauFakeUp', 'MuonLooseTauLooseOS0Jet/TauFakeUp', 'MuonLooseTauLooseOS1Jet/TauFakeUp', 'MuonLooseTauLooseOS2Jet/TauFakeUp', 'MuonLooseTauLooseOS/TauFakeDown', 'MuonLooseTauLooseOS0Jet/TauFakeDown', 'MuonLooseTauLooseOS1Jet/TauFakeDown', 'MuonLooseTauLooseOS2Jet/TauFakeDown', 'MuonLooseTauLooseOS/MuonFakeUp', 'MuonLooseTauLooseOS0Jet/MuonFakeUp', 'MuonLooseTauLooseOS1Jet/MuonFakeUp', 'MuonLooseTauLooseOS2Jet/MuonFakeUp', 'MuonLooseTauLooseOS/MuonFakeDown', 'MuonLooseTauLooseOS0Jet/MuonFakeDown', 'MuonLooseTauLooseOS1Jet/MuonFakeDown', 'MuonLooseTauLooseOS2Jet/MuonFakeDown']
     vbffakes = ['MuonLooseOS2JetVBF/MuonFakeUp', 'MuonLooseOS2JetVBF/MuonFakeDown', 'TauLooseOS2JetVBF/TauFakeUp', 'TauLooseOS2JetVBF/TauFakeDown', 'MuonLooseTauLooseOS2JetVBF/TauFakeUp', 'MuonLooseTauLooseOS2JetVBF/TauFakeDown', 'MuonLooseTauLooseOS2JetVBF/MuonFakeUp', 'MuonLooseTauLooseOS2JetVBF/MuonFakeDown']
     for tuple_path in itertools.product(names, sys):
@@ -383,9 +385,7 @@ class AnalyzeMuTauSys(MegaBase):
     histos[name+'/m_t_CollinearMass'].Fill(collMass(row), weight)
 
   def fill_sys(self, row, weight, name=''):
-    #print "Enters Fill Systematic ", collMass(row)
     if self.is_mc:
-      #print "Initial Weight: ", weight
       puweightUp = pucorrector['puUp'](row['nTruePU'])
       puweightDown = pucorrector['puDown'](row['nTruePU'])
       puweight = pucorrector[''](row['nTruePU'])
@@ -399,7 +399,57 @@ class AnalyzeMuTauSys(MegaBase):
       self.fill_histos(row, weight * 1.02, name+'/trUp')
       self.fill_histos(row, weight * 0.98, name+'/trDown')
 
-      #print "PU and Trigger Done: ", weight, " ", collMass(row)
+      if row['tZTTGenMatching']==2 or row['tZTTGenMatching']==4:
+        if abs(row['tEta']) < 0.4:
+          self.fill_histos(row, weight * 1.29/1.17, name+'/mtfakeUp')
+          self.fill_histos(row, weight * 1.05/1.17, name+'/mtfakeDown')
+        elif abs(row['tEta']) < 0.8:
+          self.fill_histos(row, weight * 1.59/1.29, name+'/mtfakeUp')
+          self.fill_histos(row, weight * 0.99/1.29, name+'/mtfakeDown')
+        elif abs(row['tEta']) < 1.2:
+          self.fill_histos(row, weight * 1.19/1.14, name+'/mtfakeUp')
+          self.fill_histos(row, weight * 1.09/1.14, name+'/mtfakeDown')
+        elif abs(row['tEta']) < 1.7:
+          self.fill_histos(row, weight * 1.53/0.93, name+'/mtfakeUp')
+          self.fill_histos(row, weight * 0.33/0.93, name+'/mtfakeDown')
+        else:
+          self.fill_histos(row, weight * 2.21/1.61, name+'/mtfakeUp')
+          self.fill_histos(row, weight * 1.01/1.61, name+'/mtfakeDown')
+      elif row['tZTTGenMatching']==1 or row['tZTTGenMatching']==3:
+        if abs(row['tEta']) < 1.46:
+          self.fill_histos(row, weight * 1.10/1.09, name+'/etfakeUp')
+          self.fill_histos(row, weight * 1.08/1.09, name+'/etfakeDown')
+        elif abs(row['tEta']) > 1.558:
+          self.fill_histos(row, weight * 1.20/1.19, name+'/etfakeUp')
+          self.fill_histos(row, weight * 1.18/1.19, name+'/etfakeDown')
+          
+      metrow = copy.deepcopy(row)
+      if self.is_recoilC and MetCorrection:
+        sysMet = self.MetSys.ApplyMEtSys(row['type1_pfMetEt']*math.cos(row['type1_pfMetPhi']), row['type1_pfMetEt']*math.sin(row['type1_pfMetPhi']), row['genpX'], row['genpY'], row['vispX'], row['vispY'], int(round(row['jetVeto30'])), 0, 0, 0)
+        metrow['type1_pfMetEt'] = math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1])
+        metrow['type1_pfMetPhi'] = math.atan2(sysMet[1], sysMet[0])
+        self.fill_histos(metrow, weight, name+'/recrespUp')
+        sysMet = self.MetSys.ApplyMEtSys(row['type1_pfMetEt']*math.cos(row['type1_pfMetPhi']), row['type1_pfMetEt']*math.sin(row['type1_pfMetPhi']), row['genpX'], row['genpY'], row['vispX'], row['vispY'], int(round(row['jetVeto30'])), 0, 0, 1)
+        metrow['type1_pfMetEt'] = math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1])
+        metrow['type1_pfMetPhi'] = math.atan2(sysMet[1], sysMet[0])
+        self.fill_histos(metrow, weight, name+'/recrespDown')
+        sysMet = self.MetSys.ApplyMEtSys(row['type1_pfMetEt']*math.cos(row['type1_pfMetPhi']), row['type1_pfMetEt']*math.sin(row['type1_pfMetPhi']), row['genpX'], row['genpY'], row['vispX'], row['vispY'], int(round(row['jetVeto30'])), 0, 1, 0)
+        metrow['type1_pfMetEt'] = math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1])
+        metrow['type1_pfMetPhi'] = math.atan2(sysMet[1], sysMet[0])
+        self.fill_histos(metrow, weight, name+'/recresoUp')
+        sysMet = self.MetSys.ApplyMEtSys(row['type1_pfMetEt']*math.cos(row['type1_pfMetPhi']), row['type1_pfMetEt']*math.sin(row['type1_pfMetPhi']), row['genpX'], row['genpY'], row['vispX'], row['vispY'], int(round(row['jetVeto30'])), 0, 1, 1)
+        metrow['type1_pfMetEt'] = math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1])
+        metrow['type1_pfMetPhi'] = math.atan2(sysMet[1], sysMet[0])
+        self.fill_histos(metrow, weight, name+'/recresoDown')
+
+      ftesrow = copy.deepcopy(row)
+      if ftesrow['tZTTGenMatching']==1 or ftesrow['tZTTGenMatching']==3:
+        tmptpt = ftesrow['tPt']
+        if ftesrow['tDecayMode'] == 0 or ftesrow['tDecayMode'] == 1:
+          ftesrow['tPt'] = tmptpt * 1.007
+          self.fill_histos(ftesrow, weight, name+'/etefakeUp')
+          ftesrow['tPt'] = tmptpt * 0.993
+          self.fill_histos(ftesrow, weight, name+'/etefakeDown')
 
       mesrow = copy.deepcopy(row)
       tmpmpt = mesrow['mPt']
@@ -408,9 +458,7 @@ class AnalyzeMuTauSys(MegaBase):
       mesrow['mPt'] = tmpmpt*0.998
       self.fill_histos(mesrow, weight, name+'/mesDown')
 
-      #print "MES Done ", collMass(mesrow)
-
-      if bool(not self.is_DY):
+      if bool(not self.is_DY and not self.is_DYlow):
         scalerow = copy.deepcopy(row)
         normtPt = scalerow['tPt']
         normmet = scalerow['type1_pfMetEt']
@@ -463,201 +511,204 @@ class AnalyzeMuTauSys(MegaBase):
           self.fill_histos(scalerow, weight, name+'/scaletDM10Up')
           self.fill_histos(scalerow, weight, name+'/scaletDM10Down')
 
-        #print "TES Done ", collMass(scalerow)
+      if self.is_DY or self.is_DYlow:
+        self.fill_histos(row, weight*1.1, name+'/DYptreweightUp')
+        self.fill_histos(row, weight*0.9, name+'/DYptreweightDown')
+
+      #if self.is_TTTo2L2Nu or self.is_TTToHadronic or self.is_TTToSemiLeptonic:
+      #  topweight = topPtreweight(row['topQuarkPt1'], row['topQuarkPt2'])
+      #  self.fill_histos(row, weight*2, name+'/TopptreweightUp')
+      #  self.fill_histos(row, weight/topweight, name+'/TopptreweightDown')
       
-      uesrow = copy.deepcopy(row)
-      uesrow['type1_pfMetEt'] = self.metTauC(uesrow['tPtInitial'], uesrow['tDecayMode'], uesrow['tZTTGenMatching'], uesrow['type1_pfMet_shiftedPt_UnclusteredEnUp'])
-      uesrow['type1_pfMetPhi'] = uesrow['type1_pfMet_shiftedPhi_UnclusteredEnUp']
-      self.fill_histos(uesrow, weight, name+'/UnclusteredEnUp')
-      uesrow['type1_pfMetEt'] = self.metTauC(uesrow['tPtInitial'], uesrow['tDecayMode'], uesrow['tZTTGenMatching'], uesrow['type1_pfMet_shiftedPt_UnclusteredEnDown'])
-      uesrow['type1_pfMetPhi'] = uesrow['type1_pfMet_shiftedPhi_UnclusteredEnDown']
-      self.fill_histos(uesrow, weight, name+'/UnclusteredEnDown')
+      if not (self.is_recoilC and MetCorrection):
+        uesrow = copy.deepcopy(row)
+        uesrow['type1_pfMetEt'] = self.metTauC(uesrow['tPtInitial'], uesrow['tDecayMode'], uesrow['tZTTGenMatching'], uesrow['type1_pfMet_shiftedPt_UnclusteredEnUp'])
+        uesrow['type1_pfMetPhi'] = uesrow['type1_pfMet_shiftedPhi_UnclusteredEnUp']
+        self.fill_histos(uesrow, weight, name+'/UnclusteredEnUp')
+        uesrow['type1_pfMetEt'] = self.metTauC(uesrow['tPtInitial'], uesrow['tDecayMode'], uesrow['tZTTGenMatching'], uesrow['type1_pfMet_shiftedPt_UnclusteredEnDown'])
+        uesrow['type1_pfMetPhi'] = uesrow['type1_pfMet_shiftedPhi_UnclusteredEnDown']
+        self.fill_histos(uesrow, weight, name+'/UnclusteredEnDown')
 
-      #print "UES Done ", collMass(uesrow)
-
-      jesrow = copy.deepcopy(row)
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_AbsoluteFlavMapUp'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_AbsoluteFlavMapUp']
-      self.fill_histos(jesrow, weight, name+'/AbsoluteFlavMapUp')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_AbsoluteFlavMapDown'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_AbsoluteFlavMapDown']
-      self.fill_histos(jesrow, weight, name+'/AbsoluteFlavMapDown')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_AbsoluteMPFBiasUp'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_AbsoluteMPFBiasUp']
-      self.fill_histos(jesrow, weight, name+'/AbsoluteMPFBiasUp')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_AbsoluteMPFBiasDown'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_AbsoluteMPFBiasDown']
-      self.fill_histos(jesrow, weight, name+'/AbsoluteMPFBiasDown')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetAbsoluteScaleUp'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetAbsoluteScaleUp']
-      self.fill_histos(jesrow, weight, name+'/JetAbsoluteScaleUp')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetAbsoluteScaleDown'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetAbsoluteScaleDown']
-      self.fill_histos(jesrow, weight, name+'/JetAbsoluteScaleDown')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetAbsoluteStatUp'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetAbsoluteStatUp']
-      self.fill_histos(jesrow, weight, name+'/JetAbsoluteStatUp')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetAbsoluteStatDown'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetAbsoluteStatDown']
-      self.fill_histos(jesrow, weight, name+'/JetAbsoluteStatDown')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetFlavorQCDUp'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetFlavorQCDUp']
-      self.fill_histos(jesrow, weight, name+'/JetFlavorQCDUp')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetFlavorQCDDown'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetFlavorQCDDown']
-      self.fill_histos(jesrow, weight, name+'/JetFlavorQCDDown')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetFragmentationUp'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetFragmentationUp']
-      self.fill_histos(jesrow, weight, name+'/JetFragmentationUp')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetFragmentationDown'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetFragmentationDown']
-      self.fill_histos(jesrow, weight, name+'/JetFragmentationDown')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpDataMCUp'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpDataMCUp']
-      self.fill_histos(jesrow, weight, name+'/JetPileUpDataMCUp')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpDataMCDown'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpDataMCDown']
-      self.fill_histos(jesrow, weight, name+'/JetPileUpDataMCDown')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpPtBBUp'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpPtBBUp']
-      self.fill_histos(jesrow, weight, name+'/JetPileUpPtBBUp')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpPtBBDown'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpPtBBDown']
-      self.fill_histos(jesrow, weight, name+'/JetPileUpPtBBDown')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpPtEC1Up'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpPtEC1Up']
-      self.fill_histos(jesrow, weight, name+'/JetPileUpPtEC1Up')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpPtEC1Down'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpPtEC1Down']
-      self.fill_histos(jesrow, weight, name+'/JetPileUpPtEC1Down')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpPtEC2Up'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpPtEC2Up']
-      self.fill_histos(jesrow, weight, name+'/JetPileUpPtEC2Up')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpPtEC2Down'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpPtEC2Down']
-      self.fill_histos(jesrow, weight, name+'/JetPileUpPtEC2Down')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpPtHFUp'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpPtHFUp']
-      self.fill_histos(jesrow, weight, name+'/JetPileUpPtHFUp')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpPtHFDown'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpPtHFDown']
-      self.fill_histos(jesrow, weight, name+'/JetPileUpPtHFDown')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpPtRefUp'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpPtRefUp']
-      self.fill_histos(jesrow, weight, name+'/JetPileUpPtRefUp')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpPtRefDown'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpPtRefDown']
-      self.fill_histos(jesrow, weight, name+'/JetPileUpPtRefDown')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeFSRUp'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeFSRUp']
-      self.fill_histos(jesrow, weight, name+'/JetRelativeFSRUp')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeFSRDown'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeFSRDown']
-      self.fill_histos(jesrow, weight, name+'/JetRelativeFSRDown')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeJEREC1Up'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeJEREC1Up']
-      self.fill_histos(jesrow, weight, name+'/JetRelativeJEREC1Up')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeJEREC1Down'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeJEREC1Down']
-      self.fill_histos(jesrow, weight, name+'/JetRelativeJEREC1Down')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeJEREC2Up'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeJEREC2Up']
-      self.fill_histos(jesrow, weight, name+'/JetRelativeJEREC2Up')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeJEREC2Down'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeJEREC2Down']
-      self.fill_histos(jesrow, weight, name+'/JetRelativeJEREC2Down')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeJERHFUp'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeJERHFUp']
-      self.fill_histos(jesrow, weight, name+'/JetRelativeJERHFUp')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeJERHFDown'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeJERHFDown']
-      self.fill_histos(jesrow, weight, name+'/JetRelativeJERHFDown')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativePtBBUp'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativePtBBUp']
-      self.fill_histos(jesrow, weight, name+'/JetRelativePtBBUp')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativePtBBDown'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativePtBBDown']
-      self.fill_histos(jesrow, weight, name+'/JetRelativePtBBDown')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativePtEC1Up'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativePtEC1Up']
-      self.fill_histos(jesrow, weight, name+'/JetRelativePtEC1Up')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativePtEC1Down'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativePtEC1Down']
-      self.fill_histos(jesrow, weight, name+'/JetRelativePtEC1Down')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativePtEC2Up'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativePtEC2Up']
-      self.fill_histos(jesrow, weight, name+'/JetRelativePtEC2Up')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativePtEC2Down'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativePtEC2Down']
-      self.fill_histos(jesrow, weight, name+'/JetRelativePtEC2Down')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativePtHFUp'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativePtHFUp']
-      self.fill_histos(jesrow, weight, name+'/JetRelativePtHFUp')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativePtHFDown'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativePtHFDown']
-      self.fill_histos(jesrow, weight, name+'/JetRelativePtHFDown')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeStatECUp'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeStatECUp']
-      self.fill_histos(jesrow, weight, name+'/JetRelativeStatECUp')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeStatECDown'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeStatECDown']
-      self.fill_histos(jesrow, weight, name+'/JetRelativeStatECDown')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeStatFSRUp'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeStatFSRUp']
-      self.fill_histos(jesrow, weight, name+'/JetRelativeStatFSRUp')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeStatFSRDown'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeStatFSRDown']
-      self.fill_histos(jesrow, weight, name+'/JetRelativeStatFSRDown')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeStatHFUp'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeStatHFUp']
-      self.fill_histos(jesrow, weight, name+'/JetRelativeStatHFUp')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeStatHFDown'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeStatHFDown']
-      self.fill_histos(jesrow, weight, name+'/JetRelativeStatHFDown')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetSinglePionECALUp'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetSinglePionECALUp']
-      self.fill_histos(jesrow, weight, name+'/JetSinglePionECALUp')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetSinglePionECALDown'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetSinglePionECALDown']
-      self.fill_histos(jesrow, weight, name+'/JetSinglePionECALDown')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetSinglePionHCALUp'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetSinglePionHCALUp']
-      self.fill_histos(jesrow, weight, name+'/JetSinglePionHCALUp')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetSinglePionHCALDown'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetSinglePionHCALDown']
-      self.fill_histos(jesrow, weight, name+'/JetSinglePionHCALDown')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetTimePtEtaUp'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetTimePtEtaUp']
-      self.fill_histos(jesrow, weight, name+'/JetTimePtEtaUp')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetTimePtEtaDown'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetTimePtEtaDown']
-      self.fill_histos(jesrow, weight, name+'/JetTimePtEtaDown')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeBalUp'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeBalUp']
-      self.fill_histos(jesrow, weight, name+'/JetRelativeBalUp')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeBalDown'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeBalDown']
-      self.fill_histos(jesrow, weight, name+'/JetRelativeBalDown')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeSampleUp'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeSampleUp']
-      self.fill_histos(jesrow, weight, name+'/JetRelativeSampleUp')
-      jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeSampleDown'])
-      jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeSampleDown']
-      self.fill_histos(jesrow, weight, name+'/JetRelativeSampleDown')
-
-      #print "JES Done ", collMass(jesrow)
-
+        jesrow = copy.deepcopy(row)
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_AbsoluteFlavMapUp'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_AbsoluteFlavMapUp']
+        self.fill_histos(jesrow, weight, name+'/AbsoluteFlavMapUp')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_AbsoluteFlavMapDown'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_AbsoluteFlavMapDown']
+        self.fill_histos(jesrow, weight, name+'/AbsoluteFlavMapDown')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_AbsoluteMPFBiasUp'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_AbsoluteMPFBiasUp']
+        self.fill_histos(jesrow, weight, name+'/AbsoluteMPFBiasUp')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_AbsoluteMPFBiasDown'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_AbsoluteMPFBiasDown']
+        self.fill_histos(jesrow, weight, name+'/AbsoluteMPFBiasDown')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetAbsoluteScaleUp'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetAbsoluteScaleUp']
+        self.fill_histos(jesrow, weight, name+'/JetAbsoluteScaleUp')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetAbsoluteScaleDown'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetAbsoluteScaleDown']
+        self.fill_histos(jesrow, weight, name+'/JetAbsoluteScaleDown')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetAbsoluteStatUp'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetAbsoluteStatUp']
+        self.fill_histos(jesrow, weight, name+'/JetAbsoluteStatUp')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetAbsoluteStatDown'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetAbsoluteStatDown']
+        self.fill_histos(jesrow, weight, name+'/JetAbsoluteStatDown')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetFlavorQCDUp'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetFlavorQCDUp']
+        self.fill_histos(jesrow, weight, name+'/JetFlavorQCDUp')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetFlavorQCDDown'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetFlavorQCDDown']
+        self.fill_histos(jesrow, weight, name+'/JetFlavorQCDDown')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetFragmentationUp'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetFragmentationUp']
+        self.fill_histos(jesrow, weight, name+'/JetFragmentationUp')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetFragmentationDown'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetFragmentationDown']
+        self.fill_histos(jesrow, weight, name+'/JetFragmentationDown')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpDataMCUp'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpDataMCUp']
+        self.fill_histos(jesrow, weight, name+'/JetPileUpDataMCUp')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpDataMCDown'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpDataMCDown']
+        self.fill_histos(jesrow, weight, name+'/JetPileUpDataMCDown')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpPtBBUp'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpPtBBUp']
+        self.fill_histos(jesrow, weight, name+'/JetPileUpPtBBUp')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpPtBBDown'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpPtBBDown']
+        self.fill_histos(jesrow, weight, name+'/JetPileUpPtBBDown')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpPtEC1Up'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpPtEC1Up']
+        self.fill_histos(jesrow, weight, name+'/JetPileUpPtEC1Up')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpPtEC1Down'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpPtEC1Down']
+        self.fill_histos(jesrow, weight, name+'/JetPileUpPtEC1Down')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpPtEC2Up'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpPtEC2Up']
+        self.fill_histos(jesrow, weight, name+'/JetPileUpPtEC2Up')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpPtEC2Down'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpPtEC2Down']
+        self.fill_histos(jesrow, weight, name+'/JetPileUpPtEC2Down')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpPtHFUp'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpPtHFUp']
+        self.fill_histos(jesrow, weight, name+'/JetPileUpPtHFUp')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpPtHFDown'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpPtHFDown']
+        self.fill_histos(jesrow, weight, name+'/JetPileUpPtHFDown')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpPtRefUp'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpPtRefUp']
+        self.fill_histos(jesrow, weight, name+'/JetPileUpPtRefUp')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetPileUpPtRefDown'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetPileUpPtRefDown']
+        self.fill_histos(jesrow, weight, name+'/JetPileUpPtRefDown')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeFSRUp'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeFSRUp']
+        self.fill_histos(jesrow, weight, name+'/JetRelativeFSRUp')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeFSRDown'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeFSRDown']
+        self.fill_histos(jesrow, weight, name+'/JetRelativeFSRDown')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeJEREC1Up'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeJEREC1Up']
+        self.fill_histos(jesrow, weight, name+'/JetRelativeJEREC1Up')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeJEREC1Down'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeJEREC1Down']
+        self.fill_histos(jesrow, weight, name+'/JetRelativeJEREC1Down')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeJEREC2Up'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeJEREC2Up']
+        self.fill_histos(jesrow, weight, name+'/JetRelativeJEREC2Up')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeJEREC2Down'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeJEREC2Down']
+        self.fill_histos(jesrow, weight, name+'/JetRelativeJEREC2Down')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeJERHFUp'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeJERHFUp']
+        self.fill_histos(jesrow, weight, name+'/JetRelativeJERHFUp')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeJERHFDown'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeJERHFDown']
+        self.fill_histos(jesrow, weight, name+'/JetRelativeJERHFDown')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativePtBBUp'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativePtBBUp']
+        self.fill_histos(jesrow, weight, name+'/JetRelativePtBBUp')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativePtBBDown'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativePtBBDown']
+        self.fill_histos(jesrow, weight, name+'/JetRelativePtBBDown')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativePtEC1Up'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativePtEC1Up']
+        self.fill_histos(jesrow, weight, name+'/JetRelativePtEC1Up')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativePtEC1Down'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativePtEC1Down']
+        self.fill_histos(jesrow, weight, name+'/JetRelativePtEC1Down')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativePtEC2Up'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativePtEC2Up']
+        self.fill_histos(jesrow, weight, name+'/JetRelativePtEC2Up')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativePtEC2Down'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativePtEC2Down']
+        self.fill_histos(jesrow, weight, name+'/JetRelativePtEC2Down')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativePtHFUp'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativePtHFUp']
+        self.fill_histos(jesrow, weight, name+'/JetRelativePtHFUp')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativePtHFDown'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativePtHFDown']
+        self.fill_histos(jesrow, weight, name+'/JetRelativePtHFDown')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeStatECUp'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeStatECUp']
+        self.fill_histos(jesrow, weight, name+'/JetRelativeStatECUp')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeStatECDown'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeStatECDown']
+        self.fill_histos(jesrow, weight, name+'/JetRelativeStatECDown')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeStatFSRUp'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeStatFSRUp']
+        self.fill_histos(jesrow, weight, name+'/JetRelativeStatFSRUp')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeStatFSRDown'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeStatFSRDown']
+        self.fill_histos(jesrow, weight, name+'/JetRelativeStatFSRDown')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeStatHFUp'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeStatHFUp']
+        self.fill_histos(jesrow, weight, name+'/JetRelativeStatHFUp')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeStatHFDown'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeStatHFDown']
+        self.fill_histos(jesrow, weight, name+'/JetRelativeStatHFDown')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetSinglePionECALUp'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetSinglePionECALUp']
+        self.fill_histos(jesrow, weight, name+'/JetSinglePionECALUp')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetSinglePionECALDown'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetSinglePionECALDown']
+        self.fill_histos(jesrow, weight, name+'/JetSinglePionECALDown')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetSinglePionHCALUp'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetSinglePionHCALUp']
+        self.fill_histos(jesrow, weight, name+'/JetSinglePionHCALUp')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetSinglePionHCALDown'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetSinglePionHCALDown']
+        self.fill_histos(jesrow, weight, name+'/JetSinglePionHCALDown')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetTimePtEtaUp'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetTimePtEtaUp']
+        self.fill_histos(jesrow, weight, name+'/JetTimePtEtaUp')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetTimePtEtaDown'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetTimePtEtaDown']
+        self.fill_histos(jesrow, weight, name+'/JetTimePtEtaDown')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeBalUp'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeBalUp']
+        self.fill_histos(jesrow, weight, name+'/JetRelativeBalUp')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeBalDown'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeBalDown']
+        self.fill_histos(jesrow, weight, name+'/JetRelativeBalDown')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeSampleUp'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeSampleUp']
+        self.fill_histos(jesrow, weight, name+'/JetRelativeSampleUp')
+        jesrow['type1_pfMetEt'] = self.metTauC(jesrow['tPtInitial'], jesrow['tDecayMode'], jesrow['tZTTGenMatching'], jesrow['type1_pfMet_shiftedPt_JetRelativeSampleDown'])
+        jesrow['type1_pfMetPhi'] = jesrow['type1_pfMet_shiftedPhi_JetRelativeSampleDown']
+        self.fill_histos(jesrow, weight, name+'/JetRelativeSampleDown')
+        
       if 'TauLoose' in name:
         myrand = random.random()
         if myrand < 0.5:
-          weightDown = self.fakeRate(row['tPt'], abs(row['tEta']), row['tDecayMode'], 'frDown') * weight/self.fakeRate(row['tPt'], row['tEta'], row['tDecayMode'])
+          weightDown = self.fakeRate(row['tPt'], row['tEta'], row['tDecayMode'], 'frDown') * weight/self.fakeRate(row['tPt'], row['tEta'], row['tDecayMode'])
           self.fill_histos(row, weightDown, name+'/TauFakeDown')
           self.fill_histos(row, weight, name+'/TauFakeUp')
         else:
-          weightUp = self.fakeRate(row['tPt'], abs(row['tEta']), row['tDecayMode'], 'frUp') * weight/self.fakeRate(row['tPt'], row['tEta'], row['tDecayMode'])
+          weightUp = self.fakeRate(row['tPt'], row['tEta'], row['tDecayMode'], 'frUp') * weight/self.fakeRate(row['tPt'], row['tEta'], row['tDecayMode'])
           self.fill_histos(row, weightUp, name+'/TauFakeUp')
           self.fill_histos(row, weight, name+'/TauFakeDown')
-        #print "Tau Fakes: ", collMass(row)
       if 'MuonLoose' in name:
         myrand = random.random()
         if myrand < 0.5:
@@ -668,18 +719,17 @@ class AnalyzeMuTauSys(MegaBase):
           weightUp = self.fakeRateMuon(row['mPt'], 'frUp') * weight/self.fakeRateMuon(row['mPt'])
           self.fill_histos(row, weightUp, name+'/MuonFakeUp')
           self.fill_histos(row, weight, name+'/MuonFakeDown')
-        #print "Muon Fakes: ", collMass(row)
 
     else:
       self.fill_histos(row, weight, name)
       if 'TauLoose' in name:
         myrand = random.random()
         if myrand < 0.5:
-          weightDown = self.fakeRate(row['tPt'], abs(row['tEta']), row['tDecayMode'], 'frDown') * weight/self.fakeRate(row['tPt'], row['tEta'], row['tDecayMode'])
+          weightDown = self.fakeRate(row['tPt'], row['tEta'], row['tDecayMode'], 'frDown') * weight/self.fakeRate(row['tPt'], row['tEta'], row['tDecayMode'])
           self.fill_histos(row, weightDown, name+'/TauFakeDown')
           self.fill_histos(row, weight, name+'/TauFakeUp')
         else:
-          weightUp = self.fakeRate(row['tPt'], abs(row['tEta']), row['tDecayMode'], 'frUp') * weight/self.fakeRate(row['tPt'], row['tEta'], row['tDecayMode'])
+          weightUp = self.fakeRate(row['tPt'], row['tEta'], row['tDecayMode'], 'frUp') * weight/self.fakeRate(row['tPt'], row['tEta'], row['tDecayMode'])
           self.fill_histos(row, weightUp, name+'/TauFakeUp')
           self.fill_histos(row, weight, name+'/TauFakeDown')
       if 'MuonLoose' in name:
@@ -692,6 +742,77 @@ class AnalyzeMuTauSys(MegaBase):
           weightUp = self.fakeRateMuon(row['mPt'], 'frUp') * weight/self.fakeRateMuon(row['mPt'])
           self.fill_histos(row, weightUp, name+'/MuonFakeUp')
           self.fill_histos(row, weight, name+'/MuonFakeDown')
+      if self.is_embed:
+        self.fill_histos(row, weight * 1.02, name+'/trUp')
+        self.fill_histos(row, weight * 0.98, name+'/trDown')
+        self.fill_histos(row, weight * 1.04, name+'/embtrUp')
+        self.fill_histos(row, weight * 0.96, name+'/embtrDown')
+
+        scalerow = copy.deepcopy(row)
+        normtPt = scalerow['tPt']
+        normmet = scalerow['type1_pfMetEt']
+        if row['tZTTGenMatching']==5:
+          if scalerow['tDecayMode']==0:
+            self.fill_histos(scalerow, weight, name+'/scaletDM1Up')
+            self.fill_histos(scalerow, weight, name+'/scaletDM1Down')
+            self.fill_histos(scalerow, weight, name+'/scaletDM10Up')
+            self.fill_histos(scalerow, weight, name+'/scaletDM10Down')
+            scalerow['tPt'] = normtPt * 1.008
+            scalerow['type1_pfMetEt'] = normmet - 0.008 * normtPt
+            self.fill_histos(scalerow, weight, name+'/scaletDM0Up')
+            scalerow['tPt'] = normtPt * 0.992
+            scalerow['type1_pfMetEt'] = normmet + 0.008 * normtPt
+            self.fill_histos(scalerow, weight, name+'/scaletDM0Down')
+          elif scalerow['tDecayMode']==1:
+            self.fill_histos(scalerow, weight, name+'/scaletDM0Up')
+            self.fill_histos(scalerow, weight, name+'/scaletDM0Down')
+            self.fill_histos(scalerow, weight, name+'/scaletDM10Up')
+            self.fill_histos(scalerow, weight, name+'/scaletDM10Down')
+            scalerow['tPt'] = normtPt * 1.008
+            scalerow['type1_pfMetEt'] = normmet - 0.008 * normtPt
+            self.fill_histos(scalerow, weight, name+'/scaletDM1Up')
+            scalerow['tPt'] = normtPt * 0.992
+            scalerow['type1_pfMetEt'] = normmet + 0.008 * normtPt
+            self.fill_histos(scalerow, weight, name+'/scaletDM1Down')
+          elif scalerow['tDecayMode']==10:
+            self.fill_histos(scalerow, weight, name+'/scaletDM1Up')
+            self.fill_histos(scalerow, weight, name+'/scaletDM1Down')
+            self.fill_histos(scalerow, weight, name+'/scaletDM0Up')
+            self.fill_histos(scalerow, weight, name+'/scaletDM0Down')
+            scalerow['tPt'] = normtPt * 1.009
+            scalerow['type1_pfMetEt'] = normmet - 0.009 * normtPt
+            self.fill_histos(scalerow, weight, name+'/scaletDM10Up')
+            scalerow['tPt'] = normtPt * 0.991
+            scalerow['type1_pfMetEt'] = normmet + 0.009 * normtPt
+            self.fill_histos(scalerow, weight, name+'/scaletDM10Down')
+          else:
+            self.fill_histos(scalerow, weight, name+'/scaletDM0Up')
+            self.fill_histos(scalerow, weight, name+'/scaletDM0Down')
+            self.fill_histos(scalerow, weight, name+'/scaletDM1Up')
+            self.fill_histos(scalerow, weight, name+'/scaletDM1Down')
+            self.fill_histos(scalerow, weight, name+'/scaletDM10Up')
+            self.fill_histos(scalerow, weight, name+'/scaletDM10Down')
+        else:
+          self.fill_histos(scalerow, weight, name+'/scaletDM0Up')
+          self.fill_histos(scalerow, weight, name+'/scaletDM0Down')
+          self.fill_histos(scalerow, weight, name+'/scaletDM1Up')
+          self.fill_histos(scalerow, weight, name+'/scaletDM1Down')
+          self.fill_histos(scalerow, weight, name+'/scaletDM10Up')
+          self.fill_histos(scalerow, weight, name+'/scaletDM10Down')
+
+        if row['tDecayMode'] == 0:
+          dm = 0.975
+          self.fill_histos(row, weight * 0.983/dm, name+'/embtrkUp')
+          self.fill_histos(row, weight * 0.967/dm, name+'/embtrkDown')
+        elif row['tDecayMode'] == 1:
+          dm = 0.975*1.051
+          self.fill_histos(row, weight * (0.983*1.065)/dm, name+'/embtrkUp')
+          self.fill_histos(row, weight * (0.967*1.037)/dm, name+'/embtrkDown')
+        elif row['tDecayMode'] == 10:
+          dm = pow(0.975, 3)
+          self.fill_histos(row, weight * pow(0.983, 3)/dm, name+'/embtrkUp')
+          self.fill_histos(row, weight * pow(0.967, 3)/dm, name+'/embtrkDown')
+
 
   def tauPtC(self, tPt, tDecayMode, tZTTGenMatching):
     tau_Pt_C = tPt
@@ -729,6 +850,10 @@ class AnalyzeMuTauSys(MegaBase):
       tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30)))
       tmpMetEt = math.sqrt(tmpMet[0]*tmpMet[0] + tmpMet[1]*tmpMet[1])
       tmpMetPhi = math.atan2(tmpMet[1], tmpMet[0])
+      subtemp['genpX'] = row.genpX
+      subtemp['genpY'] = row.genpY
+      subtemp['vispX'] = row.vispX
+      subtemp['vispY'] = row.vispY
 
     subtemp["tPt"] = self.tauPtC(row.tPt, row.tDecayMode, row.tZTTGenMatching)
     subtemp["type1_pfMetEt"] = self.metTauC(row.tPt, row.tDecayMode, row.tZTTGenMatching, tmpMetEt)
@@ -998,7 +1123,7 @@ class AnalyzeMuTauSys(MegaBase):
       if not self.dimuonveto(newrow):
         continue
 
-      if self.is_DY:
+      if self.is_DY or self.is_DYlow:
         if not bool(newrow['isZmumu'] or newrow['isZee']):
           continue
 
@@ -1018,7 +1143,6 @@ class AnalyzeMuTauSys(MegaBase):
           wmc.var("z_gen_pt").setVal(newrow['genpT'])
           zptweight = wmc.function("zptmass_weight_nom").getVal()
           dyweight = self.DYreweight(newrow['genMass'], newrow['genpT'])
-          weight = weight*dyweight                            
           if newrow['numGenJets'] < 5:
             weight = weight*self.DYweight[newrow['numGenJets']]*dyweight
           else:
@@ -1030,9 +1154,9 @@ class AnalyzeMuTauSys(MegaBase):
           dyweight = self.DYreweight(newrow['genMass'], newrow['genpT'])
           weight = weight*26.747*dyweight
         if self.is_GluGlu:
-          weight = weight*0.0005
+          weight = weight*0.0221#0.0005
         if self.is_VBF:
-          weight = weight*0.000214
+          weight = weight*0.0736#0.000214
         if self.is_WW:
           weight = weight*0.407
         if self.is_WZ:
@@ -1064,14 +1188,14 @@ class AnalyzeMuTauSys(MegaBase):
         if self.is_STtWtop:
           weight = weight*0.00552
         if self.is_TTTo2L2Nu:
-          topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
-          weight = weight*0.0057*topweight
+          #topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
+          weight = weight*0.0057#*topweight
         if self.is_TTToHadronic:
-          topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
-          weight = weight*0.379*topweight
+          #topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
+          weight = weight*0.379#*topweight
         if self.is_TTToSemiLeptonic:
-          topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
-          weight = weight*0.00116*topweight
+          #topweight = topPtreweight(newrow['topQuarkPt1'], newrow['topQuarkPt2'])
+          weight = weight*0.00116#*topweight
         if self.is_VBFH:
           weight = weight*0.000864
         if self.is_GluGluH:
@@ -1092,6 +1216,10 @@ class AnalyzeMuTauSys(MegaBase):
             weight = weight*1.09
           elif abs(newrow['tEta']) > 1.558:
             weight = weight*1.19
+          if newrow['tDecayMode'] == 0:
+            newrow['tPt'] = newrow['tPt'] * 1.003
+          elif newrow['tDecayMode'] == 1:
+            newrow['tPt'] = newrow['tPt'] * 1.036
 
       if self.is_embed:
         tID = 0.97
