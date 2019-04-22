@@ -146,61 +146,6 @@ if __name__ == "__main__":
     ww_integral_den = ww_view.Get(args.denom).Integral()
     zz_integral_den = zz_view.Get(args.denom).Integral()
 
-    log.info("Numerator integrals data: %.2f WW: %.2f WZ: %.2f, ZZ: %.2f. Corrected numerator: %.2f",
-             uncorr_numerator.Integral(),
-             ww_integral,
-             wz_integral,
-             zz_integral,
-             corr_numerator.Integral()
-            )
-
-    log.info("Denominator integrals data: %.2f WW: %.2f WZ: %.2f, ZZ: %.2f. Corrected denominator: %.2f",
-             uncorr_denominator.Integral(),
-             ww_integral_den,
-             wz_integral_den,
-             zz_integral_den,
-             corr_denominator.Integral()
-            )
-
-    log.info("Uncorrected: %0.2f/%0.2f = %0.1f%%",
-             uncorr_numerator.Integral(),
-             uncorr_denominator.Integral(),
-             100*uncorr_numerator.Integral()/uncorr_denominator.Integral()
-             if uncorr_denominator.Integral() else 0
-            )
-
-    log.info("Uncorrected Numerator Data Bin 1: %.2f Bin 2: %.2f Bin 3: %.2f, Bin 4: %.2f. Bin 5: %.2f",
-             uncorr_numerator.GetBinContent(1),
-             uncorr_numerator.GetBinContent(2),
-             uncorr_numerator.GetBinContent(3),
-             uncorr_numerator.GetBinContent(4),
-             uncorr_numerator.GetBinContent(5)
-            )
-
-    log.info("Corrected Numerator Data Bin 1: %.2f Bin 2: %.2f Bin 3: %.2f, Bin 4: %.2f. Bin 5: %.2f",
-             corr_numerator.GetBinContent(1),
-             corr_numerator.GetBinContent(2),
-             corr_numerator.GetBinContent(3),
-             corr_numerator.GetBinContent(4),
-             corr_numerator.GetBinContent(5)
-            )
-
-    log.info("Uncorrected Denominator Data Bin 1: %.2f Bin 2: %.2f Bin 3: %.2f, Bin 4: %.2f. Bin 5: %.2f",
-             uncorr_denominator.GetBinContent(1),
-             uncorr_denominator.GetBinContent(2),
-             uncorr_denominator.GetBinContent(3),
-             uncorr_denominator.GetBinContent(4),
-             uncorr_denominator.GetBinContent(5)
-            )
-
-    log.info("Corrected Denominator Data Bin 1: %.2f Bin 2: %.2f Bin 3: %.2f, Bin 4: %.2f. Bin 5: %.2f",
-             corr_denominator.GetBinContent(1),
-             corr_denominator.GetBinContent(2),
-             corr_denominator.GetBinContent(3),
-             corr_denominator.GetBinContent(4),
-             corr_denominator.GetBinContent(5)
-            )
-
     corr_numerator.SetName('numerator')
     corr_denominator.SetName('denominator')
 
@@ -217,7 +162,6 @@ if __name__ == "__main__":
     dyfakerate = ROOT.TEfficiency(dy_numerator, dy_denominator)
     dyfakerate.SetName('dyfakerate')
     dyfakerate.Draw("ep")
-
 
     corr_numerator.Write()
     corr_denominator.Write()

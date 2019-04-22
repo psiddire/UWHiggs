@@ -26,6 +26,12 @@ def visibleMass(row):
 
 target = os.path.basename(os.environ['megatarget'])
 
+f = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/htt_scalefactors_v17_5.root")
+ws = f.Get("w")
+
+fmc = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/htt_scalefactors_2017_v2.root")
+wmc = fmc.Get("w")
+
 if bool('DYJetsToLL' in target):
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'DY')
 elif bool('DY1JetsToLL' in target):
@@ -36,16 +42,6 @@ elif bool('DY3JetsToLL' in target):
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'DY3')
 elif bool('DY4JetsToLL' in target):
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'DY4')
-elif bool('WJetsToLNu' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W')
-elif bool('W1JetsToLNu' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W1')
-elif bool('W2JetsToLNu' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W2')
-elif bool('W3JetsToLNu' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W3')
-elif bool('W4JetsToLNu' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W4')
 elif bool('WW_TuneCP5' in target):
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'WW')
 elif bool('WZ_TuneCP5' in target):
@@ -110,10 +106,19 @@ class AnalyzeMuMuTau(MegaBase):
     self.muonTightID = mcCorrections.muonID_tight if not self.is_data else 1.
     self.muonMediumID = mcCorrections.muonID_medium if not self.is_data else 1.
     self.muonLooseID = mcCorrections.muonID_loose if not self.is_data else 1.
-    self.muonTightIsoTightID = mcCorrections.muonIso_tight if not self.is_data else 1.
+    self.muonTightIsoTightID = mcCorrections.muonIso_tight_tightid if not self.is_data else 1.
+    self.muonTightIsoMediumID = mcCorrections.muonIso_tight_mediumid if not self.is_data else 1.
     self.muonLooseIsoLooseID = mcCorrections.muonIso_loose_looseid if not self.is_data else 1.
     self.muonLooseIsoMediumID = mcCorrections.muonIso_loose_mediumid if not self.is_data else 1.
     self.muonLooseIsoTightID = mcCorrections.muonIso_loose_tightid if not self.is_data else 1.
+    self.fakeRate = mcCorrections.fakerate_weight
+    self.fakeRateMuon = mcCorrections.fakerateMuon_weight
+    self.DYreweight1D = mcCorrections.DYreweight1D
+    self.DYreweight = mcCorrections.DYreweight
+    self.muTracking = mcCorrections.muonTracking
+    self.embedTrg = mcCorrections.embedTrg
+    self.embedmID = mcCorrections.embedmID
+    self.embedmIso = mcCorrections.embedmIso
 
     self.DYweight = {
       0 : 2.580886465,
@@ -121,14 +126,6 @@ class AnalyzeMuMuTau(MegaBase):
       2 : 0.936178296,
       3 : 0.589537006,
       4 : 0.404224719
-      }
-
-    self.Wweight = {
-      0 : 36.79747369,
-      1 : 7.546943825,
-      2 : 13.23876037,
-      3 : 2.301051766,
-      4 : 2.202236679
       }
 
     self.tauSF={
@@ -220,8 +217,8 @@ class AnalyzeMuMuTau(MegaBase):
     return bool(row.tRerunMVArun2v2DBoldDMwLTVLoose > 0.5)
 
 
-  def tau_vvloose(self, row):
-    return bool(row.tRerunMVArun2v2DBoldDMwLTVVLoose > 0.5)
+  def tau_vtight(self, row):
+    return bool(row.tRerunMVArun2v2DBoldDMwLTVTight > 0.5)
 
 
   def vetos(self, row):
@@ -297,9 +294,6 @@ class AnalyzeMuMuTau(MegaBase):
       #if not self.bjetveto(row):
       #  continue
 
-      #if row.evt==preevt:
-      #  continue
-
       if not self.is_data:
         tEff = self.triggerEff(row.m1Pt, abs(row.m1Eta))
         m1ID = self.muonTightID(row.m1Pt, abs(row.m1Eta))
@@ -311,80 +305,87 @@ class AnalyzeMuMuTau(MegaBase):
 
       if not self.tau_id(row):
         continue
+    
+      if not self.is_data:
+        if row.tZTTGenMatching==5:
+          weight = weight*0.89
+        else:
+          weight = weight*1.0
+        if row.tZTTGenMatching==2 or row.tZTTGenMatching==4:
+          if abs(row.tEta) < 0.4:                                                                                                                                                                                          
+            weight = weight*1.17                                                                                                                                                                                           
+          elif abs(row.tEta) < 0.8:                                                                                                                                                                                        
+            weight = weight*1.29                                                                                                                                                                                           
+          elif abs(row.tEta) < 1.2:                                                                                                                                                                                        
+            weight = weight*1.14                                                                                                                                                                                           
+          elif abs(row.tEta) < 1.7:                                                                                                                                                                                        
+            weight = weight*0.93                                                                                                                                                                                           
+          else:                                                                                                                                                                                                            
+            weight = weight*1.61
+        elif row.tZTTGenMatching==1 or row.tZTTGenMatching==3: 
+          if abs(row.tEta) < 1.46:                                                                                                                                                                                         
+            weight = weight*1.09                                                                                                                                                             
+          elif abs(row.tEta) > 1.558:                                                                                                                                                                                      
+            weight = weight*1.19
+        if self.is_DY:
+          wmc.var("z_gen_mass").setVal(row.genMass)
+          wmc.var("z_gen_pt").setVal(row.genpT)
+          zptweight = wmc.function("zptmass_weight_nom").getVal()
+          weight = weight*zptweight
 
       if not self.tau_loose(row):
         continue
-      tSF = 1
-      if not self.is_data:
-        tSF = self.tauSF['loose']
-        if abs(row.tEta) < 0.4:                                                                                                                                                                                          
-          weight = weight*1.17                                                                                                                                                                                           
-        elif abs(row.tEta) < 0.8:                                                                                                                                                                                        
-          weight = weight*1.29                                                                                                                                                                                           
-        elif abs(row.tEta) < 1.2:                                                                                                                                                                                        
-          weight = weight*1.14                                                                                                                                                                                           
-        elif abs(row.tEta) < 1.7:                                                                                                                                                                                        
-          weight = weight*0.93                                                                                                                                                                                           
-        else:                                                                                                                                                                                                            
-          weight = weight*1.61 
-        #if abs(row.tEta) < 1.46:                                                                                                                                                                                         
-        #   weight = weight*1.09                                                                                                                                                             
-        # elif abs(row.tEta) > 1.558:                                                                                                                                                                                      
-        #   weight = weight*1.19
-      self.fill_histos(row, weight*tSF, 'loose')
+
+      self.fill_histos(row, weight, 'loose')
 
       if row.tDecayMode == 0:
-        self.fill_histos(row, weight*tSF, 'LDM0')
+        self.fill_histos(row, weight, 'LDM0')
       elif row.tDecayMode == 1:
-        self.fill_histos(row, weight*tSF, 'LDM1')
+        self.fill_histos(row, weight, 'LDM1')
       elif row.tDecayMode == 10:
-        self.fill_histos(row, weight*tSF, 'LDM10')
+        self.fill_histos(row, weight, 'LDM10')
 
       if abs(row.tEta) < 1.5:
         if row.tDecayMode == 0:
-          self.fill_histos(row, weight*tSF, 'LEBDM0')
+          self.fill_histos(row, weight, 'LEBDM0')
         elif row.tDecayMode == 1:
-          self.fill_histos(row, weight*tSF, 'LEBDM1')
+          self.fill_histos(row, weight, 'LEBDM1')
         elif row.tDecayMode == 10:
-          self.fill_histos(row, weight*tSF, 'LEBDM10')
+          self.fill_histos(row, weight, 'LEBDM10')
       else:
         if row.tDecayMode == 0:
-          self.fill_histos(row, weight*tSF, 'LEEDM0')
+          self.fill_histos(row, weight, 'LEEDM0')
         elif row.tDecayMode == 1:
-          self.fill_histos(row, weight*tSF, 'LEEDM1')
+          self.fill_histos(row, weight, 'LEEDM1')
         elif row.tDecayMode == 10:
-          self.fill_histos(row, weight*tSF, 'LEEDM10')
+          self.fill_histos(row, weight, 'LEEDM10')
 
-      if not self.tau_tight(row):
+      if not self.tau_vtight(row):
         continue
-      tSF = 1
-      if not self.is_data:
-        tSF = self.tauSF['tight']
-      self.fill_histos(row, weight*tSF, 'tight')
+
+      self.fill_histos(row, weight, 'tight')
 
       if row.tDecayMode == 0:
-        self.fill_histos(row, weight*tSF, 'TDM0')
+        self.fill_histos(row, weight, 'TDM0')
       elif row.tDecayMode == 1:
-        self.fill_histos(row, weight*tSF, 'TDM1')
+        self.fill_histos(row, weight, 'TDM1')
       elif row.tDecayMode == 10:
-        self.fill_histos(row, weight*tSF, 'TDM10')
+        self.fill_histos(row, weight, 'TDM10')
 
       if abs(row.tEta) < 1.5:
         if row.tDecayMode == 0:
-          self.fill_histos(row, weight*tSF, 'TEBDM0')
+          self.fill_histos(row, weight, 'TEBDM0')
         elif row.tDecayMode == 1:
-          self.fill_histos(row, weight*tSF, 'TEBDM1')
+          self.fill_histos(row, weight, 'TEBDM1')
         elif row.tDecayMode == 10:
-          self.fill_histos(row, weight*tSF, 'TEBDM10')
+          self.fill_histos(row, weight, 'TEBDM10')
       else:
         if row.tDecayMode == 0:
-          self.fill_histos(row, weight*tSF, 'TEEDM0')
+          self.fill_histos(row, weight, 'TEEDM0')
         elif row.tDecayMode == 1:
-          self.fill_histos(row, weight*tSF, 'TEEDM1')
+          self.fill_histos(row, weight, 'TEEDM1')
         elif row.tDecayMode == 10:
-          self.fill_histos(row, weight*tSF, 'TEEDM10')
-
-      preevt=row.evt
+          self.fill_histos(row, weight, 'TEEDM10')
 
 
   def finish(self):

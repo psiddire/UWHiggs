@@ -40,7 +40,7 @@ def positivize(histogram):
             output.AddAt(0, i)
     return output
 
-mc_samples = ['DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM*', 'DYJetsToLL_M-10to50*', 'DY1JetsToLL*', 'DY2JetsToLL*', 'DY3JetsToLL*', 'DY4JetsToLL*', 'GluGlu_LFV*', 'GluGluHToTauTau*', 'VBFHToTauTau*', 'WminusHToTauTau*', 'WplusHToTauTau*', 'ttHToTauTau*', 'ZHToTauTau*', 'TTTo2L2Nu*', 'TTToSemiLeptonic*', 'TTToHadronic*', 'ST_tW_antitop*', 'ST_tW_top*', 'ST_t-channel_antitop*', 'ST_t-channel_top*', 'QCD*', 'WZ*', 'WW*', 'ZZ*', 'EWKWMinus2Jets*', 'EWKWPlus2Jets*', 'EWKZ2Jets_ZToLL*', 'EWKZ2Jets_ZToNuNu*', 'embed*', 'data*']#'VBF_LFV*'
+mc_samples = ['DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM*', 'DYJetsToLL_M-10to50*', 'DY1JetsToLL*', 'DY2JetsToLL*', 'DY3JetsToLL*', 'DY4JetsToLL*', 'GluGlu_LFV*', 'VBF_LFV*', 'GluGluHToTauTau*', 'VBFHToTauTau*', 'WminusHToTauTau*', 'WplusHToTauTau*', 'ttHToTauTau*', 'ZHToTauTau*', 'TTTo2L2Nu*', 'TTToSemiLeptonic*', 'TTToHadronic*', 'ST_tW_antitop*', 'ST_tW_top*', 'ST_t-channel_antitop*', 'ST_t-channel_top*', 'QCD*', 'WZ*', 'WW*', 'ZZ*', 'EWKWMinus2Jets*', 'EWKWPlus2Jets*', 'EWKZ2Jets_ZToLL*', 'EWKZ2Jets_ZToNuNu*', 'embed*', 'data*']
 
 for x in mc_samples:
     files.extend(glob.glob('results/%s/AnalyzeMuTauSysBDT/%s.root' % (jobid, x)))
@@ -56,9 +56,21 @@ f = ROOT.TFile( 'shapesMuTauBDT.root', 'RECREATE')
 
 dirs = ['0Jet', '1Jet', '2Jet', '2JetVBF']
 
-v = [views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('DY1') or x.startswith('DY2') or x.startswith('DY3') or x.startswith('DY4') or x.startswith('DYJetsToLL_M-50') , mc_samples )]), views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x :  x.startswith('DYJetsToLL_M-10to50') , mc_samples)]), views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x :  x.startswith('EWK') , mc_samples)]), views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'HToTauTau' in x , mc_samples)]), views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('TT'), mc_samples)]), views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('ST'), mc_samples)]), views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('ZZ') or x.startswith('WZ') or x.startswith('WW'), mc_samples)]), views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'LFV' in x , mc_samples)])]
+v = [
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('DY1') or x.startswith('DY2') or x.startswith('DY3') or x.startswith('DY4') or x.startswith('DYJetsToLL_M-50') or x.startswith('DYJetsToLL_M-10to50'), mc_samples )]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('EWK') , mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('GluGluHToTauTau') , mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('VBFHToTauTau') , mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('WminusHToTauTau') or x.startswith('WplusHToTauTau') or x.startswith('ZHToTauTau') , mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('ttHToTauTau') , mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('TT'), mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('ST'), mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('ZZ') or x.startswith('WZ') or x.startswith('WW'), mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('GluGlu_LFV') , mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('VBF_LFV') , mc_samples)])
+]
 
-b = ['Zll', 'ZllLowMass', 'EWK', 'SMH', 'TT', 'ST', 'EWKDiboson', 'LFV125']
+b = ['Zll', 'EWK', 'GluGluH', 'VBFH', 'VH', 'ttH', 'TT', 'ST', 'EWKDiboson', 'GluGlu125', 'VBF125']
 
 for di in dirs:
     d = f.mkdir(di)
@@ -90,6 +102,19 @@ for di in dirs:
     embtrkdown = embed.Get("embtrkDown/bdtDiscriminator")
     embtrkdown.SetName("embed_TauTracking_UncertaintyDown")
 
+    embtes0up = embed.Get("scaletDM0Up/bdtDiscriminator")
+    embtes0up.SetName("embed_TESDM0Up")
+    embtes0down = embed.Get("scaletDM0Down/bdtDiscriminator")
+    embtes0down.SetName("embed_TESDM0Down")
+    embtes1up = embed.Get("scaletDM1Up/bdtDiscriminator")
+    embtes1up.SetName("embed_TESDM1Up")
+    embtes1down = embed.Get("scaletDM1Down/bdtDiscriminator")
+    embtes1down.SetName("embed_TESDM1Down")
+    embtes10up = embed.Get("scaletDM10Up/bdtDiscriminator")
+    embtes10up.SetName("embed_TESDM10Up")
+    embtes10down = embed.Get("scaletDM10Down/bdtDiscriminator")
+    embtes10down.SetName("embed_TESDM10Down")
+    
     embmfakesup = embedmfakes.Get("MuonFakeUp/bdtDiscriminator")
     embmfakesdown = embedmfakes.Get("MuonFakeDown/bdtDiscriminator")
     emball = embedall.Get("bdtDiscriminator")
@@ -156,7 +181,7 @@ for di in dirs:
     mtmfakesup.Delete()
     mtmfakesdown.Delete()
 
-    for i in range(8):
+    for i in range(11):
         DYtotal = v[i]
         DYall = views.SubdirectoryView(DYtotal, 'TightOS'+di)
         DYtfakes = views.SubdirectoryView(DYtotal, 'TauLooseOS'+di)
@@ -177,6 +202,16 @@ for di in dirs:
         dytrup.SetName(b[i]+"_Trigger_UncertaintyUp")
         dytrdown = DY.Get("trDown/bdtDiscriminator")
         dytrdown.SetName(b[i]+"_Trigger_UncertaintyDown")
+
+        dyrecrespup = DY.Get("recrespUp/bdtDiscriminator")
+        dyrecrespup.SetName(b[i]+"_RecoilResponse_UncertaintyUp")
+        dyrecrespdown = DY.Get("recrespDown/bdtDiscriminator")
+        dyrecrespdown.SetName(b[i]+"_RecoilResponse_UncertaintyDown")
+
+        dyrecresoup = DY.Get("recresoUp/bdtDiscriminator")
+        dyrecresoup.SetName(b[i]+"_RecoilResolution_UncertaintyUp")
+        dyrecresodown = DY.Get("recresoDown/bdtDiscriminator")
+        dyrecresodown.SetName(b[i]+"_RecoilResolution_UncertaintyDown")
 
         dyptup = DY.Get("DYptreweightUp/bdtDiscriminator")
         dyptup.SetName(b[i]+"_pTreweight_UncertaintyUp")
@@ -410,4 +445,10 @@ for di in dirs:
             embseltrdown.Delete()
             embtrkup.Delete()
             embtrkdown.Delete()
+            embtes0up.Delete()
+            embtes0down.Delete()
+            embtes1up.Delete()
+            embtes1down.Delete()
+            embtes10up.Delete()
+            embtes10down.Delete()
         f.Write()

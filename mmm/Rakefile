@@ -92,7 +92,7 @@ end
 
 #task :MMM => get_analyzer_results("AnalyzeMuMuMu.py", samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TTTo2L2Nu'] + samples['TTToHadronic'] + samples['TTToSemiLeptonic'] + samples['vbfHTT'] + samples['ggHTT'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ttH'] + samples['DY'] + samples['W'] + samples['DY1'] + samples['DY2'] + samples['DY3']+ samples['DY4'] + samples['W1'] + samples['W2'] + samples['W3'] + samples['W4'] + samples['QCD'])
 
-task :MMM => get_analyzer_results("AnalyzeMuMuMu.py", samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['WW'] + samples['WZ'] + samples['ZZ'])
+task :MMM => get_analyzer_results("AnalyzeMMM.py", samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['WW'] + samples['WZ'] + samples['ZZ'])
 
 $etdir = "plots/#{$jobid}/AnalyzerMuTau/mt_now/"
 directory $etdir 

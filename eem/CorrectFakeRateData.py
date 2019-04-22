@@ -9,7 +9,7 @@ Author: Evan K. Frii
 
 import logging
 import sys
-logging.basicConfig(stream=sys.stderr, level=logging.INFO)
+logging.basicConfig(stream=sys.stderr, level=logging.ERROR)
 from RecoLuminosity.LumiDB import argparse
 import fnmatch
 from FinalStateAnalysis.PlotTools.RebinView import RebinView
@@ -17,6 +17,8 @@ from FinalStateAnalysis.PlotTools.SubtractionView import SubtractionView
 import glob
 import os
 import numpy
+
+jobid = os.environ['jobid']
 
 log = logging.getLogger("CorrectFakeRateData")
 if __name__ == "__main__":
@@ -40,8 +42,8 @@ if __name__ == "__main__":
     files = []
     lumifiles = []
     for x in samples:
-        files.extend(glob.glob('results/lpairs_data_Sep1/AnalyzeMuMuMu/%s' % (x)))
-        lumifiles.extend(glob.glob('inputs/lpairs_data_Sep1/%s.lumicalc.sum' % (x)))
+        files.extend(glob.glob('results/%s/AnalyzeEEMu/%s' % (jobid, x)))
+        lumifiles.extend(glob.glob('inputs/%s/%s.lumicalc.sum' % (jobid, x)))
 
     the_views = data_views(files, lumifiles)
 
@@ -142,12 +144,24 @@ if __name__ == "__main__":
     ww_integral = ww_view.Get(args.numerator).Integral()
     zz_integral = zz_view.Get(args.numerator).Integral()
 
+    wz_integral_den = wz_view.Get(args.denom).Integral()
+    ww_integral_den = ww_view.Get(args.denom).Integral()
+    zz_integral_den = zz_view.Get(args.denom).Integral()
+
     log.info("Numerator integrals data: %.2f WW: %.2f WZ: %.2f, ZZ: %.2f. Corrected numerator: %.2f",
              uncorr_numerator.Integral(),
              ww_integral,
              wz_integral,
              zz_integral,
              corr_numerator.Integral()
+            )
+
+    log.info("Denominator integrals data: %.2f WW: %.2f WZ: %.2f, ZZ: %.2f. Corrected denominator: %.2f",
+             uncorr_denominator.Integral(),
+             ww_integral_den,
+             wz_integral_den,
+             zz_integral_den,
+             corr_denominator.Integral()
             )
 
     log.info("Uncorrected: %0.2f/%0.2f = %0.1f%%",
@@ -157,17 +171,52 @@ if __name__ == "__main__":
              if uncorr_denominator.Integral() else 0
             )
 
+    log.info("DY Numerator Bin 1: %.2f Bin 2: %.2f Bin 3: %.2f, Bin 4: %.2f. Bin 5: %.2f",
+             dy_numerator.GetBinContent(1),
+             dy_numerator.GetBinContent(2),
+             dy_numerator.GetBinContent(3),
+             dy_numerator.GetBinContent(4),
+             dy_numerator.GetBinContent(5)
+            )
+
+    log.info("Corrected Numerator Data Bin 1: %.2f Bin 2: %.2f Bin 3: %.2f, Bin 4: %.2f. Bin 5: %.2f",
+             corr_numerator.GetBinContent(1),
+             corr_numerator.GetBinContent(2),
+             corr_numerator.GetBinContent(3),
+             corr_numerator.GetBinContent(4),
+             corr_numerator.GetBinContent(5)
+            )
+
+    log.info("DY Denominator Bin 1: %.2f Bin 2: %.2f Bin 3: %.2f, Bin 4: %.2f. Bin 5: %.2f",
+             dy_denominator.GetBinContent(1),
+             dy_denominator.GetBinContent(2),
+             dy_denominator.GetBinContent(3),
+             dy_denominator.GetBinContent(4),
+             dy_denominator.GetBinContent(5)
+            )
+
+    log.info("Corrected Denominator Data Bin 1: %.2f Bin 2: %.2f Bin 3: %.2f, Bin 4: %.2f. Bin 5: %.2f",
+             corr_denominator.GetBinContent(1),
+             corr_denominator.GetBinContent(2),
+             corr_denominator.GetBinContent(3),
+             corr_denominator.GetBinContent(4),
+             corr_denominator.GetBinContent(5)
+            )
 
     corr_numerator.SetName('numerator')
     corr_denominator.SetName('denominator')
 
-    fakerate = corr_numerator.Clone('fakerate')
-    fakerate.SetMinimum(0.0)
-    fakerate.SetMaximum(1.0)
-    fakerate.Sumw2()
-    fakerate.SetStats(0)
-    fakerate.Divide(corr_denominator)
+    fakerate = ROOT.TEfficiency(corr_numerator, corr_denominator)
+    fakerate.SetName('fakerate')
     fakerate.Draw("ep")
+
+#    fakerate = corr_numerator.Clone('fakerate')
+#    fakerate.SetMinimum(0.0)
+#    fakerate.SetMaximum(1.1)
+#    fakerate.Sumw2()
+#    fakerate.SetStats(0)
+#    fakerate.Divide(corr_denominator)
+#    fakerate.Draw("ep")
 
     uncorr_numerator.SetName('numerator_uncorr')
     uncorr_denominator.SetName('denominator_uncorr')
@@ -175,13 +224,17 @@ if __name__ == "__main__":
     dy_numerator.SetName('numerator_dy')
     dy_denominator.SetName('denominator_dy')
 
-    dyfakerate = dy_numerator.Clone('dyfakerate')
-    dyfakerate.SetMinimum(0.0)
-    dyfakerate.SetMaximum(1.0)
-    #dyfakerate.Sumw2()
-    dyfakerate.SetStats(0)
-    dyfakerate.Divide(dy_denominator)
+    dyfakerate = ROOT.TEfficiency(dy_numerator, dy_denominator)
+    dyfakerate.SetName('dyfakerate')
     dyfakerate.Draw("ep")
+
+#    dyfakerate = dy_numerator.Clone('dyfakerate')
+#    dyfakerate.SetMinimum(0.0)
+#    dyfakerate.SetMaximum(1.1)
+#    dyfakerate.Sumw2()
+#    dyfakerate.SetStats(0)
+#    dyfakerate.Divide(dy_denominator)
+#    dyfakerate.Draw("ep")
 
     corr_numerator.Write()
     corr_denominator.Write()

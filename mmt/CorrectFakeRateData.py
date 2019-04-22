@@ -36,12 +36,12 @@ if __name__ == "__main__":
     import rootpy.plotting as plotting
     from FinalStateAnalysis.MetaData.data_views import data_views
 
-    samples = ['WZ*', 'WW*', 'ZZ*', 'DY*', 'data*']
+    samples = ['WZ*', 'WW*', 'ZZ*', 'data*']#'DY*', 
     files = []
     lumifiles = []
     for x in samples:
-        files.extend(glob.glob('results/lpairs_data_Sep1/AnalyzeMuMuTau/%s' % (x)))
-        lumifiles.extend(glob.glob('inputs/lpairs_data_Sep1/%s.lumicalc.sum' % (x)))
+        files.extend(glob.glob('results/MuTauData/AnalyzeMuMuTau/%s' % (x)))
+        lumifiles.extend(glob.glob('inputs/MuTauData/%s.lumicalc.sum' % (x)))
 
     the_views = data_views(files, lumifiles)
 
@@ -109,7 +109,7 @@ if __name__ == "__main__":
     wz_view = get_view('WZ_*')
     ww_view = get_view('WW_*')
     zz_view = get_view('ZZ_*')
-    dy_view = get_view('DY*')
+    #dy_view = get_view('DY*')
 
     data = rebin_view(the_views['data']['view'])
     
@@ -135,8 +135,8 @@ if __name__ == "__main__":
     uncorr_numerator = data.Get(args.numerator)
     uncorr_denominator = data.Get(args.denom)
 
-    dy_numerator = dy_view.Get(args.numerator)
-    dy_denominator = dy_view.Get(args.denom)
+    #dy_numerator = dy_view.Get(args.numerator)
+    #dy_denominator = dy_view.Get(args.denom)
 
     wz_integral = wz_view.Get(args.numerator).Integral()
     ww_integral = ww_view.Get(args.numerator).Integral()
@@ -219,12 +219,12 @@ if __name__ == "__main__":
     uncorr_numerator.SetName('numerator_uncorr')
     uncorr_denominator.SetName('denominator_uncorr')
 
-    dy_numerator.SetName('numerator_dy')
-    dy_denominator.SetName('denominator_dy')
+    #dy_numerator.SetName('numerator_dy')
+    #dy_denominator.SetName('denominator_dy')
 
-    dyfakerate = ROOT.TEfficiency(dy_numerator, dy_denominator)
-    dyfakerate.SetName('dyfakerate')
-    dyfakerate.Draw("ep")
+    #dyfakerate = ROOT.TEfficiency(dy_numerator, dy_denominator)
+    #dyfakerate.SetName('dyfakerate')
+    #dyfakerate.Draw("ep")
 
 #    dyfakerate = dy_numerator.Clone('dyfakerate')
 #    dyfakerate.SetMinimum(0.0)
@@ -239,9 +239,9 @@ if __name__ == "__main__":
     fakerate.Write()
     uncorr_numerator.Write()
     uncorr_denominator.Write()
-    dy_numerator.Write()
-    dy_denominator.Write()
-    dyfakerate.Write()
+    #dy_numerator.Write()
+    #dy_denominator.Write()
+    #dyfakerate.Write()
 
     #make the unbinned plots
     # args.rebin = '1'

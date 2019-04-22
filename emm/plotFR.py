@@ -7,7 +7,7 @@ gROOT.SetBatch(True)
 
 canvas = TCanvas('canvas','canvas',800,800)
 legend = TLegend(0.7, 0.8, .9, .9)
-file = TFile('frElectronPt.root')
+file = TFile('frElePt.root')
 hdy = file.Get('dyfakerate')
 hdy.SetTitle('Electron Fake Rate')
 hdy.SetLineColor(632)

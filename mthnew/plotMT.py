@@ -35,7 +35,7 @@ channel = ['']
 
 for x in mc_samples:
     print x
-    files.extend(glob.glob('results/%s/AnalyzeMuTauTTbar/%s' % (jobid, x)))
+    files.extend(glob.glob('results/%s/AnalyzeMuTau/%s' % (jobid, x)))
     lumifiles.extend(glob.glob('inputs/%s/%s.lumicalc.sum' % (jobid, x)))
 
 period = '13TeV'
@@ -57,7 +57,7 @@ for j in jet:
     s3 = 'MuonLooseOS'+j
     s4 = 'MuonLooseTauLooseOS'+j 
     
-    outputdir = 'plots/%s/AnalyzeMuTauTTbar/Feb12Corr/%s/' % (jobid, s1)
+    outputdir = 'plots/%s/AnalyzeMuTau/Mar20MT/%s/' % (jobid, s1)
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
@@ -85,13 +85,12 @@ for j in jet:
     
     embedtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x :  x.startswith('embed') , mc_samples)])
     embedall = views.SubdirectoryView(embedtotal, s1)
-    #embedtfakes = views.SubdirectoryView(embedtotal, s2)
+    embedtfakes = views.SubdirectoryView(embedtotal, s2)
     embedmfakes = views.SubdirectoryView(embedtotal, s3)
-    #embedmtfakes = views.SubdirectoryView(embedtotal, s4)
-    #embedmt = views.SumView(embedtfakes, embedmfakes)
-    #embedfakes = SubtractionView(embedmt, embedmtfakes, restrict_positive=True)
-    #embed = views.StyleView(SubtractionView(embedall, embedfakes, restrict_positive=True), **remove_name_entry(data_styles['DYTT*']))
-    embed = views.StyleView(SubtractionView(embedall, embedmfakes, restrict_positive=True), **remove_name_entry(data_styles['DYTT*']))
+    embedmtfakes = views.SubdirectoryView(embedtotal, s4)
+    embedmt = views.SumView(embedtfakes, embedmfakes)
+    embedfakes = SubtractionView(embedmt, embedmtfakes, restrict_positive=True)
+    embed = views.StyleView(SubtractionView(embedall, embedfakes, restrict_positive=True), **remove_name_entry(data_styles['DYTT*']))
     embed = views.TitleView(embed, "ZttEmbedded")
 
     EWKtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x :  x.startswith('EWK') , mc_samples)])
@@ -182,6 +181,6 @@ for j in jet:
 
         for n,h in enumerate(histoname):
             #plotter.pad.SetLogy(True)
-            plotter.plot_mc_vs_data(fn, ['VBF_LFV_HToMuTau_M125*', 'GluGlu_LFV_HToMuTau_M125*'], h[0], 1, xaxis = h[1], leftside=False, xrange=None, preprocess=None, show_ratio=True, ratio_range=1.5, sort=True, blind_region=True, control=s1, jets=j)
+            plotter.plot_mc_vs_data(fn, ['VBF_LFV_HToMuTau_M125*', 'GluGlu_LFV_HToMuTau_M125*'], h[0], 1, xaxis = h[1], leftside=False, xrange=None, preprocess=None, show_ratio=True, ratio_range=1.5, sort=True, blind_region=False, control=s1, jets=j)
             plotter.save(h[0])
 

@@ -81,11 +81,9 @@ def get_plotter_results(analyzer)
   analyzer_base = analyzer.sub('.py', '')
 end
 
-#task :EMM => get_analyzer_results("AnalyzeEMM.py", samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'])
+task :EMM => get_analyzer_results("AnalyzeEMM.py", samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['DY10'])
 
-task :EMM => get_analyzer_results("AnalyzeEMM.py", samples['eraE'])
-
-#task :EMM => get_analyzer_results("AnalyzeEMM.py", samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['embedB'] + samples['embedC'] + samples['embedD'] + samples['embedE'] + samples['embedF'] + samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TTTo2L2Nu'] + samples['TTToHadronic'] + samples['TTToSemiLeptonic'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['EWKWminus'] + samples['EWKWplus'] + samples['EWKZll'] + samples['EWKZnunu'])
+#task :EMM => get_analyzer_results("AnalyzeEMM.py", samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['DY10'] + samples['eraB']) 
 
 $etdir = "plots/#{$jobid}/AnalyzerMuTau/mt_now/"
 directory $etdir 

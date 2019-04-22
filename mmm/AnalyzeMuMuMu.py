@@ -26,6 +26,12 @@ def visibleMass(row):
 
 target = os.path.basename(os.environ['megatarget'])
 
+f = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/htt_scalefactors_v17_5.root")
+ws = f.Get("w")
+
+fmc = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/htt_scalefactors_2017_v2.root")
+wmc = fmc.Get("w")
+
 if bool('DYJetsToLL' in target):
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'DY')
 elif bool('DY1JetsToLL' in target):
@@ -36,16 +42,6 @@ elif bool('DY3JetsToLL' in target):
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'DY3')
 elif bool('DY4JetsToLL' in target):
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'DY4')
-elif bool('WJetsToLNu' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W')
-elif bool('W1JetsToLNu' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W1')
-elif bool('W2JetsToLNu' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W2')
-elif bool('W3JetsToLNu' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W3')
-elif bool('W4JetsToLNu' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W4')
 elif bool('WW_TuneCP5' in target):
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'WW')
 elif bool('WZ_TuneCP5' in target):
@@ -115,6 +111,14 @@ class AnalyzeMuMuMu(MegaBase):
     self.muonLooseIsoLooseID = mcCorrections.muonIso_loose_looseid if not self.is_data else 1.
     self.muonLooseIsoMediumID = mcCorrections.muonIso_loose_mediumid if not self.is_data else 1.
     self.muonLooseIsoTightID = mcCorrections.muonIso_loose_tightid if not self.is_data else 1.
+    self.fakeRate = mcCorrections.fakerate_weight
+    self.fakeRateMuon = mcCorrections.fakerateMuon_weight
+    self.DYreweight1D = mcCorrections.DYreweight1D
+    self.DYreweight = mcCorrections.DYreweight
+    self.muTracking = mcCorrections.muonTracking
+    self.embedTrg = mcCorrections.embedTrg
+    self.embedmID = mcCorrections.embedmID
+    self.embedmIso = mcCorrections.embedmIso
 
     self.DYweight = {
       0 : 2.580886465,
@@ -144,11 +148,11 @@ class AnalyzeMuMuMu(MegaBase):
       mcweight = 1.
     else:
       mcweight = row.GenWeight*pucorrector(row.nTruePU)
-      #if self.is_DY:
-      #  if row.numGenJets < 5:
-      #    mcweight = mcweight*self.DYweight[row.numGenJets]
-      #  else:
-      #    mcweight = mcweight*self.DYweight[0]
+      if self.is_DY:
+        if row.numGenJets < 5:
+          mcweight = mcweight*self.DYweight[row.numGenJets]
+        else:
+          mcweight = mcweight*self.DYweight[0]
       if self.is_W:
         if row.numGenJets < 5:
           mcweight = mcweight*self.Wweight[row.numGenJets]
@@ -260,11 +264,13 @@ class AnalyzeMuMuMu(MegaBase):
 
       if not self.obj1_id(row):
         continue
+
       if not self.obj1_iso(row):
         continue
 
       if not self.obj2_id(row):
         continue
+
       if not self.obj2_iso(row):
         continue
 
@@ -278,12 +284,10 @@ class AnalyzeMuMuMu(MegaBase):
 
       if visibleMass(row) < 70 or visibleMass(row) > 110:
         continue
+
       if not self.vetos(row):
         continue
-      #if not self.bjetveto(row):
-      #  continue
-      #if row.evt==preevt:
-      #  continue
+
       self.fill_histos(row, weight, 'initial')
 
       if not self.obj3_id(row):
@@ -294,8 +298,8 @@ class AnalyzeMuMuMu(MegaBase):
       m3ID = 1
       m3Iso = 1
       if not self.is_data:
-        m3ID = self.muonMediumID(row.m3Pt, abs(row.m3Eta))
-        m3Iso = self.muonLooseIsoMediumID(row.m3Pt, abs(row.m3Eta))
+        m3ID = self.muonTightID(row.m3Pt, abs(row.m3Eta))
+        m3Iso = self.muonLooseIsoTightID(row.m3Pt, abs(row.m3Eta))
       self.fill_histos(row, weight*m3ID*m3Iso, 'muonloose')
 
       if not self.obj3_tightiso(row):
@@ -303,11 +307,9 @@ class AnalyzeMuMuMu(MegaBase):
       m3ID = 1
       m3Iso = 1
       if not self.is_data:
-        m3ID = self.muonMediumID(row.m3Pt, abs(row.m3Eta))
-        m3Iso = self.muonTightIsoMediumID(row.m3Pt, abs(row.m3Eta))
+        m3ID = self.muonTightID(row.m3Pt, abs(row.m3Eta))
+        m3Iso = self.muonTightIsoTightID(row.m3Pt, abs(row.m3Eta))
       self.fill_histos(row, weight*m3ID*m3Iso, 'muontight')
-
-      #preevt=row.evt
 
 
   def finish(self):

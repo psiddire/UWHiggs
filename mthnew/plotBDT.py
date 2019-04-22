@@ -28,14 +28,14 @@ ROOT.gStyle.SetOptStat(0)
 jobid = os.environ['jobid']
 print jobid
 
-mc_samples = ['DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM*', 'DYJetsToLL_M-10to50*', 'DY1JetsToLL*', 'DY2JetsToLL*', 'DY3JetsToLL*', 'DY4JetsToLL*', 'GluGlu_LFV*', 'VBF_LFV*', 'GluGluHToTauTau*', 'VBFHToTauTau*', 'WminusHToTauTau*', 'WplusHToTauTau*', 'ttHToTauTau*', 'ZHToTauTau*', 'TTTo2L2Nu*', 'TTToSemiLeptonic*', 'TTToHadronic*', 'ST_tW_antitop*', 'ST_tW_top*', 'ST_t-channel_antitop*', 'ST_t-channel_top*', 'QCD*', 'WZ*', 'WW*', 'ZZ*', 'EWKWMinus2Jets*', 'EWKWPlus2Jets*', 'EWKZ2Jets_ZToLL*', 'EWKZ2Jets_ZToNuNu*', 'embed*', 'data*']
+mc_samples = ['DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM*', 'DYJetsToLL_M-10to50*', 'DY1JetsToLL*', 'DY2JetsToLL*', 'DY3JetsToLL*', 'DY4JetsToLL*', 'GluGlu_LFV*', 'VBF_LFV*', 'GluGluHToTauTau*', 'VBFHToTauTau*', 'WminusHToTauTau*', 'WplusHToTauTau*', 'ttHToTauTau*', 'ZHToTauTau*', 'TTTo2L2Nu*', 'TTToSemiLeptonic*', 'TTToHadronic*', 'ST_tW_antitop*', 'ST_tW_top*', 'ST_t-channel_antitop*', 'ST_t-channel_top*', 'QCD*', 'WZ*', 'WW*', 'ZZ*', 'EWKWMinus2Jets*', 'EWKWPlus2Jets*', 'EWKZ2Jets_ZToLL*', 'EWKZ2Jets_ZToNuNu*', 'WWW*', 'WWZ*', 'WZZ*', 'embed*', 'data*']
 files=[]
 lumifiles=[]
 channel = ['']
 
 for x in mc_samples:
     print x
-    files.extend(glob.glob('results/%s/AnalyzeMuTauFitBDTZTauTau/%s' % (jobid, x)))
+    files.extend(glob.glob('results/%s/AnalyzeMuTauSysBDT/%s' % (jobid, x)))
     lumifiles.extend(glob.glob('inputs/%s/%s.lumicalc.sum' % (jobid, x)))
 
 period = '13TeV'
@@ -49,7 +49,7 @@ for j in jet:
     s3 = 'MuonLooseOS'+j
     s4 = 'MuonLooseTauLooseOS'+j 
     
-    outputdir = 'plots/%s/AnalyzeMuTauFitBDTZTauTau/Jan17New/%s/' % (jobid, s1)
+    outputdir = 'plots/%s/AnalyzeMuTauFitBDT/Mar24/%s/' % (jobid, s1)
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
@@ -74,16 +74,11 @@ for j in jet:
     DYlowfakes = SubtractionView(DYlowmt, DYlowmtfakes, restrict_positive=True)
     DYlow = views.StyleView(SubtractionView(DYlowall, DYlowfakes, restrict_positive=True), **remove_name_entry(data_styles['DYlow*']))
     DYlow = views.TitleView(DYlow, "ZllLowMass")
-    
+
     embedtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x :  x.startswith('embed') , mc_samples)])
     embedall = views.SubdirectoryView(embedtotal, s1)
-    embedtfakes = views.SubdirectoryView(embedtotal, s2)
     embedmfakes = views.SubdirectoryView(embedtotal, s3)
-    embedmtfakes = views.SubdirectoryView(embedtotal, s4)
-    embedmt = views.SumView(embedtfakes, embedmfakes)
-    embedfakes = SubtractionView(embedmt, embedmtfakes, restrict_positive=True)
     embed = views.StyleView(SubtractionView(embedall, embedmfakes, restrict_positive=True), **remove_name_entry(data_styles['DYTT*']))
-    #embed = views.StyleView(embedall, **remove_name_entry(data_styles['DYTT*']))  
     embed = views.TitleView(embed, "ZttEmbedded")
 
     EWKtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x :  x.startswith('EWK') , mc_samples)])
@@ -96,16 +91,22 @@ for j in jet:
     EWK = views.StyleView(SubtractionView(EWKall, EWKfakes, restrict_positive=True), **remove_name_entry(data_styles['W*Jets*']))
     EWK = views.TitleView(EWK, "EWK")
 
+    #SMHtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'HToTauTau' in x , mc_samples)])
+    #SMHall = views.SubdirectoryView(SMHtotal, s1)
+    #SMHtfakes = views.SubdirectoryView(SMHtotal, s2)
+    #SMHmfakes = views.SubdirectoryView(SMHtotal, s3)
+    #SMHmtfakes = views.SubdirectoryView(SMHtotal, s4)
+    #SMHmt = views.SumView(SMHtfakes, SMHmfakes)
+    #SMHfakes = SubtractionView(SMHmt, SMHmtfakes, restrict_positive=True)
+    #SMH = views.StyleView(SubtractionView(SMHall, SMHfakes, restrict_positive=True), **remove_name_entry(data_styles['*HToTauTau*']))
+    #SMH = views.TitleView(SMH, "SMH")
+
     SMHtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'HToTauTau' in x , mc_samples)])
     SMHall = views.SubdirectoryView(SMHtotal, s1)
-    SMHtfakes = views.SubdirectoryView(SMHtotal, s2)
-    SMHmfakes = views.SubdirectoryView(SMHtotal, s3)
-    SMHmtfakes = views.SubdirectoryView(SMHtotal, s4)
-    SMHmt = views.SumView(SMHtfakes, SMHmfakes)
-    SMHfakes = SubtractionView(SMHmt, SMHmtfakes, restrict_positive=True)
-    SMH = views.StyleView(SubtractionView(SMHall, SMHfakes, restrict_positive=True), **remove_name_entry(data_styles['*HToTauTau*']))
+    SMH = views.StyleView(SMHall, **remove_name_entry(data_styles['*HToTauTau*']))
     SMH = views.TitleView(SMH, "SMH")
 
+    #if j=='' or j=='0Jet' or j=='1Jet':
     TTtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('TT'), mc_samples)])
     TTall = views.SubdirectoryView(TTtotal, s1)
     TTtfakes = views.SubdirectoryView(TTtotal, s2)
@@ -115,26 +116,51 @@ for j in jet:
     TTfakes = SubtractionView(TTmt, TTmtfakes, restrict_positive=True)
     TT = views.StyleView(SubtractionView(TTall, TTfakes, restrict_positive=True), **remove_name_entry(data_styles['TT*']))
     TT = views.TitleView(TT, "TTbar")
+    #else:
+    #    TTtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('TT'), mc_samples)])
+    #    TTall = views.SubdirectoryView(TTtotal, s1)
+    #    TT = views.StyleView(TTall, **remove_name_entry(data_styles['TT*']))
+    #    TT = views.TitleView(TT, "TTbar")
+    
+    #STtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('ST'), mc_samples)])
+    #STall = views.SubdirectoryView(STtotal, s1)
+    #STtfakes = views.SubdirectoryView(STtotal, s2)
+    #STmfakes = views.SubdirectoryView(STtotal, s3)
+    #STmtfakes = views.SubdirectoryView(STtotal, s4)
+    #STmt = views.SumView(STtfakes, STmfakes)
+    #STfakes = SubtractionView(STmt, STmtfakes, restrict_positive=True)
+    #ST = views.StyleView(SubtractionView(STall, STfakes, restrict_positive=True), **remove_name_entry(data_styles['ST*']))
+    #ST = views.TitleView(ST, "SingleTop")
 
     STtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('ST'), mc_samples)])
     STall = views.SubdirectoryView(STtotal, s1)
-    STtfakes = views.SubdirectoryView(STtotal, s2)
-    STmfakes = views.SubdirectoryView(STtotal, s3)
-    STmtfakes = views.SubdirectoryView(STtotal, s4)
-    STmt = views.SumView(STtfakes, STmfakes)
-    STfakes = SubtractionView(STmt, STmtfakes, restrict_positive=True)
-    ST = views.StyleView(SubtractionView(STall, STfakes, restrict_positive=True), **remove_name_entry(data_styles['ST*']))
+    ST = views.StyleView(STall, **remove_name_entry(data_styles['ST*']))
     ST = views.TitleView(ST, "SingleTop")
+
+    #EWKDibosontotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('ZZ') or x.startswith('WZ') or x.startswith('WW'), mc_samples)])
+    #EWKDibosonall = views.SubdirectoryView(EWKDibosontotal, s1)
+    #EWKDibosontfakes = views.SubdirectoryView(EWKDibosontotal, s2)
+    #EWKDibosonmfakes = views.SubdirectoryView(EWKDibosontotal, s3)
+    #EWKDibosonmtfakes = views.SubdirectoryView(EWKDibosontotal, s4)
+    #EWKDibosonmt = views.SumView(EWKDibosontfakes, EWKDibosonmfakes)
+    #EWKDibosonfakes = SubtractionView(EWKDibosonmt, EWKDibosonmtfakes, restrict_positive=True)
+    #EWKDiboson = views.StyleView(SubtractionView(EWKDibosonall, EWKDibosonfakes, restrict_positive=True), **remove_name_entry(data_styles['WZ*']))
+    #EWKDiboson = views.TitleView(EWKDiboson, "DiBoson")
 
     EWKDibosontotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('ZZ') or x.startswith('WZ') or x.startswith('WW'), mc_samples)])
     EWKDibosonall = views.SubdirectoryView(EWKDibosontotal, s1)
-    EWKDibosontfakes = views.SubdirectoryView(EWKDibosontotal, s2)
-    EWKDibosonmfakes = views.SubdirectoryView(EWKDibosontotal, s3)
-    EWKDibosonmtfakes = views.SubdirectoryView(EWKDibosontotal, s4)
-    EWKDibosonmt = views.SumView(EWKDibosontfakes, EWKDibosonmfakes)
-    EWKDibosonfakes = SubtractionView(EWKDibosonmt, EWKDibosonmtfakes, restrict_positive=True)
-    EWKDiboson = views.StyleView(SubtractionView(EWKDibosonall, EWKDibosonfakes, restrict_positive=True), **remove_name_entry(data_styles['WZ*']))
+    EWKDiboson = views.StyleView(EWKDibosonall, **remove_name_entry(data_styles['WZ*']))
     EWKDiboson = views.TitleView(EWKDiboson, "DiBoson")
+
+    EWKTribosontotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('WZZ') or x.startswith('WWZ') or x.startswith('WWW'), mc_samples)])
+    EWKTribosonall = views.SubdirectoryView(EWKTribosontotal, s1)
+    EWKTribosontfakes = views.SubdirectoryView(EWKTribosontotal, s2)
+    EWKTribosonmfakes = views.SubdirectoryView(EWKTribosontotal, s3)
+    EWKTribosonmtfakes = views.SubdirectoryView(EWKTribosontotal, s4)
+    EWKTribosonmt = views.SumView(EWKTribosontfakes, EWKTribosonmfakes)
+    EWKTribosonfakes = SubtractionView(EWKTribosonmt, EWKTribosonmtfakes, restrict_positive=True)
+    EWKTriboson = views.StyleView(SubtractionView(EWKTribosonall, EWKTribosonfakes, restrict_positive=True), **remove_name_entry(data_styles['WWW*']))
+    EWKTriboson = views.TitleView(EWKTriboson, "TriBoson")
 
     data_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('QCD'), mc_samples)])
     fakesTau = views.SubdirectoryView(data_view, s2)
@@ -158,9 +184,10 @@ for j in jet:
     plotter.views['ST']={'view' : ST }
     plotter.views['QCD']={'view' : QCD }
     plotter.views['EWKDiboson']={'view' : EWKDiboson }
+    plotter.views['EWKTriboson']={'view' : EWKTriboson }
 
     new_mc_samples = []
-    new_mc_samples.extend(['QCD', 'embed', 'DY', 'TT', 'ST', 'EWKDiboson', 'EWK', 'DYlow', 'SMH'])
+    new_mc_samples.extend(['QCD', 'embed', 'DY', 'TT', 'ST', 'EWKDiboson', 'EWKTriboson', 'EWK', 'DYlow', 'SMH'])
     #new_mc_samples.extend(['QCD', 'DY', 'TT', 'ST', 'EWKDiboson', 'EWK', 'DYlow', 'SMH'])
     plotter.mc_samples = new_mc_samples
 

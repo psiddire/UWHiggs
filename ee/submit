@@ -1,0 +1,35 @@
+mkdir -p `dirname results/DataFeb1/AnalyzeEEFake/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v2.root`
+mkdir -p `dirname results/DataFeb1/AnalyzeEEFake/W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v3.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/DataFeb1/AnalyzeEEFake/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeEEFake.py inputs/DataFeb1/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v2.txt results/DataFeb1/AnalyzeEEFake/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v2.root --verbose >& batch_logs/results_DataFeb1_AnalyzeEEFake_WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v2.log &
+sleep 10s
+mkdir -p `dirname results/DataFeb1/AnalyzeEEFake/W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v4.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/DataFeb1/AnalyzeEEFake/W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v3.root
+mkdir -p batch_logs
+mega-farmout AnalyzeEEFake.py inputs/DataFeb1/W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v3.txt results/DataFeb1/AnalyzeEEFake/W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v3.root --verbose >& batch_logs/results_DataFeb1_AnalyzeEEFake_W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v3.log &
+sleep 10s
+mkdir -p `dirname results/DataFeb1/AnalyzeEEFake/W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/DataFeb1/AnalyzeEEFake/W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v4.root
+mkdir -p batch_logs
+mega-farmout AnalyzeEEFake.py inputs/DataFeb1/W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v4.txt results/DataFeb1/AnalyzeEEFake/W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v4.root --verbose >& batch_logs/results_DataFeb1_AnalyzeEEFake_W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v4.log &
+sleep 10s
+mkdir -p `dirname results/DataFeb1/AnalyzeEEFake/W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/DataFeb1/AnalyzeEEFake/W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeEEFake.py inputs/DataFeb1/W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataFeb1/AnalyzeEEFake/W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataFeb1_AnalyzeEEFake_W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
+sleep 10s
+#using farmout:1
+#dry run:1
+export megatarget=results/DataFeb1/AnalyzeEEFake/W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeEEFake.py inputs/DataFeb1/W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataFeb1/AnalyzeEEFake/W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataFeb1_AnalyzeEEFake_W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
+sleep 10s

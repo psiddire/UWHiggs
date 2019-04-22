@@ -1,0 +1,14 @@
+mkdir -p `dirname results/DataJan10/AnalyzeMuTau/GluGlu_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.root`
+mkdir -p `dirname results/DataJan10/AnalyzeMuTau/VBF_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/DataJan10/AnalyzeMuTau/GluGlu_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuTau.py inputs/DataJan10/GluGlu_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.txt results/DataJan10/AnalyzeMuTau/GluGlu_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan10_AnalyzeMuTau_GluGlu_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.log &
+sleep 10s
+#using farmout:1
+#dry run:1
+export megatarget=results/DataJan10/AnalyzeMuTau/VBF_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuTau.py inputs/DataJan10/VBF_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.txt results/DataJan10/AnalyzeMuTau/VBF_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan10_AnalyzeMuTau_VBF_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.log &
+sleep 10s

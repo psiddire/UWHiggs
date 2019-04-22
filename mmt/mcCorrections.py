@@ -5,6 +5,10 @@ import FinalStateAnalysis.TagAndProbe.PileupWeight as PileupWeight
 from FinalStateAnalysis.PlotTools.decorators import memo, memo_last
 #import FinalStateAnalysis.TagAndProbe.EGammaPOGCorrections as EGammaPOGCorrections
 import FinalStateAnalysis.TagAndProbe.MuonPOGCorrections as MuonPOGCorrections
+import FinalStateAnalysis.TagAndProbe.EmbeddedCorrections as EmbedCorrections
+import FinalStateAnalysis.TagAndProbe.DYCorrection as DYCorrection
+import FinalStateAnalysis.TagAndProbe.FakeRate as FakeRate
+import ROOT
 
 @memo
 def getVar(name, var):
@@ -30,26 +34,26 @@ def make_puCorrector(dataset, kind=None, puname=''):
     'makes PU reweighting according to the pu distribution of the reference data and the MC, MC distribution can be forced %s'
     if not kind:
         kind = mc_pu_tag
-    if dataset in pu_distributions:# and dataset in pu_distributionsUp and dataset in pu_distributionsDown:
+    if dataset in pu_distributions:
         return PileupWeight.PileupWeight( 'S6' if is7TeV else puname, *pu_distributions[dataset])
     else:
         raise KeyError('dataset not present. Please check the spelling or add it to mcCorrectors.py')
 
-def make_puCorrectorUp(dataset, kind=None):
+def make_puCorrectorUp(dataset, kind=None, puname=''):
     'makes PU reweighting according to the pu distribution of the reference data and the MC, MC distribution can be forced'
     if not kind:
         kind = mc_pu_tag
-    if dataset in pu_distributions:
-        return PileupWeight.PileupWeight( 'S6' if is7TeV else 'MC_Moriond17', *(pu_distributionsUp[dataset]))
+    if dataset in pu_distributionsUp:
+        return PileupWeight.PileupWeight( 'S6' if is7TeV else puname, *(pu_distributionsUp[dataset]))
     else:
         raise KeyError('dataset not present. Please check the spelling or add it to mcCorrectors.py')
 
-def make_puCorrectorDown(dataset, kind=None):
+def make_puCorrectorDown(dataset, kind=None, puname=''):
     'makes PU reweighting according to the pu distribution of the reference data and the MC, MC distribution can be forced'
     if not kind:
         kind = mc_pu_tag
-    if dataset in pu_distributions:
-        return PileupWeight.PileupWeight( 'S6' if is7TeV else 'MC_Moriond17', *(pu_distributionsDown[dataset]))
+    if dataset in pu_distributionsDown:
+        return PileupWeight.PileupWeight( 'S6' if is7TeV else puname, *(pu_distributionsDown[dataset]))
     else:
         raise KeyError('dataset not present. Please check the spelling or add it to mcCorrectors.py')
 
@@ -80,10 +84,21 @@ def make_shifted_weights(default, shifts, functors):
 muonID_tight = MuonPOGCorrections.make_muon_pog_PFTight_2017ReReco()
 muonID_medium = MuonPOGCorrections.make_muon_pog_PFMedium_2017ReReco()
 muonID_loose = MuonPOGCorrections.make_muon_pog_PFLoose_2017ReReco()
-muonIso_tight = MuonPOGCorrections.make_muon_pog_TightIso_2017ReReco('Tight')
+muonIso_tight_tightid = MuonPOGCorrections.make_muon_pog_TightIso_2017ReReco('Tight')
+muonIso_tight_mediumid = MuonPOGCorrections.make_muon_pog_TightIso_2017ReReco('Medium')
 muonIso_loose_looseid = MuonPOGCorrections.make_muon_pog_LooseIso_2017ReReco('Loose')
 muonIso_loose_mediumid = MuonPOGCorrections.make_muon_pog_LooseIso_2017ReReco('Medium')
 muonIso_loose_tightid = MuonPOGCorrections.make_muon_pog_LooseIso_2017ReReco('Tight')
 efficiency_trigger_mu_2017 = MuonPOGCorrections.make_muon_pog_IsoMu27_2017ReReco()
-#muonTracking = MuonPOGCorrections.mu_trackingEta_2016
-#DYreweight = HetauCorrection.make_DYreweight()
+fakerate_weight = FakeRate.FakeRateWeight()
+fakerateMuon_weight = FakeRate.FakeRateMuonWeight()
+muonTracking = MuonPOGCorrections.mu_trackingEta_2017
+DYreweight = DYCorrection.make_DYreweight()
+DYreweight1D = DYCorrection.make_DYreweight1D()
+embedTrg = EmbedCorrections.embed_IsoMu27_2017ReReco()
+embedmID = EmbedCorrections.embed_ID_2017ReReco()
+embedmIso = EmbedCorrections.embed_Iso_2017ReReco()
+
+f = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/htt_scalefactors_v17_5.root")
+ws = f.Get("w")
+

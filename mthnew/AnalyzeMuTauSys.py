@@ -19,11 +19,10 @@ import operator
 import mcCorrections
 from RecoilCorrector import RecoilCorrector
 from MEtSys import MEtSys
-from cutflowtracker import cut_flow_tracker
 from math import sqrt, pi
 from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVA
-from ROOT import gROOT, gRandom, TRandom3
-import bTagSF
+from ROOT import gROOT, gRandom, TRandom3, TFile
+from bTagSF import PromoteDemote
 import random
 
 gRandom.SetSeed()
@@ -85,140 +84,140 @@ def collMass(row):
 
 
 def topPtreweight(pt1, pt2):
-    if pt1 > 400 : pt1 = 400
-    if pt2 > 400 : pt2 = 400
-    a = 0.0615
-    b = -0.0005
-    wt1 = math.exp(a + b * pt1)
-    wt2 = math.exp(a + b * pt2)
-    wt = sqrt(wt1 * wt2)
-    return wt
+  if pt1 > 400 : pt1 = 400
+  if pt2 > 400 : pt2 = 400
+  a = 0.0615
+  b = -0.0005
+  wt1 = math.exp(a + b * pt1)
+  wt2 = math.exp(a + b * pt2)
+  wt = sqrt(wt1 * wt2)
+  return wt
 
 
 if bool('DYJetsToLL_M-50' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'DY'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'DY'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'DY')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'DY'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'DY'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'DY')}
 elif bool('DYJetsToLL_M-10to50' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'DY10'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'DY10'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'DY10')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'DY10'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'DY10'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'DY10')}
 elif bool('DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'DYAMC'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'DYAMC'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'DYAMC')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'DYAMC'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'DYAMC'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'DYAMC')}
 elif bool('DY1JetsToLL' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'DY1'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'DY1'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'DY1')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'DY1'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'DY1'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'DY1')}
 elif bool('DY2JetsToLL' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'DY2'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'DY2'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'DY2')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'DY2'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'DY2'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'DY2')}
 elif bool('DY3JetsToLL' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'DY3'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'DY3'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'DY3')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'DY3'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'DY3'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'DY3')}
 elif bool('DY4JetsToLL' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'DY4'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'DY4'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'DY4')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'DY4'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'DY4'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'DY4')}
 elif bool('WW_TuneCP5' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'WW'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'WW'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'WW')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'WW'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'WW'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'WW')}
 elif bool('WZ_TuneCP5' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'WZ'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'WZ'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'WZ')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'WZ'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'WZ'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'WZ')}
 elif bool('ZZ_TuneCP5' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'ZZ'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'ZZ'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'ZZ')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'ZZ'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'ZZ'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'ZZ')}
 elif bool('EWKWMinus' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'Wminus'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'Wminus'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'Wminus')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'Wminus'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'Wminus'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'Wminus')}
 elif bool('EWKWPlus' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'Wplus'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'Wplus'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'Wplus')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'Wplus'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'Wplus'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'Wplus')}
 elif bool('EWKZ2Jets_ZToLL' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'Zll'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'Zll'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'Zll')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'Zll'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'Zll'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'Zll')}
 elif bool('EWKZ2Jets_ZToNuNu' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'Znunu'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'Znunu'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'Znunu')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'Znunu'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'Znunu'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'Znunu')}
 elif bool('ZHToTauTau' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'ZHTT'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'ZHTT'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'ZHTT')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'ZHTT'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'ZHTT'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'ZHTT')}
 elif bool('ttHToTauTau' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'ttH'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'ttH'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'ttH')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'ttH'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'ttH'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'ttH')}
 elif bool('Wminus' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'WminusHTT'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'WminusHTT'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'WminusHTT')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'WminusHTT'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'WminusHTT'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'WminusHTT')}
 elif bool('Wplus' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'WplusHTT'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'WplusHTT'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'WplusHTT')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'WplusHTT'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'WplusHTT'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'WplusHTT')}
 elif bool('ST_t-channel_antitop' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'STtantitop'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'STtantitop'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'STtantitop')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'STtantitop'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'STtantitop'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'STtantitop')}
 elif bool('ST_t-channel_top' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'STttop'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'STttop'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'STttop')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'STttop'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'STttop'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'STttop')}
 elif bool('ST_tW_antitop' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'STtWantitop'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'STtWantitop'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'STtWantitop')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'STtWantitop'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'STtWantitop'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'STtWantitop')}
 elif bool('ST_tW_top' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'STtWtop'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'STtWtop'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'STtWtop')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'STtWtop'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'STtWtop'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'STtWtop')}
 elif bool('TTTo2L2Nu' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'TTTo2L2Nu'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'TTTo2L2Nu'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'TTTo2L2Nu')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'TTTo2L2Nu'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'TTTo2L2Nu'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'TTTo2L2Nu')}
 elif bool('TTToHadronic' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'TTToHadronic'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'TTToHadronic'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'TTToHadronic')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'TTToHadronic'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'TTToHadronic'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'TTToHadronic')}
 elif bool('TTToSemiLeptonic' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'TTToSemiLeptonic'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'TTToSemiLeptonic'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'TTToSemiLeptonic')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'TTToSemiLeptonic'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'TTToSemiLeptonic'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'TTToSemiLeptonic')}
 elif bool('VBFHToTauTau' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'VBFHTT'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'VBFHTT'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'VBFHTT')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'VBFHTT'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'VBFHTT'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'VBFHTT')}
 elif bool('VBF_LFV_HToMuTau' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'VBFHMT'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'VBFHMT'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'VBFHMT')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'VBFHMT'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'VBFHMT'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'VBFHMT')}
 elif bool('GluGluHToTauTau' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'GGHTT'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'GGHTT'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'GGHTT')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'GGHTT'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'GGHTT'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'GGHTT')}
 elif bool('GluGlu_LFV_HToMuTau' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'GGHMT'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'GGHMT'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'GGHMT')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'GGHMT'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'GGHMT'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'GGHMT')}
 elif bool('QCD' in target):
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'QCD'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'QCD'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'QCD')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'QCD'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'QCD'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'QCD')}
 else:
-    pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'DY'),
-                   'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'DY'),
-                   'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'DY')}
+  pucorrector = {'' : mcCorrections.make_puCorrector('singlem', None, 'DY'),
+                 'puUp': mcCorrections.make_puCorrectorUp('singlem', None, 'DY'),
+                 'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'DY')}
 
 
 class AnalyzeMuTauSys(MegaBase):
@@ -241,6 +240,7 @@ class AnalyzeMuTauSys(MegaBase):
     self.is_EWKWPlus = bool('EWKWPlus' in target)
     self.is_EWKZToLL = bool('EWKZ2Jets_ZToLL' in target)
     self.is_EWKZToNuNu = bool('EWKZ2Jets_ZToNuNu' in target)
+    self.is_EWK = bool(self.is_EWKWMinus or self.is_EWKWPlus or self.is_EWKZToLL or self.is_EWKZToNuNu)
     self.is_ZHTT = bool('ZHToTauTau' in target)
     self.is_ttH = bool('ttHToTauTau' in target)
     self.is_Wminus = bool('Wminus' in target)
@@ -254,10 +254,14 @@ class AnalyzeMuTauSys(MegaBase):
     self.is_TTToSemiLeptonic = bool('TTToSemiLeptonic' in target)
     self.is_VBFH = bool('VBFHToTauTau' in target)
     self.is_GluGluH = bool('GluGluHToTauTau' in target)
-    self.is_recoilC = bool(('HTo' in target) or ('Jets' in target))
+    self.is_recoilC = bool(self.is_DYlow or self.is_DY or self.is_GluGlu or self.is_VBF or self.is_EWK or self.is_VBFH or self.is_GluGluH)
     if self.is_recoilC and MetCorrection:
       self.Metcorected = RecoilCorrector("Type1_PFMET_2017.root")
-      self.MetSys = MEtSys("MEtSys_2017.root")
+      self.MetSys = MEtSys("PFMEtSys_2017.root")
+    self.f_btag_eff = TFile("btag.root","r")
+    self.h_btag_eff_b = self.f_btag_eff.Get("btag_eff_b")
+    self.h_btag_eff_c = self.f_btag_eff.Get("btag_eff_c")
+    self.h_btag_eff_oth = self.f_btag_eff.Get("btag_eff_oth")
 
     super(AnalyzeMuTauSys, self).__init__(tree, outfile, **kwargs)
     self.tree = MuTauTree.MuTauTree(tree)
@@ -283,7 +287,7 @@ class AnalyzeMuTauSys(MegaBase):
     self.embedmIso = mcCorrections.embedmIso
 
     self.DYweight = {
-      0 : 2.666650438,
+      0 : 2.666650438,#2.288666996
       1 : 0.465334904,
       2 : 0.967287905,
       3 : 0.609127575,
@@ -313,7 +317,7 @@ class AnalyzeMuTauSys(MegaBase):
 
 
   def kinematics(self, row):
-    if row['mPt'] < 29 or abs(row['mEta']) >= 2.4:
+    if row['mPt'] < 29 or abs(row['mEta']) >= 2.1:
       return False
     if row['tPt'] < 30 or abs(row['tEta']) >= 2.3:
       return False
@@ -321,11 +325,11 @@ class AnalyzeMuTauSys(MegaBase):
 
 
   def vetos(self, row):
-    return (bool(row['eVetoMVAIso'] < 0.5) and bool(row['tauVetoPt20Loose3HitsVtx'] < 0.5) and bool(row['muGlbIsoVetoPt10'] < 0.5))
+    return (bool(row['eVetoMVAIso'] < 0.5) and bool(row['tauVetoPt20TightMVALTVtx'] < 0.5) and bool(row['muGlbIsoVetoPt10'] < 0.5))
 
 
   def obj1_id(self, row):
-    return bool(row['mPFIDTight'])
+    return (bool(row['mPFIDTight']) and bool(abs(row['mPVDZ']) < 0.2) and bool(abs(row['mPVDXY']) < 0.045))
  
  
   def obj1_tight(self, row):
@@ -337,11 +341,11 @@ class AnalyzeMuTauSys(MegaBase):
 
   
   def obj2_id(self, row):
-    return bool(row['tDecayModeFinding'] > 0.5) and bool(row['tAgainstElectronVLooseMVA6'] > 0.5) and bool(row['tAgainstMuonTight3'] > 0.5)
+    return (bool(row['tDecayModeFinding'] > 0.5) and bool(row['tAgainstElectronVLooseMVA6'] > 0.5) and bool(row['tAgainstMuonTight3'] > 0.5) and bool(abs(row['tPVDZ']) < 0.2))
 
 
   def obj2_tight(self, row):
-    return bool(row['tRerunMVArun2v2DBoldDMwLTTight'] > 0.5)
+    return bool(row['tRerunMVArun2v2DBoldDMwLTVTight'] > 0.5)#Tight
 
 
   def obj2_loose(self, row):
@@ -359,11 +363,17 @@ class AnalyzeMuTauSys(MegaBase):
   def begin(self):
     folder = []
     vbffolder = []
-    names = ['TauLooseOS', 'MuonLooseOS', 'MuonLooseTauLooseOS', 'TightOS', 'TauLooseOS0Jet', 'MuonLooseOS0Jet', 'MuonLooseTauLooseOS0Jet', 'TightOS0Jet', 'TauLooseOS1Jet', 'MuonLooseOS1Jet', 'MuonLooseTauLooseOS1Jet', 'TightOS1Jet', 'TauLooseOS2Jet', 'MuonLooseOS2Jet', 'MuonLooseTauLooseOS2Jet', 'TightOS2Jet'] 
-    vbfnames = ['TauLooseOS2JetVBF', 'MuonLooseOS2JetVBF', 'MuonLooseTauLooseOS2JetVBF', 'TightOS2JetVBF']
+
+    names = ['TauLooseOS', 'MuonLooseOS', 'MuonLooseTauLooseOS', 'TightOS', 'TauLooseOS0Jet', 'MuonLooseOS0Jet', 'MuonLooseTauLooseOS0Jet', 'TightOS0Jet', 'TauLooseOS1Jet', 'MuonLooseOS1Jet', 'MuonLooseTauLooseOS1Jet', 'TightOS1Jet'] 
+
+    vbfnames = ['TauLooseOS2Jet', 'MuonLooseOS2Jet', 'MuonLooseTauLooseOS2Jet', 'TightOS2Jet', 'TauLooseOS2JetVBF', 'MuonLooseOS2JetVBF', 'MuonLooseTauLooseOS2JetVBF', 'TightOS2JetVBF']
+
     sys = ['', 'puUp', 'puDown', 'trUp', 'trDown', 'recrespUp', 'recrespDown', 'recresoUp', 'recresoDown', 'embtrUp', 'embtrDown', 'embtrkUp', 'embtrkDown', 'mtfakeUp', 'mtfakeDown', 'etfakeUp', 'etfakeDown', 'etefakeUp', 'etefakeDown', 'scaletDM0Up', 'scaletDM0Down', 'scaletDM1Up', 'scaletDM1Down', 'scaletDM10Up', 'scaletDM10Down', 'mesUp', 'mesDown', 'DYptreweightUp', 'DYptreweightDown', 'UnclusteredEnDown', 'UnclusteredEnUp', 'AbsoluteFlavMapUp', 'AbsoluteFlavMapDown', 'AbsoluteMPFBiasUp', 'AbsoluteMPFBiasDown', 'JetAbsoluteScaleUp', 'JetAbsoluteScaleDown', 'JetAbsoluteStatUp', 'JetAbsoluteStatDown', 'JetFlavorQCDUp', 'JetFlavorQCDDown', 'JetFragmentationUp', 'JetFragmentationDown', 'JetPileUpDataMCUp', 'JetPileUpDataMCDown', 'JetPileUpPtBBUp', 'JetPileUpPtBBDown', 'JetPileUpPtEC1Up', 'JetPileUpPtEC1Down', 'JetPileUpPtEC2Up', 'JetPileUpPtEC2Down', 'JetPileUpPtHFUp', 'JetPileUpPtHFDown', 'JetPileUpPtRefUp', 'JetPileUpPtRefDown', 'JetRelativeFSRUp', 'JetRelativeFSRDown', 'JetRelativeJEREC1Up', 'JetRelativeJEREC1Down', 'JetRelativeJEREC2Up', 'JetRelativeJEREC2Down', 'JetRelativeJERHFUp', 'JetRelativeJERHFDown', 'JetRelativePtBBUp', 'JetRelativePtBBDown', 'JetRelativePtEC1Up', 'JetRelativePtEC1Down', 'JetRelativePtEC2Up', 'JetRelativePtEC2Down', 'JetRelativePtHFUp', 'JetRelativePtHFDown', 'JetRelativeStatECUp', 'JetRelativeStatECDown', 'JetRelativeStatFSRUp', 'JetRelativeStatFSRDown', 'JetRelativeStatHFUp', 'JetRelativeStatHFDown', 'JetSinglePionECALUp', 'JetSinglePionECALDown', 'JetSinglePionHCALUp', 'JetSinglePionHCALDown', 'JetTimePtEtaUp', 'JetTimePtEtaDown', 'JetRelativeBalUp', 'JetRelativeBalDown', 'JetRelativeSampleUp', 'JetRelativeSampleDown']#'TopptreweightUp', 'TopptreweightDown'
-    fakes = ['MuonLooseOS/MuonFakeUp', 'MuonLooseOS0Jet/MuonFakeUp', 'MuonLooseOS1Jet/MuonFakeUp', 'MuonLooseOS2Jet/MuonFakeUp', 'MuonLooseOS/MuonFakeDown', 'MuonLooseOS0Jet/MuonFakeDown', 'MuonLooseOS1Jet/MuonFakeDown', 'MuonLooseOS2Jet/MuonFakeDown', 'TauLooseOS/TauFakeUp', 'TauLooseOS0Jet/TauFakeUp', 'TauLooseOS1Jet/TauFakeUp', 'TauLooseOS2Jet/TauFakeUp', 'TauLooseOS/TauFakeDown', 'TauLooseOS0Jet/TauFakeDown', 'TauLooseOS1Jet/TauFakeDown', 'TauLooseOS2Jet/TauFakeDown', 'MuonLooseTauLooseOS/TauFakeUp', 'MuonLooseTauLooseOS0Jet/TauFakeUp', 'MuonLooseTauLooseOS1Jet/TauFakeUp', 'MuonLooseTauLooseOS2Jet/TauFakeUp', 'MuonLooseTauLooseOS/TauFakeDown', 'MuonLooseTauLooseOS0Jet/TauFakeDown', 'MuonLooseTauLooseOS1Jet/TauFakeDown', 'MuonLooseTauLooseOS2Jet/TauFakeDown', 'MuonLooseTauLooseOS/MuonFakeUp', 'MuonLooseTauLooseOS0Jet/MuonFakeUp', 'MuonLooseTauLooseOS1Jet/MuonFakeUp', 'MuonLooseTauLooseOS2Jet/MuonFakeUp', 'MuonLooseTauLooseOS/MuonFakeDown', 'MuonLooseTauLooseOS0Jet/MuonFakeDown', 'MuonLooseTauLooseOS1Jet/MuonFakeDown', 'MuonLooseTauLooseOS2Jet/MuonFakeDown']
-    vbffakes = ['MuonLooseOS2JetVBF/MuonFakeUp', 'MuonLooseOS2JetVBF/MuonFakeDown', 'TauLooseOS2JetVBF/TauFakeUp', 'TauLooseOS2JetVBF/TauFakeDown', 'MuonLooseTauLooseOS2JetVBF/TauFakeUp', 'MuonLooseTauLooseOS2JetVBF/TauFakeDown', 'MuonLooseTauLooseOS2JetVBF/MuonFakeUp', 'MuonLooseTauLooseOS2JetVBF/MuonFakeDown']
+
+    fakes = ['MuonLooseOS/MuonFakeUp', 'MuonLooseOS0Jet/MuonFakeUp', 'MuonLooseOS1Jet/MuonFakeUp', 'MuonLooseOS/MuonFakeDown', 'MuonLooseOS0Jet/MuonFakeDown', 'MuonLooseOS1Jet/MuonFakeDown', 'TauLooseOS/TauFakeUp', 'TauLooseOS0Jet/TauFakeUp', 'TauLooseOS1Jet/TauFakeUp', 'TauLooseOS/TauFakeDown', 'TauLooseOS0Jet/TauFakeDown', 'TauLooseOS1Jet/TauFakeDown', 'MuonLooseTauLooseOS/TauFakeUp', 'MuonLooseTauLooseOS0Jet/TauFakeUp', 'MuonLooseTauLooseOS1Jet/TauFakeUp', 'MuonLooseTauLooseOS/TauFakeDown', 'MuonLooseTauLooseOS0Jet/TauFakeDown', 'MuonLooseTauLooseOS1Jet/TauFakeDown', 'MuonLooseTauLooseOS/MuonFakeUp', 'MuonLooseTauLooseOS0Jet/MuonFakeUp', 'MuonLooseTauLooseOS1Jet/MuonFakeUp', 'MuonLooseTauLooseOS/MuonFakeDown', 'MuonLooseTauLooseOS0Jet/MuonFakeDown', 'MuonLooseTauLooseOS1Jet/MuonFakeDown']
+
+    vbffakes = ['TauLooseOS2Jet/TauFakeUp', 'TauLooseOS2Jet/TauFakeDown', 'MuonLooseOS2Jet/MuonFakeUp', 'MuonLooseOS2Jet/MuonFakeDown', 'MuonLooseTauLooseOS2Jet/TauFakeUp', 'MuonLooseTauLooseOS2Jet/TauFakeDown', 'MuonLooseTauLooseOS2Jet/MuonFakeUp', 'MuonLooseTauLooseOS2Jet/MuonFakeDown', 'MuonLooseOS2JetVBF/MuonFakeUp', 'MuonLooseOS2JetVBF/MuonFakeDown', 'TauLooseOS2JetVBF/TauFakeUp', 'TauLooseOS2JetVBF/TauFakeDown', 'MuonLooseTauLooseOS2JetVBF/TauFakeUp', 'MuonLooseTauLooseOS2JetVBF/TauFakeDown', 'MuonLooseTauLooseOS2JetVBF/MuonFakeUp', 'MuonLooseTauLooseOS2JetVBF/MuonFakeDown']
+
     for tuple_path in itertools.product(names, sys):
       folder.append(os.path.join(*tuple_path))
     for fak in fakes:
@@ -371,13 +381,14 @@ class AnalyzeMuTauSys(MegaBase):
     for f in folder:
       self.book(f, "m_t_Mass", "Muon + Tau Mass", 30, 0, 300)
       self.book(f, "m_t_CollinearMass", "Muon + Tau Collinear Mass", 30, 0, 300)      
+
     for tuple_path_vbf in itertools.product(vbfnames, sys):
       vbffolder.append(os.path.join(*tuple_path_vbf))
     for fak in vbffakes:
       vbffolder.append(fak)
     for f in vbffolder:
-      self.book(f, "m_t_Mass", "Muon + Tau Mass", 15, 0, 300)
-      self.book(f, "m_t_CollinearMass", "Muon + Tau Collinear Mass", 15, 0, 300)
+      self.book(f, "m_t_Mass", "Muon + Tau Mass", 12, 0, 300)
+      self.book(f, "m_t_CollinearMass", "Muon + Tau Collinear Mass", 12, 0, 300)
 
   def fill_histos(self, row, weight, name=''):
     histos = self.histograms
@@ -415,6 +426,8 @@ class AnalyzeMuTauSys(MegaBase):
         else:
           self.fill_histos(row, weight * 2.21/1.61, name+'/mtfakeUp')
           self.fill_histos(row, weight * 1.01/1.61, name+'/mtfakeDown')
+        self.fill_histos(row, weight, name+'/etfakeUp')
+        self.fill_histos(row, weight, name+'/etfakeDown')
       elif row['tZTTGenMatching']==1 or row['tZTTGenMatching']==3:
         if abs(row['tEta']) < 1.46:
           self.fill_histos(row, weight * 1.10/1.09, name+'/etfakeUp')
@@ -422,24 +435,35 @@ class AnalyzeMuTauSys(MegaBase):
         elif abs(row['tEta']) > 1.558:
           self.fill_histos(row, weight * 1.20/1.19, name+'/etfakeUp')
           self.fill_histos(row, weight * 1.18/1.19, name+'/etfakeDown')
+        self.fill_histos(row, weight, name+'/mtfakeUp')
+        self.fill_histos(row, weight, name+'/mtfakeDown')
+      else:
+        self.fill_histos(row, weight, name+'/etfakeUp')
+        self.fill_histos(row, weight, name+'/etfakeDown')
+        self.fill_histos(row, weight, name+'/mtfakeUp')
+        self.fill_histos(row, weight, name+'/mtfakeDown')
           
       metrow = copy.deepcopy(row)
       if self.is_recoilC and MetCorrection:
-        sysMet = self.MetSys.ApplyMEtSys(row['type1_pfMetEt']*math.cos(row['type1_pfMetPhi']), row['type1_pfMetEt']*math.sin(row['type1_pfMetPhi']), row['genpX'], row['genpY'], row['vispX'], row['vispY'], int(round(row['jetVeto30'])), 0, 0, 0)
-        metrow['type1_pfMetEt'] = math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1])
-        metrow['type1_pfMetPhi'] = math.atan2(sysMet[1], sysMet[0])
+        sysMet = self.MetSys.ApplyMEtSys(row['type1_pfMetEt']*math.cos(row['type1_pfMetPhi']), row['type1_pfMetEt']*math.sin(row['type1_pfMetPhi']), row['genpX'], row['genpY'], row['vispX'], row['vispY'], int(round(row['jetVeto30WoNoisyJets'])), 0, 0, 0)
+        if sysMet!=None:
+          metrow['type1_pfMetEt'] = math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1])
+          metrow['type1_pfMetPhi'] = math.atan2(sysMet[1], sysMet[0])
         self.fill_histos(metrow, weight, name+'/recrespUp')
-        sysMet = self.MetSys.ApplyMEtSys(row['type1_pfMetEt']*math.cos(row['type1_pfMetPhi']), row['type1_pfMetEt']*math.sin(row['type1_pfMetPhi']), row['genpX'], row['genpY'], row['vispX'], row['vispY'], int(round(row['jetVeto30'])), 0, 0, 1)
-        metrow['type1_pfMetEt'] = math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1])
-        metrow['type1_pfMetPhi'] = math.atan2(sysMet[1], sysMet[0])
+        sysMet = self.MetSys.ApplyMEtSys(row['type1_pfMetEt']*math.cos(row['type1_pfMetPhi']), row['type1_pfMetEt']*math.sin(row['type1_pfMetPhi']), row['genpX'], row['genpY'], row['vispX'], row['vispY'], int(round(row['jetVeto30WoNoisyJets'])), 0, 0, 1)
+        if sysMet!=None:
+          metrow['type1_pfMetEt'] = math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1])
+          metrow['type1_pfMetPhi'] = math.atan2(sysMet[1], sysMet[0])
         self.fill_histos(metrow, weight, name+'/recrespDown')
-        sysMet = self.MetSys.ApplyMEtSys(row['type1_pfMetEt']*math.cos(row['type1_pfMetPhi']), row['type1_pfMetEt']*math.sin(row['type1_pfMetPhi']), row['genpX'], row['genpY'], row['vispX'], row['vispY'], int(round(row['jetVeto30'])), 0, 1, 0)
-        metrow['type1_pfMetEt'] = math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1])
-        metrow['type1_pfMetPhi'] = math.atan2(sysMet[1], sysMet[0])
+        sysMet = self.MetSys.ApplyMEtSys(row['type1_pfMetEt']*math.cos(row['type1_pfMetPhi']), row['type1_pfMetEt']*math.sin(row['type1_pfMetPhi']), row['genpX'], row['genpY'], row['vispX'], row['vispY'], int(round(row['jetVeto30WoNoisyJets'])), 0, 1, 0)
+        if sysMet!=None:
+          metrow['type1_pfMetEt'] = math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1])
+          metrow['type1_pfMetPhi'] = math.atan2(sysMet[1], sysMet[0])
         self.fill_histos(metrow, weight, name+'/recresoUp')
-        sysMet = self.MetSys.ApplyMEtSys(row['type1_pfMetEt']*math.cos(row['type1_pfMetPhi']), row['type1_pfMetEt']*math.sin(row['type1_pfMetPhi']), row['genpX'], row['genpY'], row['vispX'], row['vispY'], int(round(row['jetVeto30'])), 0, 1, 1)
-        metrow['type1_pfMetEt'] = math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1])
-        metrow['type1_pfMetPhi'] = math.atan2(sysMet[1], sysMet[0])
+        sysMet = self.MetSys.ApplyMEtSys(row['type1_pfMetEt']*math.cos(row['type1_pfMetPhi']), row['type1_pfMetEt']*math.sin(row['type1_pfMetPhi']), row['genpX'], row['genpY'], row['vispX'], row['vispY'], int(round(row['jetVeto30WoNoisyJets'])), 0, 1, 1)
+        if sysMet!=None:
+          metrow['type1_pfMetEt'] = math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1])
+          metrow['type1_pfMetPhi'] = math.atan2(sysMet[1], sysMet[0])
         self.fill_histos(metrow, weight, name+'/recresoDown')
 
       ftesrow = copy.deepcopy(row)
@@ -450,6 +474,12 @@ class AnalyzeMuTauSys(MegaBase):
           self.fill_histos(ftesrow, weight, name+'/etefakeUp')
           ftesrow['tPt'] = tmptpt * 0.993
           self.fill_histos(ftesrow, weight, name+'/etefakeDown')
+        else:
+          self.fill_histos(ftesrow, weight, name+'/etefakeUp')
+          self.fill_histos(ftesrow, weight, name+'/etefakeDown')
+      else:
+        self.fill_histos(ftesrow, weight, name+'/etefakeUp')
+        self.fill_histos(ftesrow, weight, name+'/etefakeDown')
 
       mesrow = copy.deepcopy(row)
       tmpmpt = mesrow['mPt']
@@ -812,6 +842,9 @@ class AnalyzeMuTauSys(MegaBase):
           dm = pow(0.975, 3)
           self.fill_histos(row, weight * pow(0.983, 3)/dm, name+'/embtrkUp')
           self.fill_histos(row, weight * pow(0.967, 3)/dm, name+'/embtrkDown')
+        else:
+          self.fill_histos(row, weight, name+'/embtrkUp')
+          self.fill_histos(row, weight, name+'/embtrkDown')
 
 
   def tauPtC(self, tPt, tDecayMode, tZTTGenMatching):
@@ -844,22 +877,22 @@ class AnalyzeMuTauSys(MegaBase):
     subtemp = {}
     tmpMetEt = row.type1_pfMetEt
     tmpMetPhi = row.type1_pfMetPhi
-    subtemp['tPtInitial'] = row.tPt
-    subtemp['MetEtInitial'] = tmpMetEt
+    subtemp["tPtInitial"] = row.tPt
+    subtemp["MetEtInitial"] = tmpMetEt
     if self.is_recoilC and MetCorrection:
-      tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30)))
+      tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30WoNoisyJets)))
       tmpMetEt = math.sqrt(tmpMet[0]*tmpMet[0] + tmpMet[1]*tmpMet[1])
       tmpMetPhi = math.atan2(tmpMet[1], tmpMet[0])
-      subtemp['genpX'] = row.genpX
-      subtemp['genpY'] = row.genpY
-      subtemp['vispX'] = row.vispX
-      subtemp['vispY'] = row.vispY
+      subtemp["genpX"] = row.genpX
+      subtemp["genpY"] = row.genpY
+      subtemp["vispX"] = row.vispX
+      subtemp["vispY"] = row.vispY
 
     subtemp["tPt"] = self.tauPtC(row.tPt, row.tDecayMode, row.tZTTGenMatching)
     subtemp["type1_pfMetEt"] = self.metTauC(row.tPt, row.tDecayMode, row.tZTTGenMatching, tmpMetEt)
     subtemp["type1_pfMetPhi"] = tmpMetPhi
 
-    if self.is_DY:
+    if self.is_DY or self.is_DYlow:
       subtemp["isZmumu"] = row.isZmumu
       subtemp["isZee"] = row.isZee
 
@@ -880,16 +913,23 @@ class AnalyzeMuTauSys(MegaBase):
     subtemp["IsoMu27Pass"] = row.IsoMu27Pass
     subtemp["eVetoMVAIso"] = row.eVetoMVAIso
     subtemp["tauVetoPt20Loose3HitsVtx"] = row.tauVetoPt20Loose3HitsVtx
+    subtemp["tauVetoPt20TightMVALTVtx"] = row.tauVetoPt20TightMVALTVtx
     subtemp["muGlbIsoVetoPt10"] = row.muGlbIsoVetoPt10
     subtemp["mPFIDTight"] = row.mPFIDTight
+    subtemp["mPVDZ"] = row.mPVDZ
+    subtemp["mPVDXY"] = row.mPVDXY
+    subtemp["tPVDZ"] = row.tPVDZ
     subtemp["mRelPFIsoDBDefaultR04"] = row.mRelPFIsoDBDefaultR04
     subtemp["tDecayModeFinding"] = row.tDecayModeFinding
     subtemp["tAgainstElectronVLooseMVA6"] = row.tAgainstElectronVLooseMVA6
     subtemp["tAgainstMuonTight3"] = row.tAgainstMuonTight3
     subtemp["tRerunMVArun2v2DBoldDMwLTTight"] = row.tRerunMVArun2v2DBoldDMwLTTight
     subtemp["tRerunMVArun2v2DBoldDMwLTLoose"] = row.tRerunMVArun2v2DBoldDMwLTLoose
+    subtemp["tRerunMVArun2v2DBoldDMwLTVTight"] = row.tRerunMVArun2v2DBoldDMwLTVTight
     subtemp["tByCombinedIsolationDeltaBetaCorrRaw3Hits"] = row.tByCombinedIsolationDeltaBetaCorrRaw3Hits
+    subtemp["tByIsolationMVArun2v1DBoldDMwLTraw"] = row.tByIsolationMVArun2v1DBoldDMwLTraw
     subtemp["jetVeto30"] = row.jetVeto30
+    subtemp["jetVeto30WoNoisyJets"] = row.jetVeto30WoNoisyJets
     subtemp["nvtx"] = row.nvtx
     subtemp["evt"] = row.evt
     subtemp["lumi"] = row.lumi
@@ -898,21 +938,28 @@ class AnalyzeMuTauSys(MegaBase):
     subtemp["tZTTGenMatching"] = row.tZTTGenMatching
     subtemp["dimuonVeto"] = row.dimuonVeto
     subtemp["bjetDeepCSVVeto30Medium"] = row.bjetDeepCSVVeto30Medium
-    subtemp["vbfNJets30"] = row.vbfNJets30
-    subtemp["vbfMass"] = row.vbfMass
-    subtemp["genMass"] = row.genMass
-    subtemp["genpT"] = row.genpT
+    subtemp["bjetDeepCSVVeto20Medium"] = row.bjetDeepCSVVeto20Medium
     subtemp["jb1pt"] = row.jb1pt
     subtemp["jb1hadronflavor"] = row.jb1hadronflavor
-    subtemp["jb2pt"] = row.jb2pt
-    subtemp["jb2hadronflavor"] = row.jb2hadronflavor
+    subtemp["jb1eta"] = row.jb1eta
+    subtemp["vbfMass"] = row.vbfMass
+    subtemp["vbfMassWoNoisyJets"] = row.vbfMassWoNoisyJets
+    subtemp["genMass"] = row.genMass
+    subtemp["genpT"] = row.genpT
     subtemp["topQuarkPt1"] = row.topQuarkPt1
     subtemp["topQuarkPt2"] = row.topQuarkPt2
-    subtemp['m_t_DPhi'] = row.m_t_DPhi
-    subtemp['m_t_DR'] = row.m_t_DR
-    subtemp['dimuonVeto'] = row.dimuonVeto
-    subtemp["mPt_MuonEnUp"] = row.mPt_MuonEnUp
-    subtemp["mPt_MuonEnDown"] = row.mPt_MuonEnDown
+    subtemp["m_t_DPhi"] = row.m_t_DPhi
+    subtemp["m_t_DR"] = row.m_t_DR
+    subtemp["dimuonVeto"] = row.dimuonVeto
+    subtemp["Flag_goodVertices"] = row.Flag_goodVertices
+    subtemp["Flag_globalTightHalo2016Filter"] = row.Flag_globalTightHalo2016Filter
+    subtemp["Flag_HBHENoiseFilter"] = row.Flag_HBHENoiseFilter
+    subtemp["Flag_HBHENoiseIsoFilter"] = row.Flag_HBHENoiseIsoFilter
+    subtemp["Flag_EcalDeadCellTriggerPrimitiveFilter"] = row.Flag_EcalDeadCellTriggerPrimitiveFilter
+    subtemp["Flag_BadPFMuonFilter"] = row.Flag_BadPFMuonFilter
+    subtemp["Flag_BadChargedCandidateFilter"] = row.Flag_BadChargedCandidateFilter
+    subtemp["Flag_eeBadScFilter"] = row.Flag_eeBadScFilter
+    subtemp["Flag_ecalBadCalibFilter"] = row.Flag_ecalBadCalibFilter
     if self.is_mc:
       subtemp["type1_pfMet_shiftedPhi_UnclusteredEnDown"] = row.type1_pfMet_shiftedPhi_UnclusteredEnDown
       subtemp["type1_pfMet_shiftedPhi_UnclusteredEnUp"] = row.type1_pfMet_shiftedPhi_UnclusteredEnUp
@@ -1040,6 +1087,73 @@ class AnalyzeMuTauSys(MegaBase):
     newrow = []
 
     for row in self.tree:
+
+      nrow = self.copyrow(row)
+
+      if nrow["Flag_goodVertices"]:
+        continue
+
+      if nrow["Flag_globalTightHalo2016Filter"]:
+        continue
+
+      if nrow["Flag_HBHENoiseFilter"]:
+        continue
+
+      if nrow["Flag_HBHENoiseIsoFilter"]:
+        continue
+
+      if nrow["Flag_EcalDeadCellTriggerPrimitiveFilter"]:
+        continue
+
+      if nrow["Flag_BadPFMuonFilter"]:
+        continue
+
+      if nrow["Flag_BadChargedCandidateFilter"]:
+        continue
+
+      if self.is_data and nrow["Flag_eeBadScFilter"]:
+        continue
+
+      if nrow["Flag_ecalBadCalibFilter"]:
+        continue
+
+      if not self.trigger(nrow):
+        continue
+
+      if not self.kinematics(nrow):
+        continue
+
+      if nrow['m_t_DR'] < 0.5:
+        continue
+
+      if nrow['jetVeto30WoNoisyJets'] > 2:
+        continue
+
+      if not self.obj1_id(nrow):
+        continue
+
+      if not self.obj2_id(nrow):
+        continue
+
+      if not self.vetos(nrow):
+        continue      
+
+      if not self.dimuonveto(nrow):
+        continue
+
+      if self.is_DY or self.is_DYlow:
+        if not bool(nrow['isZmumu'] or nrow['isZee']):
+          continue
+
+      nbtag = nrow['bjetDeepCSVVeto20Medium']
+      bpt_1 = nrow['jb1pt']
+      bflavor_1 = nrow['jb1hadronflavor']
+      beta_1 = nrow['jb1eta']
+      if (not self.is_data and not self.is_embed and nbtag > 0):
+        nbtag = PromoteDemote(self.h_btag_eff_b, self.h_btag_eff_c, self.h_btag_eff_oth, nbtag, bpt_1, bflavor_1, beta_1, 0)
+      if (nbtag > 0):
+        continue
+
       if count==0:
         temp.append(self.copyrow(row))
         count=count+1
@@ -1061,7 +1175,7 @@ class AnalyzeMuTauSys(MegaBase):
           for i in range(count):
             x[i]=temp[i]["mRelPFIsoDBDefaultR04"]
             y[i]=temp[i]["mPt"]
-            z[i]=temp[i]["tByCombinedIsolationDeltaBetaCorrRaw3Hits"]
+            z[i]=temp[i]["tByIsolationMVArun2v1DBoldDMwLTraw"]
             w[i]=temp[i]["tPt"]
           sorted_x = sorted(x.items(), key=operator.itemgetter(1))
           for i in range(len(sorted_x)):
@@ -1092,71 +1206,50 @@ class AnalyzeMuTauSys(MegaBase):
                 break
               else:
                 new_w[sorted_z[i][0]] = w[sorted_z[i][0]]
-
+                
           sorted_w = sorted(new_w.items(), key=operator.itemgetter(1), reverse=True)
           newrow = temp[sorted_w[0][0]]
           count = 1
           temp = []
           temp.append(self.copyrow(row))
 
-      if not self.trigger(newrow):
+      if len(sorted_z) > 1:
         continue
-
-      if not self.kinematics(newrow):
-        continue
-
-      if newrow['m_t_DR'] < 0.5:
-        continue
-
-      if newrow['jetVeto30'] > 2:
-        continue
-
-      if not self.obj1_id(newrow):
-        continue
-
-      if not self.obj2_id(newrow):
-        continue
-
-      if not self.vetos(newrow):
-        continue      
-
-      if not self.dimuonveto(newrow):
-        continue
-
-      if self.is_DY or self.is_DYlow:
-        if not bool(newrow['isZmumu'] or newrow['isZee']):
-          continue
 
       weight = 1.0
       if not self.is_data and not self.is_embed:
-
-        mtracking = self.muTracking(newrow['mEta'])[0]
-        tEff = self.triggerEff(newrow['mPt'], abs(newrow['mEta']))
-        mID = self.muonTightID(newrow['mPt'], abs(newrow['mEta']))
+        wmc.var("m_pt").setVal(newrow['mPt'])
+        wmc.var("m_eta").setVal(newrow['mEta'])
+        #mtracking = self.muTracking(newrow['mEta'])[0]
+        #tEff = self.triggerEff(newrow['mPt'], abs(newrow['mEta']))
+        #mID = self.muonTightID(newrow['mPt'], abs(newrow['mEta']))
+        mIso = wmc.function("m_iso_kit_ratio").getVal()
+        mID = wmc.function("m_id_kit_ratio").getVal()
+        tEff = wmc.function("m_trg27_kit_data").getVal()/wmc.function("m_trg27_kit_mc").getVal()
         if newrow['tZTTGenMatching']==5:
           tID = 0.89
         else:
           tID = 1.0
-        weight = newrow['GenWeight']*pucorrector[''](newrow['nTruePU'])*tEff*mID*mtracking*tID
+        weight = newrow['GenWeight']*pucorrector[''](newrow['nTruePU'])*tEff*mID*tID*mIso
         if self.is_DY:
           wmc.var("z_gen_mass").setVal(newrow['genMass'])
           wmc.var("z_gen_pt").setVal(newrow['genpT'])
           zptweight = wmc.function("zptmass_weight_nom").getVal()
           dyweight = self.DYreweight(newrow['genMass'], newrow['genpT'])
           if newrow['numGenJets'] < 5:
-            weight = weight*self.DYweight[newrow['numGenJets']]*dyweight
+            weight = weight*self.DYweight[newrow['numGenJets']]*zptweight
           else:
-            weight = weight*self.DYweight[0]*dyweight
+            weight = weight*self.DYweight[0]*zptweight
         if self.is_DYlow:
           wmc.var("z_gen_mass").setVal(newrow['genMass'])
           wmc.var("z_gen_pt").setVal(newrow['genpT'])
           zptweight = wmc.function("zptmass_weight_nom").getVal()
           dyweight = self.DYreweight(newrow['genMass'], newrow['genpT'])
-          weight = weight*26.747*dyweight
+          weight = weight*22.95746177*zptweight
         if self.is_GluGlu:
-          weight = weight*0.0221#0.0005
+          weight = weight*0.0005
         if self.is_VBF:
-          weight = weight*0.0736#0.000214
+          weight = weight*0.000214
         if self.is_WW:
           weight = weight*0.407
         if self.is_WZ:
@@ -1234,12 +1327,12 @@ class AnalyzeMuTauSys(MegaBase):
         ws.var("gt_pt").setVal(newrow['mPt'])
         ws.var("gt_eta").setVal(newrow['mEta'])
         msel = ws.function("m_sel_idEmb_ratio").getVal()
-        ws.var("gt_pt").setVal(newrow['tPt'])
+        ws.var("gt_pt").setVal(newrow['tPtInitial'])
         ws.var("gt_eta").setVal(newrow['tEta'])
         tsel = ws.function("m_sel_idEmb_ratio").getVal()
         ws.var("gt1_pt").setVal(newrow['mPt'])
         ws.var("gt1_eta").setVal(newrow['mEta'])
-        ws.var("gt2_pt").setVal(newrow['tPt'])
+        ws.var("gt2_pt").setVal(newrow['tPtInitial'])
         ws.var("gt2_eta").setVal(newrow['tEta'])
         trgsel = ws.function("m_sel_trg_ratio").getVal()
         m_iso_sf = ws.function("m_iso_binned_embed_kit_ratio").getVal()
@@ -1250,71 +1343,71 @@ class AnalyzeMuTauSys(MegaBase):
 
       if not self.obj2_tight(newrow) and self.obj2_loose(newrow) and self.obj1_tight(newrow):
         frTau = self.fakeRate(newrow['tPt'], newrow['tEta'], newrow['tDecayMode'])
-        mIso = 1
-        tIso = 1
-        if not self.is_data and not self.is_embed:
-          mIso = self.muonTightIsoTightID(newrow['mPt'], abs(newrow['mEta']))
+        #mIso = 1
+        #tIso = 1
+        #if not self.is_data and not self.is_embed:
+        #  mIso = self.muonTightIsoTightID(newrow['mPt'], abs(newrow['mEta']))
         if self.oppositesign(newrow):
-          self.fill_sys(newrow, weight*frTau*mIso*tIso, 'TauLooseOS')
-          if newrow['vbfNJets30']==0 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_sys(newrow, weight*frTau*mIso*tIso, 'TauLooseOS0Jet')
-          elif newrow['vbfNJets30']==1 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_sys(newrow, weight*frTau*mIso*tIso, 'TauLooseOS1Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] < 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_sys(newrow, weight*frTau*mIso*tIso, 'TauLooseOS2Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] > 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 85:
-            self.fill_sys(newrow, weight*frTau*mIso*tIso, 'TauLooseOS2JetVBF')
+          self.fill_sys(newrow, weight*frTau, 'TauLooseOS')
+          if newrow['jetVeto30WoNoisyJets']==0 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_sys(newrow, weight*frTau, 'TauLooseOS0Jet')
+          elif newrow['jetVeto30WoNoisyJets']==1 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_sys(newrow, weight*frTau, 'TauLooseOS1Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] < 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_sys(newrow, weight*frTau, 'TauLooseOS2Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] > 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 85:
+            self.fill_sys(newrow, weight*frTau, 'TauLooseOS2JetVBF')
 
       if not self.obj1_tight(newrow) and self.obj1_loose(newrow) and self.obj2_tight(newrow):
         frMuon = self.fakeRateMuon(newrow['mPt'])
-        mIso = 1
-        tIso = 1
-        if not self.is_data and not self.is_embed:
-          mIso = self.muonLooseIsoTightID(newrow['mPt'], abs(newrow['mEta']))
+        #mIso = 1
+        #tIso = 1
+        #if not self.is_data and not self.is_embed:
+        #  mIso = self.muonLooseIsoTightID(newrow['mPt'], abs(newrow['mEta']))
         if self.oppositesign(newrow):
-          self.fill_sys(newrow, weight*frMuon*mIso*tIso, 'MuonLooseOS')
-          if newrow['vbfNJets30']==0 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_sys(newrow, weight*frMuon*mIso*tIso, 'MuonLooseOS0Jet')
-          elif newrow['vbfNJets30']==1 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_sys(newrow, weight*frMuon*mIso*tIso, 'MuonLooseOS1Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] < 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_sys(newrow, weight*frMuon*mIso*tIso, 'MuonLooseOS2Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] > 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 85:
-            self.fill_sys(newrow, weight*frMuon*mIso*tIso, 'MuonLooseOS2JetVBF')
+          self.fill_sys(newrow, weight*frMuon, 'MuonLooseOS')
+          if newrow['jetVeto30WoNoisyJets']==0 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_sys(newrow, weight*frMuon, 'MuonLooseOS0Jet')
+          elif newrow['jetVeto30WoNoisyJets']==1 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_sys(newrow, weight*frMuon, 'MuonLooseOS1Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] < 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_sys(newrow, weight*frMuon, 'MuonLooseOS2Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] > 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 85:
+            self.fill_sys(newrow, weight*frMuon, 'MuonLooseOS2JetVBF')
 
       if not self.obj2_tight(newrow) and self.obj2_loose(newrow) and not self.obj1_tight(newrow) and self.obj1_loose(newrow):
         frTau = self.fakeRate(newrow['tPt'], newrow['tEta'], newrow['tDecayMode'])
         frMuon = self.fakeRateMuon(newrow['mPt'])
-        mIso = 1
-        tIso = 1
-        if not self.is_data and not self.is_embed:
-          mIso = self.muonLooseIsoTightID(newrow['mPt'], abs(newrow['mEta']))
+        #mIso = 1
+        #tIso = 1
+        #if not self.is_data and not self.is_embed:
+        #  mIso = self.muonLooseIsoTightID(newrow['mPt'], abs(newrow['mEta']))
         if self.oppositesign(newrow):
-          self.fill_sys(newrow, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseOS')
-          if newrow['vbfNJets30']==0 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_sys(newrow, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseOS0Jet')
-          elif newrow['vbfNJets30']==1 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_sys(newrow, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseOS1Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] < 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_sys(newrow, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseOS2Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] > 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 85:
-            self.fill_sys(newrow, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseOS2JetVBF')
+          self.fill_sys(newrow, weight*frTau*frMuon, 'MuonLooseTauLooseOS')
+          if newrow['jetVeto30WoNoisyJets']==0 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_sys(newrow, weight*frTau*frMuon, 'MuonLooseTauLooseOS0Jet')
+          elif newrow['jetVeto30WoNoisyJets']==1 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_sys(newrow, weight*frTau*frMuon, 'MuonLooseTauLooseOS1Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] < 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_sys(newrow, weight*frTau*frMuon, 'MuonLooseTauLooseOS2Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] > 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 85:
+            self.fill_sys(newrow, weight*frTau*frMuon, 'MuonLooseTauLooseOS2JetVBF')
 
       if self.obj2_tight(newrow) and self.obj1_tight(newrow):
-        mIso = 1
-        tIso = 1
-        if not self.is_data and not self.is_embed:
-          mIso = self.muonTightIsoTightID(newrow['mPt'], abs(newrow['mEta']))
+        #mIso = 1
+        #tIso = 1
+        #if not self.is_data and not self.is_embed:
+        #  mIso = self.muonTightIsoTightID(newrow['mPt'], abs(newrow['mEta']))
         if self.oppositesign(newrow):
-          self.fill_sys(newrow, weight*mIso*tIso, 'TightOS')
-          if newrow['vbfNJets30']==0 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_sys(newrow, weight*mIso*tIso, 'TightOS0Jet')
-          elif newrow['vbfNJets30']==1 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_sys(newrow, weight*mIso*tIso, 'TightOS1Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] < 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_sys(newrow, weight*mIso*tIso, 'TightOS2Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] > 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 85:
-            self.fill_sys(newrow, weight*mIso*tIso, 'TightOS2JetVBF')
+          self.fill_sys(newrow, weight, 'TightOS')
+          if newrow['jetVeto30WoNoisyJets']==0 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_sys(newrow, weight, 'TightOS0Jet')
+          elif newrow['jetVeto30WoNoisyJets']==1 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_sys(newrow, weight, 'TightOS1Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] < 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_sys(newrow, weight, 'TightOS2Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] > 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 85:
+            self.fill_sys(newrow, weight, 'TightOS2JetVBF')
 
 
   def finish(self):

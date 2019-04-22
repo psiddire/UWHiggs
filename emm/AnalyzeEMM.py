@@ -6,6 +6,28 @@ import ROOT
 import math
 import mcCorrections
 from math import sqrt, pi
+import array as arr
+import copy
+import operator
+from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVA
+from ROOT import gROOT, gRandom, TRandom3, TFile
+from bTagSF import PromoteDemote
+
+gRandom.SetSeed()
+rnd = gRandom.Rndm
+MetCorrection = True
+target = os.path.basename(os.environ['megatarget'])
+
+
+def deltaEta(eta1, eta2):
+  return abs(eta1 - eta2)
+
+ 
+def deltaR(phi1, phi2, eta1, eta2):
+  deta = eta1 - eta2
+  dphi = abs(phi1-phi2)
+  if (dphi>pi) : dphi = 2*pi-dphi
+  return sqrt(deta*deta + dphi*dphi)
 
 
 def deltaPhi(phi1, phi2):
@@ -24,8 +46,6 @@ def visibleMass(row):
   return (vm1+vm2).M()
 
 
-target = os.path.basename(os.environ['megatarget'])
-
 if bool('DYJetsToLL' in target):
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'DY')
 elif bool('DY1JetsToLL' in target):
@@ -36,54 +56,14 @@ elif bool('DY3JetsToLL' in target):
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'DY3')
 elif bool('DY4JetsToLL' in target):
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'DY4')
-elif bool('WJetsToLNu' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W')
-elif bool('W1JetsToLNu' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W1')
-elif bool('W2JetsToLNu' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W2')
-elif bool('W3JetsToLNu' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W3')
-elif bool('W4JetsToLNu' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W4')
+elif bool('DYJetsToLL_M-10to50' in target):
+  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'DY10')
 elif bool('WW_TuneCP5' in target):
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'WW')
 elif bool('WZ_TuneCP5' in target):
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'WZ')
 elif bool('ZZ_TuneCP5' in target):
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'ZZ')
-elif bool('ZHToTauTau' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'ZHTT')
-elif bool('ttHToTauTau' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'ttH')
-elif bool('Wminus' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'WminusHTT')
-elif bool('Wplus' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'WplusHTT')
-elif bool('ST_t-channel_antitop' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'STtantitop')
-elif bool('ST_t-channel_top' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'STttop')
-elif bool('ST_tW_antitop' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'STtWantitop')
-elif bool('ST_tW_top' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'STtWtop')
-elif bool('TTTo2L2Nu' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'TTTo2L2Nu')
-elif bool('TTToHadronic' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'TTToHadronic')
-elif bool('TTToSemiLeptonic' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'TTToSemiLeptonic')
-elif bool('VBFHToTauTau' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'VBFHTT')
-elif bool('VBF_LFV_HToMuTau' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'VBFHMT')
-elif bool('GluGluHToTauTau' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'GGHTT')
-elif bool('GluGlu_LFV_HToMuTau' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'GGHMT')
-elif bool('QCD' in target):
-  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'QCD')
 else:
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'DY')
 
@@ -94,13 +74,16 @@ class AnalyzeEMM(MegaBase):
   def __init__(self, tree, outfile, **kwargs):
 
     self.is_data = target.startswith('data_')
-    self.is_embed = target.startswith('embedded_')
-    self.is_mc = not self.is_data and not self.is_embed
+    self.is_mc = not self.is_data
     self.is_DYlow = bool('DYJetsToLL_M-10to50' in target)
     self.is_DY = bool('DY' in target) and not self.is_DYlow
     self.is_WW = bool('WW_TuneCP5' in target)
     self.is_WZ = bool('WZ_TuneCP5' in target)
     self.is_ZZ = bool('ZZ_TuneCP5' in target)
+    self.f_btag_eff = TFile("btag.root","r")
+    self.h_btag_eff_b = self.f_btag_eff.Get("btag_eff_b")
+    self.h_btag_eff_c = self.f_btag_eff.Get("btag_eff_c")
+    self.h_btag_eff_oth = self.f_btag_eff.Get("btag_eff_oth")
 
     super(AnalyzeEMM, self).__init__(tree, outfile, **kwargs)
     self.tree = EMMTree.EMMTree(tree)
@@ -126,8 +109,8 @@ class AnalyzeEMM(MegaBase):
 
     self.DYweight = {
       0 : 2.666650438,
-      1 : 0.465334904,
-      2 : 0.865262608,
+      1 : 0.465803642,
+      2 : 0.585042564,
       3 : 0.609127575,
       4 : 0.419146762
       }
@@ -150,13 +133,13 @@ class AnalyzeEMM(MegaBase):
       return False
     if row.m2Pt < 10 or abs(row.m2Eta) >= 2.4:
       return False
-    if row.ePt < 13 or abs(row.eEta) >= 2.5:#not bool(abs(row.eEta) < 1.4442 or (abs(row.eEta) > 1.566 and abs(row.eEta) < 2.3)):
+    if row.ePt < 10 or abs(row.eEta) >= 2.4:
       return False
     return True
 
 
   def obj1_id(self,row):
-    return bool(row.m1PFIDTight)
+    return bool(row.m1PFIDTight) and bool(abs(row.m1PVDZ) < 0.2) and bool(abs(row.m1PVDXY) < 0.045)
  
  
   def obj1_iso(self,row):
@@ -164,7 +147,7 @@ class AnalyzeEMM(MegaBase):
   
   
   def obj2_id(self, row):
-    return bool(row.m2PFIDTight)
+    return bool(row.m2PFIDTight) and bool(abs(row.m2PVDZ) < 0.2) and bool(abs(row.m2PVDXY) < 0.045)
 
 
   def obj2_iso(self, row):
@@ -172,27 +155,19 @@ class AnalyzeEMM(MegaBase):
 
 
   def obj3_id(self, row):
-    return (row.eMVANoisoWP90 > 0)# and (row.ePVDXY < 0.02) and (row.ePVDZ < 0.5)
-
-
-  def obj3_idiso(self, row):
-    return (row.eMVAIsoWP90 > 0)# and (row.ePVDXY < 0.02) and (row.ePVDZ < 0.5)
+    return (row.eMVANoisoWP90 > 0) and (abs(row.ePVDXY) < 0.045) and (abs(row.ePVDZ) < 0.2) and bool(row.ePassesConversionVeto) and bool(row.eMissingHits < 2)
 
 
   def obj3_tightid(self, row):
-    return (row.eMVANoisoWP80 > 0)# and (row.ePVDXY < 0.02) and (row.ePVDZ < 0.5)
-
-
-  def obj3_tightidiso(self, row):
-    return (row.eMVAIsoWP80 > 0)# and (row.ePVDXY < 0.02) and (row.ePVDZ < 0.5)
+    return (row.eMVANoisoWP80 > 0)# and (abs(row.ePVDXY) < 0.045) and (abs(row.ePVDZ) < 0.2) and bool(row.ePassesConversionVeto) and bool(row.eMissingHits < 2) 
 
 
   def obj3_iso(self, row):
-    return bool(row.eRelPFIsoRho < 0.5)#eRelPFIsoDB
+    return bool(row.eRelPFIsoRho < 0.5)
 
 
   def obj3_tightiso(self, row):
-    return bool(row.eRelPFIsoRho < 0.15)
+    return bool(row.eRelPFIsoRho < 0.1)
 
 
   def vetos(self, row):
@@ -204,7 +179,7 @@ class AnalyzeEMM(MegaBase):
 
 
   def begin(self):
-    names=['initial', 'elid', 'elloose', 'eltight']
+    names=['initial', 'eleloose', 'eletight']
     namesize = len(names)
     for x in range(0,namesize):
       self.book(names[x], "ePt", "Electron Pt", 20, 0, 200)
@@ -231,7 +206,7 @@ class AnalyzeEMM(MegaBase):
     for row in self.tree:
 
       weight = 1.0
-      if not self.is_data and not self.is_embed:
+      if not self.is_data:
         m1trk = self.muTracking(row.m1Eta)[0]
         m2trk = self.muTracking(row.m2Eta)[0]
         tEff = self.triggerEff(row.m1Pt, abs(row.m1Eta))
@@ -267,43 +242,51 @@ class AnalyzeEMM(MegaBase):
 
       if not self.obj1_id(row):
         continue
+
       if not self.obj1_iso(row):
         continue
 
       if not self.obj2_id(row):
         continue
+
       if not self.obj2_iso(row):
         continue
 
       if visibleMass(row) < 70 or visibleMass(row) > 110:
         continue
+
       if not self.vetos(row):
         continue
-      if not self.bjetveto(row):
-        continue
+
+      nbtag = row.bjetDeepCSVVeto20Medium
+      bpt_1 = row.jb1pt
+      bflavor_1 = row.jb1hadronflavor
+      beta_1 = row.jb1eta
+      if (not self.is_data and nbtag > 0):
+        nbtag = PromoteDemote(self.h_btag_eff_b, self.h_btag_eff_c, self.h_btag_eff_oth, nbtag, bpt_1, bflavor_1, beta_1, 0)
+      if (nbtag > 0):
+        continue    
+
       if row.evt==preevt:
         continue
+
       self.fill_histos(row, weight, 'initial')
 
       if not self.obj3_id(row):
         continue
 
-      #if not self.obj3_tightid(row):
-      #  continue
-
       eID = 1.
       if not self.is_data:
         eID = self.eIDnoIsoWP90(row.ePt, abs(row.eEta))
         weight = weight*eID
-      self.fill_histos(row, weight, 'elid')
 
       if not self.obj3_iso(row):
         continue
-      self.fill_histos(row, weight, 'elloose')
+      self.fill_histos(row, weight, 'eleloose')
 
       if not self.obj3_tightiso(row):
         continue
-      self.fill_histos(row, weight, 'eltight')
+      self.fill_histos(row, weight, 'eletight')
 
       preevt = row.evt
 

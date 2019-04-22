@@ -13,14 +13,14 @@ import os
 import ROOT
 import array as arr
 import math
-from copy import deepcopy
+import copy
 import operator
 import mcCorrections
 from RecoilCorrector import RecoilCorrector
 from math import sqrt, pi
 from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVA
-from ROOT import gROOT, gRandom, TRandom3
-import bTagSF
+from ROOT import gROOT, gRandom, TRandom3, TFile
+from bTagSF import PromoteDemote
 
 gRandom.SetSeed()
 rnd = gRandom.Rndm
@@ -75,14 +75,14 @@ def collMass(row):
   return (m_t_Mass/sqrt(visfrac))
 
 def topPtreweight(pt1, pt2):
-    if pt1 > 400 : pt1 = 400
-    if pt2 > 400 : pt2 = 400
-    a = 0.0615
-    b = -0.0005
-    wt1 = math.exp(a + b * pt1)
-    wt2 = math.exp(a + b * pt2)
-    wt = sqrt(wt1 * wt2)
-    return wt
+  if pt1 > 400 : pt1 = 400
+  if pt2 > 400 : pt2 = 400
+  a = 0.0615
+  b = -0.0005
+  wt1 = math.exp(a + b * pt1)
+  wt2 = math.exp(a + b * pt2)
+  wt = sqrt(wt1 * wt2)
+  return wt
 
 if bool('DYJetsToLL_M-50' in target):
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'DY')
@@ -98,6 +98,16 @@ elif bool('DY3JetsToLL' in target):
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'DY3')
 elif bool('DY4JetsToLL' in target):
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'DY4')
+elif bool('WJetsToLNu' in target):
+  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W')
+elif bool('W1JetsToLNu' in target):
+  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W1')
+elif bool('W2JetsToLNu' in target):
+  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W2')
+elif bool('W3JetsToLNu' in target):
+  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W3')
+elif bool('W4JetsToLNu' in target):
+  pucorrector = mcCorrections.make_puCorrector('singlem', None, 'W4')
 elif bool('WW_TuneCP5' in target):
   pucorrector = mcCorrections.make_puCorrector('singlem', None, 'WW')
 elif bool('WZ_TuneCP5' in target):
@@ -167,6 +177,7 @@ class AnalyzeMuTau(MegaBase):
     self.is_EWKWPlus = bool('EWKWPlus' in target)
     self.is_EWKZToLL = bool('EWKZ2Jets_ZToLL' in target)
     self.is_EWKZToNuNu = bool('EWKZ2Jets_ZToNuNu' in target)
+    self.is_EWK = bool(self.is_EWKWMinus or self.is_EWKWPlus or self.is_EWKZToLL or self.is_EWKZToNuNu)
     self.is_ZHTT = bool('ZHToTauTau' in target)
     self.is_ttH = bool('ttHToTauTau' in target)
     self.is_Wminus = bool('Wminus' in target)
@@ -180,9 +191,13 @@ class AnalyzeMuTau(MegaBase):
     self.is_TTToSemiLeptonic = bool('TTToSemiLeptonic' in target)
     self.is_VBFH = bool('VBFHToTauTau' in target)
     self.is_GluGluH = bool('GluGluHToTauTau' in target)
-    self.is_recoilC = bool(('HTo' in target) or ('Jets' in target))
+    self.is_recoilC = bool(self.is_DYlow or self.is_DY or self.is_GluGlu or self.is_VBF or self.is_EWK or self.is_VBFH or self.is_GluGluH or self.is_W)
     if self.is_recoilC and MetCorrection:
       self.Metcorected = RecoilCorrector("Type1_PFMET_2017.root")
+    self.f_btag_eff = TFile("btag.root","r")
+    self.h_btag_eff_b = self.f_btag_eff.Get("btag_eff_b")
+    self.h_btag_eff_c = self.f_btag_eff.Get("btag_eff_c")
+    self.h_btag_eff_oth = self.f_btag_eff.Get("btag_eff_oth")
 
     super(AnalyzeMuTau, self).__init__(tree, outfile, **kwargs)
     self.tree = MuTauTree.MuTauTree(tree)
@@ -215,6 +230,14 @@ class AnalyzeMuTau(MegaBase):
       4 : 0.419146762
       }
 
+    self.Wweight = {
+      0 : 33.11541041,
+      1 : 7.145869534,
+      2 : 14.07030624,
+      3 : 2.308479086,
+      4 : 2.059616837
+      }
+
     self.tauSF={ 
       'vloose' : 0.88,
       'loose'  : 0.89,
@@ -238,7 +261,7 @@ class AnalyzeMuTau(MegaBase):
 
 
   def kinematics(self, row):
-    if row['mPt'] < 29 or abs(row['mEta']) >= 2.4:
+    if row['mPt'] < 29 or abs(row['mEta']) >= 2.1:
       return False
     if row['tPt'] < 30 or abs(row['tEta']) >= 2.3:
       return False
@@ -246,11 +269,11 @@ class AnalyzeMuTau(MegaBase):
 
 
   def vetos(self, row):
-    return (bool(row['eVetoMVAIso'] < 0.5) and bool(row['tauVetoPt20Loose3HitsVtx'] < 0.5) and bool(row['muGlbIsoVetoPt10'] < 0.5))
+    return (bool(row['eVetoMVAIso'] < 0.5) and bool(row['tauVetoPt20TightMVALTVtx'] < 0.5) and bool(row['muGlbIsoVetoPt10'] < 0.5))
 
 
   def obj1_id(self, row):
-    return bool(row['mPFIDTight'])
+    return (bool(row['mPFIDTight']) and bool(abs(row['mPVDZ']) < 0.2) and bool(abs(row['mPVDXY']) < 0.045))
  
  
   def obj1_tight(self, row):
@@ -262,11 +285,11 @@ class AnalyzeMuTau(MegaBase):
 
   
   def obj2_id(self, row):
-    return bool(row['tDecayModeFinding'] > 0.5) and bool(row['tAgainstElectronVLooseMVA6'] > 0.5) and bool(row['tAgainstMuonTight3'] > 0.5)
+    return (bool(row['tDecayModeFinding'] > 0.5) and bool(row['tAgainstElectronVLooseMVA6'] > 0.5) and bool(row['tAgainstMuonTight3'] > 0.5) and bool(abs(row['tPVDZ']) < 0.2))
 
 
   def obj2_tight(self, row):
-    return bool(row['tRerunMVArun2v2DBoldDMwLTTight'] > 0.5)
+    return bool(row['tRerunMVArun2v2DBoldDMwLTVTight'] > 0.5)#Tight
 
 
   def obj2_loose(self, row):
@@ -306,6 +329,7 @@ class AnalyzeMuTau(MegaBase):
       self.book(names[x], "dPhiMuTau", "Delta Phi Mu Tau", 40, 0, 4)
       self.book(names[x], "MTMuMET", "Muon MET Transverse Mass", 20, 0, 200)
       self.book(names[x], "MTTauMET", "Tau MET Transverse Mass", 20, 0, 200)
+      self.book(names[x], "vbfMassWoNoisyJets", "VBF Mass", 100, 0, 1000)
     vbfnamesize = len(vbfnames)
     for x in range(0, vbfnamesize):
       self.book(vbfnames[x], "mPt", "Muon  Pt", 10, 0, 200)
@@ -328,6 +352,7 @@ class AnalyzeMuTau(MegaBase):
       self.book(vbfnames[x], "dPhiMuTau", "Delta Phi Mu Tau", 10, 0, 4)
       self.book(vbfnames[x], "MTMuMET", "Muon MET Transverse Mass", 10, 0, 200)
       self.book(vbfnames[x], "MTTauMET", "Tau MET Transverse Mass", 10, 0, 200)
+      self.book(vbfnames[x], "vbfMassWoNoisyJets", "VBF Mass", 100, 0, 1000)
 
   def fill_histos(self, row, weight, name=''):
     histos = self.histograms
@@ -343,7 +368,7 @@ class AnalyzeMuTau(MegaBase):
     histos[name+'/type1_pfMetPhi'].Fill(row['type1_pfMetPhi'], weight)
     histos[name+'/m_t_Mass'].Fill(visibleMass(row), weight)
     histos[name+'/m_t_CollinearMass'].Fill(collMass(row), weight)
-    histos[name+'/numOfJets'].Fill(row['jetVeto30'], weight)
+    histos[name+'/numOfJets'].Fill(row['jetVeto30WoNoisyJets'], weight)
     histos[name+'/numOfVtx'].Fill(row['nvtx'], weight)
     histos[name+'/dEtaMuTau'].Fill(deltaPhi(row['mEta'], row['tEta']), weight)
     histos[name+'/dPhiMuMET'].Fill(deltaPhi(row['mPhi'], row['type1_pfMetPhi']), weight)
@@ -351,40 +376,53 @@ class AnalyzeMuTau(MegaBase):
     histos[name+'/dPhiMuTau'].Fill(deltaPhi(row['mPhi'], row['tPhi']), weight)
     histos[name+'/MTMuMET'].Fill(transverseMass(row['mPt'], row['mEta'], row['mPhi'], row['mMass'], row['type1_pfMetEt'], row['type1_pfMetPhi']), weight)
     histos[name+'/MTTauMET'].Fill(transverseMass(row['tPt'], row['tEta'], row['tPhi'], row['tMass'], row['type1_pfMetEt'], row['type1_pfMetPhi']), weight)
+    histos[name+'/vbfMassWoNoisyJets'].Fill(row['vbfMassWoNoisyJets'], weight)
 
+  def tauPtC(self, tPt, tDecayMode, tZTTGenMatching):
+    tau_Pt_C = tPt
+    if self.is_mc and (not self.is_DY) and (not self.is_DYlow) and tZTTGenMatching==5:
+      if tDecayMode == 0:
+        tau_Pt_C = 1.007 * tPt
+      elif tDecayMode == 1:
+        tau_Pt_C = 0.998 * tPt
+      elif tDecayMode == 10:
+        tau_Pt_C = 1.001 * tPt
+      else:
+        tau_Pt_C = tPt
+    return tau_Pt_C
+
+  def metTauC(self, tPt, tDecayMode, tZTTGenMatching, mymet):
+    MET_tPtC = mymet
+    if self.is_mc and (not self.is_DY) and (not self.is_DYlow) and tZTTGenMatching==5:
+      if tDecayMode == 0:
+        MET_tPtC = mymet - 0.007 * tPt
+      elif tDecayMode == 1:
+        MET_tPtC = mymet + 0.002 * tPt
+      elif tDecayMode == 10:
+        MET_tPtC = mymet - 0.001 * tPt
+      else:
+        MET_tPtC = mymet
+    return MET_tPtC
 
   def copyrow(self, row):
-
     subtemp = {}
-
     tmpMetEt = row.type1_pfMetEt
     tmpMetPhi = row.type1_pfMetPhi
+    subtemp["tPtInitial"] = row.tPt
+    subtemp["MetEtInitial"] = tmpMetEt
     if self.is_recoilC and MetCorrection:
-      tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30)))
+      tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30WoNoisyJets)))
       tmpMetEt = math.sqrt(tmpMet[0]*tmpMet[0] + tmpMet[1]*tmpMet[1])
       tmpMetPhi = math.atan2(tmpMet[1], tmpMet[0])
 
-    if self.is_mc and (not row.isZmumu) and (not row.isZee) and row.tZTTGenMatching==5:
-      if row.tDecayMode == 0:
-        subtemp["tPt"] = 1.007*row.tPt
-        subtemp["type1_pfMetEt"] = tmpMetEt - 0.007*row.tPt
-      elif row.tDecayMode == 1:
-        subtemp["tPt"] = 0.998*row.tPt
-        subtemp["type1_pfMetEt"] = tmpMetEt + 0.002*row.tPt
-      elif row.tDecayMode == 10:
-        subtemp["tPt"] = 1.001*row.tPt
-        subtemp["type1_pfMetEt"] = tmpMetEt - 0.001*row.tPt    
-      else:
-        subtemp["tPt"] = row.tPt
-        subtemp["type1_pfMetEt"] = tmpMetEt
-    else:
-      subtemp["tPt"] = row.tPt
-      subtemp["type1_pfMetEt"] = tmpMetEt
+    subtemp["tPt"] = self.tauPtC(row.tPt, row.tDecayMode, row.tZTTGenMatching)
+    subtemp["type1_pfMetEt"] = self.metTauC(row.tPt, row.tDecayMode, row.tZTTGenMatching, tmpMetEt)
     subtemp["type1_pfMetPhi"] = tmpMetPhi
 
-    if self.is_DY:
+    if self.is_DY or self.is_DYlow:
       subtemp["isZmumu"] = row.isZmumu
       subtemp["isZee"] = row.isZee
+
     subtemp["mPt"] = row.mPt
     subtemp["mEta"] = row.mEta
     subtemp["tEta"] = row.tEta
@@ -402,16 +440,23 @@ class AnalyzeMuTau(MegaBase):
     subtemp["IsoMu27Pass"] = row.IsoMu27Pass
     subtemp["eVetoMVAIso"] = row.eVetoMVAIso
     subtemp["tauVetoPt20Loose3HitsVtx"] = row.tauVetoPt20Loose3HitsVtx
+    subtemp["tauVetoPt20TightMVALTVtx"] = row.tauVetoPt20TightMVALTVtx
     subtemp["muGlbIsoVetoPt10"] = row.muGlbIsoVetoPt10
     subtemp["mPFIDTight"] = row.mPFIDTight
+    subtemp["mPVDZ"] = row.mPVDZ
+    subtemp["mPVDXY"] = row.mPVDXY
+    subtemp["tPVDZ"] = row.tPVDZ
     subtemp["mRelPFIsoDBDefaultR04"] = row.mRelPFIsoDBDefaultR04
     subtemp["tDecayModeFinding"] = row.tDecayModeFinding
     subtemp["tAgainstElectronVLooseMVA6"] = row.tAgainstElectronVLooseMVA6
     subtemp["tAgainstMuonTight3"] = row.tAgainstMuonTight3
     subtemp["tRerunMVArun2v2DBoldDMwLTTight"] = row.tRerunMVArun2v2DBoldDMwLTTight
+    subtemp["tRerunMVArun2v2DBoldDMwLTVTight"] = row.tRerunMVArun2v2DBoldDMwLTVTight
     subtemp["tRerunMVArun2v2DBoldDMwLTLoose"] = row.tRerunMVArun2v2DBoldDMwLTLoose
     subtemp["tByCombinedIsolationDeltaBetaCorrRaw3Hits"] = row.tByCombinedIsolationDeltaBetaCorrRaw3Hits
+    subtemp["tByIsolationMVArun2v1DBoldDMwLTraw"] = row.tByIsolationMVArun2v1DBoldDMwLTraw
     subtemp["jetVeto30"] = row.jetVeto30
+    subtemp["jetVeto30WoNoisyJets"] = row.jetVeto30WoNoisyJets
     subtemp["nvtx"] = row.nvtx
     subtemp["evt"] = row.evt
     subtemp["lumi"] = row.lumi
@@ -420,27 +465,27 @@ class AnalyzeMuTau(MegaBase):
     subtemp["tZTTGenMatching"] = row.tZTTGenMatching
     subtemp["dimuonVeto"] = row.dimuonVeto
     subtemp["bjetDeepCSVVeto30Medium"] = row.bjetDeepCSVVeto30Medium
-    subtemp["vbfNJets30"] = row.vbfNJets30
-    subtemp["vbfNJets20"] = row.vbfNJets20
+    subtemp["bjetDeepCSVVeto20Medium"] = row.bjetDeepCSVVeto20Medium
+    subtemp["jb1pt"] = row.jb1pt
+    subtemp["jb1hadronflavor"] = row.jb1hadronflavor
+    subtemp["jb1eta"] = row.jb1eta
     subtemp["vbfMass"] = row.vbfMass
-    subtemp["vbfDeta"] = row.vbfDeta
-    subtemp["vbfj1eta"] = row.vbfj1eta
-    subtemp["vbfj1pt"] = row.vbfj1pt
-    subtemp["vbfj2eta"] = row.vbfj2eta
-    subtemp["vbfj2pt"] = row.vbfj2pt
-    subtemp["tgenpt"] = row.tGenPt
-    subtemp["tgenmotherpt"] = row.tGenMotherPt
+    subtemp["vbfMassWoNoisyJets"] = row.vbfMassWoNoisyJets
     subtemp["genMass"] = row.genMass
     subtemp["genpT"] = row.genpT
     subtemp["topQuarkPt1"] = row.topQuarkPt1
     subtemp["topQuarkPt2"] = row.topQuarkPt2
-    subtemp['jb1pt'] = row.jb1pt
-    subtemp['jb1hadronflavor'] = row.jb1hadronflavor
-    subtemp['jb2pt'] = row.jb2pt
-    subtemp['jb2hadronflavor'] = row.jb2hadronflavor
-    subtemp['m_t_DPhi'] = row.m_t_DPhi
-    subtemp['m_t_DR'] = row.m_t_DR
-    subtemp['dimuonVeto'] = row.dimuonVeto
+    subtemp["dimuonVeto"] = row.dimuonVeto
+    subtemp["Flag_goodVertices"] = row.Flag_goodVertices
+    subtemp["Flag_globalTightHalo2016Filter"] = row.Flag_globalTightHalo2016Filter
+    subtemp["Flag_HBHENoiseFilter"] = row.Flag_HBHENoiseFilter
+    subtemp["Flag_HBHENoiseIsoFilter"] = row.Flag_HBHENoiseIsoFilter
+    subtemp["Flag_EcalDeadCellTriggerPrimitiveFilter"] = row.Flag_EcalDeadCellTriggerPrimitiveFilter
+    subtemp["Flag_BadPFMuonFilter"] = row.Flag_BadPFMuonFilter
+    subtemp["Flag_BadChargedCandidateFilter"] = row.Flag_BadChargedCandidateFilter
+    subtemp["Flag_eeBadScFilter"] = row.Flag_eeBadScFilter
+    subtemp["Flag_ecalBadCalibFilter"] = row.Flag_ecalBadCalibFilter
+    subtemp["ff"] = 1
     return subtemp
 
 
@@ -450,6 +495,73 @@ class AnalyzeMuTau(MegaBase):
     newrow = []
 
     for row in self.tree:
+
+      nrow = self.copyrow(row)
+
+      if nrow["Flag_goodVertices"]:
+        continue
+
+      if nrow["Flag_globalTightHalo2016Filter"]:
+        continue
+
+      if nrow["Flag_HBHENoiseFilter"]:
+        continue
+
+      if nrow["Flag_HBHENoiseIsoFilter"]:
+        continue
+
+      if nrow["Flag_EcalDeadCellTriggerPrimitiveFilter"]:
+        continue
+
+      if nrow["Flag_BadPFMuonFilter"]:
+        continue
+
+      if nrow["Flag_BadChargedCandidateFilter"]:
+        continue
+
+      if self.is_data and nrow["Flag_eeBadScFilter"]:
+        continue
+
+      if nrow["Flag_ecalBadCalibFilter"]:
+        continue
+
+      if not self.trigger(nrow):
+        continue
+
+      if not self.kinematics(nrow):
+        continue
+
+      if deltaR(nrow['mPhi'], nrow['tPhi'], nrow['mEta'], nrow['tEta']) < 0.5:
+        continue
+
+      if nrow['jetVeto30WoNoisyJets'] > 2:
+        continue
+
+      if not self.obj1_id(nrow):
+        continue
+
+      if not self.obj2_id(nrow):
+        continue
+
+      if not self.vetos(nrow):
+        continue      
+
+      if not self.dimuonveto(nrow):
+        continue
+
+      if self.is_DY or self.is_DYlow:
+        if not bool(nrow['isZmumu'] or nrow['isZee']):
+          continue
+
+      nbtag = nrow['bjetDeepCSVVeto20Medium']
+      bpt_1 = nrow['jb1pt']
+      bflavor_1 = nrow['jb1hadronflavor']
+      beta_1 = nrow['jb1eta']
+      if (not self.is_data and not self.is_embed and nbtag > 0):
+        nbtag = PromoteDemote(self.h_btag_eff_b, self.h_btag_eff_c, self.h_btag_eff_oth, nbtag, bpt_1, bflavor_1, beta_1, 0)
+      if (nbtag > 0):
+        continue
+
       if count==0:
         temp.append(self.copyrow(row))
         count=count+1
@@ -471,7 +583,7 @@ class AnalyzeMuTau(MegaBase):
           for i in range(count):
             x[i]=temp[i]["mRelPFIsoDBDefaultR04"]
             y[i]=temp[i]["mPt"]
-            z[i]=temp[i]["tByCombinedIsolationDeltaBetaCorrRaw3Hits"]
+            z[i]=temp[i]["tByIsolationMVArun2v1DBoldDMwLTraw"]
             w[i]=temp[i]["tPt"]
           sorted_x = sorted(x.items(), key=operator.itemgetter(1))
           for i in range(len(sorted_x)):
@@ -509,59 +621,42 @@ class AnalyzeMuTau(MegaBase):
           temp = []
           temp.append(self.copyrow(row))
 
-      if not self.trigger(newrow):
-        continue
-
-      if not self.kinematics(newrow):
-        continue
-
-      if newrow['m_t_DR'] < 0.5:
-        continue
-
-      if newrow['jetVeto30'] > 2:
-        continue
-
-      if not self.obj1_id(newrow):
-        continue
-
-      if not self.obj2_id(newrow):
-        continue
-
-      if not self.vetos(newrow):
-        continue      
-
-      if not self.dimuonveto(newrow):
-        continue
-
-      if self.is_DY:
-        if not bool(newrow['isZmumu'] or newrow['isZee']):
-          continue
 
       weight = 1.0
       if not self.is_data and not self.is_embed:
-        mtracking = self.muTracking(newrow['mEta'])[0]
-        tEff = self.triggerEff(newrow['mPt'], abs(newrow['mEta']))
-        mID = self.muonTightID(newrow['mPt'], abs(newrow['mEta']))
+        wmc.var("m_pt").setVal(newrow['mPt'])
+        wmc.var("m_eta").setVal(newrow['mEta'])
+        #mtracking = self.muTracking(newrow['mEta'])[0]
+        #tEff = self.triggerEff(newrow['mPt'], abs(newrow['mEta']))
+        #mID = self.muonTightID(newrow['mPt'], abs(newrow['mEta']))
+        mIso = wmc.function("m_iso_kit_ratio").getVal()
+        mID = wmc.function("m_id_kit_ratio").getVal()
+        tEff = wmc.function("m_trg27_kit_data").getVal()/wmc.function("m_trg27_kit_mc").getVal()
         if newrow['tZTTGenMatching']==5:
           tID = 0.89
         else:
           tID = 1.0
-        weight = newrow['GenWeight']*pucorrector(newrow['nTruePU'])*tEff*mID*mtracking*tID
+        weight = newrow['GenWeight']*pucorrector(newrow['nTruePU'])*tEff*mID*tID*mIso
         if self.is_DY:
           wmc.var("z_gen_mass").setVal(newrow['genMass'])
           wmc.var("z_gen_pt").setVal(newrow['genpT'])
           zptweight = wmc.function("zptmass_weight_nom").getVal()
           dyweight = self.DYreweight(newrow['genMass'], newrow['genpT'])
           if newrow['numGenJets'] < 5:
-            weight = weight*self.DYweight[newrow['numGenJets']]*dyweight
+            weight = weight*self.DYweight[newrow['numGenJets']]*zptweight
           else:
-            weight = weight*self.DYweight[0]*dyweight
+            weight = weight*self.DYweight[0]*zptweight
         if self.is_DYlow:
           wmc.var("z_gen_mass").setVal(newrow['genMass'])
           wmc.var("z_gen_pt").setVal(newrow['genpT'])
           zptweight = wmc.function("zptmass_weight_nom").getVal()
           dyweight = self.DYreweight(newrow['genMass'], newrow['genpT']) 
-          weight = weight*26.747*dyweight
+          weight = weight*22.95746177*zptweight
+        if self.is_W:
+          if newrow['numGenJets'] < 5:
+            weight = weight*self.Wweight[newrow['numGenJets']]
+          else:
+            weight = weight*self.Wweight[0]
         if self.is_GluGlu:
           weight = weight*0.0005
         if self.is_VBF:
@@ -639,12 +734,12 @@ class AnalyzeMuTau(MegaBase):
         ws.var("gt_pt").setVal(newrow['mPt'])
         ws.var("gt_eta").setVal(newrow['mEta'])
         msel = ws.function("m_sel_idEmb_ratio").getVal()
-        ws.var("gt_pt").setVal(newrow['tPt'])
+        ws.var("gt_pt").setVal(newrow['tPtInitial'])
         ws.var("gt_eta").setVal(newrow['tEta'])
         tsel = ws.function("m_sel_idEmb_ratio").getVal()
         ws.var("gt1_pt").setVal(newrow['mPt'])
         ws.var("gt1_eta").setVal(newrow['mEta'])
-        ws.var("gt2_pt").setVal(newrow['tPt'])
+        ws.var("gt2_pt").setVal(newrow['tPtInitial'])
         ws.var("gt2_eta").setVal(newrow['tEta'])
         trgsel = ws.function("m_sel_trg_ratio").getVal()
         m_iso_sf = ws.function("m_iso_binned_embed_kit_ratio").getVal()
@@ -654,155 +749,155 @@ class AnalyzeMuTau(MegaBase):
 
       if not self.obj2_tight(newrow) and self.obj2_loose(newrow) and self.obj1_tight(newrow):
         frTau = self.fakeRate(newrow['tPt'], newrow['tEta'], newrow['tDecayMode'])
-        mIso = 1
-        tIso = 1
-        if not self.is_data and not self.is_embed:
-          mIso = self.muonTightIsoTightID(newrow['mPt'], abs(newrow['mEta']))
+        #mIso = 1
+        #tIso = 1
+        #if not self.is_data and not self.is_embed:
+        #  mIso = self.muonTightIsoTightID(newrow['mPt'], abs(newrow['mEta']))
         if self.oppositesign(newrow):
           if transverseMass(newrow['mPt'], newrow['mEta'], newrow['mPhi'], newrow['mMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) > 60:
             if transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) > 80:
-              self.fill_histos(newrow, weight*frTau*mIso*tIso, 'TauLooseWOS')
-              if newrow['vbfNJets30']==0:
-                self.fill_histos(newrow, weight*frTau*mIso*tIso, 'TauLooseWOS0Jet')
-              elif newrow['vbfNJets30']==1:
-                self.fill_histos(newrow, weight*frTau*mIso*tIso, 'TauLooseWOS1Jet')
-              elif newrow['vbfNJets30']==2 and newrow['vbfMass'] < 550:
-                self.fill_histos(newrow, weight*frTau*mIso*tIso, 'TauLooseWOS2Jet')
-              elif newrow['vbfNJets30']==2 and newrow['vbfMass'] > 550:
-                self.fill_histos(newrow, weight*frTau*mIso*tIso, 'TauLooseWOS2JetVBF')
-          self.fill_histos(newrow, weight*frTau*mIso*tIso, 'TauLooseOS')
-          if newrow['vbfNJets30']==0 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_histos(newrow, weight*frTau*mIso*tIso, 'TauLooseOS0Jet')
-          elif newrow['vbfNJets30']==1 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_histos(newrow, weight*frTau*mIso*tIso, 'TauLooseOS1Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] < 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_histos(newrow, weight*frTau*mIso*tIso, 'TauLooseOS2Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] > 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 85:
-            self.fill_histos(newrow, weight*frTau*mIso*tIso, 'TauLooseOS2JetVBF')
+              self.fill_histos(newrow, weight*frTau, 'TauLooseWOS')
+              if newrow['jetVeto30WoNoisyJets']==0:
+                self.fill_histos(newrow, weight*frTau, 'TauLooseWOS0Jet')
+              elif newrow['jetVeto30WoNoisyJets']==1:
+                self.fill_histos(newrow, weight*frTau, 'TauLooseWOS1Jet')
+              elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] < 550:
+                self.fill_histos(newrow, weight*frTau, 'TauLooseWOS2Jet')
+              elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] > 550:
+                self.fill_histos(newrow, weight*frTau, 'TauLooseWOS2JetVBF')
+          self.fill_histos(newrow, weight*frTau, 'TauLooseOS')
+          if newrow['jetVeto30WoNoisyJets']==0 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_histos(newrow, weight*frTau, 'TauLooseOS0Jet')
+          elif newrow['jetVeto30WoNoisyJets']==1 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_histos(newrow, weight*frTau, 'TauLooseOS1Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] < 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_histos(newrow, weight*frTau, 'TauLooseOS2Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] > 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 85:
+            self.fill_histos(newrow, weight*frTau, 'TauLooseOS2JetVBF')
         if not self.oppositesign(newrow):
-          self.fill_histos(newrow, weight*frTau*mIso*tIso, 'TauLooseSS')
-          if newrow['vbfNJets30']==0:
-            self.fill_histos(newrow, weight*frTau*mIso*tIso, 'TauLooseSS0Jet')
-          elif newrow['vbfNJets30']==1:
-            self.fill_histos(newrow, weight*frTau*mIso*tIso, 'TauLooseSS1Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] < 550:
-            self.fill_histos(newrow, weight*frTau*mIso*tIso, 'TauLooseSS2Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] > 550:
-            self.fill_histos(newrow, weight*frTau*mIso*tIso, 'TauLooseSS2JetVBF')
+          self.fill_histos(newrow, weight*frTau, 'TauLooseSS')
+          if newrow['jetVeto30WoNoisyJets']==0:
+            self.fill_histos(newrow, weight*frTau, 'TauLooseSS0Jet')
+          elif newrow['jetVeto30WoNoisyJets']==1:
+            self.fill_histos(newrow, weight*frTau, 'TauLooseSS1Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] < 550:
+            self.fill_histos(newrow, weight*frTau, 'TauLooseSS2Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] > 550:
+            self.fill_histos(newrow, weight*frTau, 'TauLooseSS2JetVBF')
 
       if not self.obj1_tight(newrow) and self.obj1_loose(newrow) and self.obj2_tight(newrow):
         frMuon = self.fakeRateMuon(newrow['mPt'])
-        mIso = 1
-        tIso = 1
-        if not self.is_data and not self.is_embed:
-          mIso = self.muonLooseIsoTightID(newrow['mPt'], abs(newrow['mEta']))
+        #mIso = 1
+        #tIso = 1
+        #if not self.is_data and not self.is_embed:
+        #  mIso = self.muonLooseIsoTightID(newrow['mPt'], abs(newrow['mEta']))
         if self.oppositesign(newrow):
           if transverseMass(newrow['mPt'], newrow['mEta'], newrow['mPhi'], newrow['mMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) > 60:
             if transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) > 80:
-              self.fill_histos(newrow, weight*frMuon*mIso*tIso, 'MuonLooseWOS')
-              if newrow['vbfNJets30']==0:
-                self.fill_histos(newrow, weight*frMuon*mIso*tIso, 'MuonLooseWOS0Jet')
-              elif newrow['vbfNJets30']==1:
-                self.fill_histos(newrow, weight*frMuon*mIso*tIso, 'MuonLooseWOS1Jet')
-              elif newrow['vbfNJets30']==2 and newrow['vbfMass'] < 550:
-                self.fill_histos(newrow, weight*frMuon*mIso*tIso, 'MuonLooseWOS2Jet')
-              elif newrow['vbfNJets30']==2 and newrow['vbfMass'] > 550:
-                self.fill_histos(newrow, weight*frMuon*mIso*tIso, 'MuonLooseWOS2JetVBF')
-          self.fill_histos(newrow, weight*frMuon*mIso*tIso, 'MuonLooseOS')
-          if newrow['vbfNJets30']==0 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_histos(newrow, weight*frMuon*mIso*tIso, 'MuonLooseOS0Jet')
-          elif newrow['vbfNJets30']==1 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_histos(newrow, weight*frMuon*mIso*tIso, 'MuonLooseOS1Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] < 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_histos(newrow, weight*frMuon*mIso*tIso, 'MuonLooseOS2Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] > 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 85:
-            self.fill_histos(newrow, weight*frMuon*mIso*tIso, 'MuonLooseOS2JetVBF')
+              self.fill_histos(newrow, weight*frMuon, 'MuonLooseWOS')
+              if newrow['jetVeto30WoNoisyJets']==0:
+                self.fill_histos(newrow, weight*frMuon, 'MuonLooseWOS0Jet')
+              elif newrow['jetVeto30WoNoisyJets']==1:
+                self.fill_histos(newrow, weight*frMuon, 'MuonLooseWOS1Jet')
+              elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] < 550:
+                self.fill_histos(newrow, weight*frMuon, 'MuonLooseWOS2Jet')
+              elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] > 550:
+                self.fill_histos(newrow, weight*frMuon, 'MuonLooseWOS2JetVBF')
+          self.fill_histos(newrow, weight*frMuon, 'MuonLooseOS')
+          if newrow['jetVeto30WoNoisyJets']==0 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_histos(newrow, weight*frMuon, 'MuonLooseOS0Jet')
+          elif newrow['jetVeto30WoNoisyJets']==1 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_histos(newrow, weight*frMuon, 'MuonLooseOS1Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] < 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_histos(newrow, weight*frMuon, 'MuonLooseOS2Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] > 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 85:
+            self.fill_histos(newrow, weight*frMuon, 'MuonLooseOS2JetVBF')
         if not self.oppositesign(newrow):
-          self.fill_histos(newrow, weight*frMuon*mIso*tIso, 'MuonLooseSS')
-          if newrow['vbfNJets30']==0:
-                self.fill_histos(newrow, weight*frMuon*mIso*tIso, 'MuonLooseSS0Jet')
-          elif newrow['vbfNJets30']==1:
-                self.fill_histos(newrow, weight*frMuon*mIso*tIso, 'MuonLooseSS1Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] < 550:
-                self.fill_histos(newrow, weight*frMuon*mIso*tIso, 'MuonLooseSS2Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] > 550:
-                self.fill_histos(newrow, weight*frMuon*mIso*tIso, 'MuonLooseSS2JetVBF')
+          self.fill_histos(newrow, weight*frMuon, 'MuonLooseSS')
+          if newrow['jetVeto30WoNoisyJets']==0:
+                self.fill_histos(newrow, weight*frMuon, 'MuonLooseSS0Jet')
+          elif newrow['jetVeto30WoNoisyJets']==1:
+                self.fill_histos(newrow, weight*frMuon, 'MuonLooseSS1Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] < 550:
+                self.fill_histos(newrow, weight*frMuon, 'MuonLooseSS2Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] > 550:
+                self.fill_histos(newrow, weight*frMuon, 'MuonLooseSS2JetVBF')
 
       if not self.obj2_tight(newrow) and self.obj2_loose(newrow) and not self.obj1_tight(newrow) and self.obj1_loose(newrow):
         frTau = self.fakeRate(newrow['tPt'], newrow['tEta'], newrow['tDecayMode'])
         frMuon = self.fakeRateMuon(newrow['mPt'])
-        mIso = 1
-        tIso = 1
-        if not self.is_data and not self.is_embed:
-          mIso = self.muonLooseIsoTightID(newrow['mPt'], abs(newrow['mEta']))
+        #mIso = 1
+        #tIso = 1
+        #if not self.is_data and not self.is_embed:
+        #  mIso = self.muonLooseIsoTightID(newrow['mPt'], abs(newrow['mEta']))
         if self.oppositesign(newrow):
           if transverseMass(newrow['mPt'], newrow['mEta'], newrow['mPhi'], newrow['mMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) > 60:
             if transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) > 80:
-              self.fill_histos(newrow, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseWOS')
-              if newrow['vbfNJets30']==0:
-                self.fill_histos(newrow, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseWOS0Jet')
-              elif newrow['vbfNJets30']==1:
-                self.fill_histos(newrow, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseWOS1Jet')
-              elif newrow['vbfNJets30']==2 and newrow['vbfMass'] < 550:
-                self.fill_histos(newrow, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseWOS2Jet')
-              elif newrow['vbfNJets30']==2 and newrow['vbfMass'] > 550:
-                self.fill_histos(newrow, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseWOS2JetVBF')
-          self.fill_histos(newrow, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseOS')
-          if newrow['vbfNJets30']==0 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_histos(newrow, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseOS0Jet')
-          elif newrow['vbfNJets30']==1 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_histos(newrow, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseOS1Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] < 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_histos(newrow, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseOS2Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] > 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 85:
-            self.fill_histos(newrow, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseOS2JetVBF')
+              self.fill_histos(newrow, weight*frTau*frMuon, 'MuonLooseTauLooseWOS')
+              if newrow['jetVeto30WoNoisyJets']==0:
+                self.fill_histos(newrow, weight*frTau*frMuon, 'MuonLooseTauLooseWOS0Jet')
+              elif newrow['jetVeto30WoNoisyJets']==1:
+                self.fill_histos(newrow, weight*frTau*frMuon, 'MuonLooseTauLooseWOS1Jet')
+              elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] < 550:
+                self.fill_histos(newrow, weight*frTau*frMuon, 'MuonLooseTauLooseWOS2Jet')
+              elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] > 550:
+                self.fill_histos(newrow, weight*frTau*frMuon, 'MuonLooseTauLooseWOS2JetVBF')
+          self.fill_histos(newrow, weight*frTau*frMuon, 'MuonLooseTauLooseOS')
+          if newrow['jetVeto30WoNoisyJets']==0 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_histos(newrow, weight*frTau*frMuon, 'MuonLooseTauLooseOS0Jet')
+          elif newrow['jetVeto30WoNoisyJets']==1 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_histos(newrow, weight*frTau*frMuon, 'MuonLooseTauLooseOS1Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] < 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_histos(newrow, weight*frTau*frMuon, 'MuonLooseTauLooseOS2Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] > 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 85:
+            self.fill_histos(newrow, weight*frTau*frMuon, 'MuonLooseTauLooseOS2JetVBF')
         if not self.oppositesign(newrow):
-          self.fill_histos(newrow, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseSS')
-          if newrow['vbfNJets30']==0:
-            self.fill_histos(newrow, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseSS0Jet')
-          elif newrow['vbfNJets30']==1:
-                self.fill_histos(newrow, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseSS1Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] < 550:
-                self.fill_histos(newrow, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseSS2Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] > 550:
-                self.fill_histos(newrow, weight*frTau*frMuon*mIso*tIso, 'MuonLooseTauLooseSS2JetVBF')
+          self.fill_histos(newrow, weight*frTau*frMuon, 'MuonLooseTauLooseSS')
+          if newrow['jetVeto30WoNoisyJets']==0:
+            self.fill_histos(newrow, weight*frTau*frMuon, 'MuonLooseTauLooseSS0Jet')
+          elif newrow['jetVeto30WoNoisyJets']==1:
+                self.fill_histos(newrow, weight*frTau*frMuon, 'MuonLooseTauLooseSS1Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] < 550:
+                self.fill_histos(newrow, weight*frTau*frMuon, 'MuonLooseTauLooseSS2Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] > 550:
+                self.fill_histos(newrow, weight*frTau*frMuon, 'MuonLooseTauLooseSS2JetVBF')
 
       if self.obj2_tight(newrow) and self.obj1_tight(newrow):
-        mIso = 1
-        tIso = 1
-        if not self.is_data and not self.is_embed:
-          mIso = self.muonTightIsoTightID(newrow['mPt'], abs(newrow['mEta']))
+        #mIso = 1
+        #tIso = 1
+        #if not self.is_data and not self.is_embed:
+        #  mIso = self.muonTightIsoTightID(newrow['mPt'], abs(newrow['mEta']))
         if self.oppositesign(newrow):
           if transverseMass(newrow['mPt'], newrow['mEta'], newrow['mPhi'], newrow['mMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) > 60:
             if transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) > 80:
-              self.fill_histos(newrow, weight*mIso*tIso, 'TightWOS')
-              if newrow['vbfNJets30']==0:
-                self.fill_histos(newrow, weight*mIso*tIso, 'TightWOS0Jet')
-              elif newrow['vbfNJets30']==1:
-                self.fill_histos(newrow, weight*mIso*tIso, 'TightWOS1Jet')
-              elif newrow['vbfNJets30']==2 and newrow['vbfMass'] < 550:
-                self.fill_histos(newrow, weight*mIso*tIso, 'TightWOS2Jet')
-              elif newrow['vbfNJets30']==2 and newrow['vbfMass'] > 550:
-                self.fill_histos(newrow, weight*mIso*tIso, 'TightWOS2JetVBF')
-          self.fill_histos(newrow, weight*mIso*tIso, 'TightOS')
-          if newrow['vbfNJets30']==0 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_histos(newrow, weight*mIso*tIso, 'TightOS0Jet')
-          elif newrow['vbfNJets30']==1 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_histos(newrow, weight*mIso*tIso, 'TightOS1Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] < 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
-            self.fill_histos(newrow, weight*mIso*tIso, 'TightOS2Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] > 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 85:
-            self.fill_histos(newrow, weight*mIso*tIso, 'TightOS2JetVBF')
+              self.fill_histos(newrow, weight, 'TightWOS')
+              if newrow['jetVeto30WoNoisyJets']==0:
+                self.fill_histos(newrow, weight, 'TightWOS0Jet')
+              elif newrow['jetVeto30WoNoisyJets']==1:
+                self.fill_histos(newrow, weight, 'TightWOS1Jet')
+              elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] < 550:
+                self.fill_histos(newrow, weight, 'TightWOS2Jet')
+              elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] > 550:
+                self.fill_histos(newrow, weight, 'TightWOS2JetVBF')
+          self.fill_histos(newrow, weight, 'TightOS')
+          if newrow['jetVeto30WoNoisyJets']==0 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_histos(newrow, weight, 'TightOS0Jet')
+          elif newrow['jetVeto30WoNoisyJets']==1 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_histos(newrow, weight, 'TightOS1Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] < 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 105:
+            self.fill_histos(newrow, weight, 'TightOS2Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] > 550 and transverseMass(newrow['tPt'], newrow['tEta'], newrow['tPhi'], newrow['tMass'], newrow['type1_pfMetEt'], newrow['type1_pfMetPhi']) < 85:
+            self.fill_histos(newrow, weight, 'TightOS2JetVBF')
         if not self.oppositesign(newrow):
-          self.fill_histos(newrow, weight*mIso*tIso, 'TightSS')
-          if newrow['vbfNJets30']==0:
-            self.fill_histos(newrow, weight*mIso*tIso, 'TightSS0Jet')
-          elif newrow['vbfNJets30']==1:
-            self.fill_histos(newrow, weight*mIso*tIso, 'TightSS1Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] < 550:
-            self.fill_histos(newrow, weight*mIso*tIso, 'TightSS2Jet')
-          elif newrow['vbfNJets30']==2 and newrow['vbfMass'] > 550:
-            self.fill_histos(newrow, weight*mIso*tIso, 'TightSS2JetVBF')
+          self.fill_histos(newrow, weight, 'TightSS')
+          if newrow['jetVeto30WoNoisyJets']==0:
+            self.fill_histos(newrow, weight, 'TightSS0Jet')
+          elif newrow['jetVeto30WoNoisyJets']==1:
+            self.fill_histos(newrow, weight, 'TightSS1Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] < 550:
+            self.fill_histos(newrow, weight, 'TightSS2Jet')
+          elif newrow['jetVeto30WoNoisyJets']==2 and newrow['vbfMassWoNoisyJets'] > 550:
+            self.fill_histos(newrow, weight, 'TightSS2JetVBF')
 
 
   def finish(self):
