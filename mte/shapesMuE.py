@@ -103,26 +103,48 @@ for di in dirs:
     QCDMC = views.SubdirectoryView(mc_view, 'TightSS'+di)
     QCD = SubtractionView(QCDData, QCDMC, restrict_positive=True)
     qcd = QCD.Get("m_e_CollinearMass")
+    for i in range(1, qcd.GetNbinsX()+1):                                                                                                                                                                                                                                  
+        qcd.SetBinError(i, math.sqrt(qcd.GetBinContent(i))) 
     qcd.SetName('QCD')
     qcdr0up = QCD.Get("Rate0JetUp/m_e_CollinearMass")
+    for i in range(1, qcd.GetNbinsX()+1):                                                                                                                                                                                                                                  
+        qcdr0up.SetBinError(i, math.sqrt(qcd.GetBinContent(i))) 
     qcdr0up.SetName('QCD_CMS_0JetRate_13TeVUp')
     qcdr0down = QCD.Get("Rate0JetDown/m_e_CollinearMass")
+    for i in range(1, qcd.GetNbinsX()+1):                                                                                                                                                                                                                                  
+        qcdr0down.SetBinError(i, math.sqrt(qcd.GetBinContent(i))) 
     qcdr0down.SetName('QCD_CMS_0JetRate_13TeVDown')
     qcdr1up = QCD.Get("Rate1JetUp/m_e_CollinearMass")
+    for i in range(1, qcd.GetNbinsX()+1):                                                                                                                                                                                                                                  
+        qcdr1up.SetBinError(i, math.sqrt(qcd.GetBinContent(i))) 
     qcdr1up.SetName('QCD_CMS_1JetRate_13TeVUp')
     qcdr1down = QCD.Get("Rate1JetDown/m_e_CollinearMass")
+    for i in range(1, qcd.GetNbinsX()+1):                                                                                                                                                                                                                                  
+        qcdr1down.SetBinError(i, math.sqrt(qcd.GetBinContent(i))) 
     qcdr1down.SetName('QCD_CMS_1JetRate_13TeVDown')
     qcds0up = QCD.Get("Shape0JetUp/m_e_CollinearMass")
+    for i in range(1, qcd.GetNbinsX()+1):                                                                                                                                                                                                                                  
+        qcds0up.SetBinError(i, math.sqrt(qcd.GetBinContent(i))) 
     qcds0up.SetName('QCD_CMS_0JetShape_13TeVUp')
     qcds0down = QCD.Get("Shape0JetDown/m_e_CollinearMass")
+    for i in range(1, qcd.GetNbinsX()+1):                                                                                                                                                                                                                                  
+        qcds0down.SetBinError(i, math.sqrt(qcd.GetBinContent(i))) 
     qcds0down.SetName('QCD_CMS_0JetShape_13TeVDown')
     qcds1up = QCD.Get("Shape1JetUp/m_e_CollinearMass")
+    for i in range(1, qcd.GetNbinsX()+1):                                                                                                                                                                                                                                  
+        qcds1up.SetBinError(i, math.sqrt(qcd.GetBinContent(i))) 
     qcds1up.SetName('QCD_CMS_1JetShape_13TeVUp')
     qcds1down = QCD.Get("Shape1JetDown/m_e_CollinearMass")
+    for i in range(1, qcd.GetNbinsX()+1):                                                                                                                                                                                                                                  
+        qcds1down.SetBinError(i, math.sqrt(qcd.GetBinContent(i))) 
     qcds1down.SetName('QCD_CMS_1JetShape_13TeVDown')
     qcdiup = QCD.Get("IsoUp/m_e_CollinearMass")
+    for i in range(1, qcd.GetNbinsX()+1):                                                                                                                                                                                                                                  
+        qcdiup.SetBinError(i, math.sqrt(qcd.GetBinContent(i))) 
     qcdiup.SetName('QCD_CMS_Extrapolation_13TeVUp')
     qcdidown = QCD.Get("IsoDown/m_e_CollinearMass")
+    for i in range(1, qcd.GetNbinsX()+1):                                                                                                                                                                                                                                  
+        qcdidown.SetBinError(i, math.sqrt(qcd.GetBinContent(i))) 
     qcdidown.SetName('QCD_CMS_Extrapolation_13TeVDown')
 
     for i in range(13):

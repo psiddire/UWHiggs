@@ -28,7 +28,7 @@ ROOT.gStyle.SetOptStat(0)
 jobid = os.environ['jobid']
 print jobid
 
-mc_samples = ['DYJetsToLL_M-50*', 'DYJetsToLL_M-10to50*', 'DY1JetsToLL*', 'DY2JetsToLL*', 'DY3JetsToLL*', 'DY4JetsToLL*', 'GluGlu_LFV*', 'VBF_LFV*', 'GluGluHToTauTau*', 'VBFHToTauTau*', 'WminusHToTauTau*', 'WplusHToTauTau*', 'ttHToTauTau*', 'ZHToTauTau*', 'TTTo2L2Nu*', 'TTToSemiLeptonic*', 'TTToHadronic*', 'ST_tW_antitop*', 'ST_tW_top*', 'ST_t-channel_antitop*', 'ST_t-channel_top*', 'QCD*', 'WZ*', 'WW*', 'ZZ*', 'EWKWMinus2Jets*', 'EWKWPlus2Jets*', 'EWKZ2Jets_ZToLL*', 'EWKZ2Jets_ZToNuNu*', 'WJetsToLNu*', 'W1JetsToLNu*', 'W2JetsToLNu*', 'W3JetsToLNu*', 'W4JetsToLNu*', 'WGToLNuG*', 'MC*', 'data*']#'embed*'
+mc_samples = ['DYJetsToLL_M-50*', 'DYJetsToLL_M-10to50*', 'DY1JetsToLL*', 'DY2JetsToLL*', 'DY3JetsToLL*', 'DY4JetsToLL*', 'GluGlu_LFV*', 'VBF_LFV*', 'GluGluHToTauTau*', 'VBFHToTauTau*', 'WminusHToTauTau*', 'WplusHToTauTau*', 'ttHToTauTau*', 'ZHToTauTau*', 'TTTo2L2Nu*', 'TTToSemiLeptonic*', 'TTToHadronic*', 'ST_tW_antitop*', 'ST_tW_top*', 'ST_t-channel_antitop*', 'ST_t-channel_top*', 'QCD*', 'WZ*', 'WW*', 'ZZ*', 'EWKWMinus2Jets*', 'EWKWPlus2Jets*', 'EWKZ2Jets_ZToLL*', 'EWKZ2Jets_ZToNuNu*', 'WJetsToLNu*', 'W1JetsToLNu*', 'W2JetsToLNu*', 'W3JetsToLNu*', 'W4JetsToLNu*', 'WGToLNuG*', 'MC*', 'embed*', 'data*']
 
 files=[]
 lumifiles=[]
@@ -36,20 +36,19 @@ channel = ['']
 
 for x in mc_samples:
     print x
-    files.extend(glob.glob('results/%s/AnalyzeMuE/%s' % (jobid, x)))
+    files.extend(glob.glob('results/%s/AnalyzeMuEZTT/%s' % (jobid, x)))
     lumifiles.extend(glob.glob('inputs/%s/%s.lumicalc.sum' % (jobid, x)))
 
 period = '13TeV'
 sqrts = 13
 
-jet = ['', '0Jet', '1Jet', '2Jet', '2JetVBF', '0JetCut', '1JetCut', '2JetCut', '2JetVBFCut']
-#jet = ['0Jet']
+jet = ['', '0Jet', '1Jet', '2Jet', '2JetVBF']
 
 for j in jet:
     s1 = 'TightOS'+j
     s2 = 'TightSS'+j
     
-    outputdir = 'plots/%s/AnalyzeMuE/April24/%s/' % (jobid, s1)
+    outputdir = 'plots/%s/AnalyzeMuEZTT/EmbedNewCorrections/%s/' % (jobid, s1)
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
@@ -75,10 +74,10 @@ for j in jet:
     DYlow = views.StyleView(DYlowall, **remove_name_entry(data_styles['DYlow*']))
     DYlow = views.TitleView(DYlow, "ZllLowMass")
     
-    #embedtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x :  x.startswith('embed') , mc_samples)])
-    #embedall = views.SubdirectoryView(embedtotal, s1)
-    #embed = views.StyleView(embedall, **remove_name_entry(data_styles['DYTT*']))
-    #embed = views.TitleView(embed, "ZttEmbedded")
+    embedtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x :  x.startswith('embed') , mc_samples)])
+    embedall = views.SubdirectoryView(embedtotal, s1)
+    embed = views.StyleView(embedall, **remove_name_entry(data_styles['DYTT*']))
+    embed = views.TitleView(embed, "ZttEmbedded")
 
     EWKtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x :  x.startswith('EWK') , mc_samples)])
     EWKall = views.SubdirectoryView(EWKtotal, s1)
@@ -105,12 +104,12 @@ for j in jet:
     EWKDiboson = views.StyleView(EWKDibosonall, **remove_name_entry(data_styles['WZ*']))
     EWKDiboson = views.TitleView(EWKDiboson, "DiBoson")
 
-    data_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('QCD'), mc_samples)])
-    mc_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('MC'), mc_samples)])
-    QCDData = views.SubdirectoryView(data_view, s2)
-    QCDMC = views.SubdirectoryView(mc_view, s2)
-    QCD = views.StyleView(SubtractionView(QCDData, QCDMC, restrict_positive=True), **remove_name_entry(data_styles['QCD*']))
-    QCD = views.TitleView(QCD, "QCD")
+    #data_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('QCD'), mc_samples)])
+    #mc_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('MC'), mc_samples)])
+    #QCDData = views.SubdirectoryView(data_view, s2)
+    #QCDMC = views.SubdirectoryView(mc_view, s2)
+    #QCD = views.StyleView(SubtractionView(QCDData, QCDMC, restrict_positive=True), **remove_name_entry(data_styles['QCD*']))
+    #QCD = views.TitleView(QCD, "QCD")
 
     vbfHMT = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'VBF_LFV_HToMuTau' in x , mc_samples)]), **remove_name_entry(data_styles['VBF_LFV*']))
     ggHMT = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'GluGlu_LFV_HToMuTau' in x , mc_samples)]), **remove_name_entry(data_styles['GluGlu_LFV*']))
@@ -121,22 +120,20 @@ for j in jet:
     plotter.views['DYlow']={'view' : DYlow }
     plotter.views['W']={'view' : W }
     plotter.views['WG']={'view' : WG }
-    #plotter.views['embed']={'view' : embed }
+    plotter.views['embed']={'view' : embed }
     plotter.views['EWK']={'view' : EWK }
     plotter.views['SMH']={'view' : SMH }
     plotter.views['TT']={'view' : TT }
     plotter.views['ST']={'view' : ST }
-    plotter.views['QCD']={'view' : QCD }
+    #plotter.views['QCD']={'view' : QCD }
     plotter.views['EWKDiboson']={'view' : EWKDiboson }
 
     new_mc_samples = []
-    new_mc_samples.extend(['DY', 'TT', 'ST', 'W', 'WG', 'EWKDiboson', 'EWK', 'DYlow', 'SMH', 'QCD'])
-    #new_mc_samples.extend(['embed', 'DY', 'TT', 'W', 'WG', 'ST', 'EWKDiboson', 'EWK', 'DYlow', 'SMH']) 
+    new_mc_samples.extend(['embed', 'DY', 'TT', 'W', 'WG', 'ST', 'EWKDiboson', 'EWK', 'DYlow', 'SMH']) 
+    #new_mc_samples.extend(['DY', 'TT', 'W', 'WG', 'ST', 'EWKDiboson', 'EWK', 'DYlow', 'SMH'])
     plotter.mc_samples = new_mc_samples
 
-    histoname = [("mPt", "Muon  Pt (GeV)", 1),("ePt", "Electron Pt (Gev)", 1),("mEta", "Muon Eta", 1),("eEta", "Electron Eta", 1),("mPhi", "Muon Phi", 2),("ePhi", "Electron Phi", 1),("type1_pfMetEt", "Type1 MET Et", 1),("type1_pfMetPhi", "Type1 MET Phi", 1),("m_e_Mass", "Muon + Electron Mass (GeV)", 1),("m_e_CollinearMass", "Muon + Electron Collinear Mass (GeV)", 1),("numOfJetsWO", "Number of Jets WO", 1),("numOfJets", "Number of Jets", 1),("numOfVtx", "Number of Vertices", 1),("nTruePU", "Number of PU", 1),("dEtaMuE", "Delta Eta Mu E", 1),("dPhiEMET", "Delta Phi E MET", 1),("dPhiMuMET", "Delta Phi Mu MET", 1),("dPhiMuE", "Delta Phi Mu E", 1),("MTEMET", "Electron MET Transverse Mass (GeV)", 1),("MTMuMET", "Mu MET Transverse Mass (GeV)", 1)]
-
-    #histoname = [("m_e_CollinearMass", "Muon + Electron Collinear Mass (GeV)", 1)]
+    histoname = [("mPt", "Muon  Pt (GeV)", 1),("ePt", "Electron Pt (Gev)", 1),("mEta", "Muon Eta", 1),("eEta", "Electron Eta", 1),("mPhi", "Muon Phi", 2),("ePhi", "Electron Phi", 1),("type1_pfMetEt", "Type1 MET Et", 1),("type1_pfMetPhi", "Type1 MET Phi", 1),("m_e_Mass", "Muon + Electron Mass (GeV)", 1),("numOfJetsWO", "Number of Jets WO", 1),("numOfJets", "Number of Jets", 1),("numOfVtx", "Number of Vertices", 1),("dEtaMuE", "Delta Eta Mu E", 1),("dPhiEMET", "Delta Phi E MET", 1),("dPhiMuMET", "Delta Phi Mu MET", 1),("dPhiMuE", "Delta Phi Mu E", 1),("MTEMET", "Electron MET Transverse Mass (GeV)", 1),("MTMuMET", "Mu MET Transverse Mass (GeV)", 1)]
 
     foldername = channel
 
@@ -145,6 +142,6 @@ for j in jet:
             os.makedirs(outputdir+'/'+fn)
 
         for n,h in enumerate(histoname):
-            plotter.plot_mc_vs_data(fn, ['VBF_LFV_HToMuTau_M125*', 'GluGlu_LFV_HToMuTau_M125*'], h[0], 1, xaxis = h[1], leftside=False, xrange=None, preprocess=None, show_ratio=True, ratio_range=1.5, sort=True, blind_region=True, control=s1, jets=j)
+            plotter.plot_mc_vs_data(fn, ['VBF_LFV_HToMuTau_M125*', 'GluGlu_LFV_HToMuTau_M125*'], h[0], 1, xaxis = h[1], leftside=False, xrange=None, preprocess=None, show_ratio=True, ratio_range=1.5, sort=True, blind_region=False, control=s1, jets=j)
             plotter.save(h[0])
 

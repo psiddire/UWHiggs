@@ -31,17 +31,8 @@ rnd = gRandom.Rndm
 MetCorrection = True
 target = os.path.basename(os.environ['megatarget'])
 
-f1 = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/htt_scalefactors_2017_v1.root")
-w1 = f1.Get("w")
-
-f2 = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/htt_scalefactors_2017_v2.root")
-w2 = f2.Get("w")
-
 f3 = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/htt_scalefactors_2017_v3.root")
 w3 = f3.Get("w")
-
-fe = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/htt_scalefactors_v17_5.root")
-we = fe.Get("w")
 
 
 def deltaPhi(phi1, phi2):
@@ -230,7 +221,7 @@ else:
                  'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'DY')}
 
 
-class AnalyzeMuESys(MegaBase):
+class AnalyzeMuEMCSys(MegaBase):
   tree = 'em/final/Ntuple'
 
   def __init__(self, tree, outfile, **kwargs):
@@ -274,7 +265,13 @@ class AnalyzeMuESys(MegaBase):
     self.h_btag_eff_c = self.f_btag_eff.Get("btag_eff_c")
     self.h_btag_eff_oth = self.f_btag_eff.Get("btag_eff_oth")
 
-    super(AnalyzeMuESys, self).__init__(tree, outfile, **kwargs)
+    self.tEff = mcCorrections.efficiency_trigger_mu_2017                                                                                                                                                                                                                       
+    self.mID = mcCorrections.muonIso_tight_tightid                                                                                                                                                                                                                             
+    self.mTrk = mcCorrections.muonTracking                                                                                                                                                                                                                                     
+    self.eID = mcCorrections.eIDnoIsoWP80                                                                                                                                                                                                                                      
+    self.eReco = mcCorrections.eReco   
+
+    super(AnalyzeMuEMCSys, self).__init__(tree, outfile, **kwargs)
     self.tree = EMTree.EMTree(tree)
     self.out = outfile
     self.histograms = {}
@@ -391,12 +388,8 @@ class AnalyzeMuESys(MegaBase):
     self.myMET = ROOT.TLorentzVector()
     self.myMET.SetPtEtaPhiM(row.type1_pfMetEt, 0, row.type1_pfMetPhi, 0)
 
-    #if self.is_mc:
-    self.njets = getattr(row, 'jetVeto30')                                                                                                                                                                                                                              
-    self.mjj = getattr(row, 'vbfMass') 
-    #else:
-    #  self.njets = getattr(row, 'jetVeto30WoNoisyJets')                                                                                                                                                                                           
-    #  self.mjj = getattr(row, 'vbfMassWoNoisyJets') 
+    self.njets = getattr(row, 'jetVeto30WoNoisyJets')                                                                                                                                                                                           
+    self.mjj = getattr(row, 'vbfMassWoNoisyJets') 
 
     w3.var("njets").setVal(self.njets)
     w3.var("dR").setVal(deltaR(row.ePhi, row.mPhi, row.eEta, row.mEta))
@@ -489,7 +482,7 @@ class AnalyzeMuESys(MegaBase):
     if self.is_mc:
 
       if self.is_recoilC and MetCorrection:
-        sysMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(self.njets)))
+        sysMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30)))
         self.myMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
 
       puweightUp = pucorrector['puUp'](row.nTruePU)
@@ -509,19 +502,19 @@ class AnalyzeMuESys(MegaBase):
 
       if self.is_recoilC and MetCorrection:
         self.tmpMET.SetPtEtaPhiM(self.myMET.Pt(), 0, self.myMET.Phi(), 0)
-        sysMet = self.MetSys.ApplyMEtSys(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(self.njets)), 0, 0, 0)
+        sysMet = self.MetSys.ApplyMEtSys(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30)), 0, 0, 0)
         if sysMet!=None:
           self.tmpMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
         self.fill_categories(self.myMuon, self.tmpMET, self.myEle, self.njets, self.mjj, weight, '/recrespUp')
-        sysMet = self.MetSys.ApplyMEtSys(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(self.njets)), 0, 0, 1)
+        sysMet = self.MetSys.ApplyMEtSys(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30)), 0, 0, 1)
         if sysMet!=None:
           self.tmpMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
         self.fill_categories(self.myMuon, self.tmpMET, self.myEle, self.njets, self.mjj, weight, '/recrespDown')
-        sysMet = self.MetSys.ApplyMEtSys(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(self.njets)), 0, 1, 0)
+        sysMet = self.MetSys.ApplyMEtSys(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30)), 0, 1, 0)
         if sysMet!=None:
           self.tmpMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
         self.fill_categories(self.myMuon, self.tmpMET, self.myEle, self.njets, self.mjj, weight, '/recresoUp')
-        sysMet = self.MetSys.ApplyMEtSys(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(self.njets)), 0, 1, 1)
+        sysMet = self.MetSys.ApplyMEtSys(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30)), 0, 1, 1)
         if sysMet!=None:
           self.tmpMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
         self.fill_categories(self.myMuon, self.tmpMET, self.myEle, self.njets, self.mjj, weight, '/recresoDown')
@@ -589,8 +582,8 @@ class AnalyzeMuESys(MegaBase):
           self.fill_categories(self.myMuon, self.myMET, self.myEle, self.njets, self.mjj, weight, '/'+j)
 
     else:
-      #self.njets = getattr(row, 'jetVeto30WoNoisyJets')                                                                                                                                                                                                                       
-      #self.mjj = getattr(row, 'vbfMassWoNoisyJets')
+      self.njets = getattr(row, 'jetVeto30WoNoisyJets')                                                                                                                                                                                                                       
+      self.mjj = getattr(row, 'vbfMassWoNoisyJets')
       self.fill_categories(self.myMuon, self.myMET, self.myEle, self.njets, self.mjj, weight, '')
       if self.is_embed:
         self.fill_categories(self.myMuon, self.myMET, self.myEle, self.njets, self.mjj, weight * 1.02, '/trUp')
@@ -639,14 +632,11 @@ class AnalyzeMuESys(MegaBase):
       if deltaR(row.ePhi, row.mPhi, row.eEta, row.mEta) < 0.3:
         continue
 
-      #if self.is_mc and row.jetVeto30 > 2:
-      #  continue
+      if self.is_mc and row.jetVeto30 > 2:
+        continue
       
-      #if not self.is_mc and row.jetVeto30WoNoisyJets > 2:
-      #  continue
-
-      if row.jetVeto30 > 2:                                                                                                                                                                                                                                     
-        continue 
+      if not self.is_mc and row.jetVeto30WoNoisyJets > 2:
+        continue
 
       if not self.obj1_id(row):
         continue
@@ -657,11 +647,7 @@ class AnalyzeMuESys(MegaBase):
       if not self.vetos(row):
         continue      
 
-      #if self.is_DY or self.is_DYlow:
-      #  if not bool(row.isZmumu or row.isZee):
-      #    continue
-
-      nbtag = row.bjetDeepCSVVeto20Medium#WoNoisyJets
+      nbtag = row.bjetDeepCSVVeto20MediumWoNoisyJets
       bpt_1 = row.jb1pt
       bflavor_1 = row.jb1hadronflavor
       beta_1 = row.jb1eta
@@ -672,17 +658,13 @@ class AnalyzeMuESys(MegaBase):
 
       weight = 1.0
       if not self.is_data and not self.is_embed:
-        w2.var("m_pt").setVal(row.mPt)
-        w2.var("m_eta").setVal(row.mEta)
-        mIso = w2.function("m_iso_kit_ratio").getVal()
-        mID = w2.function("m_id_kit_ratio").getVal()
-        tEff = w2.function("m_trg27_kit_data").getVal()/w2.function("m_trg27_kit_mc").getVal()
-        w2.var("e_pt").setVal(row.ePt)
-        w2.var("e_eta").setVal(row.eEta)
-        eIso = w2.function("e_iso_kit_ratio").getVal()
-        eID = w2.function("e_id80_kit_ratio").getVal()
-        eTrk = w2.function("e_trk_ratio").getVal()
-        weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*eID*eIso*eTrk
+
+        tEff = self.tEff(row.mPt, abs(row.mEta))                                                                                                                                                                                                                               
+        mID = self.mID(row.mPt, abs(row.mEta))                                                                                                                                                                                                                                 
+        mTrk = self.mTrk(row.mEta)[0]                                                                                                                                                                                                                                          
+        eID = self.eID(row.ePt, abs(row.eEta))                                                                                                                                                                                                                                 
+        eTrk = self.eReco(row.ePt, abs(row.eEta)) 
+        weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mTrk*eID*eTrk
 
         if self.is_DY:
           w2.var("z_gen_mass").setVal(row.genMass)
@@ -753,30 +735,6 @@ class AnalyzeMuESys(MegaBase):
         if self.is_GluGluH:
           weight = weight*0.00203
 
-      if self.is_embed:
-        we.var("gt_pt").setVal(row.mPt)
-        we.var("gt_eta").setVal(row.mEta)
-        msel = we.function("m_sel_idEmb_ratio").getVal()
-        we.var("gt_pt").setVal(row.ePt)
-        we.var("gt_eta").setVal(row.eEta)
-        esel = we.function("m_sel_idEmb_ratio").getVal()
-        we.var("gt1_pt").setVal(row.mPt)
-        we.var("gt1_eta").setVal(row.mEta)
-        we.var("gt2_pt").setVal(row.ePt)
-        we.var("gt2_eta").setVal(row.eEta)
-        trgsel = we.function("m_sel_trg_ratio").getVal()
-        we.var("m_pt").setVal(row.mPt)
-        we.var("m_eta").setVal(row.mEta)
-        we.var("m_iso").setVal(row.mRelPFIsoDBDefaultR04)
-        m_iso_sf = we.function("m_iso_binned_embed_kit_ratio").getVal()
-        m_id_sf = we.function("m_id_embed_kit_ratio").getVal()
-        m_trg_sf = we.function("m_trg27_embed_kit_ratio").getVal()
-        we.var("e_pt").setVal(row.ePt)
-        we.var("e_eta").setVal(row.eEta)
-        we.var("e_iso").setVal(row.eRelPFIsoRho)
-        e_iso_sf = we.function("e_iso_binned_embed_kit_ratio").getVal()
-        e_id_sf = we.function("e_id80_embed_kit_ratio").getVal()
-        weight = weight*row.GenWeight*m_trg_sf*m_id_sf*m_iso_sf*msel*esel*trgsel*e_id_sf*e_iso_sf
 
       if self.obj2_iso(row) and self.obj1_iso(row):
         if self.oppositesign(row):

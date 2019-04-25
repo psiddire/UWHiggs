@@ -564,6 +564,7 @@ class AnalyzeMuE(MegaBase):
         m_iso_sf = we.function("m_iso_binned_embed_kit_ratio").getVal()
         m_id_sf = we.function("m_id_embed_kit_ratio").getVal()
         m_trg_sf = we.function("m_trg27_embed_kit_ratio").getVal()
+        print "m_trg_sf: ", m_trg_sf
         we.var("e_pt").setVal(row.ePt)
         we.var("e_eta").setVal(row.eEta)
         we.var("e_iso").setVal(row.eRelPFIsoRho)

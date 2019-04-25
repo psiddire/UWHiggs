@@ -1,273 +1,266 @@
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/data_SingleMuon_Run2017B-31Mar2018.root`
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/data_SingleMuon_Run2017C-31Mar2018.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/data_SingleMuon_Run2017B-31Mar2018.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/data_SingleMuon_Run2017C-31Mar2018.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/data_SingleMuon_Run2017B-31Mar2018.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/data_SingleMuon_Run2017B-31Mar2018.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/data_SingleMuon_Run2017B-31Mar2018.txt results/DataJan20/AnalyzeMuEQCD/data_SingleMuon_Run2017B-31Mar2018.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_data_SingleMuon_Run2017B-31Mar2018.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/data_SingleMuon_Run2017B-31Mar2018.txt results/DataJan20/AnalyzeMuESysHTTJes/data_SingleMuon_Run2017B-31Mar2018.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_data_SingleMuon_Run2017B-31Mar2018.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/data_SingleMuon_Run2017D-31Mar2018.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/data_SingleMuon_Run2017D-31Mar2018.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/data_SingleMuon_Run2017C-31Mar2018.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/data_SingleMuon_Run2017C-31Mar2018.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/data_SingleMuon_Run2017C-31Mar2018.txt results/DataJan20/AnalyzeMuEQCD/data_SingleMuon_Run2017C-31Mar2018.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_data_SingleMuon_Run2017C-31Mar2018.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/data_SingleMuon_Run2017C-31Mar2018.txt results/DataJan20/AnalyzeMuESysHTTJes/data_SingleMuon_Run2017C-31Mar2018.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_data_SingleMuon_Run2017C-31Mar2018.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/data_SingleMuon_Run2017E-31Mar2018.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/data_SingleMuon_Run2017E-31Mar2018.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/data_SingleMuon_Run2017D-31Mar2018.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/data_SingleMuon_Run2017D-31Mar2018.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/data_SingleMuon_Run2017D-31Mar2018.txt results/DataJan20/AnalyzeMuEQCD/data_SingleMuon_Run2017D-31Mar2018.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_data_SingleMuon_Run2017D-31Mar2018.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/data_SingleMuon_Run2017D-31Mar2018.txt results/DataJan20/AnalyzeMuESysHTTJes/data_SingleMuon_Run2017D-31Mar2018.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_data_SingleMuon_Run2017D-31Mar2018.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/data_SingleMuon_Run2017F-31Mar2018.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/data_SingleMuon_Run2017F-31Mar2018.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/data_SingleMuon_Run2017E-31Mar2018.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/data_SingleMuon_Run2017E-31Mar2018.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/data_SingleMuon_Run2017E-31Mar2018.txt results/DataJan20/AnalyzeMuEQCD/data_SingleMuon_Run2017E-31Mar2018.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_data_SingleMuon_Run2017E-31Mar2018.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/data_SingleMuon_Run2017E-31Mar2018.txt results/DataJan20/AnalyzeMuESysHTTJes/data_SingleMuon_Run2017E-31Mar2018.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_data_SingleMuon_Run2017E-31Mar2018.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v2.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v2.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/data_SingleMuon_Run2017F-31Mar2018.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/data_SingleMuon_Run2017F-31Mar2018.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/data_SingleMuon_Run2017F-31Mar2018.txt results/DataJan20/AnalyzeMuEQCD/data_SingleMuon_Run2017F-31Mar2018.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_data_SingleMuon_Run2017F-31Mar2018.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/data_SingleMuon_Run2017F-31Mar2018.txt results/DataJan20/AnalyzeMuESysHTTJes/data_SingleMuon_Run2017F-31Mar2018.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_data_SingleMuon_Run2017F-31Mar2018.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v1.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v2.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v2.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v2.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v2.txt results/DataJan20/AnalyzeMuEQCD/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v2.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v2.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v2.txt results/DataJan20/AnalyzeMuESysHTTJes/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v2.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v2.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v2.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v2.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v1.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v2.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuEQCD/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_v14-v1.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v2.txt results/DataJan20/AnalyzeMuESysHTTJes/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v2.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v2.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v2.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_v14-v1.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v2.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v2.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v2.txt results/DataJan20/AnalyzeMuEQCD/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v2.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v2.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v2.txt results/DataJan20/AnalyzeMuESysHTTJes/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v2.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v2.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_v14-v1.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_v14-v2.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v2.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_v14-v1.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v2.txt results/DataJan20/AnalyzeMuEQCD/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v2.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v14-v2.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuESysHTTJes/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_v14-v1.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_v14-v2.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_v14-v1.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_v14-v1.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_v14-v2.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuEQCD/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_v14-v1.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_v14-v2.txt results/DataJan20/AnalyzeMuESysHTTJes/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_v14-v2.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_TTToHadronic_TuneCP5_13TeV-powheg-pythia8_v14-v2.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_v14-v1.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/VBFHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_v14-v2.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_v14-v1.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_v14-v2.txt results/DataJan20/AnalyzeMuEQCD/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_v14-v2.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_TTToHadronic_TuneCP5_13TeV-powheg-pythia8_v14-v2.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuESysHTTJes/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_v14-v1.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/VBFHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/GluGluHToTauTau_M125_13TeV_powheg_pythia8_v14-v2.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_v14-v1.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/VBFHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuEQCD/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_v14-v1.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/VBFHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.txt results/DataJan20/AnalyzeMuESysHTTJes/VBFHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_VBFHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/GluGluHToTauTau_M125_13TeV_powheg_pythia8_v14-v2.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/WW_TuneCP5_13TeV-pythia8_v14-v1.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/VBFHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/GluGluHToTauTau_M125_13TeV_powheg_pythia8_v14-v2.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/VBFHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.txt results/DataJan20/AnalyzeMuEQCD/VBFHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_VBFHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/GluGluHToTauTau_M125_13TeV_powheg_pythia8_v14-v2.txt results/DataJan20/AnalyzeMuESysHTTJes/GluGluHToTauTau_M125_13TeV_powheg_pythia8_v14-v2.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_GluGluHToTauTau_M125_13TeV_powheg_pythia8_v14-v2.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/WW_TuneCP5_13TeV-pythia8_v14-v1.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/WZ_TuneCP5_13TeV-pythia8_v14-v1.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/GluGluHToTauTau_M125_13TeV_powheg_pythia8_v14-v2.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/WW_TuneCP5_13TeV-pythia8_v14-v1.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/GluGluHToTauTau_M125_13TeV_powheg_pythia8_v14-v2.txt results/DataJan20/AnalyzeMuEQCD/GluGluHToTauTau_M125_13TeV_powheg_pythia8_v14-v2.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_GluGluHToTauTau_M125_13TeV_powheg_pythia8_v14-v2.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/WW_TuneCP5_13TeV-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuESysHTTJes/WW_TuneCP5_13TeV-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_WW_TuneCP5_13TeV-pythia8_v14-v1.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/WZ_TuneCP5_13TeV-pythia8_v14-v1.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/ZZ_TuneCP5_13TeV-pythia8_v14-v1.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/WW_TuneCP5_13TeV-pythia8_v14-v1.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/WZ_TuneCP5_13TeV-pythia8_v14-v1.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/WW_TuneCP5_13TeV-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuEQCD/WW_TuneCP5_13TeV-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_WW_TuneCP5_13TeV-pythia8_v14-v1.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/WZ_TuneCP5_13TeV-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuESysHTTJes/WZ_TuneCP5_13TeV-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_WZ_TuneCP5_13TeV-pythia8_v14-v1.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/ZZ_TuneCP5_13TeV-pythia8_v14-v1.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/WminusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/WZ_TuneCP5_13TeV-pythia8_v14-v1.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/ZZ_TuneCP5_13TeV-pythia8_v14-v1.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/WZ_TuneCP5_13TeV-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuEQCD/WZ_TuneCP5_13TeV-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_WZ_TuneCP5_13TeV-pythia8_v14-v1.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/ZZ_TuneCP5_13TeV-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuESysHTTJes/ZZ_TuneCP5_13TeV-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_ZZ_TuneCP5_13TeV-pythia8_v14-v1.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/WminusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/WplusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/ZZ_TuneCP5_13TeV-pythia8_v14-v1.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/WminusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/ZZ_TuneCP5_13TeV-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuEQCD/ZZ_TuneCP5_13TeV-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_ZZ_TuneCP5_13TeV-pythia8_v14-v1.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/WminusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.txt results/DataJan20/AnalyzeMuESysHTTJes/WminusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_WminusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/WplusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/ZHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/WminusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/WplusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/WminusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.txt results/DataJan20/AnalyzeMuEQCD/WminusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_WminusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/WplusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.txt results/DataJan20/AnalyzeMuESysHTTJes/WplusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_WplusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/ZHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/ttHToTauTau_M125_TuneCP5_13TeV-powheg-pythia8_v14-v1.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/WplusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/ZHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/WplusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.txt results/DataJan20/AnalyzeMuEQCD/WplusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_WplusHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/ZHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.txt results/DataJan20/AnalyzeMuESysHTTJes/ZHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_ZHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/ttHToTauTau_M125_TuneCP5_13TeV-powheg-pythia8_v14-v1.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/ZHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/ttHToTauTau_M125_TuneCP5_13TeV-powheg-pythia8_v14-v1.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/ZHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.txt results/DataJan20/AnalyzeMuEQCD/ZHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_ZHToTauTau_M125_13TeV_powheg_pythia8_v14-v1.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/ttHToTauTau_M125_TuneCP5_13TeV-powheg-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuESysHTTJes/ttHToTauTau_M125_TuneCP5_13TeV-powheg-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_ttHToTauTau_M125_TuneCP5_13TeV-powheg-pythia8_v14-v1.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/GluGlu_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/ttHToTauTau_M125_TuneCP5_13TeV-powheg-pythia8_v14-v1.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/ttHToTauTau_M125_TuneCP5_13TeV-powheg-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuEQCD/ttHToTauTau_M125_TuneCP5_13TeV-powheg-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_ttHToTauTau_M125_TuneCP5_13TeV-powheg-pythia8_v14-v1.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.txt results/DataJan20/AnalyzeMuESysHTTJes/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_EWKWMinus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/VBF_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/EWKZ2Jets_ZToLL_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/GluGlu_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/GluGlu_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.txt results/DataJan20/AnalyzeMuEQCD/GluGlu_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_GluGlu_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.txt results/DataJan20/AnalyzeMuESysHTTJes/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_EWKWPlus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/EWKZ2Jets_ZToNuNu_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/VBF_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/EWKZ2Jets_ZToLL_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/VBF_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.txt results/DataJan20/AnalyzeMuEQCD/VBF_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_VBF_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/EWKZ2Jets_ZToLL_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.txt results/DataJan20/AnalyzeMuESysHTTJes/EWKZ2Jets_ZToLL_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_EWKZ2Jets_ZToLL_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/EWKZ2Jets_ZToNuNu_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.txt results/DataJan20/AnalyzeMuEQCD/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_EWKWMinus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/EWKZ2Jets_ZToNuNu_TuneCP5_13TeV-madgraph-pythia8_v14-v2.txt results/DataJan20/AnalyzeMuESysHTTJes/EWKZ2Jets_ZToNuNu_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_EWKZ2Jets_ZToNuNu_TuneCP5_13TeV-madgraph-pythia8_v14-v2.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/EWKZ2Jets_ZToLL_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.txt results/DataJan20/AnalyzeMuEQCD/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_EWKWPlus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuESysHTTJes/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/EWKZ2Jets_ZToNuNu_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/EWKZ2Jets_ZToLL_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/EWKZ2Jets_ZToLL_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.txt results/DataJan20/AnalyzeMuEQCD/EWKZ2Jets_ZToLL_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_EWKZ2Jets_ZToLL_M-50_TuneCP5_13TeV-madgraph-pythia8_v14-v2.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuESysHTTJes/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/EWKZ2Jets_ZToNuNu_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/EWKZ2Jets_ZToNuNu_TuneCP5_13TeV-madgraph-pythia8_v14-v2.txt results/DataJan20/AnalyzeMuEQCD/EWKZ2Jets_ZToNuNu_TuneCP5_13TeV-madgraph-pythia8_v14-v2.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_EWKZ2Jets_ZToNuNu_TuneCP5_13TeV-madgraph-pythia8_v14-v2.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuESysHTTJes/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2_94X_mc2017_realistic.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuEQCD/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuESysHTTJes/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2_94X_mc2017_realistic.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuEQCD/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2_94X_mc2017_realistic.txt results/DataJan20/AnalyzeMuESysHTTJes/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2_94X_mc2017_realistic.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2_94X_mc2017_realistic.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v2.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuEQCD/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuESysHTTJes/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2_94X_mc2017_realistic.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v3.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v2.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuEQCD/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v2.txt results/DataJan20/AnalyzeMuESysHTTJes/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v2.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v2.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v4.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2_94X_mc2017_realistic.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v3.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2_94X_mc2017_realistic.txt results/DataJan20/AnalyzeMuEQCD/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2_94X_mc2017_realistic.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2_94X_mc2017_realistic.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v3.txt results/DataJan20/AnalyzeMuESysHTTJes/W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v3.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v3.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v2.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v4.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuEQCD/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v4.txt results/DataJan20/AnalyzeMuESysHTTJes/W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v4.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v4.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v3.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v2.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v2.txt results/DataJan20/AnalyzeMuEQCD/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v2.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v2.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuESysHTTJes/W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v4.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/WGToLNuG_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v3.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v3.txt results/DataJan20/AnalyzeMuEQCD/W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v3.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v3.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuESysHTTJes/W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/GluGlu_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v4.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/WGToLNuG_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v4.txt results/DataJan20/AnalyzeMuEQCD/W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v4.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v4.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/WGToLNuG_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuESysHTTJes/WGToLNuG_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_WGToLNuG_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
 sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
+mkdir -p `dirname results/DataJan20/AnalyzeMuESysHTTJes/VBF_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/GluGlu_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuEQCD/W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
-sleep 10s
-mkdir -p `dirname results/DataJan20/AnalyzeMuEQCD/WGToLNuG_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
-#using farmout:1
-#dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
-mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuEQCD/W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/GluGlu_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.txt results/DataJan20/AnalyzeMuESysHTTJes/GluGlu_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_GluGlu_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.log &
 sleep 10s
 #using farmout:1
 #dry run:1
-export megatarget=results/DataJan20/AnalyzeMuEQCD/WGToLNuG_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
+export megatarget=results/DataJan20/AnalyzeMuESysHTTJes/VBF_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.root
 mkdir -p batch_logs
-mega-farmout AnalyzeMuEQCD.py inputs/DataJan20/WGToLNuG_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataJan20/AnalyzeMuEQCD/WGToLNuG_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuEQCD_WGToLNuG_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
+mega-farmout AnalyzeMuESysHTTJes.py inputs/DataJan20/VBF_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.txt results/DataJan20/AnalyzeMuESysHTTJes/VBF_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.root --verbose >& batch_logs/results_DataJan20_AnalyzeMuESysHTTJes_VBF_LFV_HToMuTau_M125_13TeV_powheg_pythia8_v14-v1.log &
 sleep 10s

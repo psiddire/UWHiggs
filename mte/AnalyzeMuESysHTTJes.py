@@ -230,7 +230,7 @@ else:
                  'puDown': mcCorrections.make_puCorrectorDown('singlem', None, 'DY')}
 
 
-class AnalyzeMuESys(MegaBase):
+class AnalyzeMuESysHTTJes(MegaBase):
   tree = 'em/final/Ntuple'
 
   def __init__(self, tree, outfile, **kwargs):
@@ -274,7 +274,7 @@ class AnalyzeMuESys(MegaBase):
     self.h_btag_eff_c = self.f_btag_eff.Get("btag_eff_c")
     self.h_btag_eff_oth = self.f_btag_eff.Get("btag_eff_oth")
 
-    super(AnalyzeMuESys, self).__init__(tree, outfile, **kwargs)
+    super(AnalyzeMuESysHTTJes, self).__init__(tree, outfile, **kwargs)
     self.tree = EMTree.EMTree(tree)
     self.out = outfile
     self.histograms = {}
@@ -341,7 +341,7 @@ class AnalyzeMuESys(MegaBase):
     vbffolder = []
     names = ['TightOS', 'TightSS', 'TightOS0Jet', 'TightSS0Jet', 'TightOS1Jet', 'TightSS1Jet'] 
     vbfnames = ['TightOS2Jet', 'TightSS2Jet', 'TightOS2JetVBF', 'TightSS2JetVBF']
-    sys = ['', 'puUp', 'puDown', 'trUp', 'trDown', 'recrespUp', 'recrespDown', 'recresoUp', 'recresoDown', 'embtrUp', 'embtrDown', 'Rate0JetUp', 'Rate0JetDown', 'Rate1JetUp', 'Rate1JetDown', 'Shape0JetUp', 'Shape0JetDown', 'Shape1JetUp', 'Shape1JetDown', 'IsoUp', 'IsoDown', 'eesUp', 'eesDown', 'mesUp', 'mesDown', 'DYptreweightUp', 'DYptreweightDown', 'UnclusteredEnDown', 'UnclusteredEnUp', 'AbsoluteFlavMapUp', 'AbsoluteFlavMapDown', 'AbsoluteMPFBiasUp', 'AbsoluteMPFBiasDown', 'JetAbsoluteScaleUp', 'JetAbsoluteScaleDown', 'JetAbsoluteStatUp', 'JetAbsoluteStatDown', 'JetFlavorQCDUp', 'JetFlavorQCDDown', 'JetFragmentationUp', 'JetFragmentationDown', 'JetPileUpDataMCUp', 'JetPileUpDataMCDown', 'JetPileUpPtBBUp', 'JetPileUpPtBBDown', 'JetPileUpPtEC1Up', 'JetPileUpPtEC1Down', 'JetPileUpPtEC2Up', 'JetPileUpPtEC2Down', 'JetPileUpPtHFUp', 'JetPileUpPtHFDown', 'JetPileUpPtRefUp', 'JetPileUpPtRefDown', 'JetRelativeFSRUp', 'JetRelativeFSRDown', 'JetRelativeJEREC1Up', 'JetRelativeJEREC1Down', 'JetRelativeJEREC2Up', 'JetRelativeJEREC2Down', 'JetRelativeJERHFUp', 'JetRelativeJERHFDown', 'JetRelativePtBBUp', 'JetRelativePtBBDown', 'JetRelativePtEC1Up', 'JetRelativePtEC1Down', 'JetRelativePtEC2Up', 'JetRelativePtEC2Down', 'JetRelativePtHFUp', 'JetRelativePtHFDown', 'JetRelativeStatECUp', 'JetRelativeStatECDown', 'JetRelativeStatFSRUp', 'JetRelativeStatFSRDown', 'JetRelativeStatHFUp', 'JetRelativeStatHFDown', 'JetSinglePionECALUp', 'JetSinglePionECALDown', 'JetSinglePionHCALUp', 'JetSinglePionHCALDown', 'JetTimePtEtaUp', 'JetTimePtEtaDown', 'JetRelativeBalUp', 'JetRelativeBalDown', 'JetRelativeSampleUp', 'JetRelativeSampleDown', 'TopptreweightUp', 'TopptreweightDown']
+    sys = ['', 'puUp', 'puDown', 'trUp', 'trDown', 'recrespUp', 'recrespDown', 'recresoUp', 'recresoDown', 'embtrUp', 'embtrDown', 'Rate0JetUp', 'Rate0JetDown', 'Rate1JetUp', 'Rate1JetDown', 'Shape0JetUp', 'Shape0JetDown', 'Shape1JetUp', 'Shape1JetDown', 'IsoUp', 'IsoDown', 'eesUp', 'eesDown', 'mesUp', 'mesDown', 'DYptreweightUp', 'DYptreweightDown', 'UnclusteredEnDown', 'UnclusteredEnUp', 'JetEta0to3Up', 'JetEta0to3Down', 'JetEta0to5Up', 'JetEta0to5Down', 'JetEta3to5Up', 'JetEta3to5Down', 'JetRelativeBalUp', 'JetRelativeBalDown', 'JetRelativeSampleUp', 'JetRelativeSampleDown', 'TopptreweightUp', 'TopptreweightDown']
 
     for tuple_path in itertools.product(names, sys):
       folder.append(os.path.join(*tuple_path))
@@ -349,6 +349,20 @@ class AnalyzeMuESys(MegaBase):
     for f in folder:
       self.book(f, "m_e_Mass", "Muon + Electron Mass", 30, 0, 300)
       self.book(f, "m_e_CollinearMass", "Muon + Electron Collinear Mass", 30, 0, 300)      
+      self.book(f, "mPt", "Muon  Pt", 20, 0, 200)                                                                                                                                                                                                                  
+      self.book(f, "ePt", "Electron Pt", 20, 0, 200)                                                                                                                                                                                                               
+      self.book(f, "mEta", "Muon Eta", 20, -3, 3)                                                                                                                                                                                                                  
+      self.book(f, "eEta", "Electron Eta", 20, -3, 3)                                                                                                                                                                                                              
+      self.book(f, "mPhi", "Muon Phi", 20, -4, 4)                                                                                                                                                                                                                  
+      self.book(f, "ePhi", "Electron Phi", 20, -4, 4)                                                                                                                                                                                                              
+      self.book(f, "type1_pfMetEt", "Type1 MET Et", 20, 0, 200)                                                                                                                                                                                                    
+      self.book(f, "type1_pfMetPhi", "Type1 MET Phi", 20, -4, 4)                                                                                                                                                                                                   
+      self.book(f, "dEtaMuE", "Delta Eta Mu E", 50, 0, 5)                                                                                                                                                                                                          
+      self.book(f, "dPhiEMET", "Delta Phi E MET", 40, 0, 4)                                                                                                                                                                                                        
+      self.book(f, "dPhiMuMET", "Delta Phi Mu MET", 40, 0, 4)                                                                                                                                                                                                      
+      self.book(f, "dPhiMuE", "Delta Phi Mu E", 40, 0, 4)                                                                                                                                                                                                          
+      self.book(f, "MTEMET", "Electron MET Transverse Mass", 20, 0, 200)                                                                                                                                                                                           
+      self.book(f, "MTMuMET", "Mu MET Transverse Mass", 20, 0, 200)
 
     for tuple_path_vbf in itertools.product(vbfnames, sys):
       vbffolder.append(os.path.join(*tuple_path_vbf))
@@ -356,12 +370,40 @@ class AnalyzeMuESys(MegaBase):
     for f in vbffolder:
       self.book(f, "m_e_Mass", "Muon + Electron Mass", 12, 0, 300)
       self.book(f, "m_e_CollinearMass", "Muon + Electron Collinear Mass", 12, 0, 300)
+      self.book(f, "mPt", "Muon  Pt", 10, 0, 200)                                                                                                                                                                                                                         
+      self.book(f, "ePt", "Electron Pt", 10, 0, 200)                                                                                                                                                                                                                      
+      self.book(f, "mEta", "Muon Eta", 10, -3, 3)                                                                                                                                                                                                                         
+      self.book(f, "eEta", "Electron Eta", 10, -3, 3)                                                                                                                                                                                                                     
+      self.book(f, "mPhi", "Muon Phi", 10, -4, 4)                                                                                                                                                                                                                         
+      self.book(f, "ePhi", "Electron Phi", 10, -4, 4)                                                                                                                                                                                                                     
+      self.book(f, "type1_pfMetEt", "Type1 MET Et", 10, 0, 200)                                                                                                                                                                                                           
+      self.book(f, "type1_pfMetPhi", "Type1 MET Phi", 10, -4, 4)                                                                                                                                                                                                          
+      self.book(f, "dEtaMuE", "Delta Eta Mu E", 25, 0, 5)                                                                                                                                                                                                                 
+      self.book(f, "dPhiEMET", "Delta Phi E MET", 20, 0, 4)                                                                                                                                                                                                               
+      self.book(f, "dPhiMuMET", "Delta Phi Mu MET", 20, 0, 4)                                                                                                                                                                                                             
+      self.book(f, "dPhiMuE", "Delta Phi Mu E", 20, 0, 4)                                                                                                                                                                                                                 
+      self.book(f, "MTEMET", "Electron MET Transverse Mass", 10, 0, 200)                                                                                                                                                                                                  
+      self.book(f, "MTMuMET", "Mu MET Transverse Mass", 10, 0, 200)
 
 
   def fill_histos(self, myMuon, myMET, myEle, weight, name=''):
     histos = self.histograms 
     histos[name+'/m_e_Mass'].Fill((myMuon + myEle).M() , weight)                                                                                                                                                                                            
     histos[name+'/m_e_CollinearMass'].Fill(collMass(myMuon, myMET, myEle), weight)
+    histos[name+'/mPt'].Fill(myMuon.Pt(), weight)                                                                                                                                                                                                                             
+    histos[name+'/ePt'].Fill(myEle.Pt(), weight)                                                                                                                                                                                                                             
+    histos[name+'/mEta'].Fill(myMuon.Eta(), weight)                                                                                                                                                                                                                           
+    histos[name+'/eEta'].Fill(myEle.Eta(), weight)                                                                                                                                                                                                                           
+    histos[name+'/mPhi'].Fill(myMuon.Phi(), weight)                                                                                                                                                                                                                           
+    histos[name+'/ePhi'].Fill(myEle.Phi(), weight)                                                                                                                                                                                                                           
+    histos[name+'/type1_pfMetEt'].Fill(myMET.Pt(), weight)                                                                                                                                                                                                                 
+    histos[name+'/type1_pfMetPhi'].Fill(myMET.Phi(), weight)                                                                                                                                                                                                                
+    histos[name+'/dEtaMuE'].Fill(deltaEta(myMuon.Eta(), myEle.Eta()), weight)                                                                                                                                                                                                 
+    histos[name+'/dPhiEMET'].Fill(deltaPhi(myEle.Phi(), myMET.Phi()), weight)                                                                                                                                                                                                  
+    histos[name+'/dPhiMuMET'].Fill(deltaPhi(myMuon.Phi(), myMET.Phi()), weight)                                                                                                                                                                                                 
+    histos[name+'/dPhiMuE'].Fill(deltaPhi(myMuon.Phi(), myEle.Phi()), weight)                                                                                                                                                                                                  
+    histos[name+'/MTEMET'].Fill(transverseMass(myEle, myMET), weight)                                                                                                                                                    
+    histos[name+'/MTMuMET'].Fill(transverseMass(myMuon, myMET), weight)
 
 
   def fill_categories(self, myMuon, myMET, myEle, njets, mjj, weight, name=''):
@@ -391,12 +433,8 @@ class AnalyzeMuESys(MegaBase):
     self.myMET = ROOT.TLorentzVector()
     self.myMET.SetPtEtaPhiM(row.type1_pfMetEt, 0, row.type1_pfMetPhi, 0)
 
-    #if self.is_mc:
-    self.njets = getattr(row, 'jetVeto30')                                                                                                                                                                                                                              
-    self.mjj = getattr(row, 'vbfMass') 
-    #else:
-    #  self.njets = getattr(row, 'jetVeto30WoNoisyJets')                                                                                                                                                                                           
-    #  self.mjj = getattr(row, 'vbfMassWoNoisyJets') 
+    self.njets = getattr(row, 'jetVeto30WoNoisyJets')                                                                                                                                                                                           
+    self.mjj = getattr(row, 'vbfMassWoNoisyJets') 
 
     w3.var("njets").setVal(self.njets)
     w3.var("dR").setVal(deltaR(row.ePhi, row.mPhi, row.eEta, row.mEta))
@@ -483,8 +521,8 @@ class AnalyzeMuESys(MegaBase):
     self.tmpMET = ROOT.TLorentzVector()
     self.myMET.SetPtEtaPhiM(row.type1_pfMetEt, 0, row.type1_pfMetPhi, 0)
 
-    self.njets = getattr(row, 'jetVeto30')
-    self.mjj = getattr(row, 'vbfMass') 
+    self.njets = getattr(row, 'jetVeto30WoNoisyJets')
+    self.mjj = getattr(row, 'vbfMassWoNoisyJets') 
 
     if self.is_mc:
 
@@ -576,21 +614,19 @@ class AnalyzeMuESys(MegaBase):
         self.myMET.SetPtEtaPhiM(row.type1_pfMet_shiftedPt_UnclusteredEnDown, 0, row.type1_pfMet_shiftedPhi_UnclusteredEnDown, 0)
         self.fill_categories(self.myMuon, self.myMET, self.myEle, self.njets, self.mjj, weight, '/UnclusteredEnDown')
 
-        jes = ['AbsoluteFlavMapUp', 'AbsoluteFlavMapDown', 'AbsoluteMPFBiasUp', 'AbsoluteMPFBiasDown', 'JetAbsoluteScaleUp', 'JetAbsoluteScaleDown', 'JetAbsoluteStatUp', 'JetAbsoluteStatDown', 'JetFlavorQCDUp', 'JetFlavorQCDDown', 'JetFragmentationUp', 'JetFragmentationDown', 'JetPileUpDataMCUp', 'JetPileUpDataMCDown', 'JetPileUpPtBBUp', 'JetPileUpPtBBDown', 'JetPileUpPtEC1Up', 'JetPileUpPtEC1Down', 'JetPileUpPtEC2Up', 'JetPileUpPtEC2Down', 'JetPileUpPtHFUp', 'JetPileUpPtHFDown', 'JetPileUpPtRefUp', 'JetPileUpPtRefDown', 'JetRelativeFSRUp', 'JetRelativeFSRDown', 'JetRelativeJEREC1Up', 'JetRelativeJEREC1Down', 'JetRelativeJEREC2Up', 'JetRelativeJEREC2Down', 'JetRelativeJERHFUp', 'JetRelativeJERHFDown', 'JetRelativePtBBUp', 'JetRelativePtBBDown', 'JetRelativePtEC1Up', 'JetRelativePtEC1Down', 'JetRelativePtEC2Up', 'JetRelativePtEC2Down', 'JetRelativePtHFUp', 'JetRelativePtHFDown', 'JetRelativeStatECUp', 'JetRelativeStatECDown', 'JetRelativeStatFSRUp', 'JetRelativeStatFSRDown', 'JetRelativeStatHFUp', 'JetRelativeStatHFDown', 'JetSinglePionECALUp', 'JetSinglePionECALDown', 'JetSinglePionHCALUp', 'JetSinglePionHCALDown', 'JetTimePtEtaUp', 'JetTimePtEtaDown', 'JetRelativeBalUp', 'JetRelativeBalDown', 'JetRelativeSampleUp', 'JetRelativeSampleDown']
+        jes = ['JetEta0to3Up', 'JetEta0to3Down', 'JetEta0to5Up', 'JetEta0to5Down', 'JetEta3to5Up', 'JetEta3to5Down', 'JetRelativeBalUp', 'JetRelativeBalDown', 'JetRelativeSampleUp', 'JetRelativeSampleDown']
 
         for j in jes:
           self.myMET.SetPtEtaPhiM(getattr(row, 'type1_pfMet_shiftedPt_'+j) , 0, getattr(row, 'type1_pfMet_shiftedPhi_'+j), 0)
-          if 'Jet' in j:
-            self.njets = getattr(row, 'jetVeto30_'+j)
-            self.mjj = getattr(row, 'vbfMass_'+j) 
+          if j=='JetRelativeBalUp' or j=='JetRelativeBalDown':
+            self.njets = getattr(row, 'jetVeto30WoNoisyJets_'+j+'WoNoisyJets')
           else:
-            self.njets = getattr(row, 'jetVeto30_Jet'+j)                                                                                                                                                 
-            self.mjj = getattr(row, 'vbfMass_Jet'+j) 
+            self.njets = getattr(row, 'jetVeto30WoNoisyJets_'+j)
+          self.mjj = getattr(row, 'vbfMassWoNoisyJets_'+j) 
           self.fill_categories(self.myMuon, self.myMET, self.myEle, self.njets, self.mjj, weight, '/'+j)
 
     else:
-      #self.njets = getattr(row, 'jetVeto30WoNoisyJets')                                                                                                                                                                                                                       
-      #self.mjj = getattr(row, 'vbfMassWoNoisyJets')
+
       self.fill_categories(self.myMuon, self.myMET, self.myEle, self.njets, self.mjj, weight, '')
       if self.is_embed:
         self.fill_categories(self.myMuon, self.myMET, self.myEle, self.njets, self.mjj, weight * 1.02, '/trUp')
@@ -639,13 +675,7 @@ class AnalyzeMuESys(MegaBase):
       if deltaR(row.ePhi, row.mPhi, row.eEta, row.mEta) < 0.3:
         continue
 
-      #if self.is_mc and row.jetVeto30 > 2:
-      #  continue
-      
-      #if not self.is_mc and row.jetVeto30WoNoisyJets > 2:
-      #  continue
-
-      if row.jetVeto30 > 2:                                                                                                                                                                                                                                     
+      if row.jetVeto30WoNoisyJets > 2:                                                                                                                                                                                                                                     
         continue 
 
       if not self.obj1_id(row):
@@ -661,7 +691,7 @@ class AnalyzeMuESys(MegaBase):
       #  if not bool(row.isZmumu or row.isZee):
       #    continue
 
-      nbtag = row.bjetDeepCSVVeto20Medium#WoNoisyJets
+      nbtag = row.bjetDeepCSVVeto20MediumWoNoisyJets
       bpt_1 = row.jb1pt
       bflavor_1 = row.jb1hadronflavor
       beta_1 = row.jb1eta
