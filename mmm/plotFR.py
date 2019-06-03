@@ -5,9 +5,12 @@ import sys
 gROOT.SetStyle("Plain")
 gROOT.SetBatch(True)
 
+f = sys.argv[-2]
+o = sys.argv[-1]
+
 canvas = TCanvas('canvas','canvas',800,800)
 legend = TLegend(0.7, 0.8, .9, .9)
-file = TFile('frMuonPt.root')
+file = TFile(f)
 hdy = file.Get('dyfakerate')
 hdy.SetTitle('Muon Fake Rate')
 hdy.SetLineColor(632)
@@ -25,4 +28,4 @@ graph.GetYaxis().SetTitle("Fake Rate")
 gPad.Update()
 legend.Draw()
 canvas.Draw()
-canvas.SaveAs('MuonFRPt.png')
+canvas.SaveAs(o)

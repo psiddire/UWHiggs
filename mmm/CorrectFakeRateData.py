@@ -38,7 +38,7 @@ if __name__ == "__main__":
     import rootpy.plotting as plotting
     from FinalStateAnalysis.MetaData.data_views import data_views
 
-    samples = ['WZ*', 'WW*', 'ZZ*', 'data*']#'DY*'
+    samples = ['WZ*', 'WW*', 'ZZ*', 'DY*', 'data*']
     files = []
     lumifiles = []
     for x in samples:
@@ -111,7 +111,7 @@ if __name__ == "__main__":
     wz_view = get_view('WZ_*')
     ww_view = get_view('WW_*')
     zz_view = get_view('ZZ_*')
-    #dy_view = get_view('DY*')
+    dy_view = get_view('DY*')
 
     data = rebin_view(the_views['data']['view'])
     
@@ -137,8 +137,8 @@ if __name__ == "__main__":
     uncorr_numerator = data.Get(args.numerator)
     uncorr_denominator = data.Get(args.denom)
 
-    #dy_numerator = dy_view.Get(args.numerator)
-    #dy_denominator = dy_view.Get(args.denom)
+    dy_numerator = dy_view.Get(args.numerator)
+    dy_denominator = dy_view.Get(args.denom)
 
     wz_integral = wz_view.Get(args.numerator).Integral()
     ww_integral = ww_view.Get(args.numerator).Integral()
@@ -171,38 +171,6 @@ if __name__ == "__main__":
              if uncorr_denominator.Integral() else 0
             )
 
-    log.info("Uncorrected Numerator Data Bin 1: %.2f Bin 2: %.2f Bin 3: %.2f, Bin 4: %.2f. Bin 5: %.2f",
-             uncorr_numerator.GetBinContent(1),
-             uncorr_numerator.GetBinContent(2),
-             uncorr_numerator.GetBinContent(3),
-             uncorr_numerator.GetBinContent(4),
-             uncorr_numerator.GetBinContent(5)
-            )
-
-    log.info("Corrected Numerator Data Bin 1: %.2f Bin 2: %.2f Bin 3: %.2f, Bin 4: %.2f. Bin 5: %.2f",
-             corr_numerator.GetBinContent(1),
-             corr_numerator.GetBinContent(2),
-             corr_numerator.GetBinContent(3),
-             corr_numerator.GetBinContent(4),
-             corr_numerator.GetBinContent(5)
-            )
-
-    log.info("Uncorrected Denominator Data Bin 1: %.2f Bin 2: %.2f Bin 3: %.2f, Bin 4: %.2f. Bin 5: %.2f",
-             uncorr_denominator.GetBinContent(1),
-             uncorr_denominator.GetBinContent(2),
-             uncorr_denominator.GetBinContent(3),
-             uncorr_denominator.GetBinContent(4),
-             uncorr_denominator.GetBinContent(5)
-            )
-
-    log.info("Corrected Denominator Data Bin 1: %.2f Bin 2: %.2f Bin 3: %.2f, Bin 4: %.2f. Bin 5: %.2f",
-             corr_denominator.GetBinContent(1),
-             corr_denominator.GetBinContent(2),
-             corr_denominator.GetBinContent(3),
-             corr_denominator.GetBinContent(4),
-             corr_denominator.GetBinContent(5)
-            )
-
     corr_numerator.SetName('numerator')
     corr_denominator.SetName('denominator')
 
@@ -210,62 +178,22 @@ if __name__ == "__main__":
     fakerate.SetName('fakerate')
     fakerate.Draw("ep")
 
-#    fakerate = corr_numerator.Clone('fakerate')
-#    fakerate.SetMinimum(0.0)
-#    fakerate.SetMaximum(1.1)
-#    fakerate.Sumw2()
-#    fakerate.SetStats(0)
-#    fakerate.Divide(corr_denominator)
-#    fakerate.Draw("ep")
-
     uncorr_numerator.SetName('numerator_uncorr')
     uncorr_denominator.SetName('denominator_uncorr')
 
-    #dy_numerator.SetName('numerator_dy')
-    #dy_denominator.SetName('denominator_dy')
+    dy_numerator.SetName('numerator_dy')
+    dy_denominator.SetName('denominator_dy')
 
-    #dyfakerate = ROOT.TEfficiency(dy_numerator, dy_denominator)
-    #dyfakerate.SetName('dyfakerate')
-    #dyfakerate.Draw("ep")
-
-#    dyfakerate = dy_numerator.Clone('dyfakerate')
-#    dyfakerate.SetMinimum(0.0)
-#    dyfakerate.SetMaximum(1.1)
-#    dyfakerate.Sumw2()
-#    dyfakerate.SetStats(0)
-#    dyfakerate.Divide(dy_denominator)
-#    dyfakerate.Draw("ep")
+    dyfakerate = ROOT.TEfficiency(dy_numerator, dy_denominator)
+    dyfakerate.SetName('dyfakerate')
+    dyfakerate.Draw("ep")
 
     corr_numerator.Write()
     corr_denominator.Write()
     fakerate.Write()
     uncorr_numerator.Write()
     uncorr_denominator.Write()
-    #dy_numerator.Write()
-    #dy_denominator.Write()
-    #dyfakerate.Write()
+    dy_numerator.Write()
+    dy_denominator.Write()
+    dyfakerate.Write()
 
-    #make the unbinned plots
-    # args.rebin = '1'
-    # ww_view    = get_view('WW_*')
-    # wz_view    = get_view('WZ_*')
-    # zz_view    = get_view('ZZ_*')
-    # data       = the_views['data']['view']
-    
-    # corrected_view = int_view(
-    #     SubtractionView(data, ww_view, wz_view, zz_view, restrict_positive=True))
-
-    # corr_numerator_unrebinned     = corrected_view.Get(args.numerator)
-    # corr_denominator_unrebinned   = corrected_view.Get(args.denom)
-    # uncorr_numerator_unrebinned   = data.Get(args.numerator)
-    # uncorr_denominator_unrebinned = data.Get(args.denom)
-
-    # corr_numerator_unrebinned.SetName('numerator_unrebinned')
-    # corr_denominator_unrebinned.SetName('denominator_unrebinned')
-    # uncorr_numerator_unrebinned.SetName('numerator_uncorr_unrebinned')
-    # uncorr_denominator_unrebinned.SetName('denominator_uncorr_unrebinned')
-
-    # corr_numerator_unrebinned.Write()
-    # corr_denominator_unrebinned.Write()
-    # uncorr_numerator_unrebinned.Write()
-    # uncorr_denominator_unrebinned.Write()

@@ -8,6 +8,8 @@ import FinalStateAnalysis.TagAndProbe.MuonPOGCorrections as MuonPOGCorrections
 import FinalStateAnalysis.TagAndProbe.EmbeddedCorrections as EmbedCorrections
 import FinalStateAnalysis.TagAndProbe.DYCorrection as DYCorrection
 import FinalStateAnalysis.TagAndProbe.FakeRate as FakeRate
+from RecoilCorrector import RecoilCorrector
+import ROOT
 
 @memo
 def getVar(name, var):
@@ -97,3 +99,13 @@ DYreweight1D = DYCorrection.make_DYreweight1D()
 embedTrg = EmbedCorrections.embed_IsoMu27_2017ReReco()
 embedmID = EmbedCorrections.embed_ID_2017ReReco()
 embedmIso = EmbedCorrections.embed_Iso_2017ReReco()
+
+f = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/htt_scalefactors_v17_5.root")
+ws = f.Get("w")
+
+fmc = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/htt_scalefactors_2017_v2.root")
+wmc = fmc.Get("w")
+
+Metcorected = RecoilCorrector("Type1_PFMET_2017.root")
+
+btag = ROOT.TFile("btag.root","r")

@@ -1,3 +1,5 @@
+import ROOT
+
 def GetSF(WP, x, flavour, syst):
     
     if (WP==1):
@@ -36,7 +38,7 @@ def GetSF(WP, x, flavour, syst):
 
 
 
-def  bTagEventWeight( nBtaggedJets, bjetpt_1,  bjetflavour_1,  bjetpt_2,  bjetflavour_2,  WP,  syst, nBTags):
+def bTagEventWeight( nBtaggedJets, bjetpt_1,  bjetflavour_1,  bjetpt_2,  bjetflavour_2,  WP,  syst, nBTags):
     if (nBtaggedJets > 2): return -10000
     if ( nBTags > 2 ): return -10000
 
@@ -76,3 +78,36 @@ def  bTagEventWeight( nBtaggedJets, bjetpt_1,  bjetflavour_1,  bjetpt_2,  bjetfl
     return weight
 
 
+def PromoteDemote(h_btag_eff_b, h_btag_eff_c, h_btag_eff_oth, nbtag, bpt_1, bflavor_1, beta_1, syst):
+
+        SF = GetSF(1, bpt_1, bflavor_1, syst)
+        
+        beff = 1.0
+
+        if ( bflavor_1==5 ):
+            if ( bpt_1 > h_btag_eff_b.GetXaxis().GetBinLowEdge(h_btag_eff_b.GetNbinsX() + 1) ):
+                beff = h_btag_eff_b.GetBinContent(h_btag_eff_b.GetNbinsX(), h_btag_eff_b.GetYaxis().FindBin(abs(beta_1)))
+            else:
+                beff = h_btag_eff_b.GetBinContent(h_btag_eff_b.GetXaxis().FindBin(bpt_1), h_btag_eff_b.GetYaxis().FindBin(abs(beta_1)))
+        elif ( bflavor_1==4 ):
+            if ( bpt_1 > h_btag_eff_c.GetXaxis().GetBinLowEdge(h_btag_eff_c.GetNbinsX() + 1) ):
+                beff = h_btag_eff_c.GetBinContent(h_btag_eff_c.GetNbinsX(), h_btag_eff_c.GetYaxis().FindBin(abs(beta_1)))
+            else:
+                beff = h_btag_eff_c.GetBinContent(h_btag_eff_c.GetXaxis().FindBin(bpt_1), h_btag_eff_c.GetYaxis().FindBin(abs(beta_1)))
+        else:
+            if ( bpt_1 > h_btag_eff_oth.GetXaxis().GetBinLowEdge(h_btag_eff_oth.GetNbinsX() + 1)):
+                beff = h_btag_eff_oth.GetBinContent(h_btag_eff_oth.GetNbinsX(), h_btag_eff_oth.GetYaxis().FindBin(abs(beta_1)))
+            else:
+                beff = h_btag_eff_oth.GetBinContent(h_btag_eff_oth.GetXaxis().FindBin(bpt_1), h_btag_eff_oth.GetYaxis().FindBin(abs(beta_1)))
+
+        #gRandom.SetSeed(int((beta_1+5)*100000))
+        #myrand = gRandom.Rndm
+        rand = ROOT.TRandom3()
+        rand.SetSeed(int((beta_1+5)*100000))
+        myrand = rand.Rndm()
+        if ( SF < 1 and myrand < (1-SF)): 
+            nbtag = nbtag-1
+        if ( SF > 1 and myrand < ((1-SF)/(1-1.0/beff))): 
+            nbtag = nbtag+1
+
+        return nbtag
