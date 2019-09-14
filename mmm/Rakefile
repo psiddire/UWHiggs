@@ -33,6 +33,11 @@ samples = Hash[
                 "eraD" => get_sample_names('data_SingleMuon_Run2017D-31Mar2018'),
                 "eraE" => get_sample_names('data_SingleMuon_Run2017E-31Mar2018'),
                 "eraF" => get_sample_names('data_SingleMuon_Run2017F-31Mar2018'),
+		"embedB" => get_sample_names('embedded_EmbeddingRun2017B_MuMuFinalState'),
+                "embedC" => get_sample_names('embedded_EmbeddingRun2017C_MuMuFinalState'),
+                "embedD" => get_sample_names('embedded_EmbeddingRun2017D_MuMuFinalState'),
+                "embedE" => get_sample_names('embedded_EmbeddingRun2017E_MuMuFinalState'),
+                "embedF" => get_sample_names('embedded_EmbeddingRun2017F_MuMuFinalState'),
 		"DY" => get_sample_names('DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-v1'),
                 "DY1" => get_sample_names('DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1'),
                 "DY2" => get_sample_names('DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2'),
@@ -58,9 +63,9 @@ def get_plotter_results(analyzer)
   analyzer_base = analyzer.sub('.py', '')
 end
 
-task :MMM => get_analyzer_results("AnalyzeMMM.py", samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'])
+#task :MMM => get_analyzer_results("AnalyzeMMM.py", samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'])
 
-task :MMMWW => get_analyzer_results("AnalyzeMMMWW.py", samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['WW'] + samples['WZ'] + samples['ZZ']) 
+task :MMM => get_analyzer_results("AnalyzeMMM.py", samples['embedB'] + samples['embedC'] + samples['embedD'] + samples['embedE'] + samples['embedF'])
 
 $etdir = "plots/#{$jobid}/AnalyzerMuTau/mt_now/"
 directory $etdir 

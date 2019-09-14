@@ -33,8 +33,6 @@ class AnalyzeMMM(MegaBase):
     self.muonTightIsoTightID = mcCorrections.muonIso_tight_tightid
     self.muonLooseIsoTightID = mcCorrections.muonIso_loose_tightid
     self.muTracking = mcCorrections.muonTracking
-    self.eIDnoIsoWP80 = mcCorrections.eIDnoIsoWP80
-    self.eReco = mcCorrections.eReco
 
     self.w1 = mcCorrections.w1
     self.w2 = mcCorrections.w2

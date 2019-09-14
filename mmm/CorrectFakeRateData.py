@@ -116,7 +116,7 @@ if __name__ == "__main__":
     data = rebin_view(the_views['data']['view'])
     
     corrected_view = int_view(
-        SubtractionView(data, wz_view, ww_view, zz_view, restrict_positive=True))
+        SubtractionView(data, wz_view, ww_view, zz_view, restrict_positive=True))#wz_view, ww_view, zz_view, 
 
     log.debug('creating output file')
     output = io.root_open(args.outputfile, 'RECREATE')

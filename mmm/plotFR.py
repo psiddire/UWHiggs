@@ -9,7 +9,8 @@ f = sys.argv[-2]
 o = sys.argv[-1]
 
 canvas = TCanvas('canvas','canvas',800,800)
-legend = TLegend(0.7, 0.8, .9, .9)
+canvas.SetGrid()
+legend = TLegend(0.7, 0.5, .9, .6)
 file = TFile(f)
 hdy = file.Get('dyfakerate')
 hdy.SetTitle('Muon Fake Rate')
@@ -23,7 +24,7 @@ gPad.Update()
 graph = hdy.GetPaintedGraph() 
 graph.SetMinimum(0)
 graph.SetMaximum(1.1) 
-graph.GetXaxis().SetTitle("Muon Pt")
+graph.GetXaxis().SetTitle("Muon Eta")
 graph.GetYaxis().SetTitle("Fake Rate")
 gPad.Update()
 legend.Draw()

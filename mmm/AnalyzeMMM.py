@@ -9,6 +9,7 @@ import mcWeights
 import Kinematics
 from math import sqrt, pi
 from bTagSF import PromoteDemote
+import numpy as np
 
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target)
@@ -20,6 +21,7 @@ class AnalyzeMMM(MegaBase):
 
     self.mcWeight = mcWeights.mcWeights(target)
     self.is_data = self.mcWeight.is_data
+    self.is_embed = self.mcWeight.is_embed
     self.is_mc = self.mcWeight.is_mc
     self.is_DY = self.mcWeight.is_DY
 
@@ -30,8 +32,6 @@ class AnalyzeMMM(MegaBase):
 
     self.triggerEff = mcCorrections.efficiency_trigger_mu_2017
     self.muonTightID = mcCorrections.muonID_tight
-    self.muonLooseID = mcCorrections.muonID_loose
-    self.muonLooseIsoLooseID = mcCorrections.muonIso_loose_looseid
     self.muonTightIsoTightID = mcCorrections.muonIso_tight_tightid
     self.muonLooseIsoTightID = mcCorrections.muonIso_loose_tightid
     self.muTracking = mcCorrections.muonTracking
@@ -85,19 +85,19 @@ class AnalyzeMMM(MegaBase):
 
 
   def obj1_id(self,row):
-    return bool(row.m1PFIDLoose) and bool(abs(row.m1PVDZ) < 0.2) and bool(abs(row.m1PVDXY) < 0.045)
+    return bool(row.m1PFIDTight) and bool(abs(row.m1PVDZ) < 0.2) and bool(abs(row.m1PVDXY) < 0.045)
  
  
   def obj1_iso(self,row):
-    return bool(row.m1RelPFIsoDBDefaultR04 < 0.2)
+    return bool(row.m1RelPFIsoDBDefaultR04 < 0.15)
   
   
   def obj2_id(self, row):
-    return bool(row.m2PFIDLoose) and bool(abs(row.m2PVDZ) < 0.2) and bool(abs(row.m2PVDXY) < 0.045)
+    return bool(row.m2PFIDTight) and bool(abs(row.m2PVDZ) < 0.2) and bool(abs(row.m2PVDXY) < 0.045)
 
 
   def obj2_iso(self, row):
-    return bool(row.m2RelPFIsoDBDefaultR04 < 0.2)
+    return bool(row.m2RelPFIsoDBDefaultR04 < 0.15)
 
 
   def obj3_id(self, row):
@@ -182,16 +182,23 @@ class AnalyzeMMM(MegaBase):
       z2diff = abs(91.19 - self.visibleMass(myMuon1, myMuon3))
       z3diff = abs(91.19 - self.visibleMass(myMuon2, myMuon3))
 
-      if z1diff > z2diff: continue
-      if z1diff > z3diff: continue
+      if row.m1Charge * row.m3Charge == -1:
+        if z1diff > z2diff:
+          continue
+      if row.m2Charge * row.m3Charge == -1:
+        if z1diff > z3diff:
+          continue
 
-      if row.m1Pt > row.m2Pt and row.m1Pt < 29:
+      if z1diff > 20:
         continue
 
-      if row.m2Pt > row.m1Pt and row.m2Pt < 29:
-        continue
+      lepList = [row.m1Pt, row.m2Pt, row.m3Pt]
+      lepEtaList = [abs(row.m1Eta), abs(row.m2Eta), abs(row.m3Eta)]
 
-      if self.visibleMass(myMuon1, myMuon2) < 70 or self.visibleMass(myMuon1, myMuon2) > 110:
+      a = np.array(lepList)
+      b = np.argmax(a)
+
+      if lepList[b] < 29:
         continue
 
       if not self.obj3_id(row):
@@ -208,12 +215,12 @@ class AnalyzeMMM(MegaBase):
 
       weight = 1.0
       if self.is_mc:
-        tEff = self.triggerEff(row.m1Pt, abs(row.m1Eta)) if row.m1Pt > row.m2Pt else self.triggerEff(row.m2Pt, abs(row.m2Eta))
-        m1ID = self.muonLooseID(row.m1Pt, abs(row.m1Eta))
-        m1Iso = self.muonLooseIsoLooseID(row.m1Pt, abs(row.m1Eta))
+        tEff = self.triggerEff(lepList[b], abs(lepEtaList[b]))
+        m1ID = self.muonTightID(row.m1Pt, abs(row.m1Eta))
+        m1Iso = self.muonTightIsoTightID(row.m1Pt, abs(row.m1Eta))
         m1Trk = self.muTracking(row.m1Eta)[0]
-        m2ID = self.muonLooseID(row.m2Pt, abs(row.m2Eta))
-        m2Iso = self.muonLooseIsoLooseID(row.m2Pt, abs(row.m2Eta))
+        m2ID = self.muonTightID(row.m2Pt, abs(row.m2Eta))
+        m2Iso = self.muonTightIsoTightID(row.m2Pt, abs(row.m2Eta))
         m2Trk = self.muTracking(row.m2Eta)[0]
         m3ID = self.muonTightID(row.m3Pt, abs(row.m3Eta))
         m3Trk = self.muTracking(row.m3Eta)[0]
@@ -228,6 +235,38 @@ class AnalyzeMMM(MegaBase):
           else:
             weight = weight * self.DYweight[0]
         weight = self.mcWeight.lumiWeight(weight)
+
+      if self.is_embed:
+        self.we.var("m_pt").setVal(lepList[b])
+        self.we.var("m_eta").setVal(lepEtaList[b])
+        m_trg_sf = self.we.function("m_trg27_embed_kit_ratio").getVal()
+        self.we.var("gt_pt").setVal(myMuon1.Pt())
+        self.we.var("gt_eta").setVal(myMuon1.Eta())
+        m1sel = self.we.function("m_sel_idEmb_ratio").getVal()
+        self.we.var("gt_pt").setVal(myMuon2.Pt())
+        self.we.var("gt_eta").setVal(myMuon2.Eta())
+        m2sel = self.we.function("m_sel_idEmb_ratio").getVal()
+        self.we.var("gt1_pt").setVal(myMuon1.Pt())
+        self.we.var("gt1_eta").setVal(myMuon1.Eta())
+        self.we.var("gt2_pt").setVal(myMuon2.Pt())
+        self.we.var("gt2_eta").setVal(myMuon2.Eta())
+        trgsel = self.we.function("m_sel_trg_ratio").getVal()
+        self.we.var("m_pt").setVal(myMuon1.Pt())
+        self.we.var("m_eta").setVal(myMuon1.Eta())
+        self.we.var("m_iso").setVal(row.m1RelPFIsoDBDefaultR04)
+        m1_iso_sf = self.we.function("m_iso_binned_embed_kit_ratio").getVal()
+        m1_id_sf = self.we.function("m_id_embed_kit_ratio").getVal()
+        self.we.var("m_pt").setVal(myMuon2.Pt())
+        self.we.var("m_eta").setVal(myMuon2.Eta())
+        self.we.var("m_iso").setVal(row.m2RelPFIsoDBDefaultR04)
+        m2_iso_sf = self.we.function("m_iso_binned_embed_kit_ratio").getVal()
+        m2_id_sf = self.we.function("m_id_embed_kit_ratio").getVal()
+        self.we.var("m_pt").setVal(myMuon3.Pt())
+        self.we.var("m_eta").setVal(myMuon3.Eta())
+        self.we.var("m_iso").setVal(row.m3RelPFIsoDBDefaultR04)
+        m3_iso_sf = self.we.function("m_iso_binned_embed_kit_ratio").getVal()
+        m3_id_sf = self.we.function("m_id_embed_kit_ratio").getVal()
+        weight = weight*row.GenWeight*m_trg_sf*m1sel*m2sel*trgsel*m1_iso_sf*m1_id_sf*m2_iso_sf*m2_id_sf*m3_iso_sf*m3_id_sf
 
       self.fill_histos(myMuon1, myMuon2, myMuon3, weight, 'initial')
 

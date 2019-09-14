@@ -1,0 +1,49 @@
+mkdir -p `dirname results/DataJun11/AnalyzeETauBDT/data_SingleElectron_Run2017B-31Mar2018.root`
+mkdir -p `dirname results/DataJun11/AnalyzeETauBDT/data_SingleElectron_Run2017C-31Mar2018.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/DataJun11/AnalyzeETauBDT/data_SingleElectron_Run2017B-31Mar2018.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauBDT.py inputs/DataJun11/data_SingleElectron_Run2017B-31Mar2018.txt results/DataJun11/AnalyzeETauBDT/data_SingleElectron_Run2017B-31Mar2018.root --verbose >& batch_logs/results_DataJun11_AnalyzeETauBDT_data_SingleElectron_Run2017B-31Mar2018.log &
+sleep 10s
+mkdir -p `dirname results/DataJun11/AnalyzeETauBDT/data_SingleElectron_Run2017D-31Mar2018.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/DataJun11/AnalyzeETauBDT/data_SingleElectron_Run2017C-31Mar2018.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauBDT.py inputs/DataJun11/data_SingleElectron_Run2017C-31Mar2018.txt results/DataJun11/AnalyzeETauBDT/data_SingleElectron_Run2017C-31Mar2018.root --verbose >& batch_logs/results_DataJun11_AnalyzeETauBDT_data_SingleElectron_Run2017C-31Mar2018.log &
+sleep 10s
+mkdir -p `dirname results/DataJun11/AnalyzeETauBDT/data_SingleElectron_Run2017E-31Mar2018.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/DataJun11/AnalyzeETauBDT/data_SingleElectron_Run2017D-31Mar2018.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauBDT.py inputs/DataJun11/data_SingleElectron_Run2017D-31Mar2018.txt results/DataJun11/AnalyzeETauBDT/data_SingleElectron_Run2017D-31Mar2018.root --verbose >& batch_logs/results_DataJun11_AnalyzeETauBDT_data_SingleElectron_Run2017D-31Mar2018.log &
+sleep 10s
+mkdir -p `dirname results/DataJun11/AnalyzeETauBDT/data_SingleElectron_Run2017F-31Mar2018.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/DataJun11/AnalyzeETauBDT/data_SingleElectron_Run2017E-31Mar2018.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauBDT.py inputs/DataJun11/data_SingleElectron_Run2017E-31Mar2018.txt results/DataJun11/AnalyzeETauBDT/data_SingleElectron_Run2017E-31Mar2018.root --verbose >& batch_logs/results_DataJun11_AnalyzeETauBDT_data_SingleElectron_Run2017E-31Mar2018.log &
+sleep 10s
+mkdir -p `dirname results/DataJun11/AnalyzeETauBDT/GluGlu_LFV_HToETau_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/DataJun11/AnalyzeETauBDT/data_SingleElectron_Run2017F-31Mar2018.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauBDT.py inputs/DataJun11/data_SingleElectron_Run2017F-31Mar2018.txt results/DataJun11/AnalyzeETauBDT/data_SingleElectron_Run2017F-31Mar2018.root --verbose >& batch_logs/results_DataJun11_AnalyzeETauBDT_data_SingleElectron_Run2017F-31Mar2018.log &
+sleep 10s
+mkdir -p `dirname results/DataJun11/AnalyzeETauBDT/VBF_LFV_HToETau_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/DataJun11/AnalyzeETauBDT/GluGlu_LFV_HToETau_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauBDT.py inputs/DataJun11/GluGlu_LFV_HToETau_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.txt results/DataJun11/AnalyzeETauBDT/GluGlu_LFV_HToETau_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.root --verbose >& batch_logs/results_DataJun11_AnalyzeETauBDT_GluGlu_LFV_HToETau_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.log &
+sleep 10s
+#using farmout:1
+#dry run:1
+export megatarget=results/DataJun11/AnalyzeETauBDT/VBF_LFV_HToETau_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauBDT.py inputs/DataJun11/VBF_LFV_HToETau_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.txt results/DataJun11/AnalyzeETauBDT/VBF_LFV_HToETau_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.root --verbose >& batch_logs/results_DataJun11_AnalyzeETauBDT_VBF_LFV_HToETau_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.log &
+sleep 10s

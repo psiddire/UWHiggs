@@ -40,7 +40,7 @@ mc_samples = [
 ]
 files=[]
 lumifiles=[]
-channel = ['initial', 'elloose', 'eltight']
+channel = ['initial', 'eleloose', 'eletight']
 
 for x in mc_samples:
     print x
@@ -49,7 +49,7 @@ for x in mc_samples:
 
 period = '13TeV'
 sqrts = 13
-outputdir = 'plots/%s/AnalyzeEMM/LooseIDIsoRho/' % (jobid)
+outputdir = 'plots/%s/AnalyzeEMM/ZptCorr/' % (jobid)
 if not os.path.exists(outputdir):
     os.makedirs(outputdir)
 
