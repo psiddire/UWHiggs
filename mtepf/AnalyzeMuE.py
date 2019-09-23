@@ -392,15 +392,15 @@ class AnalyzeMuE(MegaBase):
               self.fill_histos(row, myMuon, myMET, myEle, njets, weight, 'TightOS0JetCut')
           elif njets==1:
             self.fill_histos(row, myMuon, myMET, myEle, njets, weight, 'TightOS1Jet')
-            if mtmumet > 40 and dphiemet < 0.7 and dphiemu > 1.0:
+            if mtmumet > 40 and dphiemet < 0.7 and dphiemu > 1.0 and myMuon.Pt() > 26:
               self.fill_histos(row, myMuon, myMET, myEle, njets, weight, 'TightOS1JetCut')
           elif njets==2 and mjj < 550:
             self.fill_histos(row, myMuon, myMET, myEle, njets, weight, 'TightOS2Jet')
-            if mtmumet > 15 and dphiemet < 0.5:
+            if mtmumet > 15 and dphiemet < 0.5 and myMuon.Pt() > 26:
               self.fill_histos(row, myMuon, myMET, myEle, njets, weight, 'TightOS2JetCut')
           elif njets==2 and mjj > 550:
             self.fill_histos(row, myMuon, myMET, myEle, njets, weight, 'TightOS2JetVBF')
-            if mtmumet > 15 and dphiemet < 0.3:
+            if mtmumet > 15 and dphiemet < 0.3 and myMuon.Pt() > 26:
               self.fill_histos(row, myMuon, myMET, myEle, njets, weight, 'TightOS2JetVBFCut')
         if not self.oppositesign(row):
           self.fill_histos(row, myMuon, myMET, myEle, njets, weight*osss, 'TightSS')
@@ -410,15 +410,15 @@ class AnalyzeMuE(MegaBase):
               self.fill_histos(row, myMuon, myMET, myEle, njets, weight*osss, 'TightSS0JetCut')
           elif njets==1:
             self.fill_histos(row, myMuon, myMET, myEle, njets, weight*osss, 'TightSS1Jet')
-            if mtmumet > 40 and dphiemet < 0.7 and dphiemu > 1.0:
+            if mtmumet > 40 and dphiemet < 0.7 and dphiemu > 1.0 and myMuon.Pt() > 26:
               self.fill_histos(row, myMuon, myMET, myEle, njets, weight*osss, 'TightSS1JetCut')
           elif njets==2 and mjj < 550:
             self.fill_histos(row, myMuon, myMET, myEle, njets, weight*osss, 'TightSS2Jet')
-            if mtmumet > 15 and dphiemet < 0.5:
+            if mtmumet > 15 and dphiemet < 0.5 and myMuon.Pt() > 26:
               self.fill_histos(row, myMuon, myMET, myEle, njets, weight*osss, 'TightSS2JetCut')
           elif njets==2 and mjj > 550:
             self.fill_histos(row, myMuon, myMET, myEle, njets, weight*osss, 'TightSS2JetVBF')
-            if mtmumet > 15 and dphiemet < 0.3:
+            if mtmumet > 15 and dphiemet < 0.3 and myMuon.Pt() > 26:
               self.fill_histos(row, myMuon, myMET, myEle, njets, weight*osss, 'TightSS2JetVBFCut')
 
 

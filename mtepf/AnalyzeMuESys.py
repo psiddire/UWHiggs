@@ -11,6 +11,7 @@ from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 import os
 import ROOT
 import math
+import itertools
 import mcCorrections
 import mcWeights
 import Kinematics
@@ -19,7 +20,7 @@ from bTagSF import PromoteDemote, PromoteDemoteSyst, bTagEventWeight
 MetCorrection = True
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target) 
-Emb = True
+Emb = False
 
 class AnalyzeMuESys(MegaBase):
   tree = 'em/final/Ntuple'

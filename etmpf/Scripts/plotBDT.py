@@ -48,7 +48,7 @@ for j in jet:
     s1 = 'TightOS'+j
     s2 = 'TightSS'+j
     
-    outputdir = 'plots/%s/AnalyzeMuE/2017SelectionsEmbedBDT/%s/' % (jobid, s1)
+    outputdir = 'plots/%s/AnalyzeMuE/2017SelectionsEmbedBDTN/%s/' % (jobid, s1)
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
@@ -120,6 +120,6 @@ for j in jet:
             os.makedirs(outputdir+'/'+fn)
 
         for n,h in enumerate(histoname):
-            plotter.plot_mc_vs_data(fn, ['VBF_LFV_HToETau_M125*', 'GluGlu_LFV_HToETau_M125*'], h[0], 5, xaxis = h[1], leftside=False, xrange=[-0.5,0.35], preprocess=None, show_ratio=True, ratio_range=1.5, sort=True, blind_region=True, control=s1, jets=j, channel='etaumu')
+            plotter.plot_mc_vs_data(fn, ['VBF_LFV_HToETau_M125*', 'GluGlu_LFV_HToETau_M125*'], h[0], 1, xaxis = h[1], leftside=False, xrange=None, preprocess=None, show_ratio=True, ratio_range=1.5, sort=True, blind_region=True, control=s1, jets=j, channel='etaumu')
             plotter.save(h[0])
 

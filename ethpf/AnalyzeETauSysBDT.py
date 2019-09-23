@@ -11,10 +11,11 @@ from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 import os
 import ROOT
 import math
+import itertools
 import mcCorrections
 import mcWeights
 import Kinematics
-from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVACat
+from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVACat, FunctorFromMVA
 import random
 
 MetCorrection = True
@@ -63,8 +64,8 @@ class AnalyzeETauSysBDT(MegaBase):
     self.jes = Kinematics.jes
 
     self.var_d_star =['ePt', 'tPt', 'dPhiETau', 'dEtaETau', 'e_t_collinearMass', 'e_t_visibleMass', 'MTTauMET', 'dPhiTauMET', 'njets', 'vbfMass']
-    self.xml_name = os.path.join(os.getcwd(), "bdtdata/dataset/weights/TMVAClassification_BDTCat.weights.xml")
-    self.functor = FunctorFromMVACat('BDTCat method', self.xml_name, *self.var_d_star)
+    self.xml_name = os.path.join(os.getcwd(), "bdtdata/dataset/weights/TMVAClassification_BDT.weights.xml")
+    self.functor = FunctorFromMVACat('BDT method', self.xml_name, *self.var_d_star)
 
     super(AnalyzeETauSysBDT, self).__init__(tree, outfile, **kwargs)
     self.tree = ETauTree.ETauTree(tree)
@@ -476,6 +477,23 @@ class AnalyzeETauSysBDT(MegaBase):
         self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight * 0.98, '/trDown')
         self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight * 1.04, '/embtrUp')
         self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight * 0.96, '/embtrDown')
+
+        myMETpx = myMET.Px() + myEle.Px()
+        myMETpy = myMET.Py() + myEle.Py()
+        tmpEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
+        tmpEle = tmpEle * ROOT.Double(row.eEnergyScaleUp/row.eecalEnergy)
+        myMETpx = myMETpx - tmpEle.Px()
+        myMETpy = myMETpy - tmpEle.Py()
+        tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+        self.fill_categories(row, tmpEle, tmpMET, myTau, njets, mjj, weight, '/eescUp')
+        myMETpx = myMET.Px() + myEle.Px()
+        myMETpy = myMET.Py() + myEle.Py()
+        tmpEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
+        tmpEle = tmpEle * ROOT.Double(row.eEnergyScaleDown/row.eecalEnergy)
+        myMETpx = myMETpx - tmpEle.Px()
+        myMETpy = myMETpy - tmpEle.Py()
+        tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+        self.fill_categories(row, tmpEle, tmpMET, myTau, njets, mjj, weight, '/eescDown')
 
         if row.tDecayMode==0:
           self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM1Up')

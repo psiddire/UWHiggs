@@ -11,6 +11,7 @@ from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 import os
 import ROOT
 import math
+import itertools
 import mcCorrections
 import mcWeights
 import Kinematics
@@ -462,6 +463,23 @@ class AnalyzeETauSys(MegaBase):
         self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight * 0.98, '/trDown')
         self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight * 1.04, '/embtrUp')
         self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight * 0.96, '/embtrDown')
+
+        myMETpx = myMET.Px() + myEle.Px()
+        myMETpy = myMET.Py() + myEle.Py()
+        tmpEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
+        tmpEle = tmpEle * ROOT.Double(row.eEnergyScaleUp/row.eecalEnergy)
+        myMETpx = myMETpx - tmpEle.Px()
+        myMETpy = myMETpy - tmpEle.Py()
+        tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+        self.fill_categories(row, tmpEle, tmpMET, myTau, njets, mjj, weight, '/eescUp')
+        myMETpx = myMET.Px() + myEle.Px()
+        myMETpy = myMET.Py() + myEle.Py()
+        tmpEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
+        tmpEle = tmpEle * ROOT.Double(row.eEnergyScaleDown/row.eecalEnergy)
+        myMETpx = myMETpx - tmpEle.Px()
+        myMETpy = myMETpy - tmpEle.Py()
+        tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+        self.fill_categories(row, tmpEle, tmpMET, myTau, njets, mjj, weight, '/eescDown')
 
         if row.tDecayMode==0:
           self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM1Up')

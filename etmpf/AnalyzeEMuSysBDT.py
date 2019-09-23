@@ -11,16 +11,17 @@ from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 import os
 import ROOT
 import math
+import itertools
 import mcCorrections
 import mcWeights
 import Kinematics
-from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVACat
+from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVACat, FunctorFromMVA
 from bTagSF import PromoteDemote, PromoteDemoteSyst, bTagEventWeight
 
 MetCorrection = True
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target) 
-Emb = True
+Emb = False
 
 class AnalyzeEMuSysBDT(MegaBase):
   tree = 'em/final/Ntuple'
@@ -46,8 +47,8 @@ class AnalyzeEMuSysBDT(MegaBase):
     self.h_btag_eff_oth = mcCorrections.h_btag_eff_oth
 
     self.var_d_star = ['mPt', 'ePt', 'e_m_collinearMass', 'e_m_visibleMass', 'dPhiMuMET', 'dPhiEMET', 'dPhiEMu', 'MTMuMET', 'njets', 'vbfMass']
-    self.xml_name = os.path.join(os.getcwd(), "bdtdata/dataset/weights/TMVAClassification_BDTCat.weights.xml")
-    self.functor = FunctorFromMVACat('BDTCat method', self.xml_name, *self.var_d_star)
+    self.xml_name = os.path.join(os.getcwd(), "bdtdata/dataset/weights/TMVAClassification_BDT.weights.xml")
+    self.functor = FunctorFromMVACat('BDT method', self.xml_name, *self.var_d_star)
 
     self.triggerEff = mcCorrections.efficiency_trigger_mu_2017
     self.muonTightID = mcCorrections.muonID_tight

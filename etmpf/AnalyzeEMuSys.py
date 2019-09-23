@@ -11,6 +11,7 @@ from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 import os
 import ROOT
 import math
+import itertools
 import mcCorrections
 import mcWeights
 import Kinematics
@@ -19,7 +20,7 @@ from bTagSF import PromoteDemote, PromoteDemoteSyst, bTagEventWeight
 MetCorrection = True
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target) 
-Emb = True
+Emb = False
 
 class AnalyzeEMuSys(MegaBase):
   tree = 'em/final/Ntuple'
@@ -119,10 +120,8 @@ class AnalyzeEMuSys(MegaBase):
   def begin(self):
     folder = []
     vbffolder = []
-    names = ['TightOS', 'TightOS0Jet', 'TightOS1Jet']
-    ssnames = ['TightSS', 'TightSS0Jet', 'TightSS1Jet']
-    vbfnames = ['TightOS2Jet', 'TightOS2JetVBF']
-    ssvbfnames = ['TightSS2Jet', 'TightSS2JetVBF']
+    names = ['TightOS', 'TightOS0Jet', 'TightOS1Jet', 'TightOS2Jet', 'TightOS2JetVBF']
+    ssnames = ['TightSS', 'TightSS0Jet', 'TightSS1Jet', 'TightSS2Jet', 'TightSS2JetVBF']
     sys = ['', 'puUp', 'puDown', 'trUp', 'trDown', 'recrespUp', 'recrespDown', 'recresoUp', 'recresoDown', 'bTagUp', 'bTagDown', 'eescUp', 'eescDown', 'eesiUp', 'eesiDown', 'mesUp', 'mesDown', 'DYptreweightUp', 'DYptreweightDown', 'UnclusteredEnDown', 'UnclusteredEnUp', 'TopptreweightUp', 'TopptreweightDown', 'pfUp', 'pfDown']
     sssys = ['', 'Rate0JetUp', 'Rate0JetDown', 'Rate1JetUp', 'Rate1JetDown', 'Shape0JetUp', 'Shape0JetDown', 'Shape1JetUp', 'Shape1JetDown', 'IsoUp', 'IsoDown']
 
@@ -134,17 +133,7 @@ class AnalyzeEMuSys(MegaBase):
       folder.append(os.path.join(*tuple_path_ss))
 
     for f in folder:
-      self.book(f, "e_m_CollinearMass", "Electron + Muon Collinear Mass", 30, 0, 300)
-
-    for tuple_path_vbf in itertools.product(vbfnames, sys):
-      vbffolder.append(os.path.join(*tuple_path_vbf))
-    for tuple_path_vbf_jes in itertools.product(vbfnames, self.jes):
-      vbffolder.append(os.path.join(*tuple_path_vbf_jes))
-    for tuple_path_vbf_ss in itertools.product(ssvbfnames, sssys):
-      vbffolder.append(os.path.join(*tuple_path_vbf_ss))
-
-    for f in vbffolder:
-      self.book(f, "e_m_CollinearMass", "Electron +  Muon Collinear Mass", 12, 0, 300)
+      self.book(f, "e_m_CollinearMass", "Electron + Muon Collinear Mass", 60, 0, 300)
 
 
   def fill_histos(self, myEle, myMET, myMuon, weight, name=''):
@@ -156,17 +145,13 @@ class AnalyzeEMuSys(MegaBase):
     dphimumet = self.deltaPhi(myMuon.Phi(), myMET.Phi())
     mtemet = self.transverseMass(myEle, myMET)
     self.fill_histos(myEle, myMET, myMuon, weight, 'TightOS'+name)
-    if njets==0:
-      if mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+    if njets==0 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
         self.fill_histos(myEle, myMET, myMuon, weight, 'TightOS0Jet'+name)
-    elif njets==1:
-      if mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+    elif njets==1 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
         self.fill_histos(myEle, myMET, myMuon, weight, 'TightOS1Jet'+name)
-    elif njets==2 and mjj < 500:
-      if mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+    elif njets==2 and mjj < 500 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
         self.fill_histos(myEle, myMET, myMuon, weight, 'TightOS2Jet'+name)
-    elif njets==2 and mjj > 500:
-      if mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+    elif njets==2 and mjj > 500 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
         self.fill_histos(myEle, myMET, myMuon, weight, 'TightOS2JetVBF'+name)
 
 
@@ -217,17 +202,13 @@ class AnalyzeEMuSys(MegaBase):
     dphimumet = self.deltaPhi(myMuon.Phi(), myMET.Phi())
     mtemet = self.transverseMass(myEle, myMET)
     self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS')
-    if njets==0:
-      if mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+    if njets==0 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
         self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS0Jet') 
-    elif njets==1:
-      if mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+    elif njets==1 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
         self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS1Jet')
-    elif njets==2 and mjj < 500:
-      if mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+    elif njets==2 and mjj < 500 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
         self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS2Jet')
-    elif njets==2 and mjj > 500:
-      if mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+    elif njets==2 and mjj > 500 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
         self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS2JetVBF')
 
 

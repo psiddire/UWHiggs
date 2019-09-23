@@ -1,13 +1,19 @@
+'''
+
+Tau Fake Rate calculation in the Z+Jets control region.
+
+Authors: Prasanna Siddireddy
+
+'''
+
 import MuMuTauTree
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
-import glob
 import os
 import ROOT
 import math
 import mcCorrections
 import mcWeights
 import Kinematics
-from math import sqrt, pi
 from bTagSF import PromoteDemote
 
 target = os.path.basename(os.environ['megatarget'])
@@ -32,9 +38,8 @@ class AnalyzeMMT(MegaBase):
     self.muonTightID = mcCorrections.muonID_tight
     self.muonTightIsoTightID = mcCorrections.muonIso_tight_tightid
     self.muTracking = mcCorrections.muonTracking
-    self.eIDnoIsoWP80 = mcCorrections.eIDnoIsoWP80
-    self.eReco = mcCorrections.eReco
 
+    self.rc = mcCorrections.rc
     self.w1 = mcCorrections.w1
     self.w2 = mcCorrections.w2
     self.w3 = mcCorrections.w3
@@ -57,12 +62,6 @@ class AnalyzeMMT(MegaBase):
 
   def oppositesign(self,row):
     if row.m1Charge * row.m2Charge!=-1:
-      return False
-    return True
-
-
-  def trigger(self, row):
-    if not row.IsoMu27Pass:
       return False
     return True
 
@@ -158,6 +157,11 @@ class AnalyzeMMT(MegaBase):
         tmpTau = myTau * ROOT.Double(0.998)
       elif row.tDecayMode == 10:
         tmpTau = myTau * ROOT.Double(1.001)
+    if self.is_mc and bool(row.tZTTGenMatching==1 or row.tZTTGenMatching==3):
+      if row.tDecayMode == 0:
+        tmpTau = myTau * ROOT.Double(1.003)
+      elif row.tDecayMode == 1:
+        tmpTau = myTau * ROOT.Double(1.036)
     return tmpTau
 
 
@@ -165,10 +169,15 @@ class AnalyzeMMT(MegaBase):
 
     for row in self.tree:
 
+      trigger24m1 = row.IsoMu24Pass and row.m1MatchesIsoMu24Filter and row.m1MatchesIsoMu24Path and row.m1Pt > 25
+      trigger27m1 = row.IsoMu27Pass and row.m1MatchesIsoMu27Filter and row.m1MatchesIsoMu27Path and row.m1Pt > 28
+      trigger24m2 = row.IsoMu24Pass and row.m2MatchesIsoMu24Filter and row.m2MatchesIsoMu24Path and row.m2Pt > 25
+      trigger27m2 = row.IsoMu27Pass and row.m2MatchesIsoMu27Filter and row.m2MatchesIsoMu27Path and row.m2Pt > 28
+
       if self.filters(row):
         continue
 
-      if not self.trigger(row):
+      if not bool(trigger24m1 or trigger27m1 or trigger24m2 or trigger27m2):
         continue
 
       if not self.kinematics(row):
@@ -178,12 +187,6 @@ class AnalyzeMMT(MegaBase):
         continue
 
       if not self.vetos(row):
-        continue
-
-      if row.m1Pt > row.m2Pt and row.m1Pt < 29:
-        continue
-
-      if row.m2Pt > row.m1Pt and row.m2Pt < 29:
         continue
 
       if not self.obj1_id(row):
@@ -202,6 +205,9 @@ class AnalyzeMMT(MegaBase):
       myMuon1.SetPtEtaPhiM(row.m1Pt, row.m1Eta, row.m1Phi, row.m1Mass)
       myMuon2 = ROOT.TLorentzVector()
       myMuon2.SetPtEtaPhiM(row.m2Pt, row.m2Eta, row.m2Phi, row.m2Mass)
+      myTau = ROOT.TLorentzVector()
+      myTau.SetPtEtaPhiM(row.tPt, row.tEta, row.tPhi, row.tMass)
+      myTau = self.tauPtC(row, myTau)
 
       if self.visibleMass(myMuon1, myMuon2) < 70 or self.visibleMass(myMuon1, myMuon2) > 110:
         continue
@@ -220,14 +226,23 @@ class AnalyzeMMT(MegaBase):
 
       weight = 1.0
       if self.is_mc:
-        tEff = self.triggerEff(row.m1Pt, abs(row.m1Eta)) if row.m1Pt > row.m2Pt else self.triggerEff(row.m2Pt, abs(row.m2Eta))
+        if trigger24m1 or trigger27m1:
+          self.w2.var("m_pt").setVal(myMuon1.Pt())
+          self.w2.var("m_eta").setVal(myMuon1.Eta())
+          tEff = 0 if self.w2.function("m_trg24_27_kit_mc").getVal()==0 else self.w2.function("m_trg24_27_kit_data").getVal()/self.w2.function("m_trg24_27_kit_mc").getVal()
+          weight = weight * tEff
+        elif trigger24m2 or trigger27m2:
+          self.w2.var("m_pt").setVal(myMuon2.Pt())
+          self.w2.var("m_eta").setVal(myMuon2.Eta())
+          tEff = 0 if self.w2.function("m_trg24_27_kit_mc").getVal()==0 else self.w2.function("m_trg24_27_kit_data").getVal()/self.w2.function("m_trg24_27_kit_mc").getVal()
+          weight = weight * tEff
         m1ID = self.muonTightID(row.m1Pt, abs(row.m1Eta))
         m1Iso = self.muonTightIsoTightID(row.m1Pt, abs(row.m1Eta))
         m1Trk = self.muTracking(row.m1Eta)[0]
         m2ID = self.muonTightID(row.m2Pt, abs(row.m2Eta))
         m2Iso = self.muonTightIsoTightID(row.m2Pt, abs(row.m2Eta))
         m2Trk = self.muTracking(row.m2Eta)[0]
-        weight = weight * tEff * m1ID * m1Iso * m1Trk * m2ID * m2Iso * m2Trk
+        weight = weight * m1ID * m1Iso * m1Trk * m2ID * m2Iso * m2Trk
         if row.tZTTGenMatching==2 or row.tZTTGenMatching==4:
           if abs(row.tEta) < 0.4:
             weight = weight * 1.17
@@ -257,12 +272,9 @@ class AnalyzeMMT(MegaBase):
             weight = weight * self.DYweight[0]
         weight = self.mcWeight.lumiWeight(weight)
 
-      myTau = ROOT.TLorentzVector()
-      myTau.SetPtEtaPhiM(row.tPt, row.tEta, row.tPhi, row.tMass)
-      myTau = self.tauPtC(row, myTau)
       self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'initial')
 
-      if self.tau_loose(row):
+      if self.tau_vloose(row):
         self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'loose')
         if row.tDecayMode == 0:
           self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'LDM0')

@@ -11,16 +11,17 @@ from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 import os
 import ROOT
 import math
+import itertools
 import mcCorrections
 import mcWeights
 import Kinematics
-from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVACat
+from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVACat, FunctorFromMVA
 from bTagSF import PromoteDemote, PromoteDemoteSyst, bTagEventWeight
 
 MetCorrection = True
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target) 
-Emb = True
+Emb = False
 
 class AnalyzeMuESysBDT(MegaBase):
   tree = 'em/final/Ntuple'
@@ -46,8 +47,8 @@ class AnalyzeMuESysBDT(MegaBase):
     self.h_btag_eff_oth = mcCorrections.h_btag_eff_oth
 
     self.var_d_star = ['mPt', 'ePt', 'm_e_collinearMass', 'dPhiMuMET', 'dPhiEMET', 'dPhiMuE', 'MTMuMET', 'MTEMET', 'njets', 'vbfMass']
-    self.xml_name = os.path.join(os.getcwd(), "bdtdata/dataset/weights/TMVAClassification_BDTCat.weights.xml")
-    self.functor = FunctorFromMVACat('BDTCat method', self.xml_name, *self.var_d_star)
+    self.xml_name = os.path.join(os.getcwd(), "bdtdata/dataset/weights/TMVAClassification_BDT.weights.xml")
+    self.functor = FunctorFromMVACat('BDT method', self.xml_name, *self.var_d_star)
 
     self.triggerEff = mcCorrections.efficiency_trigger_mu_2017
     self.muonTightID = mcCorrections.muonID_tight
@@ -205,15 +206,15 @@ class AnalyzeMuESysBDT(MegaBase):
 
   def fill_sscategories(self, row, myMuon, myMET, myEle, njets, weight, name=''):
     mjj = getattr(row, 'vbfMassWoNoisyJets')
-    self.fill_sshistos(myMuon, myMET, myEle, njets, weight, 'TightSS')
+    self.fill_sshistos(myMuon, myMET, myEle, njets, mjj, weight, 'TightSS')
     if njets==0:
-        self.fill_sshistos(myMuon, myMET, myEle, njets, weight, 'TightSS0Jet') 
+        self.fill_sshistos(myMuon, myMET, myEle, njets, mjj, weight, 'TightSS0Jet') 
     elif njets==1:
-        self.fill_sshistos(myMuon, myMET, myEle, njets, weight, 'TightSS1Jet') 
+        self.fill_sshistos(myMuon, myMET, myEle, njets, mjj, weight, 'TightSS1Jet') 
     elif njets==2 and mjj < 550:
-        self.fill_sshistos(myMuon, myMET, myEle, njets, weight, 'TightSS2Jet') 
+        self.fill_sshistos(myMuon, myMET, myEle, njets, mjj, weight, 'TightSS2Jet') 
     elif njets==2 and mjj > 550:
-        self.fill_sshistos(myMuon, myMET, myEle, njets, weight, 'TightSS2JetVBF')
+        self.fill_sshistos(myMuon, myMET, myEle, njets, mjj, weight, 'TightSS2JetVBF')
 
 
   def fill_sys(self, row, myMuon, myMET, myEle, njets, weight):

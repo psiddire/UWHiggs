@@ -94,7 +94,7 @@ class AnalyzeEMuBDT(MegaBase):
   def kinematics(self, row):
     if row.mPt < 10 or abs(row.mEta) >= 2.4:
       return False
-    if row.ePt < 13 or abs(row.eEta) >= 2.5:
+    if row.ePt < 24 or abs(row.eEta) >= 2.5:
       return False
     return True
 

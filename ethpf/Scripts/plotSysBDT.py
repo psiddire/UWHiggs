@@ -49,7 +49,7 @@ for j in jet:
     s3 = 'EleLooseOS'+j
     s4 = 'EleLooseTauLooseOS'+j
     
-    outputdir = 'plots/%s/AnalyzeETau/2017SelectionsEmbedSysBDTNoRebin/%s/' % (jobid, s1)
+    outputdir = 'plots/%s/AnalyzeETau/2017SelectionsEmbedSysBDTNoCat/%s/' % (jobid, s1)
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
@@ -150,6 +150,6 @@ for j in jet:
 
         for n,h in enumerate(histoname):
             #plotter.pad.SetLogy(True)
-            plotter.plot_mc_vs_data(fn, ['VBF_LFV_HToETau_M125*', 'GluGlu_LFV_HToETau_M125*'], h[0], 1, xaxis = h[1], leftside=False, xrange=[-0.5,0.3], preprocess=None, show_ratio=True, ratio_range=1.5, sort=True, blind_region=True, control=s1, jets=j, channel='etauh')
+            plotter.plot_mc_vs_data(fn, ['VBF_LFV_HToETau_M125*', 'GluGlu_LFV_HToETau_M125*'], h[0], 1, xaxis = h[1], leftside=False, xrange=[-0.6,0.4], preprocess=None, show_ratio=True, ratio_range=1.5, sort=True, blind_region=True, control=s1, jets=j, channel='etauh')
             plotter.save(h[0])
 

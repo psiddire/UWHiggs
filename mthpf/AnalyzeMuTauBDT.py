@@ -20,7 +20,7 @@ from bTagSF import PromoteDemote
 MetCorrection = True
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target)
-Emb = True
+Emb = False
 
 class AnalyzeMuTauBDT(MegaBase):
   tree = 'mt/final/Ntuple'
@@ -30,6 +30,7 @@ class AnalyzeMuTauBDT(MegaBase):
     self.mcWeight = mcWeights.mcWeights(target)
     self.is_data = self.mcWeight.is_data
     self.is_DY = self.mcWeight.is_DY
+    self.is_TT = self.mcWeight.is_TT
     self.is_mc = self.mcWeight.is_mc
     self.is_GluGlu = self.mcWeight.is_GluGlu
     self.is_VBF = self.mcWeight.is_VBF
@@ -292,6 +293,8 @@ class AnalyzeMuTauBDT(MegaBase):
           mIso = self.muonLooseIsoTightID(myMuon.Pt(), abs(myMuon.Eta()))
         mcSF = self.rc.kSpreadMC(row.mCharge, myMuon.Pt(), myMuon.Eta(), myMuon.Phi(), row.mGenPt, 0, 0)
         weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*mID*mTrk*mIso*mcSF*row.prefiring_weight
+        self.w2.var("m_pt").setVal(myMuon.Pt())
+        self.w2.var("m_eta").setVal(myMuon.Eta())
         if trigger24 or trigger27:
           tEff = 0 if self.w2.function("m_trg24_27_kit_mc").getVal()==0 else self.w2.function("m_trg24_27_kit_data").getVal()/self.w2.function("m_trg24_27_kit_mc").getVal()
           weight = weight*tEff
@@ -313,6 +316,20 @@ class AnalyzeMuTauBDT(MegaBase):
             weight = weight*1.19
         elif row.tZTTGenMatching==5:
           weight = weight*0.89
+        if self.is_DY:
+          self.w2.var("z_gen_mass").setVal(row.genMass)
+          self.w2.var("z_gen_pt").setVal(row.genpT)
+          dyweight = self.w2.function("zptmass_weight_nom").getVal()
+          weight = weight*dyweight
+          if row.numGenJets < 5:
+            weight = weight*self.DYweight[row.numGenJets]
+          else:
+            weight = weight*self.DYweight[0]
+        if self.is_TT:
+          topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
+          weight = weight*topweight
+          if row.mZTTGenMatching > 2 and row.mZTTGenMatching < 6 and row.tZTTGenMatching > 2 and row.tZTTGenMatching < 6 and Emb:
+            continue
         weight = self.mcWeight.lumiWeight(weight)
 
       if self.is_data:

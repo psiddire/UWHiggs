@@ -318,9 +318,6 @@ class AnalyzeETauBDT(MegaBase):
         weight = self.mcWeight.lumiWeight(weight)
 
       if self.is_data:
-        # if self.obj2_tight(row) and self.obj1_tight(row):
-        #   if not self.oppositesign(row):
-        #     self.filltree(row, myEle, myMET, myTau, njets, weight)
 
         if not self.obj2_tight(row) and self.obj2_loose(row) and not self.obj1_tight(row) and self.obj1_loose(row):
           frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)

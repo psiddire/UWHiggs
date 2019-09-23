@@ -11,6 +11,7 @@ from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 import os
 import ROOT
 import math
+import itertools
 import mcCorrections
 import mcWeights
 import Kinematics
@@ -752,6 +753,8 @@ class AnalyzeMuTauSys(MegaBase):
           mIso = self.muonLooseIsoTightID(myMuon.Pt(), abs(myMuon.Eta()))
         mcSF = self.rc.kSpreadMC(row.mCharge, myMuon.Pt(), myMuon.Eta(), myMuon.Phi(), row.mGenPt, 0, 0)
         weight = row.GenWeight*pucorrector[''](row.nTruePU)*mID*mTrk*mIso*mcSF*row.prefiring_weight
+        self.w2.var("m_pt").setVal(myMuon.Pt())
+        self.w2.var("m_eta").setVal(myMuon.Eta())
         if trigger24 or trigger27:
           tEff = 0 if self.w2.function("m_trg24_27_kit_mc").getVal()==0 else self.w2.function("m_trg24_27_kit_data").getVal()/self.w2.function("m_trg24_27_kit_mc").getVal()
           weight = weight*tEff
@@ -814,9 +817,10 @@ class AnalyzeMuTauSys(MegaBase):
         trgsel = self.we.function("m_sel_trg_ratio").getVal()
         m_iso_sf = self.we.function("m_iso_binned_embed_kit_ratio").getVal()
         m_id_sf = self.we.function("m_id_embed_kit_ratio").getVal()
+        m_trk_sf = self.muTracking(myMuon.Eta())[0]
         if trigger24 or trigger27:
           m_trg_sf = self.we.function("m_trg24_27_embed_kit_ratio").getVal()
-        weight = weight*row.GenWeight*tID*m_trg_sf*m_id_sf*m_iso_sf*dm*msel*tsel*trgsel
+        weight = weight*row.GenWeight*tID*m_trg_sf*m_id_sf*m_iso_sf*m_trk_sf*dm*msel*tsel*trgsel
 
       if (self.is_mc and nbtag > 0):
         btagweight = bTagEventWeight(nbtag, row.jb1pt, row.jb1hadronflavor, row.jb2pt, row.jb2hadronflavor, 1, 0, 0)

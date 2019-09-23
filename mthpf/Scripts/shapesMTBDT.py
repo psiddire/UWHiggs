@@ -1,27 +1,10 @@
 import rootpy.plotting.views as views
 from FinalStateAnalysis.PlotTools.Plotter import Plotter
-from FinalStateAnalysis.PlotTools.BlindView      import BlindView
-from FinalStateAnalysis.PlotTools.PoissonView    import PoissonView
-from FinalStateAnalysis.PlotTools.MedianView     import MedianView
-from FinalStateAnalysis.PlotTools.ProjectionView import ProjectionView
-from FinalStateAnalysis.PlotTools.RebinView  import RebinView
-from FinalStateAnalysis.MetaData.data_styles import data_styles, colors
-from FinalStateAnalysis.PlotTools.decorators import memo
-from FinalStateAnalysis.MetaData.datacommon  import br_w_leptons, br_z_leptons
-from FinalStateAnalysis.PlotTools.SubtractionView      import SubtractionView, PositiveView
-from optparse import OptionParser
+from FinalStateAnalysis.PlotTools.SubtractionView import SubtractionView
 import os
-import itertools
 import ROOT
 import glob
-import math
-import logging
-import pdb
 import array
-from fnmatch import fnmatch
-from yellowhiggs import xs, br, xsbr
-from BasePlotter import BasePlotter
-from argparse import ArgumentParser
 
 ROOT.gROOT.SetBatch()
 ROOT.gStyle.SetOptStat(0)
@@ -29,9 +12,6 @@ ROOT.gStyle.SetOptTitle(0)
 jobid = os.environ['jobid']
 files = []
 lumifiles = []
-channel = 'mt'
-period = '13TeV'
-sqrts = 13
 
 def positivize(histogram):
     output = histogram.Clone()
@@ -59,8 +39,10 @@ dirs = ['0Jet', '1Jet', '2Jet', '2JetVBF']
 v = [
 views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('DY1') or x.startswith('DY2') or x.startswith('DY3') or x.startswith('DY4') or x.startswith('DYJetsToLL_M-50') or x.startswith('DYJetsToLL_M-10to50'), mc_samples )]),
 views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('EWK') , mc_samples)]),
-views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('GluGluHToTauTau') or x.startswith('GluGluHToWW'), mc_samples)]),
-views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('VBFHToTauTau') or x.startswith('VBFHToWW'), mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('GluGluHToTauTau'), mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('VBFHToTauTau'), mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('GluGluHToWW'), mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('VBFHToWW'), mc_samples)]),
 views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('WminusHToTauTau') or x.startswith('WplusHToTauTau') or x.startswith('ZHToTauTau') , mc_samples)]),
 views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('TT'), mc_samples)]),
 views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('ST'), mc_samples)]),
@@ -69,25 +51,32 @@ views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.start
 views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('VBF_LFV') , mc_samples)])
 ]
 
-b = ['Zll', 'EWK', 'GluGluH', 'VBFH', 'VH', 'TT', 'ST', 'EWKDiboson', 'GluGlu125', 'VBF125']
+b = ['Zothers', 'EWK', 'ggH_htt', 'qqH_htt', 'ggH_hww', 'qqH_hww', 'vH_htt', 'TT', 'T', 'Diboson', 'LFVGG125', 'LFVVBF125']
 
 for di in dirs:
 
     if di=='0Jet':
-        binning = array.array('d', [-0.7, -0.55, -0.5, -0.45, -0.40, -0.35, -0.30, -0.25, -0.20, -0.15, -0.10, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0.0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20, 0.21, 0.22, 0.23, 0.24, 0.25])
+        dr = '0jet'
+        binning = array.array('d', [-0.66, -0.55, -0.5, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0.0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20, 0.25])
     elif di=='1Jet':
-        binning = array.array('d', [-0.65, -0.5, -0.45, -0.40, -0.35, -0.30, -0.25, -0.20, -0.15, -0.14, -0.13, -0.12, -0.11, -0.10, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0.0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20, 0.21, 0.22, 0.23])
+        dr = '1jet'
+        binning = array.array('d', [-0.6, -0.55, -0.5, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.2, 0.3])
     elif di=='2Jet':
-        binning = array.array('d', [-0.65, -0.5, -0.45, -0.40, -0.35, -0.30, -0.25, -0.20, -0.15, -0.10, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0.0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20, 0.21, 0.22, 0.23])
+        dr = '2jet_gg'
+        binning = array.array('d', [-0.6, -0.5, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.2, 0.3])
     else:
-        binning = array.array('d', [-0.55, -0.40, -0.35, -0.30, -0.29, -0.28, -0.27, -0.26, -0.25, -0.24, -0.23, -0.22, -0.21, -0.20, -0.19, -0.18, -0.17, -0.16, -0.15, -0.14, -0.13, -0.12, -0.11, -0.10, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0.0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.22])
+        dr = '2jet_vbf'
+        binning = array.array('d', [-0.55, -0.4, -0.35, -0.3, -0.29, -0.28, -0.27, -0.26, -0.25, -0.24, -0.23, -0.22, -0.21, -0.2, -0.19, -0.18, -0.17, -0.16, -0.15, -0.14, -0.13, -0.12, -0.11, -0.1, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0.0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.22])
 
-    d = f.mkdir(di)
+    #Observed
+    d = f.mkdir(dr)
     d.cd()
     DataTotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('QCD'), mc_samples)])
     data = DataTotal.Get('TightOS'+di+'/bdtDiscriminator')
+    data = positivize(data)
     data = data.Rebin(len(binning)-1, 'data_obs', binning)
 
+    #Embedded
     embed = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('embed'), mc_samples)])
     emball = embed.Get('TightOS'+di+'/bdtDiscriminator')
     embtfakes = embed.Get('TauLooseOS'+di+'/bdtDiscriminator')
@@ -100,43 +89,43 @@ for di in dirs:
     emb = emball.Clone()
     emb.Add(embfakes, -1)
     emb = positivize(emb)
-    emb = emb.Rebin(len(binning)-1, 'embed', binning)
+    emb = emb.Rebin(len(binning)-1, 'ZTauTau', binning)
 
     embtrkup = embed.Get('TightOS'+di+'/embtrkUp/bdtDiscriminator')
     embtrkup.Add(embfakes, -1)
     embtrkup = positivize(embtrkup)
-    embtrkup = embtrkup.Rebin(len(binning)-1, 'embed_CMS_tracking_tauUp', binning)
+    embtrkup = embtrkup.Rebin(len(binning)-1, 'ZTauTau_CMS_tracking_tauUp', binning)
     embtrkdown = embed.Get('TightOS'+di+'/embtrkDown/bdtDiscriminator')
     embtrkdown.Add(embfakes, -1)
     embtrkdown = positivize(embtrkdown)
-    embtrkdown = embtrkdown.Rebin(len(binning)-1, 'embed_CMS_tracking_tauDown', binning)
+    embtrkdown = embtrkdown.Rebin(len(binning)-1, 'ZTauTau_CMS_tracking_tauDown', binning)
 
     embtes0up = embed.Get('TightOS'+di+'/scaletDM0Up/bdtDiscriminator')
     embtes0up.Add(embfakes, -1)
     embtes0up = positivize(embtes0up)
-    embtes0up = embtes0up.Rebin(len(binning)-1, 'embed_CMS_scale_t_1prong_13TeVUp', binning)
+    embtes0up = embtes0up.Rebin(len(binning)-1, 'ZTauTau_CMS_scale_t_1prong_13TeVUp', binning)
     embtes0down = embed.Get('TightOS'+di+'/scaletDM0Down/bdtDiscriminator')
     embtes0down.Add(embfakes, -1)
     embtes0down = positivize(embtes0down)
-    embtes0down = embtes0down.Rebin(len(binning)-1, 'embed_CMS_scale_t_1prong_13TeVDown', binning)
+    embtes0down = embtes0down.Rebin(len(binning)-1, 'ZTauTau_CMS_scale_t_1prong_13TeVDown', binning)
 
     embtes1up = embed.Get('TightOS'+di+'/scaletDM1Up/bdtDiscriminator')
     embtes1up.Add(embfakes, -1)
     embtes1up = positivize(embtes1up)
-    embtes1up = embtes1up.Rebin(len(binning)-1, 'embed_CMS_scale_t_1prong1pizero_13TeVUp', binning)
+    embtes1up = embtes1up.Rebin(len(binning)-1, 'ZTauTau_CMS_scale_t_1prong1pizero_13TeVUp', binning)
     embtes1down = embed.Get('TightOS'+di+'/scaletDM1Down/bdtDiscriminator')
     embtes1down.Add(embfakes, -1)
     embtes1down = positivize(embtes1down)
-    embtes1down = embtes1down.Rebin(len(binning)-1, 'embed_CMS_scale_t_1prong1pizero_13TeVDown', binning)
+    embtes1down = embtes1down.Rebin(len(binning)-1, 'ZTauTau_CMS_scale_t_1prong1pizero_13TeVDown', binning)
 
     embtes10up = embed.Get('TightOS'+di+'/scaletDM10Up/bdtDiscriminator')
     embtes10up.Add(embfakes, -1)
     embtes10up = positivize(embtes10up)
-    embtes10up = embtes10up.Rebin(len(binning)-1, 'embed_CMS_scale_t_3prong_13TeVUp', binning)
+    embtes10up = embtes10up.Rebin(len(binning)-1, 'ZTauTau_CMS_scale_t_3prong_13TeVUp', binning)
     embtes10down = embed.Get('TightOS'+di+'/scaletDM10Down/bdtDiscriminator')
     embtes10down.Add(embfakes, -1)
     embtes10down = positivize(embtes10down)
-    embtes10down = embtes10down.Rebin(len(binning)-1, 'embed_CMS_scale_t_3prong_13TeVDown', binning)
+    embtes10down = embtes10down.Rebin(len(binning)-1, 'ZTauTau_CMS_scale_t_3prong_13TeVDown', binning)
 
     embtb0fakesup = embed.Get('TauLooseOS'+di+'/TauFakeEBDM0Up/bdtDiscriminator')
     embtb0fakesdown = embed.Get('TauLooseOS'+di+'/TauFakeEBDM0Down/bdtDiscriminator')
@@ -173,7 +162,7 @@ for di in dirs:
     emb1tb0 = positivize(emb1tb0)
     emb1b0.add(emb1tb0, -1)
     emb1b0 = positivize(emb1b0)
-    emb1b0 = emb1b0.Rebin(len(binning)-1, 'embed_CMS_TauFakeRate_EB_DM0_13TeVUp', binning)
+    emb1b0 = emb1b0.Rebin(len(binning)-1, 'ZTauTau_CMS_TauFakeRate_dm0_B_13TeVUp', binning)
     emb2b0 = emball.Clone()
     emb2tb0 = embtb0fakesdown.Clone()
     emb2tb0.add(embmfakes)
@@ -181,7 +170,7 @@ for di in dirs:
     emb2tb0 = positivize(emb2tb0)
     emb2b0.add(emb2tb0, -1)
     emb2b0 = positivize(emb2b0)
-    emb2b0 = emb2b0.Rebin(len(binning)-1, 'embed_CMS_TauFakeRate_EB_DM0_13TeVDown', binning)
+    emb2b0 = emb2b0.Rebin(len(binning)-1, 'ZTauTau_CMS_TauFakeRate_dm0_B_13TeVDown', binning)
     emb1b1 = emball.Clone()
     emb1tb1 = embtb1fakesup.Clone()
     emb1tb1.add(embmfakes)
@@ -189,7 +178,7 @@ for di in dirs:
     emb1tb1 = positivize(emb1tb1)
     emb1b1.add(emb1tb1, -1)
     emb1b1 = positivize(emb1b1)
-    emb1b1 = emb1b1.Rebin(len(binning)-1, 'embed_CMS_TauFakeRate_EB_DM1_13TeVUp', binning)
+    emb1b1 = emb1b1.Rebin(len(binning)-1, 'ZTauTau_CMS_TauFakeRate_dm1_B_13TeVUp', binning)
     emb2b1 = emball.Clone()
     emb2tb1 = embtb1fakesdown.Clone()
     emb2tb1.add(embmfakes)
@@ -197,7 +186,7 @@ for di in dirs:
     emb2tb1 = positivize(emb2tb1)
     emb2b1.add(emb2tb1, -1)
     emb2b1 = positivize(emb2b1)
-    emb2b1 = emb2b1.Rebin(len(binning)-1, 'embed_CMS_TauFakeRate_EB_DM1_13TeVDown', binning)
+    emb2b1 = emb2b1.Rebin(len(binning)-1, 'ZTauTau_CMS_TauFakeRate_dm1_B_13TeVDown', binning)
     emb1b10 = emball.Clone()
     emb1tb10 = embtb10fakesup.Clone()
     emb1tb10.add(embmfakes)
@@ -205,7 +194,7 @@ for di in dirs:
     emb1tb10 = positivize(emb1tb10)
     emb1b10.add(emb1tb10, -1)
     emb1b10 = positivize(emb1b10)
-    emb1b10 = emb1b10.Rebin(len(binning)-1, 'embed_CMS_TauFakeRate_EB_DM10_13TeVUp', binning)
+    emb1b10 = emb1b10.Rebin(len(binning)-1, 'ZTauTau_CMS_TauFakeRate_dm10_B_13TeVUp', binning)
     emb2b10 = emball.Clone()
     emb2tb10 = embtb10fakesdown.Clone()
     emb2tb10.add(embmfakes)
@@ -213,7 +202,7 @@ for di in dirs:
     emb2tb10 = positivize(emb2tb10)
     emb2b10.add(emb2tb10, -1)
     emb2b10 = positivize(emb2b10)
-    emb2b10 = emb2b10.Rebin(len(binning)-1, 'embed_CMS_TauFakeRate_EB_DM10_13TeVDown', binning)
+    emb2b10 = emb2b10.Rebin(len(binning)-1, 'ZTauTau_CMS_TauFakeRate_dm10_B_13TeVDown', binning)
     emb1e0 = emball.Clone()
     emb1te0 = embte0fakesup.Clone()
     emb1te0.add(embmfakes)
@@ -221,7 +210,7 @@ for di in dirs:
     emb1te0 = positivize(emb1te0)
     emb1e0.add(emb1te0, -1)
     emb1e0 = positivize(emb1e0)
-    emb1e0 = emb1e0.Rebin(len(binning)-1, 'embed_CMS_TauFakeRate_EE_DM0_13TeVUp', binning)
+    emb1e0 = emb1e0.Rebin(len(binning)-1, 'ZTauTau_CMS_TauFakeRate_dm0_E_13TeVUp', binning)
     emb2e0 = emball.Clone()
     emb2te0 = embte0fakesdown.Clone()
     emb2te0.add(embmfakes)
@@ -229,7 +218,7 @@ for di in dirs:
     emb2te0 = positivize(emb2te0)
     emb2e0.add(emb2te0, -1)
     emb2e0 = positivize(emb2e0)
-    emb2e0 = emb2e0.Rebin(len(binning)-1, 'embed_CMS_TauFakeRate_EE_DM0_13TeVDown', binning)
+    emb2e0 = emb2e0.Rebin(len(binning)-1, 'ZTauTau_CMS_TauFakeRate_dm0_E_13TeVDown', binning)
     emb1e1 = emball.Clone()
     emb1te1 = embte1fakesup.Clone()
     emb1te1.add(embmfakes)
@@ -237,7 +226,7 @@ for di in dirs:
     emb1te1 = positivize(emb1te1)
     emb1e1.add(emb1te1, -1)
     emb1e1 = positivize(emb1e1)
-    emb1e1 = emb1e1.Rebin(len(binning)-1, 'embed_CMS_TauFakeRate_EE_DM1_13TeVUp', binning)
+    emb1e1 = emb1e1.Rebin(len(binning)-1, 'ZTauTau_CMS_TauFakeRate_dm1_E_13TeVUp', binning)
     emb2e1 = emball.Clone()
     emb2te1 = embte1fakesdown.Clone()
     emb2te1.add(embmfakes)
@@ -245,7 +234,7 @@ for di in dirs:
     emb2te1 = positivize(emb2te1)
     emb2e1.add(emb2te1, -1)
     emb2e1 = positivize(emb2e1)
-    emb2e1 = emb2e1.Rebin(len(binning)-1, 'embed_CMS_TauFakeRate_EE_DM1_13TeVDown', binning)
+    emb2e1 = emb2e1.Rebin(len(binning)-1, 'ZTauTau_CMS_TauFakeRate_dm1_E_13TeVDown', binning)
     emb1e10 = emball.Clone()
     emb1te10 = embte10fakesup.Clone()
     emb1te10.add(embmfakes)
@@ -253,7 +242,7 @@ for di in dirs:
     emb1te10 = positivize(emb1te10)
     emb1e10.add(emb1te10, -1)
     emb1e10 = positivize(emb1e10)
-    emb1e10 = emb1e10.Rebin(len(binning)-1, 'embed_CMS_TauFakeRate_EE_DM10_13TeVUp', binning)
+    emb1e10 = emb1e10.Rebin(len(binning)-1, 'ZTauTau_CMS_TauFakeRate_dm10_E_13TeVUp', binning)
     emb2e10 = emball.Clone()
     emb2te10 = embte10fakesdown.Clone()
     emb2te10.add(embmfakes)
@@ -261,7 +250,7 @@ for di in dirs:
     emb2te10 = positivize(emb2te10)
     emb2e10.add(emb2te10, -1)
     emb2e10 = positivize(emb2e10)
-    emb2e10 = emb2e10.Rebin(len(binning)-1, 'embed_CMS_TauFakeRate_EE_DM10_13TeVDown', binning)
+    emb2e10 = emb2e10.Rebin(len(binning)-1, 'ZTauTau_CMS_TauFakeRate_dm10_E_13TeVDown', binning)
     emb3 = emball.Clone()
     emb3t = embtfakes.Clone()
     emb3t.add(embmfakesup)
@@ -269,7 +258,7 @@ for di in dirs:
     emb3t = positivize(emb3t)
     emb3.add(emb3t, -1)
     emb3 = positivize(emb3)
-    emb3 = emb3.Rebin(len(binning)-1, 'embed_CMS_MuonFakeRate_13TeVUp', binning)
+    emb3 = emb3.Rebin(len(binning)-1, 'ZTauTau_CMS_MuonFakeRate_13TeVUp', binning)
     emb4 = emball.Clone()
     emb4t = embtfakes.Clone()
     emb4t.add(embmfakesdown)
@@ -277,7 +266,7 @@ for di in dirs:
     emb4t = positivize(emb4t)
     emb4.add(emb4t, -1)
     emb4 = positivize(emb4)
-    emb4 = emb4.Rebin(len(binning)-1, 'embed_CMS_MuonFakeRate_13TeVDown', binning)
+    emb4 = emb4.Rebin(len(binning)-1, 'ZTauTau_CMS_MuonFakeRate_13TeVDown', binning)
     emball.Delete()
     emb1tb0.Delete()
     emb2tb0.Delete()
@@ -326,6 +315,7 @@ for di in dirs:
     embmtmfakesup.Delete()
     embmtmfakesdown.Delete()
 
+    #Fakes
     QCD = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('QCD'), mc_samples)])
     tfakes = QCD.Get('TauLooseOS'+di+'/bdtDiscriminator')
     mfakes = QCD.Get('MuonLooseOS'+di+'/bdtDiscriminator')
@@ -334,7 +324,7 @@ for di in dirs:
     qcd.Add(mfakes)
     qcd.Add(mtfakes, -1)
     qcd = positivize(qcd)
-    qcd.SetName('Fakes')
+    qcd = qcd.Rebin(len(binning)-1, 'Fakes', binning)
     te0fakesup = QCD.Get('TauLooseOS'+di+'/TauFakeEEDM0Up/bdtDiscriminator')
     te0fakesdown = QCD.Get('TauLooseOS'+di+'/TauFakeEEDM0Down/bdtDiscriminator')
     te1fakesup = QCD.Get('TauLooseOS'+di+'/TauFakeEEDM1Up/bdtDiscriminator')
@@ -367,62 +357,62 @@ for di in dirs:
     f1e0.add(mfakes)
     f1e0.add(mtte0fakesup, -1)
     f1e0 = positivize(f1e0)
-    f1e0 = f1e0.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_EE_DM0_13TeVUp', binning)
+    f1e0 = f1e0.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_dm0_E_13TeVUp', binning)
     f2e0 = te0fakesdown.Clone()
     f2e0.add(mfakes)
     f2e0.add(mtte0fakesdown, -1)
     f2e0 = positivize(f2e0)
-    f2e0 = f2e0.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_EE_DM0_13TeVDown', binning)
+    f2e0 = f2e0.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_dm0_E_13TeVDown', binning)
     f1e1 = te1fakesup.Clone()
     f1e1.add(mfakes)
     f1e1.add(mtte1fakesup, -1)
     f1e1 = positivize(f1e1)
-    f1e1 = f1e1.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_EE_DM1_13TeVUp', binning)
+    f1e1 = f1e1.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_dm1_E_13TeVUp', binning)
     f2e1 = te1fakesdown.Clone()
     f2e1.add(mfakes)
     f2e1.add(mtte1fakesdown, -1)
     f2e1 = positivize(f2e1)
-    f2e1 = f2e1.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_EE_DM1_13TeVDown', binning)
+    f2e1 = f2e1.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_dm1_E_13TeVDown', binning)
     f1e10 = te10fakesup.Clone()
     f1e10.add(mfakes)
     f1e10.add(mtte10fakesup, -1)
     f1e10 = positivize(f1e10)
-    f1e10 = f1e10.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_EE_DM10_13TeVUp', binning)
+    f1e10 = f1e10.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_dm10_E_13TeVUp', binning)
     f2e10 = te10fakesdown.Clone()
     f2e10.add(mfakes)
     f2e10.add(mtte10fakesdown, -1)
     f2e10 = positivize(f2e10)
-    f2e10 = f2e10.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_EE_DM10_13TeVDown', binning)
+    f2e10 = f2e10.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_dm10_E_13TeVDown', binning)
     f1b0 = tb0fakesup.Clone()
     f1b0.add(mfakes)
     f1b0.add(mttb0fakesup, -1)
     f1b0 = positivize(f1b0)
-    f1b0 = f1b0.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_EB_DM0_13TeVUp', binning)
+    f1b0 = f1b0.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_dm0_B_13TeVUp', binning)
     f2b0 = tb0fakesdown.Clone()
     f2b0.add(mfakes)
     f2b0.add(mttb0fakesdown, -1)
     f2b0 = positivize(f2b0)
-    f2b0 = f2b0.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_EB_DM0_13TeVDown', binning)
+    f2b0 = f2b0.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_dm0_B_13TeVDown', binning)
     f1b1 = tb1fakesup.Clone()
     f1b1.add(mfakes)
     f1b1.add(mttb1fakesup, -1)
     f1b1 = positivize(f1b1)
-    f1b1 = f1b1.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_EB_DM1_13TeVUp', binning)
+    f1b1 = f1b1.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_dm1_B_13TeVUp', binning)
     f2b1 = tb1fakesdown.Clone()
     f2b1.add(mfakes)
     f2b1.add(mttb1fakesdown, -1)
     f2b1 = positivize(f2b1)
-    f2b1 = f2b1.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_EB_DM1_13TeVDown', binning)
+    f2b1 = f2b1.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_dm1_B_13TeVDown', binning)
     f1b10 = tb10fakesup.Clone()
     f1b10.add(mfakes)
     f1b10.add(mttb10fakesup, -1)
     f1b10 = positivize(f1b10)
-    f1b10 = f1b10.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_EB_DM10_13TeVUp', binning)
+    f1b10 = f1b10.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_dm10_B_13TeVUp', binning)
     f2b10 = tb10fakesdown.Clone()
     f2b10.add(mfakes)
     f2b10.add(mttb10fakesdown, -1)
     f2b10 = positivize(f2b10)
-    f2b10 = f2b10.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_EB_DM10_13TeVDown', binning)
+    f2b10 = f2b10.Rebin(len(binning)-1, 'Fakes_CMS_TauFakeRate_dm10_B_13TeVDown', binning)
     f3 = tfakes.Clone()
     f3.add(mfakesup)
     f3.add(mtmfakesup, -1)
@@ -465,70 +455,102 @@ for di in dirs:
     mtmfakesup.Delete()
     mtmfakesdown.Delete()
 
-    for i in range(10):
+    for i in range(12):
         DY = v[i]
-        if b[i]=='GluGlu125' or b[i]=='VBF125':
+        if b[i]=='LFVGG125' or b[i]=='LFVVBF125':
             dy = DY.Get('TightOS'+di+'/bdtDiscriminator')
+            dy = positivize(dy)
             dy = dy.Rebin(len(binning)-1, b[i], binning)
 
+            #Pileup
             dypuup = DY.Get('TightOS'+di+'/puUp/bdtDiscriminator')
+            dypuup = positivize(dypuup)
             dypuup = dypuup.Rebin(len(binning)-1, b[i]+'_CMS_Pileup_13TeVUp', binning)
             dypudown = DY.Get('TightOS'+di+'/puDown/bdtDiscriminator')
+            dypudown = positivize(dypudown)
             dypudown = dypudown.Rebin(len(binning)-1, b[i]+'_CMS_Pileup_13TeVDown', binning)
 
+            #Prefiring
             dypfup = DY.Get('TightOS'+di+'/pfUp/bdtDiscriminator')
+            dypfup = positivize(dypfup)
             dypfup = dypfup.Rebin(len(binning)-1, b[i]+'_CMS_Prefiring_13TeVUp', binning)
             dypfdown = DY.Get('TightOS'+di+'/pfDown/bdtDiscriminator')
+            dypfdown = positivize(dypfdown)
             dypfdown = dypfdown.Rebin(len(binning)-1, b[i]+'_CMS_Prefiring_13TeVDown', binning)
 
+            #Tau Identification Uncertainty
             dytidup = DY.Get('TightOS'+di+'/tidUp/bdtDiscriminator')
+            dytidup = positivize(dytidup)
             dytidup = dytidup.Rebin(len(binning)-1, b[i]+'_CMS_eff_tauUp', binning)
             dytiddown = DY.Get('TightOS'+di+'/tidDown/bdtDiscriminator')
+            dytiddown = positivize(dytiddown)
             dytiddown = dytiddown.Rebin(len(binning)-1, b[i]+'_CMS_eff_tauDown', binning)
 
+            #Recoil Uncertainties
             dyrecrespup = DY.Get('TightOS'+di+'/recrespUp/bdtDiscriminator')
+            dyrecrespup = positivize(dyrecrespup)
             dyrecrespup = dyrecrespup.Rebin(len(binning)-1, b[i]+'_CMS_RecoilResponse_13TeVUp', binning)
             dyrecrespdown = DY.Get('TightOS'+di+'/recrespDown/bdtDiscriminator')
+            dyrecrespdown = positivize(dyrecrespdown)
             dyrecrespdown = dyrecrespdown.Rebin(len(binning)-1, b[i]+'_CMS_RecoilResponse_13TeVDown', binning)
 
             dyrecresoup = DY.Get('TightOS'+di+'/recresoUp/bdtDiscriminator')
+            dyrecresoup = positivize(dyrecresoup)
             dyrecresoup = dyrecresoup.Rebin(len(binning)-1, b[i]+'_CMS_RecoilResolution_13TeVUp', binning)
             dyrecresodown = DY.Get('TightOS'+di+'/recresoDown/bdtDiscriminator')
+            dyrecresodown = positivize(dyrecresodown)
             dyrecresodown = dyrecresodown.Rebin(len(binning)-1, b[i]+'_CMS_RecoilResolution_13TeVDown', binning)
 
+            #Lepton Faking Tau
             dymtfakeup = DY.Get('TightOS'+di+'/mtfakeUp/bdtDiscriminator')
+            dymtfakeup = positivize(dymtfakeup)
             dymtfakeup = dymtfakeup.Rebin(len(binning)-1, b[i]+'_CMS_scale_mfaketau_13TeVUp', binning)
             dymtfakedown = DY.Get('TightOS'+di+'/mtfakeDown/bdtDiscriminator')
+            dymtfakedown = positivize(dymtfakedown)
             dymtfakedown = dymtfakedown.Rebin(len(binning)-1, b[i]+'_CMS_scale_mfaketau_13TeVDown', binning)
 
             dyetfakeup = DY.Get('TightOS'+di+'/etfakeUp/bdtDiscriminator')
+            dyetfakeup = positivize(dyetfakeup)
             dyetfakeup = dyetfakeup.Rebin(len(binning)-1, b[i]+'_CMS_scale_efaketau_13TeVUp', binning)
             dyetfakedown = DY.Get('TightOS'+di+'/etfakeDown/bdtDiscriminator')
+            dyetfakedown = positivize(dyetfakedown)
             dyetfakedown = dyetfakedown.Rebin(len(binning)-1, b[i]+'_CMS_scale_efaketau_13TeVDown', binning)
 
             dyetefakeup = DY.Get('TightOS'+di+'/etefakeUp/bdtDiscriminator')
+            dyetefakeup = positivize(dyetefakeup)
             dyetefakeup = dyetefakeup.Rebin(len(binning)-1, b[i]+'_CMS_scale_efaketaues_13TeVUp', binning)
             dyetefakedown = DY.Get('TightOS'+di+'/etefakeDown/bdtDiscriminator')
+            dyetefakedown = positivize(dyetefakedown)
             dyetefakedown = dyetefakedown.Rebin(len(binning)-1, b[i]+'_CMS_scale_efaketaues_13TeVDown', binning)
 
+            #Tau Energy Scale
             dytes0up = DY.Get('TightOS'+di+'/scaletDM0Up/bdtDiscriminator')
+            dytes0up = positivize(dytes0up)
             dytes0up = dytes0up.Rebin(len(binning)-1, b[i]+'_CMS_scale_t_1prong_13TeVUp', binning)
             dytes0down = DY.Get('TightOS'+di+'/scaletDM0Down/bdtDiscriminator')
+            dytes0down = positivize(dytes0down)
             dytes0down = dytes0down.Rebin(len(binning)-1, b[i]+'_CMS_scale_t_1prong_13TeVDown', binning)
 
             dytes1up = DY.Get('TightOS'+di+'/scaletDM1Up/bdtDiscriminator')
+            dytes1up = positivize(dytes1up)
             dytes1up = dytes1up.Rebin(len(binning)-1, b[i]+'_CMS_scale_t_1prong1pizero_13TeVUp', binning)
             dytes1down = DY.Get('TightOS'+di+'/scaletDM1Down/bdtDiscriminator')
+            dytes1down = positivize(dytes1down)
             dytes1down = dytes1down.Rebin(len(binning)-1, b[i]+'_CMS_scale_t_1prong1pizero_13TeVDown', binning)
 
             dytes10up = DY.Get('TightOS'+di+'/scaletDM10Up/bdtDiscriminator')
+            dytes10up = positivize(dytes10up)
             dytes10up = dytes10up.Rebin(len(binning)-1, b[i]+'_CMS_scale_t_3prong_13TeVUp', binning)
             dytes10down = DY.Get('TightOS'+di+'/scaletDM10Down/bdtDiscriminator')
+            dytes10down = positivize(dytes10down)
             dytes10down = dytes10down.Rebin(len(binning)-1, b[i]+'_CMS_scale_t_3prong_13TeVDown', binning)
 
+            #Muon Energy Scale
             dymesup = DY.Get('TightOS'+di+'/mesUp/bdtDiscriminator')
+            dymesup = positivize(dymesup)
             dymesup = dymesup.Rebin(len(binning)-1, b[i]+'_CMS_MES_13TeVUp', binning)
             dymesdown = DY.Get('TightOS'+di+'/mesDown/bdtDiscriminator')
+            dymesdown = positivize(dymesdown)
             dymesdown = dymesdown.Rebin(len(binning)-1, b[i]+'_CMS_MES_13TeVDown', binning)
 
         else:
@@ -544,6 +566,7 @@ for di in dirs:
             dy = positivize(dyall)
             dy = dy.Rebin(len(binning)-1, b[i], binning)
 
+            #Pileup
             dypuup = DY.Get('TightOS'+di+'/puUp/bdtDiscriminator')
             dypuup.Add(dyfakes, -1)
             dypuup = positivize(dypuup)
@@ -553,6 +576,7 @@ for di in dirs:
             dypudown = positivize(dypudown)
             dypudown = dypudown.Rebin(len(binning)-1, b[i]+'_CMS_Pileup_13TeVDown', binning)
 
+            #Prefiring
             dypfup = DY.Get('TightOS'+di+'/pfUp/bdtDiscriminator')
             dypfup.Add(dyfakes, -1)
             dypfup = positivize(dypfup)
@@ -562,6 +586,7 @@ for di in dirs:
             dypfdown = positivize(dypfdown)
             dypfdown = dypfdown.Rebin(len(binning)-1, b[i]+'_CMS_Prefiring_13TeVDown', binning)
 
+            #Tau Identification Uncertainty
             dytidup = DY.Get('TightOS'+di+'/tidUp/bdtDiscriminator')
             dytidup.Add(dyfakes, -1)
             dytidup = positivize(dytidup)
@@ -571,7 +596,8 @@ for di in dirs:
             dytiddown = positivize(dytiddown)
             dytiddown = dytiddown.Rebin(len(binning)-1, b[i]+'_CMS_eff_tauDown', binning)
 
-            if b[i]=='Zll' or b[i]=='GluGluH' or b[i]=='VBFH' or b[i]=='EWK':
+            #Recoil Uncertainty
+            if b[i]=='Zothers' or b[i]=='ggH_htt' or b[i]=='qqH_htt' or b[i]=='ggH_hww' or b[i]=='qqH_hww' or b[i]=='EWK':
                 dyrecrespup = DY.Get('TightOS'+di+'/recrespUp/bdtDiscriminator')
                 dyrecrespup.Add(dyfakes, -1)
                 dyrecrespup = positivize(dyrecrespup)
@@ -590,7 +616,8 @@ for di in dirs:
                 dyrecresodown = positivize(dyrecresodown)
                 dyrecresodown = dyrecresodown.Rebin(len(binning)-1, b[i]+'_CMS_RecoilResolution_13TeVDown', binning)
 
-            if b[i]=='Zll':
+            #DY pT Reweighting
+            if b[i]=='Zothers':
                 dyptup = DY.Get('TightOS'+di+'/DYptreweightUp/bdtDiscriminator')
                 dyptup.Add(dyfakes, -1)
                 dyptup = positivize(dyptup)
@@ -600,26 +627,28 @@ for di in dirs:
                 dyptdown = positivize(dyptdown)
                 dyptdown = dyptdown.Rebin(len(binning)-1, b[i]+'_CMS_DYpTreweight_13TeVDown', binning)
 
-            if b[i]=='TT' or b[i]=='ST':
-                dybtagup = DY.Get('TightOS'+di+'/bTagUp/bdtDiscriminator')
-                dybtagup.Add(dyfakes, -1)
-                dybtagup = positivize(dybtagup)
-                dybtagup = dybtagup.Rebin(len(binning)-1, b[i]+'_CMS_eff_btag_13TeVUp', binning)
-                dybtagdown = DY.Get('TightOS'+di+'/bTagDown/bdtDiscriminator')
-                dybtagdown.Add(dyfakes, -1)
-                dybtagdown = positivize(dybtagdown)
-                dybtagdown = dybtagdown.Rebin(len(binning)-1, b[i]+'_CMS_eff_btag_13TeVDown', binning)
-
+            #Top pT Reweighting
             if b[i]=='TT':
                 dytptup = DY.Get('TightOS'+di+'/TopptreweightUp/bdtDiscriminator')
                 dytptup.Add(dyfakes, -1)
                 dytptup = positivize(dytptup)
-                dytptup = dytptup.Rebin(len(binning)-1, b[i]+'_CMS_ToppTreweight_13TeVUp', binning)
+                dytptup = dytptup.Rebin(len(binning)-1, b[i]+'_CMS_TTpTreweight_13TeVUp', binning)
                 dytptdown = DY.Get('TightOS'+di+'/TopptreweightDown/bdtDiscriminator')
                 dytptdown.Add(dyfakes, -1)
                 dytptdown = positivize(dytptdown)
-                dytptdown = dytptdown.Rebin(len(binning)-1, b[i]+'_CMS_ToppTreweight_13TeVDown', binning)
+                dytptdown = dytptdown.Rebin(len(binning)-1, b[i]+'_CMS_TTpTreweight_13TeVDown', binning)
 
+            #b-tagging Uncertainty
+            dybtagup = DY.Get('TightOS'+di+'/bTagUp/bdtDiscriminator')
+            dybtagup.Add(dyfakes, -1)
+            dybtagup = positivize(dybtagup)
+            dybtagup = dybtagup.Rebin(len(binning)-1, b[i]+'_CMS_eff_btag_13TeVUp', binning)
+            dybtagdown = DY.Get('TightOS'+di+'/bTagDown/bdtDiscriminator')
+            dybtagdown.Add(dyfakes, -1)
+            dybtagdown = positivize(dybtagdown)
+            dybtagdown = dybtagdown.Rebin(len(binning)-1, b[i]+'_CMS_eff_btag_13TeVDown', binning)
+
+            #Lepton Faking Tau
             dymtfakeup = DY.Get('TightOS'+di+'/mtfakeUp/bdtDiscriminator')
             dymtfakeup.Add(dyfakes, -1)
             dymtfakeup = positivize(dymtfakeup)
@@ -647,6 +676,7 @@ for di in dirs:
             dyetefakedown = positivize(dyetefakedown)
             dyetefakedown = dyetefakedown.Rebin(len(binning)-1, b[i]+'_CMS_scale_efaketaues_13TeVDown', binning)
 
+            #Tau Energy Scale
             dytes0up = DY.Get('TightOS'+di+'/scaletDM0Up/bdtDiscriminator')
             dytes0up.Add(dyfakes, -1)
             dytes0up = positivize(dytes0up)
@@ -674,6 +704,7 @@ for di in dirs:
             dytes10down = positivize(dytes10down)
             dytes10down = dytes10down.Rebin(len(binning)-1, b[i]+'_CMS_scale_t_3prong_13TeVDown', binning)
 
+            #Muon Energy Scale
             dymesup = DY.Get('TightOS'+di+'/mesUp/bdtDiscriminator')
             dymesup.Add(dyfakes, -1)
             dymesup = positivize(dymesup)
@@ -683,7 +714,8 @@ for di in dirs:
             dymesdown = positivize(dymesdown)
             dymesdown = dymesdown.Rebin(len(binning)-1, b[i]+'_CMS_MES_13TeVDown', binning)
 
-            if b[i]=='VH' or b[i]=='TT' or b[i]=='ST' or b[i]=='EWKDiboson':
+            if b[i]=='vH_htt' or b[i]=='TT' or b[i]=='T' or b[i]=='Diboson':
+                #Unclustered Energy Scale
                 dyuesup = DY.Get('TightOS'+di+'/UnclusteredEnUp/bdtDiscriminator')
                 dyuesup.Add(dyfakes, -1)
                 dyuesup = positivize(dyuesup)
@@ -693,6 +725,7 @@ for di in dirs:
                 dyuesdown = positivize(dyuesdown)
                 dyuesdown = dyuesdown.Rebin(len(binning)-1, b[i]+'_CMS_MET_Ues_13TeVDown', binning)
 
+                #Jet Energy Scale
                 dyjetAFMup = DY.Get('TightOS'+di+'/JetAbsoluteFlavMapUp/bdtDiscriminator')
                 dyjetAFMup.Add(dyfakes, -1)
                 dyjetAFMup = positivize(dyjetAFMup)
@@ -981,7 +1014,7 @@ for di in dirs:
             dy1te0 = positivize(dy1te0)
             dy1e0.add(dy1te0, -1)
             dy1e0 = positivize(dy1e0)
-            dy1e0 = dy1e0.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_EE_DM0_13TeVUp', binning)
+            dy1e0 = dy1e0.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_dm0_E_13TeVUp', binning)
             dy2e0 = dyall.Clone()
             dy2te0 = dyte0fakesdown.Clone()
             dy2te0.add(dymfakes)
@@ -989,7 +1022,7 @@ for di in dirs:
             dy2te0 = positivize(dy2te0)
             dy2e0.add(dy2te0, -1)
             dy2e0 = positivize(dy2e0)
-            dy2e0 = dy2e0.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_EE_DM0_13TeVDown', binning)
+            dy2e0 = dy2e0.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_dm0_E_13TeVDown', binning)
             dy1e1 = dyall.Clone()
             dy1te1 = dyte1fakesup.Clone()
             dy1te1.add(dymfakes)
@@ -997,7 +1030,7 @@ for di in dirs:
             dy1te1 = positivize(dy1te1)
             dy1e1.add(dy1te1, -1)
             dy1e1 = positivize(dy1e1)
-            dy1e1 = dy1e1.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_EE_DM1_13TeVUp', binning)
+            dy1e1 = dy1e1.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_dm1_E_13TeVUp', binning)
             dy2e1 = dyall.Clone()
             dy2te1 = dyte1fakesdown.Clone()
             dy2te1.add(dymfakes)
@@ -1005,7 +1038,7 @@ for di in dirs:
             dy2te1 = positivize(dy2te1)
             dy2e1.add(dy2te1, -1)
             dy2e1 = positivize(dy2e1)
-            dy2e1 = dy2e1.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_EE_DM1_13TeVDown', binning)
+            dy2e1 = dy2e1.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_dm1_E_13TeVDown', binning)
             dy1e10 = dyall.Clone()
             dy1te10 = dyte10fakesup.Clone()
             dy1te10.add(dymfakes)
@@ -1013,7 +1046,7 @@ for di in dirs:
             dy1te10 = positivize(dy1te10)
             dy1e10.add(dy1te10, -1)
             dy1e10 = positivize(dy1e10)
-            dy1e10 = dy1e10.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_EE_DM10_13TeVUp', binning)
+            dy1e10 = dy1e10.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_dm10_E_13TeVUp', binning)
             dy2e10 = dyall.Clone()
             dy2te10 = dyte10fakesdown.Clone()
             dy2te10.add(dymfakes)
@@ -1021,7 +1054,7 @@ for di in dirs:
             dy2te10 = positivize(dy2te10)
             dy2e10.add(dy2te10, -1)
             dy2e10 = positivize(dy2e10)
-            dy2e10 = dy2e10.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_EE_DM10_13TeVDown', binning)
+            dy2e10 = dy2e10.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_dm10_E_13TeVDown', binning)
             dy1b0 = dyall.Clone()
             dy1tb0 = dytb0fakesup.Clone()
             dy1tb0.add(dymfakes)
@@ -1029,7 +1062,7 @@ for di in dirs:
             dy1tb0 = positivize(dy1tb0)
             dy1b0.add(dy1tb0, -1)
             dy1b0 = positivize(dy1b0)
-            dy1b0 = dy1b0.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_EB_DM0_13TeVUp', binning)
+            dy1b0 = dy1b0.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_dm0_B_13TeVUp', binning)
             dy2b0 = dyall.Clone()
             dy2tb0 = dytb0fakesdown.Clone()
             dy2tb0.add(dymfakes)
@@ -1037,7 +1070,7 @@ for di in dirs:
             dy2tb0 = positivize(dy2tb0)
             dy2b0.add(dy2tb0, -1)
             dy2b0 = positivize(dy2b0)
-            dy2b0 = dy2b0.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_EB_DM0_13TeVDown', binning)
+            dy2b0 = dy2b0.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_dm0_B_13TeVDown', binning)
             dy1b1 = dyall.Clone()
             dy1tb1 = dytb1fakesup.Clone()
             dy1tb1.add(dymfakes)
@@ -1045,7 +1078,7 @@ for di in dirs:
             dy1tb1 = positivize(dy1tb1)
             dy1b1.add(dy1tb1, -1)
             dy1b1 = positivize(dy1b1)
-            dy1b1 = dy1b1.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_EB_DM1_13TeVUp', binning)
+            dy1b1 = dy1b1.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_dm1_B_13TeVUp', binning)
             dy2b1 = dyall.Clone()
             dy2tb1 = dytb1fakesdown.Clone()
             dy2tb1.add(dymfakes)
@@ -1053,7 +1086,7 @@ for di in dirs:
             dy2tb1 = positivize(dy2tb1)
             dy2b1.add(dy2tb1, -1)
             dy2b1 = positivize(dy2b1)
-            dy2b1 = dy2b1.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_EB_DM1_13TeVDown', binning)
+            dy2b1 = dy2b1.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_dm1_B_13TeVDown', binning)
             dy1b10 = dyall.Clone()
             dy1tb10 = dytb10fakesup.Clone()
             dy1tb10.add(dymfakes)
@@ -1061,7 +1094,7 @@ for di in dirs:
             dy1tb10 = positivize(dy1tb10)
             dy1b10.add(dy1tb10, -1)
             dy1b10 = positivize(dy1b10)
-            dy1b10 = dy1b10.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_EB_DM10_13TeVUp', binning)
+            dy1b10 = dy1b10.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_dm10_B_13TeVUp', binning)
             dy2b10 = dyall.Clone()
             dy2tb10 = dytb10fakesdown.Clone()
             dy2tb10.add(dymfakes)
@@ -1069,7 +1102,7 @@ for di in dirs:
             dy2tb10 = positivize(dy2tb10)
             dy2b10.add(dy2tb10, -1)
             dy2b10 = positivize(dy2b10)
-            dy2b10 = dy2b10.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_EB_DM10_13TeVDown', binning)
+            dy2b10 = dy2b10.Rebin(len(binning)-1, b[i]+'_CMS_TauFakeRate_dm10_B_13TeVDown', binning)
             dy3 = dyall.Clone()
             dy3t = dytfakes.Clone()
             dy3t.add(dymfakesup)
@@ -1175,7 +1208,7 @@ for di in dirs:
             embtes1down.Delete()
             embtes10up.Delete()
             embtes10down.Delete()
-        if b[i]=='GluGlu125' or b[i]=='VBF125':
+        if b[i]=='LFVGG125' or b[i]=='LFVVBF125':
             dy.Delete()
             dypuup.Delete()
             dypudown.Delete()
@@ -1209,20 +1242,19 @@ for di in dirs:
             dypfdown.Delete()
             dytidup.Delete()
             dytiddown.Delete()
-            if b[i]=='Zll' or b[i]=='GluGluH' or b[i]=='VBFH' or b[i]=='EWK':
+            if b[i]=='Zothers' or b[i]=='ggH_htt' or b[i]=='qqH_htt' or b[i]=='ggH_hww' or b[i]=='qqH_hww' or b[i]=='EWK':
                 dyrecrespup.Delete()
                 dyrecrespdown.Delete()
                 dyrecresoup.Delete()
                 dyrecresodown.Delete()
-            if b[i]=='Zll':
+            if b[i]=='Zothers':
                 dyptup.Delete()
                 dyptdown.Delete()
-            if b[i]=='TT' or b[i]=='ST':
-                dybtagup.Delete()
-                dybtagdown.Delete()
             if b[i]=='TT':
                 dytptup.Delete()
                 dytptdown.Delete()
+            dybtagup.Delete()
+            dybtagdown.Delete()
             dymtfakeup.Delete()
             dymtfakedown.Delete()
             dyetfakeup.Delete()
@@ -1237,7 +1269,7 @@ for di in dirs:
             dytes10down.Delete()
             dymesup.Delete()
             dymesdown.Delete()
-            if b[i]=='VH' or b[i]=='TT' or b[i]=='ST' or b[i]=='EWKDiboson':
+            if b[i]=='vH_htt' or b[i]=='TT' or b[i]=='T' or b[i]=='Diboson':
                 dyuesup.Delete()
                 dyuesdown.Delete()
                 dyjetAFMup.Delete()
