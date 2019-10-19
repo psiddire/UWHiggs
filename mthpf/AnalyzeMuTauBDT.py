@@ -68,15 +68,15 @@ class AnalyzeMuTauBDT(MegaBase):
     self.topPtreweight = Kinematics.topPtreweight
     self.invert_case = Kinematics.invert_case
 
-    self.branches="mPt/F:tPt/F:dPhiMuTau/F:dEtaMuTau/F:type1_pfMetEt/F:m_t_collinearMass/F:MTTauMET/F:dPhiTauMET/F:dPhiMuMET/F:m_t_visibleMass/F:m_t_PZeta/F:MTMuMET/F:njets/I:vbfMass/F:weight/F"
+    self.branches='mPt/F:tPt/F:dPhiMuTau/F:dEtaMuTau/F:type1_pfMetEt/F:m_t_collinearMass/F:MTTauMET/F:dPhiTauMET/F:dPhiMuMET/F:m_t_visibleMass/F:m_t_PZeta/F:MTMuMET/F:njets/I:vbfMass/F:weight/F'
 
     self.holders = []
     if self.is_GluGlu or self.is_VBF:
-      self.name="TreeS"
-      self.title="TreeS"
+      self.name='TreeS'
+      self.title='TreeS'
     else:
-      self.name="TreeB"
-      self.title="TreeB"
+      self.name='TreeB'
+      self.title='TreeB'
 
     super(AnalyzeMuTauBDT, self).__init__(tree, outfile, **kwargs)
     self.tree = MuTauTree.MuTauTree(tree)
@@ -129,7 +129,7 @@ class AnalyzeMuTauBDT(MegaBase):
 
 
   def obj2_loose(self, row):
-    return bool(row.tRerunMVArun2v2DBoldDMwLTLoose > 0.5)
+    return bool(row.tRerunMVArun2v2DBoldDMwLTVLoose > 0.5)
 
 
   def dimuonveto(self, row):
@@ -144,7 +144,7 @@ class AnalyzeMuTauBDT(MegaBase):
         varname, vartype = tuple(name.split('/'))
       except:
         raise ValueError('Problem parsing %s' % name)
-      inverted_type = self.invert_case(vartype.rsplit("_", 1)[0])
+      inverted_type = self.invert_case(vartype.rsplit('_', 1)[0])
       self.holders.append((varname, array.array(inverted_type, [0])))
     for name, varinfo in zip(branch_names, self.holders):
       varname, holder = varinfo
@@ -153,35 +153,35 @@ class AnalyzeMuTauBDT(MegaBase):
 
   def filltree(self, row, myMuon, myMET, myTau, njets, weight):
     for varname, holder in self.holders:
-      if varname=="mPt":
+      if varname=='mPt':
         holder[0] = myMuon.Pt()
-      elif varname=="tPt":
+      elif varname=='tPt':
         holder[0] = myTau.Pt()
-      elif varname=="dPhiMuTau":
+      elif varname=='dPhiMuTau':
         holder[0] = self.deltaPhi(myMuon.Phi(), myTau.Phi())
-      elif varname=="dEtaMuTau":
+      elif varname=='dEtaMuTau':
         holder[0] = self.deltaPhi(myMuon.Eta(), myTau.Eta())
-      elif varname=="type1_pfMetEt":
+      elif varname=='type1_pfMetEt':
         holder[0] = myMET.Et()
-      elif varname=="m_t_collinearMass":
+      elif varname=='m_t_collinearMass':
         holder[0] = self.collMass(myMuon, myMET, myTau)
-      elif varname=="MTTauMET":
+      elif varname=='MTTauMET':
         holder[0] = self.transverseMass(myTau, myMET)
-      elif varname=="dPhiTauMET":
+      elif varname=='dPhiTauMET':
         holder[0] = self.deltaPhi(myTau.Phi(), myMET.Phi())
-      elif varname=="dPhiMuMET":
+      elif varname=='dPhiMuMET':
         holder[0] = self.deltaPhi(myMuon.Phi(), myMET.Phi())
-      elif varname=="m_t_visibleMass":
+      elif varname=='m_t_visibleMass':
         holder[0] = self.visibleMass(myMuon, myTau)
-      elif varname=="m_t_PZeta":
+      elif varname=='m_t_PZeta':
         holder[0] = row.m_t_PZeta
-      elif varname=="MTMuMET":
+      elif varname=='MTMuMET':
         holder[0] = self.transverseMass(myMuon, myMET)
-      elif varname=="njets":
+      elif varname=='njets':
         holder[0] = int(njets)
-      elif varname=="vbfMass":
+      elif varname=='vbfMass':
         holder[0] = row.vbfMassWoNoisyJets
-      elif varname=="weight":
+      elif varname=='weight':
         holder[0] = weight
     self.tree1.Fill()
 
@@ -293,10 +293,10 @@ class AnalyzeMuTauBDT(MegaBase):
           mIso = self.muonLooseIsoTightID(myMuon.Pt(), abs(myMuon.Eta()))
         mcSF = self.rc.kSpreadMC(row.mCharge, myMuon.Pt(), myMuon.Eta(), myMuon.Phi(), row.mGenPt, 0, 0)
         weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*mID*mTrk*mIso*mcSF*row.prefiring_weight
-        self.w2.var("m_pt").setVal(myMuon.Pt())
-        self.w2.var("m_eta").setVal(myMuon.Eta())
+        self.w2.var('m_pt').setVal(myMuon.Pt())
+        self.w2.var('m_eta').setVal(myMuon.Eta())
         if trigger24 or trigger27:
-          tEff = 0 if self.w2.function("m_trg24_27_kit_mc").getVal()==0 else self.w2.function("m_trg24_27_kit_data").getVal()/self.w2.function("m_trg24_27_kit_mc").getVal()
+          tEff = 0 if self.w2.function('m_trg24_27_kit_mc').getVal()==0 else self.w2.function('m_trg24_27_kit_data').getVal()/self.w2.function('m_trg24_27_kit_mc').getVal()
           weight = weight*tEff
         if row.tZTTGenMatching==2 or row.tZTTGenMatching==4:
           if abs(myTau.Eta()) < 0.4:
@@ -317,9 +317,9 @@ class AnalyzeMuTauBDT(MegaBase):
         elif row.tZTTGenMatching==5:
           weight = weight*0.89
         if self.is_DY:
-          self.w2.var("z_gen_mass").setVal(row.genMass)
-          self.w2.var("z_gen_pt").setVal(row.genpT)
-          dyweight = self.w2.function("zptmass_weight_nom").getVal()
+          self.w2.var('z_gen_mass').setVal(row.genMass)
+          self.w2.var('z_gen_pt').setVal(row.genpT)
+          dyweight = self.w2.function('zptmass_weight_nom').getVal()
           weight = weight*dyweight
           if row.numGenJets < 5:
             weight = weight*self.DYweight[row.numGenJets]

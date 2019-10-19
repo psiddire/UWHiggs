@@ -4,7 +4,7 @@ Run LFV H->ETau analysis in the e+tau_h channel.
 
 Authors: Prasanna Siddireddy
 
-'''  
+'''
 
 import ETauTree
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
@@ -43,7 +43,7 @@ class AnalyzeETauSysBDT(MegaBase):
 
     self.eReco = mcCorrections.eReco
     self.fakeRate = mcCorrections.fakerate_weight
-    self.fakeRateEle = mcCorrections.fakerateElectron_weight
+    self.fakeRateEle = mcCorrections.fakerateEle_weight
     self.w1 = mcCorrections.w1
     self.w2 = mcCorrections.w2
     self.w3 = mcCorrections.w3
@@ -61,10 +61,20 @@ class AnalyzeETauSysBDT(MegaBase):
     self.collMass = Kinematics.collMass
     self.transverseMass = Kinematics.transverseMass
     self.topPtreweight = Kinematics.topPtreweight
+
+    self.names = Kinematics.names
+    self.loosenames = Kinematics.loosenames
     self.jes = Kinematics.jes
+    self.fakes = Kinematics.fakes
+    self.sys = Kinematics.sys
+    self.fakeSys = Kinematics.fakeSys
+    self.fakeEleSys = Kinematics.fakeEleSys
+    self.scaleSys = Kinematics.scaleSys
 
     self.var_d_star =['ePt', 'tPt', 'dPhiETau', 'dEtaETau', 'e_t_collinearMass', 'e_t_visibleMass', 'MTTauMET', 'dPhiTauMET', 'njets', 'vbfMass']
-    self.xml_name = os.path.join(os.getcwd(), "bdtdata/dataset/weights/TMVAClassification_BDT.weights.xml")
+    #self.xml_name = os.path.join(os.getcwd(), 'bdtdata/datasetCatF/weights/TMVAClassification_BDTCat.weights.xml')
+    self.xml_name = os.path.join(os.getcwd(), 'bdtdata/dataset/weights/TMVAClassification_BDT.weights.xml')
+    #self.functor = FunctorFromMVACat('BDTCat method', self.xml_name, *self.var_d_star)
     self.functor = FunctorFromMVACat('BDT method', self.xml_name, *self.var_d_star)
 
     super(AnalyzeETauSysBDT, self).__init__(tree, outfile, **kwargs)
@@ -80,7 +90,7 @@ class AnalyzeETauSysBDT(MegaBase):
 
 
   def kinematics(self, row):
-    if row.ePt < 25 or abs(row.eEta) >= 2.1:
+    if row.ePt < 26 or abs(row.eEta) >= 2.1:
       return False
     if row.tPt < 30 or abs(row.tEta) >= 2.3:
       return False
@@ -118,7 +128,7 @@ class AnalyzeETauSysBDT(MegaBase):
 
 
   def obj2_loose(self, row):
-    return bool(row.tRerunMVArun2v2DBoldDMwLTLoose > 0.5)
+    return bool(row.tRerunMVArun2v2DBoldDMwLTVLoose > 0.5)
 
 
   def dieleveto(self, row):
@@ -131,20 +141,14 @@ class AnalyzeETauSysBDT(MegaBase):
 
   def begin(self):
     folder = []
-    vbffolder = []
-    names = ['TightOS', 'TightOS0Jet', 'TightOS1Jet', 'TightOS2Jet', 'TightOS2JetVBF']
-    loosenames = ['TauLooseOS', 'EleLooseOS', 'EleLooseTauLooseOS', 'TauLooseOS0Jet', 'EleLooseOS0Jet', 'EleLooseTauLooseOS0Jet', 'TauLooseOS1Jet', 'EleLooseOS1Jet', 'EleLooseTauLooseOS1Jet', 'TauLooseOS2Jet', 'EleLooseOS2Jet', 'EleLooseTauLooseOS2Jet', 'TauLooseOS2JetVBF', 'EleLooseOS2JetVBF', 'EleLooseTauLooseOS2JetVBF']
-    sys = ['', 'puUp', 'puDown', 'trUp', 'trDown', 'tidUp', 'tidDown', 'recrespUp', 'recrespDown', 'recresoUp', 'recresoDown', 'embtrUp', 'embtrDown', 'embtrkUp', 'embtrkDown', 'mtfakeUp', 'mtfakeDown', 'etfakeUp', 'etfakeDown', 'etefakeUp', 'etefakeDown', 'scaletDM0Up', 'scaletDM0Down', 'scaletDM1Up', 'scaletDM1Down', 'scaletDM10Up', 'scaletDM10Down', 'eescUp', 'eescDown', 'eesiUp', 'eesiDown', 'DYptreweightUp', 'DYptreweightDown', 'UnclusteredEnDown', 'UnclusteredEnUp', 'TopptreweightUp', 'TopptreweightDown', 'pfUp', 'pfDown']
-    fakes = ['', 'EleFakeUp', 'EleFakeDown', 'TauFakeEBDM0Up', 'TauFakeEBDM0Down', 'TauFakeEBDM1Up', 'TauFakeEBDM1Down', 'TauFakeEBDM10Up', 'TauFakeEBDM10Down', 'TauFakeEEDM0Up', 'TauFakeEEDM0Down', 'TauFakeEEDM1Up', 'TauFakeEEDM1Down', 'TauFakeEEDM10Up', 'TauFakeEEDM10Down']
-
-    for tuple_path in itertools.product(names, sys):
+    for tuple_path in itertools.product(self.names, self.sys):
       folder.append(os.path.join(*tuple_path))
-    for tuple_path_jes in itertools.product(names, self.jes):
+    for tuple_path_jes in itertools.product(self.names, self.jes):
       folder.append(os.path.join(*tuple_path_jes))
-    for tuple_path_fakes in itertools.product(loosenames, fakes):
+    for tuple_path_fakes in itertools.product(self.loosenames, self.fakes):
       folder.append(os.path.join(*tuple_path_fakes))
     for f in folder:
-      self.book(f, "bdtDiscriminator", "BDT Discriminator", 200, -1.0, 1.0)
+      self.book(f, 'bdtDiscriminator', 'BDT Discriminator', 200, -1.0, 1.0)
 
 
   def fill_histos(self, myEle, myMET, myTau,  njets, mjj, weight, name=''):
@@ -155,61 +159,57 @@ class AnalyzeETauSysBDT(MegaBase):
 
   def fill_categories(self, row, myEle, myMET, myTau, njets, mjj, weight, name=''):
     if self.obj2_tight(row) and self.obj1_tight(row):
-      if self.oppositesign(row):
-        self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'TightOS'+name)
-        if njets==0:
-          self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'TightOS0Jet'+name)
-        elif njets==1:
-          self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'TightOS1Jet'+name)
-        elif njets==2 and mjj < 500:
-          self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'TightOS2Jet'+name)
-        elif njets==2 and mjj > 500:
-          self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'TightOS2JetVBF'+name)
+      self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'TightOS'+name)
+      if njets==0:
+        self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'TightOS0Jet'+name)
+      elif njets==1:
+        self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'TightOS1Jet'+name)
+      elif njets==2 and mjj < 500:
+        self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'TightOS2Jet'+name)
+      elif njets==2 and mjj > 500:
+        self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'TightOS2JetVBF'+name)
 
 
   def fill_loosecategories(self, row, myEle, myMET, myTau, njets, mjj, weight, name=''):
     if not self.obj2_tight(row) and self.obj2_loose(row) and self.obj1_tight(row):
       frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
       weight = weight*frTau
-      if self.oppositesign(row):
-        self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'TauLooseOS'+name)
-        if njets==0:
-          self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'TauLooseOS0Jet'+name)
-        elif njets==1:
-          self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'TauLooseOS1Jet'+name)
-        elif njets==2 and mjj < 500:
-          self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'TauLooseOS2Jet'+name)
-        elif njets==2 and mjj > 500:
-          self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'TauLooseOS2JetVBF'+name)
+      self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'TauLooseOS'+name)
+      if njets==0:
+        self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'TauLooseOS0Jet'+name)
+      elif njets==1:
+        self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'TauLooseOS1Jet'+name)
+      elif njets==2 and mjj < 500:
+        self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'TauLooseOS2Jet'+name)
+      elif njets==2 and mjj > 500:
+        self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'TauLooseOS2JetVBF'+name)
 
     if not self.obj1_tight(row) and self.obj1_loose(row) and self.obj2_tight(row):
-      frEle = self.fakeRateEle(myEle.Pt())
+      frEle = self.fakeRateEle(myEle.Pt(), myEle.Eta())
       weight = weight*frEle
-      if self.oppositesign(row):
-        self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'EleLooseOS'+name)
-        if njets==0:
-          self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'EleLooseOS0Jet'+name)
-        elif njets==1:
-          self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'EleLooseOS1Jet'+name)
-        elif njets==2 and mjj < 500:
-          self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'EleLooseOS2Jet'+name)
-        elif njets==2 and mjj > 500:
-          self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'EleLooseOS2JetVBF'+name)
+      self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'EleLooseOS'+name)
+      if njets==0:
+        self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'EleLooseOS0Jet'+name)
+      elif njets==1:
+        self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'EleLooseOS1Jet'+name)
+      elif njets==2 and mjj < 500:
+        self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'EleLooseOS2Jet'+name)
+      elif njets==2 and mjj > 500:
+        self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'EleLooseOS2JetVBF'+name)
 
     if not self.obj2_tight(row) and self.obj2_loose(row) and not self.obj1_tight(row) and self.obj1_loose(row):
       frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
-      frEle = self.fakeRateEle(myEle.Pt())
+      frEle = self.fakeRateEle(myEle.Pt(), myEle.Eta())
       weight = weight*frEle*frTau
-      if self.oppositesign(row):
-        self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'EleLooseTauLooseOS'+name)
-        if njets==0:
-          self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'EleLooseTauLooseOS0Jet'+name)
-        elif njets==1:
-          self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'EleLooseTauLooseOS1Jet'+name)
-        elif njets==2 and mjj < 500:
-          self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'EleLooseTauLooseOS2Jet'+name)
-        elif njets==2 and mjj > 500:
-          self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'EleLooseTauLooseOS2JetVBF'+name)
+      self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'EleLooseTauLooseOS'+name)
+      if njets==0:
+        self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'EleLooseTauLooseOS0Jet'+name)
+      elif njets==1:
+        self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'EleLooseTauLooseOS1Jet'+name)
+      elif njets==2 and mjj < 500:
+        self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'EleLooseTauLooseOS2Jet'+name)
+      elif njets==2 and mjj > 500:
+        self.fill_histos(myEle, myMET, myTau, njets, mjj, weight, 'EleLooseTauLooseOS2JetVBF'+name)
 
 
   def fill_sys(self, row, myEle, myMET, myTau, weight):
@@ -227,7 +227,7 @@ class AnalyzeETauSysBDT(MegaBase):
       if self.is_recoilC and MetCorrection:
         sysMet = self.Metcorected.CorrectByMeanResolution(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)))
         myMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
-        tmpMET.SetPtEtaPhiM(myMET.Pt(), 0, myMET.Phi(), 0) 
+        tmpMET.SetPtEtaPhiM(myMET.Pt(), 0, myMET.Phi(), 0)
         sysMet = self.MetSys.ApplyMEtSys(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)), 0, 0, 0)
         if sysMet!=None:
           tmpMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
@@ -328,7 +328,7 @@ class AnalyzeETauSysBDT(MegaBase):
       myMETpx = myMETpx - tmpEle.Px()
       myMETpy = myMETpy - tmpEle.Py()
       tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-      self.fill_categories(row, tmpEle, tmpMET, myTau, njets, mjj, weight, '/eescUp')
+      self.fill_categories(row, tmpEle, tmpMET, myTau, njets, mjj, weight, '/eesUp')
       myMETpx = myMET.Px() + myEle.Px()
       myMETpy = myMET.Py() + myEle.Py()
       tmpEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
@@ -336,32 +336,13 @@ class AnalyzeETauSysBDT(MegaBase):
       myMETpx = myMETpx - tmpEle.Px()
       myMETpy = myMETpy - tmpEle.Py()
       tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-      self.fill_categories(row, tmpEle, tmpMET, myTau, njets, mjj, weight, '/eescDown')
-
-      myMETpx = myMET.Px() + myEle.Px()
-      myMETpy = myMET.Py() + myEle.Py()
-      tmpEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
-      tmpEle = tmpEle * ROOT.Double(row.eEnergySigmaUp/row.eecalEnergy)
-      myMETpx = myMETpx - tmpEle.Px()
-      myMETpy = myMETpy - tmpEle.Py()
-      tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-      self.fill_categories(row, tmpEle, tmpMET, myTau, njets, mjj, weight, '/eesiUp')
-      myMETpx = myMET.Px() + myEle.Px()
-      myMETpy = myMET.Py() + myEle.Py()
-      tmpEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
-      tmpEle = tmpEle * ROOT.Double(row.eEnergySigmaDown/row.eecalEnergy)
-      myMETpx = myMETpx - tmpEle.Px()
-      myMETpy = myMETpy - tmpEle.Py()
-      tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-      self.fill_categories(row, tmpEle, tmpMET, myTau, njets, mjj, weight, '/eesiDown')
+      self.fill_categories(row, tmpEle, tmpMET, myTau, njets, mjj, weight, '/eesDown')
 
       if not self.is_DY:
         if row.tZTTGenMatching==5:
           if row.tDecayMode==0:
-            self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM1Up')
-            self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM1Down')
-            self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM10Up')
-            self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM10Down')
+            sSys = [x for x in self.scaleSys if x not in ['/scaletDM0Up', '/scaletDM0Down']]
+            self.fill_scaleSys(row, myEle, myMET, myTau, njets, mjj, weight, sSys)
             myMETpx = myMET.Px() - 0.008 * myTau.Px()
             myMETpy = myMET.Py() - 0.008 * myTau.Py()
             tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
@@ -370,13 +351,11 @@ class AnalyzeETauSysBDT(MegaBase):
             myMETpx = myMET.Px() + 0.008 * myTau.Px()
             myMETpy = myMET.Py() + 0.008 * myTau.Py()
             tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-            tmpTau = myTau * ROOT.Double(0.992) 
+            tmpTau = myTau * ROOT.Double(0.992)
             self.fill_categories(row, myEle, tmpMET, tmpTau, njets, mjj, weight, '/scaletDM0Down')
           elif row.tDecayMode==1:
-            self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM0Up')
-            self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM0Down')
-            self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM10Up')
-            self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM10Down')
+            sSys = [x for x in self.scaleSys if x not in ['/scaletDM1Up', '/scaletDM1Down']]
+            self.fill_scaleSys(row, myEle, myMET, myTau, njets, mjj, weight, sSys)
             myMETpx = myMET.Px() - 0.008 * myTau.Px()
             myMETpy = myMET.Py() - 0.008 * myTau.Py()
             tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
@@ -388,10 +367,8 @@ class AnalyzeETauSysBDT(MegaBase):
             tmpTau = myTau * ROOT.Double(0.992)
             self.fill_categories(row, myEle, tmpMET, tmpTau, njets, mjj, weight, '/scaletDM1Down')
           elif row.tDecayMode==10:
-            self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM1Up')
-            self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM1Down')
-            self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM0Up')
-            self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM0Down')
+            sSys = [x for x in self.scaleSys if x not in ['/scaletDM10Up', '/scaletDM10Down']]
+            self.fill_scaleSys(row, myEle, myMET, myTau, njets, mjj, weight, sSys)
             myMETpx = myMET.Px() - 0.009 * myTau.Px()
             myMETpy = myMET.Py() - 0.009 * myTau.Py()
             tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
@@ -400,27 +377,17 @@ class AnalyzeETauSysBDT(MegaBase):
             myMETpx = myMET.Px() + 0.009 * myTau.Px()
             myMETpy = myMET.Py() + 0.009 * myTau.Py()
             tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-            tmpTau = myTau * ROOT.Double(0.991) 
+            tmpTau = myTau * ROOT.Double(0.991)
             self.fill_categories(row, myEle, tmpMET, tmpTau, njets, mjj, weight, '/scaletDM10Down')
           else:
-            self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM0Up')
-            self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM0Down')
-            self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM1Up')
-            self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM1Down')
-            self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM10Up')
-            self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM10Down')
+            self.fill_scaleSys(row, myEle, myMET, myTau, njets, mjj, weight, self.scaleSys)
         else:
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM0Up')
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM0Down')
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM1Up')
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM1Down')
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM10Up')
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM10Down')
+          self.fill_scaleSys(row, myEle, myMET, myTau, njets, mjj, weight, self.scaleSys)
 
       if self.is_DY:
-        self.w2.var("z_gen_mass").setVal(row.genMass)
-        self.w2.var("z_gen_pt").setVal(row.genpT)
-        dyweight = self.w2.function("zptmass_weight_nom").getVal()
+        self.w2.var('z_gen_mass').setVal(row.genMass)
+        self.w2.var('z_gen_pt').setVal(row.genpT)
+        dyweight = self.w2.function('zptmass_weight_nom').getVal()
         self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight*1.1, '/DYptreweightUp')
         self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight*0.9, '/DYptreweightDown')
 
@@ -430,16 +397,7 @@ class AnalyzeETauSysBDT(MegaBase):
         self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight/topweight, '/TopptreweightDown')
 
       self.tauFRSys(row, myEle, myMET, myTau, njets, mjj, weight)
-      myrand = random.random()
-      if not self.obj1_tight(row) and self.obj1_loose(row):
-        if myrand < 0.5:
-          weightDown = 0 if self.fakeRateEle(myEle.Pt())==0 else self.fakeRateEle(myEle.Pt(), 'frDown') * weight/self.fakeRateEle(myEle.Pt())
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weightDown, '/EleFakeDown')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/EleFakeUp')
-        else:
-          weightUp = 0 if self.fakeRateEle(myEle.Pt())==0 else self.fakeRateEle(myEle.Pt(), 'frUp') * weight/self.fakeRateEle(myEle.Pt())
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weightUp, '/EleFakeUp')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/EleFakeDown')
+      self.eleFRSys(row, myEle, myMET, myTau, njets, mjj, weight)
 
       if not (self.is_recoilC and MetCorrection):
         tmpMET.SetPtEtaPhiM(row.type1_pfMet_shiftedPt_UnclusteredEnUp, 0, row.type1_pfMet_shiftedPhi_UnclusteredEnUp, 0)
@@ -455,22 +413,13 @@ class AnalyzeETauSysBDT(MegaBase):
           njets = getattr(row, 'jetVeto30WoNoisyJets_'+j)
           mjj = getattr(row, 'vbfMassWoNoisyJets_'+j)
           self.fill_categories(row, myEle, tmpMET, myTau, njets, mjj, weight, '/'+j)
-      
+
     else:
       self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '')
       self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '')
-      self.tauFRSys(row, myEle, myMET, myTau, njets, mjj, weight)
 
-      myrand = random.random()
-      if not self.obj1_tight(row) and self.obj1_loose(row):
-        if myrand < 0.5:
-          weightDown = 0 if self.fakeRateEle(myEle.Pt())==0 else self.fakeRateEle(myEle.Pt(), 'frDown') * weight/self.fakeRateEle(myEle.Pt())
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weightDown, '/EleFakeDown')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/EleFakeUp')
-        else:
-          weightUp = 0 if self.fakeRateEle(myEle.Pt())==0 else self.fakeRateEle(myEle.Pt(), 'frUp') * weight/self.fakeRateEle(myEle.Pt())
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weightUp, '/EleFakeUp')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/EleFakeDown')
+      self.tauFRSys(row, myEle, myMET, myTau, njets, mjj, weight)
+      self.eleFRSys(row, myEle, myMET, myTau, njets, mjj, weight)
 
       if self.is_embed:
         self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight * 1.02, '/trUp')
@@ -485,7 +434,7 @@ class AnalyzeETauSysBDT(MegaBase):
         myMETpx = myMETpx - tmpEle.Px()
         myMETpy = myMETpy - tmpEle.Py()
         tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-        self.fill_categories(row, tmpEle, tmpMET, myTau, njets, mjj, weight, '/eescUp')
+        self.fill_categories(row, tmpEle, tmpMET, myTau, njets, mjj, weight, '/eesUp')
         myMETpx = myMET.Px() + myEle.Px()
         myMETpy = myMET.Py() + myEle.Py()
         tmpEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
@@ -493,13 +442,11 @@ class AnalyzeETauSysBDT(MegaBase):
         myMETpx = myMETpx - tmpEle.Px()
         myMETpy = myMETpy - tmpEle.Py()
         tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-        self.fill_categories(row, tmpEle, tmpMET, myTau, njets, mjj, weight, '/eescDown')
+        self.fill_categories(row, tmpEle, tmpMET, myTau, njets, mjj, weight, '/eesDown')
 
         if row.tDecayMode==0:
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM1Up')
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM1Down')
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM10Up')
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM10Down')
+          sSys = [x for x in self.scaleSys if x not in ['/scaletDM0Up', '/scaletDM0Down']]
+          self.fill_scaleSys(row, myEle, myMET, myTau, njets, mjj, weight, sSys)
           myMETpx = myMET.Px() - 0.008 * myTau.Px()
           myMETpy = myMET.Py() - 0.008 * myTau.Py()
           tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
@@ -511,10 +458,8 @@ class AnalyzeETauSysBDT(MegaBase):
           tmpTau = myTau * ROOT.Double(0.992)
           self.fill_categories(row, myEle, tmpMET, tmpTau, njets, mjj, weight, '/scaletDM0Down')
         elif row.tDecayMode==1:
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM0Up')
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM0Down')
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM10Up')
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM10Down')
+          sSys = [x for x in self.scaleSys if x not in ['/scaletDM1Up', '/scaletDM1Down']]
+          self.fill_scaleSys(row, myEle, myMET, myTau, njets, mjj, weight, sSys)
           myMETpx = myMET.Px() - 0.008 * myTau.Px()
           myMETpy = myMET.Py() - 0.008 * myTau.Py()
           tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
@@ -526,10 +471,8 @@ class AnalyzeETauSysBDT(MegaBase):
           tmpTau = myTau * ROOT.Double(0.992)
           self.fill_categories(row, myEle, tmpMET, tmpTau, njets, mjj, weight, '/scaletDM1Down')
         elif row.tDecayMode==10:
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM1Up')
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM1Down')
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM0Up')
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM0Down')
+          sSys = [x for x in self.scaleSys if x not in ['/scaletDM10Up', '/scaletDM10Down']]
+          self.fill_scaleSys(row, myEle, myMET, myTau, njets, mjj, weight, sSys)
           myMETpx = myMET.Px() - 0.009 * myTau.Px()
           myMETpy = myMET.Py() - 0.009 * myTau.Py()
           tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
@@ -541,12 +484,7 @@ class AnalyzeETauSysBDT(MegaBase):
           tmpTau = myTau * ROOT.Double(0.991)
           self.fill_categories(row, myEle, tmpMET, tmpTau, njets, mjj, weight, '/scaletDM10Down')
         else:
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM0Up')
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM0Down')
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM1Up')
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM1Down')
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM10Up')
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/scaletDM10Down')
+          self.fill_scaleSys(row, myEle, myMET, myTau, njets, mjj, weight, self.scaleSys)
 
         if row.tDecayMode == 0:
           dm = 0.975
@@ -565,120 +503,100 @@ class AnalyzeETauSysBDT(MegaBase):
           self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/embtrkDown')
 
 
+  def fill_scaleSys(self, row, myEle, myMET, myTau, njets, mjj, weight, scaleSys):
+      for s in scaleSys:
+          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, s)
+
+
   def tauFRSys(self, row, myEle, myMET, myTau, njets, mjj, weight):
     if not self.obj2_tight(row) and self.obj2_loose(row):
       if abs(myTau.Eta()) < 1.5:
         if row.tDecayMode == 0:
-          self.fill_taufr(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Down')
+          self.fill_taufr(row, myEle, myMET, myTau, njets, mjj, weight, 'EBDM0')
+          fSys = [x for x in self.fakeSys if x not in ['/TauFakep0EBDM0Up', '/TauFakep1EBDM0Up', '/TauFakep0EBDM0Down', '/TauFakep1EBDM0Down']]
+          self.fill_fakeSys(row, myEle, myMET, myTau, njets, mjj, weight, fSys)
         elif row.tDecayMode == 1:
-          self.fill_taufr(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Down')
+          self.fill_taufr(row, myEle, myMET, myTau, njets, mjj, weight, 'EBDM1')
+          fSys = [x for x in self.fakeSys if x not in ['/TauFakep0EBDM1Up', '/TauFakep1EBDM1Up', '/TauFakep0EBDM1Down', '/TauFakep1EBDM1Down']]
+          self.fill_fakeSys(row, myEle, myMET, myTau, njets, mjj, weight, fSys)
         elif row.tDecayMode == 10:
-          self.fill_taufr(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Down')
+          self.fill_taufr(row, myEle, myMET, myTau, njets, mjj, weight, 'EBDM10')
+          fSys = [x for x in self.fakeSys if x not in ['/TauFakep0EBDM10Up', '/TauFakep1EBDM10Up', '/TauFakep0EBDM10Down', '/TauFakep1EBDM10Down']]
+          self.fill_fakeSys(row, myEle, myMET, myTau, njets, mjj, weight, fSys)
         else:
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Down')
+          self.fill_fakeSys(row, myEle, myMET, myTau, njets, mjj, weight, self.fakeSys)
       else:
         if row.tDecayMode == 0:
-          self.fill_taufr(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Down')
+          self.fill_taufr(row, myEle, myMET, myTau, njets, mjj, weight, 'EEDM0')
+          fSys = [x for x in self.fakeSys if x not in ['/TauFakep0EEDM0Up', '/TauFakep1EEDM0Up', '/TauFakep0EEDM0Down', '/TauFakep1EEDM0Down']]
+          self.fill_fakeSys(row, myEle, myMET, myTau, njets, mjj, weight, fSys)
         elif row.tDecayMode == 1:
-          self.fill_taufr(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Down')
+          self.fill_taufr(row, myEle, myMET, myTau, njets, mjj, weight, 'EEDM1')
+          fSys = [x for x in self.fakeSys if x not in ['/TauFakep0EEDM1Up', '/TauFakep1EEDM1Up', '/TauFakep0EEDM1Down', '/TauFakep1EEDM1Down']]
+          self.fill_fakeSys(row, myEle, myMET, myTau, njets, mjj, weight, fSys)
         elif row.tDecayMode == 10:
-          self.fill_taufr(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Down')
+          self.fill_taufr(row, myEle, myMET, myTau, njets, mjj, weight, 'EEDM10')
+          fSys = [x for x in self.fakeSys if x not in ['/TauFakep0EEDM10Up', '/TauFakep1EEDM10Up', '/TauFakep0EEDM10Down', '/TauFakep1EEDM10Down']]
+          self.fill_fakeSys(row, myEle, myMET, myTau, njets, mjj, weight, fSys)
         else:
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Down')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Up')
-          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Down')
+          self.fill_fakeSys(row, myEle, myMET, myTau, njets, mjj, weight, self.fakeSys)
 
 
   def fill_taufr(self, row, myEle, myMET, myTau, njets, mjj, weight, name):
     myrand = random.random()
     if myrand < 0.5:
-      weightDown = 0 if self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)==0 else self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode, 'frDown') * weight/self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
-      self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weightDown, name+'Down')
-      self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, name+'Up')
+      weightDown = 0 if self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)==0 else self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode, 'frp0Down') * weight/self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
+      self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weightDown, '/TauFakep0'+name+'Down')
+      self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakep0'+name+'Up')
+      weightDown = 0 if self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)==0 else self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode, 'frp1Down') * weight/self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
+      self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weightDown, '/TauFakep1'+name+'Down')
+      self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakep1'+name+'Up')
     else:
-      weightUp = 0 if self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)==0 else self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode, 'frUp') * weight/self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
-      self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weightUp, name+'Up')
-      self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, name+'Down')
+      weightUp = 0 if self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)==0 else self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode, 'frp0Up') * weight/self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
+      self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weightUp, '/TauFakep0'+name+'Up')
+      self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakep0'+name+'Down')
+      weightUp = 0 if self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)==0 else self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode, 'frp1Up') * weight/self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
+      self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weightUp, '/TauFakep1'+name+'Up')
+      self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '/TauFakep1'+name+'Down')
+
+
+  def eleFRSys(self, row, myEle, myMET, myTau, njets, mjj, weight):
+    if not self.obj1_tight(row) and self.obj1_loose(row) and self.obj2_loose(row):
+      if abs(myEle.Eta()) < 1.5:
+        self.fill_elefr(row, myEle, myMET, myTau, njets, mjj, weight, 'EB')
+      else:
+        self.fill_elefr(row, myEle, myMET, myTau, njets, mjj, weight, 'EE')
+
+
+  def fill_elefr(self, row, myEle, myMET, myTau, njets, mjj, weight, name):
+    myrand = random.random()
+    if myrand < 0.5:
+      weightDown = 0 if self.fakeRateEle(myEle.Pt(), myEle.Eta())==0 else self.fakeRateEle(myEle.Pt(), myEle.Eta(), 'frp0Down') * weight/self.fakeRateEle(myEle.Pt(), myEle.Eta())
+      self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weightDown, '/EleFakep0'+name+'Down')
+      weightDown = 0 if self.fakeRateEle(myEle.Pt(), myEle.Eta())==0 else self.fakeRateEle(myEle.Pt(), myEle.Eta(), 'frp1Down') * weight/self.fakeRateEle(myEle.Pt(), myEle.Eta())
+      self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weightDown, '/EleFakep1'+name+'Down')
+      weightDown = 0 if self.fakeRateEle(myEle.Pt(), myEle.Eta())==0 else self.fakeRateEle(myEle.Pt(), myEle.Eta(), 'frp2Down') * weight/self.fakeRateEle(myEle.Pt(), myEle.Eta())
+      self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weightDown, '/EleFakep2'+name+'Down')
+      weightDown = 0 if self.fakeRateEle(myEle.Pt(), myEle.Eta())==0 else self.fakeRateEle(myEle.Pt(), myEle.Eta(), 'frp3Down') * weight/self.fakeRateEle(myEle.Pt(), myEle.Eta())
+      self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weightDown, '/EleFakep3'+name+'Down')
+      fSys = [x for x in self.fakeEleSys if x not in ['/EleFakep0'+name+'Down', '/EleFakep1'+name+'Down', '/EleFakep2'+name+'Down', '/EleFakep3'+name+'Down']]
+      self.fill_fakeSys(row, myEle, myMET, myTau, njets, mjj, weight, fSys)
+    else:
+      weightUp = 0 if self.fakeRateEle(myEle.Pt(), myEle.Eta())==0 else self.fakeRateEle(myEle.Pt(), myEle.Eta(), 'frp0Up') * weight/self.fakeRateEle(myEle.Pt(), myEle.Eta())
+      self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weightUp, '/EleFakep0'+name+'Up')
+      weightUp = 0 if self.fakeRateEle(myEle.Pt(), myEle.Eta())==0 else self.fakeRateEle(myEle.Pt(), myEle.Eta(), 'frp1Up') * weight/self.fakeRateEle(myEle.Pt(), myEle.Eta())
+      self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weightUp, '/EleFakep1'+name+'Up')
+      weightUp = 0 if self.fakeRateEle(myEle.Pt(), myEle.Eta())==0 else self.fakeRateEle(myEle.Pt(), myEle.Eta(), 'frp2Up') * weight/self.fakeRateEle(myEle.Pt(), myEle.Eta())
+      self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weightUp, '/EleFakep2'+name+'Up')
+      weightUp = 0 if self.fakeRateEle(myEle.Pt(), myEle.Eta())==0 else self.fakeRateEle(myEle.Pt(), myEle.Eta(), 'frp3Up') * weight/self.fakeRateEle(myEle.Pt(), myEle.Eta())
+      self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weightUp, '/EleFakep3'+name+'Up')
+      fSys = [x for x in self.fakeEleSys if x not in ['/EleFakep0'+name+'Up', '/EleFakep1'+name+'Up', '/EleFakep2'+name+'Up', '/EleFakep3'+name+'Up']]
+      self.fill_fakeSys(row, myEle, myMET, myTau, njets, mjj, weight, fSys)
+
+
+  def fill_fakeSys(self, row, myEle, myMET, myTau, njets, mjj, weight, fakeSys):
+      for f in fakeSys:
+          self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, f)
 
 
   def tauPtC(self, row, myMET, myTau):
@@ -721,18 +639,21 @@ class AnalyzeETauSysBDT(MegaBase):
       trigger27 = row.Ele27WPTightPass and row.eMatchesEle27Filter and row.eMatchesEle27Path and row.ePt > 28
       trigger32 = row.Ele32WPTightPass and row.eMatchesEle32Filter and row.eMatchesEle32Path and row.ePt > 33
       trigger35 = row.Ele35WPTightPass and row.eMatchesEle35Filter and row.eMatchesEle35Path and row.ePt > 36
-      #if self.is_embed:
-      #  trigger2430 = row.Ele24LooseTau30TightIDPass and row.eMatchesEle24Tau30Filter and row.eMatchesEle24Tau30Path and row.ePt > 25 and row.ePt < 28 and row.tPt > 35 and abs(row.tEta) < 2.1
-      #else:
-      #  trigger2430 = row.Ele24LooseTau30TightIDPass and row.eMatchesEle24Tau30Filter and row.eMatchesEle24Tau30Path and row.tMatchesEle24Tau30Filter and row.tMatchesEle24Tau30Path and row.ePt > 25 and row.ePt < 28 and row.tPt > 35 and abs(row.tEta) < 2.1
+      if self.is_embed:
+        trigger2430 = row.Ele24LooseTau30TightIDPass and row.eMatchesEle24Tau30Filter and row.eMatchesEle24Tau30Path and row.ePt > 25 and row.ePt < 28 and row.tPt > 35 and abs(row.tEta) < 2.1
+      else:
+        trigger2430 = row.Ele24LooseTau30TightIDPass and row.eMatchesEle24Tau30Filter and row.eMatchesEle24Tau30Path and row.tMatchesEle24Tau30Filter and row.tMatchesEle24Tau30Path and row.ePt > 25 and row.ePt < 28 and row.tPt > 35 and abs(row.tEta) < 2.1
 
       if self.filters(row):
         continue
 
-      if not bool(trigger27 or trigger32 or trigger35):# or trigger2430):
+      if not bool(trigger27 or trigger32 or trigger35 or trigger2430):
         continue
 
       if not self.kinematics(row):
+        continue
+
+      if not self.oppositesign(row):
         continue
 
       if self.deltaR(row.tPhi, row.ePhi, row.tEta, row.eEta) < 0.5:
@@ -790,19 +711,19 @@ class AnalyzeETauSysBDT(MegaBase):
       singleSF = 0
       eltauSF = 0
       if self.is_mc:
-        self.w2.var("e_pt").setVal(myEle.Pt())
-        self.w2.var("e_iso").setVal(row.eRelPFIsoRho)
-        self.w2.var("e_eta").setVal(myEle.Eta())
-        eID = self.w2.function("e_id80_kit_ratio").getVal()
-        eIso = self.w2.function("e_iso_kit_ratio").getVal()
-        eReco = self.w2.function("e_trk_ratio").getVal()
+        self.w2.var('e_pt').setVal(myEle.Pt())
+        self.w2.var('e_iso').setVal(row.eRelPFIsoRho)
+        self.w2.var('e_eta').setVal(myEle.Eta())
+        eID = self.w2.function('e_id80_kit_ratio').getVal()
+        eIso = self.w2.function('e_iso_kit_ratio').getVal()
+        eReco = self.w2.function('e_trk_ratio').getVal()
         zvtx = 0.991
         if trigger27 or trigger32 or trigger35:
-          singleSF = 0 if self.w2.function("e_trg27_trg32_trg35_kit_mc").getVal()==0 else self.w2.function("e_trg27_trg32_trg35_kit_data").getVal()/self.w2.function("e_trg27_trg32_trg35_kit_mc").getVal()
-        #else:
-        #  eltauSF = 0 if self.w2.function("e_trg_EleTau_Ele24Leg_desy_mc").getVal()==0 else self.w2.function("e_trg_EleTau_Ele24Leg_desy_data").getVal()/self.w2.function("e_trg_EleTau_Ele24Leg_desy_mc").getVal()
-        #  eltauSF = eltauSF * self.tauSF.getETauScaleFactor(myTau.Pt(), myTau.Eta(), myTau.Phi())
-        tEff = singleSF# + eltauSF
+          singleSF = 0 if self.w2.function('e_trg27_trg32_trg35_kit_mc').getVal()==0 else self.w2.function('e_trg27_trg32_trg35_kit_data').getVal()/self.w2.function('e_trg27_trg32_trg35_kit_mc').getVal()
+        else:
+          eltauSF = 0 if self.w2.function('e_trg_EleTau_Ele24Leg_desy_mc').getVal()==0 else self.w2.function('e_trg_EleTau_Ele24Leg_desy_data').getVal()/self.w2.function('e_trg_EleTau_Ele24Leg_desy_mc').getVal()
+          eltauSF = eltauSF * self.tauSF.getETauScaleFactor(myTau.Pt(), myTau.Eta(), myTau.Phi())
+        tEff = singleSF + eltauSF
         weight = row.GenWeight*pucorrector[''](row.nTruePU)*tEff*eID*eIso*eReco*zvtx*row.prefiring_weight
         if row.tZTTGenMatching==2 or row.tZTTGenMatching==4:
           if abs(myTau.Eta()) < 0.4:
@@ -823,9 +744,9 @@ class AnalyzeETauSysBDT(MegaBase):
         elif row.tZTTGenMatching==5:
           weight = weight*0.89
         if self.is_DY:
-          self.w2.var("z_gen_mass").setVal(row.genMass)
-          self.w2.var("z_gen_pt").setVal(row.genpT)
-          dyweight = self.w2.function("zptmass_weight_nom").getVal()
+          self.w2.var('z_gen_mass').setVal(row.genMass)
+          self.w2.var('z_gen_pt').setVal(row.genpT)
+          dyweight = self.w2.function('zptmass_weight_nom').getVal()
           weight = weight*dyweight
           if row.numGenJets < 5:
             weight = weight*self.DYweight[row.numGenJets]
@@ -849,39 +770,39 @@ class AnalyzeETauSysBDT(MegaBase):
           dm = 0.975*1.051
         elif row.tDecayMode == 10:
           dm = pow(0.975, 3)
-        self.we.var("gt_pt").setVal(myEle.Pt())
-        self.we.var("gt_eta").setVal(myEle.Eta())
-        esel = self.we.function("m_sel_idEmb_ratio").getVal()
-        self.we.var("gt_pt").setVal(myTau.Pt())
-        self.we.var("gt_eta").setVal(myTau.Eta())
-        tsel = self.we.function("m_sel_idEmb_ratio").getVal()
-        self.we.var("gt1_pt").setVal(myEle.Pt())
-        self.we.var("gt1_eta").setVal(myEle.Eta())
-        self.we.var("gt2_pt").setVal(myTau.Pt())
-        self.we.var("gt2_eta").setVal(myTau.Eta())
-        trgsel = self.we.function("m_sel_trg_ratio").getVal()
-        self.wp.var("e_pt").setVal(myEle.Pt())
-        self.wp.var("e_eta").setVal(myEle.Eta())
-        self.wp.var("e_phi").setVal(myEle.Phi())
-        self.wp.var("e_iso").setVal(row.eRelPFIsoRho)
-        e_id_sf = self.wp.function("e_id80_embed_kit_ratio").getVal()
-        e_iso_sf = self.wp.function("e_iso_binned_embed_kit_ratio").getVal()
+        self.we.var('gt_pt').setVal(myEle.Pt())
+        self.we.var('gt_eta').setVal(myEle.Eta())
+        esel = self.we.function('m_sel_idEmb_ratio').getVal()
+        self.we.var('gt_pt').setVal(myTau.Pt())
+        self.we.var('gt_eta').setVal(myTau.Eta())
+        tsel = self.we.function('m_sel_idEmb_ratio').getVal()
+        self.we.var('gt1_pt').setVal(myEle.Pt())
+        self.we.var('gt1_eta').setVal(myEle.Eta())
+        self.we.var('gt2_pt').setVal(myTau.Pt())
+        self.we.var('gt2_eta').setVal(myTau.Eta())
+        trgsel = self.we.function('m_sel_trg_ratio').getVal()
+        self.wp.var('e_pt').setVal(myEle.Pt())
+        self.wp.var('e_eta').setVal(myEle.Eta())
+        self.wp.var('e_phi').setVal(myEle.Phi())
+        self.wp.var('e_iso').setVal(row.eRelPFIsoRho)
+        e_id_sf = self.wp.function('e_id80_embed_kit_ratio').getVal()
+        e_iso_sf = self.wp.function('e_iso_binned_embed_kit_ratio').getVal()
         e_trk_sf = self.eReco(myEle.Pt(), abs(myEle.Eta()))
-        self.we.var("e_pt").setVal(myEle.Pt())
-        self.we.var("e_iso").setVal(row.eRelPFIsoRho)
-        self.we.var("e_eta").setVal(myEle.Eta())
-        self.we.var("t_pt").setVal(myTau.Pt())
+        self.we.var('e_pt').setVal(myEle.Pt())
+        self.we.var('e_iso').setVal(row.eRelPFIsoRho)
+        self.we.var('e_eta').setVal(myEle.Eta())
+        self.we.var('t_pt').setVal(myTau.Pt())
         if myEle.Eta() < 1.479:
           if bool(trigger27 or trigger32 or trigger35):
-            trsel = trsel + self.we.function("e_trg27_trg32_trg35_embed_kit_ratio").getVal()
-          #if trigger2430:
-          #  trsel = trsel + self.we.function("e_trg_EleTau_Ele24Leg_kit_ratio_embed").getVal()*self.we.function("et_emb_LooseChargedIsoPFTau30_kit_ratio").getVal()
+            trsel = trsel + self.we.function('e_trg27_trg32_trg35_embed_kit_ratio').getVal()
+          if trigger2430:
+            trsel = trsel + self.we.function('e_trg_EleTau_Ele24Leg_kit_ratio_embed').getVal()*self.we.function('et_emb_LooseChargedIsoPFTau30_kit_ratio').getVal()
         else:
           if bool(trigger27 or trigger32 or trigger35):
-            trsel = trsel + self.we.function("e_trg27_trg32_trg35_kit_data").getVal()
-          #if trigger2430:
-          #  trsel = trsel + self.we.function("e_trg_EleTau_Ele24Leg_desy_data").getVal()*self.tauSF.getETauEfficiencyData(myTau.Pt(), myTau.Eta(), myTau.Phi())
-        weight = weight*row.GenWeight*e_id_sf*e_iso_sf*e_trk_sf*dm*esel*tsel*trgsel*trsel*self.EmbedEta(myEle.Eta())*self.EmbedPt(myEle.Pt(), njets, mjj)
+            trsel = trsel + self.we.function('e_trg27_trg32_trg35_kit_data').getVal()
+          if trigger2430:
+            trsel = trsel + self.we.function('e_trg_EleTau_Ele24Leg_desy_data').getVal()*self.tauSF.getETauEfficiencyData(myTau.Pt(), myTau.Eta(), myTau.Phi())
+        weight = weight*row.GenWeight*e_id_sf*e_iso_sf*e_trk_sf*dm*esel*tsel*trgsel*trsel*self.EmbedEta(myEle.Eta(), njets, mjj)*self.EmbedPt(myEle.Pt(), njets, mjj)
         if weight > 10:
           continue
 

@@ -23,6 +23,8 @@ jobid = os.environ['jobid']
 log = logging.getLogger("CorrectFakeRateData")
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    #parser.add_argument('--files', nargs='+')
+    #parser.add_argument('--lumifiles', nargs='+')
     parser.add_argument('--outputfile', required=True)
     parser.add_argument('--denom', required=True, help='Path to denom')
     parser.add_argument('--numerator', required=True, help='Path to numerator')
@@ -36,7 +38,7 @@ if __name__ == "__main__":
     import rootpy.plotting as plotting
     from FinalStateAnalysis.MetaData.data_views import data_views
 
-    samples = ['WZ*', 'WW*', 'ZZ*', 'data*', 'DY*']
+    samples = ['WZ*', 'WW*', 'ZZ*', 'DY*', 'data*']
     files = []
     lumifiles = []
     for x in samples:
@@ -114,7 +116,7 @@ if __name__ == "__main__":
     data = rebin_view(the_views['data']['view'])
     
     corrected_view = int_view(
-        SubtractionView(data, wz_view, ww_view, zz_view, restrict_positive=True))
+        SubtractionView(data, wz_view, ww_view, zz_view, restrict_positive=True))#wz_view, ww_view, zz_view, 
 
     log.debug('creating output file')
     output = io.root_open(args.outputfile, 'RECREATE')
@@ -146,6 +148,29 @@ if __name__ == "__main__":
     ww_integral_den = ww_view.Get(args.denom).Integral()
     zz_integral_den = zz_view.Get(args.denom).Integral()
 
+    log.info("Numerator integrals data: %.2f WW: %.2f WZ: %.2f, ZZ: %.2f. Corrected numerator: %.2f",
+             uncorr_numerator.Integral(),
+             ww_integral,
+             wz_integral,
+             zz_integral,
+             corr_numerator.Integral()
+            )
+
+    log.info("Denominator integrals data: %.2f WW: %.2f WZ: %.2f, ZZ: %.2f. Corrected denominator: %.2f",
+             uncorr_denominator.Integral(),
+             ww_integral_den,
+             wz_integral_den,
+             zz_integral_den,
+             corr_denominator.Integral()
+            )
+
+    log.info("Uncorrected: %0.2f/%0.2f = %0.1f%%",
+             uncorr_numerator.Integral(),
+             uncorr_denominator.Integral(),
+             100*uncorr_numerator.Integral()/uncorr_denominator.Integral()
+             if uncorr_denominator.Integral() else 0
+            )
+
     corr_numerator.SetName('numerator')
     corr_denominator.SetName('denominator')
 
@@ -171,3 +196,4 @@ if __name__ == "__main__":
     dy_numerator.Write()
     dy_denominator.Write()
     dyfakerate.Write()
+

@@ -31,6 +31,7 @@ class AnalyzeETauBDT(MegaBase):
     self.is_embed = self.mcWeight.is_embed
     self.is_mc = self.mcWeight.is_mc
     self.is_DY = self.mcWeight.is_DY
+    self.is_TT = self.mcWeight.is_TT
     self.is_GluGlu = self.mcWeight.is_GluGlu
     self.is_VBF = self.mcWeight.is_VBF
 
@@ -40,7 +41,7 @@ class AnalyzeETauBDT(MegaBase):
     self.tauSF = mcCorrections.tauSF
 
     self.fakeRate = mcCorrections.fakerate_weight
-    self.fakeRateEle = mcCorrections.fakerateElectron_weight
+    self.fakeRateEle = mcCorrections.fakerateEle_weight
     self.w1 = mcCorrections.w1
     self.w2 = mcCorrections.w2
     self.w3 = mcCorrections.w3
@@ -57,14 +58,14 @@ class AnalyzeETauBDT(MegaBase):
     self.topPtreweight = Kinematics.topPtreweight
     self.invert_case = Kinematics.invert_case
 
-    self.branches="ePt/F:tPt/F:dPhiETau/F:dEtaETau/F:dPhiEMET/F:dPhiTauMET/F:e_t_collinearMass/F:e_t_visibleMass/F:e_t_PZeta/F:MTTauMET/F:MTEMET/F:type1_pfMetEt/F:njets/I:vbfMass/F:weight/F"
+    self.branches='ePt/F:tPt/F:dPhiETau/F:dEtaETau/F:dPhiEMET/F:dPhiTauMET/F:e_t_collinearMass/F:e_t_visibleMass/F:e_t_PZeta/F:MTTauMET/F:MTEMET/F:type1_pfMetEt/F:njets/I:vbfMass/F:weight/F'
     self.holders = []
     if self.is_GluGlu or self.is_VBF:
-      self.name="TreeS"
-      self.title="TreeS"
+      self.name='TreeS'
+      self.title='TreeS'
     else:
-      self.name="TreeB"
-      self.title="TreeB"
+      self.name='TreeB'
+      self.title='TreeB'
 
     super(AnalyzeETauBDT, self).__init__(tree, outfile, **kwargs)
     self.tree = ETauTree.ETauTree(tree)
@@ -79,7 +80,7 @@ class AnalyzeETauBDT(MegaBase):
 
 
   def kinematics(self, row):
-    if row.ePt < 25 or abs(row.eEta) >= 2.1:
+    if row.ePt < 26 or abs(row.eEta) >= 2.1:
       return False
     if row.tPt < 30 or abs(row.tEta) >= 2.3:
       return False
@@ -117,7 +118,7 @@ class AnalyzeETauBDT(MegaBase):
 
 
   def obj2_loose(self, row):
-    return bool(row.tRerunMVArun2v2DBoldDMwLTLoose > 0.5)
+    return bool(row.tRerunMVArun2v2DBoldDMwLTVLoose > 0.5)
 
 
   def dieleveto(self, row):
@@ -132,7 +133,7 @@ class AnalyzeETauBDT(MegaBase):
         varname, vartype = tuple(name.split('/'))
       except:
         raise ValueError('Problem parsing %s' % name)
-      inverted_type = self.invert_case(vartype.rsplit("_", 1)[0])
+      inverted_type = self.invert_case(vartype.rsplit('_', 1)[0])
       self.holders.append((varname, array.array(inverted_type, [0])))
     for name, varinfo in zip(branch_names, self.holders):
       varname, holder = varinfo
@@ -141,35 +142,35 @@ class AnalyzeETauBDT(MegaBase):
 
   def filltree(self, row, myEle, myMET, myTau, njets, weight):
     for varname, holder in self.holders:
-      if varname=="ePt":
+      if varname=='ePt':
         holder[0] = myEle.Pt()
-      elif varname=="tPt":
+      elif varname=='tPt':
         holder[0] = myTau.Pt()
-      elif varname=="dPhiETau":
+      elif varname=='dPhiETau':
         holder[0] = self.deltaPhi(myEle.Phi(), myTau.Phi())
-      elif varname=="dEtaETau":
+      elif varname=='dEtaETau':
         holder[0] = self.deltaEta(myEle.Eta(), myTau.Eta())
-      elif varname=="dPhiEMET":
+      elif varname=='dPhiEMET':
         holder[0] = self.deltaPhi(myEle.Phi(), myMET.Phi())
-      elif varname=="dPhiTauMET":
+      elif varname=='dPhiTauMET':
         holder[0] = self.deltaPhi(myTau.Eta(), myMET.Eta())
-      elif varname=="e_t_collinearMass":
+      elif varname=='e_t_collinearMass':
         holder[0] = self.collMass(myEle, myMET, myTau)
-      elif varname=="e_t_visibleMass":
+      elif varname=='e_t_visibleMass':
         holder[0] = self.visibleMass(myEle, myTau)
-      elif varname=="e_t_PZeta":
+      elif varname=='e_t_PZeta':
         holder[0] = row.e_t_PZeta
-      elif varname=="MTTauMET":
+      elif varname=='MTTauMET':
         holder[0] = self.transverseMass(myTau, myMET)
-      elif varname=="MTEMET":
+      elif varname=='MTEMET':
         holder[0] = self.transverseMass(myEle, myMET)
-      elif varname=="type1_pfMetEt":
+      elif varname=='type1_pfMetEt':
         holder[0] = myMET.Pt()
-      elif varname=="njets":
+      elif varname=='njets':
         holder[0] = int(njets)
-      elif varname=="vbfMass":
+      elif varname=='vbfMass':
         holder[0] = row.vbfMassWoNoisyJets
-      elif varname=="weight":
+      elif varname=='weight':
         holder[0] = weight
     self.tree1.Fill()
 
@@ -283,17 +284,17 @@ class AnalyzeETauBDT(MegaBase):
       singleSF = 0
       eltauSF = 0
       if self.is_mc:
-        self.w2.var("e_pt").setVal(myEle.Pt())
-        self.w2.var("e_iso").setVal(row.eRelPFIsoRho)
-        self.w2.var("e_eta").setVal(myEle.Eta())
-        eID = self.w2.function("e_id80_kit_ratio").getVal()
-        eIso = self.w2.function("e_iso_kit_ratio").getVal()
-        eReco = self.w2.function("e_trk_ratio").getVal()
+        self.w2.var('e_pt').setVal(myEle.Pt())
+        self.w2.var('e_iso').setVal(row.eRelPFIsoRho)
+        self.w2.var('e_eta').setVal(myEle.Eta())
+        eID = self.w2.function('e_id80_kit_ratio').getVal()
+        eIso = self.w2.function('e_iso_kit_ratio').getVal()
+        eReco = self.w2.function('e_trk_ratio').getVal()
         zvtx = 0.991
         if trigger27 or trigger32 or trigger35:
-          singleSF = 0 if self.w2.function("e_trg27_trg32_trg35_kit_mc").getVal()==0 else self.w2.function("e_trg27_trg32_trg35_kit_data").getVal()/self.w2.function("e_trg27_trg32_trg35_kit_mc").getVal()
+          singleSF = 0 if self.w2.function('e_trg27_trg32_trg35_kit_mc').getVal()==0 else self.w2.function('e_trg27_trg32_trg35_kit_data').getVal()/self.w2.function('e_trg27_trg32_trg35_kit_mc').getVal()
         else:
-          eltauSF = 0 if self.w2.function("e_trg_EleTau_Ele24Leg_desy_mc").getVal()==0 else self.w2.function("e_trg_EleTau_Ele24Leg_desy_data").getVal()/self.w2.function("e_trg_EleTau_Ele24Leg_desy_mc").getVal()
+          eltauSF = 0 if self.w2.function('e_trg_EleTau_Ele24Leg_desy_mc').getVal()==0 else self.w2.function('e_trg_EleTau_Ele24Leg_desy_data').getVal()/self.w2.function('e_trg_EleTau_Ele24Leg_desy_mc').getVal()
           eltauSF = eltauSF * self.tauSF.getETauScaleFactor(myTau.Pt(), myTau.Eta(), myTau.Phi())
         tEff = singleSF + eltauSF
         weight = row.GenWeight*pucorrector[''](row.nTruePU)*tEff*eID*eIso*eReco*zvtx*row.prefiring_weight
@@ -315,13 +316,27 @@ class AnalyzeETauBDT(MegaBase):
             weight = weight*1.53
         elif row.tZTTGenMatching==5:
           weight = weight*0.89
+        if self.is_DY:
+          self.w2.var('z_gen_mass').setVal(row.genMass)
+          self.w2.var('z_gen_pt').setVal(row.genpT)
+          dyweight = self.w2.function('zptmass_weight_nom').getVal()
+          weight = weight*dyweight
+          if row.numGenJets < 5:
+            weight = weight*self.DYweight[row.numGenJets]
+          else:
+            weight = weight*self.DYweight[0]
+        if self.is_TT:
+          topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
+          weight = weight*topweight
+          if row.eZTTGenMatching > 2 and row.eZTTGenMatching < 6 and row.tZTTGenMatching > 2 and row.tZTTGenMatching < 6 and Emb:
+            continue
         weight = self.mcWeight.lumiWeight(weight)
 
       if self.is_data:
 
         if not self.obj2_tight(row) and self.obj2_loose(row) and not self.obj1_tight(row) and self.obj1_loose(row):
           frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
-          frEle = self.fakeRateEle(myEle.Pt())
+          frEle = self.fakeRateEle(myEle.Pt(), myEle.Eta())
           if not self.oppositesign(row):
             self.filltree(row, myEle, myMET, myTau, njets, weight*frTau*frEle*-1)
 
@@ -331,7 +346,7 @@ class AnalyzeETauBDT(MegaBase):
             self.filltree(row, myEle, myMET, myTau, njets, weight*frTau)
 
         if not self.obj1_tight(row) and self.obj1_loose(row) and self.obj2_tight(row):
-          frEle = self.fakeRateEle(myEle.Pt())
+          frEle = self.fakeRateEle(myEle.Pt(), myEle.Eta())
           if not self.oppositesign(row):
             self.filltree(row, myEle, myMET, myTau, njets, weight*frEle)
 

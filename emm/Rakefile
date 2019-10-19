@@ -60,7 +60,7 @@ end
 
 #task :EMM => get_analyzer_results("AnalyzeEMM.py", samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'])
 
-task :EMM => get_analyzer_results("AnalyzeEMM.py", samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'])
+task :EMM => get_analyzer_results("AnalyzeEMM.py", samples['eraB'] + samples['eraD'] + samples['WW'] + samples['WZ'] + samples['ZZ'])
 
 $etdir = "plots/#{$jobid}/AnalyzerMuTau/mt_now/"
 directory $etdir 

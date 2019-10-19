@@ -40,8 +40,8 @@ if __name__ == "__main__":
     files = []
     lumifiles = []
     for x in samples:
-        files.extend(glob.glob('results/DataApril4/AnalyzeMMT/%s' % (x)))
-        lumifiles.extend(glob.glob('inputs/DataApril4/%s.lumicalc.sum' % (x)))
+        files.extend(glob.glob('results/DataApril4EE/AnalyzeEET/%s' % (x)))
+        lumifiles.extend(glob.glob('inputs/DataApril4EE/%s.lumicalc.sum' % (x)))
 
     the_views = data_views(files, lumifiles)
 

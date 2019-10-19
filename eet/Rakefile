@@ -28,19 +28,19 @@ def get_sample_names(substring)
 end
 #
 samples = Hash[
-		"eraB" => get_sample_names('data_SingleMuon_Run2017B-31Mar2018'),	
-                "eraC" => get_sample_names('data_SingleMuon_Run2017C-31Mar2018'),
-                "eraD" => get_sample_names('data_SingleMuon_Run2017D-31Mar2018'),
-                "eraE" => get_sample_names('data_SingleMuon_Run2017E-31Mar2018'),
-                "eraF" => get_sample_names('data_SingleMuon_Run2017F-31Mar2018'),
+		"eraB" => get_sample_names('data_DoubleEG_Run2017B-31Mar2018'),	
+                "eraC" => get_sample_names('data_DoubleEG_Run2017C-31Mar2018'),
+                "eraD" => get_sample_names('data_DoubleEG_Run2017D-31Mar2018'),
+                "eraE" => get_sample_names('data_DoubleEG_Run2017E-31Mar2018'),
+                "eraF" => get_sample_names('data_DoubleEG_Run2017F-31Mar2018'),
 		"DY" => get_sample_names('DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-v1'),
                 "DY1" => get_sample_names('DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1'),
                 "DY2" => get_sample_names('DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2'),
                 "DY3" => get_sample_names('DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2'),
                 "DY4" => get_sample_names('DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v2_94X_mc2017_realistic_v14-v2'),
-		"WW" => get_sample_names('WW_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1'),
+		"WW" => get_sample_names('WW_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2'),
                 "WZ" => get_sample_names('WZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1'),
-                "ZZ" => get_sample_names('ZZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1'),
+                "ZZ" => get_sample_names('ZZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2'),
 ]
 
 
@@ -58,7 +58,7 @@ def get_plotter_results(analyzer)
   analyzer_base = analyzer.sub('.py', '')
 end
 
-task :MMT => get_analyzer_results("AnalyzeMMT.py", samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'])
+task :EET => get_analyzer_results("AnalyzeEET.py", samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'])
 
 $etdir = "plots/#{$jobid}/AnalyzerMuTau/mt_now/"
 directory $etdir 

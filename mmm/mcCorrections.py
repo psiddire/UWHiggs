@@ -1,6 +1,5 @@
 import os
 import glob
-#import FinalStateAnalysis.TagAndProbe.HetauCorrection as HetauCorrection
 import FinalStateAnalysis.TagAndProbe.PileupWeightNew as PileupWeightNew
 from FinalStateAnalysis.PlotTools.decorators import memo, memo_last
 import FinalStateAnalysis.TagAndProbe.ElectronPOGCorrections as ElectronPOGCorrections
@@ -9,6 +8,7 @@ import FinalStateAnalysis.TagAndProbe.EmbeddedCorrections as EmbedCorrections
 import FinalStateAnalysis.TagAndProbe.DYCorrection as DYCorrection
 import FinalStateAnalysis.TagAndProbe.FakeRate as FakeRate
 import ROOT
+import RoccoR
 
 @memo
 def getVar(name, var):
@@ -81,6 +81,8 @@ def make_shifted_weights(default, shifts, functors):
         return default(*args, **kwargs)
     return functor
 
+rc = RoccoR.RoccoR("../../FinalStateAnalysis/NtupleTools/data/RoccoR2017.txt")
+
 muonID_tight = MuonPOGCorrections.make_muon_pog_PFTight_2017ReReco()
 muonID_medium = MuonPOGCorrections.make_muon_pog_PFMedium_2017ReReco()
 muonID_loose = MuonPOGCorrections.make_muon_pog_PFLoose_2017ReReco()
@@ -117,7 +119,7 @@ w3 = f3.Get("w")
 fe = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/htt_scalefactors_v17_5.root")
 we = fe.Get("w")
 
-f_btag_eff = ROOT.TFile("btag.root","r")
+f_btag_eff = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/btag.root","r")
 h_btag_eff_b = f_btag_eff.Get("btag_eff_b")
 h_btag_eff_c = f_btag_eff.Get("btag_eff_c")
 h_btag_eff_oth = f_btag_eff.Get("btag_eff_oth")

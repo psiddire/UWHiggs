@@ -103,14 +103,14 @@ class AnalyzeETauBDT2D(MegaBase):
     names=['BDT', 'BDT0Jet', 'BDT1Jet', 'BDT2Jet', 'BDT2JetVBF']
     namesize = len(names)
     for x in range(0, namesize):
-      self.book2(names[x], "ePt", "", 200, 0, 200, 100, -0.5, 0.5)
-      self.book2(names[x], "tPt", "", 200, 0, 200, 100, -0.5, 0.5)
-      self.book2(names[x], "dPhiETau", "", 40, 0, 4, 100, -0.5, 0.5)
-      self.book2(names[x], "dEtaETau", "", 50, 0, 5, 100, -0.5, 0.5)
-      self.book2(names[x], "e_t_collinearMass", "", 300, 0, 300, 100, -0.5, 0.5)
-      self.book2(names[x], "e_t_visibleMass", "", 300, 0, 300, 100, -0.5, 0.5)
-      self.book2(names[x], "MTTauMET", "", 200, 0, 200, 100, -0.5, 0.5)
-      self.book2(names[x], "dPhiTauMET", "", 40, 0, 4, 100, -0.5, 0.5)
+      self.book2(names[x], 'ePt', '', 200, 0, 200, 100, -0.5, 0.5)
+      self.book2(names[x], 'tPt', '', 200, 0, 200, 100, -0.5, 0.5)
+      self.book2(names[x], 'dPhiETau', '', 40, 0, 4, 100, -0.5, 0.5)
+      self.book2(names[x], 'dEtaETau', '', 50, 0, 5, 100, -0.5, 0.5)
+      self.book2(names[x], 'e_t_collinearMass', '', 300, 0, 300, 100, -0.5, 0.5)
+      self.book2(names[x], 'e_t_visibleMass', '', 300, 0, 300, 100, -0.5, 0.5)
+      self.book2(names[x], 'MTTauMET', '', 200, 0, 200, 100, -0.5, 0.5)
+      self.book2(names[x], 'dPhiTauMET', '', 40, 0, 4, 100, -0.5, 0.5)
 
 
   def fill_histos(self, myEle, myMET, myTau, njets, mjj, weight, name=''):

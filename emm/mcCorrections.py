@@ -117,7 +117,7 @@ w3 = f3.Get("w")
 fe = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/htt_scalefactors_v17_5.root")
 we = fe.Get("w")
 
-f_btag_eff = ROOT.TFile("btag.root","r")
+f_btag_eff = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/btag.root","r")
 h_btag_eff_b = f_btag_eff.Get("btag_eff_b")
 h_btag_eff_c = f_btag_eff.Get("btag_eff_c")
 h_btag_eff_oth = f_btag_eff.Get("btag_eff_oth")

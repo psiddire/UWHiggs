@@ -49,7 +49,7 @@ for j in jet:
     s3 = 'MuonLooseOS'+j
     s4 = 'MuonLooseTauLooseOS'+j
     
-    outputdir = 'plots/%s/AnalyzeMuTauZTT/2017SelectionsEmbed/%s/' % (jobid, s1)
+    outputdir = 'plots/%s/AnalyzeMuTauZTT/2017SelectionsNoEmbedFakeNewFakePt/%s/' % (jobid, s1)
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
@@ -67,12 +67,13 @@ for j in jet:
 
     embedtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x :  x.startswith('embed') , mc_samples)])
     embedall = views.SubdirectoryView(embedtotal, s1)
-    embedtfakes = views.SubdirectoryView(embedtotal, s2)
-    embedmfakes = views.SubdirectoryView(embedtotal, s3)
-    embedmtfakes = views.SubdirectoryView(embedtotal, s4)
-    embedmt = views.SumView(embedtfakes, embedmfakes)
-    embedfakes = SubtractionView(embedmt, embedmtfakes, restrict_positive=True)
-    embed = views.StyleView(SubtractionView(embedall, embedfakes, restrict_positive=True), **remove_name_entry(data_styles['DYTT*']))
+    #embedtfakes = views.SubdirectoryView(embedtotal, s2)
+    #embedmfakes = views.SubdirectoryView(embedtotal, s3)
+    #embedmtfakes = views.SubdirectoryView(embedtotal, s4)
+    #embedmt = views.SumView(embedtfakes, embedmfakes)
+    #embedfakes = SubtractionView(embedmt, embedmtfakes, restrict_positive=True)
+    #embed = views.StyleView(SubtractionView(embedall, embedfakes, restrict_positive=True), **remove_name_entry(data_styles['DYTT*']))
+    embed = views.StyleView(embedall, **remove_name_entry(data_styles['DYTT*']))
     embed = views.TitleView(embed, "Z#rightarrow#tau#tau")
 
     EWKtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x :  x.startswith('EWK') , mc_samples)])
@@ -120,7 +121,13 @@ for j in jet:
     fakesMuon = views.SubdirectoryView(data_view, s3)
     fakesTauMuon = views.SubdirectoryView(data_view, s4)
     fakesMT = views.SumView(fakesTau, fakesMuon)
-    QCD = views.StyleView(SubtractionView(fakesMT, fakesTauMuon, restrict_positive=True), **remove_name_entry(data_styles['QCD*']))
+    embedtfakes = views.SubdirectoryView(embedtotal, s2)
+    embedmfakes = views.SubdirectoryView(embedtotal, s3)
+    embedmtfakes = views.SubdirectoryView(embedtotal, s4)
+    embedmt = views.SumView(embedtfakes, embedmfakes)
+    embedfakes = SubtractionView(embedmt, embedmtfakes, restrict_positive=True)
+    fakes = views.SumView(embedfakes, fakesTauMuon)
+    QCD = views.StyleView(SubtractionView(fakesMT, fakes, restrict_positive=True), **remove_name_entry(data_styles['QCD*']))
     QCD = views.TitleView(QCD, "W/QCD")
 
     vbfHMT = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'VBF_LFV_HToMuTau' in x , mc_samples)]), **remove_name_entry(data_styles['VBF_LFV*']))

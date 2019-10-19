@@ -1,27 +1,19 @@
 import rootpy.plotting.views as views
 from FinalStateAnalysis.PlotTools.Plotter import Plotter
-from FinalStateAnalysis.PlotTools.RebinView import RebinView
 from FinalStateAnalysis.PlotTools.SubtractionView import SubtractionView, PositiveView
-from FinalStateAnalysis.MetaData.data_styles import data_styles, colors
-from FinalStateAnalysis.PlotTools.decorators import memo
-from optparse import OptionParser
+from FinalStateAnalysis.MetaData.data_styles import data_styles
 import os
 import ROOT
 import glob
-import math
 import logging
 import sys
 logging.basicConfig(stream=sys.stderr, level=logging.ERROR)
-from fnmatch import fnmatch
-from yellowhiggs import xs, br, xsbr
 from FinalStateAnalysis.PlotTools.MegaBase import make_dirs
-from os import listdir
-from os.path import isfile, join
 
 def remove_name_entry(dictionary):
     return dict( [ i for i in dictionary.iteritems() if i[0] != 'name'] )
 
-ROOT.gROOT.SetStyle("Plain")
+ROOT.gROOT.SetStyle('Plain')
 ROOT.gROOT.SetBatch()
 ROOT.gStyle.SetOptStat(0)
 
@@ -49,7 +41,7 @@ for j in jet:
     s3 = 'EleLooseOS'+j
     s4 = 'EleLooseTauLooseOS'+j
     
-    outputdir = 'plots/%s/AnalyzeETauZTT/2017SelectionsEmbedPt/%s/' % (jobid, s1)
+    outputdir = 'plots/%s/AnalyzeETauZTT/2017SelectionsEmbedNewFake15/%s/' % (jobid, s1)
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
@@ -63,7 +55,7 @@ for j in jet:
     DYet = views.SumView(DYtfakes, DYefakes)
     DYfakes = SubtractionView(DYet, DYetfakes, restrict_positive=True)
     DY = views.StyleView(SubtractionView(DYall, DYfakes, restrict_positive=True), **remove_name_entry(data_styles['DY*']))
-    DY = views.TitleView(DY, "Z#rightarrow#mu#mu/ee")
+    DY = views.TitleView(DY, 'Z#rightarrow#mu#mu/ee')
 
     embedtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x :  x.startswith('embed') , mc_samples)])
     embedall = views.SubdirectoryView(embedtotal, s1)
@@ -73,7 +65,7 @@ for j in jet:
     embedet = views.SumView(embedtfakes, embedefakes)
     embedfakes = SubtractionView(embedet, embedetfakes, restrict_positive=True)
     embed = views.StyleView(SubtractionView(embedall, embedfakes, restrict_positive=True), **remove_name_entry(data_styles['DYTT*']))
-    embed = views.TitleView(embed, "Z#rightarrow#tau#tau")
+    embed = views.TitleView(embed, 'Z#rightarrow#tau#tau')
 
     EWKtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x :  x.startswith('EWK') , mc_samples)])
     EWKall = views.SubdirectoryView(EWKtotal, s1)
@@ -83,7 +75,7 @@ for j in jet:
     EWKet = views.SumView(EWKtfakes, EWKefakes)
     EWKfakes = SubtractionView(EWKet, EWKetfakes, restrict_positive=True)
     EWK = views.StyleView(SubtractionView(EWKall, EWKfakes, restrict_positive=True), **remove_name_entry(data_styles['W*Jets*']))
-    EWK = views.TitleView(EWK, "EWKW/Z")
+    EWK = views.TitleView(EWK, 'EWKW/Z')
 
     SMHtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'HToTauTau' in x or 'HToWW' in x , mc_samples)])
     SMHall = views.SubdirectoryView(SMHtotal, s1)
@@ -93,7 +85,7 @@ for j in jet:
     SMHet = views.SumView(SMHtfakes, SMHefakes)
     SMHfakes = SubtractionView(SMHet, SMHetfakes, restrict_positive=True)
     SMH = views.StyleView(SubtractionView(SMHall, SMHfakes, restrict_positive=True), **remove_name_entry(data_styles['*HToTauTau*']))
-    SMH = views.TitleView(SMH, "SM Higgs")
+    SMH = views.TitleView(SMH, 'SM Higgs')
 
     TTtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('TT') or x.startswith('ST'), mc_samples)])
     TTall = views.SubdirectoryView(TTtotal, s1)
@@ -103,7 +95,7 @@ for j in jet:
     TTet = views.SumView(TTtfakes, TTefakes)
     TTfakes = SubtractionView(TTet, TTetfakes, restrict_positive=True)
     TT = views.StyleView(SubtractionView(TTall, TTfakes, restrict_positive=True), **remove_name_entry(data_styles['TT*']))
-    TT = views.TitleView(TT, "t#bar{t},t+jets")
+    TT = views.TitleView(TT, 't#bar{t},t+jets')
 
     EWKDibosontotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('ZZ') or x.startswith('WZ') or x.startswith('WW'), mc_samples)])
     EWKDibosonall = views.SubdirectoryView(EWKDibosontotal, s1)
@@ -113,7 +105,7 @@ for j in jet:
     EWKDibosonet = views.SumView(EWKDibosontfakes, EWKDibosonefakes)
     EWKDibosonfakes = SubtractionView(EWKDibosonet, EWKDibosonetfakes, restrict_positive=True)
     EWKDiboson = views.StyleView(SubtractionView(EWKDibosonall, EWKDibosonfakes, restrict_positive=True), **remove_name_entry(data_styles['WZ*']))
-    EWKDiboson = views.TitleView(EWKDiboson, "Diboson")
+    EWKDiboson = views.TitleView(EWKDiboson, 'Diboson')
 
     data_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('QCD'), mc_samples)])
     fakesTau = views.SubdirectoryView(data_view, s2)
@@ -121,7 +113,7 @@ for j in jet:
     fakesTauEle = views.SubdirectoryView(data_view, s4)
     fakesET = views.SumView(fakesTau, fakesEle)
     QCD = views.StyleView(SubtractionView(fakesET, fakesTauEle, restrict_positive=True), **remove_name_entry(data_styles['QCD*']))
-    QCD = views.TitleView(QCD, "W/QCD")
+    QCD = views.TitleView(QCD, 'W/QCD')
 
     vbfHET = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'VBF_LFV_HToETau' in x , mc_samples)]), **remove_name_entry(data_styles['VBF_LFV*']))
     ggHET = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'GluGlu_LFV_HToETau' in x , mc_samples)]), **remove_name_entry(data_styles['GluGlu_LFV*']))
@@ -140,7 +132,7 @@ for j in jet:
     new_mc_samples.extend(['QCD', 'EWKDiboson', 'TT', 'EWK', 'DY', 'embed', 'SMH'])
     plotter.mc_samples = new_mc_samples
 
-    histoname = [("ePt", "e p_{T} (GeV)", 1),("tPt", "#tau p_{T} (GeV)", 1),("eEta", "e #eta", 1),("tEta", "#tau #eta", 1),("ePhi", "e #phi", 1),("tPhi", "#tau #phi", 1),("type1_pfMetEt", "MET (GeV)", 1),("type1_pfMetPhi", "MET #phi", 1),("e_t_Mass", "M_{vis}(e, #tau) (GeV)", 1),("e_t_CollinearMass", "M_{col}(e, #tau) (GeV)", 1),("numOfJets", "Number Of Jets", 1),("numOfVtx", "Number of Vertices", 1),("dEtaETau", "#Delta#eta(e, #tau)", 1),("dPhiEMET", "#Delta#phi(e, MET)", 1),("dPhiTauMET", "#Delta#phi(#tau, MET)", 1),("dPhiETau", "#Delta#phi(e, #tau)", 1),("MTEMET", "M_{T}(e, MET) (GeV)", 1),("MTTauMET", "M_{T}(#tau, MET) (GeV)", 1)]
+    histoname = [('ePt', 'e p_{T} (GeV)', 1),('tPt', '#tau p_{T} (GeV)', 1),('eEta', 'e #eta', 1),('tEta', '#tau #eta', 1),('ePhi', 'e #phi', 1),('tPhi', '#tau #phi', 1),('type1_pfMetEt', 'MET (GeV)', 1),('type1_pfMetPhi', 'MET #phi', 1),('e_t_Mass', 'M_{vis}(e, #tau) (GeV)', 1),('e_t_CollinearMass', 'M_{col}(e, #tau) (GeV)', 1),('numOfJets', 'Number Of Jets', 1),('numOfVtx', 'Number of Vertices', 1),('dEtaETau', '#Delta#eta(e, #tau)', 1),('dPhiEMET', '#Delta#phi(e, MET)', 1),('dPhiTauMET', '#Delta#phi(#tau, MET)', 1),('dPhiETau', '#Delta#phi(e, #tau)', 1),('MTEMET', 'M_{T}(e, MET) (GeV)', 1),('MTTauMET', 'M_{T}(#tau, MET) (GeV)', 1)]
 
     foldername = channel
 

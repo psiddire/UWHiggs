@@ -54,6 +54,7 @@ class AnalyzeMuTauZTT(MegaBase):
     self.w2 = mcCorrections.w2
     self.w3 = mcCorrections.w3
     self.we = mcCorrections.we
+    self.EmbedPt = mcCorrections.EmbedPt
 
     self.DYweight = self.mcWeight.DYweight
 
@@ -116,7 +117,7 @@ class AnalyzeMuTauZTT(MegaBase):
 
 
   def obj2_loose(self, row):
-    return bool(row.tRerunMVArun2v2DBoldDMwLTLoose > 0.5)
+    return bool(row.tRerunMVArun2v2DBoldDMwLTVLoose > 0.5)
 
 
   def dimuonveto(self, row):
@@ -128,61 +129,61 @@ class AnalyzeMuTauZTT(MegaBase):
     vbfnames=['TauLooseOS2JetVBF', 'MuonLooseOS2JetVBF', 'MuonLooseTauLooseOS2JetVBF', 'TightOS2JetVBF']
     namesize = len(names)
     for x in range(0, namesize):
-      self.book(names[x], "mPt", "Muon  Pt", 20, 0, 200)
-      self.book(names[x], "tPt", "Tau  Pt", 20, 0, 200)
-      self.book(names[x], "mEta", "Muon Eta", 20, -3, 3)
-      self.book(names[x], "tEta", "Tau Eta", 20, -3, 3)
-      self.book(names[x], "mPhi", "Muon Phi", 20, -4, 4)
-      self.book(names[x], "tPhi", "Tau Phi", 20, -4, 4)
-      self.book(names[x], "type1_pfMetEt", "Type1 MET Et", 20, 0, 200)
-      self.book(names[x], "type1_pfMetPhi", "Type1 MET Phi", 20, -4, 4)
-      self.book(names[x], "j1Pt", "Jet 1 Pt", 30, 0, 300)
-      self.book(names[x], "j2Pt", "Jet 2 Pt", 30, 0, 300)
-      self.book(names[x], "j1Eta", "Jet 1 Eta", 20, -3, 3)
-      self.book(names[x], "j2Eta", "Jet 2 Eta", 20, -3, 3)
-      self.book(names[x], "j1Phi", "Jet 1 Phi", 20, -4, 4)
-      self.book(names[x], "j2Phi", "Jet 2 Phi", 20, -4, 4)
-      self.book(names[x], "m_t_Mass", "Muon + Tau Mass", 30, 0, 300)
-      self.book(names[x], "m_t_CollinearMass", "Muon + Tau Collinear Mass", 30, 0, 300)
-      self.book(names[x], "m_t_PZeta", "Muon + Tau PZeta", 80, -400, 400)
-      self.book(names[x], "numOfJets", "Number of Jets", 5, 0, 5)
-      self.book(names[x], "numOfVtx", "Number of Vertices", 100, 0, 100)
-      self.book(names[x], "vbfMass", "VBF Mass", 100, 0, 1000)
-      self.book(names[x], "dEtaMuTau", "Delta Eta Mu Tau", 50, 0, 5)
-      self.book(names[x], "dPhiMuMET", "Delta Phi Mu MET", 40, 0, 4)
-      self.book(names[x], "dPhiTauMET", "Delta Phi Tau MET", 40, 0, 4)
-      self.book(names[x], "dPhiMuTau", "Delta Phi Mu Tau", 40, 0, 4)
-      self.book(names[x], "MTMuMET", "Muon MET Transverse Mass", 20, 0, 200)
-      self.book(names[x], "MTTauMET", "Tau MET Transverse Mass", 20, 0, 200)
+      self.book(names[x], 'mPt', 'Muon  Pt', 20, 0, 200)
+      self.book(names[x], 'tPt', 'Tau  Pt', 20, 0, 200)
+      self.book(names[x], 'mEta', 'Muon Eta', 20, -3, 3)
+      self.book(names[x], 'tEta', 'Tau Eta', 20, -3, 3)
+      self.book(names[x], 'mPhi', 'Muon Phi', 20, -4, 4)
+      self.book(names[x], 'tPhi', 'Tau Phi', 20, -4, 4)
+      self.book(names[x], 'type1_pfMetEt', 'Type1 MET Et', 20, 0, 200)
+      self.book(names[x], 'type1_pfMetPhi', 'Type1 MET Phi', 20, -4, 4)
+      self.book(names[x], 'j1Pt', 'Jet 1 Pt', 30, 0, 300)
+      self.book(names[x], 'j2Pt', 'Jet 2 Pt', 30, 0, 300)
+      self.book(names[x], 'j1Eta', 'Jet 1 Eta', 20, -3, 3)
+      self.book(names[x], 'j2Eta', 'Jet 2 Eta', 20, -3, 3)
+      self.book(names[x], 'j1Phi', 'Jet 1 Phi', 20, -4, 4)
+      self.book(names[x], 'j2Phi', 'Jet 2 Phi', 20, -4, 4)
+      self.book(names[x], 'm_t_Mass', 'Muon + Tau Mass', 30, 0, 300)
+      self.book(names[x], 'm_t_CollinearMass', 'Muon + Tau Collinear Mass', 30, 0, 300)
+      self.book(names[x], 'm_t_PZeta', 'Muon + Tau PZeta', 80, -400, 400)
+      self.book(names[x], 'numOfJets', 'Number of Jets', 5, 0, 5)
+      self.book(names[x], 'numOfVtx', 'Number of Vertices', 100, 0, 100)
+      self.book(names[x], 'vbfMass', 'VBF Mass', 100, 0, 1000)
+      self.book(names[x], 'dEtaMuTau', 'Delta Eta Mu Tau', 50, 0, 5)
+      self.book(names[x], 'dPhiMuMET', 'Delta Phi Mu MET', 40, 0, 4)
+      self.book(names[x], 'dPhiTauMET', 'Delta Phi Tau MET', 40, 0, 4)
+      self.book(names[x], 'dPhiMuTau', 'Delta Phi Mu Tau', 40, 0, 4)
+      self.book(names[x], 'MTMuMET', 'Muon MET Transverse Mass', 20, 0, 200)
+      self.book(names[x], 'MTTauMET', 'Tau MET Transverse Mass', 20, 0, 200)
 
     vbfnamesize = len(vbfnames)
     for x in range(0, vbfnamesize):
-      self.book(vbfnames[x], "mPt", "Muon  Pt", 10, 0, 200)
-      self.book(vbfnames[x], "tPt", "Tau  Pt", 10, 0, 200)
-      self.book(vbfnames[x], "mEta", "Muon Eta", 10, -3, 3)
-      self.book(vbfnames[x], "tEta", "Tau Eta", 10, -3, 3)
-      self.book(vbfnames[x], "mPhi", "Muon Phi", 10, -4, 4)
-      self.book(vbfnames[x], "tPhi", "Tau Phi", 10, -4, 4)
-      self.book(vbfnames[x], "type1_pfMetEt", "Type1 MET Et", 10, 0, 200)
-      self.book(vbfnames[x], "type1_pfMetPhi", "Type1 MET Phi", 10, -4, 4)
-      self.book(vbfnames[x], "j1Pt", "Jet 1 Pt", 15, 0, 300)
-      self.book(vbfnames[x], "j2Pt", "Jet 2 Pt", 15, 0, 300)
-      self.book(vbfnames[x], "j1Eta", "Jet 1 Eta", 10, -3, 3)
-      self.book(vbfnames[x], "j2Eta", "Jet 2 Eta", 10, -3, 3)
-      self.book(vbfnames[x], "j1Phi", "Jet 1 Phi", 10, -4, 4)
-      self.book(vbfnames[x], "j2Phi", "Jet 2 Phi", 10, -4, 4)
-      self.book(vbfnames[x], "m_t_Mass", "Muon + Tau Mass", 15, 0, 300)
-      self.book(vbfnames[x], "m_t_CollinearMass", "Muon + Tau Collinear Mass", 15, 0, 300)
-      self.book(vbfnames[x], "m_t_PZeta", "Muon + Tau PZeta", 40, -400, 400)
-      self.book(vbfnames[x], "numOfJets", "Number of Jets", 5, 0, 5)
-      self.book(vbfnames[x], "numOfVtx", "Number of Vertices", 100, 0, 100)
-      self.book(vbfnames[x], "vbfMass", "VBF Mass", 50, 0, 1000)
-      self.book(vbfnames[x], "dEtaMuTau", "Delta Eta Mu Tau", 20, 0, 5)
-      self.book(vbfnames[x], "dPhiMuMET", "Delta Phi Mu MET", 10, 0, 4)
-      self.book(vbfnames[x], "dPhiTauMET", "Delta Phi Tau MET", 10, 0, 4)
-      self.book(vbfnames[x], "dPhiMuTau", "Delta Phi Mu Tau", 10, 0, 4)
-      self.book(vbfnames[x], "MTMuMET", "Muon MET Transverse Mass", 10, 0, 200)
-      self.book(vbfnames[x], "MTTauMET", "Tau MET Transverse Mass", 10, 0, 200)
+      self.book(vbfnames[x], 'mPt', 'Muon  Pt', 10, 0, 200)
+      self.book(vbfnames[x], 'tPt', 'Tau  Pt', 10, 0, 200)
+      self.book(vbfnames[x], 'mEta', 'Muon Eta', 10, -3, 3)
+      self.book(vbfnames[x], 'tEta', 'Tau Eta', 10, -3, 3)
+      self.book(vbfnames[x], 'mPhi', 'Muon Phi', 10, -4, 4)
+      self.book(vbfnames[x], 'tPhi', 'Tau Phi', 10, -4, 4)
+      self.book(vbfnames[x], 'type1_pfMetEt', 'Type1 MET Et', 10, 0, 200)
+      self.book(vbfnames[x], 'type1_pfMetPhi', 'Type1 MET Phi', 10, -4, 4)
+      self.book(vbfnames[x], 'j1Pt', 'Jet 1 Pt', 15, 0, 300)
+      self.book(vbfnames[x], 'j2Pt', 'Jet 2 Pt', 15, 0, 300)
+      self.book(vbfnames[x], 'j1Eta', 'Jet 1 Eta', 10, -3, 3)
+      self.book(vbfnames[x], 'j2Eta', 'Jet 2 Eta', 10, -3, 3)
+      self.book(vbfnames[x], 'j1Phi', 'Jet 1 Phi', 10, -4, 4)
+      self.book(vbfnames[x], 'j2Phi', 'Jet 2 Phi', 10, -4, 4)
+      self.book(vbfnames[x], 'm_t_Mass', 'Muon + Tau Mass', 15, 0, 300)
+      self.book(vbfnames[x], 'm_t_CollinearMass', 'Muon + Tau Collinear Mass', 15, 0, 300)
+      self.book(vbfnames[x], 'm_t_PZeta', 'Muon + Tau PZeta', 40, -400, 400)
+      self.book(vbfnames[x], 'numOfJets', 'Number of Jets', 5, 0, 5)
+      self.book(vbfnames[x], 'numOfVtx', 'Number of Vertices', 100, 0, 100)
+      self.book(vbfnames[x], 'vbfMass', 'VBF Mass', 50, 0, 1000)
+      self.book(vbfnames[x], 'dEtaMuTau', 'Delta Eta Mu Tau', 20, 0, 5)
+      self.book(vbfnames[x], 'dPhiMuMET', 'Delta Phi Mu MET', 10, 0, 4)
+      self.book(vbfnames[x], 'dPhiTauMET', 'Delta Phi Tau MET', 10, 0, 4)
+      self.book(vbfnames[x], 'dPhiMuTau', 'Delta Phi Mu Tau', 10, 0, 4)
+      self.book(vbfnames[x], 'MTMuMET', 'Muon MET Transverse Mass', 10, 0, 200)
+      self.book(vbfnames[x], 'MTTauMET', 'Tau MET Transverse Mass', 10, 0, 200)
 
 
   def fill_histos(self, row, myMuon, myMET, myTau, weight, name=''):
@@ -324,6 +325,9 @@ class AnalyzeMuTauZTT(MegaBase):
       weight = 1.0
       tEff = 0.0
       if self.is_mc:
+        self.w2.var('m_pt').setVal(myMuon.Pt())
+        self.w2.var('m_eta').setVal(myMuon.Eta())
+        tEff = 0 if self.w2.function('m_trg24_27_kit_mc').getVal()==0 else self.w2.function('m_trg24_27_kit_data').getVal()/self.w2.function('m_trg24_27_kit_mc').getVal()
         mTrk = self.muTracking(myMuon.Eta())[0]
         mID = self.muonTightID(myMuon.Pt(), abs(myMuon.Eta()))
         if self.obj1_tight(row):
@@ -331,11 +335,7 @@ class AnalyzeMuTauZTT(MegaBase):
         else:
           mIso = self.muonLooseIsoTightID(myMuon.Pt(), abs(myMuon.Eta()))
         mcSF = self.rc.kSpreadMC(row.mCharge, myMuon.Pt(), myMuon.Eta(), myMuon.Phi(), row.mGenPt, 0, 0)
-        weight = row.GenWeight*pucorrector[''](row.nTruePU)*mID*mTrk*mIso*mcSF*row.prefiring_weight
-        self.w2.var("m_pt").setVal(myMuon.Pt())
-        self.w2.var("m_eta").setVal(myMuon.Eta())
-        if trigger24 or trigger27:
-          tEff = 0 if self.w2.function("m_trg24_27_kit_mc").getVal()==0 else self.w2.function("m_trg24_27_kit_data").getVal()/self.w2.function("m_trg24_27_kit_mc").getVal()
+        weight = row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mTrk*mIso*mcSF*row.prefiring_weight
         if row.tZTTGenMatching==2 or row.tZTTGenMatching==4:
           if abs(myTau.Eta()) < 0.4:
             weight = weight*1.17
@@ -355,9 +355,9 @@ class AnalyzeMuTauZTT(MegaBase):
         elif row.tZTTGenMatching==5:
           weight = weight*0.89
         if self.is_DY:
-          self.w2.var("z_gen_mass").setVal(row.genMass)
-          self.w2.var("z_gen_pt").setVal(row.genpT)
-          dyweight = self.w2.function("zptmass_weight_nom").getVal()
+          self.w2.var('z_gen_mass').setVal(row.genMass)
+          self.w2.var('z_gen_pt').setVal(row.genpT)
+          dyweight = self.w2.function('zptmass_weight_nom').getVal()
           weight = weight*dyweight
           if row.numGenJets < 5:
             weight = weight*self.DYweight[row.numGenJets]
@@ -370,6 +370,8 @@ class AnalyzeMuTauZTT(MegaBase):
             continue
         weight = self.mcWeight.lumiWeight(weight)
 
+      mjj = row.vbfMassWoNoisyJets
+
       m_trg_sf = 0.0
       if self.is_embed:
         tID = 0.97
@@ -379,28 +381,25 @@ class AnalyzeMuTauZTT(MegaBase):
           dm = 0.975*1.051
         elif row.tDecayMode == 10:
           dm = pow(0.975, 3)
-        self.we.var("m_pt").setVal(myMuon.Pt())
-        self.we.var("m_eta").setVal(myMuon.Eta())
-        self.we.var("m_iso").setVal(row.mRelPFIsoDBDefaultR04)
-        self.we.var("gt_pt").setVal(myMuon.Pt())
-        self.we.var("gt_eta").setVal(myMuon.Eta())
-        msel = self.we.function("m_sel_idEmb_ratio").getVal()
-        self.we.var("gt_pt").setVal(myTau.Pt())
-        self.we.var("gt_eta").setVal(myTau.Eta())
-        tsel = self.we.function("m_sel_idEmb_ratio").getVal()
-        self.we.var("gt1_pt").setVal(myMuon.Pt())
-        self.we.var("gt1_eta").setVal(myMuon.Eta())
-        self.we.var("gt2_pt").setVal(myTau.Pt())
-        self.we.var("gt2_eta").setVal(myTau.Eta())
-        trgsel = self.we.function("m_sel_trg_ratio").getVal()
-        m_iso_sf = self.we.function("m_iso_binned_embed_kit_ratio").getVal()
-        m_id_sf = self.we.function("m_id_embed_kit_ratio").getVal()
+        self.we.var('m_pt').setVal(myMuon.Pt())
+        self.we.var('m_eta').setVal(myMuon.Eta())
+        self.we.var('m_iso').setVal(row.mRelPFIsoDBDefaultR04)
+        self.we.var('gt_pt').setVal(myMuon.Pt())
+        self.we.var('gt_eta').setVal(myMuon.Eta())
+        msel = self.we.function('m_sel_idEmb_ratio').getVal()
+        self.we.var('gt_pt').setVal(myTau.Pt())
+        self.we.var('gt_eta').setVal(myTau.Eta())
+        tsel = self.we.function('m_sel_idEmb_ratio').getVal()
+        self.we.var('gt1_pt').setVal(myMuon.Pt())
+        self.we.var('gt1_eta').setVal(myMuon.Eta())
+        self.we.var('gt2_pt').setVal(myTau.Pt())
+        self.we.var('gt2_eta').setVal(myTau.Eta())
+        trgsel = self.we.function('m_sel_trg_ratio').getVal()
+        m_iso_sf = self.we.function('m_iso_binned_embed_kit_ratio').getVal()
+        m_id_sf = self.we.function('m_id_embed_kit_ratio').getVal()
         m_trk_sf = self.muTracking(myMuon.Eta())[0]
-        if trigger24 or trigger27:
-          m_trg_sf = self.we.function("m_trg24_27_embed_kit_ratio").getVal()
-        weight = weight*row.GenWeight*tID*m_trg_sf*m_id_sf*m_iso_sf*m_trk_sf*dm*msel*tsel*trgsel
-
-      mjj = row.vbfMassWoNoisyJets
+        m_trg_sf = self.we.function('m_trg24_27_embed_kit_ratio').getVal()
+        weight = weight*row.GenWeight*tID*m_trg_sf*m_id_sf*m_iso_sf*m_trk_sf*dm*msel*tsel*trgsel*self.EmbedPt(myMuon.Pt(), njets, mjj)
 
       if not self.obj2_tight(row) and self.obj2_loose(row) and self.obj1_tight(row):
         frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)

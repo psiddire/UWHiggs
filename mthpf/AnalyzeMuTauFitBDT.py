@@ -14,7 +14,7 @@ import math
 import mcCorrections
 import mcWeights
 import Kinematics
-from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVACat
+from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVACat, FunctorFromMVA
 from bTagSF import PromoteDemote
 
 MetCorrection = True
@@ -55,6 +55,7 @@ class AnalyzeMuTauFitBDT(MegaBase):
     self.w2 = mcCorrections.w2
     self.w3 = mcCorrections.w3
     self.we = mcCorrections.we
+    self.EmbedPt = mcCorrections.EmbedPt
 
     self.DYweight = self.mcWeight.DYweight
 
@@ -67,8 +68,8 @@ class AnalyzeMuTauFitBDT(MegaBase):
     self.topPtreweight = Kinematics.topPtreweight
 
     self.var_d_star =['mPt', 'tPt', 'dPhiMuTau', 'dEtaMuTau', 'type1_pfMetEt', 'm_t_collinearMass', 'MTTauMET', 'dPhiTauMET', 'njets', 'vbfMass']
-    self.xml_name = os.path.join(os.getcwd(), "bdtdata/dataset/weights/TMVAClassification_BDTCat.weights.xml")
-    self.functor = FunctorFromMVACat('BDTCat method', self.xml_name, *self.var_d_star)
+    self.xml_name = os.path.join(os.getcwd(), 'bdtdata/dataset/weights/TMVAClassification_BDT.weights.xml')
+    self.functor = FunctorFromMVACat('BDT method', self.xml_name, *self.var_d_star)
 
     super(AnalyzeMuTauFitBDT, self).__init__(tree, outfile, **kwargs)
     self.tree = MuTauTree.MuTauTree(tree)
@@ -121,7 +122,7 @@ class AnalyzeMuTauFitBDT(MegaBase):
 
 
   def obj2_loose(self, row):
-    return bool(row.tRerunMVArun2v2DBoldDMwLTLoose > 0.5)
+    return bool(row.tRerunMVArun2v2DBoldDMwLTVLoose > 0.5)
 
 
   def dimuonveto(self, row):
@@ -132,7 +133,7 @@ class AnalyzeMuTauFitBDT(MegaBase):
     names=['TauLooseWOS', 'TauLooseOS', 'TauLooseSS', 'MuonLooseWOS', 'MuonLooseOS', 'MuonLooseSS', 'MuonLooseTauLooseWOS', 'MuonLooseTauLooseOS', 'MuonLooseTauLooseSS', 'TightWOS', 'TightOS', 'TightSS', 'TauLooseWOS0Jet', 'TauLooseOS0Jet', 'TauLooseSS0Jet', 'MuonLooseWOS0Jet', 'MuonLooseOS0Jet', 'MuonLooseSS0Jet', 'MuonLooseTauLooseWOS0Jet', 'MuonLooseTauLooseOS0Jet', 'MuonLooseTauLooseSS0Jet', 'TightWOS0Jet', 'TightOS0Jet', 'TightSS0Jet', 'TauLooseWOS1Jet', 'TauLooseOS1Jet', 'TauLooseSS1Jet', 'MuonLooseWOS1Jet', 'MuonLooseOS1Jet', 'MuonLooseSS1Jet', 'MuonLooseTauLooseWOS1Jet', 'MuonLooseTauLooseOS1Jet', 'MuonLooseTauLooseSS1Jet', 'TightWOS1Jet', 'TightOS1Jet', 'TightSS1Jet', 'TauLooseWOS2Jet', 'TauLooseOS2Jet', 'TauLooseSS2Jet', 'MuonLooseWOS2Jet', 'MuonLooseOS2Jet', 'MuonLooseSS2Jet', 'MuonLooseTauLooseWOS2Jet', 'MuonLooseTauLooseOS2Jet', 'MuonLooseTauLooseSS2Jet', 'TightWOS2Jet', 'TightOS2Jet', 'TightSS2Jet', 'TauLooseWOS2JetVBF', 'TauLooseOS2JetVBF', 'TauLooseSS2JetVBF', 'MuonLooseWOS2JetVBF', 'MuonLooseOS2JetVBF', 'MuonLooseSS2JetVBF', 'MuonLooseTauLooseWOS2JetVBF', 'MuonLooseTauLooseOS2JetVBF', 'MuonLooseTauLooseSS2JetVBF', 'TightWOS2JetVBF', 'TightOS2JetVBF', 'TightSS2JetVBF']
     namesize = len(names)
     for x in range(0, namesize):
-      self.book(names[x], "bdtDiscriminator", "BDT Discriminator", 200, -1.0, 1.0)
+      self.book(names[x], 'bdtDiscriminator', 'BDT Discriminator', 200, -1.0, 1.0)
 
 
   def fill_histos(self, myMuon, myMET, myTau, njets, mjj, weight, name=''):
@@ -244,6 +245,7 @@ class AnalyzeMuTauFitBDT(MegaBase):
 
       weight = 1.0
       if self.is_mc:
+        tEff = 0 if self.w2.function('m_trg24_27_kit_mc').getVal()==0 else self.w2.function('m_trg24_27_kit_data').getVal()/self.w2.function('m_trg24_27_kit_mc').getVal()
         mTrk = self.muTracking(myMuon.Eta())[0]
         mID = self.muonTightID(myMuon.Pt(), abs(myMuon.Eta()))
         if self.obj1_tight(row):
@@ -251,12 +253,9 @@ class AnalyzeMuTauFitBDT(MegaBase):
         else:
           mIso = self.muonLooseIsoTightID(myMuon.Pt(), abs(myMuon.Eta()))
         mcSF = self.rc.kSpreadMC(row.mCharge, myMuon.Pt(), myMuon.Eta(), myMuon.Phi(), row.mGenPt, 0, 0)
-        weight = row.GenWeight*pucorrector[''](row.nTruePU)*mID*mTrk*mIso*mcSF*row.prefiring_weight
-        self.w2.var("m_pt").setVal(myMuon.Pt())
-        self.w2.var("m_eta").setVal(myMuon.Eta())
-        if trigger24 or trigger27:
-          tEff = 0 if self.w2.function("m_trg24_27_kit_mc").getVal()==0 else self.w2.function("m_trg24_27_kit_data").getVal()/self.w2.function("m_trg24_27_kit_mc").getVal()
-          weight = weight*tEff
+        weight = weight*tEff*row.GenWeight*pucorrector[''](row.nTruePU)*mID*mTrk*mIso*mcSF*row.prefiring_weight
+        self.w2.var('m_pt').setVal(myMuon.Pt())
+        self.w2.var('m_eta').setVal(myMuon.Eta())
         if row.tZTTGenMatching==2 or row.tZTTGenMatching==4:
           if abs(myTau.Eta()) < 0.4:
             weight = weight*1.17
@@ -276,9 +275,9 @@ class AnalyzeMuTauFitBDT(MegaBase):
         elif row.tZTTGenMatching==5:
           weight = weight*0.89
         if self.is_DY:
-          self.w2.var("z_gen_mass").setVal(row.genMass)
-          self.w2.var("z_gen_pt").setVal(row.genpT)
-          dyweight = self.w2.function("zptmass_weight_nom").getVal()
+          self.w2.var('z_gen_mass').setVal(row.genMass)
+          self.w2.var('z_gen_pt').setVal(row.genpT)
+          dyweight = self.w2.function('zptmass_weight_nom').getVal()
           weight = weight*dyweight
           if row.numGenJets < 5:
             weight = weight*self.DYweight[row.numGenJets]
@@ -291,6 +290,8 @@ class AnalyzeMuTauFitBDT(MegaBase):
             continue
         weight = self.mcWeight.lumiWeight(weight)
 
+      mjj = row.vbfMassWoNoisyJets
+
       m_trg_sf = 0.0
       if self.is_embed:
         tID = 0.97
@@ -300,28 +301,25 @@ class AnalyzeMuTauFitBDT(MegaBase):
           dm = 0.975*1.051
         elif row.tDecayMode == 10:
           dm = pow(0.975, 3)
-        self.we.var("m_pt").setVal(myMuon.Pt())
-        self.we.var("m_eta").setVal(myMuon.Eta())
-        self.we.var("m_iso").setVal(row.mRelPFIsoDBDefaultR04)
-        self.we.var("gt_pt").setVal(myMuon.Pt())
-        self.we.var("gt_eta").setVal(myMuon.Eta())
-        msel = self.we.function("m_sel_idEmb_ratio").getVal()
-        self.we.var("gt_pt").setVal(myTau.Pt())
-        self.we.var("gt_eta").setVal(myTau.Eta())
-        tsel = self.we.function("m_sel_idEmb_ratio").getVal()
-        self.we.var("gt1_pt").setVal(myMuon.Pt())
-        self.we.var("gt1_eta").setVal(myMuon.Eta())
-        self.we.var("gt2_pt").setVal(myTau.Pt())
-        self.we.var("gt2_eta").setVal(myTau.Eta())
-        trgsel = self.we.function("m_sel_trg_ratio").getVal()
-        m_iso_sf = self.we.function("m_iso_binned_embed_kit_ratio").getVal()
-        m_id_sf = self.we.function("m_id_embed_kit_ratio").getVal()
+        self.we.var('m_pt').setVal(myMuon.Pt())
+        self.we.var('m_eta').setVal(myMuon.Eta())
+        self.we.var('m_iso').setVal(row.mRelPFIsoDBDefaultR04)
+        self.we.var('gt_pt').setVal(myMuon.Pt())
+        self.we.var('gt_eta').setVal(myMuon.Eta())
+        msel = self.we.function('m_sel_idEmb_ratio').getVal()
+        self.we.var('gt_pt').setVal(myTau.Pt())
+        self.we.var('gt_eta').setVal(myTau.Eta())
+        tsel = self.we.function('m_sel_idEmb_ratio').getVal()
+        self.we.var('gt1_pt').setVal(myMuon.Pt())
+        self.we.var('gt1_eta').setVal(myMuon.Eta())
+        self.we.var('gt2_pt').setVal(myTau.Pt())
+        self.we.var('gt2_eta').setVal(myTau.Eta())
+        trgsel = self.we.function('m_sel_trg_ratio').getVal()
+        m_trg_sf = self.we.function('m_trg24_27_embed_kit_ratio').getVal()
+        m_iso_sf = self.we.function('m_iso_binned_embed_kit_ratio').getVal()
+        m_id_sf = self.we.function('m_id_embed_kit_ratio').getVal()
         m_trk_sf = self.muTracking(myMuon.Eta())[0]
-        if trigger24 or trigger27:
-          m_trg_sf = self.we.function("m_trg24_27_embed_kit_ratio").getVal()
-        weight = weight*row.GenWeight*tID*m_trg_sf*m_id_sf*m_iso_sf*m_trk_sf*dm*msel*tsel*trgsel
-
-      mjj = row.vbfMassWoNoisyJets
+        weight = weight*row.GenWeight*tID*m_trg_sf*m_id_sf*m_iso_sf*m_trk_sf*dm*msel*tsel*trgsel*self.EmbedPt(myMuon.Pt(), njets, mjj)
 
       if not self.obj2_tight(row) and self.obj2_loose(row) and self.obj1_tight(row):
         frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
@@ -339,13 +337,13 @@ class AnalyzeMuTauFitBDT(MegaBase):
               elif njets==2 and mjj > 550:
                 self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'TauLooseWOS2JetVBF')
           self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'TauLooseOS')
-          if njets==0 and self.transverseMass(myTau, myMET) < 105:
+          if njets==0:
             self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'TauLooseOS0Jet')
-          elif njets==1 and self.transverseMass(myTau, myMET) < 105:
+          elif njets==1:
             self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'TauLooseOS1Jet')
-          elif njets==2 and mjj < 550 and self.transverseMass(myTau, myMET) < 105:
+          elif njets==2 and mjj < 550:
             self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'TauLooseOS2Jet')
-          elif njets==2 and mjj > 550 and self.transverseMass(myTau, myMET) < 85:
+          elif njets==2 and mjj > 550:
             self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'TauLooseOS2JetVBF')
         if not self.oppositesign(row):
           self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'TauLooseSS')
@@ -374,13 +372,13 @@ class AnalyzeMuTauFitBDT(MegaBase):
               elif njets==2 and mjj > 550:
                 self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'MuonLooseWOS2JetVBF')
           self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'MuonLooseOS')
-          if njets==0 and self.transverseMass(myTau, myMET) < 105:
+          if njets==0:
             self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'MuonLooseOS0Jet')
-          elif njets==1 and self.transverseMass(myTau, myMET) < 105:
+          elif njets==1:
             self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'MuonLooseOS1Jet')
-          elif njets==2 and mjj < 550 and self.transverseMass(myTau, myMET) < 105:
+          elif njets==2 and mjj < 550:
             self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'MuonLooseOS2Jet')
-          elif njets==2 and mjj > 550 and self.transverseMass(myTau, myMET) < 85:
+          elif njets==2 and mjj > 550:
             self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'MuonLooseOS2JetVBF')
         if not self.oppositesign(row):
           self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'MuonLooseSS')
@@ -410,13 +408,13 @@ class AnalyzeMuTauFitBDT(MegaBase):
               elif njets==2 and mjj > 550:
                 self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'MuonLooseTauLooseWOS2JetVBF')
           self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'MuonLooseTauLooseOS')
-          if njets==0 and self.transverseMass(myTau, myMET) < 105:
+          if njets==0:
             self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'MuonLooseTauLooseOS0Jet')
-          elif njets==1 and self.transverseMass(myTau, myMET) < 105:
+          elif njets==1:
             self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'MuonLooseTauLooseOS1Jet')
-          elif njets==2 and mjj < 550 and self.transverseMass(myTau, myMET) < 105:
+          elif njets==2 and mjj < 550:
             self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'MuonLooseTauLooseOS2Jet')
-          elif njets==2 and mjj > 550 and self.transverseMass(myTau, myMET) < 85:
+          elif njets==2 and mjj > 550:
             self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'MuonLooseTauLooseOS2JetVBF')
         if not self.oppositesign(row):
           self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'MuonLooseTauLooseSS')
@@ -443,13 +441,13 @@ class AnalyzeMuTauFitBDT(MegaBase):
               elif njets==2 and mjj > 550:
                 self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'TightWOS2JetVBF')
           self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'TightOS')
-          if njets==0 and self.transverseMass(myTau, myMET) < 105:
+          if njets==0:
             self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'TightOS0Jet')
-          elif njets==1 and self.transverseMass(myTau, myMET) < 105:
+          elif njets==1:
             self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'TightOS1Jet')
-          elif njets==2 and mjj < 550 and self.transverseMass(myTau, myMET) < 105:
+          elif njets==2 and mjj < 550:
             self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'TightOS2Jet')
-          elif njets==2 and mjj > 550 and self.transverseMass(myTau, myMET) < 85:
+          elif njets==2 and mjj > 550:
             self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'TightOS2JetVBF')
         if not self.oppositesign(row):
           self.fill_histos(myMuon, myMET, myTau, njets, mjj, weight, 'TightSS')

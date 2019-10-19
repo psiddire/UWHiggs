@@ -1,13 +1,19 @@
+'''
+
+Electron Fake Rate calculation in the Z+Jets control region.
+
+Authors: Prasanna Siddireddy
+
+'''
+
 import EMMTree
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
-import glob
 import os
 import ROOT
 import math
 import mcCorrections
 import mcWeights
 import Kinematics
-from math import sqrt, pi
 from bTagSF import PromoteDemote
 
 target = os.path.basename(os.environ['megatarget'])
@@ -29,11 +35,10 @@ class AnalyzeEMM(MegaBase):
     self.h_btag_eff_oth = mcCorrections.h_btag_eff_oth
 
     self.triggerEff = mcCorrections.efficiency_trigger_mu_2017
-    self.muonMediumID = mcCorrections.muonID_medium
-    self.muonTightIsoMediumID = mcCorrections.muonIso_tight_mediumid
+    self.muonTightID = mcCorrections.muonID_tight
+    self.muonTightIsoTightID = mcCorrections.muonIso_tight_tightid
     self.muTracking = mcCorrections.muonTracking
     self.eIDnoIsoWP80 = mcCorrections.eIDnoIsoWP80
-    self.eIDIsoWP80 = mcCorrections.eIDIsoWP80
     self.eReco = mcCorrections.eReco
 
     self.w1 = mcCorrections.w1
@@ -80,8 +85,8 @@ class AnalyzeEMM(MegaBase):
 
   def obj1_id(self,row):
     return bool(row.m1PFIDMedium) and bool(abs(row.m1PVDZ) < 0.2) and bool(abs(row.m1PVDXY) < 0.045)
- 
- 
+
+
   def obj1_iso(self,row):
     return bool(row.m1RelPFIsoDBDefaultR04 < 0.15)
   
@@ -98,12 +103,8 @@ class AnalyzeEMM(MegaBase):
     return (bool(row.eMVANoisoWP80) and bool(abs(row.ePVDZ) < 0.2) and bool(abs(row.ePVDXY) < 0.045) and bool(row.ePassesConversionVeto) and bool(row.eMissingHits < 2))
 
 
-  #def obj3_tightid(self, row):
-  #  return (bool(row.eMVAIsoWP80) and bool(abs(row.ePVDZ) < 0.2) and bool(abs(row.ePVDXY) < 0.045) and bool(row.ePassesConversionVeto) and bool(row.eMissingHits < 2)) 
-
-
   def obj3_tight(self, row):
-    return bool(row.eRelPFIsoRho < 0.1)
+    return bool(row.eRelPFIsoRho < 0.15)
 
 
   def obj3_loose(self, row):
@@ -115,27 +116,27 @@ class AnalyzeEMM(MegaBase):
 
 
   def begin(self):
-    names=['initial', 'eleloose', 'eletight']
+    names=['initial', 'eleloose', 'eletight', 'LEB', 'LEE', 'TEB', 'TEE']
     namesize = len(names)
     for x in range(0,namesize):
-      self.book(names[x], "ePt", "Electron Pt", 20, 0, 200)
-      self.book(names[x], "eEta", "Electron Eta", 20, -3, 3)
-      self.book(names[x], "m1_m2_Mass", "Invariant Muon Mass", 10, 50, 150)
-      self.book(names[x], "m1Pt", "Muon 1 Pt", 20, 0, 200)
-      self.book(names[x], "m1Eta", "Muon 1 Eta", 20, -3, 3)
-      self.book(names[x], "m2Pt", "Muon 2 Pt", 20, 0, 200)
-      self.book(names[x], "m2Eta", "Muon 2 Eta", 20, -3, 3)
+      self.book(names[x], "e3Pt", "Electron 3 Pt", 20, 0, 200)
+      self.book(names[x], "e3Eta", "Electron 3 Eta", 20, -3, 3)
+      #self.book(names[x], "m1_m2_Mass", "Invariant Muon Mass", 10, 50, 150)
+      #self.book(names[x], "m1Pt", "Muon 1 Pt", 20, 0, 200)
+      #self.book(names[x], "m1Eta", "Muon 1 Eta", 20, -3, 3)
+      #self.book(names[x], "m2Pt", "Muon 2 Pt", 20, 0, 200)
+      #self.book(names[x], "m2Eta", "Muon 2 Eta", 20, -3, 3)
 
 
   def fill_histos(self, myMuon1, myMuon2, myEle, weight, name=''):
     histos = self.histograms
-    histos[name+'/ePt'].Fill(myEle.Pt(), weight)
-    histos[name+'/eEta'].Fill(myEle.Eta(), weight)
-    histos[name+'/m1_m2_Mass'].Fill(self.visibleMass(myMuon1, myMuon2), weight)
-    histos[name+'/m1Pt'].Fill(myMuon1.Pt(), weight)
-    histos[name+'/m1Eta'].Fill(myMuon1.Eta(), weight)
-    histos[name+'/m2Pt'].Fill(myMuon2.Pt(), weight)
-    histos[name+'/m2Eta'].Fill(myMuon2.Eta(), weight)
+    histos[name+'/e3Pt'].Fill(myEle.Pt(), weight)
+    histos[name+'/e3Eta'].Fill(myEle.Eta(), weight)
+    #histos[name+'/m1_m2_Mass'].Fill(self.visibleMass(myMuon1, myMuon2), weight)
+    #histos[name+'/m1Pt'].Fill(myMuon1.Pt(), weight)
+    #histos[name+'/m1Eta'].Fill(myMuon1.Eta(), weight)
+    #histos[name+'/m2Pt'].Fill(myMuon2.Pt(), weight)
+    #histos[name+'/m2Eta'].Fill(myMuon2.Eta(), weight)
 
 
   def process(self):
@@ -178,16 +179,15 @@ class AnalyzeEMM(MegaBase):
       myMuon1.SetPtEtaPhiM(row.m1Pt, row.m1Eta, row.m1Phi, row.m1Mass)
       myMuon2 = ROOT.TLorentzVector()
       myMuon2.SetPtEtaPhiM(row.m2Pt, row.m2Eta, row.m2Phi, row.m2Mass)
+      myEle = ROOT.TLorentzVector()
+      myEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
+      myEle = myEle * ROOT.Double(row.eCorrectedEt/row.eecalEnergy)
 
       if self.visibleMass(myMuon1, myMuon2) < 70 or self.visibleMass(myMuon1, myMuon2) > 110:
         continue
 
       if not self.obj3_id(row):
         continue
-
-      myEle = ROOT.TLorentzVector()
-      myEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
-      myEle = myEle * ROOT.Double(row.eCorrectedEt/row.eecalEnergy)
 
       nbtag = row.bjetDeepCSVVeto20Medium
       bpt_1 = row.jb1pt
@@ -204,21 +204,23 @@ class AnalyzeEMM(MegaBase):
           self.w2.var("m_pt").setVal(myMuon1.Pt())
           self.w2.var("m_eta").setVal(myMuon1.Eta())
           tEff = self.w2.function("m_trg24_27_kit_data").getVal()/self.w2.function("m_trg24_27_kit_mc").getVal()
-        if m2Trigger24 or m2Trigger27:
+        elif m2Trigger24 or m2Trigger27:
           self.w2.var("m_pt").setVal(myMuon2.Pt())
           self.w2.var("m_eta").setVal(myMuon2.Eta())
           tEff = self.w2.function("m_trg24_27_kit_data").getVal()/self.w2.function("m_trg24_27_kit_mc").getVal()
-        m1ID = self.muonMediumID(myMuon1.Pt(), abs(myMuon1.Eta()))
-        m1Iso = self.muonTightIsoMediumID(myMuon1.Pt(), abs(myMuon1.Eta()))
-        m2ID = self.muonMediumID(myMuon2.Pt(), abs(myMuon2.Eta()))
-        m2Iso = self.muonTightIsoMediumID(myMuon2.Pt(), abs(myMuon2.Eta()))
+        m1ID = self.muonTightID(myMuon1.Pt(), abs(myMuon1.Eta()))
+        m1Iso = self.muonTightIsoTightID(myMuon1.Pt(), abs(myMuon1.Eta()))
+        m1Trk = self.muTracking(row.m1Eta)[0]
+        m2ID = self.muonTightID(myMuon2.Pt(), abs(myMuon2.Eta()))
+        m2Iso = self.muonTightIsoTightID(myMuon2.Pt(), abs(myMuon2.Eta()))
+        m2Trk = self.muTracking(row.m2Eta)[0]
         self.w2.var("e_pt").setVal(myEle.Pt())
         self.w2.var("e_iso").setVal(row.eRelPFIsoRho)
         self.w2.var("e_eta").setVal(myEle.Eta())
         eID = self.w2.function("e_id80_kit_ratio").getVal()
         eIso = self.w2.function("e_iso_kit_ratio").getVal()
         eTrk = self.w2.function("e_trk_ratio").getVal()
-        weight = weight * tEff * m1ID * m1Iso * m2ID * m2Iso * eID * eIso * eTrk
+        weight = weight * tEff * m1ID * m1Iso * m1Trk * m2ID * m2Iso * m2Trk * eID * eIso * eTrk
         if self.is_DY:
           self.w2.var("z_gen_mass").setVal(row.genMass)
           self.w2.var("z_gen_pt").setVal(row.genpT)
@@ -228,23 +230,23 @@ class AnalyzeEMM(MegaBase):
             weight = weight * self.DYweight[row.numGenJets]
           else:
             weight = weight * self.DYweight[0]
-          if self.visibleMass(myMuon1, myMuon2) < 80:
-            weight = weight * 1.233
-          elif self.visibleMass(myMuon1, myMuon2) < 90:
-            weight = weight * 1.03
-          elif self.visibleMass(myMuon1, myMuon2) < 100:
-            weight = weight * 0.909
-          elif self.visibleMass(myMuon1, myMuon2) < 110:
-            weight = weight * 1.287            
         weight = self.mcWeight.lumiWeight(weight)
 
       self.fill_histos(myMuon1, myMuon2, myEle, weight, 'initial')
 
       if self.obj3_loose(row):
         self.fill_histos(myMuon1, myMuon2, myEle, weight, 'eleloose')
+        if abs(myEle.Eta()) < 1.5:
+          self.fill_histos(myMuon1, myMuon2, myEle, weight, 'LEB')
+        else:
+          self.fill_histos(myMuon1, myMuon2, myEle, weight, 'LEE')
 
       if self.obj3_tight(row):
         self.fill_histos(myMuon1, myMuon2, myEle, weight, 'eletight')
+        if abs(myEle.Eta()) < 1.5:
+          self.fill_histos(myMuon1, myMuon2, myEle, weight, 'TEB')
+        else:
+          self.fill_histos(myMuon1, myMuon2, myEle, weight, 'TEE')
 
 
   def finish(self):

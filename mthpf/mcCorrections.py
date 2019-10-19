@@ -83,6 +83,110 @@ def make_shifted_weights(default, shifts, functors):
         return default(*args, **kwargs)
     return functor
 
+fpt = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/MuTauEmbedPt.root")
+wpt0 = fpt.Get("0Jet")
+wpt1 = fpt.Get("1Jet")
+wpt2 = fpt.Get("2Jet")
+
+def EmbedPt(pt, njets, mjj):
+    if pt > 200:
+        return 1.0
+    if njets==0:
+        return wpt0.GetBinContent(wpt0.GetXaxis().FindBin(pt))
+    elif njets==1:
+        return wpt1.GetBinContent(wpt1.GetXaxis().FindBin(pt))
+    elif njets==2 and mjj < 550:
+        return wpt2.GetBinContent(wpt2.GetXaxis().FindBin(pt))
+    else:
+        return 1.0
+
+def fakerate_weight(pt, eta, dm, shift=''):
+    if eta < 1.5:
+        if dm==0:
+            if shift=='':
+                fr = 0.2615 - 0.0008124*pt
+            elif shift=='frp0Up':
+                fr = 0.271127 - 0.0008124*pt
+            elif shift=='frp0Down':
+                fr = 0.251873 - 0.0008124*pt
+            elif shift=='frp1Up':
+                fr = 0.2615 - 0.0006168*pt
+            elif shift=='frp1Down':
+                fr = 0.2615 - 0.001008*pt
+        elif dm==1:
+            if shift=='':
+                fr = 0.2036 - 0.0006504*pt
+            elif shift=='frp0Up':
+                fr = 0.209283 - 0.0006504*pt
+            elif shift=='frp0Down':
+                fr = 0.197917 - 0.0006504*pt
+            elif shift=='frp1Up':
+                fr = 0.2036 - 0.0005396*pt
+            elif shift=='frp1Down':
+                fr = 0.2036 - 0.0007612*pt
+        elif dm==10:
+            if shift=='':
+                fr = 0.1398 + 0.0000672*pt
+            elif shift=='frp0Up':
+                fr = 0.14983 + 0.0000672*pt
+            elif shift=='frp0Down':
+                fr = 0.12977 + 0.0000672*pt
+            elif shift=='frp1Up':
+                fr = 0.1398 + 0.0002811*pt
+            elif shift=='frp1Down':
+                fr = 0.1398 - 0.0001467*pt
+    else:
+        if dm==0:
+            if shift=='':
+                fr = 0.3012 - 0.001312*pt
+            elif shift=='frp0Up':
+                fr = 0.31557 - 0.001312*pt
+            elif shift=='frp0Down':
+                fr = 0.28683 - 0.001312*pt
+            elif shift=='frp1Up':
+                fr = 0.3012 - 0.001046*pt
+            elif shift=='frp1Down':
+                fr = 0.3012 - 0.001578*pt
+        elif dm==1:
+            if shift=='':
+                fr = 0.1966 - 0.0004434*pt
+            elif shift=='frp0Up':
+                fr = 0.20785 - 0.0004434*pt
+            elif shift=='frp0Down':
+                fr = 0.18535 - 0.0004434*pt
+            elif shift=='frp1Up':
+                fr = 0.1966 - 0.0002202*pt
+            elif shift=='frp1Down':
+                fr = 0.1966 - 0.0006666*pt
+        elif dm==10:
+            if shift=='':
+                fr = 0.1724 - 0.0003947*pt
+            elif shift=='frp0Up':
+                fr = 0.18904 - 0.0003947*pt
+            elif shift=='frp0Down':
+                fr = 0.15576 - 0.0003947*pt
+            elif shift=='frp1Up':
+                fr = 0.1724 - 0.0000369*pt
+            elif shift=='frp1Down':
+                fr = 0.1724 - 0.0007525*pt
+    return fr/(1-fr)
+
+def fakerateMuon_weight(pt, shift=''):
+    if pt < 100:
+        if shift=='':
+            fr = 0.7905 + 0.001371*pt
+        elif shift=='frp0Up':
+            fr = 0.797167 + 0.001371*pt
+        elif shift=='frp0Down':
+            fr = 0.783833 + 0.001371*pt
+        elif shift=='frp1Up':
+            fr = 0.7905 + 0.00146129*pt
+        elif shift=='frp1Down':
+            fr = 0.7905 + 0.00128071*pt
+    else:
+        fr = 0
+    return fr/(1-fr)
+
 rc = RoccoR.RoccoR("../../FinalStateAnalysis/NtupleTools/data/RoccoR2017.txt")
 
 muonID_tight = MuonPOGCorrections.make_muon_pog_PFTight_2017ReReco()
@@ -94,8 +198,8 @@ muonIso_loose_looseid = MuonPOGCorrections.make_muon_pog_LooseIso_2017ReReco('Lo
 muonIso_loose_mediumid = MuonPOGCorrections.make_muon_pog_LooseIso_2017ReReco('Medium')
 muonIso_loose_tightid = MuonPOGCorrections.make_muon_pog_LooseIso_2017ReReco('Tight')
 efficiency_trigger_mu_2017 = MuonPOGCorrections.make_muon_pog_IsoMu27_2017ReReco()
-fakerate_weight = FakeRate.FakeRateWeight()
-fakerateMuon_weight = FakeRate.FakeRateMuonWeight()
+#fakerate_weight = FakeRate.FakeRateWeight()
+#fakerateMuon_weight = FakeRate.FakeRateMuonWeight()
 fakerateElectron_weight = FakeRate.FakeRateElectronWeight() 
 muonTracking = MuonPOGCorrections.mu_trackingEta_2017
 DYreweight = DYCorrection.make_DYreweight()

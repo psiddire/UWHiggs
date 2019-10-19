@@ -56,8 +56,8 @@ for j in jet:
     s2 = 'TauLooseWOS'+j
     s3 = 'MuonLooseWOS'+j
     s4 = 'MuonLooseTauLooseWOS'+j
-     
-    outputdir = 'plots/%s/AnalyzeMuTau/2017SelectionsEmbed/%s/' % (jobid, s1)
+
+    outputdir = 'plots/%s/AnalyzeMuTau/2017SelectionsNoEmbedFakeNewFakePt/%s/' % (jobid, s1)
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 

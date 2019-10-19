@@ -48,16 +48,16 @@ for j in jet:
     s2 = 'TauLooseOS'+j
     s3 = 'MuonLooseOS'+j
     s4 = 'MuonLooseTauLooseOS'+j
-    s1 = 'TightSS'+j
-    s2 = 'TauLooseSS'+j
-    s3 = 'MuonLooseSS'+j
-    s4 = 'MuonLooseTauLooseSS'+j
-    s1 = 'TightWOS'+j
-    s2 = 'TauLooseWOS'+j
-    s3 = 'MuonLooseWOS'+j
-    s4 = 'MuonLooseTauLooseWOS'+j
+    #s1 = 'TightSS'+j
+    #s2 = 'TauLooseSS'+j
+    #s3 = 'MuonLooseSS'+j
+    #s4 = 'MuonLooseTauLooseSS'+j
+    #s1 = 'TightWOS'+j
+    #s2 = 'TauLooseWOS'+j
+    #s3 = 'MuonLooseWOS'+j
+    #s4 = 'MuonLooseTauLooseWOS'+j
      
-    outputdir = 'plots/%s/AnalyzeMuTauFitBDT/2017SelectionsEmbed/%s/' % (jobid, s1)
+    outputdir = 'plots/%s/AnalyzeMuTauFitBDT/2017SelectionsEmbedBDT/%s/' % (jobid, s1)
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
@@ -157,5 +157,5 @@ for j in jet:
             os.makedirs(outputdir+'/'+fn)
 
         for n,h in enumerate(histoname):
-            plotter.plot_mc_vs_data(fn, ['VBF_LFV_HToMuTau_M125*', 'GluGlu_LFV_HToMuTau_M125*'], h[0], 5, xaxis = h[1], leftside=False, xrange=[-0.7,0.3], preprocess=None, show_ratio=True, ratio_range=1.5, sort=True, blind_region=True, control=s1, jets=j, channel='mutauh')
+            plotter.plot_mc_vs_data(fn, ['VBF_LFV_HToMuTau_M125*', 'GluGlu_LFV_HToMuTau_M125*'], h[0], 5, xaxis = h[1], leftside=False, xrange=[-0.8,0.5], preprocess=None, show_ratio=True, ratio_range=1.5, sort=True, blind_region=True, control=s1, jets=j, channel='mutauh')
             plotter.save(h[0])

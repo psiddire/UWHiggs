@@ -4,7 +4,7 @@ Run LFV H->MuTau analysis in the mu+tau_h channel.
 
 Authors: Prasanna Siddireddy
 
-'''   
+'''
 
 import MuTauTree
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
@@ -18,7 +18,7 @@ import Kinematics
 from bTagSF import PromoteDemote, PromoteDemoteSyst, bTagEventWeight
 import random
 
-MetCorrection = True
+MetCorrection = False
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target)
 Emb = True
@@ -57,6 +57,7 @@ class AnalyzeMuTauSys(MegaBase):
     self.w2 = mcCorrections.w2
     self.w3 = mcCorrections.w3
     self.we = mcCorrections.we
+    self.EmbedPt = mcCorrections.EmbedPt
 
     self.DYweight = self.mcWeight.DYweight
 
@@ -67,7 +68,14 @@ class AnalyzeMuTauSys(MegaBase):
     self.collMass = Kinematics.collMass
     self.transverseMass = Kinematics.transverseMass
     self.topPtreweight = Kinematics.topPtreweight
+
+    self.names = Kinematics.names
+    self.loosenames = Kinematics.loosenames
     self.jes = Kinematics.jes
+    self.fakes = Kinematics.fakes
+    self.sys = Kinematics.sys
+    self.fakeSys = Kinematics.fakeSys
+    self.scaleSys = Kinematics.scaleSys
 
     super(AnalyzeMuTauSys, self).__init__(tree, outfile, **kwargs)
     self.tree = MuTauTree.MuTauTree(tree)
@@ -120,7 +128,7 @@ class AnalyzeMuTauSys(MegaBase):
 
 
   def obj2_loose(self, row):
-    return bool(row.tRerunMVArun2v2DBoldDMwLTLoose > 0.5)
+    return bool(row.tRerunMVArun2v2DBoldDMwLTVLoose > 0.5)
 
 
   def dimuonveto(self, row):
@@ -129,19 +137,14 @@ class AnalyzeMuTauSys(MegaBase):
 
   def begin(self):
     folder = []
-    names = ['TightOS', 'TightOS0Jet', 'TightOS1Jet', 'TightOS2Jet', 'TightOS2JetVBF']
-    loosenames = ['TauLooseOS', 'MuonLooseOS', 'MuonLooseTauLooseOS', 'TauLooseOS0Jet', 'MuonLooseOS0Jet', 'MuonLooseTauLooseOS0Jet', 'TauLooseOS1Jet', 'MuonLooseOS1Jet', 'MuonLooseTauLooseOS1Jet', 'TauLooseOS2Jet', 'MuonLooseOS2Jet', 'MuonLooseTauLooseOS2Jet', 'TauLooseOS2JetVBF', 'MuonLooseOS2JetVBF', 'MuonLooseTauLooseOS2JetVBF']
-    sys = ['', 'puUp', 'puDown', 'pfUp', 'pfDown', 'trUp', 'trDown', 'tidUp', 'tidDown', 'recrespUp', 'recrespDown', 'recresoUp', 'recresoDown', 'bTagUp', 'bTagDown', 'embtrUp', 'embtrDown', 'embtrkUp', 'embtrkDown', 'mtfakeUp', 'mtfakeDown', 'etfakeUp', 'etfakeDown', 'etefakeUp', 'etefakeDown', 'scaletDM0Up', 'scaletDM0Down', 'scaletDM1Up', 'scaletDM1Down', 'scaletDM10Up', 'scaletDM10Down', 'mesUp', 'mesDown', 'DYptreweightUp', 'DYptreweightDown', 'UnclusteredEnDown', 'UnclusteredEnUp', 'TopptreweightUp', 'TopptreweightDown']
-    fakes = ['', 'MuonFakeUp', 'MuonFakeDown', 'TauFakeEBDM0Up', 'TauFakeEBDM0Down', 'TauFakeEBDM1Up', 'TauFakeEBDM1Down', 'TauFakeEBDM10Up', 'TauFakeEBDM10Down', 'TauFakeEEDM0Up', 'TauFakeEEDM0Down', 'TauFakeEEDM1Up', 'TauFakeEEDM1Down', 'TauFakeEEDM10Up', 'TauFakeEEDM10Down']
-
-    for tuple_path in itertools.product(names, sys):
+    for tuple_path in itertools.product(self.names, self.sys):
       folder.append(os.path.join(*tuple_path))
-    for tuple_path_jes in itertools.product(names, self.jes):
+    for tuple_path_jes in itertools.product(self.names, self.jes):
       folder.append(os.path.join(*tuple_path_jes))
-    for tuple_path_fakes in itertools.product(loosenames, fakes):
+    for tuple_path_fakes in itertools.product(self.loosenames, self.fakes):
       folder.append(os.path.join(*tuple_path_fakes))
     for f in folder:
-      self.book(f, "m_t_CollinearMass", "Muon + Tau Collinear Mass", 60, 0, 300)
+      self.book(f, 'm_t_CollinearMass', 'Muon + Tau Collinear Mass', 60, 0, 300)
 
 
   def fill_histos(self, myMuon, myMET, myTau, weight, name=''):
@@ -342,10 +345,8 @@ class AnalyzeMuTauSys(MegaBase):
       if not self.is_DY:
         if row.tZTTGenMatching==5:
           if row.tDecayMode==0:
-            self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM1Up')
-            self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM1Down')
-            self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM10Up')
-            self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM10Down')
+            sSys = [x for x in self.scaleSys if x not in ['/scaletDM0Up', '/scaletDM0Down']]
+            self.fill_scaleSys(row, myMuon, myMET, myTau, njets, mjj, weight, sSys)
             myMETpx = myMET.Px() - 0.008 * myTau.Px()
             myMETpy = myMET.Py() - 0.008 * myTau.Py()
             tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
@@ -357,10 +358,8 @@ class AnalyzeMuTauSys(MegaBase):
             tmpTau = myTau * ROOT.Double(0.992)
             self.fill_categories(row, myMuon, tmpMET, tmpTau, njets, mjj, weight, '/scaletDM0Down')
           elif row.tDecayMode==1:
-            self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM0Up')
-            self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM0Down')
-            self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM10Up')
-            self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM10Down')
+            sSys = [x for x in self.scaleSys if x not in ['/scaletDM1Up', '/scaletDM1Down']]
+            self.fill_scaleSys(row, myMuon, myMET, myTau, njets, mjj, weight, sSys)
             myMETpx = myMET.Px() - 0.008 * myTau.Px()
             myMETpy = myMET.Py() - 0.008 * myTau.Py()
             tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
@@ -372,10 +371,8 @@ class AnalyzeMuTauSys(MegaBase):
             tmpTau = myTau * ROOT.Double(0.992)
             self.fill_categories(row, myMuon, tmpMET, tmpTau, njets, mjj, weight, '/scaletDM1Down')
           elif row.tDecayMode==10:
-            self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM1Up')
-            self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM1Down')
-            self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM0Up')
-            self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM0Down')
+            sSys = [x for x in self.scaleSys if x not in ['/scaletDM10Up', '/scaletDM10Down']]
+            self.fill_scaleSys(row, myMuon, myMET, myTau, njets, mjj, weight, sSys)
             myMETpx = myMET.Px() - 0.009 * myTau.Px()
             myMETpy = myMET.Py() - 0.009 * myTau.Py()
             tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
@@ -387,24 +384,14 @@ class AnalyzeMuTauSys(MegaBase):
             tmpTau = myTau * ROOT.Double(0.991)
             self.fill_categories(row, myMuon, tmpMET, tmpTau, njets, mjj, weight, '/scaletDM10Down')
           else:
-            self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM0Up')
-            self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM0Down')
-            self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM1Up')
-            self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM1Down')
-            self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM10Up')
-            self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM10Down')
+            self.fill_scaleSys(row, myMuon, myMET, myTau, njets, mjj, weight, self.scaleSys)
         else:
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM0Up')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM0Down')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM1Up')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM1Down')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM10Up')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM10Down')
+          self.fill_scaleSys(row, myMuon, myMET, myTau, njets, mjj, weight, self.scaleSys)
 
       if self.is_DY:
-        self.w2.var("z_gen_mass").setVal(row.genMass)
-        self.w2.var("z_gen_pt").setVal(row.genpT)
-        dyweight = self.w2.function("zptmass_weight_nom").getVal()
+        self.w2.var('z_gen_mass').setVal(row.genMass)
+        self.w2.var('z_gen_pt').setVal(row.genpT)
+        dyweight = self.w2.function('zptmass_weight_nom').getVal()
         self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight*1.1, '/DYptreweightUp')
         self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight*0.9, '/DYptreweightDown')
 
@@ -417,13 +404,19 @@ class AnalyzeMuTauSys(MegaBase):
       myrand = random.random()
       if not self.obj1_tight(row) and self.obj1_loose(row):
         if myrand < 0.5:
-          weightDown = 0 if self.fakeRateMuon(myMuon.Pt())==0 else self.fakeRateMuon(myMuon.Pt(), 'frDown') * weight/self.fakeRateMuon(myMuon.Pt())
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weightDown, '/MuonFakeDown')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/MuonFakeUp')
+          weightDown = 0 if self.fakeRateMuon(myMuon.Pt())==0 else self.fakeRateMuon(myMuon.Pt(), 'frp0Down') * weight/self.fakeRateMuon(myMuon.Pt())
+          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weightDown, '/MuonFakep0Down')
+          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/MuonFakep0Up')
+          weightDown = 0 if self.fakeRateMuon(myMuon.Pt())==0 else self.fakeRateMuon(myMuon.Pt(), 'frp1Down') * weight/self.fakeRateMuon(myMuon.Pt())
+          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weightDown, '/MuonFakep1Down')
+          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/MuonFakep1Up')
         else:
-          weightUp = 0 if self.fakeRateMuon(myMuon.Pt())==0 else self.fakeRateMuon(myMuon.Pt(), 'frUp') * weight/self.fakeRateMuon(myMuon.Pt())
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weightUp, '/MuonFakeUp')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/MuonFakeDown')
+          weightUp = 0 if self.fakeRateMuon(myMuon.Pt())==0 else self.fakeRateMuon(myMuon.Pt(), 'frp0Up') * weight/self.fakeRateMuon(myMuon.Pt())
+          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weightUp, '/MuonFakep0Up')
+          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/MuonFakep0Down')
+          weightUp = 0 if self.fakeRateMuon(myMuon.Pt())==0 else self.fakeRateMuon(myMuon.Pt(), 'frp1Up') * weight/self.fakeRateMuon(myMuon.Pt())
+          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weightUp, '/MuonFakep1Up')
+          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/MuonFakep1Down')
 
       if not (self.is_recoilC and MetCorrection):
         tmpMET.SetPtEtaPhiM(row.type1_pfMet_shiftedPt_UnclusteredEnUp, 0, row.type1_pfMet_shiftedPhi_UnclusteredEnUp, 0)
@@ -443,18 +436,24 @@ class AnalyzeMuTauSys(MegaBase):
     else:
       self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '')
       self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '')
-      self.tauFRSys(row, myMuon, myMET, myTau, njets, mjj, weight)
 
+      self.tauFRSys(row, myMuon, myMET, myTau, njets, mjj, weight)
       myrand = random.random()
       if not self.obj1_tight(row) and self.obj1_loose(row):
         if myrand < 0.5:
-          weightDown = 0 if self.fakeRateMuon(myMuon.Pt())==0 else self.fakeRateMuon(myMuon.Pt(), 'frDown') * weight/self.fakeRateMuon(myMuon.Pt())
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weightDown, '/MuonFakeDown')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/MuonFakeUp')
+          weightDown = 0 if self.fakeRateMuon(myMuon.Pt())==0 else self.fakeRateMuon(myMuon.Pt(), 'frp0Down') * weight/self.fakeRateMuon(myMuon.Pt())
+          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weightDown, '/MuonFakep0Down')
+          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/MuonFakep0Up')
+          weightDown = 0 if self.fakeRateMuon(myMuon.Pt())==0 else self.fakeRateMuon(myMuon.Pt(), 'frp1Down') * weight/self.fakeRateMuon(myMuon.Pt())
+          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weightDown, '/MuonFakep1Down')
+          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/MuonFakep1Up')
         else:
-          weightUp = 0 if self.fakeRateMuon(myMuon.Pt())==0 else self.fakeRateMuon(myMuon.Pt(), 'frUp') * weight/self.fakeRateMuon(myMuon.Pt())
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weightUp, '/MuonFakeUp')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/MuonFakeDown')
+          weightUp = 0 if self.fakeRateMuon(myMuon.Pt())==0 else self.fakeRateMuon(myMuon.Pt(), 'frp0Up') * weight/self.fakeRateMuon(myMuon.Pt())
+          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weightUp, '/MuonFakep0Up')
+          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/MuonFakep0Down')
+          weightUp = 0 if self.fakeRateMuon(myMuon.Pt())==0 else self.fakeRateMuon(myMuon.Pt(), 'frp1Up') * weight/self.fakeRateMuon(myMuon.Pt())
+          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weightUp, '/MuonFakep1Up')
+          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/MuonFakep1Down')
 
       if self.is_embed:
         self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * 1.02, '/trUp')
@@ -463,10 +462,8 @@ class AnalyzeMuTauSys(MegaBase):
         self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * 0.96, '/embtrDown')
 
         if row.tDecayMode==0:
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM1Up')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM1Down')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM10Up')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM10Down')
+          sSys = [x for x in self.scaleSys if x not in ['/scaletDM0Up', '/scaletDM0Down']]
+          self.fill_scaleSys(row, myMuon, myMET, myTau, njets, mjj, weight, sSys)
           myMETpx = myMET.Px() - 0.008 * myTau.Px()
           myMETpy = myMET.Py() - 0.008 * myTau.Py()
           tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
@@ -478,10 +475,8 @@ class AnalyzeMuTauSys(MegaBase):
           tmpTau = myTau * ROOT.Double(0.992)
           self.fill_categories(row, myMuon, tmpMET, tmpTau, njets, mjj, weight, '/scaletDM0Down')
         elif row.tDecayMode==1:
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM0Up')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM0Down')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM10Up')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM10Down')
+          sSys = [x for x in self.scaleSys if x not in ['/scaletDM1Up', '/scaletDM1Down']]
+          self.fill_scaleSys(row, myMuon, myMET, myTau, njets, mjj, weight, sSys)
           myMETpx = myMET.Px() - 0.008 * myTau.Px()
           myMETpy = myMET.Py() - 0.008 * myTau.Py()
           tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
@@ -493,10 +488,8 @@ class AnalyzeMuTauSys(MegaBase):
           tmpTau = myTau * ROOT.Double(0.992)
           self.fill_categories(row, myMuon, tmpMET, tmpTau, njets, mjj, weight, '/scaletDM1Down')
         elif row.tDecayMode==10:
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM1Up')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM1Down')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM0Up')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM0Down')
+          sSys = [x for x in self.scaleSys if x not in ['/scaletDM10Up', '/scaletDM10Down']]
+          self.fill_scaleSys(row, myMuon, myMET, myTau, njets, mjj, weight, sSys)
           myMETpx = myMET.Px() - 0.009 * myTau.Px()
           myMETpy = myMET.Py() - 0.009 * myTau.Py()
           tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
@@ -508,12 +501,7 @@ class AnalyzeMuTauSys(MegaBase):
           tmpTau = myTau * ROOT.Double(0.991)
           self.fill_categories(row, myMuon, tmpMET, tmpTau, njets, mjj, weight, '/scaletDM10Down')
         else:
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM0Up')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM0Down')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM1Up')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM1Down')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM10Up')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/scaletDM10Down')
+          self.fill_scaleSys(row, myMuon, myMET, myTau, njets, mjj, weight, self.scaleSys)
 
         if row.tDecayMode == 0:
           dm = 0.975
@@ -532,120 +520,66 @@ class AnalyzeMuTauSys(MegaBase):
           self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/embtrkDown')
 
 
+  def fill_scaleSys(self, row, myMuon, myMET, myTau, njets, mjj, weight, scaleSys):
+      for s in scaleSys:
+          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, s)
+
+
+  def fill_fakeSys(self, row, myMuon, myMET, myTau, njets, mjj, weight, fakeSys):
+      for f in fakeSys:
+          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, f)
+
+
   def tauFRSys(self, row, myMuon, myMET, myTau, njets, mjj, weight):
     if not self.obj2_tight(row) and self.obj2_loose(row):
       if abs(myTau.Eta()) < 1.5:
         if row.tDecayMode == 0:
-          self.fill_taufr(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Down')
+          self.fill_taufr(row, myMuon, myMET, myTau, njets, mjj, weight, 'EBDM0')
+          fSys = [x for x in self.fakeSys if x not in ['/TauFakep0EBDM0Up', '/TauFakep1EBDM0Up', '/TauFakep0EBDM0Down', '/TauFakep1EBDM0Down']]
+          self.fill_fakeSys(row, myMuon, myMET, myTau, njets, mjj, weight, fSys)
         elif row.tDecayMode == 1:
-          self.fill_taufr(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Down')
+          self.fill_taufr(row, myMuon, myMET, myTau, njets, mjj, weight, 'EBDM1')
+          fSys = [x for x in self.fakeSys if x not in ['/TauFakep0EBDM1Up', '/TauFakep1EBDM1Up', '/TauFakep0EBDM1Down', '/TauFakep1EBDM1Down']]
+          self.fill_fakeSys(row, myMuon, myMET, myTau, njets, mjj, weight, fSys)
         elif row.tDecayMode == 10:
-          self.fill_taufr(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Down')
+          self.fill_taufr(row, myMuon, myMET, myTau, njets, mjj, weight, 'EBDM10')
+          fSys = [x for x in self.fakeSys if x not in ['/TauFakep0EBDM10Up', '/TauFakep1EBDM10Up', '/TauFakep0EBDM10Down', '/TauFakep1EBDM10Down']]
+          self.fill_fakeSys(row, myMuon, myMET, myTau, njets, mjj, weight, fSys)
         else:
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Down')
+          self.fill_fakeSys(row, myMuon, myMET, myTau, njets, mjj, weight, self.fakeSys)
       else:
         if row.tDecayMode == 0:
-          self.fill_taufr(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Down')
+          self.fill_taufr(row, myMuon, myMET, myTau, njets, mjj, weight, 'EEDM0')
+          fSys = [x for x in self.fakeSys if x not in ['/TauFakep0EEDM0Up', '/TauFakep1EEDM0Up', '/TauFakep0EEDM0Down', '/TauFakep1EEDM0Down']]
+          self.fill_fakeSys(row, myMuon, myMET, myTau, njets, mjj, weight, fSys)
         elif row.tDecayMode == 1:
-          self.fill_taufr(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Down')
+          self.fill_taufr(row, myMuon, myMET, myTau, njets, mjj, weight, 'EEDM1')
+          fSys = [x for x in self.fakeSys if x not in ['/TauFakep0EEDM1Up', '/TauFakep1EEDM1Up', '/TauFakep0EEDM1Down', '/TauFakep1EEDM1Down']]
+          self.fill_fakeSys(row, myMuon, myMET, myTau, njets, mjj, weight, fSys)
         elif row.tDecayMode == 10:
-          self.fill_taufr(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Down')
+          self.fill_taufr(row, myMuon, myMET, myTau, njets, mjj, weight, 'EEDM10')
+          fSys = [x for x in self.fakeSys if x not in ['/TauFakep0EEDM10Up', '/TauFakep1EEDM10Up', '/TauFakep0EEDM10Down', '/TauFakep1EEDM10Down']]
+          self.fill_fakeSys(row, myMuon, myMET, myTau, njets, mjj, weight, fSys)
         else:
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM0Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM1Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEEDM10Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM0Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM1Down')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Up')
-          self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakeEBDM10Down')
+          self.fill_fakeSys(row, myMuon, myMET, myTau, njets, mjj, weight, self.fakeSys)
 
 
   def fill_taufr(self, row, myMuon, myMET, myTau, njets, mjj, weight, name):
     myrand = random.random()
     if myrand < 0.5:
-      weightDown = 0 if self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)==0 else self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode, 'frDown') * weight/self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
-      self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weightDown, name+'Down')
-      self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, name+'Up')
+      weightDown = 0 if self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)==0 else self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode, 'frp0Down') * weight/self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
+      self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weightDown, '/TauFakep0'+name+'Down')
+      self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakep0'+name+'Up')
+      weightDown = 0 if self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)==0 else self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode, 'frp1Down') * weight/self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
+      self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weightDown, '/TauFakep1'+name+'Down')
+      self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakep1'+name+'Up')
     else:
-      weightUp = 0 if self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)==0 else self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode, 'frUp') * weight/self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
-      self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weightUp, name+'Up')
-      self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, name+'Down')
+      weightUp = 0 if self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)==0 else self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode, 'frp0Up') * weight/self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
+      self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weightUp, '/TauFakep0'+name+'Up')
+      self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakep0'+name+'Down')
+      weightUp = 0 if self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)==0 else self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode, 'frp1Up') * weight/self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
+      self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weightUp, '/TauFakep1'+name+'Up')
+      self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '/TauFakep1'+name+'Down')
 
 
   def tauPtC(self, row, myMET, myTau):
@@ -745,6 +679,9 @@ class AnalyzeMuTauSys(MegaBase):
 
       weight = 1.0
       if self.is_mc:
+        self.w2.var('m_pt').setVal(myMuon.Pt())
+        self.w2.var('m_eta').setVal(myMuon.Eta())
+        tEff = 0 if self.w2.function('m_trg24_27_kit_mc').getVal()==0 else self.w2.function('m_trg24_27_kit_data').getVal()/self.w2.function('m_trg24_27_kit_mc').getVal()
         mTrk = self.muTracking(myMuon.Eta())[0]
         mID = self.muonTightID(myMuon.Pt(), abs(myMuon.Eta()))
         if self.obj1_tight(row):
@@ -752,12 +689,7 @@ class AnalyzeMuTauSys(MegaBase):
         else:
           mIso = self.muonLooseIsoTightID(myMuon.Pt(), abs(myMuon.Eta()))
         mcSF = self.rc.kSpreadMC(row.mCharge, myMuon.Pt(), myMuon.Eta(), myMuon.Phi(), row.mGenPt, 0, 0)
-        weight = row.GenWeight*pucorrector[''](row.nTruePU)*mID*mTrk*mIso*mcSF*row.prefiring_weight
-        self.w2.var("m_pt").setVal(myMuon.Pt())
-        self.w2.var("m_eta").setVal(myMuon.Eta())
-        if trigger24 or trigger27:
-          tEff = 0 if self.w2.function("m_trg24_27_kit_mc").getVal()==0 else self.w2.function("m_trg24_27_kit_data").getVal()/self.w2.function("m_trg24_27_kit_mc").getVal()
-          weight = weight*tEff
+        weight = row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mTrk*mIso*mcSF*row.prefiring_weight
         if row.tZTTGenMatching==2 or row.tZTTGenMatching==4:
           if abs(myTau.Eta()) < 0.4:
             weight = weight*1.17
@@ -777,9 +709,9 @@ class AnalyzeMuTauSys(MegaBase):
         elif row.tZTTGenMatching==5:
           weight = weight*0.89
         if self.is_DY:
-          self.w2.var("z_gen_mass").setVal(row.genMass)
-          self.w2.var("z_gen_pt").setVal(row.genpT)
-          dyweight = self.w2.function("zptmass_weight_nom").getVal()
+          self.w2.var('z_gen_mass').setVal(row.genMass)
+          self.w2.var('z_gen_pt').setVal(row.genpT)
+          dyweight = self.w2.function('zptmass_weight_nom').getVal()
           weight = weight*dyweight
           if row.numGenJets < 5:
             weight = weight*self.DYweight[row.numGenJets]
@@ -792,6 +724,8 @@ class AnalyzeMuTauSys(MegaBase):
             continue
         weight = self.mcWeight.lumiWeight(weight)
 
+      mjj = row.vbfMassWoNoisyJets
+
       m_trg_sf = 0.0
       if self.is_embed:
         tID = 0.97
@@ -801,26 +735,25 @@ class AnalyzeMuTauSys(MegaBase):
           dm = 0.975*1.051
         elif row.tDecayMode == 10:
           dm = pow(0.975, 3)
-        self.we.var("m_pt").setVal(myMuon.Pt())
-        self.we.var("m_eta").setVal(myMuon.Eta())
-        self.we.var("m_iso").setVal(row.mRelPFIsoDBDefaultR04)
-        self.we.var("gt_pt").setVal(myMuon.Pt())
-        self.we.var("gt_eta").setVal(myMuon.Eta())
-        msel = self.we.function("m_sel_idEmb_ratio").getVal()
-        self.we.var("gt_pt").setVal(myTau.Pt())
-        self.we.var("gt_eta").setVal(myTau.Eta())
-        tsel = self.we.function("m_sel_idEmb_ratio").getVal()
-        self.we.var("gt1_pt").setVal(myMuon.Pt())
-        self.we.var("gt1_eta").setVal(myMuon.Eta())
-        self.we.var("gt2_pt").setVal(myTau.Pt())
-        self.we.var("gt2_eta").setVal(myTau.Eta())
-        trgsel = self.we.function("m_sel_trg_ratio").getVal()
-        m_iso_sf = self.we.function("m_iso_binned_embed_kit_ratio").getVal()
-        m_id_sf = self.we.function("m_id_embed_kit_ratio").getVal()
+        self.we.var('m_pt').setVal(myMuon.Pt())
+        self.we.var('m_eta').setVal(myMuon.Eta())
+        self.we.var('m_iso').setVal(row.mRelPFIsoDBDefaultR04)
+        self.we.var('gt_pt').setVal(myMuon.Pt())
+        self.we.var('gt_eta').setVal(myMuon.Eta())
+        msel = self.we.function('m_sel_idEmb_ratio').getVal()
+        self.we.var('gt_pt').setVal(myTau.Pt())
+        self.we.var('gt_eta').setVal(myTau.Eta())
+        tsel = self.we.function('m_sel_idEmb_ratio').getVal()
+        self.we.var('gt1_pt').setVal(myMuon.Pt())
+        self.we.var('gt1_eta').setVal(myMuon.Eta())
+        self.we.var('gt2_pt').setVal(myTau.Pt())
+        self.we.var('gt2_eta').setVal(myTau.Eta())
+        trgsel = self.we.function('m_sel_trg_ratio').getVal()
+        m_trg_sf = self.we.function('m_trg24_27_embed_kit_ratio').getVal()
+        m_iso_sf = self.we.function('m_iso_binned_embed_kit_ratio').getVal()
+        m_id_sf = self.we.function('m_id_embed_kit_ratio').getVal()
         m_trk_sf = self.muTracking(myMuon.Eta())[0]
-        if trigger24 or trigger27:
-          m_trg_sf = self.we.function("m_trg24_27_embed_kit_ratio").getVal()
-        weight = weight*row.GenWeight*tID*m_trg_sf*m_id_sf*m_iso_sf*m_trk_sf*dm*msel*tsel*trgsel
+        weight = weight*row.GenWeight*tID*m_trg_sf*m_id_sf*m_iso_sf*m_trk_sf*dm*msel*tsel*trgsel*self.EmbedPt(myMuon.Pt(), njets, mjj)
 
       if (self.is_mc and nbtag > 0):
         btagweight = bTagEventWeight(nbtag, row.jb1pt, row.jb1hadronflavor, row.jb2pt, row.jb2hadronflavor, 1, 0, 0)

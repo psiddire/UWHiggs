@@ -12,6 +12,7 @@ from RecoilCorrector import RecoilCorrector
 from getTauTriggerSFs import getTauTriggerSFs
 from MEtSys import MEtSys
 import ROOT
+import math
 
 @memo
 def getVar(name, var):
@@ -89,14 +90,14 @@ def make_shifted_weights(default, shifts, functors):
         return default(*args, **kwargs)
     return functor
 
-fdypt = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/ETauDrellPt.root")
-wdypt = fdypt.Get("ePt")
+#fdypt = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/ETauDrellPt.root")
+#wdypt = fdypt.Get("ePt")
 
-def DrellPt(pt):
-    if pt > 50:
-        return 1.0
-    else:
-        return wdypt.GetBinContent(wdypt.GetXaxis().FindBin(pt))
+#def DrellPt(pt):
+#    if pt > 50:
+#        return 1.0
+#    else:
+#        return wdypt.GetBinContent(wdypt.GetXaxis().FindBin(pt))
 
 fpt = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/ETauEmbedPt.root")
 wpt0 = fpt.Get("0Jet")
@@ -116,27 +117,172 @@ def EmbedPt(pt, njets, mjj):
         return 1.0
 
 feta = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/ETauEmbedEta.root")
-weta = feta.Get("eEta")
+weta0 = feta.Get("0Jet")
+weta1 = feta.Get("1Jet")
+weta2 = feta.Get("2Jet")
 
-def EmbedEta(eta):
+def EmbedEta(eta, njets, mjj):
     if abs(eta) > 2.1:
         return 1.0
     else:
-        return weta.GetBinContent(weta.GetXaxis().FindBin(eta))
+        if njets==0:
+            return weta0.GetBinContent(weta0.GetXaxis().FindBin(eta))
+        elif njets==1:
+            return weta1.GetBinContent(weta1.GetXaxis().FindBin(eta))
+        elif njets==2 and mjj < 500:
+            return weta2.GetBinContent(weta2.GetXaxis().FindBin(eta))
+        else:
+            return 1.0
 
-muonID_tight = MuonPOGCorrections.make_muon_pog_PFTight_2017ReReco()
-muonID_medium = MuonPOGCorrections.make_muon_pog_PFMedium_2017ReReco()
-muonID_loose = MuonPOGCorrections.make_muon_pog_PFLoose_2017ReReco()
-muonIso_tight_tightid = MuonPOGCorrections.make_muon_pog_TightIso_2017ReReco('Tight')
-muonIso_tight_mediumid = MuonPOGCorrections.make_muon_pog_TightIso_2017ReReco('Medium')
-muonIso_loose_looseid = MuonPOGCorrections.make_muon_pog_LooseIso_2017ReReco('Loose')
-muonIso_loose_mediumid = MuonPOGCorrections.make_muon_pog_LooseIso_2017ReReco('Medium')
-muonIso_loose_tightid = MuonPOGCorrections.make_muon_pog_LooseIso_2017ReReco('Tight')
-efficiency_trigger_mu_2017 = MuonPOGCorrections.make_muon_pog_IsoMu27_2017ReReco()
-fakerate_weight = FakeRate.FakeRateWeight()
-fakerateMuon_weight = FakeRate.FakeRateMuonWeight()
-fakerateElectron_weight = FakeRate.FakeRateElectronWeight() 
-muonTracking = MuonPOGCorrections.mu_trackingEta_2017
+def fakerate_weight(pt, eta, dm, shift=''):
+    if eta < 1.5:
+        if dm==0:
+            if shift=='':
+                fr = 0.2589 - 0.0006655*pt
+            elif shift=='frp0Up':
+                fr = 0.2691 - 0.0006655*pt
+            elif shift=='frp0Down':
+                fr = 0.2487 - 0.0006655*pt
+            elif shift=='frp1Up':
+                fr = 0.2589 - 0.0003977*pt
+            elif shift=='frp1Down':
+                fr = 0.2589 - 0.0009333*pt
+        elif dm==1:
+            if shift=='':
+                fr = 0.1907 - 0.0005232*pt
+            elif shift=='frp0Up':
+                fr = 0.1964 - 0.0005232*pt
+            elif shift=='frp0Down':
+                fr = 0.1850 - 0.0005232*pt
+            elif shift=='frp1Up':
+                fr = 0.1907 - 0.0003804*pt
+            elif shift=='frp1Down':
+                fr = 0.1907 - 0.0006660*pt
+        elif dm==10:
+            if shift=='':
+                fr = 0.1352 - 0.00005861*pt
+            elif shift=='frp0Up':
+                fr = 0.1433 + 0.00005861*pt
+            elif shift=='frp0Down':
+                fr = 0.1271 - 0.00005861*pt
+            elif shift=='frp1Up':
+                fr = 0.1352 - 0.00014859*pt
+            elif shift=='frp1Down':
+                fr = 0.1352 - 0.00026581*pt
+    else:
+        if dm==0:
+            if shift=='':
+                fr = 0.3019 - 0.0006771*pt
+            elif shift=='frp0Up':
+                fr = 0.3186 - 0.0006771*pt
+            elif shift=='frp0Down':
+                fr = 0.2853 - 0.0006771*pt
+            elif shift=='frp1Up':
+                fr = 0.3019 - 0.0002327*pt
+            elif shift=='frp1Down':
+                fr = 0.3019 - 0.0011215*pt
+        elif dm==1:
+            if shift=='':
+                fr = 0.2105 - 0.0007021*pt
+            elif shift=='frp0Up':
+                fr = 0.2231 - 0.0007021*pt
+            elif shift=='frp0Down':
+                fr = 0.1979 - 0.0007021*pt
+            elif shift=='frp1Up':
+                fr = 0.2105 - 0.0003807*pt
+            elif shift=='frp1Down':
+                fr = 0.2105 - 0.0010235*pt
+        elif dm==10:
+            if shift=='':
+                fr = 0.11 + 0.0008716*pt
+            elif shift=='frp0Up':
+                fr = 0.12659 + 0.0008716*pt
+            elif shift=='frp0Down':
+                fr = 0.09341 + 0.0008716*pt
+            elif shift=='frp1Up':
+                fr = 0.11 + 0.0013555*pt
+            elif shift=='frp1Down':
+                fr = 0.11 + 0.0003877*pt
+    return fr/(1-fr)
+
+def fakerateEle_weight(pt, eta, shift=''):
+    if eta < 1.5:
+        if shift=='':
+            fr = 0.8885 - 0.2526*math.sqrt(pt) + 0.03029*pt - 0.00005931*pt*pt
+        elif shift=='frp0Up':
+            fr = 1.0218 - 0.2526*math.sqrt(pt) + 0.03029*pt - 0.00005931*pt*pt
+        elif shift=='frp0Down':
+            fr = 0.7552 - 0.2526*math.sqrt(pt) + 0.03029*pt - 0.00005931*pt*pt
+        elif shift=='frp1Up':
+            fr = 0.8885 - 0.1937*math.sqrt(pt) + 0.03029*pt - 0.00005931*pt*pt
+        elif shift=='frp1Down':
+            fr = 0.8885 - 0.3115*math.sqrt(pt) + 0.03029*pt - 0.00005931*pt*pt
+        elif shift=='frp2Up':
+            fr = 0.8885 - 0.2526*math.sqrt(pt) + 0.03707*pt - 0.00005931*pt*pt
+        elif shift=='frp2Down':
+            fr = 0.8885 - 0.2526*math.sqrt(pt) + 0.02350*pt - 0.00005931*pt*pt
+        elif shift=='frp3Up':
+            fr = 0.8885 - 0.2526*math.sqrt(pt) + 0.03029*pt - 0.00003852*pt*pt
+        elif shift=='frp3Down':
+            fr = 0.8885 - 0.2526*math.sqrt(pt) + 0.03029*pt - 0.00008010*pt*pt
+    else:
+        if shift=='':
+            fr = 0.7285 - 0.1671*math.sqrt(pt) + 0.02285*pt - 0.00005675*pt*pt
+        elif shift=='frp0Up':
+            fr = 1.0526 - 0.1671*math.sqrt(pt) + 0.02285*pt - 0.00005675*pt*pt
+        elif shift=='frp0Down':
+            fr = 0.4044 - 0.1671*math.sqrt(pt) + 0.02285*pt - 0.00005675*pt*pt
+        elif shift=='frp1Up':
+            fr = 0.7285 - 0.0290*math.sqrt(pt) + 0.02285*pt - 0.00005675*pt*pt
+        elif shift=='frp1Down':
+            fr = 0.7285 - 0.3052*math.sqrt(pt) + 0.02285*pt - 0.00005675*pt*pt
+        elif shift=='frp2Up':
+            fr = 0.7285 - 0.1671*math.sqrt(pt) + 0.03775*pt - 0.00005675*pt*pt
+        elif shift=='frp2Down':
+            fr = 0.7285 - 0.1671*math.sqrt(pt) + 0.00795*pt - 0.00005675*pt*pt
+        elif shift=='frp3Up':
+            fr = 0.7285 - 0.1671*math.sqrt(pt) + 0.02285*pt - 0.00009543*pt*pt
+        elif shift=='frp3Down':
+            fr = 0.7285 - 0.1671*math.sqrt(pt) + 0.02285*pt - 0.00001807*pt*pt
+    if fr > 0.9:
+        fr = 0
+    return fr/(1-fr)
+
+def fakerateEle15_weight(pt, eta, shift=''):
+    if eta < 1.5:
+        if shift=='':
+            fr = 1.818/(1+math.exp(-0.008455*(pt-146.6)))
+        elif shift=='frp0Up':
+            fr = 3.019/(1+math.exp(-0.008455*(pt-146.6)))
+        elif shift=='frp0Down':
+            fr = 0.617/(1+math.exp(-0.008455*(pt-146.6)))
+        elif shift=='frp1Up':
+            fr = 1.818/(1+math.exp(-0.011981*(pt-146.6)))
+        elif shift=='frp1Down':
+            fr = 1.818/(1+math.exp(-0.004929*(pt-146.6)))
+        elif shift=='frp2Up':
+            fr = 1.818/(1+math.exp(-0.008455*(pt-304.2)))
+        elif shift=='frp2Down':
+            fr = 1.818/(1+math.exp(-0.008455*(pt+11.00)))
+    else:
+        if shift=='':
+            fr = 0.9807/(1+math.exp(-0.001401*(pt-7.516)))
+        elif shift=='frp0Up':
+            fr = 1.1763/(1+math.exp(-0.001401*(pt-7.516)))
+        elif shift=='frp0Down':
+            fr = 0.7851/(1+math.exp(-0.001401*(pt-7.516)))
+        elif shift=='frp1Up':
+            fr = 0.9807/(1+math.exp(-0.002093*(pt-7.516)))
+        elif shift=='frp1Down':
+            fr = 0.9807/(1+math.exp(-0.000709*(pt-7.516)))
+        elif shift=='frp2Up':
+            fr = 0.9807/(1+math.exp(-0.001401*(pt-33.93)))
+        elif shift=='frp2Down':
+            fr = 0.9807/(1+math.exp(-0.001401*(pt+18.89)))
+    if fr > 0.9:
+        fr = 0
+    return fr/(1-fr)
+
 DYreweight = DYCorrection.make_DYreweight()
 DYreweight1D = DYCorrection.make_DYreweight1D()
 embedTrg = EmbedCorrections.embed_IsoMu27_2017ReReco()
