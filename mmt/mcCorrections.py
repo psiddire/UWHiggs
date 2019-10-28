@@ -1,12 +1,10 @@
 import os
 import glob
 import FinalStateAnalysis.TagAndProbe.PileupWeight as PileupWeight
-#import FinalStateAnalysis.TagAndProbe.MuonPOGCorrections as MuonPOGCorrections
-#import FinalStateAnalysis.TagAndProbe.EmbeddedCorrections as EmbedCorrections
-#import FinalStateAnalysis.TagAndProbe.DYCorrection as DYCorrection
-#import FinalStateAnalysis.TagAndProbe.FakeRate as FakeRate
-#from RecoilCorrector import RecoilCorrector
-#from MEtSys import MEtSys
+import FinalStateAnalysis.TagAndProbe.MuonPOGCorrections as MuonPOGCorrections
+import FinalStateAnalysis.TagAndProbe.EGammaPOGCorrections as EGammaPOGCorrections
+import FinalStateAnalysis.TagAndProbe.DYCorrection as DYCorrection
+import FinalStateAnalysis.TagAndProbe.RecoilCorrector as RecoilCorrector
 import ROOT
 import RoccoR
 
@@ -207,3 +205,16 @@ def puCorrector(target=''):
     return pucorrector
 
 rc = RoccoR.RoccoR("../../FinalStateAnalysis/TagAndProbe/data/RoccoR/RoccoR2018.txt")
+DYreweight = DYCorrection.make_DYreweight()
+Metcorected = RecoilCorrector("../../FinalStateAnalysis/TagAndProbe/data/Type1_PFMET_2018.root")
+muonID_tight = MuonPOGCorrections.make_muon_pog_PFTight_2018()
+muonID_medium = MuonPOGCorrections.make_muon_pog_PFMedium_2018()
+muonID_loose = MuonPOGCorrections.make_muon_pog_PFLoose_2018()
+muonIso_tight_tightid = MuonPOGCorrections.make_muon_pog_TightIso_2018('Tight')
+muonIso_tight_mediumid = MuonPOGCorrections.make_muon_pog_TightIso_2018('Medium')
+muonIso_loose_looseid = MuonPOGCorrections.make_muon_pog_LooseIso_2018('Loose')
+muonIso_loose_mediumid = MuonPOGCorrections.make_muon_pog_LooseIso_2018('Medium')
+muonIso_loose_tightid = MuonPOGCorrections.make_muon_pog_LooseIso_2018('Tight')
+muonTrigger24 = MuonPOGCorrections.make_muon_pog_IsoMu24_2018()
+muonTracking = MuonPOGCorrections.mu_trackingEta_2018
+eID = ElectronPOGCorrections.make_egamma_pog_electronID_2018()

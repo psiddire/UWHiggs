@@ -29,11 +29,11 @@ class AnalyzeMMT(MegaBase):
     self.is_mc = self.mcWeight.is_mc
     self.is_DY = self.mcWeight.is_DY
 
-    ## Need to update these with the 2018 scale factors
-    # self.triggerEff = mcCorrections.efficiency_trigger_mu_2017
-    # self.muonTightID = mcCorrections.muonID_tight
-    # self.muonTightIsoTightID = mcCorrections.muonIso_tight_tightid
-    # self.muTracking = mcCorrections.muonTracking
+    self.triggerEff = mcCorrections.muonTrigger24
+    self.muonTightID = mcCorrections.muonID_tight
+    self.muonTightIsoTightID = mcCorrections.muonIso_tight_tightid
+    self.muTracking = mcCorrections.muonTracking
+    self.DYreweight = mcCorrections.DYreweight
 
     self.rc = mcCorrections.rc
     self.DYweight = self.mcWeight.DYweight
@@ -50,13 +50,13 @@ class AnalyzeMMT(MegaBase):
     self.out = outfile
     self.histograms = {}
 
-
+  # Charge requirement for the muons to be coming from Z-decay
   def oppositesign(self,row):
     if row.m1Charge * row.m2Charge!=-1:
       return False
     return True
 
-
+  # Kinematic Selections
   def kinematics(self, row):
     if row.m1Pt < 10 or abs(row.m1Eta) >= 2.4:
       return False
@@ -66,49 +66,49 @@ class AnalyzeMMT(MegaBase):
       return False
     return True
 
-
+  # MET Filters
   def filters(self, row):
     if row.Flag_goodVertices or row.Flag_globalSuperTightHalo2016Filter or row.Flag_HBHENoiseFilter or row.Flag_HBHENoiseIsoFilter or row.Flag_EcalDeadCellTriggerPrimitiveFilter or row.Flag_BadPFMuonFilter or row.Flag_BadChargedCandidateFilter or row.Flag_ecalBadCalibFilter or bool(self.is_data and row.Flag_eeBadScFilter):
       return True
     return False
 
-
+  # Particle Flow Identification along with Primary Vertex matching for Muon 1
   def obj1_id(self,row):
     return bool(row.m1PFIDTight) and bool(abs(row.m1PVDZ) < 0.2) and bool(abs(row.m1PVDXY) < 0.045)
  
- 
+  # Isolation requirement using Delta Beta method for Muon 1
   def obj1_iso(self,row):
     return bool(row.m1RelPFIsoDBDefaultR04 < 0.15)
   
-  
+  # Particle Flow Identification along with Primary Vertex matching for Muon 2
   def obj2_id(self, row):
     return bool(row.m2PFIDTight) and bool(abs(row.m2PVDZ) < 0.2) and bool(abs(row.m2PVDXY) < 0.045)
 
-
+  # Isolation requirement using Delta Beta method for Muon 2
   def obj2_iso(self, row):
     return bool(row.m2RelPFIsoDBDefaultR04 < 0.15)
 
-
+  # Tau decay mode finding along with discrimination against electron and muon, and primary vertex matching
   def tau_id(self, row):
     return bool(row.tDecayModeFinding > 0.5) and bool(row.tAgainstElectronVLooseMVA6 > 0.5) and bool(row.tAgainstMuonTight3 > 0.5) and bool(abs(row.tPVDZ) < 0.2)
 
-
+  # Tight Working Point(WP) for Isolation for tau
   def tau_tight(self, row):
     return bool(row.tRerunMVArun2v2DBoldDMwLTTight > 0.5)
 
-
+  # Loose Working Point(WP) for Isolation for tau
   def tau_loose(self, row):
     return bool(row.tRerunMVArun2v2DBoldDMwLTLoose > 0.5)
 
-
+  # Very Loose Working Point(WP) for Isolation for tau
   def tau_vloose(self, row):
     return bool(row.tRerunMVArun2v2DBoldDMwLTVLoose > 0.5)
 
-
+  # Very Tight Working Point(WP) for Isolation for tau
   def tau_vtight(self, row):
     return bool(row.tRerunMVArun2v2DBoldDMwLTVTight > 0.5)
 
-
+  # Veto of events with additional leptons coming from the primary vertex
   def vetos(self, row):
     return bool(row.eVetoZTTp001dxyz < 0.5) and bool(row.muVetoZTTp001dxyz < 0.5) and bool(row.tauVetoPt20LooseMVALTVtx < 0.5)
 
@@ -138,7 +138,7 @@ class AnalyzeMMT(MegaBase):
     histos[name+'/m2Pt'].Fill(myMuon2.Pt(), weight)
     histos[name+'/m2Eta'].Fill(myMuon2.Eta(), weight)
 
-
+  # Tau energy scale correction
   def tauPtC(self, row, myTau):
     tmpTau = myTau
     if self.is_mc and row.tZTTGenMatching==5:
@@ -164,14 +164,14 @@ class AnalyzeMMT(MegaBase):
 
       # Currently using the 2017 triggers. Most likely they will be the same for 2018. Check. 
       trigger24m1 = row.IsoMu24Pass and row.m1MatchesIsoMu24Filter and row.m1MatchesIsoMu24Path and row.m1Pt > 25
-      trigger27m1 = row.IsoMu27Pass and row.m1MatchesIsoMu27Filter and row.m1MatchesIsoMu27Path and row.m1Pt > 28
+      #trigger27m1 = row.IsoMu27Pass and row.m1MatchesIsoMu27Filter and row.m1MatchesIsoMu27Path and row.m1Pt > 28 (Currently commented it out, but need to update when scale factors are available)
       trigger24m2 = row.IsoMu24Pass and row.m2MatchesIsoMu24Filter and row.m2MatchesIsoMu24Path and row.m2Pt > 25
-      trigger27m2 = row.IsoMu27Pass and row.m2MatchesIsoMu27Filter and row.m2MatchesIsoMu27Path and row.m2Pt > 28
+      #trigger27m2 = row.IsoMu27Pass and row.m2MatchesIsoMu27Filter and row.m2MatchesIsoMu27Path and row.m2Pt > 28 
 
       if self.filters(row):
         continue
 
-      if not bool(trigger24m1 or trigger27m1 or trigger24m2 or trigger27m2):
+      if not bool(trigger24m1 or trigger24m2): # or trigger27m1 or trigger27m2
         continue
 
       if not self.kinematics(row):
@@ -211,24 +211,22 @@ class AnalyzeMMT(MegaBase):
 
       weight = 1.0
       if self.is_mc:
-        ## Need updating: Trigger, Muon ID, Iso, and Tracking Scake Factors
-        # if trigger24m1 or trigger27m1:
-        #   self.w2.var("m_pt").setVal(myMuon1.Pt())
-        #   self.w2.var("m_eta").setVal(myMuon1.Eta())
-        #   tEff = 0 if self.w2.function("m_trg24_27_kit_mc").getVal()==0 else self.w2.function("m_trg24_27_kit_data").getVal()/self.w2.function("m_trg24_27_kit_mc").getVal()
-        #   weight = weight * tEff
-        # elif trigger24m2 or trigger27m2:
-        #   self.w2.var("m_pt").setVal(myMuon2.Pt())
-        #   self.w2.var("m_eta").setVal(myMuon2.Eta())
-        #   tEff = 0 if self.w2.function("m_trg24_27_kit_mc").getVal()==0 else self.w2.function("m_trg24_27_kit_data").getVal()/self.w2.function("m_trg24_27_kit_mc").getVal()
-        #   weight = weight * tEff
-        # m1ID = self.muonTightID(row.m1Pt, abs(row.m1Eta))
-        # m1Iso = self.muonTightIsoTightID(row.m1Pt, abs(row.m1Eta))
-        # m1Trk = self.muTracking(row.m1Eta)[0]
-        # m2ID = self.muonTightID(row.m2Pt, abs(row.m2Eta))
-        # m2Iso = self.muonTightIsoTightID(row.m2Pt, abs(row.m2Eta))
-        # m2Trk = self.muTracking(row.m2Eta)[0]
-        weight = weight * row.GenWeight * pucorrector[''](row.nTruePU)# * m1ID * m1Iso * m1Trk * m2ID * m2Iso * m2Trk
+        # Need updating: Trigger Scale Factors
+        if trigger24m1:# or trigger27m1:
+          tEff = self.triggerEff(row.m1Pt, abs(row.m1Eta))
+          weight = weight * tEff
+        elif trigger24m2:# or trigger27m2:
+          tEff = self.triggerEff(row.m2Pt, abs(row.m2Eta))
+          weight = weight * tEff
+        # Muon 1 Scale Factors
+        m1ID = self.muonTightID(row.m1Pt, abs(row.m1Eta))
+        m1Iso = self.muonTightIsoTightID(row.m1Pt, abs(row.m1Eta))
+        m1Trk = self.muTracking(row.m1Eta)[0]
+        # Muon 2 Scale Factors
+        m2ID = self.muonTightID(row.m2Pt, abs(row.m2Eta))
+        m2Iso = self.muonTightIsoTightID(row.m2Pt, abs(row.m2Eta))
+        m2Trk = self.muTracking(row.m2Eta)[0]
+        weight = weight * row.GenWeight * pucorrector[''](row.nTruePU) * m1ID * m1Iso * m1Trk * m2ID * m2Iso * m2Trk
         ## Need to update when numbers are available for 2018
         ## Against Muon and Against Electron Scale Factors
         ## Check: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDRecommendation13TeV
@@ -249,13 +247,12 @@ class AnalyzeMMT(MegaBase):
         #   elif abs(row.tEta) > 1.558:
         #     weight = weight * 1.19
         if row.tZTTGenMatching==5:
+          # Tau ID Scale Factor
           weight = weight * 0.90
         if self.is_DY:
-          ## DY pT reweighting #Also possibly need to include recoil corrections but not necessary
-          # self.w2.var("z_gen_mass").setVal(row.genMass)
-          # self.w2.var("z_gen_pt").setVal(row.genpT)
-          # dyweight = self.w2.function("zptmass_weight_nom").getVal()
-          # weight = weight * dyweight
+          # DY pT reweighting
+          dyweight = self.DYreweight(row.genMass, row.genpT)
+          weight = weight * dyweight
           if row.numGenJets < 5:
             weight = weight * self.DYweight[row.numGenJets]
           else:
@@ -272,6 +269,7 @@ class AnalyzeMMT(MegaBase):
       if (bool(self.is_data) and nbtag > 0):
         weight = 0
 
+      # Fill the plots based on the tau decay mode, eta, and isolation
       self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'initial')
 
       if self.tau_vloose(row):
