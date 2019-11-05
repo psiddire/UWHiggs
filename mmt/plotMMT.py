@@ -24,7 +24,7 @@ mc_samples = ['DYJetsToLL*', 'DY1JetsToLL*', 'DY2JetsToLL*', 'DY3JetsToLL*', 'DY
 
 files = []
 lumifiles = []
-channel = ['initial', 'loose', 'LDM0', 'LDM1', 'LDM10', 'LEBDM0', 'LEBDM1', 'LEBDM10', 'LEEDM0', 'LEEDM1', 'LEEDM10', 'tight', 'TDM0', 'TDM1', 'TDM10', 'TEBDM0', 'TEBDM1', 'TEBDM10', 'TEEDM0', 'TEEDM1', 'TEEDM10']
+channel = ['']
 
 for x in mc_samples:
     print x
@@ -33,30 +33,42 @@ for x in mc_samples:
 
 period = '13TeV'
 sqrts = 13
-outputdir = 'plots/%s/AnalyzeMMT/InitialPlots/' % (jobid)
-if not os.path.exists(outputdir):
-    os.makedirs(outputdir)
 
-plotter = Plotter(files, lumifiles, outputdir)
+dirs = ['initial', 'loose', 'tight']
 
-DY = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x :  x.startswith('DY') , mc_samples )]), **remove_name_entry(data_styles['DY*']))
-Diboson = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('ZZ') or x.startswith('WZ') or x.startswith('WW'), mc_samples )]), **remove_name_entry(data_styles['WZ*']))
+for d in dirs:
 
-plotter.views['DY'] = {'view' : DY}
-plotter.views['Diboson'] = {'view' : Diboson}
+    outputdir = 'plots/%s/AnalyzeMMT/InitialPlots/%s/' % (jobid, d)
+    if not os.path.exists(outputdir):
+        os.makedirs(outputdir)
 
-new_mc_samples = []
-new_mc_samples.extend(['DY', 'Diboson'])
-plotter.mc_samples = new_mc_samples
+    plotter = Plotter(files, lumifiles, outputdir)
 
-histoname = [("tPt", "#tau p_{T} (GeV)", 1), ("tEta", "#tau #eta", 1), ("tDecayMode", "Tau DecayMode", 1), ("m1_m2_Mass", "M_{vis}(#mu, #mu) (GeV)", 1), ("m1Pt", "#mu 1 p_{T} (GeV)", 1), ("m1Eta", "#mu 1 #eta", 1), ("m2Pt", "#mu 2 p_{T} (GeV)", 1), ("m2Eta", "#mu 2 #eta", 1)]
+    DYtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x :  x.startswith('DYJ') or x.startswith('DY1') or x.startswith('DY2') or x.startswith('DY3') or x.startswith('DY4'), mc_samples)])
+    DYall = views.SubdirectoryView(DYtotal, d)
+    DY = views.StyleView(DYall, **remove_name_entry(data_styles['DY*']))
+    DY = views.TitleView(DY, "Z#rightarrow#mu#mu")
+    
+    Dibosontotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('ZZ') or x.startswith('WZ') or x.startswith('WW'), mc_samples)])
+    Dibosonall = views.SubdirectoryView(Dibosontotal, d)
+    Diboson = views.StyleView(Dibosonall, **remove_name_entry(data_styles['WZ*']))
+    Diboson = views.TitleView(Diboson, "Diboson")
 
-foldername = channel
+    plotter.views['DY'] = {'view' : DY}
+    plotter.views['Diboson'] = {'view' : Diboson}
 
-for fn in foldername:
-    if not os.path.exists(outputdir+'/'+fn):
-        os.makedirs(outputdir+'/'+fn)
+    new_mc_samples = []
+    new_mc_samples.extend(['DY', 'Diboson'])
+    plotter.mc_samples = new_mc_samples
 
-    for n,h in enumerate(histoname):
-        plotter.plot_mc_vs_data(fn, [], h[0], 1, xaxis = h[1], leftside=False, xrange=None, preprocess=None, show_ratio=True, ratio_range=1.5, sort=True, blind_region=True, control=s1, jets=j, channel='mumutauh')
-        plotter.save(fn+'/'+h[0])
+    histoname = [("tPt", "Tau p_{T} (GeV)", 1), ("tEta", "Tau #eta", 1), ("tDecayMode", "Tau DecayMode", 1), ("m1_m2_Mass", "M_{vis}(#mu, #mu) (GeV)", 1), ("m1Pt", "Muon 1 p_{T} (GeV)", 1), ("m1Eta", "Muon 1 #eta", 1), ("m2Pt", "Muon 2 p_{T} (GeV)", 1), ("m2Eta", "Muon 2 #eta", 1)]
+
+    foldername = channel
+
+    for fn in foldername:
+        if not os.path.exists(outputdir+'/'+fn):
+            os.makedirs(outputdir+'/'+fn)
+
+        for n,h in enumerate(histoname):
+            plotter.plot_mc_vs_data(fn, [], h[0], 1, xaxis = h[1], leftside=False, xrange=None, preprocess=None, show_ratio=True, ratio_range=1.5, sort=True, blind_region=True, control=d, jets='', channel='mumutauh')
+            plotter.save(h[0])
