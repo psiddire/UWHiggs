@@ -29,11 +29,13 @@ class AnalyzeMMT(MegaBase):
     self.is_mc = self.mcWeight.is_mc
     self.is_DY = self.mcWeight.is_DY
 
-    self.triggerEff = mcCorrections.muonTrigger24
+    self.triggerEff24 = mcCorrections.muonTrigger24
+    self.triggerEff27 = mcCorrections.muonTrigger27
     self.muonTightID = mcCorrections.muonID_tight
     self.muonTightIsoTightID = mcCorrections.muonIso_tight_tightid
     self.muTracking = mcCorrections.muonTracking
     self.DYreweight = mcCorrections.DYreweight
+    self.DYreweightReco = mcCorrections.DYreweightReco
 
     self.rc = mcCorrections.rc
     self.DYweight = self.mcWeight.DYweight
@@ -58,9 +60,9 @@ class AnalyzeMMT(MegaBase):
 
   # Kinematic Selections
   def kinematics(self, row):
-    if row.m1Pt < 10 or abs(row.m1Eta) >= 2.4:
+    if row.m1Pt < 20 or abs(row.m1Eta) >= 2.4:
       return False
-    if row.m2Pt < 10 or abs(row.m2Eta) >= 2.4:
+    if row.m2Pt < 20 or abs(row.m2Eta) >= 2.4:
       return False
     if row.tPt < 30 or abs(row.tEta) >= 2.3:
       return False
@@ -68,7 +70,7 @@ class AnalyzeMMT(MegaBase):
 
   # MET Filters
   def filters(self, row):
-    if row.Flag_goodVertices or row.Flag_globalSuperTightHalo2016Filter or row.Flag_HBHENoiseFilter or row.Flag_HBHENoiseIsoFilter or row.Flag_EcalDeadCellTriggerPrimitiveFilter or row.Flag_BadPFMuonFilter or row.Flag_BadChargedCandidateFilter or row.Flag_ecalBadCalibFilter or bool(self.is_data and row.Flag_eeBadScFilter):
+    if row.Flag_goodVertices or row.Flag_globalSuperTightHalo2016Filter or row.Flag_HBHENoiseFilter or row.Flag_HBHENoiseIsoFilter or row.Flag_EcalDeadCellTriggerPrimitiveFilter or row.Flag_BadPFMuonFilter or bool(self.is_data and row.Flag_eeBadScFilter):#row.Flag_ecalBadCalibFilter -> row.Flag_ecalBadCalibReducedMINIAODFilter
       return True
     return False
 
@@ -162,16 +164,17 @@ class AnalyzeMMT(MegaBase):
 
     for row in self.tree:
 
-      # Currently using the 2017 triggers. Most likely they will be the same for 2018. Check. 
-      trigger24m1 = row.IsoMu24Pass and row.m1MatchesIsoMu24Filter and row.m1MatchesIsoMu24Path and row.m1Pt > 25
-      #trigger27m1 = row.IsoMu27Pass and row.m1MatchesIsoMu27Filter and row.m1MatchesIsoMu27Path and row.m1Pt > 28 (Currently commented it out, but need to update when scale factors are available)
-      trigger24m2 = row.IsoMu24Pass and row.m2MatchesIsoMu24Filter and row.m2MatchesIsoMu24Path and row.m2Pt > 25
-      #trigger27m2 = row.IsoMu27Pass and row.m2MatchesIsoMu27Filter and row.m2MatchesIsoMu27Path and row.m2Pt > 28 
+      #trigger24m1 = row.IsoMu24Pass and row.m1MatchesIsoMu24Filter and row.m1MatchesIsoMu24Path and row.m1Pt > 26
+      trigger27m1 = row.IsoMu27Pass and row.m1MatchesIsoMu27Filter and row.m1MatchesIsoMu27Path and row.m1Pt > 29
+      #trigger24m2 = row.IsoMu24Pass and row.m2MatchesIsoMu24Filter and row.m2MatchesIsoMu24Path and row.m2Pt > 26
+      trigger27m2 = row.IsoMu27Pass and row.m2MatchesIsoMu27Filter and row.m2MatchesIsoMu27Path and row.m2Pt > 29 
 
       if self.filters(row):
         continue
 
-      if not bool(trigger24m1 or trigger24m2): # or trigger27m1 or trigger27m2
+      #if not bool(trigger24m1 or trigger24m2): # or trigger27m1 or trigger27m2
+      #  continue
+      if not bool(trigger27m1 or trigger27m2):
         continue
 
       if not self.kinematics(row):
@@ -212,11 +215,11 @@ class AnalyzeMMT(MegaBase):
       weight = 1.0
       if self.is_mc:
         # Need updating: Trigger Scale Factors
-        if trigger24m1:# or trigger27m1:
-          tEff = self.triggerEff(row.m1Pt, abs(row.m1Eta))
+        if trigger27m1:# or trigger24m1:
+          tEff = self.triggerEff27(row.m1Pt, abs(row.m1Eta))[0]
           weight = weight * tEff
-        elif trigger24m2:# or trigger27m2:
-          tEff = self.triggerEff(row.m2Pt, abs(row.m2Eta))
+        elif trigger27m2:# or trigger24m2:
+          tEff = self.triggerEff27(row.m2Pt, abs(row.m2Eta))[0]
           weight = weight * tEff
         # Muon 1 Scale Factors
         m1ID = self.muonTightID(row.m1Pt, abs(row.m1Eta))
@@ -227,36 +230,35 @@ class AnalyzeMMT(MegaBase):
         m2Iso = self.muonTightIsoTightID(row.m2Pt, abs(row.m2Eta))
         m2Trk = self.muTracking(row.m2Eta)[0]
         weight = weight * row.GenWeight * pucorrector[''](row.nTruePU) * m1ID * m1Iso * m1Trk * m2ID * m2Iso * m2Trk
-        ## Need to update when numbers are available for 2018
-        ## Against Muon and Against Electron Scale Factors
-        ## Check: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDRecommendation13TeV
-        # if row.tZTTGenMatching==2 or row.tZTTGenMatching==4:
-        #   if abs(row.tEta) < 0.4:
-        #     weight = weight * 1.17
-        #   elif abs(row.tEta) < 0.8:
-        #     weight = weight * 1.29
-        #   elif abs(row.tEta) < 1.2:
-        #     weight = weight * 1.14
-        #   elif abs(row.tEta) < 1.7:
-        #     weight = weight * 0.93
-        #   else:
-        #     weight = weight * 1.61
-        # elif row.tZTTGenMatching==1 or row.tZTTGenMatching==3: 
-        #   if abs(row.tEta) < 1.46:
-        #     weight = weight * 1.09
-        #   elif abs(row.tEta) > 1.558:
-        #     weight = weight * 1.19
-        if row.tZTTGenMatching==5:
-          # Tau ID Scale Factor
+        # Anti-Muon and Anti-Electron Discriminator Scale Factors
+        if row.tZTTGenMatching==2 or row.tZTTGenMatching==4:
+          if abs(row.tEta) < 0.4:
+            weight = weight * 1.23
+          elif abs(row.tEta) < 0.8:
+            weight = weight * 1.37
+          elif abs(row.tEta) < 1.2:
+            weight = weight * 1.12
+          elif abs(row.tEta) < 1.7:
+            weight = weight * 1.84
+          else:
+            weight = weight * 2.01
+        elif row.tZTTGenMatching==1 or row.tZTTGenMatching==3: 
+          if abs(row.tEta) < 1.46:
+            weight = weight * 1.13
+          elif abs(row.tEta) > 1.558:
+            weight = weight * 1.003
+        # Tau ID Scale Factor
+        elif row.tZTTGenMatching==5:
           weight = weight * 0.90
         if self.is_DY:
           # DY pT reweighting
-          dyweight = self.DYreweight(row.genMass, row.genpT)
+          #dyweight = self.DYreweight(row.genMass, row.genpT)
+          dyweight = self.DYreweightReco((myMuon1+myMuon2).M(), (myMuon1+myMuon2).Pt())
           weight = weight * dyweight
-          if row.numGenJets < 5:
-            weight = weight * self.DYweight[row.numGenJets]
-          else:
-            weight = weight * self.DYweight[0]
+          #if row.numGenJets < 5:
+          #  weight = weight * self.DYweight[row.numGenJets]
+          #else:
+          #  weight = weight * self.DYweight[0]
         weight = self.mcWeight.lumiWeight(weight)
 
       # B-Jet Veto using b-tagging event weight method

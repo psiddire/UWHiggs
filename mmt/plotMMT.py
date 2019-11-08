@@ -20,7 +20,7 @@ ROOT.gStyle.SetOptStat(0)
 jobid = os.environ['jobid']
 print jobid
 
-mc_samples = ['DYJetsToLL*', 'DY1JetsToLL*', 'DY2JetsToLL*', 'DY3JetsToLL*', 'DY4JetsToLL*', 'WZ*', 'WW*', 'ZZ*', 'data*']
+mc_samples = ['DY*', 'WZ*', 'WW*', 'ZZ*', 'data*']#'DYJ*', 'DY1*', 'DY2*', 'DY3*', 'DY4*', 
 
 files = []
 lumifiles = []
@@ -38,13 +38,13 @@ dirs = ['initial', 'loose', 'tight']
 
 for d in dirs:
 
-    outputdir = 'plots/%s/AnalyzeMMT/InitialPlots/%s/' % (jobid, d)
+    outputdir = 'plots/%s/AnalyzeMMT/GenDYpT20/%s/' % (jobid, d)
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
     plotter = Plotter(files, lumifiles, outputdir)
 
-    DYtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x :  x.startswith('DYJ') or x.startswith('DY1') or x.startswith('DY2') or x.startswith('DY3') or x.startswith('DY4'), mc_samples)])
+    DYtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x :  x.startswith('DY'), mc_samples)])# or x.startswith('DY1') or x.startswith('DY2') or x.startswith('DY3') or x.startswith('DY4')
     DYall = views.SubdirectoryView(DYtotal, d)
     DY = views.StyleView(DYall, **remove_name_entry(data_styles['DY*']))
     DY = views.TitleView(DY, "Z#rightarrow#mu#mu")
