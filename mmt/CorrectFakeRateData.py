@@ -36,12 +36,12 @@ if __name__ == "__main__":
     import rootpy.plotting as plotting
     from FinalStateAnalysis.MetaData.data_views import data_views
 
-    samples = ['WZ*', 'WW*', 'ZZ*', 'DY*', 'data*']
+    samples = ['WZ*', 'WW*', 'ZZ*', 'DYJ*', 'data*']
     files = []
     lumifiles = []
     for x in samples:
-        files.extend(glob.glob('results/DataApril4/AnalyzeMMT/%s' % (x)))
-        lumifiles.extend(glob.glob('inputs/DataApril4/%s.lumicalc.sum' % (x)))
+        files.extend(glob.glob('results/FakeData2018/AnalyzeMMT/%s' % (x)))
+        lumifiles.extend(glob.glob('inputs/FakeData2018/%s.lumicalc.sum' % (x)))
 
     the_views = data_views(files, lumifiles)
 

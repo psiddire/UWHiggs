@@ -38,7 +38,7 @@ dirs = ['initial', 'loose', 'tight']
 
 for d in dirs:
 
-    outputdir = 'plots/%s/AnalyzeMMT/GenDYpT20/%s/' % (jobid, d)
+    outputdir = 'plots/%s/AnalyzeMMT/Test/%s/' % (jobid, d)
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 

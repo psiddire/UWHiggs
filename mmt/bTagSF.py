@@ -18,7 +18,7 @@ def GetSF(WP, x, flavour, syst):
                 elif (x < 300): return 0.909339+((0.00354*(math.log(x+19)*(math.log(x+18)*(3-(0.471623*math.log(x+18))))))-0.048719070851802826)
                 elif (x < 600): return 0.909339+((0.00354*(math.log(x+19)*(math.log(x+18)*(3-(0.471623*math.log(x+18))))))-0.11997123062610626)
                 else: return 0.909339+((0.00354*(math.log(x+19)*(math.log(x+18)*(3-(0.471623*math.log(x+18))))))-0.20536302030086517)
-        
+
             if (syst==1):
                if (x < 30): return (0.909339+(0.00354*(math.log(x+19)*(math.log(x+18)*(3-(0.471623*math.log(x+18)))))))+0.19771461188793182
                elif (x < 50): return (0.909339+(0.00354*(math.log(x+19)*(math.log(x+18)*(3-(0.471623*math.log(x+18)))))))+0.045167062431573868
@@ -29,7 +29,7 @@ def GetSF(WP, x, flavour, syst):
                elif (x < 300): return (0.909339+(0.00354*(math.log(x+19)*(math.log(x+18)*(3-(0.471623*math.log(x+18)))))))+0.048719070851802826
                elif (x < 600): return (0.909339+(0.00354*(math.log(x+19)*(math.log(x+18)*(3-(0.471623*math.log(x+18)))))))+0.11997123062610626
                else: return (0.909339+(0.00354*(math.log(x+19)*(math.log(x+18)*(3-(0.471623*math.log(x+18)))))))+0.20536302030086517
-    
+
         else : 
             if (syst==0): return 1.6329+-0.00160255*x+1.9899e-06*x*x+-6.72613e-10*x*x*x
             if (syst==-1): return (1.6329+-0.00160255*x+1.9899e-06*x*x+-6.72613e-10*x*x*x)*(1-(0.122811+0.000162564*x+-1.66422e-07*x*x))
@@ -40,8 +40,8 @@ def GetSF(WP, x, flavour, syst):
 
 def bTagEventWeight( nBtaggedJets, bjetpt_1,  bjetflavour_1,  bjetpt_2,  bjetflavour_2,  WP,  syst, nBTags):
     if (nBtaggedJets > 2): return -10000
-    if ( nBTags > 2 ): return -10000
- 
+    if (nBTags > 2): return -10000
+
     ##################################################################
  #   Event weight matrix:
  #   ------------------------------------------------------------------

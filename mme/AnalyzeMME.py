@@ -1,6 +1,6 @@
 '''
 
-Tau Fake Rate calculation in the Z+Jets control region.
+Electron Fake Rate calculation in the Z+Jets control region.
 
 Authors: Prasanna Siddireddy
 

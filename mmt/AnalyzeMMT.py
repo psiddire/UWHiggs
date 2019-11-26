@@ -149,7 +149,7 @@ class AnalyzeMMT(MegaBase):
       elif row.tDecayMode == 1:
         tmpTau = myTau * ROOT.Double(0.995)
       elif row.tDecayMode == 10:
-        tmpTau = myTau * ROOT.Double(0.998)
+        tmpTau = myTau * ROOT.Double(0.988)# Corrected from 0.998
     ## 2017 numbers below. Need to update when 2018 numbers are available.
     # if self.is_mc and bool(row.tZTTGenMatching==1 or row.tZTTGenMatching==3):
     #   if row.tDecayMode == 0:
@@ -243,7 +243,7 @@ class AnalyzeMMT(MegaBase):
           else:
             weight = weight * 2.01
         elif row.tZTTGenMatching==1 or row.tZTTGenMatching==3: 
-          if abs(row.tEta) < 1.46:
+          if abs(row.tEta) < 1.448: # Corrected
             weight = weight * 1.13
           elif abs(row.tEta) > 1.558:
             weight = weight * 1.003
