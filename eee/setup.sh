@@ -14,7 +14,7 @@ source jobid.sh
 #ls *pyx | sed "s|pyx|so|" | xargs rake 
 #ls *pyx | sed "s|pyx|so|" | xargs -n 1 -P 10 rake
 
-rake "meta:getinputs[$jobid, $datasrc, eee/metaInfo, eee/summedWeights]"
-#rake "meta:getmeta[inputs/$jobid, eee/metaInfo, 13, eee/summedWeights]"
+#rake "meta:getinputs[$jobid, $datasrc, eee/metaInfo, eee/summedWeights]"
+rake "meta:getmeta[inputs/$jobid, eee/metaInfo, 13, eee/summedWeights]"
 
 

@@ -35,12 +35,12 @@ class mcWeights:
         self.is_GluGluHWW = bool('GluGluHToWW' in target)
         self.is_recoilC = bool(self.is_DYlow or self.is_DY or self.is_GluGlu or self.is_VBF or self.is_EWK or self.is_VBFH or self.is_GluGluH or self.is_VBFHWW or self.is_GluGluHWW or self.is_W)
         self.DYweight = {
-            0 : 3.688765672,
-            1 : 0.710799023,
-            2 : 0.804309672,
-            3 : 0.996468073,
-            4 : 0.844905137
-        } 
+            0 : 3.600952308,
+            1 : 0.69387801,
+            2 : 0.785162579,
+            3 : 0.97274653,
+            4 : 0.824791644
+        }
         self.Wweight = {
             0 : 0.0,
             1 : 7.175098403,
@@ -50,8 +50,8 @@ class mcWeights:
         }
 
     def lumiWeight(self, weight):
-        #if self.is_DY:
-        #    weight = weight*3.601/1.1374
+        if self.is_DY:
+            weight = weight*3.601/1.1374
         if self.is_DYlow:
             weight = weight*22.95581643
         if self.is_WG:
@@ -63,9 +63,9 @@ class mcWeights:
         if self.is_WW:
             weight = weight*0.8966
         if self.is_WZ:
-            weight = weight*0.7196
+            weight = weight*0.7804
         if self.is_ZZ:
-            weight = weight*0.4948
+            weight = weight*0.5065
         if self.is_EWKWMinus:
             weight = weight*0.191
         if self.is_EWKWPlus:

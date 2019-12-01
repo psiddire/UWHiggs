@@ -61,11 +61,11 @@ class AnalyzeEEM(MegaBase):
 
   # Kinematic Selections
   def kinematics(self, row):
-    if row.e1Pt < 10 or abs(row.m1Eta) >= 2.1:
+    if row.e1Pt < 10 or abs(row.e1Eta) >= 2.1:
       return False
-    if row.e2Pt < 10 or abs(row.m2Eta) >= 2.1:
+    if row.e2Pt < 10 or abs(row.e2Eta) >= 2.1:
       return False
-    if row.mPt < 20 or abs(row.m3Eta) >= 2.4:
+    if row.mPt < 20 or abs(row.mEta) >= 2.4:
       return False
     return True
 
