@@ -7,7 +7,7 @@ class RecoilCorrector:
 
    def __init__(self, fileName):
       cmsswBase ="/afs/hep.wisc.edu/home/psiddire/CMSSW_10_2_16_UL"
-      baseDir = cmsswBase + "/src/FinalStateAnalysis/TagAndProbe/data"
+      baseDir = cmsswBase + "/src/FinalStateAnalysis/TagAndProbe/data/2016"
       _fileName = baseDir+"/"+fileName
       File = ROOT.TFile.Open(_fileName)
       if (File.IsZombie()):

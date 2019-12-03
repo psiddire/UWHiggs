@@ -1,0 +1,35 @@
+mkdir -p `dirname results/DataJul1/AnalyzeMuESys/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-v1.root`
+mkdir -p `dirname results/DataJul1/AnalyzeMuESys/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/DataJul1/AnalyzeMuESys/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuESys.py inputs/DataJul1/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-v1.txt results/DataJul1/AnalyzeMuESys/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-v1.root --verbose >& batch_logs/results_DataJul1_AnalyzeMuESys_DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/DataJul1/AnalyzeMuESys/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/DataJul1/AnalyzeMuESys/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuESys.py inputs/DataJul1/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1.txt results/DataJul1/AnalyzeMuESys/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1.root --verbose >& batch_logs/results_DataJul1_AnalyzeMuESys_DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/DataJul1/AnalyzeMuESys/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/DataJul1/AnalyzeMuESys/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuESys.py inputs/DataJul1/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.txt results/DataJul1/AnalyzeMuESys/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.root --verbose >& batch_logs/results_DataJul1_AnalyzeMuESys_DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.log &
+sleep 10s
+mkdir -p `dirname results/DataJul1/AnalyzeMuESys/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v2_94X_mc2017_realistic_v14-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/DataJul1/AnalyzeMuESys/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuESys.py inputs/DataJul1/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.txt results/DataJul1/AnalyzeMuESys/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.root --verbose >& batch_logs/results_DataJul1_AnalyzeMuESys_DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.log &
+sleep 10s
+#using farmout:1
+#dry run:1
+export megatarget=results/DataJul1/AnalyzeMuESys/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v2_94X_mc2017_realistic_v14-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuESys.py inputs/DataJul1/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v2_94X_mc2017_realistic_v14-v2.txt results/DataJul1/AnalyzeMuESys/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v2_94X_mc2017_realistic_v14-v2.root --verbose >& batch_logs/results_DataJul1_AnalyzeMuESys_DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v2_94X_mc2017_realistic_v14-v2.log &
+sleep 10s
