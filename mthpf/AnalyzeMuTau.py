@@ -37,11 +37,13 @@ class AnalyzeMuTau(MegaBase):
     if self.is_recoilC and MetCorrection:
       self.Metcorected = mcCorrections.Metcorected
 
+    # Load b-tagging related variables for Promote-Demote method  
     self.f_btag_eff = mcCorrections.f_btag_eff
     self.h_btag_eff_b = mcCorrections.h_btag_eff_b
     self.h_btag_eff_c = mcCorrections.h_btag_eff_c
     self.h_btag_eff_oth = mcCorrections.h_btag_eff_oth
 
+    # Load all the different lepton and trigger scale factors
     self.triggerEff = mcCorrections.efficiency_trigger_mu_2017
     self.muonTightID = mcCorrections.muonID_tight
     self.muonTightIsoTightID = mcCorrections.muonIso_tight_tightid
@@ -58,6 +60,7 @@ class AnalyzeMuTau(MegaBase):
 
     self.DYweight = self.mcWeight.DYweight
 
+    # Load the definition of the various kinematic variables
     self.deltaPhi = Kinematics.deltaPhi
     self.deltaEta = Kinematics.deltaEta
     self.deltaR = Kinematics.deltaR
@@ -71,13 +74,13 @@ class AnalyzeMuTau(MegaBase):
     self.out = outfile
     self.histograms = {}
 
-
+  # Requirement on the charge of the leptons
   def oppositesign(self, row):
     if row.mCharge*row.tCharge!=-1:
       return False
     return True
 
-
+  # Kinematics requirements on both the leptons
   def kinematics(self, row):
     if row.mPt < 25 or abs(row.mEta) >= 2.1:
       return False
@@ -85,45 +88,45 @@ class AnalyzeMuTau(MegaBase):
       return False
     return True
 
-
+  # MET Filters
   def filters(self, row):
     if row.Flag_goodVertices or row.Flag_globalTightHalo2016Filter or row.Flag_HBHENoiseFilter or row.Flag_HBHENoiseIsoFilter or row.Flag_EcalDeadCellTriggerPrimitiveFilter or row.Flag_BadPFMuonFilter or row.Flag_BadChargedCandidateFilter or row.Flag_ecalBadCalibFilter or bool(self.is_data and row.Flag_eeBadScFilter):
       return True
     return False
 
-
+  # Third lepton vetoes
   def vetos(self, row):
     return (bool(row.eVetoMVAIso < 0.5) and bool(row.tauVetoPt20LooseMVALTVtx < 0.5) and bool(row.muGlbIsoVetoPt10 < 0.5))
 
-
+  # Muon Identification
   def obj1_id(self, row):
     return (bool(row.mPFIDTight) and bool(abs(row.mPVDZ) < 0.2) and bool(abs(row.mPVDXY) < 0.045))
 
-
+  # Muon Tight Isolation
   def obj1_tight(self, row):
     return bool(row.mRelPFIsoDBDefaultR04 < 0.15)
 
-
+  # Muon Loose Isolation
   def obj1_loose(self, row):
     return bool(row.mRelPFIsoDBDefaultR04 < 0.2)
 
-
+  # Tau Identification
   def obj2_id(self, row):
     return (bool(row.tDecayModeFinding > 0.5) and bool(row.tAgainstElectronVLooseMVA6 > 0.5) and bool(row.tAgainstMuonTight3 > 0.5) and bool(abs(row.tPVDZ) < 0.2))
 
-
+  # Tau Tight Isolation
   def obj2_tight(self, row):
     return bool(row.tRerunMVArun2v2DBoldDMwLTTight > 0.5)
 
-
+  # Tau Loose Isolation
   def obj2_loose(self, row):
     return bool(row.tRerunMVArun2v2DBoldDMwLTVLoose > 0.5)
 
-
+  # Di-muon veto
   def dimuonveto(self, row):
     return bool(row.dimuonVeto < 0.5)
 
-
+  # Create the histograms
   def begin(self):
     names=['TauLooseWOS', 'TauLooseOS', 'TauLooseSS', 'MuonLooseWOS', 'MuonLooseOS', 'MuonLooseSS', 'MuonLooseTauLooseWOS', 'MuonLooseTauLooseOS', 'MuonLooseTauLooseSS', 'TightWOS', 'TightOS', 'TightSS', 'TauLooseWOS0Jet', 'TauLooseOS0Jet', 'TauLooseSS0Jet', 'MuonLooseWOS0Jet', 'MuonLooseOS0Jet', 'MuonLooseSS0Jet', 'MuonLooseTauLooseWOS0Jet', 'MuonLooseTauLooseOS0Jet', 'MuonLooseTauLooseSS0Jet', 'TightWOS0Jet', 'TightOS0Jet', 'TightSS0Jet', 'TauLooseWOS1Jet', 'TauLooseOS1Jet', 'TauLooseSS1Jet', 'MuonLooseWOS1Jet', 'MuonLooseOS1Jet', 'MuonLooseSS1Jet', 'MuonLooseTauLooseWOS1Jet', 'MuonLooseTauLooseOS1Jet', 'MuonLooseTauLooseSS1Jet', 'TightWOS1Jet', 'TightOS1Jet', 'TightSS1Jet', 'TauLooseWOS2Jet', 'TauLooseOS2Jet', 'TauLooseSS2Jet', 'MuonLooseWOS2Jet', 'MuonLooseOS2Jet', 'MuonLooseSS2Jet', 'MuonLooseTauLooseWOS2Jet', 'MuonLooseTauLooseOS2Jet', 'MuonLooseTauLooseSS2Jet', 'TightWOS2Jet', 'TightOS2Jet', 'TightSS2Jet']
     vbfnames=['TauLooseWOS2JetVBF', 'TauLooseOS2JetVBF', 'TauLooseSS2JetVBF', 'MuonLooseWOS2JetVBF', 'MuonLooseOS2JetVBF', 'MuonLooseSS2JetVBF', 'MuonLooseTauLooseWOS2JetVBF', 'MuonLooseTauLooseOS2JetVBF', 'MuonLooseTauLooseSS2JetVBF', 'TightWOS2JetVBF', 'TightOS2JetVBF', 'TightSS2JetVBF']
@@ -185,7 +188,7 @@ class AnalyzeMuTau(MegaBase):
       self.book(vbfnames[x], 'MTMuMET', 'Muon MET Transverse Mass', 10, 0, 200)
       self.book(vbfnames[x], 'MTTauMET', 'Tau MET Transverse Mass', 10, 0, 200)
 
-
+  # Fill the histograms
   def fill_histos(self, row, myMuon, myMET, myTau, weight, name=''):
     histos = self.histograms
     histos[name+'/mPt'].Fill(myMuon.Pt(), weight)
@@ -215,7 +218,7 @@ class AnalyzeMuTau(MegaBase):
     histos[name+'/MTMuMET'].Fill(self.transverseMass(myMuon, myMET), weight)
     histos[name+'/MTTauMET'].Fill(self.transverseMass(myTau, myMET), weight)
 
-
+  # Tau momentum correction
   def tauPtC(self, row, myMET, myTau):
     tmpMET = myMET
     tmpTau = myTau
@@ -252,7 +255,7 @@ class AnalyzeMuTau(MegaBase):
   def process(self):
 
     for row in self.tree:
-
+      # Trigger requirements
       trigger24 = row.IsoMu24Pass and row.mMatchesIsoMu24Filter and row.mMatchesIsoMu24Path and row.mPt > 25
       trigger27 = row.IsoMu27Pass and row.mMatchesIsoMu27Filter and row.mMatchesIsoMu27Path and row.mPt > 28
 
@@ -288,6 +291,7 @@ class AnalyzeMuTau(MegaBase):
       if not self.dimuonveto(row):
         continue
 
+      # Veto the events with a b-tagged jet
       nbtag = row.bjetDeepCSVVeto20Medium
       bpt_1 = row.jb1pt
       bflavor_1 = row.jb1hadronflavor
@@ -306,6 +310,7 @@ class AnalyzeMuTau(MegaBase):
       myMET = ROOT.TLorentzVector()
       myMET.SetPtEtaPhiM(row.type1_pfMetEt, 0, row.type1_pfMetPhi, 0)
 
+      # Apply Recoil corrections for MC samples with a single boson (Higgs, W+Jets, Z+Jets)
       if self.is_recoilC and MetCorrection:
         tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30WoNoisyJets)))
         myMET.SetPtEtaPhiM(math.sqrt(tmpMet[0]*tmpMet[0] + tmpMet[1]*tmpMet[1]), 0, math.atan2(tmpMet[1], tmpMet[0]), 0)
@@ -313,19 +318,24 @@ class AnalyzeMuTau(MegaBase):
       myMET = self.tauPtC(row, myMET, myTau)[0]
       myTau = self.tauPtC(row, myMET, myTau)[1]
 
+      # Apply all the various corrections to the MC samples
       weight = 1.0
       if self.is_mc:
         self.w2.var('m_pt').setVal(myMuon.Pt())
         self.w2.var('m_eta').setVal(myMuon.Eta())
+        # Trigger Scale Factor
         tEff = 0 if self.w2.function('m_trg24_27_kit_mc').getVal()==0 else self.w2.function('m_trg24_27_kit_data').getVal()/self.w2.function('m_trg24_27_kit_mc').getVal()
+        # Muon ID, Isolation, and tracking scale factors
         mID = self.muonTightID(myMuon.Pt(), abs(myMuon.Eta()))
         if self.obj1_tight(row):
           mIso = self.muonTightIsoTightID(myMuon.Pt(), abs(myMuon.Eta()))
         else:
           mIso = self.muonLooseIsoTightID(myMuon.Pt(), abs(myMuon.Eta()))
         mTrk = self.muTracking(myMuon.Eta())[0]
+        # Muon Rochestor corrections (very small effect)
         mcSF = self.rc.kSpreadMC(row.mCharge, myMuon.Pt(), myMuon.Eta(), myMuon.Phi(), row.mGenPt, 0, 0)
         weight = row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*mcSF*row.prefiring_weight
+        # Scale factors for identified tau matched at generator level to a muon(2,4) or electron(1,3) or a genuine tau(5)
         if row.tZTTGenMatching==2 or row.tZTTGenMatching==4:
           if abs(myTau.Eta()) < 0.4:
             weight = weight*1.17
@@ -362,6 +372,7 @@ class AnalyzeMuTau(MegaBase):
 
       mjj = row.vbfMassWoNoisyJets
 
+      # Embed scale factors
       if self.is_embed:
         tID = 0.97
         if row.tDecayMode == 0:
@@ -375,25 +386,31 @@ class AnalyzeMuTau(MegaBase):
         self.we.var('m_iso').setVal(row.mRelPFIsoDBDefaultR04)
         self.we.var('gt_pt').setVal(myMuon.Pt())
         self.we.var('gt_eta').setVal(myMuon.Eta())
+        # Muon selection scale factor
         msel = self.we.function('m_sel_idEmb_ratio').getVal()
         self.we.var('gt_pt').setVal(myTau.Pt())
         self.we.var('gt_eta').setVal(myTau.Eta())
+        # Tau selection scale factor
         tsel = self.we.function('m_sel_idEmb_ratio').getVal()
         self.we.var('gt1_pt').setVal(myMuon.Pt())
         self.we.var('gt1_eta').setVal(myMuon.Eta())
         self.we.var('gt2_pt').setVal(myTau.Pt())
         self.we.var('gt2_eta').setVal(myTau.Eta())
+        # Trigger selection scale factor
         trgsel = self.we.function('m_sel_trg_ratio').getVal()
+        # Muon Identification, Isolation, tracking, and trigger scale factors
         m_trg_sf = self.we.function('m_trg24_27_embed_kit_ratio').getVal()
         m_id_sf = self.we.function('m_id_embed_kit_ratio').getVal()
         m_iso_sf = self.we.function('m_iso_binned_embed_kit_ratio').getVal()
         m_trk_sf = self.muTracking(myMuon.Eta())[0]
         weight = row.GenWeight*tID*dm*msel*tsel*trgsel*m_trg_sf*m_id_sf*m_iso_sf*m_trk_sf*self.EmbedPt(myMuon.Pt(), njets, mjj)
 
+      # Tau anti-isolated region
       if not self.obj2_tight(row) and self.obj2_loose(row) and self.obj1_tight(row):
         frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
         weight = weight*frTau
         if self.oppositesign(row):
+          # W+Jets control region
           if self.transverseMass(myMuon, myMET) > 60:
             if self.transverseMass(myTau, myMET) > 80:
               self.fill_histos(row, myMuon, myMET, myTau, weight, 'TauLooseWOS')
@@ -405,6 +422,7 @@ class AnalyzeMuTau(MegaBase):
                 self.fill_histos(row, myMuon, myMET, myTau, weight, 'TauLooseWOS2Jet')
               elif njets==2 and mjj > 550:
                 self.fill_histos(row, myMuon, myMET, myTau, weight, 'TauLooseWOS2JetVBF')
+          # Signal region
           self.fill_histos(row, myMuon, myMET, myTau, weight, 'TauLooseOS')
           if njets==0 and self.transverseMass(myTau, myMET) < 105:
             self.fill_histos(row, myMuon, myMET, myTau, weight, 'TauLooseOS0Jet')
@@ -414,6 +432,7 @@ class AnalyzeMuTau(MegaBase):
             self.fill_histos(row, myMuon, myMET, myTau, weight, 'TauLooseOS2Jet')
           elif njets==2 and mjj > 550 and self.transverseMass(myTau, myMET) < 85:
             self.fill_histos(row, myMuon, myMET, myTau, weight, 'TauLooseOS2JetVBF')
+        # Same sign control region
         if not self.oppositesign(row):
           self.fill_histos(row, myMuon, myMET, myTau, weight, 'TauLooseSS')
           if njets==0:
@@ -425,10 +444,12 @@ class AnalyzeMuTau(MegaBase):
           elif njets==2 and mjj > 550:
             self.fill_histos(row, myMuon, myMET, myTau, weight, 'TauLooseSS2JetVBF')
 
+      # Muon anti-isolated region
       if not self.obj1_tight(row) and self.obj1_loose(row) and self.obj2_tight(row):
         frMuon = self.fakeRateMuon(myMuon.Pt())
         weight = weight*frMuon
         if self.oppositesign(row):
+          # W+Jets control region
           if self.transverseMass(myMuon, myMET) > 60:
             if self.transverseMass(myTau, myMET) > 80:
               self.fill_histos(row, myMuon, myMET, myTau, weight, 'MuonLooseWOS')
@@ -440,6 +461,7 @@ class AnalyzeMuTau(MegaBase):
                 self.fill_histos(row, myMuon, myMET, myTau, weight, 'MuonLooseWOS2Jet')
               elif njets==2 and mjj > 550:
                 self.fill_histos(row, myMuon, myMET, myTau, weight, 'MuonLooseWOS2JetVBF')
+          # Signal region
           self.fill_histos(row, myMuon, myMET, myTau, weight, 'MuonLooseOS')
           if njets==0 and self.transverseMass(myTau, myMET) < 105:
             self.fill_histos(row, myMuon, myMET, myTau, weight, 'MuonLooseOS0Jet')
@@ -449,6 +471,7 @@ class AnalyzeMuTau(MegaBase):
             self.fill_histos(row, myMuon, myMET, myTau, weight, 'MuonLooseOS2Jet')
           elif njets==2 and mjj > 550 and self.transverseMass(myTau, myMET) < 85:
             self.fill_histos(row, myMuon, myMET, myTau, weight, 'MuonLooseOS2JetVBF')
+        # Same sign control region
         if not self.oppositesign(row):
           self.fill_histos(row, myMuon, myMET, myTau, weight, 'MuonLooseSS')
           if njets==0:
@@ -460,11 +483,13 @@ class AnalyzeMuTau(MegaBase):
           elif njets==2 and mjj > 550:
                 self.fill_histos(row, myMuon, myMET, myTau, weight, 'MuonLooseSS2JetVBF')
 
+      # Muon and Tau anti-isolated region
       if not self.obj2_tight(row) and self.obj2_loose(row) and not self.obj1_tight(row) and self.obj1_loose(row):
         frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
         frMuon = self.fakeRateMuon(myMuon.Pt())
         weight = weight*frMuon*frTau
         if self.oppositesign(row):
+          # W+Jets control region
           if self.transverseMass(myMuon, myMET) > 60:
             if self.transverseMass(myTau, myMET) > 80:
               self.fill_histos(row, myMuon, myMET, myTau, weight, 'MuonLooseTauLooseWOS')
@@ -476,6 +501,7 @@ class AnalyzeMuTau(MegaBase):
                 self.fill_histos(row, myMuon, myMET, myTau, weight, 'MuonLooseTauLooseWOS2Jet')
               elif njets==2 and mjj > 550:
                 self.fill_histos(row, myMuon, myMET, myTau, weight, 'MuonLooseTauLooseWOS2JetVBF')
+          # Signal region
           self.fill_histos(row, myMuon, myMET, myTau, weight, 'MuonLooseTauLooseOS')
           if njets==0 and self.transverseMass(myTau, myMET) < 105:
             self.fill_histos(row, myMuon, myMET, myTau, weight, 'MuonLooseTauLooseOS0Jet')
@@ -485,6 +511,7 @@ class AnalyzeMuTau(MegaBase):
             self.fill_histos(row, myMuon, myMET, myTau, weight, 'MuonLooseTauLooseOS2Jet')
           elif njets==2 and mjj > 550 and self.transverseMass(myTau, myMET) < 85:
             self.fill_histos(row, myMuon, myMET, myTau, weight, 'MuonLooseTauLooseOS2JetVBF')
+        # Same sign control region
         if not self.oppositesign(row):
           self.fill_histos(row, myMuon, myMET, myTau, weight, 'MuonLooseTauLooseSS')
           if njets==0:
@@ -496,8 +523,10 @@ class AnalyzeMuTau(MegaBase):
           elif njets==2 and mjj > 550:
                 self.fill_histos(row, myMuon, myMET, myTau, weight, 'MuonLooseTauLooseSS2JetVBF')
 
+      # Muon and Tau Isolated region
       if self.obj2_tight(row) and self.obj1_tight(row):
         if self.oppositesign(row):
+          # W+Jets control region
           if self.transverseMass(myMuon, myMET) > 60:
             if self.transverseMass(myTau, myMET) > 80:
               self.fill_histos(row, myMuon, myMET, myTau, weight, 'TightWOS')
@@ -509,6 +538,7 @@ class AnalyzeMuTau(MegaBase):
                 self.fill_histos(row, myMuon, myMET, myTau, weight, 'TightWOS2Jet')
               elif njets==2 and mjj > 550:
                 self.fill_histos(row, myMuon, myMET, myTau, weight, 'TightWOS2JetVBF')
+          # Signal region
           self.fill_histos(row, myMuon, myMET, myTau, weight, 'TightOS')
           if njets==0 and self.transverseMass(myTau, myMET) < 105:
             self.fill_histos(row, myMuon, myMET, myTau, weight, 'TightOS0Jet')
@@ -518,6 +548,7 @@ class AnalyzeMuTau(MegaBase):
             self.fill_histos(row, myMuon, myMET, myTau, weight, 'TightOS2Jet')
           elif njets==2 and mjj > 550 and self.transverseMass(myTau, myMET) < 85:
             self.fill_histos(row, myMuon, myMET, myTau, weight, 'TightOS2JetVBF')
+        # Same sign control region
         if not self.oppositesign(row):
           self.fill_histos(row, myMuon, myMET, myTau, weight, 'TightSS')
           if njets==0:
@@ -529,6 +560,6 @@ class AnalyzeMuTau(MegaBase):
           elif njets==2 and mjj > 550:
             self.fill_histos(row, myMuon, myMET, myTau, weight, 'TightSS2JetVBF')
 
-
+  # Write the histograms to the output files
   def finish(self):
     self.write_histos()
