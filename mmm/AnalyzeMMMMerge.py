@@ -210,11 +210,11 @@ class AnalyzeMMMMerge(MegaBase):
         # Muon 3 Scale Factors
         m3ID = self.muonTightID(myMuon3.Eta(), myMuon3.Pt())
         m3Trk = self.muTracking(myMuon3.Eta())[0]
-        if self.muon_loose(row):
-          m3Iso = self.muonLooseIsoTightID(myMuon3.Eta(), myMuon3.Pt())
-          weight = weight * m3Iso
         if self.muon_tight(row):
           m3Iso = self.muonTightIsoTightID(myMuon3.Eta(), myMuon3.Pt())
+          weight = weight * m3Iso
+        elif self.muon_loose(row):
+          m3Iso = self.muonLooseIsoTightID(myMuon3.Eta(), myMuon3.Pt())
           weight = weight * m3Iso
         weight = weight * row.GenWeight * pucorrector[''](row.nTruePU) * m1ID * m1Iso * m1Trk * m2ID * m2Iso * m2Trk * m3ID * m3Trk
         if self.is_DY:

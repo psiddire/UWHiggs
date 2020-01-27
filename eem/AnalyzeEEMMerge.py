@@ -185,11 +185,11 @@ class AnalyzeEEMMerge(MegaBase):
         # Muon Scale Factors
         mID = self.muonTightID(myMuon.Eta(), myMuon.Pt())
         mTrk = self.muTracking(myMuon.Eta())[0]
-        if self.muon_loose(row):
-          mIso = self.muonLooseIsoTightID(myMuon.Eta(), myMuon.Pt())
-          weight = weight * mIso
         if self.muon_tight(row):
           mIso = self.muonTightIsoTightID(myMuon.Eta(), myMuon.Pt())
+          weight = weight * mIso
+        elif self.muon_loose(row):
+          mIso = self.muonLooseIsoTightID(myMuon.Eta(), myMuon.Pt())
           weight = weight * mIso
         weight = weight * row.GenWeight * pucorrector[''](row.nTruePU) * e1ID * e2ID * mID * mTrk
         if self.is_DY:
