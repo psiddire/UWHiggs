@@ -28,18 +28,21 @@ def get_sample_names(substring)
 end
 #
 samples = Hash[
-		"eraA" => get_sample_names('data_EGamma_Run2018A-17Sep2018'),	
-                "eraB" => get_sample_names('data_EGamma_Run2018B-17Sep2018'),
-                "eraC" => get_sample_names('data_EGamma_Run2018C-17Sep2018'),
-                "eraD" => get_sample_names('data_EGamma_Run2018D-PromptReco'),
-		"DY" => get_sample_names('DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v1'),
-                "DY1" => get_sample_names('DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2'),
-                "DY2" => get_sample_names('DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2'),
-                "DY3" => get_sample_names('DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2'),
-                "DY4" => get_sample_names('DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v1'),
-		"WW" => get_sample_names('WW_TuneCP5_13TeV-pythia8_-102X_upgrade2018_realistic_v15-v2'),
-                "WZ" => get_sample_names('WZ_TuneCP5_13TeV-pythia8_-102X_upgrade2018_realistic_v15-v3'),
-                "ZZ" => get_sample_names('ZZ_TuneCP5_13TeV-pythia8_-102X_upgrade2018_realistic_v15-v2'),
+		"eraB" => get_sample_names('data_SingleElectron_Run2016B'),	
+		"eraC" => get_sample_names('data_SingleElectron_Run2016C'),	
+		"eraD" => get_sample_names('data_SingleElectron_Run2016D'),	
+		"eraE" => get_sample_names('data_SingleElectron_Run2016E'),	
+		"eraF" => get_sample_names('data_SingleElectron_Run2016F'),	
+		"eraG" => get_sample_names('data_SingleElectron_Run2016G'),	
+		"eraH" => get_sample_names('data_SingleElectron_Run2016H'),
+		"DY" => get_sample_names('DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v3-PUMoriond17_94X_mcRun2_asymptotic_v3'),
+                "DY1" => get_sample_names('DY1JetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1'),
+                "DY2" => get_sample_names('DY2JetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v3-PUMoriond17_94X_mcRun2_asymptotic_v3-v2'),
+                "DY3" => get_sample_names('DY3JetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v3-PUMoriond17_94X_mcRun2_asymptotic_v3-v2'),
+                "DY4" => get_sample_names('DY4JetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v3-PUMoriond17_94X_mcRun2_asymptotic_v3-v2'),
+		"WW" => get_sample_names('WW_TuneCUETP8M1_13TeV-pythia8_v3-PUMoriond17_94X_mcRun2_asymptotic_v3-v2'),
+                "WZ" => get_sample_names('WZ_TuneCUETP8M1_13TeV-pythia8_v3-PUMoriond17_94X_mcRun2_asymptotic_v3-v2'),
+                "ZZ" => get_sample_names('ZZ_TuneCUETP8M1_13TeV-pythia8_v3-PUMoriond17_94X_mcRun2_asymptotic_v3-v2'),
 ]
 
 
@@ -57,7 +60,10 @@ def get_plotter_results(analyzer)
   analyzer_base = analyzer.sub('.py', '')
 end
 
-task :EEM => get_analyzer_results("AnalyzeEEM.py", samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['eraA'] + samples['eraB'] + samples['eraC'] + samples['eraD'])
+task :EEM => get_analyzer_results("AnalyzeEEM.py", samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['eraG'] + samples['eraH'])
+
+task :EEMM => get_analyzer_results("AnalyzeEEMMerge.py", samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['eraG'] + samples['eraH'])
+
 
 $etdir = "plots/#{$jobid}/AnalyzerMuTau/mt_now/"
 directory $etdir 

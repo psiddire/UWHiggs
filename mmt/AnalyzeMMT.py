@@ -29,15 +29,14 @@ class AnalyzeMMT(MegaBase):
     self.is_mc = self.mcWeight.is_mc
     self.is_DY = self.mcWeight.is_DY
 
+    self.triggerEff22 = mcCorrections.muonTrigger22
     self.triggerEff24 = mcCorrections.muonTrigger24
-    self.triggerEff27 = mcCorrections.muonTrigger27
     self.muonTightID = mcCorrections.muonID_tight
     self.muonTightIsoTightID = mcCorrections.muonIso_tight_tightid
     self.muTracking = mcCorrections.muonTracking
     self.DYreweight = mcCorrections.DYreweight
-    self.DYreweightReco = mcCorrections.DYreweightReco
-
     self.rc = mcCorrections.rc
+
     self.DYweight = self.mcWeight.DYweight
 
     self.deltaPhi = Kinematics.deltaPhi
@@ -116,17 +115,16 @@ class AnalyzeMMT(MegaBase):
 
 
   def begin(self):
-    names=['initial', 'loose', 'LDM0', 'LDM1', 'LDM10', 'LEBDM0', 'LEBDM1', 'LEBDM10', 'LEEDM0', 'LEEDM1', 'LEEDM10', 'tight', 'TDM0', 'TDM1', 'TDM10', 'TEBDM0', 'TEBDM1', 'TEBDM10', 'TEEDM0', 'TEEDM1', 'TEEDM10']
-    namesize = len(names)
-    for x in range(0,namesize):
-      self.book(names[x], "tPt", "Tau Pt", 20, 0, 200)
-      self.book(names[x], "tEta", "Tau Eta", 20, -3, 3)
-      self.book(names[x], "tDecayMode", "Tau Decay Mode", 20, 0, 20)
-      self.book(names[x], "m1_m2_Mass", "Invariant Muon Mass", 10, 50, 150)
-      self.book(names[x], "m1Pt", "Muon 1 Pt", 20, 0, 200)
-      self.book(names[x], "m1Eta", "Muon 1 Eta", 20, -3, 3)
-      self.book(names[x], "m2Pt", "Muon 2 Pt", 20, 0, 200)
-      self.book(names[x], "m2Eta", "Muon 2 Eta", 20, -3, 3)
+    names = ['initial', 'loose', 'LDM0', 'LDM1', 'LDM10', 'LEBDM0', 'LEBDM1', 'LEBDM10', 'LEEDM0', 'LEEDM1', 'LEEDM10', 'tight', 'TDM0', 'TDM1', 'TDM10', 'TEBDM0', 'TEBDM1', 'TEBDM10', 'TEEDM0', 'TEEDM1', 'TEEDM10']
+    for n in names:
+      self.book(n, "tPt", "Tau Pt", 20, 0, 200)
+      self.book(n, "tEta", "Tau Eta", 20, -3, 3)
+      self.book(n, "tDecayMode", "Tau Decay Mode", 20, 0, 20)
+      self.book(n, "m1_m2_Mass", "Invariant Muon Mass", 10, 50, 150)
+      self.book(n, "m1Pt", "Muon 1 Pt", 20, 0, 200)
+      self.book(n, "m1Eta", "Muon 1 Eta", 20, -3, 3)
+      self.book(n, "m2Pt", "Muon 2 Pt", 20, 0, 200)
+      self.book(n, "m2Eta", "Muon 2 Eta", 20, -3, 3)
 
 
   def fill_histos(self, row, myMuon1, myMuon2, myTau, weight, name=''):
@@ -145,11 +143,11 @@ class AnalyzeMMT(MegaBase):
     tmpTau = myTau
     if self.is_mc and row.tZTTGenMatching==5:
       if row.tDecayMode == 0:
-        tmpTau = myTau * ROOT.Double(0.987)
+        tmpTau = myTau * ROOT.Double(0.994)
       elif row.tDecayMode == 1:
         tmpTau = myTau * ROOT.Double(0.995)
       elif row.tDecayMode == 10:
-        tmpTau = myTau * ROOT.Double(0.988)# Corrected from 0.998
+        tmpTau = myTau * ROOT.Double(1.000)
     ## 2017 numbers below. Need to update when 2018 numbers are available.
     # if self.is_mc and bool(row.tZTTGenMatching==1 or row.tZTTGenMatching==3):
     #   if row.tDecayMode == 0:
@@ -164,17 +162,13 @@ class AnalyzeMMT(MegaBase):
 
     for row in self.tree:
 
-      #trigger24m1 = row.IsoMu24Pass and row.m1MatchesIsoMu24Filter and row.m1MatchesIsoMu24Path and row.m1Pt > 26
-      trigger27m1 = row.IsoMu27Pass and row.m1MatchesIsoMu27Filter and row.m1MatchesIsoMu27Path and row.m1Pt > 29
-      #trigger24m2 = row.IsoMu24Pass and row.m2MatchesIsoMu24Filter and row.m2MatchesIsoMu24Path and row.m2Pt > 26
-      trigger27m2 = row.IsoMu27Pass and row.m2MatchesIsoMu27Filter and row.m2MatchesIsoMu27Path and row.m2Pt > 29 
+      trigger24m1 = row.IsoMu24Pass and row.m1Pt > 26 and row.m1MatchesIsoMu24Filter and row.m1MatchesIsoMu24Path
+      trigger24m2 = row.IsoMu24Pass and row.m2Pt > 26 and row.m2MatchesIsoMu24Filter and row.m2MatchesIsoMu24Path
 
       if self.filters(row):
         continue
 
-      #if not bool(trigger24m1 or trigger24m2): # or trigger27m1 or trigger27m2
-      #  continue
-      if not bool(trigger27m1 or trigger27m2):
+      if not bool(trigger24m1 or trigger24m2):
         continue
 
       if not self.kinematics(row):
@@ -215,58 +209,70 @@ class AnalyzeMMT(MegaBase):
       weight = 1.0
       if self.is_mc:
         # Need updating: Trigger Scale Factors
-        if trigger27m1:# or trigger24m1:
-          tEff = self.triggerEff27(row.m1Pt, abs(row.m1Eta))[0]
+        if trigger24m1:
+          tEff = self.triggerEff24(row.m1Pt, abs(row.m1Eta))[0]
           weight = weight * tEff
-        elif trigger27m2:# or trigger24m2:
-          tEff = self.triggerEff27(row.m2Pt, abs(row.m2Eta))[0]
+        elif trigger24m2:
+          tEff = self.triggerEff24(row.m2Pt, abs(row.m2Eta))[0]
           weight = weight * tEff
         # Muon 1 Scale Factors
-        m1ID = self.muonTightID(row.m1Pt, abs(row.m1Eta))
-        m1Iso = self.muonTightIsoTightID(row.m1Pt, abs(row.m1Eta))
-        m1Trk = self.muTracking(row.m1Eta)[0]
+        m1ID = self.muonTightID(myMuon1.Eta(), myMuon1.Pt())
+        m1Iso = self.muonTightIsoTightID(myMuon1.Eta(), myMuon1.Pt())
+        m1Trk = self.muTracking(myMuon1.Eta())[0]
         # Muon 2 Scale Factors
-        m2ID = self.muonTightID(row.m2Pt, abs(row.m2Eta))
-        m2Iso = self.muonTightIsoTightID(row.m2Pt, abs(row.m2Eta))
-        m2Trk = self.muTracking(row.m2Eta)[0]
+        m2ID = self.muonTightID(myMuon2.Eta(), myMuon2.Pt())
+        m2Iso = self.muonTightIsoTightID(myMuon2.Eta(), myMuon2.Pt())
+        m2Trk = self.muTracking(myMuon2.Eta())[0]
         weight = weight * row.GenWeight * pucorrector[''](row.nTruePU) * m1ID * m1Iso * m1Trk * m2ID * m2Iso * m2Trk
         # Anti-Muon and Anti-Electron Discriminator Scale Factors
         if row.tZTTGenMatching==2 or row.tZTTGenMatching==4:
           if abs(row.tEta) < 0.4:
-            weight = weight * 1.23
+            weight = weight * 1.274
           elif abs(row.tEta) < 0.8:
-            weight = weight * 1.37
+            weight = weight * 1.144
           elif abs(row.tEta) < 1.2:
-            weight = weight * 1.12
+            weight = weight * 1.261
           elif abs(row.tEta) < 1.7:
-            weight = weight * 1.84
+            weight = weight * 1.159
           else:
-            weight = weight * 2.01
+            weight = weight * 3.31
         elif row.tZTTGenMatching==1 or row.tZTTGenMatching==3: 
-          if abs(row.tEta) < 1.448: # Corrected
-            weight = weight * 1.13
+          if abs(row.tEta) < 1.448:
+            weight = weight * 1.175
           elif abs(row.tEta) > 1.558:
-            weight = weight * 1.003
+            weight = weight * 1.288
         # Tau ID Scale Factor
         elif row.tZTTGenMatching==5:
-          weight = weight * 0.90
+          if self.tau_tight(row):
+            if row.tPt <= 35:
+              weight = weight * 0.913
+            elif row.tPt <= 40:
+              weight = weight * 0.896
+            else:
+              weight = weight * 0.928
+          elif self.tau_vloose(row):
+            if row.tPt <= 35:
+              weight = weight * 0.942
+            elif row.tPt <= 40:
+              weight = weight * 0.866
+            else:
+              weight = weight * 0.994
         if self.is_DY:
           # DY pT reweighting
-          #dyweight = self.DYreweight(row.genMass, row.genpT)
-          dyweight = self.DYreweightReco((myMuon1+myMuon2).M(), (myMuon1+myMuon2).Pt())
+          dyweight = self.DYreweight(row.genMass, row.genpT)
           weight = weight * dyweight
-          #if row.numGenJets < 5:
-          #  weight = weight * self.DYweight[row.numGenJets]
-          #else:
-          #  weight = weight * self.DYweight[0]
+          if row.numGenJets < 5:
+            weight = weight * self.DYweight[row.numGenJets]
+          else:
+            weight = weight * self.DYweight[0]
         weight = self.mcWeight.lumiWeight(weight)
 
       # B-Jet Veto using b-tagging event weight method
-      nbtag = row.bjetDeepCSVVeto20Medium_2018_DR0p5
+      nbtag = row.bjetDeepCSVVeto20Medium_2016_DR0p5
       if nbtag > 2:
         nbtag = 2
       if (self.is_mc and nbtag > 0):
-        btagweight = bTagEventWeight(nbtag, row.jb1pt_2018, row.jb1hadronflavor_2018, row.jb2pt_2018, row.jb2hadronflavor_2018, 1, 0, 0)
+        btagweight = bTagEventWeight(nbtag, row.jb1pt_2016, row.jb1hadronflavor_2016, row.jb2pt_2016, row.jb2hadronflavor_2016, 1, 0, 0)
         weight = weight * btagweight
       if (bool(self.is_data) and nbtag > 0):
         weight = 0

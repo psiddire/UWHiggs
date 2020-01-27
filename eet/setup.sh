@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Get the data
-export datasrc=/hdfs/store/user/kaho
-export MEGAPATH=/hdfs/store/user/kaho
+export datasrc=/hdfs/store/user/ndev
+export MEGAPATH=/hdfs/store/user/ndev
 
 source jobid.sh
 

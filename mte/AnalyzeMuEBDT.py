@@ -15,7 +15,7 @@ import math
 import mcCorrections
 import mcWeights
 import Kinematics
-from bTagSF import PromoteDemote
+from bTagSF import bTagEventWeight
 
 MetCorrection = True
 target = os.path.basename(os.environ['megatarget'])
@@ -41,22 +41,18 @@ class AnalyzeMuEBDT(MegaBase):
     if self.is_recoilC and MetCorrection:
       self.Metcorected = mcCorrections.Metcorected
 
-    self.f_btag_eff = mcCorrections.f_btag_eff
-    self.h_btag_eff_b = mcCorrections.h_btag_eff_b
-    self.h_btag_eff_c = mcCorrections.h_btag_eff_c
-    self.h_btag_eff_oth = mcCorrections.h_btag_eff_oth
-
-    self.triggerEff = mcCorrections.efficiency_trigger_mu_2017
+    self.triggerEff22 = mcCorrections.muonTrigger22
+    self.triggerEff24 = mcCorrections.muonTrigger24
     self.muonTightID = mcCorrections.muonID_tight
     self.muonTightIsoTightID = mcCorrections.muonIso_tight_tightid
     self.muTracking = mcCorrections.muonTracking
-    self.eIDnoIsoWP80 = mcCorrections.eIDnoIsoWP80
-    self.eReco = mcCorrections.eReco
-    self.rc = mcCorrections.rc
+    self.Ele25 = mcCorrections.Ele25
+    self.EleIdIso = mcCorrections.EleIdIso
+    self.eIDnoiso80 = mcCorrections.eIDnoiso80
+    self.DYreweight = mcCorrections.DYreweight
+
     self.w1 = mcCorrections.w1
-    self.w2 = mcCorrections.w2
-    self.w3 = mcCorrections.w3
-    self.we = mcCorrections.we
+    self.rc = mcCorrections.rc
 
     self.DYweight = self.mcWeight.DYweight
     self.Wweight = self.mcWeight.Wweight
@@ -100,7 +96,7 @@ class AnalyzeMuEBDT(MegaBase):
 
 
   def filters(self, row):
-    if row.Flag_goodVertices or row.Flag_globalTightHalo2016Filter or row.Flag_HBHENoiseFilter or row.Flag_HBHENoiseIsoFilter or row.Flag_EcalDeadCellTriggerPrimitiveFilter or row.Flag_BadPFMuonFilter or row.Flag_BadChargedCandidateFilter or row.Flag_ecalBadCalibFilter or bool(self.is_data and row.Flag_eeBadScFilter):
+    if row.Flag_goodVertices or row.Flag_globalSuperTightHalo2016Filter or row.Flag_HBHENoiseFilter or row.Flag_HBHENoiseIsoFilter or row.Flag_EcalDeadCellTriggerPrimitiveFilter or row.Flag_BadPFMuonFilter or bool(self.is_data and row.Flag_eeBadScFilter):#row.Flag_ecalBadCalibFilter -> row.Flag_ecalBadCalibReducedMINIAODFilter
       return True
     return False
 
@@ -122,7 +118,7 @@ class AnalyzeMuEBDT(MegaBase):
 
 
   def vetos(self, row):
-    return (bool(row.eVetoMVAIso < 0.5) and bool(row.tauVetoPt20LooseMVALTVtx < 0.5) and bool(row.muGlbIsoVetoPt10 < 0.5))
+    return bool(row.eVetoZTTp001dxyz < 0.5) and bool(row.muVetoZTTp001dxyz < 0.5) and bool(row.tauVetoPt20LooseMVALTVtx < 0.5)
 
 
   def begin(self):
@@ -170,7 +166,7 @@ class AnalyzeMuEBDT(MegaBase):
       elif varname=="njets":
         holder[0] = int(njets)
       elif varname=="vbfMass":
-        holder[0] = row.vbfMassWoNoisyJets
+        holder[0] = row.vbfMass
       elif varname=="weight":
         holder[0] = weight
     self.tree1.Fill()
@@ -180,13 +176,12 @@ class AnalyzeMuEBDT(MegaBase):
 
     for row in self.tree:
 
-      triggerm8e23 = row.mu8e23DZPass and row.mPt > 10 and row.ePt > 24# and row.eMatchesMu8e23DZFilter and row.eMatchesMu8e23DZPath and row.mMatchesMu8e23DZFilter and row.mMatchesMu8e23DZPath
-      triggerm23e12 = row.mu23e12DZPass and row.mPt > 24 and row.ePt > 13# and row.eMatchesMu23e12DZFilter and row.eMatchesMu23e12DZPath and row.mMatchesMu23e12DZFilter and row.mMatchesMu23e12DZPath
+      triggerm23e12 = row.mu23e12DZPass and row.mPt > 24 and row.ePt > 13
 
       if self.filters(row):
         continue
 
-      if not bool(triggerm8e23 or triggerm23e12):
+      if not bool(triggerm23e12):
         continue
 
       if not self.kinematics(row):
@@ -195,11 +190,7 @@ class AnalyzeMuEBDT(MegaBase):
       if self.deltaR(row.ePhi, row.mPhi, row.eEta, row.mEta) < 0.3:
         continue
 
-      if Emb and self.is_DY:
-        if not bool(row.isZmumu or row.isZee):
-          continue
-
-      njets = row.jetVeto30WoNoisyJets
+      njets = row.jetVeto30
       if njets > 2:
         continue
 
@@ -211,6 +202,10 @@ class AnalyzeMuEBDT(MegaBase):
 
       if not self.vetos(row):
         continue
+
+      if Emb and self.is_DY:
+        if not bool(row.isZmumu or row.isZee):
+          continue
 
       myMuon = ROOT.TLorentzVector()
       myMuon.SetPtEtaPhiM(row.mPt, row.mEta, row.mPhi, row.mMass)
@@ -226,7 +221,7 @@ class AnalyzeMuEBDT(MegaBase):
         myMETpy = myMET.Py() + myEle.Py()
 
       if self.is_data or self.is_mc:
-        myEle = myEle * ROOT.Double(row.eCorrectedEt/row.eecalEnergy)
+        myEle = myEle * ROOT.Double(row.eCorrectedEt/myEle.Energy())
 
       if self.is_mc:
         myMETpx = myMETpx - myEle.Px()
@@ -236,15 +231,6 @@ class AnalyzeMuEBDT(MegaBase):
       if self.is_recoilC and MetCorrection:
         tmpMet = self.Metcorected.CorrectByMeanResolution(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)))
         myMET.SetPtEtaPhiM(math.sqrt(tmpMet[0]*tmpMet[0] + tmpMet[1]*tmpMet[1]), 0, math.atan2(tmpMet[1], tmpMet[0]), 0)
-
-      nbtag = row.bjetDeepCSVVeto20Medium
-      bpt_1 = row.jb1pt
-      bflavor_1 = row.jb1hadronflavor
-      beta_1 = row.jb1eta
-      if (self.is_mc and nbtag > 0):
-        nbtag = PromoteDemote(self.h_btag_eff_b, self.h_btag_eff_c, self.h_btag_eff_oth, nbtag, bpt_1, bflavor_1, beta_1, 0)
-      if (nbtag > 0):
-        continue
 
       eff_trg_data = 0
       eff_trg_mc = 0
@@ -257,32 +243,24 @@ class AnalyzeMuEBDT(MegaBase):
         self.w1.var("e_pt").setVal(myEle.Pt())
         self.w1.var("e_eta").setVal(myEle.Eta())
         self.w1.var("e_iso").setVal(row.eRelPFIsoRho)
-        if triggerm8e23:
-          eff_trg_data = eff_trg_data + self.w1.function("m_trg_binned_8_data").getVal()*self.w1.function("e_trg_binned_23_data").getVal()
-          eff_trg_mc = eff_trg_mc + self.w1.function("m_trg_binned_8_mc").getVal()*self.w1.function("e_trg_binned_23_mc").getVal()
         if triggerm23e12:
-          eff_trg_data = eff_trg_data + self.w1.function("m_trg_binned_23_data").getVal()*self.w1.function("e_trg_binned_12_data").getVal()
-          eff_trg_mc = eff_trg_mc + self.w1.function("m_trg_binned_23_mc").getVal()*self.w1.function("e_trg_binned_12_mc").getVal()
-        if triggerm8e23 and triggerm23e12:
-          eff_trg_data = eff_trg_data - self.w1.function("m_trg_binned_23_data").getVal()*self.w1.function("e_trg_binned_23_data").getVal()
-          eff_trg_mc = eff_trg_mc - self.w1.function("m_trg_binned_23_mc").getVal()*self.w1.function("e_trg_binned_23_mc").getVal()
+          eff_trg_data = eff_trg_data + self.w1.function("m_trg_23_ic_data").getVal()*self.w1.function("e_trg_12_ic_data").getVal()
+          eff_trg_mc = eff_trg_mc + self.w1.function("m_trg_23_ic_mc").getVal()*self.w1.function("e_trg_12_ic_mc").getVal()
         tEff = 0 if eff_trg_mc==0 else eff_trg_data/eff_trg_mc
-        mID = self.muonTightID(myMuon.Pt(), abs(myMuon.Eta()))
-        mIso = self.muonTightIsoTightID(myMuon.Pt(), abs(myMuon.Eta()))
+        mID = self.muonTightID(myMuon.Eta(), myMuon.Pt())
+        mIso = self.muonTightIsoTightID(myMuon.Eta(), myMuon.Pt())
         mTrk = self.muTracking(myMuon.Eta())[0]
-        eID = self.eIDnoIsoWP80(myEle.Pt(), abs(myEle.Eta()))
-        eTrk = self.eReco(myEle.Pt(), abs(myEle.Eta()))
+        eID = self.eIDnoiso80(myEle.Eta(), myEle.Pt())
+        #eTrk = self.eReco(myEle.Pt(), abs(myEle.Eta()))
         mcSF = self.rc.kSpreadMC(row.mCharge, myMuon.Pt(), myMuon.Eta(), myMuon.Phi(), row.mGenPt, 0, 0)
-        weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*eID*eTrk*mcSF*row.prefiring_weight
+        weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*eID*mcSF*row.prefiring_weight
         if self.is_DY:
-          self.w2.var("z_gen_mass").setVal(row.genMass)
-          self.w2.var("z_gen_pt").setVal(row.genpT)
-          dyweight = self.w2.function("zptmass_weight_nom").getVal()
+          dyweight = self.DYreweight(row.genMass, row.genpT)
           weight = weight*dyweight
-          if row.numGenJets < 5:
-            weight = weight*self.DYweight[row.numGenJets]
-          else:
-            weight = weight*self.DYweight[0]
+          #if row.numGenJets < 5:
+          #  weight = weight*self.DYweight[row.numGenJets]
+          #else:
+          #  weight = weight*self.DYweight[0]
         if self.is_W:
           if row.numGenJets < 5:
             weight = weight*self.Wweight[row.numGenJets]
@@ -295,10 +273,16 @@ class AnalyzeMuEBDT(MegaBase):
             continue
         weight = self.mcWeight.lumiWeight(weight)
 
-      mjj = row.vbfMassWoNoisyJets
+      mjj = row.vbfMass
 
-      if math.isnan(row.vbfMassWoNoisyJets):
-        continue
+      nbtag = row.bjetDeepCSVVeto20Medium_2016_DR0p5
+      if nbtag > 2:
+        nbtag = 2
+      if (self.is_mc and nbtag > 0):
+        btagweight = bTagEventWeight(nbtag, row.jb1pt_2016, row.jb1hadronflavor_2016, row.jb2pt_2016, row.jb2hadronflavor_2016, 1, 0, 0)
+        weight = weight * btagweight
+      if (bool(self.is_data) and nbtag > 0):
+        weight = 0
 
       if self.obj1_iso(row) and self.obj2_iso(row):
         if self.oppositesign(row):

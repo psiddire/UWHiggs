@@ -1,3 +1,3 @@
-export jobideee='FakeData2018_ee'
-#export jobideee='FakeMC2018_ee'
+export jobideee='FakeData2016_ee'
+#export jobideee='FakeMC2016_ee'
 export jobid=$jobideee

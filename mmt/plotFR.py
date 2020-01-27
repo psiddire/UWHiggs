@@ -1,6 +1,6 @@
 import os
 from sys import argv, stdout, stderr
-from ROOT import TCanvas, TLegend, gROOT, TFile
+from ROOT import TCanvas, TLegend, gROOT, TFile, gPad
 import sys
 gROOT.SetStyle("Plain")
 gROOT.SetBatch(True)

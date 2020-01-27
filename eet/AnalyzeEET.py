@@ -29,10 +29,11 @@ class AnalyzeEET(MegaBase):
     self.is_mc = self.mcWeight.is_mc
     self.is_DY = self.mcWeight.is_DY
 
-    self.Ele32or35 = mcCorrections.Ele32or35
+    self.Ele25 = mcCorrections.Ele25
     self.EleIdIso = mcCorrections.EleIdIso
+    self.eIDnoiso80 = mcCorrections.eIDnoiso80
+    self.eIDnoiso90 = mcCorrections.eIDnoiso90
     self.DYreweight = mcCorrections.DYreweight
-    self.DYreweightReco = mcCorrections.DYreweightReco
 
     self.DYweight = self.mcWeight.DYweight
 
@@ -72,7 +73,7 @@ class AnalyzeEET(MegaBase):
 
   # MVA Identification along with Primary Vertex matching for Electron 1
   def obj1_id(self, row):
-    return (bool(row.e1MVANoisoWP80) and bool(abs(row.e1PVDZ) < 0.2) and bool(abs(row.e1PVDXY) < 0.045) and bool(row.e1PassesConversionVeto) and bool(row.e1MissingHits < 2))
+    return (bool(row.e1MVANoisoWP90) and bool(abs(row.e1PVDZ) < 0.2) and bool(abs(row.e1PVDXY) < 0.045) and bool(row.e1PassesConversionVeto) and bool(row.e1MissingHits < 2))
  
   # Isolation requirement using Effective Area method for Electron 1
   def obj1_iso(self, row):
@@ -80,7 +81,7 @@ class AnalyzeEET(MegaBase):
 
   # MVA Identification along with Primary Vertex matching for Electron 2
   def obj2_id(self, row):
-    return (bool(row.e2MVANoisoWP80) and bool(abs(row.e2PVDZ) < 0.2) and bool(abs(row.e2PVDXY) < 0.045) and bool(row.e2PassesConversionVeto) and bool(row.e2MissingHits < 2))
+    return (bool(row.e2MVANoisoWP90) and bool(abs(row.e2PVDZ) < 0.2) and bool(abs(row.e2PVDXY) < 0.045) and bool(row.e2PassesConversionVeto) and bool(row.e2MissingHits < 2))
 
   # Isolation requirement using Effective Area method for Electron 2
   def obj2_iso(self, row):
@@ -112,17 +113,16 @@ class AnalyzeEET(MegaBase):
 
 
   def begin(self):
-    names=['initial', 'loose', 'LDM0', 'LDM1', 'LDM10', 'LEBDM0', 'LEBDM1', 'LEBDM10', 'LEEDM0', 'LEEDM1', 'LEEDM10', 'tight', 'TDM0', 'TDM1', 'TDM10', 'TEBDM0', 'TEBDM1', 'TEBDM10', 'TEEDM0', 'TEEDM1', 'TEEDM10']
-    namesize = len(names)
-    for x in range(0,namesize):
-      self.book(names[x], "tPt", "Tau Pt", 20, 0, 200)
-      self.book(names[x], "tEta", "Tau Eta", 20, -3, 3)
-      self.book(names[x], "tDecayMode", "Tau Decay Mode", 20, 0, 20)
-      self.book(names[x], "e1_e2_Mass", "Invariant Electron Mass", 10, 50, 150)
-      self.book(names[x], "e1Pt", "Electron 1 Pt", 20, 0, 200)
-      self.book(names[x], "e1Eta", "Electron 1 Eta", 20, -3, 3)
-      self.book(names[x], "e2Pt", "Electron 2 Pt", 20, 0, 200)
-      self.book(names[x], "e2Eta", "Electron 2 Eta", 20, -3, 3)
+    names = ['initial', 'loose', 'LDM0', 'LDM1', 'LDM10', 'LEBDM0', 'LEBDM1', 'LEBDM10', 'LEEDM0', 'LEEDM1', 'LEEDM10', 'tight', 'TDM0', 'TDM1', 'TDM10', 'TEBDM0', 'TEBDM1', 'TEBDM10', 'TEEDM0', 'TEEDM1', 'TEEDM10']
+    for n in names:
+      self.book(n, "tPt", "Tau Pt", 20, 0, 200)
+      self.book(n, "tEta", "Tau Eta", 20, -3, 3)
+      self.book(n, "tDecayMode", "Tau Decay Mode", 20, 0, 20)
+      self.book(n, "e1_e2_Mass", "Invariant Electron Mass", 10, 50, 150)
+      self.book(n, "e1Pt", "Electron 1 Pt", 20, 0, 200)
+      self.book(n, "e1Eta", "Electron 1 Eta", 20, -3, 3)
+      self.book(n, "e2Pt", "Electron 2 Pt", 20, 0, 200)
+      self.book(n, "e2Eta", "Electron 2 Eta", 20, -3, 3)
 
 
   def fill_histos(self, row, myEle1, myEle2, myTau, weight, name=''):
@@ -141,11 +141,11 @@ class AnalyzeEET(MegaBase):
     tmpTau = myTau
     if self.is_mc and row.tZTTGenMatching==5:
       if row.tDecayMode == 0:
-        tmpTau = myTau * ROOT.Double(0.987)
+        tmpTau = myTau * ROOT.Double(0.994)
       elif row.tDecayMode == 1:
         tmpTau = myTau * ROOT.Double(0.995)
       elif row.tDecayMode == 10:
-        tmpTau = myTau * ROOT.Double(0.988)
+        tmpTau = myTau * ROOT.Double(1.000)
     ## 2017 numbers below. Need to update when 2018 numbers are available.
     # if self.is_mc and bool(row.tZTTGenMatching==1 or row.tZTTGenMatching==3):
     #   if row.tDecayMode == 0:
@@ -160,15 +160,13 @@ class AnalyzeEET(MegaBase):
 
     for row in self.tree:
 
-      trigger32e1 = row.Ele32WPTightPass and row.e1MatchesEle32Filter and row.e1MatchesEle32Path and row.e1Pt > 33
-      trigger35e1 = row.Ele35WPTightPass and row.e1MatchesEle35Filter and row.e1MatchesEle35Path and row.e1Pt > 36
-      trigger32e2 = row.Ele32WPTightPass and row.e2MatchesEle32Filter and row.e2MatchesEle32Path and row.e2Pt > 33
-      trigger35e2 = row.Ele35WPTightPass and row.e2MatchesEle35Filter and row.e2MatchesEle35Path and row.e2Pt > 36 
+      trigger25e1 = row.singleE25eta2p1TightPass and row.e1MatchesEle25Filter and row.e1MatchesEle25Path and row.e1Pt > 27
+      trigger25e2 = row.singleE25eta2p1TightPass and row.e2MatchesEle25Filter and row.e2MatchesEle25Path and row.e2Pt > 27
 
       if self.filters(row):
         continue
 
-      if not bool(trigger32e1 or trigger32e2 or trigger35e1 or trigger35e2):
+      if not bool(trigger25e1 or trigger25e2):
         continue
 
       if not self.kinematics(row):
@@ -209,54 +207,67 @@ class AnalyzeEET(MegaBase):
       weight = 1.0
       if self.is_mc:
         # Trigger Scale Factors
-        if trigger32e1 or trigger35e1:
-          tEff = self.Ele32or35(row.e1Pt, abs(row.e1Eta))[0]
+        if trigger25e1:
+          tEff = self.Ele25(row.e1Pt, abs(row.e1Eta))[0]
           weight = weight * tEff
-        elif trigger32e2 or trigger35e2:
-          tEff = self.Ele32or35(row.e2Pt, abs(row.e2Eta))[0]
+        elif trigger25e2:
+          tEff = self.Ele25(row.e2Pt, abs(row.e2Eta))[0]
           weight = weight * tEff
         # Electron 1 Scale Factors
-        e1IdIso = self.EleIdIso(row.e1Pt, abs(row.e1Eta))[0]
-        # ELectron 2 Scale Factors
-        e2IdIso = self.EleIdIso(row.e2Pt, abs(row.e2Eta))[0]
-        weight = weight * row.GenWeight * pucorrector[''](row.nTruePU) * e1IdIso * e2IdIso
-        # Anti-Muon and Anti-Electron Discriminator Scale Factors
+        e1ID = self.eIDnoiso90(row.e1Eta, row.e1Pt)
+        # Electron 2 Scale Factors
+        e2ID = self.eIDnoiso90(row.e2Eta, row.e2Pt)
+        weight = weight * row.GenWeight * pucorrector[''](row.nTruePU) * e1ID * e2ID
+        # Anti-Muon Discriminator Scale Factors
         if row.tZTTGenMatching==2 or row.tZTTGenMatching==4:
           if abs(row.tEta) < 0.4:
-            weight = weight * 1.05
+            weight = weight * 1.106
           elif abs(row.tEta) < 0.8:
-            weight = weight * 0.96
+            weight = weight * 1.121
           elif abs(row.tEta) < 1.2:
-            weight = weight * 1.06
+            weight = weight * 1.225
           elif abs(row.tEta) < 1.7:
-            weight = weight * 1.45
+            weight = weight * 1.115
           else:
-            weight = weight * 1.75
+            weight = weight * 2.425
+        # Anti-Electron Discriminator Scale Factors
         elif row.tZTTGenMatching==1 or row.tZTTGenMatching==3: 
           if abs(row.tEta) < 1.448:
-            weight = weight * 1.46
+            weight = weight * 2.16
           elif abs(row.tEta) > 1.558:
-            weight = weight * 1.02
+            weight = weight * 0.91
         # Tau ID Scale Factor
         elif row.tZTTGenMatching==5:
-          weight = weight * 0.90
+          if self.tau_tight(row):
+            if row.tPt <= 35:
+              weight = weight * 0.913
+            elif row.tPt <= 40:
+              weight = weight * 0.896
+            else:
+              weight = weight * 0.928
+          elif self.tau_vloose(row):
+            if row.tPt <= 35:
+              weight = weight * 0.942
+            elif row.tPt <= 40:
+              weight = weight * 0.866
+            else:
+              weight = weight * 0.994
         if self.is_DY:
           # DY pT reweighting
-          #dyweight = self.DYreweight(row.genMass, row.genpT)
-          dyweight = self.DYreweightReco((myEle1+myEle2).M(), (myEle1+myEle2).Pt())
+          dyweight = self.DYreweight(row.genMass, row.genpT)
           weight = weight * dyweight
-          #if row.numGenJets < 5:
-          #  weight = weight * self.DYweight[row.numGenJets]
-          #else:
-          #  weight = weight * self.DYweight[0]
+          if row.numGenJets < 5:
+            weight = weight * self.DYweight[row.numGenJets]
+          else:
+            weight = weight * self.DYweight[0]
         weight = self.mcWeight.lumiWeight(weight)
 
       # B-Jet Veto using b-tagging event weight method
-      nbtag = row.bjetDeepCSVVeto20Medium_2018_DR0p5
+      nbtag = row.bjetDeepCSVVeto20Medium_2016_DR0p5
       if nbtag > 2:
         nbtag = 2
       if (self.is_mc and nbtag > 0):
-        btagweight = bTagEventWeight(nbtag, row.jb1pt_2018, row.jb1hadronflavor_2018, row.jb2pt_2018, row.jb2hadronflavor_2018, 1, 0, 0)
+        btagweight = bTagEventWeight(nbtag, row.jb1pt_2016, row.jb1hadronflavor_2016, row.jb2pt_2016, row.jb2hadronflavor_2016, 1, 0, 0)
         weight = weight * btagweight
       if (bool(self.is_data) and nbtag > 0):
         weight = 0

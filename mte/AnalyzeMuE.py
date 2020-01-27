@@ -14,7 +14,7 @@ import math
 import mcCorrections
 import mcWeights
 import Kinematics
-from bTagSF import PromoteDemote
+from bTagSF import bTagEventWeight
 
 MetCorrection = True
 target = os.path.basename(os.environ['megatarget'])
@@ -38,21 +38,22 @@ class AnalyzeMuE(MegaBase):
     if self.is_recoilC and MetCorrection:
       self.Metcorected = mcCorrections.Metcorected
 
-    self.f_btag_eff = mcCorrections.f_btag_eff
-    self.h_btag_eff_b = mcCorrections.h_btag_eff_b
-    self.h_btag_eff_c = mcCorrections.h_btag_eff_c
-    self.h_btag_eff_oth = mcCorrections.h_btag_eff_oth
-
+    self.triggerEff22 = mcCorrections.muonTrigger22
     self.triggerEff24 = mcCorrections.muonTrigger24
-    self.triggerEff27 = mcCorrections.muonTrigger27
     self.muonTightID = mcCorrections.muonID_tight
     self.muonTightIsoTightID = mcCorrections.muonIso_tight_tightid
     self.muTracking = mcCorrections.muonTracking
-    self.Ele32or35 = mcCorrections.Ele32or35
+    self.Ele25 = mcCorrections.Ele25
     self.EleIdIso = mcCorrections.EleIdIso
+    self.eIDnoiso80 = mcCorrections.eIDnoiso80
     self.DYreweight = mcCorrections.DYreweight
-    self.DYreweightReco = mcCorrections.DYreweightReco
+
     self.w1 = mcCorrections.w1
+    self.rc = mcCorrections.rc
+    self.EmbedId = mcCorrections.EmbedId
+    self.EmbedTrg = mcCorrections.EmbedTrg
+    self.EmbedEta = mcCorrections.EmbedEta
+    self.EmbedPhi = mcCorrections.EmbedPhi
 
     self.DYweight = self.mcWeight.DYweight
     self.Wweight = self.mcWeight.Wweight
@@ -78,7 +79,7 @@ class AnalyzeMuE(MegaBase):
 
 
   def kinematics(self, row):
-    if row.mPt < 10 or abs(row.mEta) >= 2.4:
+    if row.mPt < 24 or abs(row.mEta) >= 2.4:
       return False
     if row.ePt < 13 or abs(row.eEta) >= 2.5:
       return False
@@ -112,38 +113,33 @@ class AnalyzeMuE(MegaBase):
 
 
   def begin(self):
-    folder = []
-    vbffolder = []
-    names = ['TightOS', 'TightSS', 'TightOS0Jet', 'TightSS0Jet', 'TightOS1Jet', 'TightSS1Jet', 'TightOS0JetCut', 'TightSS0JetCut', 'TightOS1JetCut', 'TightSS1JetCut', 'TightOS2Jet', 'TightSS2Jet', 'TightOS2JetVBF', 'TightSS2JetVBF', 'TightOS2JetCut', 'TightSS2JetCut', 'TightOS2JetVBFCut', 'TightSS2JetVBFCut']
-    namesize = len(names)
-
-    for x in range(0, namesize):
-      self.book(names[x], "mPt", "Muon  Pt", 20, 0, 200)
-      self.book(names[x], "ePt", "Electron Pt", 20, 0, 200)
-      self.book(names[x], "mEta", "Muon Eta", 20, -3, 3)
-      self.book(names[x], "eEta", "Electron Eta", 20, -3, 3)
-      self.book(names[x], "mPhi", "Muon Phi", 20, -4, 4)
-      self.book(names[x], "ePhi", "Electron Phi", 20, -4, 4)
-      self.book(names[x], "type1_pfMetEt", "Type1 MET Et", 20, 0, 200)
-      self.book(names[x], "type1_pfMetPhi", "Type1 MET Phi", 20, -4, 4)
-      self.book(names[x], "j1Pt", "Jet 1 Pt", 30, 0, 300)
-      self.book(names[x], "j2Pt", "Jet 2 Pt", 30, 0, 300)
-      self.book(names[x], "j1Eta", "Jet 1 Eta", 20, -3, 3)
-      self.book(names[x], "j2Eta", "Jet 2 Eta", 20, -3, 3)
-      self.book(names[x], "j1Phi", "Jet 1 Phi", 20, -4, 4)
-      self.book(names[x], "j2Phi", "Jet 2 Phi", 20, -4, 4)
-      self.book(names[x], "m_e_Mass", "Muon + Electron Mass", 30, 0, 300)
-      self.book(names[x], "m_e_CollMass", "Muon + Electron Collinear Mass", 30, 0, 300)
-      self.book(names[x], "m_e_PZeta", "Muon + Electron PZeta", 80, -400, 400)
-      self.book(names[x], "numOfJets", "Number of Jets", 5, 0, 5)
-      self.book(names[x], "vbfMass", "VBF Mass", 100, 0, 1000)
-      self.book(names[x], "numOfVtx", "Number of Vertices", 100, 0, 100)
-      self.book(names[x], "dEtaMuE", "Delta Eta Mu E", 50, 0, 5)
-      self.book(names[x], "dPhiMuE", "Delta Phi Mu E", 40, 0, 4)
-      self.book(names[x], "dPhiEMET", "Delta Phi E MET", 40, 0, 4)
-      self.book(names[x], "dPhiMuMET", "Delta Phi Mu MET", 40, 0, 4)
-      self.book(names[x], "MTEMET", "Electron MET Transverse Mass", 20, 0, 200)
-      self.book(names[x], "MTMuMET", "Mu MET Transverse Mass", 20, 0, 200)
+    for n in Kinematics.fullnamescut:
+      self.book(n, "mPt", "Muon  Pt", 20, 0, 200)
+      self.book(n, "ePt", "Electron Pt", 20, 0, 200)
+      self.book(n, "mEta", "Muon Eta", 20, -3, 3)
+      self.book(n, "eEta", "Electron Eta", 20, -3, 3)
+      self.book(n, "mPhi", "Muon Phi", 20, -4, 4)
+      self.book(n, "ePhi", "Electron Phi", 20, -4, 4)
+      self.book(n, "type1_pfMetEt", "Type1 MET Et", 20, 0, 200)
+      self.book(n, "type1_pfMetPhi", "Type1 MET Phi", 20, -4, 4)
+      self.book(n, "j1Pt", "Jet 1 Pt", 30, 0, 300)
+      self.book(n, "j2Pt", "Jet 2 Pt", 30, 0, 300)
+      self.book(n, "j1Eta", "Jet 1 Eta", 20, -3, 3)
+      self.book(n, "j2Eta", "Jet 2 Eta", 20, -3, 3)
+      self.book(n, "j1Phi", "Jet 1 Phi", 20, -4, 4)
+      self.book(n, "j2Phi", "Jet 2 Phi", 20, -4, 4)
+      self.book(n, "m_e_Mass", "Muon + Electron Mass", 30, 0, 300)
+      self.book(n, "m_e_CollMass", "Muon + Electron Collinear Mass", 30, 0, 300)
+      self.book(n, "m_e_PZeta", "Muon + Electron PZeta", 80, -400, 400)
+      self.book(n, "numOfJets", "Number of Jets", 5, 0, 5)
+      self.book(n, "vbfMass", "VBF Mass", 100, 0, 1000)
+      self.book(n, "numOfVtx", "Number of Vertices", 100, 0, 100)
+      self.book(n, "dEtaMuE", "Delta Eta Mu E", 50, 0, 5)
+      self.book(n, "dPhiMuE", "Delta Phi Mu E", 40, 0, 4)
+      self.book(n, "dPhiEMET", "Delta Phi E MET", 40, 0, 4)
+      self.book(n, "dPhiMuMET", "Delta Phi Mu MET", 40, 0, 4)
+      self.book(n, "MTEMET", "Electron MET Transverse Mass", 20, 0, 200)
+      self.book(n, "MTMuMET", "Mu MET Transverse Mass", 20, 0, 200)
 
 
   def fill_histos(self, row, myMuon, myMET, myEle, njets, weight, name=''):
@@ -156,17 +152,17 @@ class AnalyzeMuE(MegaBase):
     histos[name+'/ePhi'].Fill(myEle.Phi(), weight)
     histos[name+'/type1_pfMetEt'].Fill(myMET.Et(), weight)
     histos[name+'/type1_pfMetPhi'].Fill(myMET.Phi(), weight)
-    histos[name+'/j1Pt'].Fill(row.j1ptWoNoisyJets, weight)
-    histos[name+'/j2Pt'].Fill(row.j2ptWoNoisyJets, weight)
-    histos[name+'/j1Eta'].Fill(row.j1etaWoNoisyJets, weight)
-    histos[name+'/j2Eta'].Fill(row.j2etaWoNoisyJets, weight)
-    histos[name+'/j1Phi'].Fill(row.j1phiWoNoisyJets, weight)
-    histos[name+'/j2Phi'].Fill(row.j2phiWoNoisyJets, weight)
+    histos[name+'/j1Pt'].Fill(row.j1pt, weight)
+    histos[name+'/j2Pt'].Fill(row.j2pt, weight)
+    histos[name+'/j1Eta'].Fill(row.j1eta, weight)
+    histos[name+'/j2Eta'].Fill(row.j2eta, weight)
+    histos[name+'/j1Phi'].Fill(row.j1phi, weight)
+    histos[name+'/j2Phi'].Fill(row.j2phi, weight)
     histos[name+'/m_e_Mass'].Fill(self.visibleMass(myMuon, myEle), weight)
     histos[name+'/m_e_CollMass'].Fill(self.collMass(myMuon, myMET, myEle), weight)
     histos[name+'/m_e_PZeta'].Fill(row.e_m_PZeta, weight)
     histos[name+'/numOfJets'].Fill(njets, weight)
-    histos[name+'/vbfMass'].Fill(row.vbfMassWoNoisyJets, weight)
+    histos[name+'/vbfMass'].Fill(row.vbfMass, weight)
     histos[name+'/numOfVtx'].Fill(row.nvtx, weight)
     histos[name+'/dEtaMuE'].Fill(self.deltaEta(myMuon.Eta(), myEle.Eta()), weight)
     histos[name+'/dPhiMuE'].Fill(self.deltaPhi(myMuon.Phi(), myEle.Phi()), weight)
@@ -180,13 +176,16 @@ class AnalyzeMuE(MegaBase):
 
     for row in self.tree:
 
-      triggerm8e23 = row.mu8e23DZPass and row.mPt > 10 and row.ePt > 24 and row.eMatchesMu8e23DZFilter and row.eMatchesMu8e23DZPath and row.mMatchesMu8e23DZFilter and row.mMatchesMu8e23DZPath
-      triggerm23e12 = row.mu23e12DZPass and row.mPt > 24 and row.ePt > 13 and row.eMatchesMu23e12DZFilter and row.eMatchesMu23e12DZPath and row.mMatchesMu23e12DZFilter and row.mMatchesMu23e12DZPath
+      #triggerm8e23 = row.mu8e23DZPass and row.mPt > 10 and row.ePt > 24 and row.eMatchesMu8e23DZFilter and row.eMatchesMu8e23DZPath and row.mMatchesMu8e23DZFilter and row.mMatchesMu8e23DZPath
+      triggerm23e12 = row.mu23e12DZPass and row.mPt > 24 and row.ePt > 13# and row.eMatchesMu23e12DZFilter and row.eMatchesMu23e12DZPath and row.mMatchesMu23e12DZFilter and row.mMatchesMu23e12DZPath
+      #trigger24 = row.IsoMu24Pass and row.mPt > 26 and row.mMatchesIsoMu24Filter and row.mMatchesIsoMu24Path
 
       if self.filters(row):
         continue
 
-      if not bool(triggerm8e23 or triggerm23e12):
+      #if not bool(trigger24):
+      #  continue
+      if not bool(triggerm23e12):
         continue
 
       if not self.kinematics(row):
@@ -225,8 +224,8 @@ class AnalyzeMuE(MegaBase):
         myMETpx = myMET.Px() + myEle.Px()
         myMETpy = myMET.Py() + myEle.Py()
 
-      #if self.is_data or self.is_mc:
-      #  myEle = myEle * ROOT.Double(row.eCorrectedEt/row.eecalEnergy)
+      if self.is_data or self.is_mc:
+        myEle = myEle * ROOT.Double(row.eCorrectedEt/myEle.Energy())
 
       if self.is_mc:
         myMETpx = myMETpx - myEle.Px()
@@ -237,52 +236,42 @@ class AnalyzeMuE(MegaBase):
         tmpMet = self.Metcorected.CorrectByMeanResolution(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)))
         myMET.SetPtEtaPhiM(math.sqrt(tmpMet[0]*tmpMet[0] + tmpMet[1]*tmpMet[1]), 0, math.atan2(tmpMet[1], tmpMet[0]), 0)
 
-      nbtag = row.bjetDeepCSVVeto20Medium
-      bpt_1 = row.jb1pt
-      bflavor_1 = row.jb1hadronflavor
-      beta_1 = row.jb1eta
-      if (self.is_mc and nbtag > 0):
-        nbtag = PromoteDemote(self.h_btag_eff_b, self.h_btag_eff_c, self.h_btag_eff_oth, nbtag, bpt_1, bflavor_1, beta_1, 0)
-      if (nbtag > 0):
-        continue
-
       weight = 1.0
-      eff_trg_data = 0
-      eff_trg_mc = 0
-      eff_trg_embed = 0
+      eff_trg_data = 0.0
+      eff_trg_mc = 0.0
+      eff_trg_embed = 0.0
       if self.is_mc:
+        #tEff = self.triggerEff24(myMuon.Pt(), abs(myMuon.Eta()))[0]
         self.w1.var("m_pt").setVal(myMuon.Pt())
         self.w1.var("m_eta").setVal(myMuon.Eta())
         self.w1.var("m_iso").setVal(row.mRelPFIsoDBDefaultR04)
         self.w1.var("e_pt").setVal(myEle.Pt())
         self.w1.var("e_eta").setVal(myEle.Eta())
         self.w1.var("e_iso").setVal(row.eRelPFIsoRho)
-        if triggerm8e23:
-          eff_trg_data = eff_trg_data + self.w1.function("m_trg_binned_8_data").getVal()*self.w1.function("e_trg_binned_23_data").getVal()
-          eff_trg_mc = eff_trg_mc + self.w1.function("m_trg_binned_8_mc").getVal()*self.w1.function("e_trg_binned_23_mc").getVal()
+        #if triggerm8e23:
+        #  eff_trg_data = eff_trg_data + self.w1.function("m_trg_8_ic_data").getVal()*self.w1.function("e_trg_23_ic_data").getVal()
+        #  eff_trg_mc = eff_trg_mc + self.w1.function("m_trg_8_ic_mc").getVal()*self.w1.function("e_trg_23_ic_mc").getVal()
         if triggerm23e12:
-          eff_trg_data = eff_trg_data + self.w1.function("m_trg_binned_23_data").getVal()*self.w1.function("e_trg_binned_12_data").getVal()
-          eff_trg_mc = eff_trg_mc + self.w1.function("m_trg_binned_23_mc").getVal()*self.w1.function("e_trg_binned_12_mc").getVal()
-        if triggerm8e23 and triggerm23e12:
-          eff_trg_data = eff_trg_data - self.w1.function("m_trg_binned_23_data").getVal()*self.w1.function("e_trg_binned_23_data").getVal()
-          eff_trg_mc = eff_trg_mc - self.w1.function("m_trg_binned_23_mc").getVal()*self.w1.function("e_trg_binned_23_mc").getVal()
+          eff_trg_data = eff_trg_data + self.w1.function("m_trg_23_ic_data").getVal()*self.w1.function("e_trg_12_ic_data").getVal()
+          eff_trg_mc = eff_trg_mc + self.w1.function("m_trg_23_ic_mc").getVal()*self.w1.function("e_trg_12_ic_mc").getVal()
+        #if triggerm8e23 and triggerm23e12:
+        #  eff_trg_data = eff_trg_data - self.w1.function("m_trg_23_ic_data").getVal()*self.w1.function("e_trg_23_ic_data").getVal()
+        #  eff_trg_mc = eff_trg_mc - self.w1.function("m_trg_23_ic_mc").getVal()*self.w1.function("e_trg_23_ic_mc").getVal()
         tEff = 0 if eff_trg_mc==0 else eff_trg_data/eff_trg_mc
-        mID = self.muonTightID(myMuon.Pt(), abs(myMuon.Eta()))
-        mIso = self.muonTightIsoTightID(myMuon.Pt(), abs(myMuon.Eta()))
+        mID = self.muonTightID(myMuon.Eta(), myMuon.Pt())
+        mIso = self.muonTightIsoTightID(myMuon.Eta(), myMuon.Pt())
         mTrk = self.muTracking(myMuon.Eta())[0]
-        eID = self.eIDnoIsoWP80(myEle.Pt(), abs(myEle.Eta()))
-        eTrk = self.eReco(myEle.Pt(), abs(myEle.Eta()))
+        eID = self.eIDnoiso80(myEle.Eta(), myEle.Pt())
+        #eTrk = self.eReco(myEle.Pt(), abs(myEle.Eta()))
         mcSF = self.rc.kSpreadMC(row.mCharge, myMuon.Pt(), myMuon.Eta(), myMuon.Phi(), row.mGenPt, 0, 0)
-        weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*eID*eTrk*mcSF*row.prefiring_weight
+        weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*eID*mcSF*row.prefiring_weight
         if self.is_DY:
-          self.w2.var("z_gen_mass").setVal(row.genMass)
-          self.w2.var("z_gen_pt").setVal(row.genpT)
-          dyweight = self.w2.function("zptmass_weight_nom").getVal()
+          dyweight = self.DYreweight(row.genMass, row.genpT)
           weight = weight*dyweight
-          if row.numGenJets < 5:
-            weight = weight*self.DYweight[row.numGenJets]
-          else:
-            weight = weight*self.DYweight[0]
+          #if row.numGenJets < 5:
+          #  weight = weight*self.DYweight[row.numGenJets]
+          #else:
+          #  weight = weight*self.DYweight[0]
         if self.is_W:
           if row.numGenJets < 5:
             weight = weight*self.Wweight[row.numGenJets]
@@ -295,56 +284,54 @@ class AnalyzeMuE(MegaBase):
             continue
         weight = self.mcWeight.lumiWeight(weight)
 
-      mjj = row.vbfMassWoNoisyJets
+      mjj = row.vbfMass
 
       if self.is_embed:
-        self.w1.var("gt_pt").setVal(myMuon.Pt())
-        self.w1.var("gt_eta").setVal(myMuon.Eta())
-        msel = self.w1.function("m_sel_idEmb_ratio").getVal()
-        self.w1.var("gt_pt").setVal(myEle.Pt())
-        self.w1.var("gt_eta").setVal(myEle.Eta())
-        esel = self.w1.function("m_sel_idEmb_ratio").getVal()
-        self.w1.var("gt1_pt").setVal(myMuon.Pt())
-        self.w1.var("gt1_eta").setVal(myMuon.Eta())
-        self.w1.var("gt2_pt").setVal(myEle.Pt())
-        self.w1.var("gt2_eta").setVal(myEle.Eta())
-        trgsel = self.w1.function("m_sel_trg_ratio").getVal()
-        self.we.var("m_pt").setVal(myMuon.Pt())
-        self.we.var("m_eta").setVal(myMuon.Eta())
-        self.we.var("m_iso").setVal(row.mRelPFIsoDBDefaultR04)
-        m_id_sf = self.we.function("m_id_embed_kit_ratio").getVal()
-        m_iso_sf = self.we.function("m_iso_binned_embed_kit_ratio").getVal()
-        m_trk_sf = self.muTracking(myMuon.Eta())[0]
-        self.wp.var("e_pt").setVal(myEle.Pt())
-        self.wp.var("e_eta").setVal(myEle.Eta())
-        self.wp.var("e_phi").setVal(myEle.Phi())
-        self.wp.var("e_iso").setVal(row.eRelPFIsoRho)
-        e_id_sf = self.wp.function("e_id80_embed_kit_ratio").getVal()
-        e_iso_sf = self.wp.function("e_iso_binned_embed_kit_ratio").getVal()
-        e_trk_sf = self.eReco(myEle.Pt(), abs(myEle.Eta()))
+        msel = self.EmbedId(myMuon.Pt(), myMuon.Eta())
+        esel = self.EmbedId(myEle.Pt(), myEle.Eta())
+        trgsel = self.EmbedTrg(myMuon.Pt(), myMuon.Eta(), myEle.Pt(), myEle.Eta())
         self.w1.var("m_pt").setVal(myMuon.Pt())
         self.w1.var("m_eta").setVal(myMuon.Eta())
         self.w1.var("m_iso").setVal(row.mRelPFIsoDBDefaultR04)
+        m_id_sf = self.w1.function("m_id_data").getVal()/self.w1.function("m_id_emb").getVal()
+        m_iso_sf = self.w1.function("m_iso_data").getVal()/self.w1.function("m_iso_emb").getVal()
+        m_trk_sf = self.muTracking(myMuon.Eta())[0]
+        #m_trg_sf = self.w1.function("m_trg_data").getVal()/self.w1.function("m_trg_emb").getVal()
         self.w1.var("e_pt").setVal(myEle.Pt())
         self.w1.var("e_eta").setVal(myEle.Eta())
         self.w1.var("e_iso").setVal(row.eRelPFIsoRho)
-        if triggerm8e23:
-          eff_trg_data = eff_trg_data + self.w1.function("m_trg_binned_8_data").getVal()*self.w1.function("e_trg_binned_23_data").getVal()
-          eff_trg_embed = eff_trg_embed + self.w1.function("m_trg_binned_8_embed").getVal()*self.w1.function("e_trg_binned_23_embed").getVal()
+        e_id_sf = self.w1.function("e_id80_data").getVal()/self.w1.function("e_id80_emb").getVal()
+        e_iso_sf = self.w1.function("e_iso_data").getVal()/self.w1.function("e_iso_emb").getVal()
+        #e_trk_sf = self.eReco(myEle.Pt(), abs(myEle.Eta()))
+        #if triggerm8e23:
+        #  eff_trg_data = eff_trg_data + self.w1.function("m_trg_8_ic_data").getVal()*self.w1.function("e_trg_23_ic_data").getVal()
+        #  eff_trg_embed = eff_trg_embed + self.w1.function("m_trg_8_ic_embed").getVal()*self.w1.function("e_trg_23_ic_embed").getVal()
         if triggerm23e12:
-          eff_trg_data = eff_trg_data + self.w1.function("m_trg_binned_23_data").getVal()*self.w1.function("e_trg_binned_12_data").getVal()
-          eff_trg_embed = eff_trg_embed + self.w1.function("m_trg_binned_23_embed").getVal()*self.w1.function("e_trg_binned_12_embed").getVal()
-        if triggerm8e23 and triggerm23e12:
-          eff_trg_data = eff_trg_data - self.w1.function("m_trg_binned_23_data").getVal()*self.w1.function("e_trg_binned_23_data").getVal()
-          eff_trg_embed = eff_trg_embed - self.w1.function("m_trg_binned_23_embed").getVal()*self.w1.function("e_trg_binned_23_embed").getVal()
+          eff_trg_data = eff_trg_data + self.w1.function("m_trg_23_ic_data").getVal()*self.w1.function("e_trg_12_ic_data").getVal()
+          eff_trg_embed = eff_trg_embed + self.w1.function("m_trg_23_ic_embed").getVal()*self.w1.function("e_trg_12_ic_embed").getVal()
+        #if triggerm8e23 and triggerm23e12:
+        #  eff_trg_data = eff_trg_data - self.w1.function("m_trg_23_ic_data").getVal()*self.w1.function("e_trg_23_ic_data").getVal()
+        #  eff_trg_embed = eff_trg_embed - self.w1.function("m_trg_23_ic_embed").getVal()*self.w1.function("e_trg_23_ic_embed").getVal()
         trg_sf = 0 if eff_trg_embed==0 else eff_trg_data/eff_trg_embed
-        weight = weight*row.GenWeight*msel*esel*trgsel*trg_sf*m_id_sf*m_iso_sf*m_trk_sf*e_id_sf*e_iso_sf*e_trk_sf*self.EmbedEta(myEle.Eta(), njets, mjj)
+        if row.GenWeight > 1.0:
+          continue
+        weight = weight*row.GenWeight*msel*esel*trgsel*m_id_sf*m_iso_sf*m_trk_sf*trg_sf*e_id_sf*e_iso_sf*self.EmbedEta(myEle.Eta(), njets, mjj)*self.EmbedPhi(myEle.Phi(), njets, mjj)
+        weight = self.mcWeight.lumiWeight(weight)
 
-      self.w3.var("njets").setVal(njets)
-      self.w3.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Eta(), myMuon.Eta()))
-      self.w3.var("e_pt").setVal(myEle.Pt())
-      self.w3.var("m_pt").setVal(myMuon.Pt())
-      osss = self.w3.function("em_qcd_osss_binned").getVal() * self.w3.function("em_qcd_extrap_uncert").getVal()
+      nbtag = row.bjetDeepCSVVeto20Medium_2016_DR0p5
+      if nbtag > 2:
+        nbtag = 2
+      if (self.is_mc and nbtag > 0):
+        btagweight = bTagEventWeight(nbtag, row.jb1pt_2016, row.jb1hadronflavor_2016, row.jb2pt_2016, row.jb2hadronflavor_2016, 1, 0, 0)
+        weight = weight * btagweight
+      if (bool(self.is_data) and nbtag > 0):
+        weight = 0
+
+      self.w1.var("njets").setVal(njets)
+      self.w1.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Eta(), myMuon.Eta()))
+      self.w1.var("e_pt").setVal(myEle.Pt())
+      self.w1.var("m_pt").setVal(myMuon.Pt())
+      osss = self.w1.function("em_qcd_osss").getVal()
 
       dphiemu = self.deltaPhi(myEle.Phi(), myMuon.Phi())
       dphiemet = self.deltaPhi(myEle.Phi(), myMET.Phi())

@@ -29,14 +29,15 @@ class AnalyzeEEM(MegaBase):
     self.is_mc = self.mcWeight.is_mc
     self.is_DY = self.mcWeight.is_DY
 
-    self.Ele32or35 = mcCorrections.Ele32or35
+    self.Ele25 = mcCorrections.Ele25
     self.EleIdIso = mcCorrections.EleIdIso
+    self.eIDnoiso80 = mcCorrections.eIDnoiso80
+    self.eIDnoiso90 = mcCorrections.eIDnoiso90
+    self.DYreweight = mcCorrections.DYreweight
     self.muonTightID = mcCorrections.muonID_tight
     self.muonLooseIsoTightID = mcCorrections.muonIso_loose_tightid
     self.muonTightIsoTightID = mcCorrections.muonIso_tight_tightid
     self.muTracking = mcCorrections.muonTracking
-    self.DYreweight = mcCorrections.DYreweight
-    self.DYreweightReco = mcCorrections.DYreweightReco
 
     self.rc = mcCorrections.rc
     self.DYweight = self.mcWeight.DYweight
@@ -77,7 +78,7 @@ class AnalyzeEEM(MegaBase):
 
   # Particle Flow Identification along with Primary Vertex matching for Electron 1
   def obj1_id(self, row):
-    return (bool(row.e1MVANoisoWP80) and bool(abs(row.e1PVDZ) < 0.2) and bool(abs(row.e1PVDXY) < 0.045) and bool(row.e1PassesConversionVeto) and bool(row.e1MissingHits < 2))
+    return (bool(row.e1MVANoisoWP90) and bool(abs(row.e1PVDZ) < 0.2) and bool(abs(row.e1PVDXY) < 0.045) and bool(row.e1PassesConversionVeto) and bool(row.e1MissingHits < 2))
 
   # Isolation requirement using Effective Area method for Electron 1
   def obj1_iso(self, row):
@@ -85,7 +86,7 @@ class AnalyzeEEM(MegaBase):
 
   # Particle Flow Identification along with Primary Vertex matching for Electron 2
   def obj2_id(self, row):
-    return (bool(row.e2MVANoisoWP80) and bool(abs(row.e2PVDZ) < 0.2) and bool(abs(row.e2PVDXY) < 0.045) and bool(row.e2PassesConversionVeto) and bool(row.e2MissingHits < 2))
+    return (bool(row.e2MVANoisoWP90) and bool(abs(row.e2PVDZ) < 0.2) and bool(abs(row.e2PVDXY) < 0.045) and bool(row.e2PassesConversionVeto) and bool(row.e2MissingHits < 2))
 
   # Isolation requirement using Effective Area method for Electron 2
   def obj2_iso(self, row):
@@ -101,7 +102,7 @@ class AnalyzeEEM(MegaBase):
 
   # Loose Isolation for Muon
   def muon_loose(self, row):
-    return bool(row.mRelPFIsoDBDefaultR04 < 0.2)
+    return bool(row.mRelPFIsoDBDefaultR04 < 0.25)
 
   # Veto of events with additional leptons coming from the primary vertex
   def vetos(self, row):
@@ -109,16 +110,15 @@ class AnalyzeEEM(MegaBase):
 
 
   def begin(self):
-    names=['initial', 'muonloose', 'muontight']
-    namesize = len(names)
-    for x in range(0,namesize):
-      self.book(names[x], "mPt", "Muon Pt", 20, 0, 200)
-      self.book(names[x], "mEta", "Muon Eta", 20, -3, 3)
-      self.book(names[x], "e1_e2_Mass", "Invariant Electron Mass", 10, 50, 150)
-      self.book(names[x], "e1Pt", "Electron 1 Pt", 20, 0, 200)
-      self.book(names[x], "e1Eta", "Electron 1 Eta", 20, -3, 3)
-      self.book(names[x], "e2Pt", "Electron 2 Pt", 20, 0, 200)
-      self.book(names[x], "e2Eta", "Electron 2 Eta", 20, -3, 3)
+    names = ['initial', 'muonloose', 'muontight']
+    for n in names:
+      self.book(n, "mPt", "Muon Pt", 20, 0, 200)
+      self.book(n, "mEta", "Muon Eta", 20, -3, 3)
+      self.book(n, "e1_e2_Mass", "Invariant Electron Mass", 10, 50, 150)
+      self.book(n, "e1Pt", "Electron 1 Pt", 20, 0, 200)
+      self.book(n, "e1Eta", "Electron 1 Eta", 20, -3, 3)
+      self.book(n, "e2Pt", "Electron 2 Pt", 20, 0, 200)
+      self.book(n, "e2Eta", "Electron 2 Eta", 20, -3, 3)
 
 
   def fill_histos(self, myEle1, myEle2, myMuon, weight, name=''):
@@ -136,15 +136,13 @@ class AnalyzeEEM(MegaBase):
 
     for row in self.tree:
 
-      trigger32e1 = row.Ele32WPTightPass and row.e1MatchesEle32Filter and row.e1MatchesEle32Path and row.e1Pt > 33
-      trigger35e1 = row.Ele35WPTightPass and row.e1MatchesEle35Filter and row.e1MatchesEle35Path and row.e1Pt > 36
-      trigger32e2 = row.Ele32WPTightPass and row.e2MatchesEle32Filter and row.e2MatchesEle32Path and row.e2Pt > 33
-      trigger35e2 = row.Ele35WPTightPass and row.e2MatchesEle35Filter and row.e2MatchesEle35Path and row.e2Pt > 36
+      trigger25e1 = row.singleE25eta2p1TightPass and row.e1MatchesEle25Filter and row.e1MatchesEle25Path and row.e1Pt > 27
+      trigger25e2 = row.singleE25eta2p1TightPass and row.e2MatchesEle25Filter and row.e2MatchesEle25Path and row.e2Pt > 27
 
       if self.filters(row):
         continue
 
-      if not bool(trigger32e1 or trigger32e2 or trigger35e1 or trigger35e2):
+      if not bool(trigger25e1 or trigger25e2):
         continue
 
       if not self.kinematics(row):
@@ -184,24 +182,29 @@ class AnalyzeEEM(MegaBase):
       weight = 1.0
       if self.is_mc:
         # Trigger Scale Factors
-        if trigger32e1 or trigger35e1:
-          tEff = self.Ele32or35(row.e1Pt, abs(row.e1Eta))[0]
+        if trigger25e1:
+          tEff = self.Ele25(row.e1Pt, abs(row.e1Eta))[0]
           weight = weight * tEff
-        elif trigger32e2 or trigger35e2:
-          tEff = self.Ele32or35(row.e2Pt, abs(row.e2Eta))[0]
+        elif trigger25e2:
+          tEff = self.Ele25(row.e2Pt, abs(row.e2Eta))[0]
           weight = weight * tEff
         # Electron 1 Scale Factors
-        e1IdIso = self.EleIdIso(row.e1Pt, abs(row.e1Eta))[0]
-        # ELectron 2 Scale Factors
-        e2IdIso = self.EleIdIso(row.e2Pt, abs(row.e2Eta))[0]
+        e1ID = self.eIDnoiso90(row.e1Eta, row.e1Pt)
+        # Electron 2 Scale Factors
+        e2ID = self.eIDnoiso90(row.e2Eta, row.e2Pt)
         # Muon Scale Factors
-        mID = self.muonTightID(row.mPt, abs(row.mEta))
-        mTrk = self.muTracking(row.mEta)[0]
-        weight = weight * row.GenWeight * pucorrector[''](row.nTruePU) * e1IdIso * e2IdIso * mID * mTrk
+        mID = self.muonTightID(myMuon.Eta(), myMuon.Pt())
+        mTrk = self.muTracking(myMuon.Eta())[0]
+        if self.muon_loose(row):
+          mIso = self.muonLooseIsoTightID(myMuon.Eta(), myMuon.Pt())
+          weight = weight * mIso
+        if self.muon_tight(row):
+          mIso = self.muonTightIsoTightID(myMuon.Eta(), myMuon.Pt())
+          weight = weight * mIso
+        weight = weight * row.GenWeight * pucorrector[''](row.nTruePU) * e1ID * e2ID * mID * mTrk
         if self.is_DY:
           # DY pT reweighting
-          #dyweight = self.DYreweight(row.genMass, row.genpT)
-          dyweight = self.DYreweightReco((myEle1+myEle2).M(), (myEle1+myEle2).Pt())
+          dyweight = self.DYreweight(row.genMass, row.genpT)
           weight = weight * dyweight
           if row.numGenJets < 5:
             weight = weight * self.DYweight[row.numGenJets]
@@ -210,11 +213,11 @@ class AnalyzeEEM(MegaBase):
         weight = self.mcWeight.lumiWeight(weight)
 
       # B-Jet Veto using b-tagging event weight method
-      nbtag = row.bjetDeepCSVVeto20Medium_2018_DR0p5
+      nbtag = row.bjetDeepCSVVeto20Medium_2016_DR0p5
       if nbtag > 2:
         nbtag = 2
       if (self.is_mc and nbtag > 0):
-        btagweight = bTagEventWeight(nbtag, row.jb1pt_2018, row.jb1hadronflavor_2018, row.jb2pt_2018, row.jb2hadronflavor_2018, 1, 0, 0)
+        btagweight = bTagEventWeight(nbtag, row.jb1pt_2016, row.jb1hadronflavor_2016, row.jb2pt_2016, row.jb2hadronflavor_2016, 1, 0, 0)
         weight = weight * btagweight
       if (bool(self.is_data) and nbtag > 0):
         weight = 0
@@ -223,13 +226,9 @@ class AnalyzeEEM(MegaBase):
       self.fill_histos(myEle1, myEle2, myMuon, weight, 'initial')
 
       if self.muon_loose(row):
-        mIso = self.muonLooseIsoTightID(row.mPt, abs(row.mEta))
-        weight = weight * mIso
         self.fill_histos(myEle1, myEle2, myMuon, weight, 'muonloose')
 
       if self.muon_tight(row):
-        mIso = self.muonTightIsoTightID(row.mPt, abs(row.mEta))
-        weight = weight * mIso
         self.fill_histos(myEle1, myEle2, myMuon, weight, 'muontight')
 
 
