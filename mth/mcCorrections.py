@@ -2,7 +2,7 @@ import os
 import glob
 import FinalStateAnalysis.TagAndProbe.PileupWeight as PileupWeight
 import FinalStateAnalysis.TagAndProbe.MuonPOGCorrections as MuonPOGCorrections
-import FinalStateAnalysis.TagAndProbe.EGammaPOGCorrections as EGammaPOGCorrections
+import FinalStateAnalysis.TagAndProbe.TauPOGCorrections as TauPOGCorrections
 import FinalStateAnalysis.TagAndProbe.DYCorrection as DYCorrection
 import FinalStateAnalysis.TagAndProbe.RecoilCorrector as RecoilCorrector
 import FinalStateAnalysis.TagAndProbe.MEtSys as MEtSys
@@ -15,18 +15,18 @@ year = '2016'
 pu_distributions  = {
     'singlem'  : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_SingleMuon*pu.root')),
     'muoneg'   : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_MuonEG*pu.root')),
-    'singlee'  : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_EGamma*pu.root'))
-    }
+    'singlee'  : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_SingleElectron*pu.root'))
+}
 pu_distributionsUp  = {
     'singlem'  : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_SingleMuon*pu_up.root')),
     'muoneg'   : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_MuonEG*pu_up.root')),
-    'singlee'  : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_EGamma*pu_up.root'))
-    }
+    'singlee'  : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_SingleElectron*pu_up.root'))
+}
 pu_distributionsDown  = {
     'singlem'  : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_SingleMuon*pu_down.root')),
     'muoneg'   : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_MuonEG*pu_down.root')),
-    'singlee'  : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_EGamma*pu_down.root'))
-    }
+    'singlee'  : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_SingleElectron*pu_down.root'))
+}
 
 def make_puCorrector(puname=''):
     if dataset in pu_distributions:
@@ -71,39 +71,15 @@ def puCorrector(target=''):
         pucorrector = {'' : make_puCorrector('DY4'),
                        'puUp': make_puCorrectorUp('DY4'),  
                        'puDown': make_puCorrectorDown('DY4')} 
-    elif bool('WJetsToLNu' in target):      
-        pucorrector = {'' : make_puCorrector('W'),
-                       'puUp' : make_puCorrectorUp('W'),  
-                       'puDown' : make_puCorrectorDown('W')}
-    elif bool('W1JetsToLNu' in target):
-        pucorrector = {'' : make_puCorrector('W1'),
-                       'puUp' : make_puCorrectorUp('W1'),
-                       'puDown' : make_puCorrectorDown('W1')}
-    elif bool('W2JetsToLNu' in target):                                                                            
-        pucorrector = {'' : make_puCorrector('W2'),
-                       'puUp' : make_puCorrectorUp('W2'),
-                       'puDown' : make_puCorrectorDown('W2')}
-    elif bool('W3JetsToLNu' in target): 
-        pucorrector = {'' : make_puCorrector('W3'),
-                       'puUp' : make_puCorrectorUp('W3'),
-                       'puDown' : make_puCorrectorDown('W3')}
-    elif bool('W4JetsToLNu' in target):
-        pucorrector = {'' : make_puCorrector('W4'),
-                       'puUp' : make_puCorrectorUp('W4'),
-                       'puDown' : make_puCorrectorDown('W4')}
-    elif bool('WGToLNuG' in target):
-        pucorrector = {'' : make_puCorrector('WGamma'),
-                       'puUp' : make_puCorrectorUp('WGamma'),
-                       'puDown' : make_puCorrectorDown('WGamma')}
-    elif bool('WW_' in target):
+    elif bool('WW_Tune' in target):
         pucorrector = {'' : make_puCorrector('WW'),
                        'puUp': make_puCorrectorUp('WW'),
                        'puDown': make_puCorrectorDown('WW')}
-    elif bool('WZ_' in target): 
+    elif bool('WZ_Tune' in target): 
         pucorrector = {'' : make_puCorrector('WZ'),
                        'puUp': make_puCorrectorUp('WZ'),
                        'puDown': make_puCorrectorDown('WZ')}
-    elif bool('ZZ_' in target):
+    elif bool('ZZ_Tune' in target):
         pucorrector = {'' : make_puCorrector('ZZ'),
                        'puUp': make_puCorrectorUp('ZZ'),
                        'puDown': make_puCorrectorDown('ZZ')}
@@ -208,12 +184,18 @@ muonIso_loose_tightid = MuonPOGCorrections.make_muon_pog_LooseIso_2016('Tight')
 muonTrigger24 = MuonPOGCorrections.mu_IsoMu24_2016
 muonTrigger22 = MuonPOGCorrections.mu_IsoMu22_2016
 muonTracking = MuonPOGCorrections.mu_trackingEta_2016
-eID80 = EGammaPOGCorrections.make_egamma_pog_electronID80_2016()
-eIDnoiso80 = EGammaPOGCorrections.make_egamma_pog_electronID80noiso_2016()
-eID90 = EGammaPOGCorrections.make_egamma_pog_electronID90_2016()
-eIDnoiso90 = EGammaPOGCorrections.make_egamma_pog_electronID90_2016()
-Ele25 = EGammaPOGCorrections.el_Ele25_2016
-EleIdIso = EGammaPOGCorrections.el_IdIso_2016
+deepTauVSe = TauPOGCorrections.make_tau_pog_DeepTauVSe_2016('VLoose')
+againstEle = TauPOGCorrections.make_tau_pog_againstElectron_2016('VLoose')
+deepTauVSmu = TauPOGCorrections.make_tau_pog_DeepTauVSmu_2016('Tight')
+againstMu = TauPOGCorrections.make_tau_pog_againstMuon_2016('Tight')
+deepTauVSjet_tight = TauPOGCorrections.make_tau_pog_DeepTauVSjet_2016('Tight')
+deepTauVSjet_vloose = TauPOGCorrections.make_tau_pog_DeepTauVSjet_2016('VLoose')
+deepTauVSjet_Emb_tight = TauPOGCorrections.make_tau_pog_DeepTauVSjet_EMB_2016('Tight')
+deepTauVSjet_Emb_vloose = TauPOGCorrections.make_tau_pog_DeepTauVSjet_EMB_2016('VLoose')
+mvaTau_tight = TauPOGCorrections.make_tau_pog_MVA_2016('Tight')
+mvaTau_vloose = TauPOGCorrections.make_tau_pog_MVA_2016('VLoose')
+esTau = TauPOGCorrections.make_tau_pog_ES_2016()
+fesTau = TauPOGCorrections.Tau_FES_2016
 
 f1 = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2016/htt_scalefactors_legacy_2016.root")
 w1 = f1.Get("w")
@@ -242,3 +224,27 @@ def EmbedTrg(pt1, eta1, pt2, eta2):
     sf = 0.935 * sf
     return min(1/sf, 2) if sf!=0 else 2
 
+def FesTau(eta, dm):
+    fes = (1.0, 0.0, 0.0)
+    if abs(eta) < 1.448:
+        if dm == 0:
+            fes = fesTau('EBDM0')
+        elif dm == 1:
+            fes = fesTau('EBDM1')
+    elif abs(eta) > 1.558:
+        if dm == 0:
+            fes = fesTau('EEDM0')
+        elif dm == 1:
+            fes = fesTau('EEDM1')
+    return fes
+
+def ScaleTau(dm):
+    if dm==0:
+        st = (0.01, ['/scaletDM0Up', '/scaletDM0Down'])
+    elif dm==1:
+        st = (0.009, ['/scaletDM1Up', '/scaletDM1Down'])
+    elif dm==10:
+        st = (0.011, ['/scaletDM10Up', '/scaletDM10Down'])
+    elif dm==11:
+        st = (0.011, ['/scaletDM11Up', '/scaletDM11Down'])
+    return st

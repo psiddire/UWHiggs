@@ -15,6 +15,7 @@ import array
 import mcCorrections
 import mcWeights
 import Kinematics
+import FakeRate
 
 MetCorrection = True
 target = os.path.basename(os.environ['megatarget'])
@@ -28,7 +29,6 @@ class AnalyzeETauBDT(MegaBase):
 
     self.mcWeight = mcWeights.mcWeights(target)
     self.is_data = self.mcWeight.is_data
-    self.is_embed = self.mcWeight.is_embed
     self.is_mc = self.mcWeight.is_mc
     self.is_DY = self.mcWeight.is_DY
     self.is_TT = self.mcWeight.is_TT
@@ -38,18 +38,26 @@ class AnalyzeETauBDT(MegaBase):
     self.is_recoilC = self.mcWeight.is_recoilC
     if self.is_recoilC and MetCorrection:
       self.Metcorected = mcCorrections.Metcorected
-    self.tauSF = mcCorrections.tauSF
 
-    self.fakeRate = mcCorrections.fakerate_weight
-    self.fakeRateEle = mcCorrections.fakerateEle_weight
     self.Ele25 = mcCorrections.Ele25
     self.EleIdIso = mcCorrections.EleIdIso
     self.eIDnoiso80 = mcCorrections.eIDnoiso80
+    self.w1 = mcCorrections.w1
+    self.EmbedEta = mcCorrections.EmbedEta
+    self.EmbedPhi = mcCorrections.EmbedPhi
+    self.deepTauVSe = mcCorrections.deepTauVSe
+    self.deepTauVSmu = mcCorrections.deepTauVSmu
+    self.deepTauVSjet_tight = mcCorrections.deepTauVSjet_tight
+    self.deepTauVSjet_vloose = mcCorrections.deepTauVSjet_vloose
+    self.deepTauVSjet_Emb_tight = mcCorrections.deepTauVSjet_Emb_tight
+    self.deepTauVSjet_Emb_vloose = mcCorrections.deepTauVSjet_Emb_vloose
+    self.esTau = mcCorrections.esTau
+    self.FesTau = mcCorrections.FesTau
+    self.ScaleTau = mcCorrections.ScaleTau
     self.DYreweight = mcCorrections.DYreweight
 
-    self.w1 = mcCorrections.w1
-    self.EmbedId = mcCorrections.EmbedId
-    self.EmbedTrg = mcCorrections.EmbedTrg
+    self.fakeRate = FakeRate.fakerateDeep_weight
+    self.fakeRateEle = FakeRate.fakerateEle_weight
 
     self.DYweight = self.mcWeight.DYweight
 
@@ -84,14 +92,14 @@ class AnalyzeETauBDT(MegaBase):
 
 
   def kinematics(self, row):
-    if row.ePt < 25 or abs(row.eEta) >= 2.1:
+    if row.ePt < 27 or abs(row.eEta) >= 2.1:
       return False
     if row.tPt < 30 or abs(row.tEta) >= 2.3:
       return False
     return True
 
 
-  def filters(self, row):                                                           
+  def filters(self, row):
     if row.Flag_goodVertices or row.Flag_globalSuperTightHalo2016Filter or row.Flag_HBHENoiseFilter or row.Flag_HBHENoiseIsoFilter or row.Flag_EcalDeadCellTriggerPrimitiveFilter or row.Flag_BadPFMuonFilter or bool(self.is_data and row.Flag_eeBadScFilter):#row.Flag_ecalBadCalibFilter -> row.Flag_ecalBadCalibReducedMINIAODFilter
       return True
     return False
@@ -102,7 +110,7 @@ class AnalyzeETauBDT(MegaBase):
 
 
   def obj1_tight(self, row):
-    return bool(row.eRelPFIsoRho < 0.1)
+    return bool(row.eRelPFIsoRho < 0.15)
 
 
   def obj1_loose(self, row):
@@ -110,18 +118,18 @@ class AnalyzeETauBDT(MegaBase):
 
 
   def obj2_id(self, row):
-    return (bool(row.tDecayModeFinding > 0.5) and bool(row.tAgainstElectronTightMVA6 > 0.5) and bool(row.tAgainstMuonLoose3 > 0.5) and bool(abs(row.tPVDZ) < 0.2))
+    return (bool(row.tDecayModeFindingNewDMs > 0.5) and bool(row.tTightDeepTau2017v2p1VSe > 0.5) and bool(row.tLooseDeepTau2017v2p1VSmu > 0.5) and bool(abs(row.tPVDZ) < 0.2))
 
 
   def obj2_tight(self, row):
-    return bool(row.tRerunMVArun2v2DBoldDMwLTTight > 0.5)
+    return bool(row.tTightDeepTau2017v2p1VSjet > 0.5)
 
 
   def obj2_loose(self, row):
-    return bool(row.tRerunMVArun2v2DBoldDMwLTVLoose > 0.5)
+    return bool(row.tVLooseDeepTau2017v2p1VSjet > 0.5)
 
 
-  def vetos(self, row):                                                             
+  def vetos(self, row):
     return bool(row.eVetoZTTp001dxyz < 0.5) and bool(row.muVetoZTTp001dxyz < 0.5) and bool(row.tauVetoPt20LooseMVALTVtx < 0.5)
 
 
@@ -144,7 +152,7 @@ class AnalyzeETauBDT(MegaBase):
       self.tree1.Branch(varname, holder, name)
 
 
-  def filltree(self, row, myEle, myMET, myTau, njets, weight):
+  def filltree(self, row, myEle, myMET, myTau, weight):
     for varname, holder in self.holders:
       if varname=='ePt':
         holder[0] = myEle.Pt()
@@ -171,9 +179,9 @@ class AnalyzeETauBDT(MegaBase):
       elif varname=='type1_pfMetEt':
         holder[0] = myMET.Pt()
       elif varname=='njets':
-        holder[0] = int(njets)
+        holder[0] = int(row.jetVeto30)
       elif varname=='vbfMass':
-        holder[0] = row.vbfMassWoNoisyJets
+        holder[0] = row.vbfMass
       elif varname=='weight':
         holder[0] = weight
     self.tree1.Fill()
@@ -182,33 +190,18 @@ class AnalyzeETauBDT(MegaBase):
   def tauPtC(self, row, myMET, myTau):
     tmpMET = myMET
     tmpTau = myTau
-    if self.is_mc and (not self.is_DY) and row.tZTTGenMatching==5:
-      if row.tDecayMode == 0:
-        myMETpx = myMET.Px() - 0.007 * myTau.Px()
-        myMETpy = myMET.Py() - 0.007 * myTau.Py()
-        tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-        tmpTau = myTau * ROOT.Double(1.007)
-      elif row.tDecayMode == 1:
-        myMETpx = myMET.Px() + 0.002 * myTau.Px()
-        myMETpy = myMET.Py() + 0.002 * myTau.Py()
-        tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-        tmpTau = myTau * ROOT.Double(0.998)
-      elif row.tDecayMode == 10:
-        myMETpx = myMET.Px() - 0.001 * myTau.Px()
-        myMETpy = myMET.Py() - 0.001 * myTau.Py()
-        tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-        tmpTau = myTau * ROOT.Double(1.001)
+    if self.is_mc and not self.is_DY and row.tZTTGenMatching==5:
+      es = self.esTau(row.tDecayMode)
+      myMETpx = myMET.Px() + (1 - es[0]) * myTau.Px()
+      myMETpy = myMET.Py() + (1 - es[0]) * myTau.Py()
+      tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+      tmpTau = myTau * ROOT.Double(es[0])
     if self.is_mc and bool(row.tZTTGenMatching==1 or row.tZTTGenMatching==3):
-      if row.tDecayMode == 0:
-        myMETpx = myMET.Px() - 0.003 * myTau.Px()
-        myMETpy = myMET.Py() - 0.003 * myTau.Py()
-        tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-        tmpTau = myTau * ROOT.Double(1.003)
-      elif row.tDecayMode == 1:
-        myMETpx = myMET.Px() - 0.036 * myTau.Px()
-        myMETpy = myMET.Py() - 0.036 * myTau.Py()
-        tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-        tmpTau = myTau * ROOT.Double(1.036)
+      fes = self.FesTau(myTau.Eta(), row.tDecayMode)
+      myMETpx = myMET.Px() + (1 - fes[0]) * myTau.Px()
+      myMETpy = myMET.Py() + (1 - fes[0]) * myTau.Py()
+      tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+      tmpTau = myTau * ROOT.Double(fes[0])
     return [tmpMET, tmpTau]
 
 
@@ -216,18 +209,12 @@ class AnalyzeETauBDT(MegaBase):
 
     for row in self.tree:
 
-      trigger27 = row.Ele27WPTightPass and row.eMatchesEle27Filter and row.eMatchesEle27Path and row.ePt > 28
-      trigger32 = row.Ele32WPTightPass and row.eMatchesEle32Filter and row.eMatchesEle32Path and row.ePt > 33
-      trigger35 = row.Ele35WPTightPass and row.eMatchesEle35Filter and row.eMatchesEle35Path and row.ePt > 36
-      if self.is_embed:
-        trigger2430 = row.Ele24Tau30Pass and row.eMatchesEle24Tau30Filter and row.eMatchesEle24Tau30Path and row.ePt > 25 and row.ePt < 28 and row.tPt > 35 and abs(row.tEta) < 2.1
-      else:
-        trigger2430 = row.Ele24LooseTau30TightIDPass and row.eMatchesEle24Tau30Filter and row.eMatchesEle24Tau30Path and row.tMatchesEle24Tau30Filter and row.tMatchesEle24Tau30Path and row.ePt > 25 and row.ePt < 28 and row.tPt > 35 and abs(row.tEta) < 2.1
+      trigger25 = row.singleE25eta2p1TightPass and row.eMatchesEle25Filter and row.eMatchesEle25Path and row.ePt > 27
 
       if self.filters(row):
         continue
 
-      if not bool(trigger27 or trigger32 or trigger35 or trigger2430):
+      if not bool(trigger25):
         continue
 
       if not self.kinematics(row):
@@ -248,6 +235,9 @@ class AnalyzeETauBDT(MegaBase):
         continue
 
       if not self.obj2_id(row):
+        continue
+
+      if row.tDecayMode==5 or row.tDecayMode==6:
         continue
 
       if not self.vetos(row):
@@ -285,50 +275,31 @@ class AnalyzeETauBDT(MegaBase):
       myTau = self.tauPtC(row, myMET, myTau)[1]
 
       weight = 1.0
-      singleSF = 0
-      eltauSF = 0
       if self.is_mc:
-        self.w2.var('e_pt').setVal(myEle.Pt())
-        self.w2.var('e_iso').setVal(row.eRelPFIsoRho)
-        self.w2.var('e_eta').setVal(myEle.Eta())
-        eID = self.w2.function('e_id80_kit_ratio').getVal()
-        eIso = self.w2.function('e_iso_kit_ratio').getVal()
-        eReco = self.w2.function('e_trk_ratio').getVal()
+        tEff = self.Ele25(row.ePt, abs(row.eEta))[0]
         zvtx = 0.991
-        if trigger27 or trigger32 or trigger35:
-          singleSF = 0 if self.w2.function('e_trg27_trg32_trg35_kit_mc').getVal()==0 else self.w2.function('e_trg27_trg32_trg35_kit_data').getVal()/self.w2.function('e_trg27_trg32_trg35_kit_mc').getVal()
-        else:
-          eltauSF = 0 if self.w2.function('e_trg_EleTau_Ele24Leg_desy_mc').getVal()==0 else self.w2.function('e_trg_EleTau_Ele24Leg_desy_data').getVal()/self.w2.function('e_trg_EleTau_Ele24Leg_desy_mc').getVal()
-          eltauSF = eltauSF * self.tauSF.getETauScaleFactor(myTau.Pt(), myTau.Eta(), myTau.Phi())
-        tEff = singleSF + eltauSF
-        weight = row.GenWeight*pucorrector[''](row.nTruePU)*tEff*eID*eIso*eReco*zvtx*row.prefiring_weight
+        eID = self.eIDnoiso80(row.eEta, row.ePt)
+        weight = row.GenWeight*pucorrector[''](row.nTruePU)*tEff*eID*zvtx*row.prefiring_weight
+        # Anti-Muon Discriminator Scale Factors
         if row.tZTTGenMatching==2 or row.tZTTGenMatching==4:
-          if abs(myTau.Eta()) < 0.4:
-            weight = weight*1.06
-          elif abs(myTau.Eta()) < 0.8:
-            weight = weight*1.02
-          elif abs(myTau.Eta()) < 1.2:
-            weight = weight*1.10
-          elif abs(myTau.Eta()) < 1.7:
-            weight = weight*1.03
-          else:
-            weight = weight*1.94
+          weight = weight * self.deepTauVSmu(myTau.Eta())[0]
+        # Anti-Electron Discriminator Scale Factors
         elif row.tZTTGenMatching==1 or row.tZTTGenMatching==3:
-          if abs(myTau.Eta()) < 1.46:
-            weight = weight*1.80
-          elif abs(myTau.Eta()) > 1.558:
-            weight = weight*1.53
+          weight = weight * self.deepTauVSe(myTau.Eta())[0]
+        # Tau ID Scale Factor
         elif row.tZTTGenMatching==5:
-          weight = weight*0.89
+          if self.obj2_tight(row):
+            weight = weight * self.deepTauVSjet_tight(myTau.Pt())[0]
+          elif self.obj2_loose(row):
+            weight = weight * self.deepTauVSjet_vloose(myTau.Pt())[0]
         if self.is_DY:
-          self.w2.var('z_gen_mass').setVal(row.genMass)
-          self.w2.var('z_gen_pt').setVal(row.genpT)
-          dyweight = self.w2.function('zptmass_weight_nom').getVal()
-          weight = weight*dyweight
+          # DY pT reweighting
+          dyweight = self.DYreweight(row.genMass, row.genpT)
+          weight = weight * dyweight
           if row.numGenJets < 5:
-            weight = weight*self.DYweight[row.numGenJets]
+            weight = weight * self.DYweight[row.numGenJets]
           else:
-            weight = weight*self.DYweight[0]
+            weight = weight * self.DYweight[0]
         if self.is_TT:
           topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
           weight = weight*topweight
@@ -341,23 +312,26 @@ class AnalyzeETauBDT(MegaBase):
         if not self.obj2_tight(row) and self.obj2_loose(row) and not self.obj1_tight(row) and self.obj1_loose(row):
           frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
           frEle = self.fakeRateEle(myEle.Pt())
+          weight = weight * frTau * frEle * -1
           if not self.oppositesign(row):
-            self.filltree(row, myEle, myMET, myTau, njets, weight*frTau*frEle*-1)
+            self.filltree(row, myEle, myMET, myTau, weight)
 
         if not self.obj2_tight(row) and self.obj2_loose(row) and self.obj1_tight(row):
           frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
+          weight = weight * frTau
           if not self.oppositesign(row):
-            self.filltree(row, myEle, myMET, myTau, njets, weight*frTau)
+            self.filltree(row, myEle, myMET, myTau, weight)
 
         if not self.obj1_tight(row) and self.obj1_loose(row) and self.obj2_tight(row):
           frEle = self.fakeRateEle(myEle.Pt())
+          weight = weight * frEle
           if not self.oppositesign(row):
-            self.filltree(row, myEle, myMET, myTau, njets, weight*frEle)
+            self.filltree(row, myEle, myMET, myTau, weight)
 
       if self.is_mc:
         if self.obj2_tight(row) and self.obj1_tight(row):
           if self.oppositesign(row):
-            self.filltree(row, myEle, myMET, myTau, njets, weight)
+            self.filltree(row, myEle, myMET, myTau, weight)
 
 
   def finish(self):

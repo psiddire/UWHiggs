@@ -197,7 +197,6 @@ class AnalyzeMME(MegaBase):
         elif trigger50:
           tEff = self.triggerEff50(row.m1Pt, abs(row.m1Eta))
           weight = weight * tEff
-
         # Muon 1 Scale Factors
         m1ID = self.muonMediumID(myMuon1.Eta(), myMuon1.Pt())
         m1Iso = self.muonLooseIsoMediumID(myMuon1.Eta(), myMuon1.Pt())

@@ -15,6 +15,6 @@ export jobid=$jobidmt
 #ls *pyx | sed "s|pyx|so|" | xargs -n 1 -P 10 rake
 
 rake "meta:getinputs[$jobid, $datasrc, mt/metaInfo, mt/summedWeights]"
-rake "meta:getmeta[inputs/$jobid, mt/metaInfo, 13, mt/summedWeights]"
+#rake "meta:getmeta[inputs/$jobid, mt/metaInfo, 13, mt/summedWeights]"
 
 

@@ -2,13 +2,6 @@ class mcWeights:
     def __init__(self, target):
         self.is_data = target.startswith('data_')
         self.is_embed = target.startswith('embedded_')
-        self.is_embedB = target.startswith('embedded_EmbeddingRun2016B')
-        self.is_embedC = target.startswith('embedded_EmbeddingRun2016C')
-        self.is_embedD = target.startswith('embedded_EmbeddingRun2016D')
-        self.is_embedE = target.startswith('embedded_EmbeddingRun2016E')
-        self.is_embedF = target.startswith('embedded_EmbeddingRun2016F')
-        self.is_embedG = target.startswith('embedded_EmbeddingRun2016G')
-        self.is_embedH = target.startswith('embedded_EmbeddingRun2016H')
         self.is_mc = not self.is_data and not self.is_embed
         self.is_DYlow = bool('DYJetsToLL_M-10to50' in target)
         self.is_DY = bool('DY' in target) and not self.is_DYlow
@@ -16,9 +9,9 @@ class mcWeights:
         self.is_VBF = bool('VBF_LFV' in target)
         self.is_W = bool('JetsToLNu' in target)
         self.is_WG = bool('WGToLNuG' in target)
-        self.is_WW = bool('WW_TuneCUETP8M1' in target)
-        self.is_WZ = bool('WZ_TuneCUETP8M1' in target)
-        self.is_ZZ = bool('ZZ_TuneCUETP8M1' in target)
+        self.is_WW = bool('WW_Tune' in target)
+        self.is_WZ = bool('WZ_Tune' in target)
+        self.is_ZZ = bool('ZZ_Tune' in target)
         self.is_EWKWMinus = bool('EWKWMinus' in target)
         self.is_EWKWPlus = bool('EWKWPlus' in target)
         self.is_EWKZToLL = bool('EWKZ2Jets_ZToLL' in target)
@@ -39,37 +32,21 @@ class mcWeights:
         self.is_GluGluHWW = bool('GluGluHToWW' in target)
         self.is_recoilC = bool(self.is_DYlow or self.is_DY or self.is_GluGlu or self.is_VBF or self.is_EWK or self.is_VBFH or self.is_GluGluH or self.is_VBFHWW or self.is_GluGluHWW or self.is_W)
         self.DYweight = {
-            0 : 2.087463032,#2.207407706,#1.1374
-            1 : 0.477922551,#0.425351833,
-            2 : 0.516520454,#0.481309881,
-            3 : 0.557573834,#0.59630009,
-            4 : 0.595144313#0.505602761
+            0 : 1.50919237,
+            1 : 0.481912142,
+            2 : 0.49924333,
+            3 : 0.529136939,
+            4 : 0.881668827
         } 
         self.Wweight = {
-            0 : 25.47903748,#25.7159816,
-            1 : 6.846391613,#5.83996765,
-            2 : 3.861020439,#3.373031009,
-            3 : 1.027193702,#1.026014681,
-            4 : 7.332587867,#7.745621503
+            0 : 25.7159816,
+            1 : 6.922117517,
+            2 : 3.904817721,
+            3 : 1.039121461,
+            4 : 7.413353904
         }
 
     def lumiWeight(self, weight):
-        if self.is_embedB:
-            weight = weight*(1.0/0.899)
-        if self.is_embedC:
-            weight = weight*(1.0/0.881)
-        if self.is_embedD:
-            weight = weight*(1.0/0.877)
-        if self.is_embedE:
-            weight = weight*(1.0/0.939)
-        if self.is_embedF:
-            weight = weight*(1.0/0.936)
-        if self.is_embedG:
-            weight = weight*(1.0/0.908)
-        if self.is_embedH:
-            weight = weight*(1.0/0.962)
-        if self.is_DY:
-            weight = weight*1.326*1.1374
         if self.is_DYlow:
             weight = weight*19.468
         if self.is_WG:
@@ -101,11 +78,11 @@ class mcWeights:
         if self.is_STtantitop:
             weight = weight*0.07577#0.07969
         if self.is_STttop:
-            weight = weight*0.085#0.07969
+            weight = weight*0.08355#0.07969
         if self.is_STtWantitop:
             weight = weight*0.24#0.336
         if self.is_STtWtop:
-            weight = weight*38.783#0.476
+            weight = weight*1.558#0.476
         if self.is_TT:
             weight = weight*0.676#0.465
         if self.is_VBFH:

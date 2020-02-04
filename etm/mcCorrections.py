@@ -95,15 +95,15 @@ def puCorrector(target=''):
         pucorrector = {'' : make_puCorrector('WGamma'),
                        'puUp' : make_puCorrectorUp('WGamma'),
                        'puDown' : make_puCorrectorDown('WGamma')}
-    elif bool('WW' in target):
+    elif bool('WW_Tune' in target):
         pucorrector = {'' : make_puCorrector('WW'),
                        'puUp': make_puCorrectorUp('WW'),
                        'puDown': make_puCorrectorDown('WW')}
-    elif bool('WZ' in target): 
+    elif bool('WZ_Tune' in target): 
         pucorrector = {'' : make_puCorrector('WZ'),
                        'puUp': make_puCorrectorUp('WZ'),
                        'puDown': make_puCorrectorDown('WZ')}
-    elif bool('ZZ' in target):
+    elif bool('ZZ_Tune' in target):
         pucorrector = {'' : make_puCorrector('ZZ'),
                        'puUp': make_puCorrectorUp('ZZ'),
                        'puDown': make_puCorrectorDown('ZZ')}

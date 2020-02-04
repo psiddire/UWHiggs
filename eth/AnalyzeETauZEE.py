@@ -4,7 +4,7 @@ Run LFV H->ETau analysis in the e+tau_h channel.
 
 Authors: Prasanna Siddireddy
 
-'''  
+'''
 
 import ETauTree
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
@@ -14,6 +14,7 @@ import math
 import mcCorrections
 import mcWeights
 import Kinematics
+import FakeRate
 
 MetCorrection = True
 target = os.path.basename(os.environ['megatarget'])
@@ -35,19 +36,27 @@ class AnalyzeETauZEE(MegaBase):
     self.is_recoilC = self.mcWeight.is_recoilC
     if self.is_recoilC and MetCorrection:
       self.Metcorected = mcCorrections.Metcorected
-    self.tauSF = mcCorrections.tauSF
 
-    self.fakeRate = mcCorrections.fakerate_weight
-    self.fakeRateEle = mcCorrections.fakerateEle_weight
     self.Ele25 = mcCorrections.Ele25
     self.EleIdIso = mcCorrections.EleIdIso
     self.eIDnoiso80 = mcCorrections.eIDnoiso80
     self.DYreweight = mcCorrections.DYreweight
-
     self.w1 = mcCorrections.w1
-    self.rc = mcCorrections.rc
-    self.EmbedId = mcCorrections.EmbedId
-    self.EmbedTrg = mcCorrections.EmbedTrg
+    self.EmbedEta = mcCorrections.EmbedEta
+    self.EmbedPhi = mcCorrections.EmbedPhi
+    self.deepTauVSe = mcCorrections.deepTauVSe
+    self.deepTauVSmu = mcCorrections.deepTauVSmu
+    self.deepTauVSjet_tight = mcCorrections.deepTauVSjet_tight
+    self.deepTauVSjet_vloose = mcCorrections.deepTauVSjet_vloose
+    self.deepTauVSjet_Emb_tight = mcCorrections.deepTauVSjet_Emb_tight
+    self.deepTauVSjet_Emb_vloose = mcCorrections.deepTauVSjet_Emb_vloose
+    self.esTau = mcCorrections.esTau
+    self.FesTau = mcCorrections.FesTau
+    self.ScaleTau = mcCorrections.ScaleTau
+    self.DYreweight = mcCorrections.DYreweight
+
+    self.fakeRate = FakeRate.fakerateDeep_weight
+    self.fakeRateEle = FakeRate.fakerateEle_weight
 
     self.DYweight = self.mcWeight.DYweight
 
@@ -72,7 +81,7 @@ class AnalyzeETauZEE(MegaBase):
 
 
   def kinematics(self, row):
-    if row.ePt < 25 or abs(row.eEta) >= 2.1:
+    if row.ePt < 27 or abs(row.eEta) >= 2.1:
       return False
     if row.tPt < 30 or abs(row.tEta) >= 2.3:
       return False
@@ -90,7 +99,7 @@ class AnalyzeETauZEE(MegaBase):
 
 
   def obj1_tight(self, row):
-    return bool(row.eRelPFIsoRho < 0.1)
+    return bool(row.eRelPFIsoRho < 0.15)
 
 
   def obj1_loose(self, row):
@@ -98,15 +107,15 @@ class AnalyzeETauZEE(MegaBase):
 
 
   def obj2_id(self, row):
-    return (bool(row.tDecayModeFinding > 0.5) and bool(row.tAgainstElectronTightMVA6 > 0.5) and bool(row.tAgainstMuonLoose3 > 0.5) and bool(abs(row.tPVDZ) < 0.2))
+    return (bool(row.tDecayModeFindingNewDMs > 0.5) and bool(row.tTightDeepTau2017v2p1VSe > 0.5) and bool(row.tLooseDeepTau2017v2p1VSmu > 0.5) and bool(abs(row.tPVDZ) < 0.2))
 
 
   def obj2_tight(self, row):
-    return bool(row.tRerunMVArun2v2DBoldDMwLTTight > 0.5)
+    return bool(row.tTightDeepTau2017v2p1VSjet > 0.5)
 
 
   def obj2_loose(self, row):
-    return bool(row.tRerunMVArun2v2DBoldDMwLTVLoose > 0.5)
+    return bool(row.tVLooseDeepTau2017v2p1VSjet > 0.5)
 
 
   def vetos(self, row):
@@ -118,35 +127,33 @@ class AnalyzeETauZEE(MegaBase):
 
 
   def begin(self):
-    names=['TauLooseOS', 'EleLooseOS', 'EleLooseTauLooseOS', 'TightOS', 'TauLooseOS0Jet', 'EleLooseOS0Jet', 'EleLooseTauLooseOS0Jet', 'TightOS0Jet', 'TauLooseOS1Jet', 'EleLooseOS1Jet', 'EleLooseTauLooseOS1Jet', 'TightOS1Jet', 'TauLooseOS2Jet', 'EleLooseOS2Jet', 'EleLooseTauLooseOS2Jet', 'TightOS2Jet', 'TauLooseOS2JetVBF', 'EleLooseOS2JetVBF', 'EleLooseTauLooseOS2JetVBF', 'TightOS2JetVBF']
-    namesize = len(names)
-    for x in range(0, namesize):
-      self.book(names[x], 'ePt', 'Electron  Pt', 20, 0, 200)
-      self.book(names[x], 'tPt', 'Tau Pt', 20, 0, 200)
-      self.book(names[x], 'eEta', 'Electron Eta', 20, -3, 3)
-      self.book(names[x], 'tEta', 'Tau Eta', 20, -3, 3)
-      self.book(names[x], 'ePhi', 'Electron Phi', 20, -4, 4)
-      self.book(names[x], 'tPhi', 'Tau Phi', 20, -4, 4)
-      self.book(names[x], 'type1_pfMetEt', 'Type1 MET Et', 20, 0, 200)
-      self.book(names[x], 'type1_pfMetPhi', 'Type1 MET Phi', 20, -4, 4)
-      self.book(names[x], 'j1Pt', 'Jet 1 Pt', 30, 0, 300)
-      self.book(names[x], 'j2Pt', 'Jet 2 Pt', 30, 0, 300)
-      self.book(names[x], 'j1Eta', 'Jet 1 Eta', 20, -3, 3)
-      self.book(names[x], 'j2Eta', 'Jet 2 Eta', 20, -3, 3)
-      self.book(names[x], 'j1Phi', 'Jet 1 Phi', 20, -4, 4)
-      self.book(names[x], 'j2Phi', 'Jet 2 Phi', 20, -4, 4)
-      self.book(names[x], 'e_t_Mass', 'Electron + Tau Mass', 30, 0, 300)
-      self.book(names[x], 'e_t_CollinearMass', 'Electron + Tau Collinear Mass', 30, 0, 300)
-      self.book(names[x], 'e_t_PZeta', 'Electron + Tau PZeta', 80, -400, 400)
-      self.book(names[x], 'numOfJets', 'Number of Jets', 5, 0, 5)
-      self.book(names[x], 'numOfVtx', 'Number of Vertices', 100, 0, 100)
-      self.book(names[x], 'vbfMass', 'VBF Mass', 100, 0, 1000)
-      self.book(names[x], 'dEtaETau', 'Delta Eta E Tau', 50, 0, 5)
-      self.book(names[x], 'dPhiEMET', 'Delta Phi E MET', 40, 0, 4)
-      self.book(names[x], 'dPhiTauMET', 'Delta Phi Tau MET', 40, 0, 4)
-      self.book(names[x], 'dPhiETau', 'Delta Phi E Tau', 40, 0, 4)
-      self.book(names[x], 'MTEMET', 'Electron MET Transverse Mass', 20, 0, 200)
-      self.book(names[x], 'MTTauMET', 'Tau MET Transverse Mass', 20, 0, 200)
+    for n in Kinematics.zeenames:
+      self.book(n, 'ePt', 'Electron  Pt', 20, 0, 200)
+      self.book(n, 'tPt', 'Tau Pt', 20, 0, 200)
+      self.book(n, 'eEta', 'Electron Eta', 20, -3, 3)
+      self.book(n, 'tEta', 'Tau Eta', 20, -3, 3)
+      self.book(n, 'ePhi', 'Electron Phi', 20, -4, 4)
+      self.book(n, 'tPhi', 'Tau Phi', 20, -4, 4)
+      self.book(n, 'type1_pfMetEt', 'Type1 MET Et', 20, 0, 200)
+      self.book(n, 'type1_pfMetPhi', 'Type1 MET Phi', 20, -4, 4)
+      self.book(n, 'j1Pt', 'Jet 1 Pt', 30, 0, 300)
+      self.book(n, 'j2Pt', 'Jet 2 Pt', 30, 0, 300)
+      self.book(n, 'j1Eta', 'Jet 1 Eta', 20, -3, 3)
+      self.book(n, 'j2Eta', 'Jet 2 Eta', 20, -3, 3)
+      self.book(n, 'j1Phi', 'Jet 1 Phi', 20, -4, 4)
+      self.book(n, 'j2Phi', 'Jet 2 Phi', 20, -4, 4)
+      self.book(n, 'e_t_Mass', 'Electron + Tau Mass', 30, 0, 300)
+      self.book(n, 'e_t_CollinearMass', 'Electron + Tau Collinear Mass', 30, 0, 300)
+      self.book(n, 'e_t_PZeta', 'Electron + Tau PZeta', 80, -400, 400)
+      self.book(n, 'numOfJets', 'Number of Jets', 5, 0, 5)
+      self.book(n, 'numOfVtx', 'Number of Vertices', 100, 0, 100)
+      self.book(n, 'vbfMass', 'VBF Mass', 100, 0, 1000)
+      self.book(n, 'dEtaETau', 'Delta Eta E Tau', 50, 0, 5)
+      self.book(n, 'dPhiEMET', 'Delta Phi E MET', 40, 0, 4)
+      self.book(n, 'dPhiTauMET', 'Delta Phi Tau MET', 40, 0, 4)
+      self.book(n, 'dPhiETau', 'Delta Phi E Tau', 40, 0, 4)
+      self.book(n, 'MTEMET', 'Electron MET Transverse Mass', 20, 0, 200)
+      self.book(n, 'MTTauMET', 'Tau MET Transverse Mass', 20, 0, 200)
 
 
   def fill_histos(self, row, myEle, myMET, myTau, weight, name=''):
@@ -182,33 +189,18 @@ class AnalyzeETauZEE(MegaBase):
   def tauPtC(self, row, myMET, myTau):
     tmpMET = myMET
     tmpTau = myTau
-    if self.is_mc and (not self.is_DY) and row.tZTTGenMatching==5:
-      if row.tDecayMode == 0:
-        myMETpx = myMET.Px() - 0.007 * myTau.Px()
-        myMETpy = myMET.Py() - 0.007 * myTau.Py()
-        tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-        tmpTau = myTau * ROOT.Double(1.007)
-      elif row.tDecayMode == 1:
-        myMETpx = myMET.Px() + 0.002 * myTau.Px()
-        myMETpy = myMET.Py() + 0.002 * myTau.Py()
-        tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-        tmpTau = myTau * ROOT.Double(0.998)
-      elif row.tDecayMode == 10:
-        myMETpx = myMET.Px() - 0.001 * myTau.Px()
-        myMETpy = myMET.Py() - 0.001 * myTau.Py()
-        tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-        tmpTau = myTau * ROOT.Double(1.001)
+    if self.is_mc and not self.is_DY and row.tZTTGenMatching==5:
+      es = self.esTau(row.tDecayMode)
+      myMETpx = myMET.Px() + (1 - es[0]) * myTau.Px()
+      myMETpy = myMET.Py() + (1 - es[0]) * myTau.Py()
+      tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+      tmpTau = myTau * ROOT.Double(es[0])
     if self.is_mc and bool(row.tZTTGenMatching==1 or row.tZTTGenMatching==3):
-      if row.tDecayMode == 0:
-        myMETpx = myMET.Px() - 0.003 * myTau.Px()
-        myMETpy = myMET.Py() - 0.003 * myTau.Py()
-        tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-        tmpTau = myTau * ROOT.Double(1.003)
-      elif row.tDecayMode == 1:
-        myMETpx = myMET.Px() - 0.036 * myTau.Px()
-        myMETpy = myMET.Py() - 0.036 * myTau.Py()
-        tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-        tmpTau = myTau * ROOT.Double(1.036)
+      fes = self.FesTau(myTau.Eta(), row.tDecayMode)
+      myMETpx = myMET.Px() + (1 - fes[0]) * myTau.Px()
+      myMETpy = myMET.Py() + (1 - fes[0]) * myTau.Py()
+      tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+      tmpTau = myTau * ROOT.Double(fes[0])
     return [tmpMET, tmpTau]
 
 
@@ -216,18 +208,12 @@ class AnalyzeETauZEE(MegaBase):
 
     for row in self.tree:
 
-      trigger27 = row.Ele27WPTightPass and row.eMatchesEle27Filter and row.eMatchesEle27Path and row.ePt > 28
-      trigger32 = row.Ele32WPTightPass and row.eMatchesEle32Filter and row.eMatchesEle32Path and row.ePt > 33
-      trigger35 = row.Ele35WPTightPass and row.eMatchesEle35Filter and row.eMatchesEle35Path and row.ePt > 36
-      if self.is_embed:
-        trigger2430 = row.Ele24LooseTau30TightIDPass and row.eMatchesEle24Tau30Filter and row.eMatchesEle24Tau30Path and row.ePt > 25 and row.ePt < 28 and row.tPt > 35 and abs(row.tEta) < 2.1
-      else:
-        trigger2430 = row.Ele24LooseTau30TightIDPass and row.eMatchesEle24Tau30Filter and row.eMatchesEle24Tau30Path and row.tMatchesEle24Tau30Filter and row.tMatchesEle24Tau30Path and row.ePt > 25 and row.ePt < 28 and row.tPt > 35 and abs(row.tEta) < 2.1
+      trigger25 = row.singleE25eta2p1TightPass and row.eMatchesEle25Filter and row.eMatchesEle25Path and row.ePt > 27
 
       if self.filters(row):
         continue
 
-      if not bool(trigger27 or trigger32 or trigger35 or trigger2430):
+      if not bool(trigger25):
         continue
 
       if not self.kinematics(row):
@@ -248,6 +234,9 @@ class AnalyzeETauZEE(MegaBase):
         continue
 
       if not self.obj2_id(row):
+        continue
+
+      if row.tDecayMode==5 or row.tDecayMode==6:
         continue
 
       if not self.vetos(row):
@@ -284,60 +273,42 @@ class AnalyzeETauZEE(MegaBase):
       myMET = self.tauPtC(row, myMET, myTau)[0]
       myTau = self.tauPtC(row, myMET, myTau)[1]
 
-      if self.visibleMass(myEle, myTau) < 86.2 or self.visibleMass(myEle, myTau) > 96.2:
-        continue
+      if self.visibleMass(myEle, myTau) < 86.2 or self.visibleMass(myEle, myTau) > 96.2:                                                                                                                                                                                      
+        continue                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                              
+      if self.transverseMass(myEle, myMET) > 40:                                                                                                                                                                                                                              
+        continue                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                              
+      if myMET.Pt() > 25:                                                                                                                                                                                                                                                     
+        continue                                                                                                                                                                                                                                                              
 
-      if self.transverseMass(myEle, myMET) > 40:
-        continue
-
-      if myMET.Pt() > 25:
-        continue
 
       weight = 1.0
-      singleSF = 0
-      eltauSF = 0
       if self.is_mc:
-        self.w2.var('e_pt').setVal(myEle.Pt())
-        self.w2.var('e_iso').setVal(row.eRelPFIsoRho)
-        self.w2.var('e_eta').setVal(myEle.Eta())
-        eID = self.w2.function('e_id80_kit_ratio').getVal()
-        eIso = self.w2.function('e_iso_kit_ratio').getVal()
-        eReco = self.w2.function('e_trk_ratio').getVal()
+        tEff = self.Ele25(row.ePt, abs(row.eEta))[0]
         zvtx = 0.991
-        if trigger27 or trigger32 or trigger35:
-          singleSF = 0 if self.w2.function('e_trg27_trg32_trg35_kit_mc').getVal()==0 else self.w2.function('e_trg27_trg32_trg35_kit_data').getVal()/self.w2.function('e_trg27_trg32_trg35_kit_mc').getVal()
-        else:
-          eltauSF = 0 if self.w2.function('e_trg_EleTau_Ele24Leg_desy_mc').getVal()==0 else self.w2.function('e_trg_EleTau_Ele24Leg_desy_data').getVal()/self.w2.function('e_trg_EleTau_Ele24Leg_desy_mc').getVal()
-          eltauSF = eltauSF * self.tauSF.getETauScaleFactor(myTau.Pt(), myTau.Eta(), myTau.Phi())
-        tEff = singleSF + eltauSF
-        weight = row.GenWeight*pucorrector[''](row.nTruePU)*tEff*eID*eIso*eReco*zvtx*row.prefiring_weight
+        eID = self.eIDnoiso80(row.eEta, row.ePt)
+        weight = row.GenWeight*pucorrector[''](row.nTruePU)*tEff*eID*zvtx*row.prefiring_weight
+        # Anti-Muon Discriminator Scale Factors
         if row.tZTTGenMatching==2 or row.tZTTGenMatching==4:
-          if abs(myTau.Eta()) < 0.4:
-            weight = weight*1.06
-          elif abs(myTau.Eta()) < 0.8:
-            weight = weight*1.02
-          elif abs(myTau.Eta()) < 1.2:
-            weight = weight*1.10
-          elif abs(myTau.Eta()) < 1.7:
-            weight = weight*1.03
-          else:
-            weight = weight*1.94
+          weight = weight * self.deepTauVSmu(myTau.Eta())[0]
+        # Anti-Electron Discriminator Scale Factors
         elif row.tZTTGenMatching==1 or row.tZTTGenMatching==3:
-          if abs(myTau.Eta()) < 1.46:
-            weight = weight*1.80
-          elif abs(myTau.Eta()) > 1.558:
-            weight = weight*1.53
+          weight = weight * self.deepTauVSe(myTau.Eta())[0]
+        # Tau ID Scale Factor
         elif row.tZTTGenMatching==5:
-          weight = weight*0.89
+          if self.obj2_tight(row):
+            weight = weight * self.deepTauVSjet_tight(myTau.Pt())[0]
+          elif self.obj2_loose(row):
+            weight = weight * self.deepTauVSjet_vloose(myTau.Pt())[0]
         if self.is_DY:
-          self.w2.var('z_gen_mass').setVal(row.genMass)
-          self.w2.var('z_gen_pt').setVal(row.genpT)
-          dyweight = self.w2.function('zptmass_weight_nom').getVal()
-          weight = weight*dyweight#*self.DrellPt(myEle.Pt())
+          # DY pT reweighting
+          dyweight = self.DYreweight(row.genMass, row.genpT)
+          weight = weight * dyweight
           if row.numGenJets < 5:
-            weight = weight*self.DYweight[row.numGenJets]
+            weight = weight * self.DYweight[row.numGenJets]
           else:
-            weight = weight*self.DYweight[0]
+            weight = weight * self.DYweight[0]
         if self.is_TT:
           topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
           weight = weight*topweight
@@ -345,51 +316,45 @@ class AnalyzeETauZEE(MegaBase):
             continue
         weight = self.mcWeight.lumiWeight(weight)
 
-      mjj = row.vbfMassWoNoisyJets
+      mjj = row.vbfMass
 
-      trsel = 0
       if self.is_embed:
-        tID = 0.97
         if row.tDecayMode == 0:
           dm = 0.975
         elif row.tDecayMode == 1:
           dm = 0.975*1.051
         elif row.tDecayMode == 10:
           dm = pow(0.975, 3)
-        self.we.var('gt_pt').setVal(myEle.Pt())
-        self.we.var('gt_eta').setVal(myEle.Eta())
-        esel = self.we.function('m_sel_idEmb_ratio').getVal()
-        self.we.var('gt_pt').setVal(myTau.Pt())
-        self.we.var('gt_eta').setVal(myTau.Eta())
-        tsel = self.we.function('m_sel_idEmb_ratio').getVal()
-        self.we.var('gt1_pt').setVal(myEle.Pt())
-        self.we.var('gt1_eta').setVal(myEle.Eta())
-        self.we.var('gt2_pt').setVal(myTau.Pt())
-        self.we.var('gt2_eta').setVal(myTau.Eta())
-        trgsel = self.we.function('m_sel_trg_ratio').getVal()
-        self.wp.var('e_pt').setVal(myEle.Pt())
-        self.wp.var('e_eta').setVal(myEle.Eta())
-        self.wp.var('e_phi').setVal(myEle.Phi())
-        self.wp.var('e_iso').setVal(row.eRelPFIsoRho)
-        e_id_sf = self.wp.function('e_id80_embed_kit_ratio').getVal()
-        e_iso_sf = self.wp.function('e_iso_binned_embed_kit_ratio').getVal()
-        e_trk_sf = self.eReco(myEle.Pt(), abs(myEle.Eta()))
-        self.we.var('e_pt').setVal(myEle.Pt())
-        self.we.var('e_iso').setVal(row.eRelPFIsoRho)
-        self.we.var('e_eta').setVal(myEle.Eta())
-        self.we.var('t_pt').setVal(myTau.Pt())
-        if myEle.Eta() < 1.479:
-          if bool(trigger27 or trigger32 or trigger35):
-            trsel = trsel + self.we.function('e_trg27_trg32_trg35_embed_kit_ratio').getVal()
-          if trigger2430:
-            trsel = trsel + self.we.function('e_trg_EleTau_Ele24Leg_kit_ratio_embed').getVal()*self.we.function('et_emb_LooseChargedIsoPFTau30_kit_ratio').getVal()
-        else:
-          if bool(trigger27 or trigger32 or trigger35):
-            trsel = trsel + self.we.function('e_trg27_trg32_trg35_kit_data').getVal()
-          if trigger2430:
-            trsel = trsel + self.we.function('e_trg_EleTau_Ele24Leg_desy_data').getVal()*self.tauSF.getETauEfficiencyData(myTau.Pt(), myTau.Eta(), myTau.Phi())
-        weight = weight*row.GenWeight*e_id_sf*e_iso_sf*e_trk_sf*dm*esel*tsel*trgsel*trsel*self.EmbedEta(myEle.Eta(), njets, mjj)*self.EmbedPt(myEle.Pt(), njets, mjj)
-        if weight > 10:
+        elif row.tDecayMode == 11:
+          dm = pow(0.975, 3)*1.051
+        # Muon selection scale factor
+        self.w1.var('gt_pt').setVal(myEle.Pt())
+        self.w1.var('gt_eta').setVal(myEle.Eta())
+        esel = self.w1.function('m_sel_id_ic_ratio').getVal()
+        # Tau selection scale factor
+        self.w1.var('gt_pt').setVal(myTau.Pt())
+        self.w1.var('gt_eta').setVal(myTau.Eta())
+        tsel = self.w1.function('m_sel_id_ic_ratio').getVal()
+        # Trigger selection scale factor
+        self.w1.var('gt1_pt').setVal(myEle.Pt())
+        self.w1.var('gt1_eta').setVal(myEle.Eta())
+        self.w1.var('gt2_pt').setVal(myTau.Pt())
+        self.w1.var('gt2_eta').setVal(myTau.Eta())
+        trgsel = self.w1.function('m_sel_trg_ic_ratio').getVal()
+        # Electron Identification, Isolation, tracking, and trigger scale factors
+        self.w1.var("e_pt").setVal(myEle.Pt())
+        self.w1.var("e_eta").setVal(myEle.Eta())
+        self.w1.var("e_iso").setVal(row.eRelPFIsoRho)
+        e_trg_sf = self.w1.function('e_trg_ic_embed_ratio').getVal()
+        e_idiso_sf = self.w1.function('e_idiso_ic_embed_ratio').getVal()
+        e_trk_sf = self.w1.function('e_trk_embed_ratio').getVal()
+        weight = row.GenWeight*dm*esel*tsel*trgsel*e_trg_sf*e_idiso_sf*e_trk_sf*self.EmbedEta(myEle.Eta(), njets, mjj)*self.EmbedPhi(myEle.Phi(), njets, mjj)
+        # Tau Identification
+        if self.obj2_tight(row):
+          weight = weight * self.deepTauVSjet_Emb_tight(myTau.Pt())[0]
+        elif self.obj2_loose(row):
+          weight = weight * self.deepTauVSjet_Emb_vloose(myTau.Pt())[0]
+        if row.GenWeight > 1:
           continue
 
       if not self.obj2_tight(row) and self.obj2_loose(row) and self.obj1_tight(row):
@@ -397,55 +362,23 @@ class AnalyzeETauZEE(MegaBase):
         weight = weight*frTau
         if self.oppositesign(row):
           self.fill_histos(row, myEle, myMET, myTau, weight, 'TauLooseOS')
-          if njets==0:
-            self.fill_histos(row, myEle, myMET, myTau, weight, 'TauLooseOS0Jet')
-          elif njets==1:
-            self.fill_histos(row, myEle, myMET, myTau, weight, 'TauLooseOS1Jet')
-          elif njets==2 and mjj < 500:
-            self.fill_histos(row, myEle, myMET, myTau, weight, 'TauLooseOS2Jet')
-          elif njets==2 and mjj > 500:
-            self.fill_histos(row, myEle, myMET, myTau, weight, 'TauLooseOS2JetVBF')
 
       if not self.obj1_tight(row) and self.obj1_loose(row) and self.obj2_tight(row):
-        frEle = self.fakeRateEle(myEle.Pt(), myEle.Eta())
+        frEle = self.fakeRateEle(myEle.Pt())
         weight = weight*frEle
         if self.oppositesign(row):
           self.fill_histos(row, myEle, myMET, myTau, weight, 'EleLooseOS')
-          if njets==0:
-            self.fill_histos(row, myEle, myMET, myTau, weight, 'EleLooseOS0Jet')
-          elif njets==1:
-            self.fill_histos(row, myEle, myMET, myTau, weight, 'EleLooseOS1Jet')
-          elif njets==2 and mjj < 500:
-            self.fill_histos(row, myEle, myMET, myTau, weight, 'EleLooseOS2Jet')
-          elif njets==2 and mjj > 500:
-            self.fill_histos(row, myEle, myMET, myTau, weight, 'EleLooseOS2JetVBF')
 
       if not self.obj2_tight(row) and self.obj2_loose(row) and not self.obj1_tight(row) and self.obj1_loose(row):
         frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
-        frEle = self.fakeRateEle(myEle.Pt(), myEle.Eta())
+        frEle = self.fakeRateEle(myEle.Pt())
         weight = weight*frEle*frTau
         if self.oppositesign(row):
           self.fill_histos(row, myEle, myMET, myTau, weight, 'EleLooseTauLooseOS')
-          if njets==0:
-            self.fill_histos(row, myEle, myMET, myTau, weight, 'EleLooseTauLooseOS0Jet')
-          elif njets==1:
-            self.fill_histos(row, myEle, myMET, myTau, weight, 'EleLooseTauLooseOS1Jet')
-          elif njets==2 and mjj < 500:
-            self.fill_histos(row, myEle, myMET, myTau, weight, 'EleLooseTauLooseOS2Jet')
-          elif njets==2 and mjj > 500:
-            self.fill_histos(row, myEle, myMET, myTau, weight, 'EleLooseTauLooseOS2JetVBF')
 
       if self.obj2_tight(row) and self.obj1_tight(row):
         if self.oppositesign(row):
           self.fill_histos(row, myEle, myMET, myTau, weight, 'TightOS')
-          if njets==0:
-            self.fill_histos(row, myEle, myMET, myTau, weight, 'TightOS0Jet')
-          elif njets==1:
-            self.fill_histos(row, myEle, myMET, myTau, weight, 'TightOS1Jet')
-          elif njets==2 and mjj < 500:
-            self.fill_histos(row, myEle, myMET, myTau, weight, 'TightOS2Jet')
-          elif njets==2 and mjj > 500:
-            self.fill_histos(row, myEle, myMET, myTau, weight, 'TightOS2JetVBF')
 
 
   def finish(self):

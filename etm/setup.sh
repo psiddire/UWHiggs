@@ -14,7 +14,7 @@ export afile=`find $datasrc/$jobid | grep root | head -n 1`
 
 #ls *pyx | sed "s|pyx|so|" | xargs -n 1 -P 10 rake
 
-#rake "meta:getinputs[$jobid, $datasrc, em/metaInfo, em/summedWeights]"
+rake "meta:getinputs[$jobid, $datasrc, em/metaInfo, em/summedWeights]"
 rake "meta:getmeta[inputs/$jobid, em/metaInfo, 13, em/summedWeights]"
 
 

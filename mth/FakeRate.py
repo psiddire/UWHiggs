@@ -1,3 +1,5 @@
+import math
+
 def fakerate_weight(pt, eta, dm, shift=''):
     if eta < 1.5:
         if dm==0:
@@ -165,15 +167,15 @@ def fakerateDeep_weight(pt, eta, dm, shift=''):
 def fakerateMuon_weight(pt, shift=''):
     if pt < 100:
         if shift=='':
-            fr = 0.7905 + 0.001371*pt
+            fr = math.tanh(0.2908 + 0.01176*pt)
         elif shift=='frp0Up':
-            fr = 0.797167 + 0.001371*pt
+            fr = math.tanh(0.3407 + 0.01176*pt)
         elif shift=='frp0Down':
-            fr = 0.783833 + 0.001371*pt
+            fr = math.tanh(0.2409 + 0.01176*pt)
         elif shift=='frp1Up':
-            fr = 0.7905 + 0.00146129*pt
+            fr = math.tanh(0.2908 + 0.01312*pt)
         elif shift=='frp1Down':
-            fr = 0.7905 + 0.00128071*pt
+            fr = math.tanh(0.2908 + 0.01040*pt)
     else:
         fr = 0
     return fr/(1-fr)
