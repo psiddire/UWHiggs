@@ -1,32 +1,21 @@
 '''
 
-Run LFV H->MuTau analysis in the mu+tau channel.
+Run LFV H->MuE analysis in the mu+tau_e channel.
 
-Authors: Maria Cepeda, Aaron Levine, Evan K. Friis, UW
+Authors: Prasanna Siddireddy
 
-'''
+'''  
 
 import EMTree
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
-import glob
 import os
 import ROOT
-import array as arr
 import math
-import copy
-import itertools
-import operator
 import mcCorrections
 import mcWeights
 import Kinematics
-from RecoilCorrector import RecoilCorrector
-from math import sqrt, pi
-from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVA
-from ROOT import gROOT, gRandom, TRandom3, TFile
 from bTagSF import PromoteDemote
 
-gRandom.SetSeed()
-rnd = gRandom.Rndm
 MetCorrection = True
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target)
@@ -44,7 +33,6 @@ class AnalyzeMuE(MegaBase):
     self.is_DY = self.mcWeight.is_DY
     self.is_W = self.mcWeight.is_W
     self.is_TT = self.mcWeight.is_TT
-    self.is_ST = self.mcWeight.is_ST
 
     self.is_recoilC = self.mcWeight.is_recoilC
     if self.is_recoilC and MetCorrection:
@@ -62,8 +50,6 @@ class AnalyzeMuE(MegaBase):
     self.eIDnoIsoWP80 = mcCorrections.eIDnoIsoWP80
     self.eReco = mcCorrections.eReco
     self.EmbedEta = mcCorrections.EmbedEta
-    self.EmbedPt = mcCorrections.EmbedPt
-    self.TTPt = mcCorrections.TTPt
     self.rc = mcCorrections.rc
     self.w1 = mcCorrections.w1
     self.w2 = mcCorrections.w2
@@ -158,9 +144,9 @@ class AnalyzeMuE(MegaBase):
       self.book(names[x], "vbfMass", "VBF Mass", 100, 0, 1000)
       self.book(names[x], "numOfVtx", "Number of Vertices", 100, 0, 100)
       self.book(names[x], "dEtaMuE", "Delta Eta Mu E", 50, 0, 5)
+      self.book(names[x], "dPhiMuE", "Delta Phi Mu E", 40, 0, 4)
       self.book(names[x], "dPhiEMET", "Delta Phi E MET", 40, 0, 4)
       self.book(names[x], "dPhiMuMET", "Delta Phi Mu MET", 40, 0, 4)
-      self.book(names[x], "dPhiMuE", "Delta Phi Mu E", 40, 0, 4)
       self.book(names[x], "MTEMET", "Electron MET Transverse Mass", 20, 0, 200)
       self.book(names[x], "MTMuMET", "Mu MET Transverse Mass", 20, 0, 200)
 
@@ -186,9 +172,9 @@ class AnalyzeMuE(MegaBase):
       self.book(vbfnames[x], "vbfMass", "VBF Mass", 50, 0, 1000)
       self.book(vbfnames[x], "numOfVtx", "Number of Vertices", 100, 0, 100)
       self.book(vbfnames[x], "dEtaMuE", "Delta Eta Mu E", 25, 0, 5)
+      self.book(vbfnames[x], "dPhiMuE", "Delta Phi Mu E", 20, 0, 4)
       self.book(vbfnames[x], "dPhiEMET", "Delta Phi E MET", 20, 0, 4)
       self.book(vbfnames[x], "dPhiMuMET", "Delta Phi Mu MET", 20, 0, 4)
-      self.book(vbfnames[x], "dPhiMuE", "Delta Phi Mu E", 20, 0, 4)
       self.book(vbfnames[x], "MTEMET", "Electron MET Transverse Mass", 10, 0, 200)
       self.book(vbfnames[x], "MTMuMET", "Mu MET Transverse Mass", 10, 0, 200)
 
@@ -216,9 +202,9 @@ class AnalyzeMuE(MegaBase):
     histos[name+'/vbfMass'].Fill(row.vbfMassWoNoisyJets, weight)
     histos[name+'/numOfVtx'].Fill(row.nvtx, weight)
     histos[name+'/dEtaMuE'].Fill(self.deltaEta(myMuon.Eta(), myEle.Eta()), weight)
+    histos[name+'/dPhiMuE'].Fill(self.deltaPhi(myMuon.Phi(), myEle.Phi()), weight)
     histos[name+'/dPhiEMET'].Fill(self.deltaPhi(myEle.Phi(), myMET.Phi()), weight)
     histos[name+'/dPhiMuMET'].Fill(self.deltaPhi(myMuon.Phi(), myMET.Phi()), weight)
-    histos[name+'/dPhiMuE'].Fill(self.deltaPhi(myMuon.Phi(), myEle.Phi()), weight)
     histos[name+'/MTEMET'].Fill(self.transverseMass(myEle, myMET), weight)
     histos[name+'/MTMuMET'].Fill(self.transverseMass(myMuon, myMET), weight)
 
@@ -278,7 +264,7 @@ class AnalyzeMuE(MegaBase):
       if self.is_mc:
         myMETpx = myMETpx - myEle.Px()
         myMETpy = myMETpy - myEle.Py()
-        myMET.SetPxPyPzE(myMETpx, myMETpy, 0, sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+        myMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
 
       if self.is_recoilC and MetCorrection:
         tmpMet = self.Metcorected.CorrectByMeanResolution(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)))
@@ -290,14 +276,8 @@ class AnalyzeMuE(MegaBase):
       beta_1 = row.jb1eta
       if (self.is_mc and nbtag > 0):
         nbtag = PromoteDemote(self.h_btag_eff_b, self.h_btag_eff_c, self.h_btag_eff_oth, nbtag, bpt_1, bflavor_1, beta_1, 0)
-      #if bool(nbtag == 1 and row.jb1pt < 30) or bool(nbtag == 2 and row.jb1pt < 30 and row.jb2pt > 30) or bool(nbtag == 2 and row.jb1pt > 30 and row.jb2pt < 30):
-      #  nbtag = nbtag - 1
-      #if bool(nbtag == 2 and row.jb1pt < 30 and row.jb2pt < 30):
-      #  nbtag = nbtag - 2
       if (nbtag > 0):
         continue
-
-      mjj = row.vbfMassWoNoisyJets
 
       weight = 1.0
       eff_trg_data = 0
@@ -326,7 +306,7 @@ class AnalyzeMuE(MegaBase):
         eID = self.eIDnoIsoWP80(myEle.Pt(), abs(myEle.Eta()))
         eTrk = self.eReco(myEle.Pt(), abs(myEle.Eta()))
         mcSF = self.rc.kSpreadMC(row.mCharge, myMuon.Pt(), myMuon.Eta(), myMuon.Phi(), row.mGenPt, 0, 0)
-        weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*eID*eTrk*mcSF
+        weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*eID*eTrk*mcSF*row.prefiring_weight
         if self.is_DY:
           self.w2.var("z_gen_mass").setVal(row.genMass)
           self.w2.var("z_gen_pt").setVal(row.genpT)
@@ -346,9 +326,9 @@ class AnalyzeMuE(MegaBase):
           weight = weight*topweight
           if row.mZTTGenMatching > 2 and row.mZTTGenMatching < 6 and row.eZTTGenMatching > 2 and row.eZTTGenMatching < 6 and Emb:
             continue
-        if self.is_TT or self.is_ST:
-          weight = weight*self.TTPt(myEle.Pt(), njets, mjj)
         weight = self.mcWeight.lumiWeight(weight)
+
+      mjj = row.vbfMassWoNoisyJets
 
       if self.is_embed:
         self.w1.var("gt_pt").setVal(myMuon.Pt())
@@ -391,7 +371,7 @@ class AnalyzeMuE(MegaBase):
           eff_trg_data = eff_trg_data - self.w1.function("m_trg_binned_23_data").getVal()*self.w1.function("e_trg_binned_23_data").getVal()
           eff_trg_embed = eff_trg_embed - self.w1.function("m_trg_binned_23_embed").getVal()*self.w1.function("e_trg_binned_23_embed").getVal()
         trg_sf = 0 if eff_trg_embed==0 else eff_trg_data/eff_trg_embed
-        weight = weight*row.GenWeight*msel*esel*trgsel*trg_sf*m_id_sf*m_iso_sf*m_trk_sf*e_id_sf*e_iso_sf*e_trk_sf*self.EmbedEta(myEle.Eta(), njets, mjj)*self.EmbedPt(myEle.Pt(), njets, mjj)
+        weight = weight*row.GenWeight*msel*esel*trgsel*trg_sf*m_id_sf*m_iso_sf*m_trk_sf*e_id_sf*e_iso_sf*e_trk_sf*self.EmbedEta(myEle.Eta(), njets, mjj)
 
       self.w3.var("njets").setVal(njets)
       self.w3.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Eta(), myMuon.Eta()))
@@ -412,15 +392,15 @@ class AnalyzeMuE(MegaBase):
               self.fill_histos(row, myMuon, myMET, myEle, njets, weight, 'TightOS0JetCut')
           elif njets==1:
             self.fill_histos(row, myMuon, myMET, myEle, njets, weight, 'TightOS1Jet')
-            if mtmumet > 40 and dphiemet < 0.7 and dphiemu > 1.0:
+            if mtmumet > 40 and dphiemet < 0.7 and dphiemu > 1.0 and myMuon.Pt() > 26:
               self.fill_histos(row, myMuon, myMET, myEle, njets, weight, 'TightOS1JetCut')
           elif njets==2 and mjj < 550:
             self.fill_histos(row, myMuon, myMET, myEle, njets, weight, 'TightOS2Jet')
-            if mtmumet > 15 and dphiemet < 0.5:
+            if mtmumet > 15 and dphiemet < 0.5 and myMuon.Pt() > 26:
               self.fill_histos(row, myMuon, myMET, myEle, njets, weight, 'TightOS2JetCut')
           elif njets==2 and mjj > 550:
             self.fill_histos(row, myMuon, myMET, myEle, njets, weight, 'TightOS2JetVBF')
-            if mtmumet > 15 and dphiemet < 0.3:
+            if mtmumet > 15 and dphiemet < 0.3 and myMuon.Pt() > 26:
               self.fill_histos(row, myMuon, myMET, myEle, njets, weight, 'TightOS2JetVBFCut')
         if not self.oppositesign(row):
           self.fill_histos(row, myMuon, myMET, myEle, njets, weight*osss, 'TightSS')
@@ -430,15 +410,15 @@ class AnalyzeMuE(MegaBase):
               self.fill_histos(row, myMuon, myMET, myEle, njets, weight*osss, 'TightSS0JetCut')
           elif njets==1:
             self.fill_histos(row, myMuon, myMET, myEle, njets, weight*osss, 'TightSS1Jet')
-            if mtmumet > 40 and dphiemet < 0.7 and dphiemu > 1.0:
+            if mtmumet > 40 and dphiemet < 0.7 and dphiemu > 1.0 and myMuon.Pt() > 26:
               self.fill_histos(row, myMuon, myMET, myEle, njets, weight*osss, 'TightSS1JetCut')
           elif njets==2 and mjj < 550:
             self.fill_histos(row, myMuon, myMET, myEle, njets, weight*osss, 'TightSS2Jet')
-            if mtmumet > 15 and dphiemet < 0.5:
+            if mtmumet > 15 and dphiemet < 0.5 and myMuon.Pt() > 26:
               self.fill_histos(row, myMuon, myMET, myEle, njets, weight*osss, 'TightSS2JetCut')
           elif njets==2 and mjj > 550:
             self.fill_histos(row, myMuon, myMET, myEle, njets, weight*osss, 'TightSS2JetVBF')
-            if mtmumet > 15 and dphiemet < 0.3:
+            if mtmumet > 15 and dphiemet < 0.3 and myMuon.Pt() > 26:
               self.fill_histos(row, myMuon, myMET, myEle, njets, weight*osss, 'TightSS2JetVBFCut')
 
 

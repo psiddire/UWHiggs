@@ -1,32 +1,22 @@
 '''
 
-Run LFV H->MuTau analysis in the mu+tau channel.
+Run LFV H->EMu analysis in the e+mu channel.
 
-Authors: Maria Cepeda, Aaron Levine, Evan K. Friis, UW
+Authors: Prasanna Siddireddy
 
-'''
+'''  
 
 import EMTree
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
-import glob
 import os
 import ROOT
 import array
 import math
-import copy
-import operator
-import itertools
 import mcCorrections
 import mcWeights
 import Kinematics
-from RecoilCorrector import RecoilCorrector
-from math import sqrt, pi
-from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVA
-from ROOT import gROOT, gRandom, TRandom3, TFile
 from bTagSF import PromoteDemote
 
-gRandom.SetSeed()
-rnd = gRandom.Rndm
 MetCorrection = True
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target)
@@ -62,12 +52,11 @@ class AnalyzeEMuBDT(MegaBase):
     self.muTracking = mcCorrections.muonTracking
     self.eIDnoIsoWP80 = mcCorrections.eIDnoIsoWP80
     self.eReco = mcCorrections.eReco
-    self.EmbedEta = mcCorrections.EmbedEta
+    self.rc = mcCorrections.rc
     self.w1 = mcCorrections.w1
     self.w2 = mcCorrections.w2
     self.w3 = mcCorrections.w3
     self.we = mcCorrections.we
-    self.wp = mcCorrections.wp
 
     self.DYweight = self.mcWeight.DYweight
     self.Wweight = self.mcWeight.Wweight
@@ -102,31 +91,10 @@ class AnalyzeEMuBDT(MegaBase):
     return True
 
 
-  # def trigger(self, row):
-  #   if row.mu8e23DZPass:
-  #     if row.mPt > 10 and row.ePt > 24:
-  #       return True
-  #     else:
-  #       return False
-  #   elif row.mu23e12DZPass:
-  #     if row.mPt > 24 and row.ePt > 13:
-  #       return True
-  #     else:
-  #       return False
-  #   else:
-  #     return False
-
-
-  def trigger(self, row):                                                                                                                                                                                                                                                    
-    if not row.mu8e23DZPass:
-      return False
-    return True
-
-
   def kinematics(self, row):
     if row.mPt < 10 or abs(row.mEta) >= 2.4:
       return False
-    if row.ePt < 24 or abs(row.eEta) >= 2.1:
+    if row.ePt < 24 or abs(row.eEta) >= 2.5:
       return False
     return True
 
@@ -150,7 +118,7 @@ class AnalyzeEMuBDT(MegaBase):
 
 
   def obj2_iso(self, row):
-    return bool(row.mRelPFIsoDBDefaultR04 < 0.1)
+    return bool(row.mRelPFIsoDBDefaultR04 < 0.15)
 
 
   def vetos(self, row):
@@ -212,10 +180,13 @@ class AnalyzeEMuBDT(MegaBase):
 
     for row in self.tree:
       
+      triggerm8e23 = row.mu8e23DZPass and row.mPt > 10 and row.ePt > 24# and row.eMatchesMu8e23DZFilter and row.eMatchesMu8e23DZPath and row.mMatchesMu8e23DZFilter and row.mMatchesMu8e23DZPath
+      triggerm23e12 = row.mu23e12DZPass and row.mPt > 24 and row.ePt > 13# and row.eMatchesMu23e12DZFilter and row.eMatchesMu23e12DZPath and row.mMatchesMu23e12DZFilter and row.mMatchesMu23e12DZPath
+
       if self.filters(row):
         continue
 
-      if not self.trigger(row):
+      if not bool(triggerm8e23 or triggerm23e12):
         continue
 
       if not self.kinematics(row):
@@ -260,11 +231,11 @@ class AnalyzeEMuBDT(MegaBase):
       if self.is_mc:
         myMETpx = myMETpx - myEle.Px()
         myMETpy = myMETpy - myEle.Py()
-        myMET.SetPxPyPzE(myMETpx, myMETpy, 0, sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+        myMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
 
       if self.is_recoilC and MetCorrection:
         tmpMet = self.Metcorected.CorrectByMeanResolution(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)))
-        myMET.SetPtEtaPhiM(sqrt(tmpMet[0]*tmpMet[0] + tmpMet[1]*tmpMet[1]), 0, math.atan2(tmpMet[1], tmpMet[0]), 0)
+        myMET.SetPtEtaPhiM(math.sqrt(tmpMet[0]*tmpMet[0] + tmpMet[1]*tmpMet[1]), 0, math.atan2(tmpMet[1], tmpMet[0]), 0)
 
       nbtag = row.bjetDeepCSVVeto20Medium
       bpt_1 = row.jb1pt
@@ -272,17 +243,13 @@ class AnalyzeEMuBDT(MegaBase):
       beta_1 = row.jb1eta
       if (self.is_mc and nbtag > 0):
         nbtag = PromoteDemote(self.h_btag_eff_b, self.h_btag_eff_c, self.h_btag_eff_oth, nbtag, bpt_1, bflavor_1, beta_1, 0)
-      #if bool(nbtag == 1 and row.jb1pt < 30) or bool(nbtag == 2 and row.jb1pt < 30 and row.jb2pt > 30) or bool(nbtag == 2 and row.jb1pt > 30 and row.jb2pt < 30):
-      #  nbtag = nbtag - 1
-      #if bool(nbtag == 2 and row.jb1pt < 30 and row.jb2pt < 30):
-      #  nbtag = nbtag - 2
       if (nbtag > 0):
         continue
 
-      weight = 1.0
       eff_trg_data = 0
       eff_trg_mc = 0
       eff_trg_embed = 0
+      weight = 1.0
       if self.is_mc:
         self.w1.var("m_pt").setVal(myMuon.Pt())
         self.w1.var("m_eta").setVal(myMuon.Eta())
@@ -290,22 +257,23 @@ class AnalyzeEMuBDT(MegaBase):
         self.w1.var("e_pt").setVal(myEle.Pt())
         self.w1.var("e_eta").setVal(myEle.Eta())
         self.w1.var("e_iso").setVal(row.eRelPFIsoRho)
-        # if row.mu8e23DZPass:
-        eff_trg_data = eff_trg_data + self.w1.function("m_trg_binned_8_data").getVal()*self.w1.function("e_trg_binned_23_data").getVal()
-        eff_trg_mc = eff_trg_mc + self.w1.function("m_trg_binned_8_mc").getVal()*self.w1.function("e_trg_binned_23_mc").getVal()
-        # if row.mu23e12DZPass:
-        #   eff_trg_data = eff_trg_data + self.w1.function("m_trg_binned_23_data").getVal()*self.w1.function("e_trg_binned_12_data").getVal()
-        #   eff_trg_mc = eff_trg_mc + self.w1.function("m_trg_binned_23_mc").getVal()*self.w1.function("e_trg_binned_12_mc").getVal()
-        # if row.mu8e23DZPass and row.mu23e12DZPass:
-        #   eff_trg_data = eff_trg_data - self.w1.function("m_trg_binned_23_data").getVal()*self.w1.function("e_trg_binned_23_data").getVal()
-        #   eff_trg_mc = eff_trg_mc - self.w1.function("m_trg_binned_23_mc").getVal()*self.w1.function("e_trg_binned_23_mc").getVal()
+        if triggerm8e23:
+          eff_trg_data = eff_trg_data + self.w1.function("m_trg_binned_8_data").getVal()*self.w1.function("e_trg_binned_23_data").getVal()
+          eff_trg_mc = eff_trg_mc + self.w1.function("m_trg_binned_8_mc").getVal()*self.w1.function("e_trg_binned_23_mc").getVal()
+        if triggerm23e12:
+          eff_trg_data = eff_trg_data + self.w1.function("m_trg_binned_23_data").getVal()*self.w1.function("e_trg_binned_12_data").getVal()
+          eff_trg_mc = eff_trg_mc + self.w1.function("m_trg_binned_23_mc").getVal()*self.w1.function("e_trg_binned_12_mc").getVal()
+        if triggerm8e23 and triggerm23e12:
+          eff_trg_data = eff_trg_data - self.w1.function("m_trg_binned_23_data").getVal()*self.w1.function("e_trg_binned_23_data").getVal()
+          eff_trg_mc = eff_trg_mc - self.w1.function("m_trg_binned_23_mc").getVal()*self.w1.function("e_trg_binned_23_mc").getVal()
         tEff = 0 if eff_trg_mc==0 else eff_trg_data/eff_trg_mc
         mID = self.muonTightID(myMuon.Pt(), abs(myMuon.Eta()))
         mIso = self.muonTightIsoTightID(myMuon.Pt(), abs(myMuon.Eta()))
         mTrk = self.muTracking(myMuon.Eta())[0]
         eID = self.eIDnoIsoWP80(myEle.Pt(), abs(myEle.Eta()))
         eTrk = self.eReco(myEle.Pt(), abs(myEle.Eta()))
-        weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*eID*eTrk
+        mcSF = self.rc.kSpreadMC(row.mCharge, myMuon.Pt(), myMuon.Eta(), myMuon.Phi(), row.mGenPt, 0, 0)
+        weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*eID*eTrk*mcSF*row.prefiring_weight
         if self.is_DY:
           self.w2.var("z_gen_mass").setVal(row.genMass)
           self.w2.var("z_gen_pt").setVal(row.genpT)
@@ -329,48 +297,8 @@ class AnalyzeEMuBDT(MegaBase):
 
       mjj = row.vbfMassWoNoisyJets
 
-      if self.is_embed:
-        self.w1.var("gt_pt").setVal(myMuon.Pt())
-        self.w1.var("gt_eta").setVal(myMuon.Eta())
-        msel = self.w1.function("m_sel_idEmb_ratio").getVal()
-        self.w1.var("gt_pt").setVal(myEle.Pt())
-        self.w1.var("gt_eta").setVal(myEle.Eta())
-        esel = self.w1.function("m_sel_idEmb_ratio").getVal()
-        self.w1.var("gt1_pt").setVal(myMuon.Pt())
-        self.w1.var("gt1_eta").setVal(myMuon.Eta())
-        self.w1.var("gt2_pt").setVal(myEle.Pt())
-        self.w1.var("gt2_eta").setVal(myEle.Eta())
-        trgsel = self.w1.function("m_sel_trg_ratio").getVal()
-        self.we.var("m_pt").setVal(myMuon.Pt())
-        self.we.var("m_eta").setVal(myMuon.Eta())
-        self.we.var("m_iso").setVal(row.mRelPFIsoDBDefaultR04)
-        m_id_sf = self.we.function("m_id_embed_kit_ratio").getVal()
-        m_iso_sf = self.we.function("m_iso_binned_embed_kit_ratio").getVal()
-        m_trk_sf = self.muTracking(myMuon.Eta())[0]
-        self.wp.var("e_pt").setVal(myEle.Pt())
-        self.wp.var("e_eta").setVal(myEle.Eta())
-        self.wp.var("e_phi").setVal(myEle.Phi())
-        self.wp.var("e_iso").setVal(row.eRelPFIsoRho)
-        e_id_sf = self.wp.function("e_id80_embed_kit_ratio").getVal()
-        e_iso_sf = self.wp.function("e_iso_binned_embed_kit_ratio").getVal()
-        e_trk_sf = self.eReco(myEle.Pt(), abs(myEle.Eta()))
-        self.w1.var("m_pt").setVal(myMuon.Pt())
-        self.w1.var("m_eta").setVal(myMuon.Eta())
-        self.w1.var("m_iso").setVal(row.mRelPFIsoDBDefaultR04)
-        self.w1.var("e_pt").setVal(myEle.Pt())
-        self.w1.var("e_eta").setVal(myEle.Eta())
-        self.w1.var("e_iso").setVal(row.eRelPFIsoRho)
-        if row.mu8e23DZPass:
-          eff_trg_data = eff_trg_data + self.w1.function("m_trg_binned_8_data").getVal()*self.w1.function("e_trg_binned_23_data").getVal()
-          eff_trg_embed = eff_trg_embed + self.w1.function("m_trg_binned_8_embed").getVal()*self.w1.function("e_trg_binned_23_embed").getVal()
-        if row.mu23e12DZPass:
-          eff_trg_data = eff_trg_data + self.w1.function("m_trg_binned_23_data").getVal()*self.w1.function("e_trg_binned_12_data").getVal()
-          eff_trg_embed = eff_trg_embed + self.w1.function("m_trg_binned_23_embed").getVal()*self.w1.function("e_trg_binned_12_embed").getVal()
-        if row.mu8e23DZPass and row.mu23e12DZPass:
-          eff_trg_data = eff_trg_data - self.w1.function("m_trg_binned_23_data").getVal()*self.w1.function("e_trg_binned_23_data").getVal()
-          eff_trg_embed = eff_trg_embed - self.w1.function("m_trg_binned_23_embed").getVal()*self.w1.function("e_trg_binned_23_embed").getVal()
-        trg_sf = 0 if eff_trg_embed==0 else eff_trg_data/eff_trg_embed
-        weight = weight*row.GenWeight*msel*esel*trgsel*trg_sf*m_id_sf*m_iso_sf*m_trk_sf*e_id_sf*e_iso_sf*e_trk_sf*self.EmbedEta(myEle.Eta(), njets, mjj)
+      if math.isnan(row.vbfMassWoNoisyJets):
+        continue
 
       if self.obj1_iso(row) and self.obj2_iso(row):
         if self.oppositesign(row):

@@ -28,7 +28,7 @@ ROOT.gStyle.SetOptStat(0)
 jobid = os.environ['jobid']
 print jobid
 
-mc_samples = ['DYJetsToLL_M-50*', 'DY1JetsToLL*', 'DY2JetsToLL*', 'DY3JetsToLL*', 'DY4JetsToLL*', 'DYJetsToLL_M-10to50*', 'GluGlu_LFV*', 'VBF_LFV*', 'GluGluHToTauTau*', 'VBFHToTauTau*', 'GluGluHToWWTo2L2Nu*', 'VBFHToWWTo2L2Nu*', 'WminusHToTauTau*', 'WplusHToTauTau*', 'ttHToTauTau*', 'ZHToTauTau*', 'TTTo2L2Nu*', 'TTToSemiLeptonic*', 'TTToHadronic*', 'ST_tW_antitop*', 'ST_tW_top*', 'ST_t-channel_antitop*', 'ST_t-channel_top*', 'QCD*', 'WZ*', 'WW*', 'ZZ*', 'EWKWMinus2Jets*', 'EWKWPlus2Jets*', 'EWKZ2Jets_ZToLL*', 'EWKZ2Jets_ZToNuNu*', 'W1JetsToLNu*', 'W2JetsToLNu*', 'W3JetsToLNu*', 'W4JetsToLNu*', 'WGToLNuG*', 'MC*', 'embed*', 'data*']#'WJetsToLNu*'
+mc_samples = ['DYJetsToLL_M-50*', 'DY1JetsToLL*', 'DY2JetsToLL*', 'DY3JetsToLL*', 'DY4JetsToLL*', 'DYJetsToLL_M-10to50*', 'GluGlu_LFV*', 'VBF_LFV*', 'GluGluHToTauTau*', 'VBFHToTauTau*', 'GluGluHToWWTo2L2Nu*', 'VBFHToWWTo2L2Nu*', 'WminusHToTauTau*', 'WplusHToTauTau*', 'ZHToTauTau*', 'TTTo2L2Nu*', 'TTToSemiLeptonic*', 'TTToHadronic*', 'ST_tW_antitop*', 'ST_tW_top*', 'ST_t-channel_antitop*', 'ST_t-channel_top*', 'QCD*', 'WZ*', 'WW*', 'ZZ*', 'EWKWMinus2Jets*', 'EWKWPlus2Jets*', 'EWKZ2Jets_ZToLL*', 'EWKZ2Jets_ZToNuNu*', 'W1JetsToLNu*', 'W2JetsToLNu*', 'W3JetsToLNu*', 'W4JetsToLNu*', 'WGToLNuG*', 'MC*', 'embed*', 'data*']#'WJetsToLNu*'
 
 files=[]
 lumifiles=[]
@@ -36,7 +36,7 @@ channel = ['']
 
 for x in mc_samples:
     print x
-    files.extend(glob.glob('../results/%s/AnalyzeMuEZTTWorking/%s' % (jobid, x)))
+    files.extend(glob.glob('../results/%s/AnalyzeMuEZTT/%s' % (jobid, x)))
     lumifiles.extend(glob.glob('../inputs/%s/%s.lumicalc.sum' % (jobid, x)))
 
 period = '13TeV'
@@ -48,7 +48,7 @@ for j in jet:
     s1 = 'TightOS'+j
     s2 = 'TightSS'+j
     
-    outputdir = 'plots/%s/AnalyzeMuEZTT/2016SelectionsEmbedNew/%s/' % (jobid, s1)
+    outputdir = 'plots/%s/AnalyzeMuEZTT/2017SelectionsEmbed/%s/' % (jobid, s1)
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
@@ -111,7 +111,7 @@ for j in jet:
     new_mc_samples.extend(['QCD', 'EWKDiboson', 'TT', 'EWK', 'DY', 'embed', 'SMH']) 
     plotter.mc_samples = new_mc_samples
 
-    histoname = [("mPt", "#mu  p_{T} (GeV)", 1),("ePt", "e p_{T} (Gev)", 1),("mEta", "#mu #eta", 1),("eEta", "e #eta", 1),("mPhi", "#mu #phi", 1),("ePhi", "e #phi", 1),("j2Pt", "Jet 2 p_{T}", 1),("j1Pt", "Jet 1 p_{T}", 1),("j2Eta", "Jet 2 #eta", 1),("j1Eta", "Jet 1 #eta", 1),("j2Phi", "Jet 2 #phi", 1),("j1Phi", "Jet 1 #phi", 1),("type1_pfMetEt", "MET (GeV)", 1),("type1_pfMetPhi", "MET #phi", 1),("m_e_Mass", "M_{col}(#mu, e) (GeV)", 1),("m_e_CollMass", "M_{vis}(#mu, e) (GeV)", 1),("numOfJets", "Number of Jets", 1),("vbfMass", "VBF Mass", 1),("numOfVtx", "Number of Vertices", 1),("dEtaMuE", "#Delta#eta(#mu, e)", 1),("dPhiEMET", "#Delta#phi(e, MET)", 1),("dPhiMuMET", "#Delta#phi(#mu, MET)", 1),("dPhiMuE", "#Delta#phi(#mu, e)", 1),("MTEMET", "M_{T}(e, MET) (GeV)", 1),("MTMuMET", "M_{T}(#tau, MET) (GeV)", 1)]                                                                                                                                                                                                                                        
+    histoname = [("mPt", "#mu  p_{T} (GeV)", 1),("ePt", "e p_{T} (Gev)", 1),("mEta", "#mu #eta", 1),("eEta", "e #eta", 1),("mPhi", "#mu #phi", 1),("ePhi", "e #phi", 1),("j2Pt", "Jet 2 p_{T}", 1),("j1Pt", "Jet 1 p_{T}", 1),("j2Eta", "Jet 2 #eta", 1),("j1Eta", "Jet 1 #eta", 1),("j2Phi", "Jet 2 #phi", 1),("j1Phi", "Jet 1 #phi", 1),("type1_pfMetEt", "MET (GeV)", 1),("type1_pfMetPhi", "MET #phi", 1),("m_e_Mass", "M_{vis}(#mu, e) (GeV)", 1),("m_e_CollMass", "M_{col}(#mu, e) (GeV)", 1),("m_e_PZeta", "p_{#zeta}(#mu, e) (GeV)", 1),("numOfJets", "Number of Jets", 1),("vbfMass", "VBF Mass", 1),("numOfVtx", "Number of Vertices", 1),("dEtaMuE", "#Delta#eta(#mu, e)", 1),("dPhiEMET", "#Delta#phi(e, MET)", 1),("dPhiMuMET", "#Delta#phi(#mu, MET)", 1),("dPhiMuE", "#Delta#phi(#mu, e)", 1),("MTEMET", "M_{T}(e, MET) (GeV)", 1),("MTMuMET", "M_{T}(#mu, MET) (GeV)", 1)]                                                                                                                                                                                                                                        
     foldername = channel
 
     for fn in foldername:

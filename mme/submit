@@ -1,0 +1,91 @@
+mkdir -p `dirname results/FakeData2017/AnalyzeMMEMerge/data_SingleMuon_Run2017B-31Mar2018.root`
+mkdir -p `dirname results/FakeData2017/AnalyzeMMEMerge/data_SingleMuon_Run2017C-31Mar2018.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/FakeData2017/AnalyzeMMEMerge/data_SingleMuon_Run2017B-31Mar2018.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMMEMerge.py inputs/FakeData2017/data_SingleMuon_Run2017B-31Mar2018.txt results/FakeData2017/AnalyzeMMEMerge/data_SingleMuon_Run2017B-31Mar2018.root --verbose >& batch_logs/results_FakeData2017_AnalyzeMMEMerge_data_SingleMuon_Run2017B-31Mar2018.log &
+sleep 10s
+mkdir -p `dirname results/FakeData2017/AnalyzeMMEMerge/data_SingleMuon_Run2017D-31Mar2018.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/FakeData2017/AnalyzeMMEMerge/data_SingleMuon_Run2017C-31Mar2018.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMMEMerge.py inputs/FakeData2017/data_SingleMuon_Run2017C-31Mar2018.txt results/FakeData2017/AnalyzeMMEMerge/data_SingleMuon_Run2017C-31Mar2018.root --verbose >& batch_logs/results_FakeData2017_AnalyzeMMEMerge_data_SingleMuon_Run2017C-31Mar2018.log &
+sleep 10s
+mkdir -p `dirname results/FakeData2017/AnalyzeMMEMerge/data_SingleMuon_Run2017E-31Mar2018.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/FakeData2017/AnalyzeMMEMerge/data_SingleMuon_Run2017D-31Mar2018.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMMEMerge.py inputs/FakeData2017/data_SingleMuon_Run2017D-31Mar2018.txt results/FakeData2017/AnalyzeMMEMerge/data_SingleMuon_Run2017D-31Mar2018.root --verbose >& batch_logs/results_FakeData2017_AnalyzeMMEMerge_data_SingleMuon_Run2017D-31Mar2018.log &
+sleep 10s
+mkdir -p `dirname results/FakeData2017/AnalyzeMMEMerge/data_SingleMuon_Run2017F-31Mar2018.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/FakeData2017/AnalyzeMMEMerge/data_SingleMuon_Run2017E-31Mar2018.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMMEMerge.py inputs/FakeData2017/data_SingleMuon_Run2017E-31Mar2018.txt results/FakeData2017/AnalyzeMMEMerge/data_SingleMuon_Run2017E-31Mar2018.root --verbose >& batch_logs/results_FakeData2017_AnalyzeMMEMerge_data_SingleMuon_Run2017E-31Mar2018.log &
+sleep 10s
+mkdir -p `dirname results/FakeData2017/AnalyzeMMEMerge/WW_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/FakeData2017/AnalyzeMMEMerge/data_SingleMuon_Run2017F-31Mar2018.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMMEMerge.py inputs/FakeData2017/data_SingleMuon_Run2017F-31Mar2018.txt results/FakeData2017/AnalyzeMMEMerge/data_SingleMuon_Run2017F-31Mar2018.root --verbose >& batch_logs/results_FakeData2017_AnalyzeMMEMerge_data_SingleMuon_Run2017F-31Mar2018.log &
+sleep 10s
+mkdir -p `dirname results/FakeData2017/AnalyzeMMEMerge/WZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/FakeData2017/AnalyzeMMEMerge/WW_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMMEMerge.py inputs/FakeData2017/WW_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2.txt results/FakeData2017/AnalyzeMMEMerge/WW_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2.root --verbose >& batch_logs/results_FakeData2017_AnalyzeMMEMerge_WW_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2.log &
+sleep 10s
+mkdir -p `dirname results/FakeData2017/AnalyzeMMEMerge/ZZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/FakeData2017/AnalyzeMMEMerge/WZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMMEMerge.py inputs/FakeData2017/WZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.txt results/FakeData2017/AnalyzeMMEMerge/WZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.root --verbose >& batch_logs/results_FakeData2017_AnalyzeMMEMerge_WZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/FakeData2017/AnalyzeMMEMerge/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/FakeData2017/AnalyzeMMEMerge/ZZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMMEMerge.py inputs/FakeData2017/ZZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2.txt results/FakeData2017/AnalyzeMMEMerge/ZZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2.root --verbose >& batch_logs/results_FakeData2017_AnalyzeMMEMerge_ZZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2.log &
+sleep 10s
+mkdir -p `dirname results/FakeData2017/AnalyzeMMEMerge/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v3_94X_mc2017_realistic_v14_ext1-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/FakeData2017/AnalyzeMMEMerge/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMMEMerge.py inputs/FakeData2017/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-v1.txt results/FakeData2017/AnalyzeMMEMerge/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-v1.root --verbose >& batch_logs/results_FakeData2017_AnalyzeMMEMerge_DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-v1.log &
+sleep 10s
+mkdir -p `dirname results/FakeData2017/AnalyzeMMEMerge/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/FakeData2017/AnalyzeMMEMerge/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v3_94X_mc2017_realistic_v14_ext1-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMMEMerge.py inputs/FakeData2017/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v3_94X_mc2017_realistic_v14_ext1-v2.txt results/FakeData2017/AnalyzeMMEMerge/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v3_94X_mc2017_realistic_v14_ext1-v2.root --verbose >& batch_logs/results_FakeData2017_AnalyzeMMEMerge_DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v3_94X_mc2017_realistic_v14_ext1-v2.log &
+sleep 10s
+mkdir -p `dirname results/FakeData2017/AnalyzeMMEMerge/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/FakeData2017/AnalyzeMMEMerge/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMMEMerge.py inputs/FakeData2017/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.txt results/FakeData2017/AnalyzeMMEMerge/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.root --verbose >& batch_logs/results_FakeData2017_AnalyzeMMEMerge_DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.log &
+sleep 10s
+mkdir -p `dirname results/FakeData2017/AnalyzeMMEMerge/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v2_94X_mc2017_realistic_v14-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/FakeData2017/AnalyzeMMEMerge/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMMEMerge.py inputs/FakeData2017/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.txt results/FakeData2017/AnalyzeMMEMerge/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.root --verbose >& batch_logs/results_FakeData2017_AnalyzeMMEMerge_DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.log &
+sleep 10s
+#using farmout:1
+#dry run:1
+export megatarget=results/FakeData2017/AnalyzeMMEMerge/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v2_94X_mc2017_realistic_v14-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMMEMerge.py inputs/FakeData2017/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v2_94X_mc2017_realistic_v14-v2.txt results/FakeData2017/AnalyzeMMEMerge/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v2_94X_mc2017_realistic_v14-v2.root --verbose >& batch_logs/results_FakeData2017_AnalyzeMMEMerge_DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v2_94X_mc2017_realistic_v14-v2.log &
+sleep 10s

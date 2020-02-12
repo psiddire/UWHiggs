@@ -1,98 +1,91 @@
-mkdir -p `dirname results/DataFeb1/AnalyzeEEMu/data_SingleElectron_Run2017B-31Mar2018.root`
-mkdir -p `dirname results/DataFeb1/AnalyzeEEMu/data_SingleElectron_Run2017C-31Mar2018.root`
+mkdir -p `dirname results/FakeData2017_ee/AnalyzeEEM/data_SingleElectron_Run2017B-31Mar2018.root`
+mkdir -p `dirname results/FakeData2017_ee/AnalyzeEEM/data_SingleElectron_Run2017C-31Mar2018.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataFeb1/AnalyzeEEMu/data_SingleElectron_Run2017B-31Mar2018.root
+export megatarget=results/FakeData2017_ee/AnalyzeEEM/data_SingleElectron_Run2017B-31Mar2018.root
 mkdir -p batch_logs
-mega-farmout AnalyzeEEMu.py inputs/DataFeb1/data_SingleElectron_Run2017B-31Mar2018.txt results/DataFeb1/AnalyzeEEMu/data_SingleElectron_Run2017B-31Mar2018.root --verbose >& batch_logs/results_DataFeb1_AnalyzeEEMu_data_SingleElectron_Run2017B-31Mar2018.log &
+mega-farmout AnalyzeEEM.py inputs/FakeData2017_ee/data_SingleElectron_Run2017B-31Mar2018.txt results/FakeData2017_ee/AnalyzeEEM/data_SingleElectron_Run2017B-31Mar2018.root --verbose >& batch_logs/results_FakeData2017_ee_AnalyzeEEM_data_SingleElectron_Run2017B-31Mar2018.log &
 sleep 10s
-mkdir -p `dirname results/DataFeb1/AnalyzeEEMu/data_SingleElectron_Run2017D-31Mar2018.root`
+mkdir -p `dirname results/FakeData2017_ee/AnalyzeEEM/data_SingleElectron_Run2017D-31Mar2018.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataFeb1/AnalyzeEEMu/data_SingleElectron_Run2017C-31Mar2018.root
+export megatarget=results/FakeData2017_ee/AnalyzeEEM/data_SingleElectron_Run2017C-31Mar2018.root
 mkdir -p batch_logs
-mega-farmout AnalyzeEEMu.py inputs/DataFeb1/data_SingleElectron_Run2017C-31Mar2018.txt results/DataFeb1/AnalyzeEEMu/data_SingleElectron_Run2017C-31Mar2018.root --verbose >& batch_logs/results_DataFeb1_AnalyzeEEMu_data_SingleElectron_Run2017C-31Mar2018.log &
+mega-farmout AnalyzeEEM.py inputs/FakeData2017_ee/data_SingleElectron_Run2017C-31Mar2018.txt results/FakeData2017_ee/AnalyzeEEM/data_SingleElectron_Run2017C-31Mar2018.root --verbose >& batch_logs/results_FakeData2017_ee_AnalyzeEEM_data_SingleElectron_Run2017C-31Mar2018.log &
 sleep 10s
-mkdir -p `dirname results/DataFeb1/AnalyzeEEMu/data_SingleElectron_Run2017E-31Mar2018.root`
+mkdir -p `dirname results/FakeData2017_ee/AnalyzeEEM/data_SingleElectron_Run2017E-31Mar2018.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataFeb1/AnalyzeEEMu/data_SingleElectron_Run2017D-31Mar2018.root
+export megatarget=results/FakeData2017_ee/AnalyzeEEM/data_SingleElectron_Run2017D-31Mar2018.root
 mkdir -p batch_logs
-mega-farmout AnalyzeEEMu.py inputs/DataFeb1/data_SingleElectron_Run2017D-31Mar2018.txt results/DataFeb1/AnalyzeEEMu/data_SingleElectron_Run2017D-31Mar2018.root --verbose >& batch_logs/results_DataFeb1_AnalyzeEEMu_data_SingleElectron_Run2017D-31Mar2018.log &
+mega-farmout AnalyzeEEM.py inputs/FakeData2017_ee/data_SingleElectron_Run2017D-31Mar2018.txt results/FakeData2017_ee/AnalyzeEEM/data_SingleElectron_Run2017D-31Mar2018.root --verbose >& batch_logs/results_FakeData2017_ee_AnalyzeEEM_data_SingleElectron_Run2017D-31Mar2018.log &
 sleep 10s
-mkdir -p `dirname results/DataFeb1/AnalyzeEEMu/data_SingleElectron_Run2017F-31Mar2018.root`
+mkdir -p `dirname results/FakeData2017_ee/AnalyzeEEM/data_SingleElectron_Run2017F-31Mar2018.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataFeb1/AnalyzeEEMu/data_SingleElectron_Run2017E-31Mar2018.root
+export megatarget=results/FakeData2017_ee/AnalyzeEEM/data_SingleElectron_Run2017E-31Mar2018.root
 mkdir -p batch_logs
-mega-farmout AnalyzeEEMu.py inputs/DataFeb1/data_SingleElectron_Run2017E-31Mar2018.txt results/DataFeb1/AnalyzeEEMu/data_SingleElectron_Run2017E-31Mar2018.root --verbose >& batch_logs/results_DataFeb1_AnalyzeEEMu_data_SingleElectron_Run2017E-31Mar2018.log &
+mega-farmout AnalyzeEEM.py inputs/FakeData2017_ee/data_SingleElectron_Run2017E-31Mar2018.txt results/FakeData2017_ee/AnalyzeEEM/data_SingleElectron_Run2017E-31Mar2018.root --verbose >& batch_logs/results_FakeData2017_ee_AnalyzeEEM_data_SingleElectron_Run2017E-31Mar2018.log &
 sleep 10s
-mkdir -p `dirname results/DataFeb1/AnalyzeEEMu/WW_TuneCP5_13TeV-pythia8_v14-v1.root`
+mkdir -p `dirname results/FakeData2017_ee/AnalyzeEEM/WW_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataFeb1/AnalyzeEEMu/data_SingleElectron_Run2017F-31Mar2018.root
+export megatarget=results/FakeData2017_ee/AnalyzeEEM/data_SingleElectron_Run2017F-31Mar2018.root
 mkdir -p batch_logs
-mega-farmout AnalyzeEEMu.py inputs/DataFeb1/data_SingleElectron_Run2017F-31Mar2018.txt results/DataFeb1/AnalyzeEEMu/data_SingleElectron_Run2017F-31Mar2018.root --verbose >& batch_logs/results_DataFeb1_AnalyzeEEMu_data_SingleElectron_Run2017F-31Mar2018.log &
+mega-farmout AnalyzeEEM.py inputs/FakeData2017_ee/data_SingleElectron_Run2017F-31Mar2018.txt results/FakeData2017_ee/AnalyzeEEM/data_SingleElectron_Run2017F-31Mar2018.root --verbose >& batch_logs/results_FakeData2017_ee_AnalyzeEEM_data_SingleElectron_Run2017F-31Mar2018.log &
 sleep 10s
-mkdir -p `dirname results/DataFeb1/AnalyzeEEMu/WZ_TuneCP5_13TeV-pythia8_v14-v1.root`
+mkdir -p `dirname results/FakeData2017_ee/AnalyzeEEM/WZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataFeb1/AnalyzeEEMu/WW_TuneCP5_13TeV-pythia8_v14-v1.root
+export megatarget=results/FakeData2017_ee/AnalyzeEEM/WW_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2.root
 mkdir -p batch_logs
-mega-farmout AnalyzeEEMu.py inputs/DataFeb1/WW_TuneCP5_13TeV-pythia8_v14-v1.txt results/DataFeb1/AnalyzeEEMu/WW_TuneCP5_13TeV-pythia8_v14-v1.root --verbose >& batch_logs/results_DataFeb1_AnalyzeEEMu_WW_TuneCP5_13TeV-pythia8_v14-v1.log &
+mega-farmout AnalyzeEEM.py inputs/FakeData2017_ee/WW_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2.txt results/FakeData2017_ee/AnalyzeEEM/WW_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2.root --verbose >& batch_logs/results_FakeData2017_ee_AnalyzeEEM_WW_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2.log &
 sleep 10s
-mkdir -p `dirname results/DataFeb1/AnalyzeEEMu/ZZ_TuneCP5_13TeV-pythia8_v14-v1.root`
+mkdir -p `dirname results/FakeData2017_ee/AnalyzeEEM/ZZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataFeb1/AnalyzeEEMu/WZ_TuneCP5_13TeV-pythia8_v14-v1.root
+export megatarget=results/FakeData2017_ee/AnalyzeEEM/WZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.root
 mkdir -p batch_logs
-mega-farmout AnalyzeEEMu.py inputs/DataFeb1/WZ_TuneCP5_13TeV-pythia8_v14-v1.txt results/DataFeb1/AnalyzeEEMu/WZ_TuneCP5_13TeV-pythia8_v14-v1.root --verbose >& batch_logs/results_DataFeb1_AnalyzeEEMu_WZ_TuneCP5_13TeV-pythia8_v14-v1.log &
+mega-farmout AnalyzeEEM.py inputs/FakeData2017_ee/WZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.txt results/FakeData2017_ee/AnalyzeEEM/WZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.root --verbose >& batch_logs/results_FakeData2017_ee_AnalyzeEEM_WZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.log &
 sleep 10s
-mkdir -p `dirname results/DataFeb1/AnalyzeEEMu/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
+mkdir -p `dirname results/FakeData2017_ee/AnalyzeEEM/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-v1.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataFeb1/AnalyzeEEMu/ZZ_TuneCP5_13TeV-pythia8_v14-v1.root
+export megatarget=results/FakeData2017_ee/AnalyzeEEM/ZZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2.root
 mkdir -p batch_logs
-mega-farmout AnalyzeEEMu.py inputs/DataFeb1/ZZ_TuneCP5_13TeV-pythia8_v14-v1.txt results/DataFeb1/AnalyzeEEMu/ZZ_TuneCP5_13TeV-pythia8_v14-v1.root --verbose >& batch_logs/results_DataFeb1_AnalyzeEEMu_ZZ_TuneCP5_13TeV-pythia8_v14-v1.log &
+mega-farmout AnalyzeEEM.py inputs/FakeData2017_ee/ZZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2.txt results/FakeData2017_ee/AnalyzeEEM/ZZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2.root --verbose >& batch_logs/results_FakeData2017_ee_AnalyzeEEM_ZZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2.log &
 sleep 10s
-mkdir -p `dirname results/DataFeb1/AnalyzeEEMu/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
+mkdir -p `dirname results/FakeData2017_ee/AnalyzeEEM/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v3_94X_mc2017_realistic_v14_ext1-v2.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataFeb1/AnalyzeEEMu/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
+export megatarget=results/FakeData2017_ee/AnalyzeEEM/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-v1.root
 mkdir -p batch_logs
-mega-farmout AnalyzeEEMu.py inputs/DataFeb1/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataFeb1/AnalyzeEEMu/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataFeb1_AnalyzeEEMu_DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
+mega-farmout AnalyzeEEM.py inputs/FakeData2017_ee/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-v1.txt results/FakeData2017_ee/AnalyzeEEM/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-v1.root --verbose >& batch_logs/results_FakeData2017_ee_AnalyzeEEM_DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-v1.log &
 sleep 10s
-mkdir -p `dirname results/DataFeb1/AnalyzeEEMu/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
+mkdir -p `dirname results/FakeData2017_ee/AnalyzeEEM/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataFeb1/AnalyzeEEMu/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
+export megatarget=results/FakeData2017_ee/AnalyzeEEM/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v3_94X_mc2017_realistic_v14_ext1-v2.root
 mkdir -p batch_logs
-mega-farmout AnalyzeEEMu.py inputs/DataFeb1/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataFeb1/AnalyzeEEMu/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataFeb1_AnalyzeEEMu_DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
+mega-farmout AnalyzeEEM.py inputs/FakeData2017_ee/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v3_94X_mc2017_realistic_v14_ext1-v2.txt results/FakeData2017_ee/AnalyzeEEM/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v3_94X_mc2017_realistic_v14_ext1-v2.root --verbose >& batch_logs/results_FakeData2017_ee_AnalyzeEEM_DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v3_94X_mc2017_realistic_v14_ext1-v2.log &
 sleep 10s
-mkdir -p `dirname results/DataFeb1/AnalyzeEEMu/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
+mkdir -p `dirname results/FakeData2017_ee/AnalyzeEEM/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataFeb1/AnalyzeEEMu/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
+export megatarget=results/FakeData2017_ee/AnalyzeEEM/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.root
 mkdir -p batch_logs
-mega-farmout AnalyzeEEMu.py inputs/DataFeb1/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataFeb1/AnalyzeEEMu/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataFeb1_AnalyzeEEMu_DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
+mega-farmout AnalyzeEEM.py inputs/FakeData2017_ee/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.txt results/FakeData2017_ee/AnalyzeEEM/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.root --verbose >& batch_logs/results_FakeData2017_ee_AnalyzeEEM_DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.log &
 sleep 10s
-mkdir -p `dirname results/DataFeb1/AnalyzeEEMu/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2_94X_mc2017_realistic.root`
+mkdir -p `dirname results/FakeData2017_ee/AnalyzeEEM/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v2_94X_mc2017_realistic_v14-v2.root`
 #using farmout:1
 #dry run:1
-export megatarget=results/DataFeb1/AnalyzeEEMu/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
+export megatarget=results/FakeData2017_ee/AnalyzeEEM/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.root
 mkdir -p batch_logs
-mega-farmout AnalyzeEEMu.py inputs/DataFeb1/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataFeb1/AnalyzeEEMu/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataFeb1_AnalyzeEEMu_DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
-sleep 10s
-mkdir -p `dirname results/DataFeb1/AnalyzeEEMu/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root`
-#using farmout:1
-#dry run:1
-export megatarget=results/DataFeb1/AnalyzeEEMu/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2_94X_mc2017_realistic.root
-mkdir -p batch_logs
-mega-farmout AnalyzeEEMu.py inputs/DataFeb1/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2_94X_mc2017_realistic.txt results/DataFeb1/AnalyzeEEMu/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2_94X_mc2017_realistic.root --verbose >& batch_logs/results_DataFeb1_AnalyzeEEMu_DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2_94X_mc2017_realistic.log &
+mega-farmout AnalyzeEEM.py inputs/FakeData2017_ee/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.txt results/FakeData2017_ee/AnalyzeEEM/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.root --verbose >& batch_logs/results_FakeData2017_ee_AnalyzeEEM_DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2.log &
 sleep 10s
 #using farmout:1
 #dry run:1
-export megatarget=results/DataFeb1/AnalyzeEEMu/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root
+export megatarget=results/FakeData2017_ee/AnalyzeEEM/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v2_94X_mc2017_realistic_v14-v2.root
 mkdir -p batch_logs
-mega-farmout AnalyzeEEMu.py inputs/DataFeb1/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.txt results/DataFeb1/AnalyzeEEMu/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.root --verbose >& batch_logs/results_DataFeb1_AnalyzeEEMu_DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_v14-v1.log &
+mega-farmout AnalyzeEEM.py inputs/FakeData2017_ee/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v2_94X_mc2017_realistic_v14-v2.txt results/FakeData2017_ee/AnalyzeEEM/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v2_94X_mc2017_realistic_v14-v2.root --verbose >& batch_logs/results_FakeData2017_ee_AnalyzeEEM_DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v2_94X_mc2017_realistic_v14-v2.log &
 sleep 10s

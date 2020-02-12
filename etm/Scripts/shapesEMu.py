@@ -1,27 +1,11 @@
 import rootpy.plotting.views as views
 from FinalStateAnalysis.PlotTools.Plotter import Plotter
-from FinalStateAnalysis.PlotTools.BlindView      import BlindView
-from FinalStateAnalysis.PlotTools.PoissonView    import PoissonView
-from FinalStateAnalysis.PlotTools.MedianView     import MedianView
-from FinalStateAnalysis.PlotTools.ProjectionView import ProjectionView
-from FinalStateAnalysis.PlotTools.RebinView  import RebinView
-from FinalStateAnalysis.MetaData.data_styles import data_styles, colors
-from FinalStateAnalysis.PlotTools.decorators import memo
-from FinalStateAnalysis.MetaData.datacommon  import br_w_leptons, br_z_leptons
-from FinalStateAnalysis.PlotTools.SubtractionView      import SubtractionView, PositiveView
-from optparse import OptionParser
+from FinalStateAnalysis.PlotTools.SubtractionView import SubtractionView
 import os
-import itertools
 import ROOT
 import glob
-import math
-import logging
-import pdb
 import array
-from fnmatch import fnmatch
-from yellowhiggs import xs, br, xsbr
-from BasePlotter import BasePlotter
-from argparse import ArgumentParser
+import Lists
 
 ROOT.gROOT.SetBatch()
 ROOT.gStyle.SetOptStat(0)
@@ -29,9 +13,6 @@ ROOT.gStyle.SetOptTitle(0)
 jobid = os.environ['jobid']
 files = []
 lumifiles = []
-channel = 'me'
-period = '13TeV'
-sqrts = 13
 
 def positivize(histogram):
     output = histogram.Clone()
@@ -40,19 +21,7 @@ def positivize(histogram):
             output.AddAt(0, i)
     return output
 
-#def normQcd(histogram, i, category):
-#    qcd = histogram.Clone()
-#    if category=='0Jet':
-#        qcd.Scale(573.437/i)
-#    elif category=='1Jet':
-#        qcd.Scale(392.189/i)
-#    elif category=='2Jet':
-#        qcd.Scale(120.052/i)
-#    elif category=='2JetVBF':
-#        qcd.Scale(12.7486/i)
-#    return qcd
-
-mc_samples = ['DYJetsToLL_M-50*', 'DYJetsToLL_M-10to50*',  'DY1JetsToLL*', 'DY2JetsToLL*', 'DY3JetsToLL*', 'DY4JetsToLL*', 'W1JetsToLNu*', 'W2JetsToLNu*', 'W3JetsToLNu*', 'W4JetsToLNu*', 'WGToLNuG*', 'GluGlu_LFV*', 'VBF_LFV*', 'GluGluHToTauTau*', 'VBFHToTauTau*', 'GluGluHToWW*', 'VBFHToWW*', 'WminusHToTauTau*', 'WplusHToTauTau*', 'ttHToTauTau*', 'ZHToTauTau*', 'TTTo2L2Nu*', 'TTToSemiLeptonic*', 'TTToHadronic*', 'ST_tW_antitop*', 'ST_tW_top*', 'ST_t-channel_antitop*', 'ST_t-channel_top*', 'QCD*', 'WZ*', 'WW*', 'ZZ*', 'EWKWMinus2Jets*', 'EWKWPlus2Jets*', 'EWKZ2Jets_ZToLL*', 'EWKZ2Jets_ZToNuNu*', 'MC*', 'data*', 'Obs*', 'embed*']
+mc_samples = ['DYJetsToLL_M-50*', 'DYJetsToLL_M-10to50*',  'DY1JetsToLL*', 'DY2JetsToLL*', 'DY3JetsToLL*', 'DY4JetsToLL*', 'W1JetsToLNu*', 'W2JetsToLNu*', 'W3JetsToLNu*', 'W4JetsToLNu*', 'WGToLNuG*', 'GluGlu_LFV*', 'VBF_LFV*', 'GluGluHToTauTau*', 'VBFHToTauTau*', 'GluGluHToWW*', 'VBFHToWW*', 'WminusHToTauTau*', 'WplusHToTauTau*', 'ttHToTauTau*', 'ZHToTauTau*', 'TTTo2L2Nu*', 'TTToSemiLeptonic*', 'TTToHadronic*', 'ST_tW_antitop*', 'ST_tW_top*', 'ST_t-channel_antitop*', 'ST_t-channel_top*', 'QCD*', 'WZ*', 'WW*', 'ZZ*', 'EWKWMinus2Jets*', 'EWKWPlus2Jets*', 'EWKZ2Jets_ZToLL*', 'EWKZ2Jets_ZToNuNu*', 'MC*', 'data*', 'embed*']
 
 for x in mc_samples:
     files.extend(glob.glob('../results/%s/AnalyzeEMuSys/%s.root' % (jobid, x)))
@@ -66,418 +35,105 @@ plotter = Plotter(files, lumifiles, outputdir)
 
 f = ROOT.TFile( 'Shapes/shapesEMu.root', 'RECREATE')
 
-dirs = ['0Jet', '1Jet', '2Jet', '2JetVBF']
-
 v = [
 views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('DYJetsToLL_M-50') or x.startswith('DY1') or x.startswith('DY2') or x.startswith('DY3') or x.startswith('DY4') or x.startswith('DYJetsToLL_M-10to50'), mc_samples )]),
 views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('W1') or x.startswith('W2') or x.startswith('W3') or x.startswith('W4') , mc_samples)]),
 views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('WGToLNuG') , mc_samples)]),
-views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('EWK') , mc_samples)]), 
-views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('GluGluHToTauTau') or x.startswith('GluGluHToWW'), mc_samples)]), 
-views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('VBFHToTauTau') or x.startswith('VBFHToWW'), mc_samples)]), 
-views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('WminusHToTauTau') or x.startswith('WplusHToTauTau') or x.startswith('ZHToTauTau') , mc_samples)]), 
-#views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('ttHToTauTau') , mc_samples)]), 
-views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('TT'), mc_samples)]), 
-views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('ST'), mc_samples)]), 
-views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('ZZ') or x.startswith('WZ') or x.startswith('WW'), mc_samples)]), 
-views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('GluGlu_LFV') , mc_samples)]), 
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('EWK') , mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('GluGluHToTauTau'), mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('VBFHToTauTau'), mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('GluGluHToWW'), mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('VBFHToWW'), mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('WminusHToTauTau') or x.startswith('WplusHToTauTau') or x.startswith('ZHToTauTau') , mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('TT'), mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('ST'), mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('ZZ') or x.startswith('WZ') or x.startswith('WW'), mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('GluGlu_LFV') , mc_samples)]),
 views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('VBF_LFV') , mc_samples)])
 ]
 
-b = ['Zll', 'W', 'WG', 'EWK', 'GluGluH', 'VBFH', 'VH', 'TT', 'ST', 'EWKDiboson', 'GluGlu125', 'VBF125']#'ttH', 
+for k, di in enumerate(Lists.dirs):
 
-for di in dirs:
-
-    if di=='0Jet' or di=='1Jet':
-        binning = array.array('d', (range(0, 100, 25) + range(100, 200, 10) + range(200, 300, 25))) 
-    else:
-        binning = array.array('d', (range(0, 300, 25)))
-
-    d = f.mkdir(di)
+    #binning = array.array('d', (range(0, 100, 25) + range(100, 200, 10) + range(200, 300, 25)))
+    d = f.mkdir(Lists.drs[k])
     d.cd()
+    if di=='0Jet':
+        binning = array.array('d', range(0, 300, 5))
+    elif di=='1Jet':
+        binning = array.array('d', range(0, 300, 10))
+    elif di=='2Jet':
+        binning = array.array('d', range(0, 300, 10))
+    else:
+        binning = array.array('d', range(0, 300, 10))
+
+    #Observed
     DataTotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('QCD'), mc_samples)])
-    DataAll = views.SubdirectoryView(DataTotal, 'TightOS'+di)
-    data = DataAll.Get("e_m_CollinearMass")
-    data = data.Rebin(len(binning)-1, "data_obs", binning)
-    
+    data = positivize(DataTotal.Get('TightOS'+di+'/e_m_CollinearMass'))
+    data = data.Rebin(len(binning)-1, 'data_obs', binning)
+    data.Write()
+
+    #Embedded
+    embSys = []
+    embed = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('embed'), mc_samples)])
+    emball = views.SubdirectoryView(embed, 'TightOS'+di)
+    emb = positivize(emball.Get('e_m_CollinearMass'))
+    embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau', binning))
+    #Electron Energy Scale
+    for i, esSys in enumerate(Lists.escale):
+        emb = positivize(emball.Get(esSys+'e_m_CollinearMass'))
+        embSys.append(emb.Rebin(len(binning)-1, Lists.escaleNames[i], binning))
+    #Write Histograms
+    for eSys in embSys:
+        eSys.Write()
+
+    #QCD
+    qcdSys = []
     data_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('QCD'), mc_samples)])
     mc_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('MC'), mc_samples)])
     QCDData = views.SubdirectoryView(data_view, 'TightSS'+di)
     QCDMC = views.SubdirectoryView(mc_view, 'TightSS'+di)
     QCD = SubtractionView(QCDData, QCDMC, restrict_positive=True)
-    qcd = QCD.Get("e_m_CollinearMass")
-    #qcdi = qcd.Integral()
-    #qcd = normQcd(qcd, qcdi, di)
-    qcd = qcd.Rebin(len(binning)-1, "QCD", binning)
-
+    qcd = positivize(QCD.Get('e_m_CollinearMass'))
+    qcdSys.append(qcd.Rebin(len(binning)-1, 'QCD', binning))
     #QCD Systematics
-    qcdr0up = QCD.Get("Rate0JetUp/e_m_CollinearMass")
-    #qcdr0up = normQcd(qcdr0up, qcdi, di)
-    qcdr0up = qcdr0up.Rebin(len(binning)-1, "QCD_CMS_0JetRate_13TeVUp", binning)
-    qcdr0down = QCD.Get("Rate0JetDown/e_m_CollinearMass")
-    #qcdr0down = normQcd(qcdr0down, qcdi, di)
-    qcdr0down = qcdr0down.Rebin(len(binning)-1, "QCD_CMS_0JetRate_13TeVDown", binning)
+    for i, qSys in enumerate(Lists.qcdSys):
+        qcd = positivize(QCD.Get(qSys+'e_m_CollinearMass'))
+        qcdSys.append(qcd.Rebin(len(binning)-1, Lists.qcdSysNames[i], binning))
+    #Write Histograms
+    for qSys in qcdSys:
+        qSys.Write()
 
-    qcdr1up = QCD.Get("Rate1JetUp/e_m_CollinearMass")
-    #qcdr1up = normQcd(qcdr1up, qcdi, di)
-    qcdr1up = qcdr1up.Rebin(len(binning)-1, "QCD_CMS_1JetRate_13TeVUp", binning)
-    qcdr1down = QCD.Get("Rate1JetDown/e_m_CollinearMass")
-    #qcdr1down = normQcd(qcdr1down, qcdi, di)
-    qcdr1down = qcdr1down.Rebin(len(binning)-1, "QCD_CMS_1JetRate_13TeVDown", binning)
-
-    qcds0up = QCD.Get("Shape0JetUp/e_m_CollinearMass")
-    #qcds0up = normQcd(qcds0up, qcdi, di)
-    qcds0up = qcds0up.Rebin(len(binning)-1, "QCD_CMS_0JetShape_13TeVUp", binning)
-    qcds0down = QCD.Get("Shape0JetDown/e_m_CollinearMass")
-    #qcds0down = normQcd(qcds0down, qcdi, di)
-    qcds0down = qcds0down.Rebin(len(binning)-1, "QCD_CMS_0JetShape_13TeVDown", binning)
-
-    qcds1up = QCD.Get("Shape1JetUp/e_m_CollinearMass")
-    #qcds1up = normQcd(qcds1up, qcdi, di)
-    qcds1up = qcds1up.Rebin(len(binning)-1, "QCD_CMS_1JetShape_13TeVUp", binning)
-    qcds1down = QCD.Get("Shape1JetDown/e_m_CollinearMass")
-    #qcds1down = normQcd(qcds1down, qcdi, di)
-    qcds1down = qcds1down.Rebin(len(binning)-1, "QCD_CMS_1JetShape_13TeVDown", binning)
-
-    qcdiup = QCD.Get("IsoUp/e_m_CollinearMass")
-    #qcdiup = normQcd(qcdiup, qcdi, di)
-    qcdiup = qcdiup.Rebin(len(binning)-1, "QCD_CMS_Extrapolation_13TeVUp", binning)
-    qcdidown = QCD.Get("IsoDown/e_m_CollinearMass")
-    #qcdidown = normQcd(qcdidown, qcdi, di)
-    qcdidown = qcdidown.Rebin(len(binning)-1, "QCD_CMS_Extrapolation_13TeVDown", binning)
-
-    embed = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('embed'), mc_samples)])
-    emball = views.SubdirectoryView(embed, 'TightOS'+di)
-    emb = emball.Get("e_m_CollinearMass")
-    emb = emb.Rebin(len(binning)-1, "embed", binning)
-
-    #Electron Energy Scale                                                                                                                                                                                                                                                  
-    embeescup = emball.Get('eescUp/e_m_CollinearMass')
-    embeescup = embeescup.Rebin(len(binning)-1, "embed_CMS_EEScale_13TeVUp", binning)
-    embeescdown = emball.Get('eescDown/e_m_CollinearMass')
-    embeescdown = embeescdown.Rebin(len(binning)-1, "embed_CMS_EEScale_13TeVDown", binning)
-
-    #Electron Energy Sigma
-    embeesiup = emball.Get('eesiUp/e_m_CollinearMass')
-    embeesiup = embeesiup.Rebin(len(binning)-1, "embed_CMS_EESigma_13TeVUp", binning)
-    embeesidown = emball.Get('eesiDown/e_m_CollinearMass')
-    embeesidown = embeesidown.Rebin(len(binning)-1, "embed_CMS_EESigma_13TeVDown", binning)
-
-    for i in range(12):
+    for i, sam in enumerate(Lists.samp):
+        dySys = []
         DYtotal = v[i]
         DY = views.SubdirectoryView(DYtotal, 'TightOS'+di)
-        dy = DY.Get("e_m_CollinearMass")
-        dy = dy.Rebin(len(binning)-1, b[i], binning)
-
-        #Pileup
-        dypuup = DY.Get("puUp/e_m_CollinearMass")
-        dypuup = dypuup.Rebin(len(binning)-1, b[i]+"_CMS_Pileup_13TeVUp", binning)
-        dypudown = DY.Get("puDown/e_m_CollinearMass")
-        dypudown = dypudown.Rebin(len(binning)-1, b[i]+"_CMS_Pileup_13TeVDown", binning)
-
-        #Trigger 
-        dytrup = DY.Get("trUp/e_m_CollinearMass")
-        dytrup = dytrup.Rebin(len(binning)-1, b[i]+"_CMS_Trigger_13TeVUp", binning)
-        dytrdown = DY.Get("trDown/e_m_CollinearMass")
-        dytrdown = dytrdown.Rebin(len(binning)-1, b[i]+"_CMS_Trigger_13TeVDown", binning)
-
+        dy = DY.Get('e_m_CollinearMass')
+        dy = positivize(dy)
+        dy = dy.Rebin(len(binning)-1, sam, binning)
+        #Systematics
+        for j, mSys in enumerate(Lists.mcSys):
+            dy = positivize(DY.Get(mSys+'e_m_CollinearMass'))
+            dySys.append(dy.Rebin(len(binning)-1, sam+Lists.mcSysNames[j], binning))
         #Recoil Response and Resolution
-        if b[i]=='Zll' or  b[i]=='W' or b[i]=='EWK' or b[i]=='GluGluH' or b[i]=='VBFH' or b[i]=='GluGlu125' or b[i]=='VBF125':
-            dyrecrespup = DY.Get("recrespUp/e_m_CollinearMass")
-            dyrecrespup = dyrecrespup.Rebin(len(binning)-1, b[i]+"_CMS_RecoilResponse_13TeVUp", binning)
-            dyrecrespdown = DY.Get("recrespDown/e_m_CollinearMass")
-            dyrecrespdown = dyrecrespdown.Rebin(len(binning)-1, b[i]+"_CMS_RecoilResponse_13TeVDown", binning)
-            
-            dyrecresoup = DY.Get("recresoUp/e_m_CollinearMass")
-            dyrecresoup = dyrecresoup.Rebin(len(binning)-1, b[i]+"_CMS_RecoilResolution_13TeVUp", binning)
-            dyrecresodown = DY.Get("recresoDown/e_m_CollinearMass")
-            dyrecresodown = dyrecresodown.Rebin(len(binning)-1, b[i]+"_CMS_RecoilResolution_13TeVDown", binning)
-
+        if sam=='Zothers' or  sam=='W' or sam=='EWK' or sam=='ggH_htt' or sam=='qqH_htt' or sam=='ggH_hww' or sam=='qqH_hww' or sam=='LFVGG125' or sam=='LFVVBF125':
+            for j, rSys in enumerate(Lists.recSys):
+                dy = positivize(DY.Get(rSys+'e_m_CollinearMass'))
+                dySys.append(dy.Rebin(len(binning)-1, sam+Lists.recSysNames[j], binning))
         #DY Pt Reweighting
-        if b[i]=='Zll':
-            dyptup = DY.Get("DYptreweightUp/e_m_CollinearMass")
-            dyptup = dyptup.Rebin(len(binning)-1, b[i]+"_CMS_DYpTreweight_13TeVUp", binning)
-            dyptdown = DY.Get("DYptreweightDown/e_m_CollinearMass")
-            dyptdown = dyptdown.Rebin(len(binning)-1, b[i]+"_CMS_DYpTreweight_13TeVDown", binning)
-
+        if sam=='Zothers':
+            for j, dSys in enumerate(Lists.dyptSys):
+                dy = positivize(DY.Get(dSys+'e_m_CollinearMass'))
+                dySys.append(dy.Rebin(len(binning)-1, sam+Lists.dyptSysNames[j], binning))
         #Top Pt Reweighting
-        if b[i]=='TT':
-            dyttptup = DY.Get("TopptreweightUp/e_m_CollinearMass")
-            dyttptup = dyttptup.Rebin(len(binning)-1, b[i]+"_CMS_TTpTreweight_13TeVUp", binning)
-            dyttptdown = DY.Get("TopptreweightDown/e_m_CollinearMass")
-            dyttptdown = dyttptdown.Rebin(len(binning)-1, b[i]+"_CMS_TTpTreweight_13TeVDown", binning)
-
-        #B-Tag
-        dybtagup = DY.Get("bTagUp/e_m_CollinearMass")
-        dybtagup = positivize(dybtagup)
-        dybtagup = dybtagup.Rebin(len(binning)-1, b[i]+"_CMS_eff_btag_13TeVUp", binning)
-        dybtagdown = DY.Get("bTagDown/e_m_CollinearMass")
-        dybtagdown = positivize(dybtagdown)
-        dybtagdown = dybtagdown.Rebin(len(binning)-1, b[i]+"_CMS_eff_btag_13TeVDown", binning)
-
-        #Electron Energy Scale
-        dyeescup = DY.Get("eescUp/e_m_CollinearMass")
-        dyeescup = dyeescup.Rebin(len(binning)-1, b[i]+"_CMS_EEScale_13TeVUp", binning)
-        dyeescdown = DY.Get("eescDown/e_m_CollinearMass")
-        dyeescdown = dyeescdown.Rebin(len(binning)-1, b[i]+"_CMS_EEScale_13TeVDown", binning)
-
-        #Electron Energy Sigma
-        dyeesiup = DY.Get("eesiUp/e_m_CollinearMass")
-        dyeesiup = dyeesiup.Rebin(len(binning)-1, b[i]+"_CMS_EESigma_13TeVUp", binning)
-        dyeesidown = DY.Get("eesiDown/e_m_CollinearMass")
-        dyeesidown = dyeesidown.Rebin(len(binning)-1, b[i]+"_CMS_EESigma_13TeVDown", binning)
-
-        #Muon Energy Scale
-        dymesup = DY.Get("mesUp/e_m_CollinearMass")
-        dymesup = dymesup.Rebin(len(binning)-1, b[i]+"_CMS_MES_13TeVUp", binning)
-        dymesdown = DY.Get("mesDown/e_m_CollinearMass")
-        dymesdown = dymesdown.Rebin(len(binning)-1, b[i]+"_CMS_MES_13TeVDown", binning)
-
-        if b[i]=='WG' or b[i]=='VH' or b[i]=='TT' or b[i]=='ST' or b[i]=='EWKDiboson':
-            #Unclustered Energy Scale
-            dyuesup = DY.Get("UnclusteredEnUp/e_m_CollinearMass")
-            dyuesup = dyuesup.Rebin(len(binning)-1, b[i]+"_CMS_MET_Ues_13TeVUp", binning)
-            dyuesdown = DY.Get("UnclusteredEnDown/e_m_CollinearMass")
-            dyuesdown = dyuesdown.Rebin(len(binning)-1, b[i]+"_CMS_MET_Ues_13TeVDown", binning)
-            
-            #Jet Energy Scale
-            dyjetAFMup = DY.Get("JetAbsoluteFlavMapUp/e_m_CollinearMass")
-            dyjetAFMup = dyjetAFMup.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetAbsoluteFlavMap_13TeVUp", binning)
-            dyjetAFMdown = DY.Get("JetAbsoluteFlavMapDown/e_m_CollinearMass")
-            dyjetAFMdown = dyjetAFMdown.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetAbsoluteFlavMap_13TeVDown", binning)
-            
-            dyjetAMPFBup = DY.Get("JetAbsoluteMPFBiasUp/e_m_CollinearMass")
-            dyjetAMPFBup = dyjetAMPFBup.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetAbsoluteMPFBias_13TeVUp", binning)
-            dyjetAMPFBdown = DY.Get("JetAbsoluteMPFBiasDown/e_m_CollinearMass")
-            dyjetAMPFBdown = dyjetAMPFBdown.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetAbsoluteMPFBias_13TeVDown", binning)
-
-            dyjetASup = DY.Get("JetAbsoluteScaleUp/e_m_CollinearMass")
-            dyjetASup = dyjetASup.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetAbsoluteScale_13TeVUp", binning)
-            dyjetASdown = DY.Get("JetAbsoluteScaleDown/e_m_CollinearMass")
-            dyjetASdown = dyjetASdown.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetAbsoluteScale_13TeVDown", binning)
-
-            dyjetAStup = DY.Get("JetAbsoluteStatUp/e_m_CollinearMass")
-            dyjetAStup = dyjetAStup.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetAbsoluteStat_13TeVUp", binning)
-            dyjetAStdown = DY.Get("JetAbsoluteStatDown/e_m_CollinearMass")
-            dyjetAStdown = dyjetAStdown.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetAbsoluteStat_13TeVDown", binning)
-            
-            dyjetFQCDup = DY.Get("JetFlavorQCDUp/e_m_CollinearMass")
-            dyjetFQCDup = dyjetFQCDup.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetFlavorQCD_13TeVUp", binning)
-            dyjetFQCDdown = DY.Get("JetFlavorQCDDown/e_m_CollinearMass")
-            dyjetFQCDdown = dyjetFQCDdown.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetFlavorQCD_13TeVDown", binning)
-            
-            dyjetFup = DY.Get("JetFragmentationUp/e_m_CollinearMass")
-            dyjetFup = dyjetFup.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetFragmentation_13TeVUp", binning)
-            dyjetFdown = DY.Get("JetFragmentationDown/e_m_CollinearMass")
-            dyjetFdown = dyjetFdown.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetFragmentation_13TeVDown", binning)
-            
-            dyjetPUDMCup = DY.Get("JetPileUpDataMCUp/e_m_CollinearMass")
-            dyjetPUDMCup = dyjetPUDMCup.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetPileUpDataMC_13TeVUp", binning)
-            dyjetPUDMCdown = DY.Get("JetPileUpDataMCDown/e_m_CollinearMass")
-            dyjetPUDMCdown = dyjetPUDMCdown.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetPileUpDataMC_13TeVDown", binning)
-            
-            dyjetPUPBBup = DY.Get("JetPileUpPtBBUp/e_m_CollinearMass")
-            dyjetPUPBBup = dyjetPUPBBup.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetPileUpPtBB_13TeVUp", binning)
-            dyjetPUPBBdown = DY.Get("JetPileUpPtBBDown/e_m_CollinearMass")
-            dyjetPUPBBdown = dyjetPUPBBdown.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetPileUpPtBB_13TeVDown", binning)
-
-            dyjetPUPEC1up = DY.Get("JetPileUpPtEC1Up/e_m_CollinearMass")
-            dyjetPUPEC1up = dyjetPUPEC1up.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetPileUpPtEC1_13TeVUp", binning)
-            dyjetPUPEC1down = DY.Get("JetPileUpPtEC1Down/e_m_CollinearMass")
-            dyjetPUPEC1down = dyjetPUPEC1down.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetPileUpPtEC1_13TeVDown", binning)
-
-            dyjetPUPEC2up = DY.Get("JetPileUpPtEC2Up/e_m_CollinearMass")
-            dyjetPUPEC2up = dyjetPUPEC2up.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetPileUpPtEC2_13TeVUp", binning)
-            dyjetPUPEC2down = DY.Get("JetPileUpPtEC2Down/e_m_CollinearMass")
-            dyjetPUPEC2down = dyjetPUPEC2down.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetPileUpPtEC2_13TeVDown", binning)
-            
-            dyjetPUPHFup = DY.Get("JetPileUpPtHFUp/e_m_CollinearMass")
-            dyjetPUPHFup = dyjetPUPHFup.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetPileUpPtHF_13TeVUp", binning)
-            dyjetPUPHFdown = DY.Get("JetPileUpPtHFDown/e_m_CollinearMass")
-            dyjetPUPHFdown = dyjetPUPHFdown.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetPileUpPtHF_13TeVDown", binning)
-
-            dyjetPUPRup = DY.Get("JetPileUpPtRefUp/e_m_CollinearMass")
-            dyjetPUPRup = dyjetPUPRup.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetPileUpPtRef_13TeVUp", binning)
-            dyjetPUPRdown = DY.Get("JetPileUpPtRefDown/e_m_CollinearMass")
-            dyjetPUPRdown = dyjetPUPRdown.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetPileUpPtRef_13TeVDown", binning)
-
-            dyjetRFSRup = DY.Get("JetRelativeFSRUp/e_m_CollinearMass")
-            dyjetRFSRup = dyjetRFSRup.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativeFSR_13TeVUp", binning)
-            dyjetRFSRdown = DY.Get("JetRelativeFSRDown/e_m_CollinearMass")
-            dyjetRFSRdown = dyjetRFSRdown.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativeFSR_13TeVDown", binning)
-
-            dyjetRJEREC1up = DY.Get("JetRelativeJEREC1Up/e_m_CollinearMass")
-            dyjetRJEREC1up = dyjetRJEREC1up.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativeJEREC1_13TeVUp", binning)
-            dyjetRJEREC1down = DY.Get("JetRelativeJEREC1Down/e_m_CollinearMass")
-            dyjetRJEREC1down = dyjetRJEREC1down.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativeJEREC1_13TeVDown", binning)
-
-            dyjetRJEREC2up = DY.Get("JetRelativeJEREC2Up/e_m_CollinearMass")
-            dyjetRJEREC2up = dyjetRJEREC2up.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativeJEREC2_13TeVUp", binning)
-            dyjetRJEREC2down = DY.Get("JetRelativeJEREC2Down/e_m_CollinearMass")
-            dyjetRJEREC2down = dyjetRJEREC2down.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativeJEREC2_13TeVDown", binning)
-
-            dyjetRJERHFup = DY.Get("JetRelativeJERHFUp/e_m_CollinearMass")
-            dyjetRJERHFup = dyjetRJERHFup.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativeJERHF_13TeVUp", binning)
-            dyjetRJERHFdown = DY.Get("JetRelativeJERHFDown/e_m_CollinearMass")
-            dyjetRJERHFdown = dyjetRJERHFdown.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativeJERHF_13TeVDown", binning)
-
-            dyjetRPBBup = DY.Get("JetRelativePtBBUp/e_m_CollinearMass")
-            dyjetRPBBup = dyjetRPBBup.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativePtBB_13TeVUp", binning)
-            dyjetRPBBdown = DY.Get("JetRelativePtBBDown/e_m_CollinearMass")
-            dyjetRPBBdown = dyjetRPBBdown.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativePtBB_13TeVDown", binning)
-
-            dyjetRPEC1up = DY.Get("JetRelativePtEC1Up/e_m_CollinearMass")
-            dyjetRPEC1up = dyjetRPEC1up.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativePtEC1_13TeVUp", binning)
-            dyjetRPEC1down = DY.Get("JetRelativePtEC1Down/e_m_CollinearMass")
-            dyjetRPEC1down = dyjetRPEC1down.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativePtEC1_13TeVDown", binning)
-
-            dyjetRPEC2up = DY.Get("JetRelativePtEC2Up/e_m_CollinearMass")
-            dyjetRPEC2up = dyjetRPEC2up.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativePtEC2_13TeVUp", binning)
-            dyjetRPEC2down = DY.Get("JetRelativePtEC2Down/e_m_CollinearMass")
-            dyjetRPEC2down = dyjetRPEC2down.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativePtEC2_13TeVDown", binning)
-
-            dyjetRPHFup = DY.Get("JetRelativePtHFUp/e_m_CollinearMass")
-            dyjetRPHFup = dyjetRPHFup.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativePtHF_13TeVUp", binning)
-            dyjetRPHFdown = DY.Get("JetRelativePtHFDown/e_m_CollinearMass")
-            dyjetRPHFdown = dyjetRPHFdown.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativePtHF_13TeVDown", binning)
-
-            dyjetRSECup = DY.Get("JetRelativeStatECUp/e_m_CollinearMass")
-            dyjetRSECup = dyjetRSECup.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativeStatEC_13TeVUp", binning)
-            dyjetRSECdown = DY.Get("JetRelativeStatECDown/e_m_CollinearMass")
-            dyjetRSECdown = dyjetRSECdown.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativeStatEC_13TeVDown", binning)
-
-            dyjetRSFSRup = DY.Get("JetRelativeStatFSRUp/e_m_CollinearMass")
-            dyjetRSFSRup = dyjetRSFSRup.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativeStatFSR_13TeVUp", binning)
-            dyjetRSFSRdown = DY.Get("JetRelativeStatFSRDown/e_m_CollinearMass")
-            dyjetRSFSRdown = dyjetRSFSRdown.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativeStatFSR_13TeVDown", binning)
-
-            dyjetRSHFup = DY.Get("JetRelativeStatHFUp/e_m_CollinearMass")
-            dyjetRSHFup = dyjetRSHFup.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativeStatHF_13TeVUp", binning)
-            dyjetRSHFdown = DY.Get("JetRelativeStatHFDown/e_m_CollinearMass")
-            dyjetRSHFdown = dyjetRSHFdown.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativeStatHF_13TeVDown", binning)
-
-            dyjetSPEup = DY.Get("JetSinglePionECALUp/e_m_CollinearMass")
-            dyjetSPEup = dyjetSPEup.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetSinglePionECAL_13TeVUp", binning)
-            dyjetSPEdown = DY.Get("JetSinglePionECALDown/e_m_CollinearMass")
-            dyjetSPEdown = dyjetSPEdown.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetSinglePionECAL_13TeVDown", binning)
-            
-            dyjetSPHup = DY.Get("JetSinglePionHCALUp/e_m_CollinearMass")
-            dyjetSPHup = dyjetSPHup.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetSinglePionHCAL_13TeVUp", binning)
-            dyjetSPHdown = DY.Get("JetSinglePionHCALDown/e_m_CollinearMass")
-            dyjetSPHdown = dyjetSPHdown.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetSinglePionHCAL_13TeVDown", binning)
-
-            dyjetTPEup = DY.Get("JetTimePtEtaUp/e_m_CollinearMass")
-            dyjetTPEup = dyjetTPEup.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetTimePtEta_13TeVUp", binning)
-            dyjetTPEdown = DY.Get("JetTimePtEtaDown/e_m_CollinearMass")
-            dyjetTPEdown = dyjetTPEdown.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetTimePtEta_13TeVDown", binning)
-
-            dyjetRBup = DY.Get("JetRelativeBalUp/e_m_CollinearMass")
-            dyjetRBup = dyjetRBup.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativeBal_13TeVUp", binning)
-            dyjetRBdown = DY.Get("JetRelativeBalDown/e_m_CollinearMass")
-            dyjetRBdown = dyjetRBdown.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativeBal_13TeVDown", binning)
-
-            dyjetRSup = DY.Get("JetRelativeSampleUp/e_m_CollinearMass")
-            dyjetRSup = dyjetRSup.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativeSample_13TeVUp", binning)
-            dyjetRSdown = DY.Get("JetRelativeSampleDown/e_m_CollinearMass")
-            dyjetRSdown = dyjetRSdown.Rebin(len(binning)-1, b[i]+"_CMS_Jes_JetRelativeSample_13TeVDown", binning)
-
-        if i==1:
-            data.Delete()
-            qcd.Delete()
-            qcdr0up.Delete()
-            qcdr0down.Delete()
-            qcdr1up.Delete()
-            qcdr1down.Delete()
-            qcds0up.Delete()
-            qcds0down.Delete()
-            qcds1up.Delete()
-            qcds1down.Delete()
-            qcdiup.Delete()
-            qcdidown.Delete()
-            emb.Delete()
-            embeescup.Delete()
-            embeescdown.Delete()
-            embeesiup.Delete()
-            embeesidown.Delete()
-        f.Write()
-        dy.Delete()
-        dypuup.Delete()
-        dypudown.Delete()
-        dytrup.Delete()
-        dytrdown.Delete()
-        if b[i]=='Zll' or  b[i]=='W' or b[i]=='EWK' or b[i]=='GluGluH' or b[i]=='VBFH' or b[i]=='GluGlu125' or b[i]=='VBF125':
-            dyrecrespup.Delete()
-            dyrecrespdown.Delete()
-            dyrecresoup.Delete()
-            dyrecresodown.Delete()
-        if b[i]=='Zll':
-            dyptup.Delete()
-            dyptdown.Delete()
-        if b[i]=='TT':
-            dyttptup.Delete()
-            dyttptdown.Delete()
-        dyeescup.Delete()
-        dyeescdown.Delete()
-        dyeesiup.Delete()
-        dyeesidown.Delete()
-        dymesup.Delete()
-        dymesdown.Delete()
-        if b[i]=='WG' or b[i]=='VH' or b[i]=='TT' or b[i]=='ST' or b[i]=='EWKDiboson':
-            dyuesup.Delete()
-            dyuesdown.Delete()
-            dyjetAFMup.Delete()
-            dyjetAFMdown.Delete()
-            dyjetAMPFBup.Delete()
-            dyjetAMPFBdown.Delete()
-            dyjetASup.Delete()
-            dyjetASdown.Delete()
-            dyjetAStup.Delete()
-            dyjetAStdown.Delete()
-            dyjetFQCDup.Delete()
-            dyjetFQCDdown.Delete()
-            dyjetFup.Delete()
-            dyjetFdown.Delete()
-            dyjetPUDMCup.Delete()
-            dyjetPUDMCdown.Delete()
-            dyjetPUPBBup.Delete()
-            dyjetPUPBBdown.Delete()
-            dyjetPUPEC1up.Delete()
-            dyjetPUPEC1down.Delete()
-            dyjetPUPEC2up.Delete()
-            dyjetPUPEC2down.Delete()
-            dyjetPUPHFup.Delete()
-            dyjetPUPHFdown.Delete()
-            dyjetPUPRup.Delete()
-            dyjetPUPRdown.Delete()
-            dyjetRFSRup.Delete()
-            dyjetRFSRdown.Delete()
-            dyjetRJEREC1up.Delete()
-            dyjetRJEREC1down.Delete()
-            dyjetRJEREC2up.Delete()
-            dyjetRJEREC2down.Delete()
-            dyjetRJERHFup.Delete()
-            dyjetRJERHFdown.Delete()
-            dyjetRPBBup.Delete()
-            dyjetRPBBdown.Delete()
-            dyjetRPEC1up.Delete()
-            dyjetRPEC1down.Delete()
-            dyjetRPEC2up.Delete()
-            dyjetRPEC2down.Delete()
-            dyjetRPHFup.Delete()
-            dyjetRPHFdown.Delete()
-            dyjetRSECup.Delete()
-            dyjetRSECdown.Delete()
-            dyjetRSFSRup.Delete()
-            dyjetRSFSRdown.Delete()
-            dyjetRSHFup.Delete()
-            dyjetRSHFdown.Delete()
-            dyjetSPEup.Delete()
-            dyjetSPEdown.Delete()
-            dyjetSPHup.Delete()
-            dyjetSPHdown.Delete()
-            dyjetTPEup.Delete()
-            dyjetTPEdown.Delete()
-            dyjetRBup.Delete()
-            dyjetRBdown.Delete()
-            dyjetRSup.Delete()
-            dyjetRSdown.Delete()
+        if sam=='TT':
+            for j, tSys in enumerate(Lists.ttSys):
+                dy = positivize(DY.Get(tSys+'e_m_CollinearMass'))
+                dySys.append(dy.Rebin(len(binning)-1, sam+Lists.ttSysNames[j], binning))
+        #Jet and Unclustered Energy Scale
+        if sam=='WG' or sam=='vH_htt' or sam=='TT' or sam=='T' or sam=='Diboson':
+            for j, jSys in enumerate(Lists.jesSys):
+                dy = positivize(DY.Get(jSys+'e_m_CollinearMass'))
+                dySys.append(dy.Rebin(len(binning)-1, sam+Lists.jesSysNames[j], binning))
+        #Write Histograms
+        for dSys in dySys:
+            dSys.Write()

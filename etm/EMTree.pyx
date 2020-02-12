@@ -157,6 +157,9 @@ cdef class EMTree:
     cdef TBranch* Flag_ecalBadCalibFilter_branch
     cdef float Flag_ecalBadCalibFilter_value
 
+    cdef TBranch* Flag_ecalBadCalibReducedMINIAODFilter_branch
+    cdef float Flag_ecalBadCalibReducedMINIAODFilter_value
+
     cdef TBranch* Flag_eeBadScFilter_branch
     cdef float Flag_eeBadScFilter_value
 
@@ -333,6 +336,15 @@ cdef class EMTree:
 
     cdef TBranch* bjetDeepCSVVeto20Tight_2018_DR0p5_branch
     cdef float bjetDeepCSVVeto20Tight_2018_DR0p5_value
+
+    cdef TBranch* bweight_2016_branch
+    cdef float bweight_2016_value
+
+    cdef TBranch* bweight_2017_branch
+    cdef float bweight_2017_value
+
+    cdef TBranch* bweight_2018_branch
+    cdef float bweight_2018_value
 
     cdef TBranch* charge_branch
     cdef float charge_value
@@ -621,6 +633,30 @@ cdef class EMTree:
 
     cdef TBranch* eMatchesEle35Path_branch
     cdef float eMatchesEle35Path_value
+
+    cdef TBranch* eMatchesMu23e12DZFilter_branch
+    cdef float eMatchesMu23e12DZFilter_value
+
+    cdef TBranch* eMatchesMu23e12DZPath_branch
+    cdef float eMatchesMu23e12DZPath_value
+
+    cdef TBranch* eMatchesMu23e12Filter_branch
+    cdef float eMatchesMu23e12Filter_value
+
+    cdef TBranch* eMatchesMu23e12Path_branch
+    cdef float eMatchesMu23e12Path_value
+
+    cdef TBranch* eMatchesMu8e23DZFilter_branch
+    cdef float eMatchesMu8e23DZFilter_value
+
+    cdef TBranch* eMatchesMu8e23DZPath_branch
+    cdef float eMatchesMu8e23DZPath_value
+
+    cdef TBranch* eMatchesMu8e23Filter_branch
+    cdef float eMatchesMu8e23Filter_value
+
+    cdef TBranch* eMatchesMu8e23Path_branch
+    cdef float eMatchesMu8e23Path_value
 
     cdef TBranch* eMissingHits_branch
     cdef float eMissingHits_value
@@ -1102,6 +1138,12 @@ cdef class EMTree:
     cdef TBranch* jetVeto30WoNoisyJets_JetEC2Up_branch
     cdef float jetVeto30WoNoisyJets_JetEC2Up_value
 
+    cdef TBranch* jetVeto30WoNoisyJets_JetEnDown_branch
+    cdef float jetVeto30WoNoisyJets_JetEnDown_value
+
+    cdef TBranch* jetVeto30WoNoisyJets_JetEnUp_branch
+    cdef float jetVeto30WoNoisyJets_JetEnUp_value
+
     cdef TBranch* jetVeto30WoNoisyJets_JetEta0to3Down_branch
     cdef float jetVeto30WoNoisyJets_JetEta0to3Down_value
 
@@ -1501,6 +1543,30 @@ cdef class EMTree:
     cdef TBranch* mMatchesIsoTkMu22eta2p1Path_branch
     cdef float mMatchesIsoTkMu22eta2p1Path_value
 
+    cdef TBranch* mMatchesMu23e12DZFilter_branch
+    cdef float mMatchesMu23e12DZFilter_value
+
+    cdef TBranch* mMatchesMu23e12DZPath_branch
+    cdef float mMatchesMu23e12DZPath_value
+
+    cdef TBranch* mMatchesMu23e12Filter_branch
+    cdef float mMatchesMu23e12Filter_value
+
+    cdef TBranch* mMatchesMu23e12Path_branch
+    cdef float mMatchesMu23e12Path_value
+
+    cdef TBranch* mMatchesMu8e23DZFilter_branch
+    cdef float mMatchesMu8e23DZFilter_value
+
+    cdef TBranch* mMatchesMu8e23DZPath_branch
+    cdef float mMatchesMu8e23DZPath_value
+
+    cdef TBranch* mMatchesMu8e23Filter_branch
+    cdef float mMatchesMu8e23Filter_value
+
+    cdef TBranch* mMatchesMu8e23Path_branch
+    cdef float mMatchesMu8e23Path_value
+
     cdef TBranch* mMiniIsoLoose_branch
     cdef float mMiniIsoLoose_value
 
@@ -1734,6 +1800,15 @@ cdef class EMTree:
 
     cdef TBranch* nvtx_branch
     cdef float nvtx_value
+
+    cdef TBranch* prefiring_weight_branch
+    cdef float prefiring_weight_value
+
+    cdef TBranch* prefiring_weight_down_branch
+    cdef float prefiring_weight_down_value
+
+    cdef TBranch* prefiring_weight_up_branch
+    cdef float prefiring_weight_up_value
 
     cdef TBranch* processID_branch
     cdef float processID_value
@@ -2920,6 +2995,15 @@ cdef class EMTree:
         else:
             self.Flag_ecalBadCalibFilter_branch.SetAddress(<void*>&self.Flag_ecalBadCalibFilter_value)
 
+        #print "making Flag_ecalBadCalibReducedMINIAODFilter"
+        self.Flag_ecalBadCalibReducedMINIAODFilter_branch = the_tree.GetBranch("Flag_ecalBadCalibReducedMINIAODFilter")
+        #if not self.Flag_ecalBadCalibReducedMINIAODFilter_branch and "Flag_ecalBadCalibReducedMINIAODFilter" not in self.complained:
+        if not self.Flag_ecalBadCalibReducedMINIAODFilter_branch and "Flag_ecalBadCalibReducedMINIAODFilter":
+            warnings.warn( "EMTree: Expected branch Flag_ecalBadCalibReducedMINIAODFilter does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("Flag_ecalBadCalibReducedMINIAODFilter")
+        else:
+            self.Flag_ecalBadCalibReducedMINIAODFilter_branch.SetAddress(<void*>&self.Flag_ecalBadCalibReducedMINIAODFilter_value)
+
         #print "making Flag_eeBadScFilter"
         self.Flag_eeBadScFilter_branch = the_tree.GetBranch("Flag_eeBadScFilter")
         #if not self.Flag_eeBadScFilter_branch and "Flag_eeBadScFilter" not in self.complained:
@@ -3450,6 +3534,33 @@ cdef class EMTree:
             #self.complained.add("bjetDeepCSVVeto20Tight_2018_DR0p5")
         else:
             self.bjetDeepCSVVeto20Tight_2018_DR0p5_branch.SetAddress(<void*>&self.bjetDeepCSVVeto20Tight_2018_DR0p5_value)
+
+        #print "making bweight_2016"
+        self.bweight_2016_branch = the_tree.GetBranch("bweight_2016")
+        #if not self.bweight_2016_branch and "bweight_2016" not in self.complained:
+        if not self.bweight_2016_branch and "bweight_2016":
+            warnings.warn( "EMTree: Expected branch bweight_2016 does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("bweight_2016")
+        else:
+            self.bweight_2016_branch.SetAddress(<void*>&self.bweight_2016_value)
+
+        #print "making bweight_2017"
+        self.bweight_2017_branch = the_tree.GetBranch("bweight_2017")
+        #if not self.bweight_2017_branch and "bweight_2017" not in self.complained:
+        if not self.bweight_2017_branch and "bweight_2017":
+            warnings.warn( "EMTree: Expected branch bweight_2017 does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("bweight_2017")
+        else:
+            self.bweight_2017_branch.SetAddress(<void*>&self.bweight_2017_value)
+
+        #print "making bweight_2018"
+        self.bweight_2018_branch = the_tree.GetBranch("bweight_2018")
+        #if not self.bweight_2018_branch and "bweight_2018" not in self.complained:
+        if not self.bweight_2018_branch and "bweight_2018":
+            warnings.warn( "EMTree: Expected branch bweight_2018 does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("bweight_2018")
+        else:
+            self.bweight_2018_branch.SetAddress(<void*>&self.bweight_2018_value)
 
         #print "making charge"
         self.charge_branch = the_tree.GetBranch("charge")
@@ -4314,6 +4425,78 @@ cdef class EMTree:
             #self.complained.add("eMatchesEle35Path")
         else:
             self.eMatchesEle35Path_branch.SetAddress(<void*>&self.eMatchesEle35Path_value)
+
+        #print "making eMatchesMu23e12DZFilter"
+        self.eMatchesMu23e12DZFilter_branch = the_tree.GetBranch("eMatchesMu23e12DZFilter")
+        #if not self.eMatchesMu23e12DZFilter_branch and "eMatchesMu23e12DZFilter" not in self.complained:
+        if not self.eMatchesMu23e12DZFilter_branch and "eMatchesMu23e12DZFilter":
+            warnings.warn( "EMTree: Expected branch eMatchesMu23e12DZFilter does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eMatchesMu23e12DZFilter")
+        else:
+            self.eMatchesMu23e12DZFilter_branch.SetAddress(<void*>&self.eMatchesMu23e12DZFilter_value)
+
+        #print "making eMatchesMu23e12DZPath"
+        self.eMatchesMu23e12DZPath_branch = the_tree.GetBranch("eMatchesMu23e12DZPath")
+        #if not self.eMatchesMu23e12DZPath_branch and "eMatchesMu23e12DZPath" not in self.complained:
+        if not self.eMatchesMu23e12DZPath_branch and "eMatchesMu23e12DZPath":
+            warnings.warn( "EMTree: Expected branch eMatchesMu23e12DZPath does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eMatchesMu23e12DZPath")
+        else:
+            self.eMatchesMu23e12DZPath_branch.SetAddress(<void*>&self.eMatchesMu23e12DZPath_value)
+
+        #print "making eMatchesMu23e12Filter"
+        self.eMatchesMu23e12Filter_branch = the_tree.GetBranch("eMatchesMu23e12Filter")
+        #if not self.eMatchesMu23e12Filter_branch and "eMatchesMu23e12Filter" not in self.complained:
+        if not self.eMatchesMu23e12Filter_branch and "eMatchesMu23e12Filter":
+            warnings.warn( "EMTree: Expected branch eMatchesMu23e12Filter does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eMatchesMu23e12Filter")
+        else:
+            self.eMatchesMu23e12Filter_branch.SetAddress(<void*>&self.eMatchesMu23e12Filter_value)
+
+        #print "making eMatchesMu23e12Path"
+        self.eMatchesMu23e12Path_branch = the_tree.GetBranch("eMatchesMu23e12Path")
+        #if not self.eMatchesMu23e12Path_branch and "eMatchesMu23e12Path" not in self.complained:
+        if not self.eMatchesMu23e12Path_branch and "eMatchesMu23e12Path":
+            warnings.warn( "EMTree: Expected branch eMatchesMu23e12Path does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eMatchesMu23e12Path")
+        else:
+            self.eMatchesMu23e12Path_branch.SetAddress(<void*>&self.eMatchesMu23e12Path_value)
+
+        #print "making eMatchesMu8e23DZFilter"
+        self.eMatchesMu8e23DZFilter_branch = the_tree.GetBranch("eMatchesMu8e23DZFilter")
+        #if not self.eMatchesMu8e23DZFilter_branch and "eMatchesMu8e23DZFilter" not in self.complained:
+        if not self.eMatchesMu8e23DZFilter_branch and "eMatchesMu8e23DZFilter":
+            warnings.warn( "EMTree: Expected branch eMatchesMu8e23DZFilter does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eMatchesMu8e23DZFilter")
+        else:
+            self.eMatchesMu8e23DZFilter_branch.SetAddress(<void*>&self.eMatchesMu8e23DZFilter_value)
+
+        #print "making eMatchesMu8e23DZPath"
+        self.eMatchesMu8e23DZPath_branch = the_tree.GetBranch("eMatchesMu8e23DZPath")
+        #if not self.eMatchesMu8e23DZPath_branch and "eMatchesMu8e23DZPath" not in self.complained:
+        if not self.eMatchesMu8e23DZPath_branch and "eMatchesMu8e23DZPath":
+            warnings.warn( "EMTree: Expected branch eMatchesMu8e23DZPath does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eMatchesMu8e23DZPath")
+        else:
+            self.eMatchesMu8e23DZPath_branch.SetAddress(<void*>&self.eMatchesMu8e23DZPath_value)
+
+        #print "making eMatchesMu8e23Filter"
+        self.eMatchesMu8e23Filter_branch = the_tree.GetBranch("eMatchesMu8e23Filter")
+        #if not self.eMatchesMu8e23Filter_branch and "eMatchesMu8e23Filter" not in self.complained:
+        if not self.eMatchesMu8e23Filter_branch and "eMatchesMu8e23Filter":
+            warnings.warn( "EMTree: Expected branch eMatchesMu8e23Filter does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eMatchesMu8e23Filter")
+        else:
+            self.eMatchesMu8e23Filter_branch.SetAddress(<void*>&self.eMatchesMu8e23Filter_value)
+
+        #print "making eMatchesMu8e23Path"
+        self.eMatchesMu8e23Path_branch = the_tree.GetBranch("eMatchesMu8e23Path")
+        #if not self.eMatchesMu8e23Path_branch and "eMatchesMu8e23Path" not in self.complained:
+        if not self.eMatchesMu8e23Path_branch and "eMatchesMu8e23Path":
+            warnings.warn( "EMTree: Expected branch eMatchesMu8e23Path does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eMatchesMu8e23Path")
+        else:
+            self.eMatchesMu8e23Path_branch.SetAddress(<void*>&self.eMatchesMu8e23Path_value)
 
         #print "making eMissingHits"
         self.eMissingHits_branch = the_tree.GetBranch("eMissingHits")
@@ -5755,6 +5938,24 @@ cdef class EMTree:
         else:
             self.jetVeto30WoNoisyJets_JetEC2Up_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetEC2Up_value)
 
+        #print "making jetVeto30WoNoisyJets_JetEnDown"
+        self.jetVeto30WoNoisyJets_JetEnDown_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetEnDown")
+        #if not self.jetVeto30WoNoisyJets_JetEnDown_branch and "jetVeto30WoNoisyJets_JetEnDown" not in self.complained:
+        if not self.jetVeto30WoNoisyJets_JetEnDown_branch and "jetVeto30WoNoisyJets_JetEnDown":
+            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetEnDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30WoNoisyJets_JetEnDown")
+        else:
+            self.jetVeto30WoNoisyJets_JetEnDown_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetEnDown_value)
+
+        #print "making jetVeto30WoNoisyJets_JetEnUp"
+        self.jetVeto30WoNoisyJets_JetEnUp_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetEnUp")
+        #if not self.jetVeto30WoNoisyJets_JetEnUp_branch and "jetVeto30WoNoisyJets_JetEnUp" not in self.complained:
+        if not self.jetVeto30WoNoisyJets_JetEnUp_branch and "jetVeto30WoNoisyJets_JetEnUp":
+            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetEnUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30WoNoisyJets_JetEnUp")
+        else:
+            self.jetVeto30WoNoisyJets_JetEnUp_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetEnUp_value)
+
         #print "making jetVeto30WoNoisyJets_JetEta0to3Down"
         self.jetVeto30WoNoisyJets_JetEta0to3Down_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetEta0to3Down")
         #if not self.jetVeto30WoNoisyJets_JetEta0to3Down_branch and "jetVeto30WoNoisyJets_JetEta0to3Down" not in self.complained:
@@ -6952,6 +7153,78 @@ cdef class EMTree:
         else:
             self.mMatchesIsoTkMu22eta2p1Path_branch.SetAddress(<void*>&self.mMatchesIsoTkMu22eta2p1Path_value)
 
+        #print "making mMatchesMu23e12DZFilter"
+        self.mMatchesMu23e12DZFilter_branch = the_tree.GetBranch("mMatchesMu23e12DZFilter")
+        #if not self.mMatchesMu23e12DZFilter_branch and "mMatchesMu23e12DZFilter" not in self.complained:
+        if not self.mMatchesMu23e12DZFilter_branch and "mMatchesMu23e12DZFilter":
+            warnings.warn( "EMTree: Expected branch mMatchesMu23e12DZFilter does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("mMatchesMu23e12DZFilter")
+        else:
+            self.mMatchesMu23e12DZFilter_branch.SetAddress(<void*>&self.mMatchesMu23e12DZFilter_value)
+
+        #print "making mMatchesMu23e12DZPath"
+        self.mMatchesMu23e12DZPath_branch = the_tree.GetBranch("mMatchesMu23e12DZPath")
+        #if not self.mMatchesMu23e12DZPath_branch and "mMatchesMu23e12DZPath" not in self.complained:
+        if not self.mMatchesMu23e12DZPath_branch and "mMatchesMu23e12DZPath":
+            warnings.warn( "EMTree: Expected branch mMatchesMu23e12DZPath does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("mMatchesMu23e12DZPath")
+        else:
+            self.mMatchesMu23e12DZPath_branch.SetAddress(<void*>&self.mMatchesMu23e12DZPath_value)
+
+        #print "making mMatchesMu23e12Filter"
+        self.mMatchesMu23e12Filter_branch = the_tree.GetBranch("mMatchesMu23e12Filter")
+        #if not self.mMatchesMu23e12Filter_branch and "mMatchesMu23e12Filter" not in self.complained:
+        if not self.mMatchesMu23e12Filter_branch and "mMatchesMu23e12Filter":
+            warnings.warn( "EMTree: Expected branch mMatchesMu23e12Filter does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("mMatchesMu23e12Filter")
+        else:
+            self.mMatchesMu23e12Filter_branch.SetAddress(<void*>&self.mMatchesMu23e12Filter_value)
+
+        #print "making mMatchesMu23e12Path"
+        self.mMatchesMu23e12Path_branch = the_tree.GetBranch("mMatchesMu23e12Path")
+        #if not self.mMatchesMu23e12Path_branch and "mMatchesMu23e12Path" not in self.complained:
+        if not self.mMatchesMu23e12Path_branch and "mMatchesMu23e12Path":
+            warnings.warn( "EMTree: Expected branch mMatchesMu23e12Path does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("mMatchesMu23e12Path")
+        else:
+            self.mMatchesMu23e12Path_branch.SetAddress(<void*>&self.mMatchesMu23e12Path_value)
+
+        #print "making mMatchesMu8e23DZFilter"
+        self.mMatchesMu8e23DZFilter_branch = the_tree.GetBranch("mMatchesMu8e23DZFilter")
+        #if not self.mMatchesMu8e23DZFilter_branch and "mMatchesMu8e23DZFilter" not in self.complained:
+        if not self.mMatchesMu8e23DZFilter_branch and "mMatchesMu8e23DZFilter":
+            warnings.warn( "EMTree: Expected branch mMatchesMu8e23DZFilter does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("mMatchesMu8e23DZFilter")
+        else:
+            self.mMatchesMu8e23DZFilter_branch.SetAddress(<void*>&self.mMatchesMu8e23DZFilter_value)
+
+        #print "making mMatchesMu8e23DZPath"
+        self.mMatchesMu8e23DZPath_branch = the_tree.GetBranch("mMatchesMu8e23DZPath")
+        #if not self.mMatchesMu8e23DZPath_branch and "mMatchesMu8e23DZPath" not in self.complained:
+        if not self.mMatchesMu8e23DZPath_branch and "mMatchesMu8e23DZPath":
+            warnings.warn( "EMTree: Expected branch mMatchesMu8e23DZPath does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("mMatchesMu8e23DZPath")
+        else:
+            self.mMatchesMu8e23DZPath_branch.SetAddress(<void*>&self.mMatchesMu8e23DZPath_value)
+
+        #print "making mMatchesMu8e23Filter"
+        self.mMatchesMu8e23Filter_branch = the_tree.GetBranch("mMatchesMu8e23Filter")
+        #if not self.mMatchesMu8e23Filter_branch and "mMatchesMu8e23Filter" not in self.complained:
+        if not self.mMatchesMu8e23Filter_branch and "mMatchesMu8e23Filter":
+            warnings.warn( "EMTree: Expected branch mMatchesMu8e23Filter does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("mMatchesMu8e23Filter")
+        else:
+            self.mMatchesMu8e23Filter_branch.SetAddress(<void*>&self.mMatchesMu8e23Filter_value)
+
+        #print "making mMatchesMu8e23Path"
+        self.mMatchesMu8e23Path_branch = the_tree.GetBranch("mMatchesMu8e23Path")
+        #if not self.mMatchesMu8e23Path_branch and "mMatchesMu8e23Path" not in self.complained:
+        if not self.mMatchesMu8e23Path_branch and "mMatchesMu8e23Path":
+            warnings.warn( "EMTree: Expected branch mMatchesMu8e23Path does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("mMatchesMu8e23Path")
+        else:
+            self.mMatchesMu8e23Path_branch.SetAddress(<void*>&self.mMatchesMu8e23Path_value)
+
         #print "making mMiniIsoLoose"
         self.mMiniIsoLoose_branch = the_tree.GetBranch("mMiniIsoLoose")
         #if not self.mMiniIsoLoose_branch and "mMiniIsoLoose" not in self.complained:
@@ -7653,6 +7926,33 @@ cdef class EMTree:
             #self.complained.add("nvtx")
         else:
             self.nvtx_branch.SetAddress(<void*>&self.nvtx_value)
+
+        #print "making prefiring_weight"
+        self.prefiring_weight_branch = the_tree.GetBranch("prefiring_weight")
+        #if not self.prefiring_weight_branch and "prefiring_weight" not in self.complained:
+        if not self.prefiring_weight_branch and "prefiring_weight":
+            warnings.warn( "EMTree: Expected branch prefiring_weight does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("prefiring_weight")
+        else:
+            self.prefiring_weight_branch.SetAddress(<void*>&self.prefiring_weight_value)
+
+        #print "making prefiring_weight_down"
+        self.prefiring_weight_down_branch = the_tree.GetBranch("prefiring_weight_down")
+        #if not self.prefiring_weight_down_branch and "prefiring_weight_down" not in self.complained:
+        if not self.prefiring_weight_down_branch and "prefiring_weight_down":
+            warnings.warn( "EMTree: Expected branch prefiring_weight_down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("prefiring_weight_down")
+        else:
+            self.prefiring_weight_down_branch.SetAddress(<void*>&self.prefiring_weight_down_value)
+
+        #print "making prefiring_weight_up"
+        self.prefiring_weight_up_branch = the_tree.GetBranch("prefiring_weight_up")
+        #if not self.prefiring_weight_up_branch and "prefiring_weight_up" not in self.complained:
+        if not self.prefiring_weight_up_branch and "prefiring_weight_up":
+            warnings.warn( "EMTree: Expected branch prefiring_weight_up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("prefiring_weight_up")
+        else:
+            self.prefiring_weight_up_branch.SetAddress(<void*>&self.prefiring_weight_up_value)
 
         #print "making processID"
         self.processID_branch = the_tree.GetBranch("processID")
@@ -10387,6 +10687,11 @@ cdef class EMTree:
             self.Flag_ecalBadCalibFilter_branch.GetEntry(self.localentry, 0)
             return self.Flag_ecalBadCalibFilter_value
 
+    property Flag_ecalBadCalibReducedMINIAODFilter:
+        def __get__(self):
+            self.Flag_ecalBadCalibReducedMINIAODFilter_branch.GetEntry(self.localentry, 0)
+            return self.Flag_ecalBadCalibReducedMINIAODFilter_value
+
     property Flag_eeBadScFilter:
         def __get__(self):
             self.Flag_eeBadScFilter_branch.GetEntry(self.localentry, 0)
@@ -10681,6 +10986,21 @@ cdef class EMTree:
         def __get__(self):
             self.bjetDeepCSVVeto20Tight_2018_DR0p5_branch.GetEntry(self.localentry, 0)
             return self.bjetDeepCSVVeto20Tight_2018_DR0p5_value
+
+    property bweight_2016:
+        def __get__(self):
+            self.bweight_2016_branch.GetEntry(self.localentry, 0)
+            return self.bweight_2016_value
+
+    property bweight_2017:
+        def __get__(self):
+            self.bweight_2017_branch.GetEntry(self.localentry, 0)
+            return self.bweight_2017_value
+
+    property bweight_2018:
+        def __get__(self):
+            self.bweight_2018_branch.GetEntry(self.localentry, 0)
+            return self.bweight_2018_value
 
     property charge:
         def __get__(self):
@@ -11161,6 +11481,46 @@ cdef class EMTree:
         def __get__(self):
             self.eMatchesEle35Path_branch.GetEntry(self.localentry, 0)
             return self.eMatchesEle35Path_value
+
+    property eMatchesMu23e12DZFilter:
+        def __get__(self):
+            self.eMatchesMu23e12DZFilter_branch.GetEntry(self.localentry, 0)
+            return self.eMatchesMu23e12DZFilter_value
+
+    property eMatchesMu23e12DZPath:
+        def __get__(self):
+            self.eMatchesMu23e12DZPath_branch.GetEntry(self.localentry, 0)
+            return self.eMatchesMu23e12DZPath_value
+
+    property eMatchesMu23e12Filter:
+        def __get__(self):
+            self.eMatchesMu23e12Filter_branch.GetEntry(self.localentry, 0)
+            return self.eMatchesMu23e12Filter_value
+
+    property eMatchesMu23e12Path:
+        def __get__(self):
+            self.eMatchesMu23e12Path_branch.GetEntry(self.localentry, 0)
+            return self.eMatchesMu23e12Path_value
+
+    property eMatchesMu8e23DZFilter:
+        def __get__(self):
+            self.eMatchesMu8e23DZFilter_branch.GetEntry(self.localentry, 0)
+            return self.eMatchesMu8e23DZFilter_value
+
+    property eMatchesMu8e23DZPath:
+        def __get__(self):
+            self.eMatchesMu8e23DZPath_branch.GetEntry(self.localentry, 0)
+            return self.eMatchesMu8e23DZPath_value
+
+    property eMatchesMu8e23Filter:
+        def __get__(self):
+            self.eMatchesMu8e23Filter_branch.GetEntry(self.localentry, 0)
+            return self.eMatchesMu8e23Filter_value
+
+    property eMatchesMu8e23Path:
+        def __get__(self):
+            self.eMatchesMu8e23Path_branch.GetEntry(self.localentry, 0)
+            return self.eMatchesMu8e23Path_value
 
     property eMissingHits:
         def __get__(self):
@@ -11962,6 +12322,16 @@ cdef class EMTree:
             self.jetVeto30WoNoisyJets_JetEC2Up_branch.GetEntry(self.localentry, 0)
             return self.jetVeto30WoNoisyJets_JetEC2Up_value
 
+    property jetVeto30WoNoisyJets_JetEnDown:
+        def __get__(self):
+            self.jetVeto30WoNoisyJets_JetEnDown_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30WoNoisyJets_JetEnDown_value
+
+    property jetVeto30WoNoisyJets_JetEnUp:
+        def __get__(self):
+            self.jetVeto30WoNoisyJets_JetEnUp_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30WoNoisyJets_JetEnUp_value
+
     property jetVeto30WoNoisyJets_JetEta0to3Down:
         def __get__(self):
             self.jetVeto30WoNoisyJets_JetEta0to3Down_branch.GetEntry(self.localentry, 0)
@@ -12627,6 +12997,46 @@ cdef class EMTree:
             self.mMatchesIsoTkMu22eta2p1Path_branch.GetEntry(self.localentry, 0)
             return self.mMatchesIsoTkMu22eta2p1Path_value
 
+    property mMatchesMu23e12DZFilter:
+        def __get__(self):
+            self.mMatchesMu23e12DZFilter_branch.GetEntry(self.localentry, 0)
+            return self.mMatchesMu23e12DZFilter_value
+
+    property mMatchesMu23e12DZPath:
+        def __get__(self):
+            self.mMatchesMu23e12DZPath_branch.GetEntry(self.localentry, 0)
+            return self.mMatchesMu23e12DZPath_value
+
+    property mMatchesMu23e12Filter:
+        def __get__(self):
+            self.mMatchesMu23e12Filter_branch.GetEntry(self.localentry, 0)
+            return self.mMatchesMu23e12Filter_value
+
+    property mMatchesMu23e12Path:
+        def __get__(self):
+            self.mMatchesMu23e12Path_branch.GetEntry(self.localentry, 0)
+            return self.mMatchesMu23e12Path_value
+
+    property mMatchesMu8e23DZFilter:
+        def __get__(self):
+            self.mMatchesMu8e23DZFilter_branch.GetEntry(self.localentry, 0)
+            return self.mMatchesMu8e23DZFilter_value
+
+    property mMatchesMu8e23DZPath:
+        def __get__(self):
+            self.mMatchesMu8e23DZPath_branch.GetEntry(self.localentry, 0)
+            return self.mMatchesMu8e23DZPath_value
+
+    property mMatchesMu8e23Filter:
+        def __get__(self):
+            self.mMatchesMu8e23Filter_branch.GetEntry(self.localentry, 0)
+            return self.mMatchesMu8e23Filter_value
+
+    property mMatchesMu8e23Path:
+        def __get__(self):
+            self.mMatchesMu8e23Path_branch.GetEntry(self.localentry, 0)
+            return self.mMatchesMu8e23Path_value
+
     property mMiniIsoLoose:
         def __get__(self):
             self.mMiniIsoLoose_branch.GetEntry(self.localentry, 0)
@@ -13016,6 +13426,21 @@ cdef class EMTree:
         def __get__(self):
             self.nvtx_branch.GetEntry(self.localentry, 0)
             return self.nvtx_value
+
+    property prefiring_weight:
+        def __get__(self):
+            self.prefiring_weight_branch.GetEntry(self.localentry, 0)
+            return self.prefiring_weight_value
+
+    property prefiring_weight_down:
+        def __get__(self):
+            self.prefiring_weight_down_branch.GetEntry(self.localentry, 0)
+            return self.prefiring_weight_down_value
+
+    property prefiring_weight_up:
+        def __get__(self):
+            self.prefiring_weight_up_branch.GetEntry(self.localentry, 0)
+            return self.prefiring_weight_up_value
 
     property processID:
         def __get__(self):

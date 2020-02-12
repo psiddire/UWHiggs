@@ -1,5 +1,4 @@
-#export jobidet='MCApril3'
-export jobidet='DataJun11'
-#export jobidet='EmbedMar1'
-#export jobidet='EmbedApril3ET'
+export jobidet='Data2017et'
+#export jobidet='MC2017'
+#export jobidet='Embed2017et'
 export jobid=$jobidet

@@ -1,32 +1,21 @@
 '''
 
-Run LFV H->MuTau analysis in the mu+tau channel.
+Run LFV H->EMu analysis in the e+mu channel.
 
-Authors: Maria Cepeda, Aaron Levine, Evan K. Friis, UW
+Authors: Prasanna Siddireddy
 
 '''
 
 import EMTree
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
-import glob
 import os
 import ROOT
-import array as arr
 import math
-import copy
-import itertools
-import operator
 import mcCorrections
 import mcWeights
 import Kinematics
-from RecoilCorrector import RecoilCorrector
-from math import sqrt, pi
-from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVA
-from ROOT import gROOT, gRandom, TRandom3, TFile
 from bTagSF import PromoteDemote
 
-gRandom.SetSeed()
-rnd = gRandom.Rndm
 MetCorrection = True
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target)
@@ -61,6 +50,7 @@ class AnalyzeEMu(MegaBase):
     self.eIDnoIsoWP80 = mcCorrections.eIDnoIsoWP80
     self.eReco = mcCorrections.eReco
     self.EmbedEta = mcCorrections.EmbedEta
+    self.rc = mcCorrections.rc
     self.w1 = mcCorrections.w1
     self.w2 = mcCorrections.w2
     self.w3 = mcCorrections.w3
@@ -69,7 +59,6 @@ class AnalyzeEMu(MegaBase):
  
     self.DYweight = self.mcWeight.DYweight
     self.Wweight = self.mcWeight.Wweight
-    self.Embweight = self.mcWeight.Embweight
 
     self.deltaPhi = Kinematics.deltaPhi
     self.deltaEta = Kinematics.deltaEta
@@ -91,25 +80,10 @@ class AnalyzeEMu(MegaBase):
     return True
 
 
-  def trigger(self, row):
-    if row.mu8e23DZPass:
-      if row.mPt > 10 and row.ePt > 24:
-        return True
-      else:
-        return False
-    elif row.mu23e12DZPass:
-      if row.mPt > 24 and row.ePt > 13:
-        return True
-      else:
-        return False
-    else:
-      return False
-
-
   def kinematics(self, row):
     if row.mPt < 10 or abs(row.mEta) >= 2.4:
       return False
-    if row.ePt < 24 or abs(row.eEta) >= 2.5:
+    if row.ePt < 13 or abs(row.eEta) >= 2.5:
       return False
     return True
 
@@ -170,7 +144,7 @@ class AnalyzeEMu(MegaBase):
       self.book(names[x], "vbfMass", "VBF Mass", 100, 0, 1000)
       self.book(names[x], "numOfVtx", "Number of Vertices", 100, 0, 100)
       self.book(names[x], "dEtaEMu", "Delta Eta E Mu", 50, 0, 5)
-      self.book(names[x], "dPhiEMu", "Delta Phi Mu E", 40, 0, 4)
+      self.book(names[x], "dPhiEMu", "Delta Phi E Mu", 40, 0, 4)
       self.book(names[x], "dPhiEMET", "Delta Phi E MET", 40, 0, 4)
       self.book(names[x], "dPhiMuMET", "Delta Phi Mu MET", 40, 0, 4)
       self.book(names[x], "MTEMET", "Electron MET Transverse Mass", 20, 0, 200)
@@ -188,7 +162,7 @@ class AnalyzeEMu(MegaBase):
       self.book(vbfnames[x], "j1Pt", "Jet 1 Pt", 15, 0, 300)
       self.book(vbfnames[x], "j2Pt", "Jet 2 Pt", 15, 0, 300)
       self.book(vbfnames[x], "j1Eta", "Jet 1 Eta", 10, -3, 3)
-      self.book(vbfnames[x], "j2Eta", "Jet 2 Eta", 10, -3, 3)      
+      self.book(vbfnames[x], "j2Eta", "Jet 2 Eta", 10, -3, 3)
       self.book(vbfnames[x], "j1Phi", "Jet 1 Phi", 10, -4, 4)
       self.book(vbfnames[x], "j2Phi", "Jet 2 Phi", 10, -4, 4)
       self.book(vbfnames[x], "e_m_Mass", "Electron + Muon Mass", 15, 0, 300)
@@ -198,7 +172,7 @@ class AnalyzeEMu(MegaBase):
       self.book(vbfnames[x], "vbfMass", "VBF Mass", 50, 0, 1000)
       self.book(vbfnames[x], "numOfVtx", "Number of Vertices", 100, 0, 100)
       self.book(vbfnames[x], "dEtaEMu", "Delta Eta E Mu", 25, 0, 5)
-      self.book(vbfnames[x], "dPhiEMu", "Delta Phi Mu E", 20, 0, 4)
+      self.book(vbfnames[x], "dPhiEMu", "Delta Phi E Mu", 20, 0, 4)
       self.book(vbfnames[x], "dPhiEMET", "Delta Phi E MET", 20, 0, 4)
       self.book(vbfnames[x], "dPhiMuMET", "Delta Phi Mu MET", 20, 0, 4)
       self.book(vbfnames[x], "MTEMET", "Electron MET Transverse Mass", 10, 0, 200)
@@ -239,10 +213,13 @@ class AnalyzeEMu(MegaBase):
 
     for row in self.tree:
 
+      triggerm8e23 = row.mu8e23DZPass and row.mPt > 10 and row.ePt > 24# and row.eMatchesMu8e23DZFilter and row.eMatchesMu8e23DZPath and row.mMatchesMu8e23DZFilter and row.mMatchesMu8e23DZPath
+      triggerm23e12 = row.mu23e12DZPass and row.mPt > 24 and row.ePt > 13# and row.eMatchesMu23e12DZFilter and row.eMatchesMu23e12DZPath and row.mMatchesMu23e12DZFilter and row.mMatchesMu23e12DZPath
+
       if self.filters(row):
         continue
 
-      if not self.trigger(row):
+      if not bool(triggerm8e23 or triggerm23e12):
         continue
 
       if not self.kinematics(row):
@@ -287,7 +264,7 @@ class AnalyzeEMu(MegaBase):
       if self.is_mc:
         myMETpx = myMETpx - myEle.Px()
         myMETpy = myMETpy - myEle.Py()
-        myMET.SetPxPyPzE(myMETpx, myMETpy, 0, sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+        myMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
 
       if self.is_recoilC and MetCorrection:
         tmpMet = self.Metcorected.CorrectByMeanResolution(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)))
@@ -299,10 +276,6 @@ class AnalyzeEMu(MegaBase):
       beta_1 = row.jb1eta
       if (self.is_mc and nbtag > 0):
         nbtag = PromoteDemote(self.h_btag_eff_b, self.h_btag_eff_c, self.h_btag_eff_oth, nbtag, bpt_1, bflavor_1, beta_1, 0)
-      #if bool(nbtag == 1 and row.jb1pt < 30) or bool(nbtag == 2 and row.jb1pt < 30 and row.jb2pt > 30) or bool(nbtag == 2 and row.jb1pt > 30 and row.jb2pt < 30):
-      #  nbtag = nbtag - 1
-      #if bool(nbtag == 2 and row.jb1pt < 30 and row.jb2pt < 30):
-      #  nbtag = nbtag - 2
       if (nbtag > 0):
         continue
 
@@ -317,13 +290,13 @@ class AnalyzeEMu(MegaBase):
         self.w1.var("e_pt").setVal(myEle.Pt())
         self.w1.var("e_eta").setVal(myEle.Eta())
         self.w1.var("e_iso").setVal(row.eRelPFIsoRho)
-        if row.mu8e23DZPass:
+        if triggerm8e23:
           eff_trg_data = eff_trg_data + self.w1.function("m_trg_binned_8_data").getVal()*self.w1.function("e_trg_binned_23_data").getVal()
           eff_trg_mc = eff_trg_mc + self.w1.function("m_trg_binned_8_mc").getVal()*self.w1.function("e_trg_binned_23_mc").getVal()
-        if row.mu23e12DZPass:
+        if triggerm23e12:
           eff_trg_data = eff_trg_data + self.w1.function("m_trg_binned_23_data").getVal()*self.w1.function("e_trg_binned_12_data").getVal()
           eff_trg_mc = eff_trg_mc + self.w1.function("m_trg_binned_23_mc").getVal()*self.w1.function("e_trg_binned_12_mc").getVal()
-        if row.mu8e23DZPass and row.mu23e12DZPass:
+        if triggerm8e23 and triggerm23e12:
           eff_trg_data = eff_trg_data - self.w1.function("m_trg_binned_23_data").getVal()*self.w1.function("e_trg_binned_23_data").getVal()
           eff_trg_mc = eff_trg_mc - self.w1.function("m_trg_binned_23_mc").getVal()*self.w1.function("e_trg_binned_23_mc").getVal()
         tEff = 0 if eff_trg_mc==0 else eff_trg_data/eff_trg_mc
@@ -332,16 +305,17 @@ class AnalyzeEMu(MegaBase):
         mTrk = self.muTracking(myMuon.Eta())[0]
         eID = self.eIDnoIsoWP80(myEle.Pt(), abs(myEle.Eta()))
         eTrk = self.eReco(myEle.Pt(), abs(myEle.Eta()))
-        weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*eID*eTrk
+        mcSF = self.rc.kSpreadMC(row.mCharge, myMuon.Pt(), myMuon.Eta(), myMuon.Phi(), row.mGenPt, 0, 0)
+        weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*eID*eTrk*mcSF*row.prefiring_weight
         if self.is_DY:
           self.w2.var("z_gen_mass").setVal(row.genMass)
           self.w2.var("z_gen_pt").setVal(row.genpT)
           dyweight = self.w2.function("zptmass_weight_nom").getVal()
           weight = weight*dyweight
           if row.numGenJets < 5:
-            weight = weight*self.DYweight[row.numGenJets]*dyweight
+            weight = weight*self.DYweight[row.numGenJets]
           else:
-            weight = weight*self.DYweight[0]*dyweight
+            weight = weight*self.DYweight[0]
         if self.is_W:
           if row.numGenJets < 5:
             weight = weight*self.Wweight[row.numGenJets]
@@ -387,13 +361,13 @@ class AnalyzeEMu(MegaBase):
         self.w1.var("e_pt").setVal(myEle.Pt())
         self.w1.var("e_eta").setVal(myEle.Eta())
         self.w1.var("e_iso").setVal(row.eRelPFIsoRho)
-        if row.mu8e23DZPass:
+        if triggerm8e23:
           eff_trg_data = eff_trg_data + self.w1.function("m_trg_binned_8_data").getVal()*self.w1.function("e_trg_binned_23_data").getVal()
           eff_trg_embed = eff_trg_embed + self.w1.function("m_trg_binned_8_embed").getVal()*self.w1.function("e_trg_binned_23_embed").getVal()
-        if row.mu23e12DZPass:
+        if triggerm23e12:
           eff_trg_data = eff_trg_data + self.w1.function("m_trg_binned_23_data").getVal()*self.w1.function("e_trg_binned_12_data").getVal()
           eff_trg_embed = eff_trg_embed + self.w1.function("m_trg_binned_23_embed").getVal()*self.w1.function("e_trg_binned_12_embed").getVal()
-        if row.mu8e23DZPass and row.mu23e12DZPass:
+        if triggerm8e23 and triggerm23e12:
           eff_trg_data = eff_trg_data - self.w1.function("m_trg_binned_23_data").getVal()*self.w1.function("e_trg_binned_23_data").getVal()
           eff_trg_embed = eff_trg_embed - self.w1.function("m_trg_binned_23_embed").getVal()*self.w1.function("e_trg_binned_23_embed").getVal()
         trg_sf = 0 if eff_trg_embed==0 else eff_trg_data/eff_trg_embed

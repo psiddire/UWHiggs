@@ -1,4 +1,3 @@
-export jobidmt='DataApril4' 
-#export jobidmt='MCApril4'
-#export jobidmt='EmbedApril4'
-export jobid=$jobidmt
+export jobidmmm='FakeData2017'
+#export jobidmmm='FakeMC2017'
+export jobid=$jobidmmm

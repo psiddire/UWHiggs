@@ -1,36 +1,27 @@
 '''
 
-Run LFV H->MuTau analysis in the mu+tau channel.
+Run LFV H->MuE analysis in the mu+tau_e channel.
 
-Authors: Maria Cepeda, Aaron Levine, Evan K. Friis, UW
+Authors: Prasanna Siddireddy
 
 '''
 
 import EMTree
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
-import glob
 import os
 import ROOT
-import array as arr
 import math
-import copy
 import itertools
-import operator
 import mcCorrections
 import mcWeights
 import Kinematics
-from RecoilCorrector import RecoilCorrector
-from math import sqrt, pi
-from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVACat
-from ROOT import gROOT, gRandom, TRandom3, TFile
+from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVACat, FunctorFromMVA
 from bTagSF import PromoteDemote, PromoteDemoteSyst, bTagEventWeight
 
-gRandom.SetSeed()
-rnd = gRandom.Rndm
 MetCorrection = True
 target = os.path.basename(os.environ['megatarget'])
-pucorrector = mcCorrections.puCorrector(target) 
-Emb = True
+pucorrector = mcCorrections.puCorrector(target)
+Emb = False
 
 class AnalyzeMuESysBDTQCD(MegaBase):
   tree = 'em/final/Ntuple'
@@ -56,8 +47,8 @@ class AnalyzeMuESysBDTQCD(MegaBase):
     self.h_btag_eff_oth = mcCorrections.h_btag_eff_oth
 
     self.var_d_star = ['mPt', 'ePt', 'm_e_collinearMass', 'dPhiMuMET', 'dPhiEMET', 'dPhiMuE', 'MTMuMET', 'MTEMET', 'njets', 'vbfMass']
-    self.xml_name = os.path.join(os.getcwd(), "bdtdata/dataset/weights/TMVAClassification_BDTCat.weights.xml")
-    self.functor = FunctorFromMVACat('BDTCat method', self.xml_name, *self.var_d_star)
+    self.xml_name = os.path.join(os.getcwd(), "bdtdata/dataset/weights/TMVAClassification_BDT.weights.xml")
+    self.functor = FunctorFromMVACat('BDT method', self.xml_name, *self.var_d_star)
 
     self.triggerEff = mcCorrections.efficiency_trigger_mu_2017
     self.muonMediumID = mcCorrections.muonID_medium
@@ -66,6 +57,7 @@ class AnalyzeMuESysBDTQCD(MegaBase):
     self.eIDnoIsoWP90 = mcCorrections.eIDnoIsoWP90
     self.eReco = mcCorrections.eReco
     self.EmbedEta = mcCorrections.EmbedEta
+    self.rc = mcCorrections.rc
     self.w1 = mcCorrections.w1
     self.w2 = mcCorrections.w2
     self.w3 = mcCorrections.w3
@@ -82,7 +74,13 @@ class AnalyzeMuESysBDTQCD(MegaBase):
     self.collMass = Kinematics.collMass
     self.transverseMass = Kinematics.transverseMass
     self.topPtreweight = Kinematics.topPtreweight
+
     self.jes = Kinematics.jes
+    self.names = Kinematics.names
+    self.ssnames = Kinematics.ssnames
+    self.sys = Kinematics.sys
+    self.sssys = Kinematics.sssys
+    self.qcdsys = Kinematics.qcdsys
 
     super(AnalyzeMuESysBDTQCD, self).__init__(tree, outfile, **kwargs)
     self.tree = EMTree.EMTree(tree)
@@ -111,15 +109,15 @@ class AnalyzeMuESysBDTQCD(MegaBase):
 
 
   def obj1_id(self, row):
-    return (bool(row.mPFIDTight) and bool(abs(row.mPVDZ) < 0.2) and bool(abs(row.mPVDXY) < 0.045))
- 
- 
+    return (bool(row.mPFIDMedium) and bool(abs(row.mPVDZ) < 0.2) and bool(abs(row.mPVDXY) < 0.045))
+
+
   def obj1_iso(self, row):
-    return bool(row.mRelPFIsoDBDefaultR04 < 0.15)
-  
+    return bool(row.mRelPFIsoDBDefaultR04 < 0.2)
+
 
   def obj2_id(self, row):
-    return (bool(row.eMVANoisoWP80) and bool(abs(row.ePVDZ) < 0.2) and bool(abs(row.ePVDXY) < 0.045) and bool(row.ePassesConversionVeto) and bool(row.eMissingHits < 2))
+    return (bool(row.eMVANoisoWP90) and bool(abs(row.ePVDZ) < 0.2) and bool(abs(row.ePVDXY) < 0.045) and bool(row.ePassesConversionVeto) and bool(row.eMissingHits < 2))
 
 
   def obj2_iso(self, row):
@@ -132,21 +130,14 @@ class AnalyzeMuESysBDTQCD(MegaBase):
 
   def begin(self):
     folder = []
-    vbffolder = []
-    names = ['TightOS', 'TightOS0Jet', 'TightOS1Jet', 'TightOS2Jet', 'TightOS2JetVBF']
-    ssnames = ['TightSS', 'TightSS0Jet', 'TightSS1Jet', 'TightSS2Jet', 'TightSS2JetVBF']
-    sys = ['', 'puUp', 'puDown', 'trUp', 'trDown', 'recrespUp', 'recrespDown', 'recresoUp', 'recresoDown', 'bTagUp', 'bTagDown', 'eescUp', 'eescDown', 'eesiUp', 'eesiDown', 'mesUp', 'mesDown', 'DYptreweightUp', 'DYptreweightDown', 'UnclusteredEnDown', 'UnclusteredEnUp', 'TopptreweightUp', 'TopptreweightDown']
-    sssys = ['', 'Rate0JetUp', 'Rate0JetDown', 'Rate1JetUp', 'Rate1JetDown', 'Shape0JetUp', 'Shape0JetDown', 'Shape1JetUp', 'Shape1JetDown', 'IsoUp', 'IsoDown']
-
-    for tuple_path in itertools.product(names, sys):
+    for tuple_path in itertools.product(self.names, self.sys):
       folder.append(os.path.join(*tuple_path))
-    for tuple_path_jes in itertools.product(names, self.jes):
+    for tuple_path_jes in itertools.product(self.names, self.jes):
       folder.append(os.path.join(*tuple_path_jes))
-    for tuple_path_ss in itertools.product(ssnames, sssys):
+    for tuple_path_ss in itertools.product(self.ssnames, self.sssys):
       folder.append(os.path.join(*tuple_path_ss))
-
     for f in folder:
-      self.book(f, "bdtDiscriminator", "BDT Discriminator", 20, -1.0, 1.0)
+      self.book(f, "bdtDiscriminator", "BDT Discriminator", 200, -1.0, 1.0)
 
 
   def fill_histos(self, myMuon, myMET, myEle, njets, mjj, weight, name=''):
@@ -157,18 +148,6 @@ class AnalyzeMuESysBDTQCD(MegaBase):
 
   def var_d(self, myMuon, myMET, myEle, njets, mjj):
     return {'mPt' : myMuon.Pt(), 'ePt' : myEle.Pt(), 'm_e_collinearMass' : self.collMass(myMuon, myMET, myEle), 'dPhiMuMET' : self.deltaPhi(myMuon.Phi(), myMET.Phi()), 'dPhiEMET' : self.deltaPhi(myEle.Phi(), myMET.Phi()), 'dPhiMuE' : self.deltaPhi(myMuon.Phi(), myEle.Phi()), 'MTMuMET' : self.transverseMass(myMuon, myMET), 'MTEMET' : self.transverseMass(myEle, myMET), 'njets' : int(njets), 'vbfMass' : mjj}
-
-
-  def fill_categories(self, myMuon, myMET, myEle, njets, mjj, weight, name=''):
-    self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight, 'TightOS'+name)
-    if njets==0:
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight, 'TightOS0Jet'+name)
-    elif njets==1:
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight, 'TightOS1Jet'+name)
-    elif njets==2 and mjj < 550:
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight, 'TightOS2Jet'+name)
-    elif njets==2 and mjj > 550:
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight, 'TightOS2JetVBF'+name)
 
 
   def fill_sshistos(self, myMuon, myMET, myEle, njets, mjj, weight, name=''):
@@ -188,226 +167,26 @@ class AnalyzeMuESysBDTQCD(MegaBase):
     osssisoup = self.w3.function("em_qcd_osss_binned").getVal() * self.w3.function("em_qcd_extrap_uncert").getVal() * self.w3.function("em_qcd_extrap_uncert").getVal()
     osssisodown = self.w3.function("em_qcd_osss_binned").getVal()
     if '0Jet' in name:
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight*osss, name)
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight*osss0rup, name+'/Rate0JetUp')
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight*osss0rdown, name+'/Rate0JetDown')
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight*osss0sup, name+'/Shape0JetUp')
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight*osss0sdown, name+'/Shape0JetDown')
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight*osss, name+'/Rate1JetUp')
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight*osss, name+'/Rate1JetDown')
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight*osss, name+'/Shape1JetUp')
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight*osss, name+'/Shape1JetDown')
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight*osssisoup, name+'/IsoUp')
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight*osssisodown, name+'/IsoDown')
+      oslist = [osss, osss0rup, osss0rdown, osss0sup, osss0sdown, osss, osss, osss, osss, osssisoup, osssisodown]
+      for i, osl in enumerate(oslist):
+        self.fill_histos(myMuon, myMET, myEle, weight*osl, name+self.qcdsys[i])
     else:
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight*osss, name)
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight*osss1rup, name+'/Rate1JetUp')
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight*osss1rdown, name+'/Rate1JetDown')
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight*osss1sup, name+'/Shape1JetUp')
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight*osss1sdown, name+'/Shape1JetDown')
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight*osss, name+'/Rate0JetUp')
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight*osss, name+'/Rate0JetDown')
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight*osss, name+'/Shape0JetUp')
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight*osss, name+'/Shape0JetDown')
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight*osssisoup, name+'/IsoUp')
-      self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight*osssisodown, name+'/IsoDown')
+      oslist = [osss, osss, osss, osss, osss, osss1rup, osss1rdown, osss1sup, osss1sdown, osssisoup, osssisodown]
+      for i, osl in enumerate(oslist):
+        self.fill_histos(myMuon, myMET, myEle, weight*osl, name+self.qcdsys[i])
 
 
   def fill_sscategories(self, row, myMuon, myMET, myEle, njets, weight, name=''):
     mjj = getattr(row, 'vbfMassWoNoisyJets')
     self.fill_sshistos(myMuon, myMET, myEle, njets, mjj, weight, 'TightSS')
     if njets==0:
-      self.fill_sshistos(myMuon, myMET, myEle, njets, mjj, weight, 'TightSS0Jet') 
+        self.fill_sshistos(myMuon, myMET, myEle, njets, mjj, weight, 'TightSS0Jet')
     elif njets==1:
-      self.fill_sshistos(myMuon, myMET, myEle, njets, mjj, weight, 'TightSS1Jet') 
+        self.fill_sshistos(myMuon, myMET, myEle, njets, mjj, weight, 'TightSS1Jet')
     elif njets==2 and mjj < 550:
-      self.fill_sshistos(myMuon, myMET, myEle, njets, mjj, weight, 'TightSS2Jet') 
+        self.fill_sshistos(myMuon, myMET, myEle, njets, mjj, weight, 'TightSS2Jet')
     elif njets==2 and mjj > 550:
-      self.fill_sshistos(myMuon, myMET, myEle, njets, mjj, weight, 'TightSS2JetVBF')
-
-
-  def fill_sys(self, row, myMuon, myMET, myEle, njets, weight):
-    tmpMuon = ROOT.TLorentzVector()
-    tmpEle = ROOT.TLorentzVector()
-    tmpEleC = ROOT.TLorentzVector()
-    tmpMET = ROOT.TLorentzVector()
-    mjj = getattr(row, 'vbfMassWoNoisyJets') 
-    if self.is_mc:
-
-      if self.is_recoilC and MetCorrection:
-        sysMet = self.Metcorected.CorrectByMeanResolution(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)))
-        myMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
-
-      puweightUp = pucorrector['puUp'](row.nTruePU)
-      puweightDown = pucorrector['puDown'](row.nTruePU)
-      puweight = pucorrector[''](row.nTruePU)
-      self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, '')
-
-      nbtag = row.bjetDeepCSVVeto20Medium_2017_DR0p5
-      if nbtag > 2:
-        nbtag = 2
-
-      if nbtag==0:
-        self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, '/bTagUp')
-        self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, '/bTagDown')
-      if nbtag > 0:
-        btagweight = bTagEventWeight(nbtag, row.jb1pt, row.jb1hadronflavor, row.jb2pt, row.jb2hadronflavor, 1, 0, 0)
-        btagweightup = bTagEventWeight(nbtag, row.jb1pt, row.jb1hadronflavor, row.jb2pt, row.jb2hadronflavor, 1, 1, 0)
-        btagweightdown = bTagEventWeight(nbtag, row.jb1pt, row.jb1hadronflavor, row.jb2pt, row.jb2hadronflavor, 1, -1, 0)
-        self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight * btagweightup/btagweight, '/bTagUp')
-        self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight * btagweightdown/btagweight, '/bTagDown')
-
-      if puweight==0:
-        self.fill_categories(myMuon, myMET, myEle, njets, mjj, 0, '/puUp')
-        self.fill_categories(myMuon, myMET, myEle, njets, mjj, 0, '/puDown')
-      else:
-        self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight * puweightUp/puweight, '/puUp')
-        self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight * puweightDown/puweight, '/puDown')
-
-      self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight * 1.02, '/trUp')
-      self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight * 0.98, '/trDown')
-
-      if self.is_recoilC and MetCorrection:
-        tmpMET.SetPtEtaPhiM(myMET.Pt(), 0, myMET.Phi(), 0)
-        sysMet = self.MetSys.ApplyMEtSys(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)), 0, 0, 0)
-        if sysMet!=None:
-          tmpMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
-        self.fill_categories(myMuon, tmpMET, myEle, njets, mjj, weight, '/recrespUp')
-        sysMet = self.MetSys.ApplyMEtSys(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)), 0, 0, 1)
-        if sysMet!=None:
-          tmpMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
-        self.fill_categories(myMuon, tmpMET, myEle, njets, mjj, weight, '/recrespDown')
-        sysMet = self.MetSys.ApplyMEtSys(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)), 0, 1, 0)
-        if sysMet!=None:
-          tmpMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
-        self.fill_categories(myMuon, tmpMET, myEle, njets, mjj, weight, '/recresoUp')
-        sysMet = self.MetSys.ApplyMEtSys(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)), 0, 1, 1)
-        if sysMet!=None:
-          tmpMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
-        self.fill_categories(myMuon, tmpMET, myEle, njets, mjj, weight, '/recresoDown')
-
-      myMETpx = myMET.Px() + myEle.Px()
-      myMETpy = myMET.Py() + myEle.Py()
-      tmpEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
-      tmpEle = tmpEle * ROOT.Double(row.eEnergyScaleUp/row.eecalEnergy)
-      myMETpx = myMETpx - tmpEle.Px()
-      myMETpy = myMETpy - tmpEle.Py()
-      tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, sqrt(myMETpx * myMETpx + myMETpy * myMETpy)) 
-      self.fill_categories(myMuon, tmpMET, tmpEle, njets, mjj, weight, '/eescUp')
-      myMETpx = myMET.Px() + myEle.Px()
-      myMETpy = myMET.Py() + myEle.Py()
-      tmpEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
-      tmpEle = tmpEle * ROOT.Double(row.eEnergyScaleDown/row.eecalEnergy)
-      myMETpx = myMETpx - tmpEle.Px()
-      myMETpy = myMETpy - tmpEle.Py()
-      tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, sqrt(myMETpx * myMETpx + myMETpy * myMETpy)) 
-      self.fill_categories(myMuon, tmpMET, tmpEle, njets, mjj, weight, '/eescDown')
-
-      myMETpx = myMET.Px() + myEle.Px()
-      myMETpy = myMET.Py() + myEle.Py()
-      tmpEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
-      tmpEle = tmpEle * ROOT.Double(row.eEnergySigmaUp/row.eecalEnergy)
-      myMETpx = myMETpx - tmpEle.Px()
-      myMETpy = myMETpy - tmpEle.Py()
-      tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-      self.fill_categories(myMuon, tmpMET, tmpEle, njets, mjj, weight, '/eesiUp')
-      myMETpx = myMET.Px() + myEle.Px()
-      myMETpy = myMET.Py() + myEle.Py()
-      tmpEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
-      tmpEle = tmpEle * ROOT.Double(row.eEnergySigmaDown/row.eecalEnergy)
-      myMETpx = myMETpx - tmpEle.Px()
-      myMETpy = myMETpy - tmpEle.Py()
-      tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-      self.fill_categories(myMuon, tmpMET, tmpEle, njets, mjj, weight, '/eesiDown')
-      
-      myMETpx = myMET.Px() - 0.002 * myMuon.Px()
-      myMETpy = myMET.Py() - 0.002 * myMuon.Py()
-      tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-      tmpMuon = myMuon * ROOT.Double(1.002)
-      self.fill_categories(tmpMuon, tmpMET, myEle, njets, mjj, weight, '/mesUp')
-      myMETpx = myMET.Px() + 0.002 * myMuon.Px()
-      myMETpy = myMET.Py() + 0.002 * myMuon.Py()
-      tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-      tmpMuon = myMuon * ROOT.Double(0.998)
-      self.fill_categories(tmpMuon, tmpMET, myEle, njets, mjj, weight, '/mesDown')
-
-      if self.is_DY:
-        self.w2.var("z_gen_mass").setVal(row.genMass)
-        self.w2.var("z_gen_pt").setVal(row.genpT)
-        dyweight = self.w2.function("zptmass_weight_nom").getVal()
-        self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight*dyweight, '/DYptreweightUp')
-        self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight/dyweight, '/DYptreweightDown')
-
-      if self.is_TT:
-        topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
-        self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight*topweight, '/TopptreweightUp')
-        self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight/topweight, '/TopptreweightDown')
-      
-      if not (self.is_recoilC and MetCorrection):
-        tmpEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
-        tmpEleC = tmpEle * ROOT.Double(row.eCorrectedEt/row.eecalEnergy)
-        myMET.SetPtEtaPhiM(row.type1_pfMet_shiftedPt_UnclusteredEnUp, 0, row.type1_pfMet_shiftedPhi_UnclusteredEnUp, 0)
-        myMETpx = myMET.Px() + tmpEle.Px()
-        myMETpy = myMET.Py() + tmpEle.Py()
-        myMETpx = myMETpx - tmpEleC.Px()
-        myMETpy = myMETpy - tmpEleC.Py()
-        myMET.SetPxPyPzE(myMETpx, myMETpy, 0, sqrt(myMETpx * myMETpx + myMETpy * myMETpy)) 
-        self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, '/UnclusteredEnUp')
-        myMET.SetPtEtaPhiM(row.type1_pfMet_shiftedPt_UnclusteredEnDown, 0, row.type1_pfMet_shiftedPhi_UnclusteredEnDown, 0)
-        myMETpx = myMET.Px() + tmpEle.Px()
-        myMETpy = myMET.Py() + tmpEle.Py()
-        myMETpx = myMETpx - tmpEleC.Px()
-        myMETpy = myMETpy - tmpEleC.Py()
-        myMET.SetPxPyPzE(myMETpx, myMETpy, 0, sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-        self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, '/UnclusteredEnDown')
-
-        for j in self.jes:
-          myMET.SetPtEtaPhiM(getattr(row, 'type1_pfMet_shiftedPt_'+j) , 0, getattr(row, 'type1_pfMet_shiftedPhi_'+j), 0)
-          myMETpx = myMET.Px() + tmpEle.Px()
-          myMETpy = myMET.Py() + tmpEle.Py()
-          myMETpx = myMETpx - tmpEleC.Px()
-          myMETpy = myMETpy - tmpEleC.Py()
-          myMET.SetPxPyPzE(myMETpx, myMETpy, 0, sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-          njets = getattr(row, 'jetVeto30WoNoisyJets_'+j)
-          mjj = getattr(row, 'vbfMassWoNoisyJets_'+j) 
-          self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, '/'+j)
-
-    else:
-      self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, '')
-      if self.is_embed:
-        myMETpx = myMET.Px() + myEle.Px()
-        myMETpy = myMET.Py() + myEle.Py()
-        tmpEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
-        tmpEle = tmpEle * ROOT.Double(row.eEnergyScaleUp/row.eecalEnergy)
-        myMETpx = myMETpx - tmpEle.Px()
-        myMETpy = myMETpy - tmpEle.Py()
-        tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-        self.fill_categories(myMuon, tmpMET, tmpEle, njets, mjj, weight, '/eescUp')
-        myMETpx = myMET.Px() + myEle.Px()
-        myMETpy = myMET.Py() + myEle.Py()
-        tmpEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
-        tmpEle = tmpEle * ROOT.Double(row.eEnergyScaleDown/row.eecalEnergy)
-        myMETpx = myMETpx - tmpEle.Px()
-        myMETpy = myMETpy - tmpEle.Py()
-        tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-        self.fill_categories(myMuon, tmpMET, tmpEle, njets, mjj, weight, '/eescDown')
-
-        myMETpx = myMET.Px() + myEle.Px()
-        myMETpy = myMET.Py() + myEle.Py()
-        tmpEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
-        tmpEle = tmpEle * ROOT.Double(row.eEnergySigmaUp/row.eecalEnergy)
-        myMETpx = myMETpx - tmpEle.Px()
-        myMETpy = myMETpy - tmpEle.Py()
-        tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-        self.fill_categories(myMuon, tmpMET, tmpEle, njets, mjj, weight, '/eesiUp')
-        myMETpx = myMET.Px() + myEle.Px()
-        myMETpy = myMET.Py() + myEle.Py()
-        tmpEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
-        tmpEle = tmpEle * ROOT.Double(row.eEnergySigmaDown/row.eecalEnergy)
-        myMETpx = myMETpx - tmpEle.Px()
-        myMETpy = myMETpy - tmpEle.Py()
-        tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-        self.fill_categories(myMuon, tmpMET, tmpEle, njets, mjj, weight, '/eesiDown')
+        self.fill_sshistos(myMuon, myMET, myEle, njets, mjj, weight, 'TightSS2JetVBF')
 
 
   def process(self):
@@ -431,7 +210,7 @@ class AnalyzeMuESysBDTQCD(MegaBase):
 
       njets = row.jetVeto30WoNoisyJets
       if njets > 2:
-        continue 
+        continue
 
       if Emb and self.is_DY:
         if not bool(row.isZmumu or row.isZee):
@@ -444,7 +223,7 @@ class AnalyzeMuESysBDTQCD(MegaBase):
         continue
 
       if not self.vetos(row):
-        continue      
+        continue
 
       nbtag = row.bjetDeepCSVVeto20Medium_2017_DR0p5
       if nbtag > 2:
@@ -455,10 +234,10 @@ class AnalyzeMuESysBDTQCD(MegaBase):
 
       myMET = ROOT.TLorentzVector()
       myMET.SetPtEtaPhiM(row.type1_pfMetEt, 0, row.type1_pfMetPhi, 0)
-                                                                                                                                                                                                            
+
       myEle = ROOT.TLorentzVector()
       myEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
-         
+
       if self.is_mc:
         myMETpx = myMET.Px() + myEle.Px()
         myMETpy = myMET.Py() + myEle.Py()
@@ -469,7 +248,11 @@ class AnalyzeMuESysBDTQCD(MegaBase):
       if self.is_mc:
         myMETpx = myMETpx - myEle.Px()
         myMETpy = myMETpy - myEle.Py()
-        myMET.SetPxPyPzE(myMETpx, myMETpy, 0, sqrt(myMETpx * myMETpx + myMETpy * myMETpy)) 
+        myMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+
+      if self.is_recoilC and MetCorrection:
+        sysMet = self.Metcorected.CorrectByMeanResolution(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)))
+        myMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
 
       weight = 1.0
       eff_trg_data = 0
@@ -497,7 +280,8 @@ class AnalyzeMuESysBDTQCD(MegaBase):
         mTrk = self.muTracking(myMuon.Eta())[0]
         eID = self.eIDnoIsoWP90(myEle.Pt(), abs(myEle.Eta()))
         eTrk = self.eReco(myEle.Pt(), abs(myEle.Eta()))
-        weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*eID*eTrk
+        mcSF = self.rc.kSpreadMC(row.mCharge, myMuon.Pt(), myMuon.Eta(), myMuon.Phi(), row.mGenPt, 0, 0)
+        weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*eID*eTrk*mcSF*row.prefiring_weight
         if self.is_DY:
           self.w2.var("z_gen_mass").setVal(row.genMass)
           self.w2.var("z_gen_pt").setVal(row.genpT)
@@ -528,7 +312,7 @@ class AnalyzeMuESysBDTQCD(MegaBase):
 
       if self.obj1_iso(row) and self.obj2_iso(row):
         if self.oppositesign(row):
-          self.fill_sys(row, myMuon, myMET, myEle, njets, weight)
+          continue
         else:
           self.fill_sscategories(row, myMuon, myMET, myEle, njets, weight)
 

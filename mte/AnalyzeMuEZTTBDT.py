@@ -1,32 +1,22 @@
 '''
 
-Run LFV H->MuTau analysis in the mu+tau channel.
+Run LFV H->MuE analysis in the mu+tau_e channel.
 
-Authors: Maria Cepeda, Aaron Levine, Evan K. Friis, UW
+Authors: Prasanna Siddireddy
 
-'''
+'''  
 
 import EMTree
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
-import glob
 import os
 import ROOT
-import array as arr
 import math
-import copy
-import itertools
-import operator
 import mcCorrections
 import mcWeights
 import Kinematics
-from RecoilCorrector import RecoilCorrector
-from math import sqrt, pi
 from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVACat
-from ROOT import gROOT, gRandom, TRandom3, TFile
 from bTagSF import PromoteDemote
 
-gRandom.SetSeed()
-rnd = gRandom.Rndm
 MetCorrection = True
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target)
@@ -65,12 +55,13 @@ class AnalyzeMuEZTTBDT(MegaBase):
     self.eIDnoIsoWP80 = mcCorrections.eIDnoIsoWP80
     self.eReco = mcCorrections.eReco
     self.EmbedEta = mcCorrections.EmbedEta
+    self.rc = mcCorrections.rc
     self.w1 = mcCorrections.w1
     self.w2 = mcCorrections.w2
     self.w3 = mcCorrections.w3
     self.we = mcCorrections.we
     self.wp = mcCorrections.wp
- 
+
     self.DYweight = self.mcWeight.DYweight
     self.Wweight = self.mcWeight.Wweight
 
@@ -135,7 +126,7 @@ class AnalyzeMuEZTTBDT(MegaBase):
     namesize = len(names)
 
     for x in range(0, namesize):
-      self.book(names[x], "bdtDiscriminator", "BDT Discriminator", 20, -1.0, 1.0)
+      self.book(names[x], "bdtDiscriminator", "BDT Discriminator", 200, -1.0, 1.0)
 
 
   def fill_histos(self, myMuon, myMET, myEle, njets, mjj, weight, name=''):
@@ -203,7 +194,7 @@ class AnalyzeMuEZTTBDT(MegaBase):
       if self.is_mc:
         myMETpx = myMETpx - myEle.Px()
         myMETpy = myMETpy - myEle.Py()
-        myMET.SetPxPyPzE(myMETpx, myMETpy, 0, sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+        myMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
 
       if self.is_recoilC and MetCorrection:
         tmpMet = self.Metcorected.CorrectByMeanResolution(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)))
@@ -224,10 +215,6 @@ class AnalyzeMuEZTTBDT(MegaBase):
       beta_1 = row.jb1eta
       if (self.is_mc and nbtag > 0):
         nbtag = PromoteDemote(self.h_btag_eff_b, self.h_btag_eff_c, self.h_btag_eff_oth, nbtag, bpt_1, bflavor_1, beta_1, 0)
-      #if bool(nbtag == 1 and row.jb1pt < 30) or bool(nbtag == 2 and row.jb1pt < 30 and row.jb2pt > 30) or bool(nbtag == 2 and row.jb1pt > 30 and row.jb2pt < 30):
-      #  nbtag = nbtag - 1
-      #if bool(nbtag == 2 and row.jb1pt < 30 and row.jb2pt < 30):
-      #  nbtag = nbtag - 2
       if (nbtag > 0):
         continue
 
@@ -257,7 +244,8 @@ class AnalyzeMuEZTTBDT(MegaBase):
         mTrk = self.muTracking(myMuon.Eta())[0]
         eID = self.eIDnoIsoWP80(myEle.Pt(), abs(myEle.Eta()))
         eTrk = self.eReco(myEle.Pt(), abs(myEle.Eta()))
-        weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*eID*eTrk
+        mcSF = self.rc.kSpreadMC(row.mCharge, myMuon.Pt(), myMuon.Eta(), myMuon.Phi(), row.mGenPt, 0, 0)
+        weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*eID*eTrk*mcSF*row.prefiring_weight
         if self.is_DY:
           self.w2.var("z_gen_mass").setVal(row.genMass)
           self.w2.var("z_gen_pt").setVal(row.genpT)
@@ -330,7 +318,7 @@ class AnalyzeMuEZTTBDT(MegaBase):
       self.w3.var("m_pt").setVal(myMuon.Pt())
       osss = self.w3.function("em_qcd_osss_binned").getVal() * self.w3.function("em_qcd_extrap_uncert").getVal()
 
-      if self.obj1_iso(row) and self.obj2_iso(row):
+      if self.obj2_iso(row) and self.obj1_iso(row):
         if self.oppositesign(row):
           self.fill_histos(myMuon, myMET, myEle, njets, mjj, weight, 'TightOS')
           if njets==0:

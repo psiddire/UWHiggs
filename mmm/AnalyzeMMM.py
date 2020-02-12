@@ -14,14 +14,14 @@ import math
 import mcCorrections
 import mcWeights
 import Kinematics
-from bTagSF import PromoteDemote
+from bTagSF import bTagEventWeight
 
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target)
 
 class AnalyzeMMM(MegaBase):
   tree = 'mmm/final/Ntuple'
-  
+
   def __init__(self, tree, outfile, **kwargs):
 
     self.mcWeight = mcWeights.mcWeights(target)
@@ -29,22 +29,17 @@ class AnalyzeMMM(MegaBase):
     self.is_mc = self.mcWeight.is_mc
     self.is_DY = self.mcWeight.is_DY
 
-    self.f_btag_eff = mcCorrections.f_btag_eff
-    self.h_btag_eff_b = mcCorrections.h_btag_eff_b
-    self.h_btag_eff_c = mcCorrections.h_btag_eff_c
-    self.h_btag_eff_oth = mcCorrections.h_btag_eff_oth
-
-    self.triggerEff = mcCorrections.efficiency_trigger_mu_2017
+    self.triggerEff27 = mcCorrections.muonTrigger27
+    self.triggerEff50 = mcCorrections.muonTrigger50
     self.muonTightID = mcCorrections.muonID_tight
     self.muonTightIsoTightID = mcCorrections.muonIso_tight_tightid
     self.muonLooseIsoTightID = mcCorrections.muonIso_loose_tightid
+    self.muonMediumID = mcCorrections.muonID_medium
+    self.muonTightIsoMediumID = mcCorrections.muonIso_tight_mediumid
+    self.muonLooseIsoMediumID = mcCorrections.muonIso_loose_mediumid
     self.muTracking = mcCorrections.muonTracking
-
+    self.DYreweight = mcCorrections.DYreweight
     self.rc = mcCorrections.rc
-    self.w1 = mcCorrections.w1
-    self.w2 = mcCorrections.w2
-    self.w3 = mcCorrections.w3
-    self.we = mcCorrections.we
 
     self.DYweight = self.mcWeight.DYweight
 
@@ -60,13 +55,13 @@ class AnalyzeMMM(MegaBase):
     self.out = outfile
     self.histograms = {}
 
-
+  # Charge requirement for the muons to be coming from Z-decay
   def oppositesign(self,row):
     if row.m1Charge * row.m2Charge!=-1:
       return False
     return True
 
-
+  # Kinematic Selections
   def kinematics(self, row):
     if row.m1Pt < 10 or abs(row.m1Eta) >= 2.4:
       return False
@@ -76,56 +71,55 @@ class AnalyzeMMM(MegaBase):
       return False
     return True
 
-
+  # MET Filters
   def filters(self, row):
-    if row.Flag_goodVertices or row.Flag_globalTightHalo2016Filter or row.Flag_HBHENoiseFilter or row.Flag_HBHENoiseIsoFilter or row.Flag_EcalDeadCellTriggerPrimitiveFilter or row.Flag_BadPFMuonFilter or row.Flag_BadChargedCandidateFilter or row.Flag_ecalBadCalibFilter or bool(self.is_data and row.Flag_eeBadScFilter):
+    if row.Flag_goodVertices or row.Flag_globalSuperTightHalo2016Filter or row.Flag_HBHENoiseFilter or row.Flag_HBHENoiseIsoFilter or row.Flag_EcalDeadCellTriggerPrimitiveFilter or row.Flag_BadPFMuonFilter or bool(self.is_data and row.Flag_eeBadScFilter):#row.Flag_ecalBadCalibFilter -> row.Flag_ecalBadCalibReducedMINIAODFilter
       return True
     return False
 
-
+  # Particle Flow Identification along with Primary Vertex matching for Muon 1
   def obj1_id(self,row):
-    return bool(row.m1PFIDTight) and bool(abs(row.m1PVDZ) < 0.2) and bool(abs(row.m1PVDXY) < 0.045)
- 
- 
+    return bool(row.m1PFIDMedium) and bool(abs(row.m1PVDZ) < 0.2) and bool(abs(row.m1PVDXY) < 0.045)
+
+  # Isolation requirement using Delta Beta method for Muon 1
   def obj1_iso(self,row):
-    return bool(row.m1RelPFIsoDBDefaultR04 < 0.15)
-  
-  
+    return bool(row.m1RelPFIsoDBDefaultR04 < 0.25)
+
+  # Particle Flow Identification along with Primary Vertex matching for Muon 2
   def obj2_id(self, row):
-    return bool(row.m2PFIDTight) and bool(abs(row.m2PVDZ) < 0.2) and bool(abs(row.m2PVDXY) < 0.045)
+    return bool(row.m2PFIDMedium) and bool(abs(row.m2PVDZ) < 0.2) and bool(abs(row.m2PVDXY) < 0.045)
 
-
+  # Isolation requirement using Delta Beta method for Muon 2
   def obj2_iso(self, row):
-    return bool(row.m2RelPFIsoDBDefaultR04 < 0.15)
+    return bool(row.m2RelPFIsoDBDefaultR04 < 0.25)
 
-
-  def obj3_id(self, row):
+  # Particle Flow Identification along with Primary Vertex matching for Muon 3
+  def muon_id(self, row):
     return bool(row.m3PFIDTight) and bool(abs(row.m3PVDZ) < 0.2) and bool(abs(row.m3PVDXY) < 0.045)
 
-
-  def obj3_tight(self, row):
+  # Tight Isolation for Muon 3
+  def muon_tight(self, row):
     return bool(row.m3RelPFIsoDBDefaultR04 < 0.15)
 
+  # Loose Isolation for Muon 3
+  def muon_loose(self, row):
+    return bool(row.m3RelPFIsoDBDefaultR04 < 0.25)
 
-  def obj3_loose(self, row):
-    return bool(row.m3RelPFIsoDBDefaultR04 < 0.2)
-
-
+  # Veto of events with additional leptons coming from the primary vertex
   def vetos(self, row):
-    return bool(row.eVetoMVAIso < 0.5) and bool(row.muGlbIsoVetoPt10 < 0.5) and bool(row.tauVetoPt20LooseMVALTVtx < 0.5)
+    return bool(row.eVetoZTTp001dxyz < 0.5) and bool(row.muVetoZTTp001dxyz < 0.5) and bool(row.tauVetoPt20LooseMVALTVtx < 0.5)
 
 
   def begin(self):
-    names=['initial', 'muonloose', 'muontight']
-    namesize = len(names)
-    for x in range(0,namesize):
-      self.book(names[x], "m3Pt", "Muon 3 Pt", 20, 0, 200)
-      self.book(names[x], "m3Eta", "Muon 3 Eta", 20, -3, 3)
-      self.book(names[x], "m1_m2_Mass", "Invariant Muon Mass", 10, 50, 150)
-      self.book(names[x], "m1Pt", "Muon 1 Pt", 20, 0, 200)
-      self.book(names[x], "m1Eta", "Muon 1 Eta", 20, -3, 3)
-      self.book(names[x], "m2Pt", "Muon 2 Pt", 20, 0, 200)
-      self.book(names[x], "m2Eta", "Muon 2 Eta", 20, -3, 3)
+    names = ['initial', 'muonloose', 'muontight']
+    for n in names:
+      self.book(n, "m3Pt", "Muon 3 Pt", 20, 0, 200)
+      self.book(n, "m3Eta", "Muon 3 Eta", 20, -3, 3)
+      self.book(n, "m1_m2_Mass", "Invariant Muon Mass", 10, 50, 150)
+      self.book(n, "m1Pt", "Muon 1 Pt", 20, 0, 200)
+      self.book(n, "m1Eta", "Muon 1 Eta", 20, -3, 3)
+      self.book(n, "m2Pt", "Muon 2 Pt", 20, 0, 200)
+      self.book(n, "m2Eta", "Muon 2 Eta", 20, -3, 3)
 
 
   def fill_histos(self, myMuon1, myMuon2, myMuon3, weight, name=''):
@@ -143,17 +137,15 @@ class AnalyzeMMM(MegaBase):
 
     for row in self.tree:
 
-      trigger24m1 = row.IsoMu24Pass and row.m1MatchesIsoMu24Filter and row.m1MatchesIsoMu24Path and row.m1Pt > 25
-      trigger27m1 = row.IsoMu27Pass and row.m1MatchesIsoMu27Filter and row.m1MatchesIsoMu27Path and row.m1Pt > 28
-      trigger24m2 = row.IsoMu24Pass and row.m2MatchesIsoMu24Filter and row.m2MatchesIsoMu24Path and row.m2Pt > 25
-      trigger27m2 = row.IsoMu27Pass and row.m2MatchesIsoMu27Filter and row.m2MatchesIsoMu27Path and row.m2Pt > 28
-      trigger24m3 = row.IsoMu24Pass and row.m3MatchesIsoMu24Filter and row.m3MatchesIsoMu24Path and row.m3Pt > 25
-      trigger27m3 = row.IsoMu27Pass and row.m3MatchesIsoMu27Filter and row.m3MatchesIsoMu27Path and row.m3Pt > 28
+      trigger27m1 = row.IsoMu27Pass and row.m1MatchesIsoMu27Filter and row.m1MatchesIsoMu27Path and row.m1Pt > 29
+      trigger27m2 = row.IsoMu27Pass and row.m2MatchesIsoMu27Filter and row.m2MatchesIsoMu27Path and row.m2Pt > 29
+      trigger27m3 = row.IsoMu27Pass and row.m3MatchesIsoMu27Filter and row.m3MatchesIsoMu27Path and row.m3Pt > 29
+      trigger50 = row.Mu50Pass and row.m1Pt > 52
 
       if self.filters(row):
         continue
 
-      if not bool(trigger24m1 or trigger27m1 or trigger24m2 or trigger27m2 or trigger24m3 or trigger27m3):
+      if not bool(trigger27m1 or trigger27m2 or trigger27m3 or trigger50):
         continue
 
       if not self.kinematics(row):
@@ -191,6 +183,7 @@ class AnalyzeMMM(MegaBase):
       if row.m1Charge * row.m3Charge == -1:
         if z1diff > z2diff:
           continue
+
       if row.m2Charge * row.m3Charge == -1:
         if z1diff > z3diff:
           continue
@@ -198,48 +191,44 @@ class AnalyzeMMM(MegaBase):
       if z1diff > 20:
         continue
 
-      if not self.obj3_id(row):
+      if not self.muon_id(row):
         continue
-
-      nbtag = row.bjetDeepCSVVeto20Medium
-      bpt_1 = row.jb1pt
-      bflavor_1 = row.jb1hadronflavor
-      beta_1 = row.jb1eta
-      if (self.is_mc and nbtag > 0):
-        nbtag = PromoteDemote(self.h_btag_eff_b, self.h_btag_eff_c, self.h_btag_eff_oth, nbtag, bpt_1, bflavor_1, beta_1, 0)
-      if (nbtag > 0):
-        continue 
 
       weight = 1.0
       if self.is_mc:
-        if trigger24m1 or trigger27m1:
-          self.w2.var("m_pt").setVal(myMuon1.Pt())
-          self.w2.var("m_eta").setVal(myMuon1.Eta())
-          tEff = 0 if self.w2.function("m_trg24_27_kit_mc").getVal()==0 else self.w2.function("m_trg24_27_kit_data").getVal()/self.w2.function("m_trg24_27_kit_mc").getVal()
+        if trigger27m1:
+          tEff = self.triggerEff27(row.m1Pt, abs(row.m1Eta))
           weight = weight * tEff
-        elif trigger24m2 or trigger27m2:
-          self.w2.var("m_pt").setVal(myMuon2.Pt())
-          self.w2.var("m_eta").setVal(myMuon2.Eta())
-          tEff = 0 if self.w2.function("m_trg24_27_kit_mc").getVal()==0 else self.w2.function("m_trg24_27_kit_data").getVal()/self.w2.function("m_trg24_27_kit_mc").getVal()
+        elif trigger27m2:
+          tEff = self.triggerEff27(row.m2Pt, abs(row.m2Eta))
           weight = weight * tEff
-        elif trigger24m3 or trigger27m3:
-          self.w2.var("m_pt").setVal(myMuon3.Pt())
-          self.w2.var("m_eta").setVal(myMuon3.Eta())
-          tEff = 0 if self.w2.function("m_trg24_27_kit_mc").getVal()==0 else self.w2.function("m_trg24_27_kit_data").getVal()/self.w2.function("m_trg24_27_kit_mc").getVal()
+        elif trigger27m3:
+          tEff = self.triggerEff27(row.m3Pt, abs(row.m3Eta))
           weight = weight * tEff
-        m1ID = self.muonTightID(row.m1Pt, abs(row.m1Eta))
-        m1Iso = self.muonTightIsoTightID(row.m1Pt, abs(row.m1Eta))
-        m1Trk = self.muTracking(row.m1Eta)[0]
-        m2ID = self.muonTightID(row.m2Pt, abs(row.m2Eta))
-        m2Iso = self.muonTightIsoTightID(row.m2Pt, abs(row.m2Eta))
-        m2Trk = self.muTracking(row.m2Eta)[0]
+        elif trigger50:
+          tEff = self.triggerEff50(row.m1Pt, abs(row.m1Eta))
+          weight = weight * tEff
+        # Muon 1 Scale Factors
+        m1ID = self.muonMediumID(row.m1Pt, abs(row.m1Eta))
+        m1Iso = self.muonLooseIsoMediumID(row.m1Pt, abs(row.m1Eta))
+        m1Trk = self.muTracking(myMuon1.Eta())[0]
+        # Muon 2 Scale Factors
+        m2ID = self.muonMediumID(row.m2Pt, abs(row.m2Eta))
+        m2Iso = self.muonLooseIsoMediumID(row.m2Pt, abs(row.m2Eta))
+        m2Trk = self.muTracking(myMuon2.Eta())[0]
+        # Muon 3 Scale Factors
         m3ID = self.muonTightID(row.m3Pt, abs(row.m3Eta))
-        m3Trk = self.muTracking(row.m3Eta)[0]
-        weight = weight * m1ID * m1Iso * m1Trk * m2ID * m2Iso * m2Trk * m3ID * m3Trk
+        m3Trk = self.muTracking(myMuon3.Eta())[0]
+        if self.muon_tight(row):
+          m3Iso = self.muonTightIsoTightID(row.m3Pt, abs(row.m3Eta))
+          weight = weight * m3Iso
+        elif self.muon_loose(row):
+          m3Iso = self.muonLooseIsoTightID(row.m3Pt, abs(row.m3Eta))
+          weight = weight * m3Iso
+        weight = weight * row.GenWeight * pucorrector[''](row.nTruePU) * m1ID * m1Iso * m1Trk * m2ID * m2Iso * m2Trk * m3ID * m3Trk
         if self.is_DY:
-          self.w2.var("z_gen_mass").setVal(row.genMass)
-          self.w2.var("z_gen_pt").setVal(row.genpT)
-          dyweight = self.w2.function("zptmass_weight_nom").getVal()
+          # DY pT reweighting
+          dyweight = self.DYreweight(row.genMass, row.genpT)
           weight = weight * dyweight
           if row.numGenJets < 5:
             weight = weight * self.DYweight[row.numGenJets]
@@ -247,18 +236,22 @@ class AnalyzeMMM(MegaBase):
             weight = weight * self.DYweight[0]
         weight = self.mcWeight.lumiWeight(weight)
 
+      # B-Jet Veto using b-tagging event weight method
+      nbtag = row.bjetDeepCSVVeto20Medium_2017_DR0p5
+      if nbtag > 2:
+        nbtag = 2
+      if (self.is_mc and nbtag > 0):
+        btagweight = bTagEventWeight(nbtag, row.jb1pt_2017, row.jb1hadronflavor_2017, row.jb2pt_2017, row.jb2hadronflavor_2017, 1, 0, 0)
+        weight = weight * btagweight
+      if (bool(self.is_data) and nbtag > 0):
+        weight = 0
+
       self.fill_histos(myMuon1, myMuon2, myMuon3, weight, 'initial')
 
-      if self.obj3_loose(row):
-        if self.is_mc:
-          m3Iso = self.muonLooseIsoTightID(row.m3Pt, abs(row.m3Eta))
-          weight = weight * m3Iso
+      if self.muon_loose(row):
         self.fill_histos(myMuon1, myMuon2, myMuon3, weight, 'muonloose')
 
-      if self.obj3_tight(row):
-        if self.is_mc:
-          m3Iso = self.muonTightIsoTightID(row.m3Pt, abs(row.m3Eta))
-          weight = weight * m3Iso
+      if self.muon_tight(row):
         self.fill_histos(myMuon1, myMuon2, myMuon3, weight, 'muontight')
 
 

@@ -11,6 +11,7 @@ import FinalStateAnalysis.TagAndProbe.FakeRate as FakeRate
 from RecoilCorrector import RecoilCorrector
 from MEtSys import MEtSys
 import ROOT
+import RoccoR
 
 @memo
 def getVar(name, var):
@@ -88,7 +89,7 @@ def make_shifted_weights(default, shifts, functors):
         return default(*args, **kwargs)
     return functor
 
-feta = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/EmbedEta.root")
+feta = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/EMuEmbedEta.root")
 weta0 = feta.Get("0Jet")
 weta1 = feta.Get("1Jet")
 weta2 = feta.Get("2Jet")
@@ -147,10 +148,12 @@ wp = fp.Get("w")
 Metcorected = RecoilCorrector("Type1_PFMET_2017.root")
 MetSys = MEtSys("PFMEtSys_2017.root")
 
-f_btag_eff = ROOT.TFile("btag.root","r")
+f_btag_eff = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/btag.root","r")
 h_btag_eff_b = f_btag_eff.Get("btag_eff_b")
 h_btag_eff_c = f_btag_eff.Get("btag_eff_c")
 h_btag_eff_oth = f_btag_eff.Get("btag_eff_oth")
+
+rc = RoccoR.RoccoR("../../FinalStateAnalysis/NtupleTools/data/RoccoR2017.txt")
 
 def puCorrector(target=''):
     if bool('DYJetsToLL_M-50' in target):

@@ -14,9 +14,8 @@ import math
 import mcCorrections
 import mcWeights
 import Kinematics
-from bTagSF import PromoteDemote
+from bTagSF import bTagEventWeight
 
-MetCorrection = True
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target)
 
@@ -30,18 +29,11 @@ class AnalyzeEEE(MegaBase):
     self.is_mc = self.mcWeight.is_mc
     self.is_DY = self.mcWeight.is_DY
 
-    self.f_btag_eff = mcCorrections.f_btag_eff
-    self.h_btag_eff_b = mcCorrections.h_btag_eff_b
-    self.h_btag_eff_c = mcCorrections.h_btag_eff_c
-    self.h_btag_eff_oth = mcCorrections.h_btag_eff_oth
-
-    self.eIDnoIsoWP80 = mcCorrections.eIDnoIsoWP80
+    self.eIDnoiso90 = mcCorrections.eIDnoiso90
+    self.eIDnoiso80 = mcCorrections.eIDnoiso80
     self.eReco = mcCorrections.eReco
-
-    self.w1 = mcCorrections.w1
     self.w2 = mcCorrections.w2
-    self.w3 = mcCorrections.w3
-    self.we = mcCorrections.we
+    self.DYreweight = mcCorrections.DYreweight
 
     self.DYweight = self.mcWeight.DYweight
 
@@ -57,83 +49,82 @@ class AnalyzeEEE(MegaBase):
     self.out = outfile
     self.histograms = {}
 
-
+  # Charge requirement for the electrons to be coming from Z-decay
   def oppositesign(self,row):
     if row.e1Charge * row.e2Charge!=-1:
       return False
     return True
 
-
+  # Kinematic Selections
   def kinematics(self, row):
-    if row.e1Pt < 10 or abs(row.e1Eta) >= 2.5:
+    if row.e1Pt < 20 or abs(row.e1Eta) >= 2.5:
       return False
-    if row.e2Pt < 10 or abs(row.e2Eta) >= 2.5:
+    if row.e2Pt < 20 or abs(row.e2Eta) >= 2.5:
       return False
-    if row.e3Pt < 23 or abs(row.e3Eta) >= 2.1:
+    if row.e3Pt < 20 or abs(row.e3Eta) >= 2.1:
       return False
     return True
 
-
+  # MET Filters
   def filters(self, row):
-    if row.Flag_goodVertices or row.Flag_globalTightHalo2016Filter or row.Flag_HBHENoiseFilter or row.Flag_HBHENoiseIsoFilter or row.Flag_EcalDeadCellTriggerPrimitiveFilter or row.Flag_BadPFMuonFilter or row.Flag_BadChargedCandidateFilter or row.Flag_ecalBadCalibFilter or bool(self.is_data and row.Flag_eeBadScFilter):
+    if row.Flag_goodVertices or row.Flag_globalSuperTightHalo2016Filter or row.Flag_HBHENoiseFilter or row.Flag_HBHENoiseIsoFilter or row.Flag_EcalDeadCellTriggerPrimitiveFilter or row.Flag_BadPFMuonFilter or bool(self.is_data and row.Flag_eeBadScFilter):#row.Flag_ecalBadCalibFilter -> row.Flag_ecalBadCalibReducedMINIAODFilter
       return True
     return False
 
-
+  # MVA Identification along with Primary Vertex matching for Electron 1
   def obj1_id(self,row):
-    return (bool(row.e1MVANoisoWP80) and bool(abs(row.e1PVDZ) < 0.2) and bool(abs(row.e1PVDXY) < 0.045) and bool(row.e1PassesConversionVeto) and bool(row.e1MissingHits < 2))
- 
- 
+    return (bool(row.e1MVANoisoWP90) and bool(abs(row.e1PVDZ) < 0.2) and bool(abs(row.e1PVDXY) < 0.045) and bool(row.e1PassesConversionVeto) and bool(row.e1MissingHits < 2))
+
+  # Isolation requirement using Effective Area method for Electron 1
   def obj1_iso(self,row):
-    return bool(row.e1RelPFIsoRho < 0.1)
-  
-  
+    return bool(row.e1RelPFIsoRho < 0.15)
+
+  # MVA Identification along with Primary Vertex matching for Electron 2
   def obj2_id(self, row):
-    return (bool(row.e2MVANoisoWP80) and bool(abs(row.e2PVDZ) < 0.2) and bool(abs(row.e2PVDXY) < 0.045) and bool(row.e2PassesConversionVeto) and bool(row.e2MissingHits < 2))
+    return (bool(row.e2MVANoisoWP90) and bool(abs(row.e2PVDZ) < 0.2) and bool(abs(row.e2PVDXY) < 0.045) and bool(row.e2PassesConversionVeto) and bool(row.e2MissingHits < 2))
 
-
+  # Isolation requirement using Effective Area method for Electron 2
   def obj2_iso(self, row):
-    return bool(row.e2RelPFIsoRho < 0.1)
+    return bool(row.e2RelPFIsoRho < 0.15)
 
-
+  # MVA Identification along with Primary Vertex matching for Electron 3
   def obj3_id(self, row):
     return (bool(row.e3MVANoisoWP80) and bool(abs(row.e3PVDZ) < 0.2) and bool(abs(row.e3PVDXY) < 0.045) and bool(row.e3PassesConversionVeto) and bool(row.e3MissingHits < 2))
 
-
+  # Tight Isolation requirement using Effective Area method for Electron 3
   def obj3_tight(self, row):
-    return bool(row.e3RelPFIsoRho < 0.1)
+    return bool(row.e3RelPFIsoRho < 0.15)
 
-
+  # Loose Isolation requirement using Effective Area method for Electron 3
   def obj3_loose(self, row):
     return bool(row.e3RelPFIsoRho < 0.5)
 
-
+  # Veto of events with additional leptons coming from the primary vertex
   def vetos(self, row):
-    return bool(row.eVetoMVAIso < 0.5) and bool(row.muGlbIsoVetoPt10 < 0.5) and bool(row.tauVetoPt20LooseMVALTVtx < 0.5)
+    return bool(row.eVetoZTTp001dxyz < 0.5) and bool(row.muVetoZTTp001dxyz < 0.5) and bool(row.tauVetoPt20LooseMVALTVtx < 0.5)
 
 
   def begin(self):
-    names=['initial', 'eleloose', 'eletight', 'LEB', 'LEE', 'TEB', 'TEE']
-    namesize = len(names)
-    for x in range(0, namesize):
-      self.book(names[x], 'e3Pt', 'Electron 3 Pt', 20, 0, 200)
-      self.book(names[x], 'e3Eta', 'Electron 3 Eta', 20, -3, 3)
-      #self.book(names[x], 'e1_e2_Mass', 'Invariant Electron Mass', 10, 50, 150)
-      #self.book(names[x], 'e1Pt', 'Electron 1 Pt', 20, 0, 200)
-      #self.book(names[x], 'e1Eta', 'Electron 1 Eta', 20, -3, 3)
-      #self.book(names[x], 'e2Pt', 'Electron 2 Pt', 20, 0, 200)
-      #self.book(names[x], 'e2Eta', 'Electron 2 Eta', 20, -3, 3)
+    names = ['initial', 'eleloose', 'eletight']
+    for n in names:
+      self.book(n, 'e3Pt', 'Electron 3 Pt', 20, 0, 200)
+      self.book(n, 'e3Eta', 'Electron 3 Eta', 20, -3, 3)
+      self.book(n, 'e1_e2_Mass', 'Invariant Electron Mass', 10, 50, 150)
+      self.book(n, 'e1Pt', 'Electron 1 Pt', 20, 0, 200)
+      self.book(n, 'e1Eta', 'Electron 1 Eta', 20, -3, 3)
+      self.book(n, 'e2Pt', 'Electron 2 Pt', 20, 0, 200)
+      self.book(n, 'e2Eta', 'Electron 2 Eta', 20, -3, 3)
 
 
   def fill_histos(self, myEle1, myEle2, myEle3, weight, name=''):
     histos = self.histograms
     histos[name+'/e3Pt'].Fill(myEle3.Pt(), weight)
     histos[name+'/e3Eta'].Fill(myEle3.Eta(), weight)
-    #histos[name+'/e1_e2_Mass'].Fill(self.visibleMass(myEle1, myEle2), weight)
-    #histos[name+'/e1Pt'].Fill(myEle1.Pt(), weight)
-    #histos[name+'/e1Eta'].Fill(myEle1.Eta(), weight)
-    #histos[name+'/e2Pt'].Fill(myEle2.Pt(), weight)
-    #histos[name+'/e2Eta'].Fill(myEle2.Eta(), weight)
+    histos[name+'/e1_e2_Mass'].Fill(self.visibleMass(myEle1, myEle2), weight)
+    histos[name+'/e1Pt'].Fill(myEle1.Pt(), weight)
+    histos[name+'/e1Eta'].Fill(myEle1.Eta(), weight)
+    histos[name+'/e2Pt'].Fill(myEle2.Pt(), weight)
+    histos[name+'/e2Eta'].Fill(myEle2.Eta(), weight)
 
 
   def process(self):
@@ -205,15 +196,6 @@ class AnalyzeEEE(MegaBase):
       if not self.obj3_id(row):
         continue
 
-      nbtag = row.bjetDeepCSVVeto20Medium
-      bpt_1 = row.jb1pt
-      bflavor_1 = row.jb1hadronflavor
-      beta_1 = row.jb1eta
-      if (self.is_mc and nbtag > 0):
-        nbtag = PromoteDemote(self.h_btag_eff_b, self.h_btag_eff_c, self.h_btag_eff_oth, nbtag, bpt_1, bflavor_1, beta_1, 0)
-      if (nbtag > 0):
-        continue 
-
       weight = 1.0
       if self.is_mc:
         if e1trigger27 or e1trigger32 or e1trigger35:
@@ -228,30 +210,20 @@ class AnalyzeEEE(MegaBase):
           self.w2.var('e_pt').setVal(myEle3.Pt())
           self.w2.var('e_eta').setVal(myEle3.Eta())
           tEff = 0 if self.w2.function('e_trg27_trg32_trg35_kit_mc').getVal()==0 else self.w2.function('e_trg27_trg32_trg35_kit_data').getVal()/self.w2.function('e_trg27_trg32_trg35_kit_mc').getVal()
-        self.w2.var('e_pt').setVal(myEle1.Pt())
-        self.w2.var('e_iso').setVal(row.e1RelPFIsoRho)
-        self.w2.var('e_eta').setVal(myEle1.Eta())
-        e1ID = self.w2.function('e_id80_kit_ratio').getVal()
-        e1Iso = self.w2.function('e_iso_kit_ratio').getVal()
-        e1Trk = self.w2.function('e_trk_ratio').getVal()
-        self.w2.var('e_pt').setVal(myEle2.Pt())
-        self.w2.var('e_iso').setVal(row.e2RelPFIsoRho)
-        self.w2.var('e_eta').setVal(myEle2.Eta())
-        e2ID = self.w2.function('e_id80_kit_ratio').getVal()
-        e2Iso = self.w2.function('e_iso_kit_ratio').getVal()
-        e2Trk = self.w2.function('e_trk_ratio').getVal()
-        self.w2.var('e_pt').setVal(myEle3.Pt())
-        self.w2.var('e_iso').setVal(row.e3RelPFIsoRho)
-        self.w2.var('e_eta').setVal(myEle3.Eta())
-        e3ID = self.w2.function('e_id80_kit_ratio').getVal()
-        e3Iso = self.w2.function('e_iso_kit_ratio').getVal()
-        e3Trk = self.w2.function('e_trk_ratio').getVal()
-        zvtx = 0.991 
-        weight = weight * tEff * e1ID * e1Iso * e1Trk * e2ID * e2Iso * e2Trk * e3ID * e3Iso * e3Trk * zvtx
+        zvtx = 0.991
+        # Electron 1 Scale Factors
+        e1ID = self.eIDnoiso90(row.e1Eta, row.e1Pt)
+        e1Trk = self.eReco(row.e1Eta, row.e1Pt)
+        # Electron 2 Scale Factors
+        e2ID = self.eIDnoiso90(row.e2Eta, row.e2Pt)
+        e2Trk = self.eReco(row.e2Eta, row.e2Pt)
+        # Electron 3 Scale Factors
+        e3ID = self.eIDnoiso80(row.e3Eta, row.e3Pt)
+        e3Trk = self.eReco(row.e3Eta, row.e3Pt)
+        weight = weight * tEff * e1ID * e1Trk * e2ID * e2Trk * e3ID * e3Trk * zvtx
         if self.is_DY:
-          self.w2.var('z_gen_mass').setVal(row.genMass)
-          self.w2.var('z_gen_pt').setVal(row.genpT)
-          dyweight = self.w2.function('zptmass_weight_nom').getVal()
+          # DY pT reweighting
+          dyweight = self.DYreweight(row.genMass, row.genpT)
           weight = weight * dyweight
           if row.numGenJets < 5:
             weight = weight * self.DYweight[row.numGenJets]
@@ -263,17 +235,9 @@ class AnalyzeEEE(MegaBase):
 
       if self.obj3_loose(row):
         self.fill_histos(myEle1, myEle2, myEle3, weight, 'eleloose')
-        if abs(myEle3.Eta()) < 1.5:
-          self.fill_histos(myEle1, myEle2, myEle3, weight, 'LEB')
-        else:
-          self.fill_histos(myEle1, myEle2, myEle3, weight, 'LEE')
 
       if self.obj3_tight(row):
         self.fill_histos(myEle1, myEle2, myEle3, weight, 'eletight')
-        if abs(myEle3.Eta()) < 1.5:
-          self.fill_histos(myEle1, myEle2, myEle3, weight, 'TEB')
-        else:
-          self.fill_histos(myEle1, myEle2, myEle3, weight, 'TEE')
 
 
   def finish(self):

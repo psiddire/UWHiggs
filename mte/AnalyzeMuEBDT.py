@@ -1,32 +1,22 @@
 '''
 
-Run LFV H->MuTau analysis in the mu+tau channel.
+Run LFV H->MuE analysis in the mu+tau_e channel.
 
-Authors: Maria Cepeda, Aaron Levine, Evan K. Friis, UW
+Authors: Prasanna Siddireddy
 
 '''
 
 import EMTree
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
-import glob
 import os
 import ROOT
 import array
 import math
-import copy
-import operator
-import itertools
 import mcCorrections
 import mcWeights
 import Kinematics
-from RecoilCorrector import RecoilCorrector
-from math import sqrt, pi
-from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVA
-from ROOT import gROOT, gRandom, TRandom3, TFile
 from bTagSF import PromoteDemote
 
-gRandom.SetSeed()
-rnd = gRandom.Rndm
 MetCorrection = True
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target)
@@ -62,6 +52,7 @@ class AnalyzeMuEBDT(MegaBase):
     self.muTracking = mcCorrections.muonTracking
     self.eIDnoIsoWP80 = mcCorrections.eIDnoIsoWP80
     self.eReco = mcCorrections.eReco
+    self.rc = mcCorrections.rc
     self.w1 = mcCorrections.w1
     self.w2 = mcCorrections.w2
     self.w3 = mcCorrections.w3
@@ -79,7 +70,7 @@ class AnalyzeMuEBDT(MegaBase):
     self.topPtreweight = Kinematics.topPtreweight
     self.invert_case = Kinematics.invert_case
 
-    self.branches="mPt/F:ePt/F:m_e_collinearMass/F:dPhiMuMET/F:dPhiEMET/F:dPhiMuE/F:MTMuMET/F:MTEMET/F:njets/I:vbfMass/F:weight/F"
+    self.branches="mPt/F:ePt/F:m_e_collinearMass/F:m_e_visibleMass/F:dPhiMuMET/F:dPhiEMET/F:dPhiMuE/F:MTMuMET/F:m_e_PZeta/F:MTEMET/F:dEtaMuE/F:type1_pfMetEt/F:njets/I:vbfMass/F:weight/F"
     self.holders = []
     if self.is_GluGlu or self.is_VBF:
       self.name="TreeS"
@@ -101,7 +92,7 @@ class AnalyzeMuEBDT(MegaBase):
 
 
   def kinematics(self, row):
-    if row.mPt < 10 or abs(row.mEta) >= 2.4:
+    if row.mPt < 24 or abs(row.mEta) >= 2.4:
       return False
     if row.ePt < 13 or abs(row.eEta) >= 2.5:
       return False
@@ -150,7 +141,7 @@ class AnalyzeMuEBDT(MegaBase):
       self.tree1.Branch(varname, holder, name)
 
 
-  def filltree(self, myMuon, myMET, myEle, njets, mjj, weight):
+  def filltree(self, row, myMuon, myMET, myEle, njets, weight):
     for varname, holder in self.holders:
       if varname=="mPt":
         holder[0] = myMuon.Pt()
@@ -158,6 +149,8 @@ class AnalyzeMuEBDT(MegaBase):
         holder[0] = myEle.Pt()
       elif varname=="m_e_collinearMass":
         holder[0] = self.collMass(myMuon, myMET, myEle)
+      elif varname=="m_e_visibleMass":
+        holder[0] = self.visibleMass(myMuon, myEle)
       elif varname=="dPhiMuMET":
         holder[0] = self.deltaPhi(myMuon.Phi(), myMET.Phi())
       elif varname=="dPhiEMET":
@@ -166,12 +159,18 @@ class AnalyzeMuEBDT(MegaBase):
         holder[0] = self.deltaPhi(myMuon.Phi(), myEle.Phi())
       elif varname=="MTMuMET":
         holder[0] = self.transverseMass(myMuon, myMET)
+      elif varname=="m_e_PZeta":
+        holder[0] = row.e_m_PZeta
       elif varname=="MTEMET":
         holder[0] = self.transverseMass(myEle, myMET)
+      elif varname=="dEtaMuE":
+        holder[0] = self.deltaEta(myMuon.Eta(), myEle.Eta())
+      elif varname=="type1_pfMetEt":
+        holder[0] = myMET.Pt()
       elif varname=="njets":
         holder[0] = int(njets)
       elif varname=="vbfMass":
-        holder[0] = mjj
+        holder[0] = row.vbfMassWoNoisyJets
       elif varname=="weight":
         holder[0] = weight
     self.tree1.Fill()
@@ -232,7 +231,7 @@ class AnalyzeMuEBDT(MegaBase):
       if self.is_mc:
         myMETpx = myMETpx - myEle.Px()
         myMETpy = myMETpy - myEle.Py()
-        myMET.SetPxPyPzE(myMETpx, myMETpy, 0, sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+        myMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
 
       if self.is_recoilC and MetCorrection:
         tmpMet = self.Metcorected.CorrectByMeanResolution(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)))
@@ -273,7 +272,8 @@ class AnalyzeMuEBDT(MegaBase):
         mTrk = self.muTracking(myMuon.Eta())[0]
         eID = self.eIDnoIsoWP80(myEle.Pt(), abs(myEle.Eta()))
         eTrk = self.eReco(myEle.Pt(), abs(myEle.Eta()))
-        weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*eID*eTrk
+        mcSF = self.rc.kSpreadMC(row.mCharge, myMuon.Pt(), myMuon.Eta(), myMuon.Phi(), row.mGenPt, 0, 0)
+        weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*eID*eTrk*mcSF*row.prefiring_weight
         if self.is_DY:
           self.w2.var("z_gen_mass").setVal(row.genMass)
           self.w2.var("z_gen_pt").setVal(row.genpT)
@@ -297,9 +297,12 @@ class AnalyzeMuEBDT(MegaBase):
 
       mjj = row.vbfMassWoNoisyJets
 
+      if math.isnan(row.vbfMassWoNoisyJets):
+        continue
+
       if self.obj1_iso(row) and self.obj2_iso(row):
         if self.oppositesign(row):
-          self.filltree(myMuon, myMET, myEle, njets, mjj, weight)
+          self.filltree(row, myMuon, myMET, myEle, njets, weight)
 
 
   def finish(self):

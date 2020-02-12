@@ -106,44 +106,6 @@ def EmbedEta(eta, njets, mjj):
     else:
         return 1.0
 
-fpt = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/MuEEmbedPt.root")
-wpt0 = fpt.Get("0Jet")
-wpt1 = fpt.Get("1Jet")
-wpt2 = fpt.Get("2Jet")
-wpt3 = fpt.Get("2JetVBF")
-
-def EmbedPt(pt, njets, mjj):
-    if njets==0:
-        corr = wpt0.GetBinContent(wpt0.GetXaxis().FindBin(pt))
-    elif njets==1:
-        corr =  wpt1.GetBinContent(wpt1.GetXaxis().FindBin(pt))
-    elif njets==2 and mjj < 550:
-        corr =  wpt2.GetBinContent(wpt2.GetXaxis().FindBin(pt))
-    elif njets==2 and mjj > 550:
-        corr =  wpt3.GetBinContent(wpt3.GetXaxis().FindBin(pt))
-    if corr < 0 or corr > 2:
-        corr = 1
-    return corr
-
-ftpt = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/MuETTPt.root")
-wtpt0 = ftpt.Get("0Jet")
-wtpt1 = ftpt.Get("1Jet")
-wtpt2 = ftpt.Get("2Jet")
-wtpt3 = ftpt.Get("2JetVBF")
-
-def TTPt(pt, njets, mjj):
-    if njets==0:
-        corr = wtpt0.GetBinContent(wtpt0.GetXaxis().FindBin(pt))
-    elif njets==1:
-        corr =  wtpt1.GetBinContent(wtpt1.GetXaxis().FindBin(pt))
-    elif njets==2 and mjj < 550:
-        corr =  wtpt2.GetBinContent(wtpt2.GetXaxis().FindBin(pt))
-    elif njets==2 and mjj > 550:
-        corr =  wtpt3.GetBinContent(wtpt3.GetXaxis().FindBin(pt))
-    if corr < 0 or corr > 2:
-        corr = 1
-    return corr
-
 muonID_tight = MuonPOGCorrections.make_muon_pog_PFTight_2017ReReco()
 muonID_medium = MuonPOGCorrections.make_muon_pog_PFMedium_2017ReReco()
 muonID_loose = MuonPOGCorrections.make_muon_pog_PFLoose_2017ReReco()
@@ -186,7 +148,7 @@ wp = fp.Get("w")
 Metcorected = RecoilCorrector("Type1_PFMET_2017.root")
 MetSys = MEtSys("PFMEtSys_2017.root")
 
-f_btag_eff = ROOT.TFile("btag.root","r")
+f_btag_eff = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/btag.root","r")
 h_btag_eff_b = f_btag_eff.Get("btag_eff_b")
 h_btag_eff_c = f_btag_eff.Get("btag_eff_c")
 h_btag_eff_oth = f_btag_eff.Get("btag_eff_oth")

@@ -157,6 +157,9 @@ cdef class ETauTree:
     cdef TBranch* Flag_ecalBadCalibFilter_branch
     cdef float Flag_ecalBadCalibFilter_value
 
+    cdef TBranch* Flag_ecalBadCalibReducedMINIAODFilter_branch
+    cdef float Flag_ecalBadCalibReducedMINIAODFilter_value
+
     cdef TBranch* Flag_eeBadScFilter_branch
     cdef float Flag_eeBadScFilter_value
 
@@ -229,48 +232,6 @@ cdef class ETauTree:
     cdef TBranch* Pt_branch
     cdef float Pt_value
 
-    cdef TBranch* Rivet_VEta_branch
-    cdef float Rivet_VEta_value
-
-    cdef TBranch* Rivet_VPt_branch
-    cdef float Rivet_VPt_value
-
-    cdef TBranch* Rivet_errorCode_branch
-    cdef float Rivet_errorCode_value
-
-    cdef TBranch* Rivet_higgsEta_branch
-    cdef float Rivet_higgsEta_value
-
-    cdef TBranch* Rivet_higgsPt_branch
-    cdef float Rivet_higgsPt_value
-
-    cdef TBranch* Rivet_nJets25_branch
-    cdef float Rivet_nJets25_value
-
-    cdef TBranch* Rivet_nJets30_branch
-    cdef float Rivet_nJets30_value
-
-    cdef TBranch* Rivet_p4decay_VEta_branch
-    cdef float Rivet_p4decay_VEta_value
-
-    cdef TBranch* Rivet_p4decay_VPt_branch
-    cdef float Rivet_p4decay_VPt_value
-
-    cdef TBranch* Rivet_prodMode_branch
-    cdef float Rivet_prodMode_value
-
-    cdef TBranch* Rivet_stage0_cat_branch
-    cdef float Rivet_stage0_cat_value
-
-    cdef TBranch* Rivet_stage1_cat_pTjet25GeV_branch
-    cdef float Rivet_stage1_cat_pTjet25GeV_value
-
-    cdef TBranch* Rivet_stage1_cat_pTjet30GeV_branch
-    cdef float Rivet_stage1_cat_pTjet30GeV_value
-
-    cdef TBranch* Rivet_stage1p1_cat_branch
-    cdef float Rivet_stage1p1_cat_value
-
     cdef TBranch* VBFDoubleLooseHPSTau20Pass_branch
     cdef float VBFDoubleLooseHPSTau20Pass_value
 
@@ -298,15 +259,6 @@ cdef class ETauTree:
     cdef TBranch* bjetDeepCSVVeto20Loose_2018_DR0p5_branch
     cdef float bjetDeepCSVVeto20Loose_2018_DR0p5_value
 
-    cdef TBranch* bjetDeepCSVVeto20Medium_branch
-    cdef float bjetDeepCSVVeto20Medium_value
-
-    cdef TBranch* bjetDeepCSVVeto20MediumWoNoisyJets_branch
-    cdef float bjetDeepCSVVeto20MediumWoNoisyJets_value
-
-    cdef TBranch* bjetDeepCSVVeto20MediumWoNoisyJets_2017_DR0p5_branch
-    cdef float bjetDeepCSVVeto20MediumWoNoisyJets_2017_DR0p5_value
-
     cdef TBranch* bjetDeepCSVVeto20Medium_2016_DR0_branch
     cdef float bjetDeepCSVVeto20Medium_2016_DR0_value
 
@@ -333,6 +285,15 @@ cdef class ETauTree:
 
     cdef TBranch* bjetDeepCSVVeto20Tight_2018_DR0p5_branch
     cdef float bjetDeepCSVVeto20Tight_2018_DR0p5_value
+
+    cdef TBranch* bweight_2016_branch
+    cdef float bweight_2016_value
+
+    cdef TBranch* bweight_2017_branch
+    cdef float bweight_2017_value
+
+    cdef TBranch* bweight_2018_branch
+    cdef float bweight_2018_value
 
     cdef TBranch* charge_branch
     cdef float charge_value
@@ -370,18 +331,6 @@ cdef class ETauTree:
     cdef TBranch* doubleTauCmbIso35RegPass_branch
     cdef float doubleTauCmbIso35RegPass_value
 
-    cdef TBranch* eCBIDLoose_branch
-    cdef float eCBIDLoose_value
-
-    cdef TBranch* eCBIDMedium_branch
-    cdef float eCBIDMedium_value
-
-    cdef TBranch* eCBIDTight_branch
-    cdef float eCBIDTight_value
-
-    cdef TBranch* eCBIDVeto_branch
-    cdef float eCBIDVeto_value
-
     cdef TBranch* eCharge_branch
     cdef float eCharge_value
 
@@ -399,15 +348,6 @@ cdef class ETauTree:
 
     cdef TBranch* eCorrectedEt_branch
     cdef float eCorrectedEt_value
-
-    cdef TBranch* eE1x5_branch
-    cdef float eE1x5_value
-
-    cdef TBranch* eE2x5Max_branch
-    cdef float eE2x5Max_value
-
-    cdef TBranch* eE5x5_branch
-    cdef float eE5x5_value
 
     cdef TBranch* eEcalIsoDR03_branch
     cdef float eEcalIsoDR03_value
@@ -505,15 +445,6 @@ cdef class ETauTree:
     cdef TBranch* eGenVtxPVMatch_branch
     cdef float eGenVtxPVMatch_value
 
-    cdef TBranch* eHadronicDepth1OverEm_branch
-    cdef float eHadronicDepth1OverEm_value
-
-    cdef TBranch* eHadronicDepth2OverEm_branch
-    cdef float eHadronicDepth2OverEm_value
-
-    cdef TBranch* eHadronicOverEM_branch
-    cdef float eHadronicOverEM_value
-
     cdef TBranch* eHcalIsoDR03_branch
     cdef float eHcalIsoDR03_value
 
@@ -568,23 +499,32 @@ cdef class ETauTree:
     cdef TBranch* eMVAIsoWP90_branch
     cdef float eMVAIsoWP90_value
 
-    cdef TBranch* eMVAIsoWPHZZ_branch
-    cdef float eMVAIsoWPHZZ_value
-
-    cdef TBranch* eMVAIsoWPLoose_branch
-    cdef float eMVAIsoWPLoose_value
-
     cdef TBranch* eMVANoisoWP80_branch
     cdef float eMVANoisoWP80_value
 
     cdef TBranch* eMVANoisoWP90_branch
     cdef float eMVANoisoWP90_value
 
-    cdef TBranch* eMVANoisoWPLoose_branch
-    cdef float eMVANoisoWPLoose_value
-
     cdef TBranch* eMass_branch
     cdef float eMass_value
+
+    cdef TBranch* eMatchEmbeddedFilterEle24Tau30_branch
+    cdef float eMatchEmbeddedFilterEle24Tau30_value
+
+    cdef TBranch* eMatchEmbeddedFilterEle27_branch
+    cdef float eMatchEmbeddedFilterEle27_value
+
+    cdef TBranch* eMatchEmbeddedFilterEle32_branch
+    cdef float eMatchEmbeddedFilterEle32_value
+
+    cdef TBranch* eMatchEmbeddedFilterEle32DoubleL1_v1_branch
+    cdef float eMatchEmbeddedFilterEle32DoubleL1_v1_value
+
+    cdef TBranch* eMatchEmbeddedFilterEle32DoubleL1_v2_branch
+    cdef float eMatchEmbeddedFilterEle32DoubleL1_v2_value
+
+    cdef TBranch* eMatchEmbeddedFilterEle35_branch
+    cdef float eMatchEmbeddedFilterEle35_value
 
     cdef TBranch* eMatchesEle24HPSTau30Filter_branch
     cdef float eMatchesEle24HPSTau30Filter_value
@@ -621,6 +561,30 @@ cdef class ETauTree:
 
     cdef TBranch* eMatchesEle35Path_branch
     cdef float eMatchesEle35Path_value
+
+    cdef TBranch* eMatchesMu23e12DZFilter_branch
+    cdef float eMatchesMu23e12DZFilter_value
+
+    cdef TBranch* eMatchesMu23e12DZPath_branch
+    cdef float eMatchesMu23e12DZPath_value
+
+    cdef TBranch* eMatchesMu23e12Filter_branch
+    cdef float eMatchesMu23e12Filter_value
+
+    cdef TBranch* eMatchesMu23e12Path_branch
+    cdef float eMatchesMu23e12Path_value
+
+    cdef TBranch* eMatchesMu8e23DZFilter_branch
+    cdef float eMatchesMu8e23DZFilter_value
+
+    cdef TBranch* eMatchesMu8e23DZPath_branch
+    cdef float eMatchesMu8e23DZPath_value
+
+    cdef TBranch* eMatchesMu8e23Filter_branch
+    cdef float eMatchesMu8e23Filter_value
+
+    cdef TBranch* eMatchesMu8e23Path_branch
+    cdef float eMatchesMu8e23Path_value
 
     cdef TBranch* eMissingHits_branch
     cdef float eMissingHits_value
@@ -673,35 +637,11 @@ cdef class ETauTree:
     cdef TBranch* eRho_branch
     cdef float eRho_value
 
-    cdef TBranch* eSCEnergy_branch
-    cdef float eSCEnergy_value
-
-    cdef TBranch* eSCEta_branch
-    cdef float eSCEta_value
-
-    cdef TBranch* eSCEtaWidth_branch
-    cdef float eSCEtaWidth_value
-
-    cdef TBranch* eSCPhi_branch
-    cdef float eSCPhi_value
-
-    cdef TBranch* eSCPhiWidth_branch
-    cdef float eSCPhiWidth_value
-
-    cdef TBranch* eSCPreshowerEnergy_branch
-    cdef float eSCPreshowerEnergy_value
-
-    cdef TBranch* eSCRawEnergy_branch
-    cdef float eSCRawEnergy_value
-
     cdef TBranch* eSIP2D_branch
     cdef float eSIP2D_value
 
     cdef TBranch* eSIP3D_branch
     cdef float eSIP3D_value
-
-    cdef TBranch* eSigmaIEtaIEta_branch
-    cdef float eSigmaIEtaIEta_value
 
     cdef TBranch* eTrkIsoDR03_branch
     cdef float eTrkIsoDR03_value
@@ -709,32 +649,14 @@ cdef class ETauTree:
     cdef TBranch* eVZ_branch
     cdef float eVZ_value
 
-    cdef TBranch* eVetoHZZPt5_branch
-    cdef float eVetoHZZPt5_value
-
-    cdef TBranch* eVetoMVAIso_branch
-    cdef float eVetoMVAIso_value
+    cdef TBranch* eVetoMVAIsoVtx_branch
+    cdef float eVetoMVAIsoVtx_value
 
     cdef TBranch* eVetoZTTp001dxyz_branch
     cdef float eVetoZTTp001dxyz_value
 
-    cdef TBranch* eVetoZTTp001dxyzR0_branch
-    cdef float eVetoZTTp001dxyzR0_value
-
-    cdef TBranch* eZTTGenDR_branch
-    cdef float eZTTGenDR_value
-
-    cdef TBranch* eZTTGenEta_branch
-    cdef float eZTTGenEta_value
-
     cdef TBranch* eZTTGenMatching_branch
     cdef float eZTTGenMatching_value
-
-    cdef TBranch* eZTTGenPhi_branch
-    cdef float eZTTGenPhi_value
-
-    cdef TBranch* eZTTGenPt_branch
-    cdef float eZTTGenPt_value
 
     cdef TBranch* e_t_DR_branch
     cdef float e_t_DR_value
@@ -750,24 +672,6 @@ cdef class ETauTree:
 
     cdef TBranch* e_t_doubleL1IsoTauMatch_branch
     cdef float e_t_doubleL1IsoTauMatch_value
-
-    cdef TBranch* edeltaEtaSuperClusterTrackAtVtx_branch
-    cdef float edeltaEtaSuperClusterTrackAtVtx_value
-
-    cdef TBranch* edeltaPhiSuperClusterTrackAtVtx_branch
-    cdef float edeltaPhiSuperClusterTrackAtVtx_value
-
-    cdef TBranch* eeSuperClusterOverP_branch
-    cdef float eeSuperClusterOverP_value
-
-    cdef TBranch* eecalEnergy_branch
-    cdef float eecalEnergy_value
-
-    cdef TBranch* efBrem_branch
-    cdef float efBrem_value
-
-    cdef TBranch* etrackMomentumAtVtxP_branch
-    cdef float etrackMomentumAtVtxP_value
 
     cdef TBranch* evt_branch
     cdef unsigned long evt_value
@@ -795,6 +699,9 @@ cdef class ETauTree:
 
     cdef TBranch* genpY_branch
     cdef float genpY_value
+
+    cdef TBranch* isGtautau_branch
+    cdef float isGtautau_value
 
     cdef TBranch* isWenu_branch
     cdef float isWenu_value
@@ -886,6 +793,42 @@ cdef class ETauTree:
     cdef TBranch* j1ptWoNoisyJets_JetRelativeSampleUp_branch
     cdef float j1ptWoNoisyJets_JetRelativeSampleUp_value
 
+    cdef TBranch* j1pt_JetEC2Down_branch
+    cdef float j1pt_JetEC2Down_value
+
+    cdef TBranch* j1pt_JetEC2Up_branch
+    cdef float j1pt_JetEC2Up_value
+
+    cdef TBranch* j1pt_JetEta0to3Down_branch
+    cdef float j1pt_JetEta0to3Down_value
+
+    cdef TBranch* j1pt_JetEta0to3Up_branch
+    cdef float j1pt_JetEta0to3Up_value
+
+    cdef TBranch* j1pt_JetEta0to5Down_branch
+    cdef float j1pt_JetEta0to5Down_value
+
+    cdef TBranch* j1pt_JetEta0to5Up_branch
+    cdef float j1pt_JetEta0to5Up_value
+
+    cdef TBranch* j1pt_JetEta3to5Down_branch
+    cdef float j1pt_JetEta3to5Down_value
+
+    cdef TBranch* j1pt_JetEta3to5Up_branch
+    cdef float j1pt_JetEta3to5Up_value
+
+    cdef TBranch* j1pt_JetRelativeBalDown_branch
+    cdef float j1pt_JetRelativeBalDown_value
+
+    cdef TBranch* j1pt_JetRelativeBalUp_branch
+    cdef float j1pt_JetRelativeBalUp_value
+
+    cdef TBranch* j1pt_JetRelativeSampleDown_branch
+    cdef float j1pt_JetRelativeSampleDown_value
+
+    cdef TBranch* j1pt_JetRelativeSampleUp_branch
+    cdef float j1pt_JetRelativeSampleUp_value
+
     cdef TBranch* j2csv_branch
     cdef float j2csv_value
 
@@ -952,8 +895,41 @@ cdef class ETauTree:
     cdef TBranch* j2ptWoNoisyJets_JetRelativeSampleUp_branch
     cdef float j2ptWoNoisyJets_JetRelativeSampleUp_value
 
-    cdef TBranch* jb1eta_branch
-    cdef float jb1eta_value
+    cdef TBranch* j2pt_JetEC2Down_branch
+    cdef float j2pt_JetEC2Down_value
+
+    cdef TBranch* j2pt_JetEC2Up_branch
+    cdef float j2pt_JetEC2Up_value
+
+    cdef TBranch* j2pt_JetEta0to3Down_branch
+    cdef float j2pt_JetEta0to3Down_value
+
+    cdef TBranch* j2pt_JetEta0to3Up_branch
+    cdef float j2pt_JetEta0to3Up_value
+
+    cdef TBranch* j2pt_JetEta0to5Down_branch
+    cdef float j2pt_JetEta0to5Down_value
+
+    cdef TBranch* j2pt_JetEta0to5Up_branch
+    cdef float j2pt_JetEta0to5Up_value
+
+    cdef TBranch* j2pt_JetEta3to5Down_branch
+    cdef float j2pt_JetEta3to5Down_value
+
+    cdef TBranch* j2pt_JetEta3to5Up_branch
+    cdef float j2pt_JetEta3to5Up_value
+
+    cdef TBranch* j2pt_JetRelativeBalDown_branch
+    cdef float j2pt_JetRelativeBalDown_value
+
+    cdef TBranch* j2pt_JetRelativeBalUp_branch
+    cdef float j2pt_JetRelativeBalUp_value
+
+    cdef TBranch* j2pt_JetRelativeSampleDown_branch
+    cdef float j2pt_JetRelativeSampleDown_value
+
+    cdef TBranch* j2pt_JetRelativeSampleUp_branch
+    cdef float j2pt_JetRelativeSampleUp_value
 
     cdef TBranch* jb1eta_2016_branch
     cdef float jb1eta_2016_value
@@ -964,9 +940,6 @@ cdef class ETauTree:
     cdef TBranch* jb1eta_2018_branch
     cdef float jb1eta_2018_value
 
-    cdef TBranch* jb1hadronflavor_branch
-    cdef float jb1hadronflavor_value
-
     cdef TBranch* jb1hadronflavor_2016_branch
     cdef float jb1hadronflavor_2016_value
 
@@ -975,9 +948,6 @@ cdef class ETauTree:
 
     cdef TBranch* jb1hadronflavor_2018_branch
     cdef float jb1hadronflavor_2018_value
-
-    cdef TBranch* jb1phi_branch
-    cdef float jb1phi_value
 
     cdef TBranch* jb1phi_2016_branch
     cdef float jb1phi_2016_value
@@ -988,9 +958,6 @@ cdef class ETauTree:
     cdef TBranch* jb1phi_2018_branch
     cdef float jb1phi_2018_value
 
-    cdef TBranch* jb1pt_branch
-    cdef float jb1pt_value
-
     cdef TBranch* jb1pt_2016_branch
     cdef float jb1pt_2016_value
 
@@ -999,9 +966,6 @@ cdef class ETauTree:
 
     cdef TBranch* jb1pt_2018_branch
     cdef float jb1pt_2018_value
-
-    cdef TBranch* jb2eta_branch
-    cdef float jb2eta_value
 
     cdef TBranch* jb2eta_2016_branch
     cdef float jb2eta_2016_value
@@ -1012,9 +976,6 @@ cdef class ETauTree:
     cdef TBranch* jb2eta_2018_branch
     cdef float jb2eta_2018_value
 
-    cdef TBranch* jb2hadronflavor_branch
-    cdef float jb2hadronflavor_value
-
     cdef TBranch* jb2hadronflavor_2016_branch
     cdef float jb2hadronflavor_2016_value
 
@@ -1024,9 +985,6 @@ cdef class ETauTree:
     cdef TBranch* jb2hadronflavor_2018_branch
     cdef float jb2hadronflavor_2018_value
 
-    cdef TBranch* jb2phi_branch
-    cdef float jb2phi_value
-
     cdef TBranch* jb2phi_2016_branch
     cdef float jb2phi_2016_value
 
@@ -1035,9 +993,6 @@ cdef class ETauTree:
 
     cdef TBranch* jb2phi_2018_branch
     cdef float jb2phi_2018_value
-
-    cdef TBranch* jb2pt_branch
-    cdef float jb2pt_value
 
     cdef TBranch* jb2pt_2016_branch
     cdef float jb2pt_2016_value
@@ -1101,6 +1056,12 @@ cdef class ETauTree:
 
     cdef TBranch* jetVeto30WoNoisyJets_JetEC2Up_branch
     cdef float jetVeto30WoNoisyJets_JetEC2Up_value
+
+    cdef TBranch* jetVeto30WoNoisyJets_JetEnDown_branch
+    cdef float jetVeto30WoNoisyJets_JetEnDown_value
+
+    cdef TBranch* jetVeto30WoNoisyJets_JetEnUp_branch
+    cdef float jetVeto30WoNoisyJets_JetEnUp_value
 
     cdef TBranch* jetVeto30WoNoisyJets_JetEta0to3Down_branch
     cdef float jetVeto30WoNoisyJets_JetEta0to3Down_value
@@ -1168,11 +1129,11 @@ cdef class ETauTree:
     cdef TBranch* jetVeto30WoNoisyJets_JetPileUpPtRefUp_branch
     cdef float jetVeto30WoNoisyJets_JetPileUpPtRefUp_value
 
-    cdef TBranch* jetVeto30WoNoisyJets_JetRelativeBalDown_branch
-    cdef float jetVeto30WoNoisyJets_JetRelativeBalDown_value
+    cdef TBranch* jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets_branch
+    cdef float jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets_value
 
-    cdef TBranch* jetVeto30WoNoisyJets_JetRelativeBalUp_branch
-    cdef float jetVeto30WoNoisyJets_JetRelativeBalUp_value
+    cdef TBranch* jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets_branch
+    cdef float jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets_value
 
     cdef TBranch* jetVeto30WoNoisyJets_JetRelativeFSRDown_branch
     cdef float jetVeto30WoNoisyJets_JetRelativeFSRDown_value
@@ -1270,11 +1231,53 @@ cdef class ETauTree:
     cdef TBranch* jetVeto30WoNoisyJets_JetTotalUp_branch
     cdef float jetVeto30WoNoisyJets_JetTotalUp_value
 
+    cdef TBranch* jetVeto30_JetEC2Down_branch
+    cdef float jetVeto30_JetEC2Down_value
+
+    cdef TBranch* jetVeto30_JetEC2Up_branch
+    cdef float jetVeto30_JetEC2Up_value
+
     cdef TBranch* jetVeto30_JetEnDown_branch
     cdef float jetVeto30_JetEnDown_value
 
     cdef TBranch* jetVeto30_JetEnUp_branch
     cdef float jetVeto30_JetEnUp_value
+
+    cdef TBranch* jetVeto30_JetEta0to3Down_branch
+    cdef float jetVeto30_JetEta0to3Down_value
+
+    cdef TBranch* jetVeto30_JetEta0to3Up_branch
+    cdef float jetVeto30_JetEta0to3Up_value
+
+    cdef TBranch* jetVeto30_JetEta0to5Down_branch
+    cdef float jetVeto30_JetEta0to5Down_value
+
+    cdef TBranch* jetVeto30_JetEta0to5Up_branch
+    cdef float jetVeto30_JetEta0to5Up_value
+
+    cdef TBranch* jetVeto30_JetEta3to5Down_branch
+    cdef float jetVeto30_JetEta3to5Down_value
+
+    cdef TBranch* jetVeto30_JetEta3to5Up_branch
+    cdef float jetVeto30_JetEta3to5Up_value
+
+    cdef TBranch* jetVeto30_JetRelativeBalDown_branch
+    cdef float jetVeto30_JetRelativeBalDown_value
+
+    cdef TBranch* jetVeto30_JetRelativeBalUp_branch
+    cdef float jetVeto30_JetRelativeBalUp_value
+
+    cdef TBranch* jetVeto30_JetRelativeSampleDown_branch
+    cdef float jetVeto30_JetRelativeSampleDown_value
+
+    cdef TBranch* jetVeto30_JetRelativeSampleUp_branch
+    cdef float jetVeto30_JetRelativeSampleUp_value
+
+    cdef TBranch* jetVeto30_JetTotalDown_branch
+    cdef float jetVeto30_JetTotalDown_value
+
+    cdef TBranch* jetVeto30_JetTotalUp_branch
+    cdef float jetVeto30_JetTotalUp_value
 
     cdef TBranch* lumi_branch
     cdef int lumi_value
@@ -1321,14 +1324,8 @@ cdef class ETauTree:
     cdef TBranch* muGlbIsoVetoPt10_branch
     cdef float muGlbIsoVetoPt10_value
 
-    cdef TBranch* muVeto5_branch
-    cdef float muVeto5_value
-
     cdef TBranch* muVetoZTTp001dxyz_branch
     cdef float muVetoZTTp001dxyz_value
-
-    cdef TBranch* muVetoZTTp001dxyzR0_branch
-    cdef float muVetoZTTp001dxyzR0_value
 
     cdef TBranch* nTruePU_branch
     cdef float nTruePU_value
@@ -1341,6 +1338,15 @@ cdef class ETauTree:
 
     cdef TBranch* nvtx_branch
     cdef float nvtx_value
+
+    cdef TBranch* prefiring_weight_branch
+    cdef float prefiring_weight_value
+
+    cdef TBranch* prefiring_weight_down_branch
+    cdef float prefiring_weight_down_value
+
+    cdef TBranch* prefiring_weight_up_branch
+    cdef float prefiring_weight_up_value
 
     cdef TBranch* processID_branch
     cdef float processID_value
@@ -1386,12 +1392,6 @@ cdef class ETauTree:
 
     cdef TBranch* pvndof_branch
     cdef float pvndof_value
-
-    cdef TBranch* raw_pfMetEt_branch
-    cdef float raw_pfMetEt_value
-
-    cdef TBranch* raw_pfMetPhi_branch
-    cdef float raw_pfMetPhi_value
 
     cdef TBranch* recoilDaught_branch
     cdef float recoilDaught_value
@@ -1474,38 +1474,20 @@ cdef class ETauTree:
     cdef TBranch* tAgainstMuonTight3_branch
     cdef float tAgainstMuonTight3_value
 
-    cdef TBranch* tByCombinedIsolationDeltaBetaCorrRaw3Hits_branch
-    cdef float tByCombinedIsolationDeltaBetaCorrRaw3Hits_value
-
     cdef TBranch* tByIsolationMVArun2v1DBdR03oldDMwLTraw_branch
     cdef float tByIsolationMVArun2v1DBdR03oldDMwLTraw_value
-
-    cdef TBranch* tByIsolationMVArun2v1DBnewDMwLTraw_branch
-    cdef float tByIsolationMVArun2v1DBnewDMwLTraw_value
 
     cdef TBranch* tByIsolationMVArun2v1DBoldDMwLTraw_branch
     cdef float tByIsolationMVArun2v1DBoldDMwLTraw_value
 
-    cdef TBranch* tByLooseCombinedIsolationDeltaBetaCorr3Hits_branch
-    cdef float tByLooseCombinedIsolationDeltaBetaCorr3Hits_value
-
     cdef TBranch* tByLooseIsolationMVArun2v1DBdR03oldDMwLT_branch
     cdef float tByLooseIsolationMVArun2v1DBdR03oldDMwLT_value
-
-    cdef TBranch* tByLooseIsolationMVArun2v1DBnewDMwLT_branch
-    cdef float tByLooseIsolationMVArun2v1DBnewDMwLT_value
 
     cdef TBranch* tByLooseIsolationMVArun2v1DBoldDMwLT_branch
     cdef float tByLooseIsolationMVArun2v1DBoldDMwLT_value
 
-    cdef TBranch* tByMediumCombinedIsolationDeltaBetaCorr3Hits_branch
-    cdef float tByMediumCombinedIsolationDeltaBetaCorr3Hits_value
-
     cdef TBranch* tByMediumIsolationMVArun2v1DBdR03oldDMwLT_branch
     cdef float tByMediumIsolationMVArun2v1DBdR03oldDMwLT_value
-
-    cdef TBranch* tByMediumIsolationMVArun2v1DBnewDMwLT_branch
-    cdef float tByMediumIsolationMVArun2v1DBnewDMwLT_value
 
     cdef TBranch* tByMediumIsolationMVArun2v1DBoldDMwLT_branch
     cdef float tByMediumIsolationMVArun2v1DBoldDMwLT_value
@@ -1513,14 +1495,8 @@ cdef class ETauTree:
     cdef TBranch* tByPhotonPtSumOutsideSignalCone_branch
     cdef float tByPhotonPtSumOutsideSignalCone_value
 
-    cdef TBranch* tByTightCombinedIsolationDeltaBetaCorr3Hits_branch
-    cdef float tByTightCombinedIsolationDeltaBetaCorr3Hits_value
-
     cdef TBranch* tByTightIsolationMVArun2v1DBdR03oldDMwLT_branch
     cdef float tByTightIsolationMVArun2v1DBdR03oldDMwLT_value
-
-    cdef TBranch* tByTightIsolationMVArun2v1DBnewDMwLT_branch
-    cdef float tByTightIsolationMVArun2v1DBnewDMwLT_value
 
     cdef TBranch* tByTightIsolationMVArun2v1DBoldDMwLT_branch
     cdef float tByTightIsolationMVArun2v1DBoldDMwLT_value
@@ -1528,26 +1504,17 @@ cdef class ETauTree:
     cdef TBranch* tByVLooseIsolationMVArun2v1DBdR03oldDMwLT_branch
     cdef float tByVLooseIsolationMVArun2v1DBdR03oldDMwLT_value
 
-    cdef TBranch* tByVLooseIsolationMVArun2v1DBnewDMwLT_branch
-    cdef float tByVLooseIsolationMVArun2v1DBnewDMwLT_value
-
     cdef TBranch* tByVLooseIsolationMVArun2v1DBoldDMwLT_branch
     cdef float tByVLooseIsolationMVArun2v1DBoldDMwLT_value
 
     cdef TBranch* tByVTightIsolationMVArun2v1DBdR03oldDMwLT_branch
     cdef float tByVTightIsolationMVArun2v1DBdR03oldDMwLT_value
 
-    cdef TBranch* tByVTightIsolationMVArun2v1DBnewDMwLT_branch
-    cdef float tByVTightIsolationMVArun2v1DBnewDMwLT_value
-
     cdef TBranch* tByVTightIsolationMVArun2v1DBoldDMwLT_branch
     cdef float tByVTightIsolationMVArun2v1DBoldDMwLT_value
 
     cdef TBranch* tByVVTightIsolationMVArun2v1DBdR03oldDMwLT_branch
     cdef float tByVVTightIsolationMVArun2v1DBdR03oldDMwLT_value
-
-    cdef TBranch* tByVVTightIsolationMVArun2v1DBnewDMwLT_branch
-    cdef float tByVVTightIsolationMVArun2v1DBnewDMwLT_value
 
     cdef TBranch* tByVVTightIsolationMVArun2v1DBoldDMwLT_branch
     cdef float tByVVTightIsolationMVArun2v1DBoldDMwLT_value
@@ -1573,20 +1540,14 @@ cdef class ETauTree:
     cdef TBranch* tDecayModeFindingNewDMs_branch
     cdef float tDecayModeFindingNewDMs_value
 
-    cdef TBranch* tDeepTau2017v1VSeraw_branch
-    cdef float tDeepTau2017v1VSeraw_value
+    cdef TBranch* tDeepTau2017v2p1VSeraw_branch
+    cdef float tDeepTau2017v2p1VSeraw_value
 
-    cdef TBranch* tDeepTau2017v1VSjetraw_branch
-    cdef float tDeepTau2017v1VSjetraw_value
+    cdef TBranch* tDeepTau2017v2p1VSjetraw_branch
+    cdef float tDeepTau2017v2p1VSjetraw_value
 
-    cdef TBranch* tDeepTau2017v1VSmuraw_branch
-    cdef float tDeepTau2017v1VSmuraw_value
-
-    cdef TBranch* tDpfTau2016v0VSallraw_branch
-    cdef float tDpfTau2016v0VSallraw_value
-
-    cdef TBranch* tDpfTau2016v1VSallraw_branch
-    cdef float tDpfTau2016v1VSallraw_value
+    cdef TBranch* tDeepTau2017v2p1VSmuraw_branch
+    cdef float tDeepTau2017v2p1VSmuraw_value
 
     cdef TBranch* tEta_branch
     cdef float tEta_value
@@ -1684,14 +1645,14 @@ cdef class ETauTree:
     cdef TBranch* tLeadTrackPt_branch
     cdef float tLeadTrackPt_value
 
-    cdef TBranch* tLooseDeepTau2017v1VSe_branch
-    cdef float tLooseDeepTau2017v1VSe_value
+    cdef TBranch* tLooseDeepTau2017v2p1VSe_branch
+    cdef float tLooseDeepTau2017v2p1VSe_value
 
-    cdef TBranch* tLooseDeepTau2017v1VSjet_branch
-    cdef float tLooseDeepTau2017v1VSjet_value
+    cdef TBranch* tLooseDeepTau2017v2p1VSjet_branch
+    cdef float tLooseDeepTau2017v2p1VSjet_value
 
-    cdef TBranch* tLooseDeepTau2017v1VSmu_branch
-    cdef float tLooseDeepTau2017v1VSmu_value
+    cdef TBranch* tLooseDeepTau2017v2p1VSmu_branch
+    cdef float tLooseDeepTau2017v2p1VSmu_value
 
     cdef TBranch* tLowestMll_branch
     cdef float tLowestMll_value
@@ -1699,59 +1660,17 @@ cdef class ETauTree:
     cdef TBranch* tMass_branch
     cdef float tMass_value
 
-    cdef TBranch* tMatchesDoubleMediumCombinedIsoTau35Path_branch
-    cdef float tMatchesDoubleMediumCombinedIsoTau35Path_value
+    cdef TBranch* tMatchEmbeddedFilterEle24Tau30_branch
+    cdef float tMatchEmbeddedFilterEle24Tau30_value
 
-    cdef TBranch* tMatchesDoubleMediumHPSTau35Filter_branch
-    cdef float tMatchesDoubleMediumHPSTau35Filter_value
+    cdef TBranch* tMatchEmbeddedFilterMu19Tau20_branch
+    cdef float tMatchEmbeddedFilterMu19Tau20_value
 
-    cdef TBranch* tMatchesDoubleMediumHPSTau35Path_branch
-    cdef float tMatchesDoubleMediumHPSTau35Path_value
+    cdef TBranch* tMatchEmbeddedFilterMu20HPSTau27_branch
+    cdef float tMatchEmbeddedFilterMu20HPSTau27_value
 
-    cdef TBranch* tMatchesDoubleMediumHPSTau40Filter_branch
-    cdef float tMatchesDoubleMediumHPSTau40Filter_value
-
-    cdef TBranch* tMatchesDoubleMediumHPSTau40Path_branch
-    cdef float tMatchesDoubleMediumHPSTau40Path_value
-
-    cdef TBranch* tMatchesDoubleMediumIsoTau35Path_branch
-    cdef float tMatchesDoubleMediumIsoTau35Path_value
-
-    cdef TBranch* tMatchesDoubleMediumTau35Filter_branch
-    cdef float tMatchesDoubleMediumTau35Filter_value
-
-    cdef TBranch* tMatchesDoubleMediumTau35Path_branch
-    cdef float tMatchesDoubleMediumTau35Path_value
-
-    cdef TBranch* tMatchesDoubleMediumTau40Filter_branch
-    cdef float tMatchesDoubleMediumTau40Filter_value
-
-    cdef TBranch* tMatchesDoubleMediumTau40Path_branch
-    cdef float tMatchesDoubleMediumTau40Path_value
-
-    cdef TBranch* tMatchesDoubleTightHPSTau35Filter_branch
-    cdef float tMatchesDoubleTightHPSTau35Filter_value
-
-    cdef TBranch* tMatchesDoubleTightHPSTau35Path_branch
-    cdef float tMatchesDoubleTightHPSTau35Path_value
-
-    cdef TBranch* tMatchesDoubleTightHPSTau40Filter_branch
-    cdef float tMatchesDoubleTightHPSTau40Filter_value
-
-    cdef TBranch* tMatchesDoubleTightHPSTau40Path_branch
-    cdef float tMatchesDoubleTightHPSTau40Path_value
-
-    cdef TBranch* tMatchesDoubleTightTau35Filter_branch
-    cdef float tMatchesDoubleTightTau35Filter_value
-
-    cdef TBranch* tMatchesDoubleTightTau35Path_branch
-    cdef float tMatchesDoubleTightTau35Path_value
-
-    cdef TBranch* tMatchesDoubleTightTau40Filter_branch
-    cdef float tMatchesDoubleTightTau40Filter_value
-
-    cdef TBranch* tMatchesDoubleTightTau40Path_branch
-    cdef float tMatchesDoubleTightTau40Path_value
+    cdef TBranch* tMatchEmbeddedFilterMu20Tau27_branch
+    cdef float tMatchEmbeddedFilterMu20Tau27_value
 
     cdef TBranch* tMatchesEle24HPSTau30Filter_branch
     cdef float tMatchesEle24HPSTau30Filter_value
@@ -1789,14 +1708,14 @@ cdef class ETauTree:
     cdef TBranch* tMatchesIsoMu20Tau27Path_branch
     cdef float tMatchesIsoMu20Tau27Path_value
 
-    cdef TBranch* tMediumDeepTau2017v1VSe_branch
-    cdef float tMediumDeepTau2017v1VSe_value
+    cdef TBranch* tMediumDeepTau2017v2p1VSe_branch
+    cdef float tMediumDeepTau2017v2p1VSe_value
 
-    cdef TBranch* tMediumDeepTau2017v1VSjet_branch
-    cdef float tMediumDeepTau2017v1VSjet_value
+    cdef TBranch* tMediumDeepTau2017v2p1VSjet_branch
+    cdef float tMediumDeepTau2017v2p1VSjet_value
 
-    cdef TBranch* tMediumDeepTau2017v1VSmu_branch
-    cdef float tMediumDeepTau2017v1VSmu_value
+    cdef TBranch* tMediumDeepTau2017v2p1VSmu_branch
+    cdef float tMediumDeepTau2017v2p1VSmu_value
 
     cdef TBranch* tNChrgHadrIsolationCands_branch
     cdef float tNChrgHadrIsolationCands_value
@@ -1873,65 +1792,59 @@ cdef class ETauTree:
     cdef TBranch* tRerunMVArun2v2DBoldDMwLTraw_branch
     cdef float tRerunMVArun2v2DBoldDMwLTraw_value
 
-    cdef TBranch* tTightDeepTau2017v1VSe_branch
-    cdef float tTightDeepTau2017v1VSe_value
+    cdef TBranch* tTightDeepTau2017v2p1VSe_branch
+    cdef float tTightDeepTau2017v2p1VSe_value
 
-    cdef TBranch* tTightDeepTau2017v1VSjet_branch
-    cdef float tTightDeepTau2017v1VSjet_value
+    cdef TBranch* tTightDeepTau2017v2p1VSjet_branch
+    cdef float tTightDeepTau2017v2p1VSjet_value
 
-    cdef TBranch* tTightDeepTau2017v1VSmu_branch
-    cdef float tTightDeepTau2017v1VSmu_value
+    cdef TBranch* tTightDeepTau2017v2p1VSmu_branch
+    cdef float tTightDeepTau2017v2p1VSmu_value
 
-    cdef TBranch* tTightDpfTau2016v0VSall_branch
-    cdef float tTightDpfTau2016v0VSall_value
+    cdef TBranch* tVLooseDeepTau2017v2p1VSe_branch
+    cdef float tVLooseDeepTau2017v2p1VSe_value
 
-    cdef TBranch* tTightDpfTau2016v1VSall_branch
-    cdef float tTightDpfTau2016v1VSall_value
+    cdef TBranch* tVLooseDeepTau2017v2p1VSjet_branch
+    cdef float tVLooseDeepTau2017v2p1VSjet_value
 
-    cdef TBranch* tVLooseDeepTau2017v1VSe_branch
-    cdef float tVLooseDeepTau2017v1VSe_value
+    cdef TBranch* tVLooseDeepTau2017v2p1VSmu_branch
+    cdef float tVLooseDeepTau2017v2p1VSmu_value
 
-    cdef TBranch* tVLooseDeepTau2017v1VSjet_branch
-    cdef float tVLooseDeepTau2017v1VSjet_value
+    cdef TBranch* tVTightDeepTau2017v2p1VSe_branch
+    cdef float tVTightDeepTau2017v2p1VSe_value
 
-    cdef TBranch* tVLooseDeepTau2017v1VSmu_branch
-    cdef float tVLooseDeepTau2017v1VSmu_value
+    cdef TBranch* tVTightDeepTau2017v2p1VSjet_branch
+    cdef float tVTightDeepTau2017v2p1VSjet_value
 
-    cdef TBranch* tVTightDeepTau2017v1VSe_branch
-    cdef float tVTightDeepTau2017v1VSe_value
+    cdef TBranch* tVTightDeepTau2017v2p1VSmu_branch
+    cdef float tVTightDeepTau2017v2p1VSmu_value
 
-    cdef TBranch* tVTightDeepTau2017v1VSjet_branch
-    cdef float tVTightDeepTau2017v1VSjet_value
+    cdef TBranch* tVVLooseDeepTau2017v2p1VSe_branch
+    cdef float tVVLooseDeepTau2017v2p1VSe_value
 
-    cdef TBranch* tVTightDeepTau2017v1VSmu_branch
-    cdef float tVTightDeepTau2017v1VSmu_value
+    cdef TBranch* tVVLooseDeepTau2017v2p1VSjet_branch
+    cdef float tVVLooseDeepTau2017v2p1VSjet_value
 
-    cdef TBranch* tVVLooseDeepTau2017v1VSe_branch
-    cdef float tVVLooseDeepTau2017v1VSe_value
+    cdef TBranch* tVVLooseDeepTau2017v2p1VSmu_branch
+    cdef float tVVLooseDeepTau2017v2p1VSmu_value
 
-    cdef TBranch* tVVLooseDeepTau2017v1VSjet_branch
-    cdef float tVVLooseDeepTau2017v1VSjet_value
+    cdef TBranch* tVVTightDeepTau2017v2p1VSe_branch
+    cdef float tVVTightDeepTau2017v2p1VSe_value
 
-    cdef TBranch* tVVLooseDeepTau2017v1VSmu_branch
-    cdef float tVVLooseDeepTau2017v1VSmu_value
+    cdef TBranch* tVVTightDeepTau2017v2p1VSjet_branch
+    cdef float tVVTightDeepTau2017v2p1VSjet_value
 
-    cdef TBranch* tVVTightDeepTau2017v1VSe_branch
-    cdef float tVVTightDeepTau2017v1VSe_value
+    cdef TBranch* tVVTightDeepTau2017v2p1VSmu_branch
+    cdef float tVVTightDeepTau2017v2p1VSmu_value
 
-    cdef TBranch* tVVTightDeepTau2017v1VSjet_branch
-    cdef float tVVTightDeepTau2017v1VSjet_value
+    cdef TBranch* tVVVLooseDeepTau2017v2p1VSe_branch
+    cdef float tVVVLooseDeepTau2017v2p1VSe_value
 
-    cdef TBranch* tVVTightDeepTau2017v1VSmu_branch
-    cdef float tVVTightDeepTau2017v1VSmu_value
+    cdef TBranch* tVVVLooseDeepTau2017v2p1VSjet_branch
+    cdef float tVVVLooseDeepTau2017v2p1VSjet_value
 
-    cdef TBranch* tVVVLooseDeepTau2017v1VSe_branch
-    cdef float tVVVLooseDeepTau2017v1VSe_value
-
-    cdef TBranch* tVVVLooseDeepTau2017v1VSjet_branch
-    cdef float tVVVLooseDeepTau2017v1VSjet_value
-
-    cdef TBranch* tVVVLooseDeepTau2017v1VSmu_branch
-    cdef float tVVVLooseDeepTau2017v1VSmu_value
+    cdef TBranch* tVVVLooseDeepTau2017v2p1VSmu_branch
+    cdef float tVVVLooseDeepTau2017v2p1VSmu_value
 
     cdef TBranch* tVZ_branch
     cdef float tVZ_value
@@ -2010,6 +1923,12 @@ cdef class ETauTree:
 
     cdef TBranch* type1_pfMet_shiftedPhi_JetClosureUp_branch
     cdef float type1_pfMet_shiftedPhi_JetClosureUp_value
+
+    cdef TBranch* type1_pfMet_shiftedPhi_JetEC2Down_branch
+    cdef float type1_pfMet_shiftedPhi_JetEC2Down_value
+
+    cdef TBranch* type1_pfMet_shiftedPhi_JetEC2Up_branch
+    cdef float type1_pfMet_shiftedPhi_JetEC2Up_value
 
     cdef TBranch* type1_pfMet_shiftedPhi_JetEnDown_branch
     cdef float type1_pfMet_shiftedPhi_JetEnDown_value
@@ -2250,6 +2169,12 @@ cdef class ETauTree:
 
     cdef TBranch* type1_pfMet_shiftedPt_JetClosureUp_branch
     cdef float type1_pfMet_shiftedPt_JetClosureUp_value
+
+    cdef TBranch* type1_pfMet_shiftedPt_JetEC2Down_branch
+    cdef float type1_pfMet_shiftedPt_JetEC2Down_value
+
+    cdef TBranch* type1_pfMet_shiftedPt_JetEC2Up_branch
+    cdef float type1_pfMet_shiftedPt_JetEC2Up_value
 
     cdef TBranch* type1_pfMet_shiftedPt_JetEnDown_branch
     cdef float type1_pfMet_shiftedPt_JetEnDown_value
@@ -2680,6 +2605,48 @@ cdef class ETauTree:
     cdef TBranch* vbfMassWoNoisyJets_JetTotalUp_branch
     cdef float vbfMassWoNoisyJets_JetTotalUp_value
 
+    cdef TBranch* vbfMass_JetEC2Down_branch
+    cdef float vbfMass_JetEC2Down_value
+
+    cdef TBranch* vbfMass_JetEC2Up_branch
+    cdef float vbfMass_JetEC2Up_value
+
+    cdef TBranch* vbfMass_JetEta0to3Down_branch
+    cdef float vbfMass_JetEta0to3Down_value
+
+    cdef TBranch* vbfMass_JetEta0to3Up_branch
+    cdef float vbfMass_JetEta0to3Up_value
+
+    cdef TBranch* vbfMass_JetEta0to5Down_branch
+    cdef float vbfMass_JetEta0to5Down_value
+
+    cdef TBranch* vbfMass_JetEta0to5Up_branch
+    cdef float vbfMass_JetEta0to5Up_value
+
+    cdef TBranch* vbfMass_JetEta3to5Down_branch
+    cdef float vbfMass_JetEta3to5Down_value
+
+    cdef TBranch* vbfMass_JetEta3to5Up_branch
+    cdef float vbfMass_JetEta3to5Up_value
+
+    cdef TBranch* vbfMass_JetRelativeBalDown_branch
+    cdef float vbfMass_JetRelativeBalDown_value
+
+    cdef TBranch* vbfMass_JetRelativeBalUp_branch
+    cdef float vbfMass_JetRelativeBalUp_value
+
+    cdef TBranch* vbfMass_JetRelativeSampleDown_branch
+    cdef float vbfMass_JetRelativeSampleDown_value
+
+    cdef TBranch* vbfMass_JetRelativeSampleUp_branch
+    cdef float vbfMass_JetRelativeSampleUp_value
+
+    cdef TBranch* vbfMass_JetTotalDown_branch
+    cdef float vbfMass_JetTotalDown_value
+
+    cdef TBranch* vbfMass_JetTotalUp_branch
+    cdef float vbfMass_JetTotalUp_value
+
     cdef TBranch* vbfNJets20_branch
     cdef float vbfNJets20_value
 
@@ -3052,6 +3019,15 @@ cdef class ETauTree:
         else:
             self.Flag_ecalBadCalibFilter_branch.SetAddress(<void*>&self.Flag_ecalBadCalibFilter_value)
 
+        #print "making Flag_ecalBadCalibReducedMINIAODFilter"
+        self.Flag_ecalBadCalibReducedMINIAODFilter_branch = the_tree.GetBranch("Flag_ecalBadCalibReducedMINIAODFilter")
+        #if not self.Flag_ecalBadCalibReducedMINIAODFilter_branch and "Flag_ecalBadCalibReducedMINIAODFilter" not in self.complained:
+        if not self.Flag_ecalBadCalibReducedMINIAODFilter_branch and "Flag_ecalBadCalibReducedMINIAODFilter":
+            warnings.warn( "ETauTree: Expected branch Flag_ecalBadCalibReducedMINIAODFilter does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("Flag_ecalBadCalibReducedMINIAODFilter")
+        else:
+            self.Flag_ecalBadCalibReducedMINIAODFilter_branch.SetAddress(<void*>&self.Flag_ecalBadCalibReducedMINIAODFilter_value)
+
         #print "making Flag_eeBadScFilter"
         self.Flag_eeBadScFilter_branch = the_tree.GetBranch("Flag_eeBadScFilter")
         #if not self.Flag_eeBadScFilter_branch and "Flag_eeBadScFilter" not in self.complained:
@@ -3268,132 +3244,6 @@ cdef class ETauTree:
         else:
             self.Pt_branch.SetAddress(<void*>&self.Pt_value)
 
-        #print "making Rivet_VEta"
-        self.Rivet_VEta_branch = the_tree.GetBranch("Rivet_VEta")
-        #if not self.Rivet_VEta_branch and "Rivet_VEta" not in self.complained:
-        if not self.Rivet_VEta_branch and "Rivet_VEta":
-            warnings.warn( "ETauTree: Expected branch Rivet_VEta does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("Rivet_VEta")
-        else:
-            self.Rivet_VEta_branch.SetAddress(<void*>&self.Rivet_VEta_value)
-
-        #print "making Rivet_VPt"
-        self.Rivet_VPt_branch = the_tree.GetBranch("Rivet_VPt")
-        #if not self.Rivet_VPt_branch and "Rivet_VPt" not in self.complained:
-        if not self.Rivet_VPt_branch and "Rivet_VPt":
-            warnings.warn( "ETauTree: Expected branch Rivet_VPt does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("Rivet_VPt")
-        else:
-            self.Rivet_VPt_branch.SetAddress(<void*>&self.Rivet_VPt_value)
-
-        #print "making Rivet_errorCode"
-        self.Rivet_errorCode_branch = the_tree.GetBranch("Rivet_errorCode")
-        #if not self.Rivet_errorCode_branch and "Rivet_errorCode" not in self.complained:
-        if not self.Rivet_errorCode_branch and "Rivet_errorCode":
-            warnings.warn( "ETauTree: Expected branch Rivet_errorCode does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("Rivet_errorCode")
-        else:
-            self.Rivet_errorCode_branch.SetAddress(<void*>&self.Rivet_errorCode_value)
-
-        #print "making Rivet_higgsEta"
-        self.Rivet_higgsEta_branch = the_tree.GetBranch("Rivet_higgsEta")
-        #if not self.Rivet_higgsEta_branch and "Rivet_higgsEta" not in self.complained:
-        if not self.Rivet_higgsEta_branch and "Rivet_higgsEta":
-            warnings.warn( "ETauTree: Expected branch Rivet_higgsEta does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("Rivet_higgsEta")
-        else:
-            self.Rivet_higgsEta_branch.SetAddress(<void*>&self.Rivet_higgsEta_value)
-
-        #print "making Rivet_higgsPt"
-        self.Rivet_higgsPt_branch = the_tree.GetBranch("Rivet_higgsPt")
-        #if not self.Rivet_higgsPt_branch and "Rivet_higgsPt" not in self.complained:
-        if not self.Rivet_higgsPt_branch and "Rivet_higgsPt":
-            warnings.warn( "ETauTree: Expected branch Rivet_higgsPt does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("Rivet_higgsPt")
-        else:
-            self.Rivet_higgsPt_branch.SetAddress(<void*>&self.Rivet_higgsPt_value)
-
-        #print "making Rivet_nJets25"
-        self.Rivet_nJets25_branch = the_tree.GetBranch("Rivet_nJets25")
-        #if not self.Rivet_nJets25_branch and "Rivet_nJets25" not in self.complained:
-        if not self.Rivet_nJets25_branch and "Rivet_nJets25":
-            warnings.warn( "ETauTree: Expected branch Rivet_nJets25 does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("Rivet_nJets25")
-        else:
-            self.Rivet_nJets25_branch.SetAddress(<void*>&self.Rivet_nJets25_value)
-
-        #print "making Rivet_nJets30"
-        self.Rivet_nJets30_branch = the_tree.GetBranch("Rivet_nJets30")
-        #if not self.Rivet_nJets30_branch and "Rivet_nJets30" not in self.complained:
-        if not self.Rivet_nJets30_branch and "Rivet_nJets30":
-            warnings.warn( "ETauTree: Expected branch Rivet_nJets30 does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("Rivet_nJets30")
-        else:
-            self.Rivet_nJets30_branch.SetAddress(<void*>&self.Rivet_nJets30_value)
-
-        #print "making Rivet_p4decay_VEta"
-        self.Rivet_p4decay_VEta_branch = the_tree.GetBranch("Rivet_p4decay_VEta")
-        #if not self.Rivet_p4decay_VEta_branch and "Rivet_p4decay_VEta" not in self.complained:
-        if not self.Rivet_p4decay_VEta_branch and "Rivet_p4decay_VEta":
-            warnings.warn( "ETauTree: Expected branch Rivet_p4decay_VEta does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("Rivet_p4decay_VEta")
-        else:
-            self.Rivet_p4decay_VEta_branch.SetAddress(<void*>&self.Rivet_p4decay_VEta_value)
-
-        #print "making Rivet_p4decay_VPt"
-        self.Rivet_p4decay_VPt_branch = the_tree.GetBranch("Rivet_p4decay_VPt")
-        #if not self.Rivet_p4decay_VPt_branch and "Rivet_p4decay_VPt" not in self.complained:
-        if not self.Rivet_p4decay_VPt_branch and "Rivet_p4decay_VPt":
-            warnings.warn( "ETauTree: Expected branch Rivet_p4decay_VPt does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("Rivet_p4decay_VPt")
-        else:
-            self.Rivet_p4decay_VPt_branch.SetAddress(<void*>&self.Rivet_p4decay_VPt_value)
-
-        #print "making Rivet_prodMode"
-        self.Rivet_prodMode_branch = the_tree.GetBranch("Rivet_prodMode")
-        #if not self.Rivet_prodMode_branch and "Rivet_prodMode" not in self.complained:
-        if not self.Rivet_prodMode_branch and "Rivet_prodMode":
-            warnings.warn( "ETauTree: Expected branch Rivet_prodMode does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("Rivet_prodMode")
-        else:
-            self.Rivet_prodMode_branch.SetAddress(<void*>&self.Rivet_prodMode_value)
-
-        #print "making Rivet_stage0_cat"
-        self.Rivet_stage0_cat_branch = the_tree.GetBranch("Rivet_stage0_cat")
-        #if not self.Rivet_stage0_cat_branch and "Rivet_stage0_cat" not in self.complained:
-        if not self.Rivet_stage0_cat_branch and "Rivet_stage0_cat":
-            warnings.warn( "ETauTree: Expected branch Rivet_stage0_cat does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("Rivet_stage0_cat")
-        else:
-            self.Rivet_stage0_cat_branch.SetAddress(<void*>&self.Rivet_stage0_cat_value)
-
-        #print "making Rivet_stage1_cat_pTjet25GeV"
-        self.Rivet_stage1_cat_pTjet25GeV_branch = the_tree.GetBranch("Rivet_stage1_cat_pTjet25GeV")
-        #if not self.Rivet_stage1_cat_pTjet25GeV_branch and "Rivet_stage1_cat_pTjet25GeV" not in self.complained:
-        if not self.Rivet_stage1_cat_pTjet25GeV_branch and "Rivet_stage1_cat_pTjet25GeV":
-            warnings.warn( "ETauTree: Expected branch Rivet_stage1_cat_pTjet25GeV does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("Rivet_stage1_cat_pTjet25GeV")
-        else:
-            self.Rivet_stage1_cat_pTjet25GeV_branch.SetAddress(<void*>&self.Rivet_stage1_cat_pTjet25GeV_value)
-
-        #print "making Rivet_stage1_cat_pTjet30GeV"
-        self.Rivet_stage1_cat_pTjet30GeV_branch = the_tree.GetBranch("Rivet_stage1_cat_pTjet30GeV")
-        #if not self.Rivet_stage1_cat_pTjet30GeV_branch and "Rivet_stage1_cat_pTjet30GeV" not in self.complained:
-        if not self.Rivet_stage1_cat_pTjet30GeV_branch and "Rivet_stage1_cat_pTjet30GeV":
-            warnings.warn( "ETauTree: Expected branch Rivet_stage1_cat_pTjet30GeV does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("Rivet_stage1_cat_pTjet30GeV")
-        else:
-            self.Rivet_stage1_cat_pTjet30GeV_branch.SetAddress(<void*>&self.Rivet_stage1_cat_pTjet30GeV_value)
-
-        #print "making Rivet_stage1p1_cat"
-        self.Rivet_stage1p1_cat_branch = the_tree.GetBranch("Rivet_stage1p1_cat")
-        #if not self.Rivet_stage1p1_cat_branch and "Rivet_stage1p1_cat" not in self.complained:
-        if not self.Rivet_stage1p1_cat_branch and "Rivet_stage1p1_cat":
-            warnings.warn( "ETauTree: Expected branch Rivet_stage1p1_cat does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("Rivet_stage1p1_cat")
-        else:
-            self.Rivet_stage1p1_cat_branch.SetAddress(<void*>&self.Rivet_stage1p1_cat_value)
-
         #print "making VBFDoubleLooseHPSTau20Pass"
         self.VBFDoubleLooseHPSTau20Pass_branch = the_tree.GetBranch("VBFDoubleLooseHPSTau20Pass")
         #if not self.VBFDoubleLooseHPSTau20Pass_branch and "VBFDoubleLooseHPSTau20Pass" not in self.complained:
@@ -3475,33 +3325,6 @@ cdef class ETauTree:
         else:
             self.bjetDeepCSVVeto20Loose_2018_DR0p5_branch.SetAddress(<void*>&self.bjetDeepCSVVeto20Loose_2018_DR0p5_value)
 
-        #print "making bjetDeepCSVVeto20Medium"
-        self.bjetDeepCSVVeto20Medium_branch = the_tree.GetBranch("bjetDeepCSVVeto20Medium")
-        #if not self.bjetDeepCSVVeto20Medium_branch and "bjetDeepCSVVeto20Medium" not in self.complained:
-        if not self.bjetDeepCSVVeto20Medium_branch and "bjetDeepCSVVeto20Medium":
-            warnings.warn( "ETauTree: Expected branch bjetDeepCSVVeto20Medium does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("bjetDeepCSVVeto20Medium")
-        else:
-            self.bjetDeepCSVVeto20Medium_branch.SetAddress(<void*>&self.bjetDeepCSVVeto20Medium_value)
-
-        #print "making bjetDeepCSVVeto20MediumWoNoisyJets"
-        self.bjetDeepCSVVeto20MediumWoNoisyJets_branch = the_tree.GetBranch("bjetDeepCSVVeto20MediumWoNoisyJets")
-        #if not self.bjetDeepCSVVeto20MediumWoNoisyJets_branch and "bjetDeepCSVVeto20MediumWoNoisyJets" not in self.complained:
-        if not self.bjetDeepCSVVeto20MediumWoNoisyJets_branch and "bjetDeepCSVVeto20MediumWoNoisyJets":
-            warnings.warn( "ETauTree: Expected branch bjetDeepCSVVeto20MediumWoNoisyJets does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("bjetDeepCSVVeto20MediumWoNoisyJets")
-        else:
-            self.bjetDeepCSVVeto20MediumWoNoisyJets_branch.SetAddress(<void*>&self.bjetDeepCSVVeto20MediumWoNoisyJets_value)
-
-        #print "making bjetDeepCSVVeto20MediumWoNoisyJets_2017_DR0p5"
-        self.bjetDeepCSVVeto20MediumWoNoisyJets_2017_DR0p5_branch = the_tree.GetBranch("bjetDeepCSVVeto20MediumWoNoisyJets_2017_DR0p5")
-        #if not self.bjetDeepCSVVeto20MediumWoNoisyJets_2017_DR0p5_branch and "bjetDeepCSVVeto20MediumWoNoisyJets_2017_DR0p5" not in self.complained:
-        if not self.bjetDeepCSVVeto20MediumWoNoisyJets_2017_DR0p5_branch and "bjetDeepCSVVeto20MediumWoNoisyJets_2017_DR0p5":
-            warnings.warn( "ETauTree: Expected branch bjetDeepCSVVeto20MediumWoNoisyJets_2017_DR0p5 does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("bjetDeepCSVVeto20MediumWoNoisyJets_2017_DR0p5")
-        else:
-            self.bjetDeepCSVVeto20MediumWoNoisyJets_2017_DR0p5_branch.SetAddress(<void*>&self.bjetDeepCSVVeto20MediumWoNoisyJets_2017_DR0p5_value)
-
         #print "making bjetDeepCSVVeto20Medium_2016_DR0"
         self.bjetDeepCSVVeto20Medium_2016_DR0_branch = the_tree.GetBranch("bjetDeepCSVVeto20Medium_2016_DR0")
         #if not self.bjetDeepCSVVeto20Medium_2016_DR0_branch and "bjetDeepCSVVeto20Medium_2016_DR0" not in self.complained:
@@ -3582,6 +3405,33 @@ cdef class ETauTree:
             #self.complained.add("bjetDeepCSVVeto20Tight_2018_DR0p5")
         else:
             self.bjetDeepCSVVeto20Tight_2018_DR0p5_branch.SetAddress(<void*>&self.bjetDeepCSVVeto20Tight_2018_DR0p5_value)
+
+        #print "making bweight_2016"
+        self.bweight_2016_branch = the_tree.GetBranch("bweight_2016")
+        #if not self.bweight_2016_branch and "bweight_2016" not in self.complained:
+        if not self.bweight_2016_branch and "bweight_2016":
+            warnings.warn( "ETauTree: Expected branch bweight_2016 does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("bweight_2016")
+        else:
+            self.bweight_2016_branch.SetAddress(<void*>&self.bweight_2016_value)
+
+        #print "making bweight_2017"
+        self.bweight_2017_branch = the_tree.GetBranch("bweight_2017")
+        #if not self.bweight_2017_branch and "bweight_2017" not in self.complained:
+        if not self.bweight_2017_branch and "bweight_2017":
+            warnings.warn( "ETauTree: Expected branch bweight_2017 does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("bweight_2017")
+        else:
+            self.bweight_2017_branch.SetAddress(<void*>&self.bweight_2017_value)
+
+        #print "making bweight_2018"
+        self.bweight_2018_branch = the_tree.GetBranch("bweight_2018")
+        #if not self.bweight_2018_branch and "bweight_2018" not in self.complained:
+        if not self.bweight_2018_branch and "bweight_2018":
+            warnings.warn( "ETauTree: Expected branch bweight_2018 does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("bweight_2018")
+        else:
+            self.bweight_2018_branch.SetAddress(<void*>&self.bweight_2018_value)
 
         #print "making charge"
         self.charge_branch = the_tree.GetBranch("charge")
@@ -3691,42 +3541,6 @@ cdef class ETauTree:
         else:
             self.doubleTauCmbIso35RegPass_branch.SetAddress(<void*>&self.doubleTauCmbIso35RegPass_value)
 
-        #print "making eCBIDLoose"
-        self.eCBIDLoose_branch = the_tree.GetBranch("eCBIDLoose")
-        #if not self.eCBIDLoose_branch and "eCBIDLoose" not in self.complained:
-        if not self.eCBIDLoose_branch and "eCBIDLoose":
-            warnings.warn( "ETauTree: Expected branch eCBIDLoose does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eCBIDLoose")
-        else:
-            self.eCBIDLoose_branch.SetAddress(<void*>&self.eCBIDLoose_value)
-
-        #print "making eCBIDMedium"
-        self.eCBIDMedium_branch = the_tree.GetBranch("eCBIDMedium")
-        #if not self.eCBIDMedium_branch and "eCBIDMedium" not in self.complained:
-        if not self.eCBIDMedium_branch and "eCBIDMedium":
-            warnings.warn( "ETauTree: Expected branch eCBIDMedium does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eCBIDMedium")
-        else:
-            self.eCBIDMedium_branch.SetAddress(<void*>&self.eCBIDMedium_value)
-
-        #print "making eCBIDTight"
-        self.eCBIDTight_branch = the_tree.GetBranch("eCBIDTight")
-        #if not self.eCBIDTight_branch and "eCBIDTight" not in self.complained:
-        if not self.eCBIDTight_branch and "eCBIDTight":
-            warnings.warn( "ETauTree: Expected branch eCBIDTight does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eCBIDTight")
-        else:
-            self.eCBIDTight_branch.SetAddress(<void*>&self.eCBIDTight_value)
-
-        #print "making eCBIDVeto"
-        self.eCBIDVeto_branch = the_tree.GetBranch("eCBIDVeto")
-        #if not self.eCBIDVeto_branch and "eCBIDVeto" not in self.complained:
-        if not self.eCBIDVeto_branch and "eCBIDVeto":
-            warnings.warn( "ETauTree: Expected branch eCBIDVeto does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eCBIDVeto")
-        else:
-            self.eCBIDVeto_branch.SetAddress(<void*>&self.eCBIDVeto_value)
-
         #print "making eCharge"
         self.eCharge_branch = the_tree.GetBranch("eCharge")
         #if not self.eCharge_branch and "eCharge" not in self.complained:
@@ -3780,33 +3594,6 @@ cdef class ETauTree:
             #self.complained.add("eCorrectedEt")
         else:
             self.eCorrectedEt_branch.SetAddress(<void*>&self.eCorrectedEt_value)
-
-        #print "making eE1x5"
-        self.eE1x5_branch = the_tree.GetBranch("eE1x5")
-        #if not self.eE1x5_branch and "eE1x5" not in self.complained:
-        if not self.eE1x5_branch and "eE1x5":
-            warnings.warn( "ETauTree: Expected branch eE1x5 does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eE1x5")
-        else:
-            self.eE1x5_branch.SetAddress(<void*>&self.eE1x5_value)
-
-        #print "making eE2x5Max"
-        self.eE2x5Max_branch = the_tree.GetBranch("eE2x5Max")
-        #if not self.eE2x5Max_branch and "eE2x5Max" not in self.complained:
-        if not self.eE2x5Max_branch and "eE2x5Max":
-            warnings.warn( "ETauTree: Expected branch eE2x5Max does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eE2x5Max")
-        else:
-            self.eE2x5Max_branch.SetAddress(<void*>&self.eE2x5Max_value)
-
-        #print "making eE5x5"
-        self.eE5x5_branch = the_tree.GetBranch("eE5x5")
-        #if not self.eE5x5_branch and "eE5x5" not in self.complained:
-        if not self.eE5x5_branch and "eE5x5":
-            warnings.warn( "ETauTree: Expected branch eE5x5 does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eE5x5")
-        else:
-            self.eE5x5_branch.SetAddress(<void*>&self.eE5x5_value)
 
         #print "making eEcalIsoDR03"
         self.eEcalIsoDR03_branch = the_tree.GetBranch("eEcalIsoDR03")
@@ -4096,33 +3883,6 @@ cdef class ETauTree:
         else:
             self.eGenVtxPVMatch_branch.SetAddress(<void*>&self.eGenVtxPVMatch_value)
 
-        #print "making eHadronicDepth1OverEm"
-        self.eHadronicDepth1OverEm_branch = the_tree.GetBranch("eHadronicDepth1OverEm")
-        #if not self.eHadronicDepth1OverEm_branch and "eHadronicDepth1OverEm" not in self.complained:
-        if not self.eHadronicDepth1OverEm_branch and "eHadronicDepth1OverEm":
-            warnings.warn( "ETauTree: Expected branch eHadronicDepth1OverEm does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eHadronicDepth1OverEm")
-        else:
-            self.eHadronicDepth1OverEm_branch.SetAddress(<void*>&self.eHadronicDepth1OverEm_value)
-
-        #print "making eHadronicDepth2OverEm"
-        self.eHadronicDepth2OverEm_branch = the_tree.GetBranch("eHadronicDepth2OverEm")
-        #if not self.eHadronicDepth2OverEm_branch and "eHadronicDepth2OverEm" not in self.complained:
-        if not self.eHadronicDepth2OverEm_branch and "eHadronicDepth2OverEm":
-            warnings.warn( "ETauTree: Expected branch eHadronicDepth2OverEm does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eHadronicDepth2OverEm")
-        else:
-            self.eHadronicDepth2OverEm_branch.SetAddress(<void*>&self.eHadronicDepth2OverEm_value)
-
-        #print "making eHadronicOverEM"
-        self.eHadronicOverEM_branch = the_tree.GetBranch("eHadronicOverEM")
-        #if not self.eHadronicOverEM_branch and "eHadronicOverEM" not in self.complained:
-        if not self.eHadronicOverEM_branch and "eHadronicOverEM":
-            warnings.warn( "ETauTree: Expected branch eHadronicOverEM does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eHadronicOverEM")
-        else:
-            self.eHadronicOverEM_branch.SetAddress(<void*>&self.eHadronicOverEM_value)
-
         #print "making eHcalIsoDR03"
         self.eHcalIsoDR03_branch = the_tree.GetBranch("eHcalIsoDR03")
         #if not self.eHcalIsoDR03_branch and "eHcalIsoDR03" not in self.complained:
@@ -4285,24 +4045,6 @@ cdef class ETauTree:
         else:
             self.eMVAIsoWP90_branch.SetAddress(<void*>&self.eMVAIsoWP90_value)
 
-        #print "making eMVAIsoWPHZZ"
-        self.eMVAIsoWPHZZ_branch = the_tree.GetBranch("eMVAIsoWPHZZ")
-        #if not self.eMVAIsoWPHZZ_branch and "eMVAIsoWPHZZ" not in self.complained:
-        if not self.eMVAIsoWPHZZ_branch and "eMVAIsoWPHZZ":
-            warnings.warn( "ETauTree: Expected branch eMVAIsoWPHZZ does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eMVAIsoWPHZZ")
-        else:
-            self.eMVAIsoWPHZZ_branch.SetAddress(<void*>&self.eMVAIsoWPHZZ_value)
-
-        #print "making eMVAIsoWPLoose"
-        self.eMVAIsoWPLoose_branch = the_tree.GetBranch("eMVAIsoWPLoose")
-        #if not self.eMVAIsoWPLoose_branch and "eMVAIsoWPLoose" not in self.complained:
-        if not self.eMVAIsoWPLoose_branch and "eMVAIsoWPLoose":
-            warnings.warn( "ETauTree: Expected branch eMVAIsoWPLoose does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eMVAIsoWPLoose")
-        else:
-            self.eMVAIsoWPLoose_branch.SetAddress(<void*>&self.eMVAIsoWPLoose_value)
-
         #print "making eMVANoisoWP80"
         self.eMVANoisoWP80_branch = the_tree.GetBranch("eMVANoisoWP80")
         #if not self.eMVANoisoWP80_branch and "eMVANoisoWP80" not in self.complained:
@@ -4321,15 +4063,6 @@ cdef class ETauTree:
         else:
             self.eMVANoisoWP90_branch.SetAddress(<void*>&self.eMVANoisoWP90_value)
 
-        #print "making eMVANoisoWPLoose"
-        self.eMVANoisoWPLoose_branch = the_tree.GetBranch("eMVANoisoWPLoose")
-        #if not self.eMVANoisoWPLoose_branch and "eMVANoisoWPLoose" not in self.complained:
-        if not self.eMVANoisoWPLoose_branch and "eMVANoisoWPLoose":
-            warnings.warn( "ETauTree: Expected branch eMVANoisoWPLoose does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eMVANoisoWPLoose")
-        else:
-            self.eMVANoisoWPLoose_branch.SetAddress(<void*>&self.eMVANoisoWPLoose_value)
-
         #print "making eMass"
         self.eMass_branch = the_tree.GetBranch("eMass")
         #if not self.eMass_branch and "eMass" not in self.complained:
@@ -4338,6 +4071,60 @@ cdef class ETauTree:
             #self.complained.add("eMass")
         else:
             self.eMass_branch.SetAddress(<void*>&self.eMass_value)
+
+        #print "making eMatchEmbeddedFilterEle24Tau30"
+        self.eMatchEmbeddedFilterEle24Tau30_branch = the_tree.GetBranch("eMatchEmbeddedFilterEle24Tau30")
+        #if not self.eMatchEmbeddedFilterEle24Tau30_branch and "eMatchEmbeddedFilterEle24Tau30" not in self.complained:
+        if not self.eMatchEmbeddedFilterEle24Tau30_branch and "eMatchEmbeddedFilterEle24Tau30":
+            warnings.warn( "ETauTree: Expected branch eMatchEmbeddedFilterEle24Tau30 does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eMatchEmbeddedFilterEle24Tau30")
+        else:
+            self.eMatchEmbeddedFilterEle24Tau30_branch.SetAddress(<void*>&self.eMatchEmbeddedFilterEle24Tau30_value)
+
+        #print "making eMatchEmbeddedFilterEle27"
+        self.eMatchEmbeddedFilterEle27_branch = the_tree.GetBranch("eMatchEmbeddedFilterEle27")
+        #if not self.eMatchEmbeddedFilterEle27_branch and "eMatchEmbeddedFilterEle27" not in self.complained:
+        if not self.eMatchEmbeddedFilterEle27_branch and "eMatchEmbeddedFilterEle27":
+            warnings.warn( "ETauTree: Expected branch eMatchEmbeddedFilterEle27 does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eMatchEmbeddedFilterEle27")
+        else:
+            self.eMatchEmbeddedFilterEle27_branch.SetAddress(<void*>&self.eMatchEmbeddedFilterEle27_value)
+
+        #print "making eMatchEmbeddedFilterEle32"
+        self.eMatchEmbeddedFilterEle32_branch = the_tree.GetBranch("eMatchEmbeddedFilterEle32")
+        #if not self.eMatchEmbeddedFilterEle32_branch and "eMatchEmbeddedFilterEle32" not in self.complained:
+        if not self.eMatchEmbeddedFilterEle32_branch and "eMatchEmbeddedFilterEle32":
+            warnings.warn( "ETauTree: Expected branch eMatchEmbeddedFilterEle32 does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eMatchEmbeddedFilterEle32")
+        else:
+            self.eMatchEmbeddedFilterEle32_branch.SetAddress(<void*>&self.eMatchEmbeddedFilterEle32_value)
+
+        #print "making eMatchEmbeddedFilterEle32DoubleL1_v1"
+        self.eMatchEmbeddedFilterEle32DoubleL1_v1_branch = the_tree.GetBranch("eMatchEmbeddedFilterEle32DoubleL1_v1")
+        #if not self.eMatchEmbeddedFilterEle32DoubleL1_v1_branch and "eMatchEmbeddedFilterEle32DoubleL1_v1" not in self.complained:
+        if not self.eMatchEmbeddedFilterEle32DoubleL1_v1_branch and "eMatchEmbeddedFilterEle32DoubleL1_v1":
+            warnings.warn( "ETauTree: Expected branch eMatchEmbeddedFilterEle32DoubleL1_v1 does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eMatchEmbeddedFilterEle32DoubleL1_v1")
+        else:
+            self.eMatchEmbeddedFilterEle32DoubleL1_v1_branch.SetAddress(<void*>&self.eMatchEmbeddedFilterEle32DoubleL1_v1_value)
+
+        #print "making eMatchEmbeddedFilterEle32DoubleL1_v2"
+        self.eMatchEmbeddedFilterEle32DoubleL1_v2_branch = the_tree.GetBranch("eMatchEmbeddedFilterEle32DoubleL1_v2")
+        #if not self.eMatchEmbeddedFilterEle32DoubleL1_v2_branch and "eMatchEmbeddedFilterEle32DoubleL1_v2" not in self.complained:
+        if not self.eMatchEmbeddedFilterEle32DoubleL1_v2_branch and "eMatchEmbeddedFilterEle32DoubleL1_v2":
+            warnings.warn( "ETauTree: Expected branch eMatchEmbeddedFilterEle32DoubleL1_v2 does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eMatchEmbeddedFilterEle32DoubleL1_v2")
+        else:
+            self.eMatchEmbeddedFilterEle32DoubleL1_v2_branch.SetAddress(<void*>&self.eMatchEmbeddedFilterEle32DoubleL1_v2_value)
+
+        #print "making eMatchEmbeddedFilterEle35"
+        self.eMatchEmbeddedFilterEle35_branch = the_tree.GetBranch("eMatchEmbeddedFilterEle35")
+        #if not self.eMatchEmbeddedFilterEle35_branch and "eMatchEmbeddedFilterEle35" not in self.complained:
+        if not self.eMatchEmbeddedFilterEle35_branch and "eMatchEmbeddedFilterEle35":
+            warnings.warn( "ETauTree: Expected branch eMatchEmbeddedFilterEle35 does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eMatchEmbeddedFilterEle35")
+        else:
+            self.eMatchEmbeddedFilterEle35_branch.SetAddress(<void*>&self.eMatchEmbeddedFilterEle35_value)
 
         #print "making eMatchesEle24HPSTau30Filter"
         self.eMatchesEle24HPSTau30Filter_branch = the_tree.GetBranch("eMatchesEle24HPSTau30Filter")
@@ -4446,6 +4233,78 @@ cdef class ETauTree:
             #self.complained.add("eMatchesEle35Path")
         else:
             self.eMatchesEle35Path_branch.SetAddress(<void*>&self.eMatchesEle35Path_value)
+
+        #print "making eMatchesMu23e12DZFilter"
+        self.eMatchesMu23e12DZFilter_branch = the_tree.GetBranch("eMatchesMu23e12DZFilter")
+        #if not self.eMatchesMu23e12DZFilter_branch and "eMatchesMu23e12DZFilter" not in self.complained:
+        if not self.eMatchesMu23e12DZFilter_branch and "eMatchesMu23e12DZFilter":
+            warnings.warn( "ETauTree: Expected branch eMatchesMu23e12DZFilter does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eMatchesMu23e12DZFilter")
+        else:
+            self.eMatchesMu23e12DZFilter_branch.SetAddress(<void*>&self.eMatchesMu23e12DZFilter_value)
+
+        #print "making eMatchesMu23e12DZPath"
+        self.eMatchesMu23e12DZPath_branch = the_tree.GetBranch("eMatchesMu23e12DZPath")
+        #if not self.eMatchesMu23e12DZPath_branch and "eMatchesMu23e12DZPath" not in self.complained:
+        if not self.eMatchesMu23e12DZPath_branch and "eMatchesMu23e12DZPath":
+            warnings.warn( "ETauTree: Expected branch eMatchesMu23e12DZPath does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eMatchesMu23e12DZPath")
+        else:
+            self.eMatchesMu23e12DZPath_branch.SetAddress(<void*>&self.eMatchesMu23e12DZPath_value)
+
+        #print "making eMatchesMu23e12Filter"
+        self.eMatchesMu23e12Filter_branch = the_tree.GetBranch("eMatchesMu23e12Filter")
+        #if not self.eMatchesMu23e12Filter_branch and "eMatchesMu23e12Filter" not in self.complained:
+        if not self.eMatchesMu23e12Filter_branch and "eMatchesMu23e12Filter":
+            warnings.warn( "ETauTree: Expected branch eMatchesMu23e12Filter does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eMatchesMu23e12Filter")
+        else:
+            self.eMatchesMu23e12Filter_branch.SetAddress(<void*>&self.eMatchesMu23e12Filter_value)
+
+        #print "making eMatchesMu23e12Path"
+        self.eMatchesMu23e12Path_branch = the_tree.GetBranch("eMatchesMu23e12Path")
+        #if not self.eMatchesMu23e12Path_branch and "eMatchesMu23e12Path" not in self.complained:
+        if not self.eMatchesMu23e12Path_branch and "eMatchesMu23e12Path":
+            warnings.warn( "ETauTree: Expected branch eMatchesMu23e12Path does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eMatchesMu23e12Path")
+        else:
+            self.eMatchesMu23e12Path_branch.SetAddress(<void*>&self.eMatchesMu23e12Path_value)
+
+        #print "making eMatchesMu8e23DZFilter"
+        self.eMatchesMu8e23DZFilter_branch = the_tree.GetBranch("eMatchesMu8e23DZFilter")
+        #if not self.eMatchesMu8e23DZFilter_branch and "eMatchesMu8e23DZFilter" not in self.complained:
+        if not self.eMatchesMu8e23DZFilter_branch and "eMatchesMu8e23DZFilter":
+            warnings.warn( "ETauTree: Expected branch eMatchesMu8e23DZFilter does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eMatchesMu8e23DZFilter")
+        else:
+            self.eMatchesMu8e23DZFilter_branch.SetAddress(<void*>&self.eMatchesMu8e23DZFilter_value)
+
+        #print "making eMatchesMu8e23DZPath"
+        self.eMatchesMu8e23DZPath_branch = the_tree.GetBranch("eMatchesMu8e23DZPath")
+        #if not self.eMatchesMu8e23DZPath_branch and "eMatchesMu8e23DZPath" not in self.complained:
+        if not self.eMatchesMu8e23DZPath_branch and "eMatchesMu8e23DZPath":
+            warnings.warn( "ETauTree: Expected branch eMatchesMu8e23DZPath does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eMatchesMu8e23DZPath")
+        else:
+            self.eMatchesMu8e23DZPath_branch.SetAddress(<void*>&self.eMatchesMu8e23DZPath_value)
+
+        #print "making eMatchesMu8e23Filter"
+        self.eMatchesMu8e23Filter_branch = the_tree.GetBranch("eMatchesMu8e23Filter")
+        #if not self.eMatchesMu8e23Filter_branch and "eMatchesMu8e23Filter" not in self.complained:
+        if not self.eMatchesMu8e23Filter_branch and "eMatchesMu8e23Filter":
+            warnings.warn( "ETauTree: Expected branch eMatchesMu8e23Filter does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eMatchesMu8e23Filter")
+        else:
+            self.eMatchesMu8e23Filter_branch.SetAddress(<void*>&self.eMatchesMu8e23Filter_value)
+
+        #print "making eMatchesMu8e23Path"
+        self.eMatchesMu8e23Path_branch = the_tree.GetBranch("eMatchesMu8e23Path")
+        #if not self.eMatchesMu8e23Path_branch and "eMatchesMu8e23Path" not in self.complained:
+        if not self.eMatchesMu8e23Path_branch and "eMatchesMu8e23Path":
+            warnings.warn( "ETauTree: Expected branch eMatchesMu8e23Path does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eMatchesMu8e23Path")
+        else:
+            self.eMatchesMu8e23Path_branch.SetAddress(<void*>&self.eMatchesMu8e23Path_value)
 
         #print "making eMissingHits"
         self.eMissingHits_branch = the_tree.GetBranch("eMissingHits")
@@ -4600,69 +4459,6 @@ cdef class ETauTree:
         else:
             self.eRho_branch.SetAddress(<void*>&self.eRho_value)
 
-        #print "making eSCEnergy"
-        self.eSCEnergy_branch = the_tree.GetBranch("eSCEnergy")
-        #if not self.eSCEnergy_branch and "eSCEnergy" not in self.complained:
-        if not self.eSCEnergy_branch and "eSCEnergy":
-            warnings.warn( "ETauTree: Expected branch eSCEnergy does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eSCEnergy")
-        else:
-            self.eSCEnergy_branch.SetAddress(<void*>&self.eSCEnergy_value)
-
-        #print "making eSCEta"
-        self.eSCEta_branch = the_tree.GetBranch("eSCEta")
-        #if not self.eSCEta_branch and "eSCEta" not in self.complained:
-        if not self.eSCEta_branch and "eSCEta":
-            warnings.warn( "ETauTree: Expected branch eSCEta does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eSCEta")
-        else:
-            self.eSCEta_branch.SetAddress(<void*>&self.eSCEta_value)
-
-        #print "making eSCEtaWidth"
-        self.eSCEtaWidth_branch = the_tree.GetBranch("eSCEtaWidth")
-        #if not self.eSCEtaWidth_branch and "eSCEtaWidth" not in self.complained:
-        if not self.eSCEtaWidth_branch and "eSCEtaWidth":
-            warnings.warn( "ETauTree: Expected branch eSCEtaWidth does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eSCEtaWidth")
-        else:
-            self.eSCEtaWidth_branch.SetAddress(<void*>&self.eSCEtaWidth_value)
-
-        #print "making eSCPhi"
-        self.eSCPhi_branch = the_tree.GetBranch("eSCPhi")
-        #if not self.eSCPhi_branch and "eSCPhi" not in self.complained:
-        if not self.eSCPhi_branch and "eSCPhi":
-            warnings.warn( "ETauTree: Expected branch eSCPhi does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eSCPhi")
-        else:
-            self.eSCPhi_branch.SetAddress(<void*>&self.eSCPhi_value)
-
-        #print "making eSCPhiWidth"
-        self.eSCPhiWidth_branch = the_tree.GetBranch("eSCPhiWidth")
-        #if not self.eSCPhiWidth_branch and "eSCPhiWidth" not in self.complained:
-        if not self.eSCPhiWidth_branch and "eSCPhiWidth":
-            warnings.warn( "ETauTree: Expected branch eSCPhiWidth does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eSCPhiWidth")
-        else:
-            self.eSCPhiWidth_branch.SetAddress(<void*>&self.eSCPhiWidth_value)
-
-        #print "making eSCPreshowerEnergy"
-        self.eSCPreshowerEnergy_branch = the_tree.GetBranch("eSCPreshowerEnergy")
-        #if not self.eSCPreshowerEnergy_branch and "eSCPreshowerEnergy" not in self.complained:
-        if not self.eSCPreshowerEnergy_branch and "eSCPreshowerEnergy":
-            warnings.warn( "ETauTree: Expected branch eSCPreshowerEnergy does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eSCPreshowerEnergy")
-        else:
-            self.eSCPreshowerEnergy_branch.SetAddress(<void*>&self.eSCPreshowerEnergy_value)
-
-        #print "making eSCRawEnergy"
-        self.eSCRawEnergy_branch = the_tree.GetBranch("eSCRawEnergy")
-        #if not self.eSCRawEnergy_branch and "eSCRawEnergy" not in self.complained:
-        if not self.eSCRawEnergy_branch and "eSCRawEnergy":
-            warnings.warn( "ETauTree: Expected branch eSCRawEnergy does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eSCRawEnergy")
-        else:
-            self.eSCRawEnergy_branch.SetAddress(<void*>&self.eSCRawEnergy_value)
-
         #print "making eSIP2D"
         self.eSIP2D_branch = the_tree.GetBranch("eSIP2D")
         #if not self.eSIP2D_branch and "eSIP2D" not in self.complained:
@@ -4680,15 +4476,6 @@ cdef class ETauTree:
             #self.complained.add("eSIP3D")
         else:
             self.eSIP3D_branch.SetAddress(<void*>&self.eSIP3D_value)
-
-        #print "making eSigmaIEtaIEta"
-        self.eSigmaIEtaIEta_branch = the_tree.GetBranch("eSigmaIEtaIEta")
-        #if not self.eSigmaIEtaIEta_branch and "eSigmaIEtaIEta" not in self.complained:
-        if not self.eSigmaIEtaIEta_branch and "eSigmaIEtaIEta":
-            warnings.warn( "ETauTree: Expected branch eSigmaIEtaIEta does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eSigmaIEtaIEta")
-        else:
-            self.eSigmaIEtaIEta_branch.SetAddress(<void*>&self.eSigmaIEtaIEta_value)
 
         #print "making eTrkIsoDR03"
         self.eTrkIsoDR03_branch = the_tree.GetBranch("eTrkIsoDR03")
@@ -4708,23 +4495,14 @@ cdef class ETauTree:
         else:
             self.eVZ_branch.SetAddress(<void*>&self.eVZ_value)
 
-        #print "making eVetoHZZPt5"
-        self.eVetoHZZPt5_branch = the_tree.GetBranch("eVetoHZZPt5")
-        #if not self.eVetoHZZPt5_branch and "eVetoHZZPt5" not in self.complained:
-        if not self.eVetoHZZPt5_branch and "eVetoHZZPt5":
-            warnings.warn( "ETauTree: Expected branch eVetoHZZPt5 does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eVetoHZZPt5")
+        #print "making eVetoMVAIsoVtx"
+        self.eVetoMVAIsoVtx_branch = the_tree.GetBranch("eVetoMVAIsoVtx")
+        #if not self.eVetoMVAIsoVtx_branch and "eVetoMVAIsoVtx" not in self.complained:
+        if not self.eVetoMVAIsoVtx_branch and "eVetoMVAIsoVtx":
+            warnings.warn( "ETauTree: Expected branch eVetoMVAIsoVtx does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("eVetoMVAIsoVtx")
         else:
-            self.eVetoHZZPt5_branch.SetAddress(<void*>&self.eVetoHZZPt5_value)
-
-        #print "making eVetoMVAIso"
-        self.eVetoMVAIso_branch = the_tree.GetBranch("eVetoMVAIso")
-        #if not self.eVetoMVAIso_branch and "eVetoMVAIso" not in self.complained:
-        if not self.eVetoMVAIso_branch and "eVetoMVAIso":
-            warnings.warn( "ETauTree: Expected branch eVetoMVAIso does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eVetoMVAIso")
-        else:
-            self.eVetoMVAIso_branch.SetAddress(<void*>&self.eVetoMVAIso_value)
+            self.eVetoMVAIsoVtx_branch.SetAddress(<void*>&self.eVetoMVAIsoVtx_value)
 
         #print "making eVetoZTTp001dxyz"
         self.eVetoZTTp001dxyz_branch = the_tree.GetBranch("eVetoZTTp001dxyz")
@@ -4735,33 +4513,6 @@ cdef class ETauTree:
         else:
             self.eVetoZTTp001dxyz_branch.SetAddress(<void*>&self.eVetoZTTp001dxyz_value)
 
-        #print "making eVetoZTTp001dxyzR0"
-        self.eVetoZTTp001dxyzR0_branch = the_tree.GetBranch("eVetoZTTp001dxyzR0")
-        #if not self.eVetoZTTp001dxyzR0_branch and "eVetoZTTp001dxyzR0" not in self.complained:
-        if not self.eVetoZTTp001dxyzR0_branch and "eVetoZTTp001dxyzR0":
-            warnings.warn( "ETauTree: Expected branch eVetoZTTp001dxyzR0 does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eVetoZTTp001dxyzR0")
-        else:
-            self.eVetoZTTp001dxyzR0_branch.SetAddress(<void*>&self.eVetoZTTp001dxyzR0_value)
-
-        #print "making eZTTGenDR"
-        self.eZTTGenDR_branch = the_tree.GetBranch("eZTTGenDR")
-        #if not self.eZTTGenDR_branch and "eZTTGenDR" not in self.complained:
-        if not self.eZTTGenDR_branch and "eZTTGenDR":
-            warnings.warn( "ETauTree: Expected branch eZTTGenDR does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eZTTGenDR")
-        else:
-            self.eZTTGenDR_branch.SetAddress(<void*>&self.eZTTGenDR_value)
-
-        #print "making eZTTGenEta"
-        self.eZTTGenEta_branch = the_tree.GetBranch("eZTTGenEta")
-        #if not self.eZTTGenEta_branch and "eZTTGenEta" not in self.complained:
-        if not self.eZTTGenEta_branch and "eZTTGenEta":
-            warnings.warn( "ETauTree: Expected branch eZTTGenEta does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eZTTGenEta")
-        else:
-            self.eZTTGenEta_branch.SetAddress(<void*>&self.eZTTGenEta_value)
-
         #print "making eZTTGenMatching"
         self.eZTTGenMatching_branch = the_tree.GetBranch("eZTTGenMatching")
         #if not self.eZTTGenMatching_branch and "eZTTGenMatching" not in self.complained:
@@ -4770,24 +4521,6 @@ cdef class ETauTree:
             #self.complained.add("eZTTGenMatching")
         else:
             self.eZTTGenMatching_branch.SetAddress(<void*>&self.eZTTGenMatching_value)
-
-        #print "making eZTTGenPhi"
-        self.eZTTGenPhi_branch = the_tree.GetBranch("eZTTGenPhi")
-        #if not self.eZTTGenPhi_branch and "eZTTGenPhi" not in self.complained:
-        if not self.eZTTGenPhi_branch and "eZTTGenPhi":
-            warnings.warn( "ETauTree: Expected branch eZTTGenPhi does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eZTTGenPhi")
-        else:
-            self.eZTTGenPhi_branch.SetAddress(<void*>&self.eZTTGenPhi_value)
-
-        #print "making eZTTGenPt"
-        self.eZTTGenPt_branch = the_tree.GetBranch("eZTTGenPt")
-        #if not self.eZTTGenPt_branch and "eZTTGenPt" not in self.complained:
-        if not self.eZTTGenPt_branch and "eZTTGenPt":
-            warnings.warn( "ETauTree: Expected branch eZTTGenPt does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eZTTGenPt")
-        else:
-            self.eZTTGenPt_branch.SetAddress(<void*>&self.eZTTGenPt_value)
 
         #print "making e_t_DR"
         self.e_t_DR_branch = the_tree.GetBranch("e_t_DR")
@@ -4833,60 +4566,6 @@ cdef class ETauTree:
             #self.complained.add("e_t_doubleL1IsoTauMatch")
         else:
             self.e_t_doubleL1IsoTauMatch_branch.SetAddress(<void*>&self.e_t_doubleL1IsoTauMatch_value)
-
-        #print "making edeltaEtaSuperClusterTrackAtVtx"
-        self.edeltaEtaSuperClusterTrackAtVtx_branch = the_tree.GetBranch("edeltaEtaSuperClusterTrackAtVtx")
-        #if not self.edeltaEtaSuperClusterTrackAtVtx_branch and "edeltaEtaSuperClusterTrackAtVtx" not in self.complained:
-        if not self.edeltaEtaSuperClusterTrackAtVtx_branch and "edeltaEtaSuperClusterTrackAtVtx":
-            warnings.warn( "ETauTree: Expected branch edeltaEtaSuperClusterTrackAtVtx does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("edeltaEtaSuperClusterTrackAtVtx")
-        else:
-            self.edeltaEtaSuperClusterTrackAtVtx_branch.SetAddress(<void*>&self.edeltaEtaSuperClusterTrackAtVtx_value)
-
-        #print "making edeltaPhiSuperClusterTrackAtVtx"
-        self.edeltaPhiSuperClusterTrackAtVtx_branch = the_tree.GetBranch("edeltaPhiSuperClusterTrackAtVtx")
-        #if not self.edeltaPhiSuperClusterTrackAtVtx_branch and "edeltaPhiSuperClusterTrackAtVtx" not in self.complained:
-        if not self.edeltaPhiSuperClusterTrackAtVtx_branch and "edeltaPhiSuperClusterTrackAtVtx":
-            warnings.warn( "ETauTree: Expected branch edeltaPhiSuperClusterTrackAtVtx does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("edeltaPhiSuperClusterTrackAtVtx")
-        else:
-            self.edeltaPhiSuperClusterTrackAtVtx_branch.SetAddress(<void*>&self.edeltaPhiSuperClusterTrackAtVtx_value)
-
-        #print "making eeSuperClusterOverP"
-        self.eeSuperClusterOverP_branch = the_tree.GetBranch("eeSuperClusterOverP")
-        #if not self.eeSuperClusterOverP_branch and "eeSuperClusterOverP" not in self.complained:
-        if not self.eeSuperClusterOverP_branch and "eeSuperClusterOverP":
-            warnings.warn( "ETauTree: Expected branch eeSuperClusterOverP does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eeSuperClusterOverP")
-        else:
-            self.eeSuperClusterOverP_branch.SetAddress(<void*>&self.eeSuperClusterOverP_value)
-
-        #print "making eecalEnergy"
-        self.eecalEnergy_branch = the_tree.GetBranch("eecalEnergy")
-        #if not self.eecalEnergy_branch and "eecalEnergy" not in self.complained:
-        if not self.eecalEnergy_branch and "eecalEnergy":
-            warnings.warn( "ETauTree: Expected branch eecalEnergy does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("eecalEnergy")
-        else:
-            self.eecalEnergy_branch.SetAddress(<void*>&self.eecalEnergy_value)
-
-        #print "making efBrem"
-        self.efBrem_branch = the_tree.GetBranch("efBrem")
-        #if not self.efBrem_branch and "efBrem" not in self.complained:
-        if not self.efBrem_branch and "efBrem":
-            warnings.warn( "ETauTree: Expected branch efBrem does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("efBrem")
-        else:
-            self.efBrem_branch.SetAddress(<void*>&self.efBrem_value)
-
-        #print "making etrackMomentumAtVtxP"
-        self.etrackMomentumAtVtxP_branch = the_tree.GetBranch("etrackMomentumAtVtxP")
-        #if not self.etrackMomentumAtVtxP_branch and "etrackMomentumAtVtxP" not in self.complained:
-        if not self.etrackMomentumAtVtxP_branch and "etrackMomentumAtVtxP":
-            warnings.warn( "ETauTree: Expected branch etrackMomentumAtVtxP does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("etrackMomentumAtVtxP")
-        else:
-            self.etrackMomentumAtVtxP_branch.SetAddress(<void*>&self.etrackMomentumAtVtxP_value)
 
         #print "making evt"
         self.evt_branch = the_tree.GetBranch("evt")
@@ -4968,6 +4647,15 @@ cdef class ETauTree:
             #self.complained.add("genpY")
         else:
             self.genpY_branch.SetAddress(<void*>&self.genpY_value)
+
+        #print "making isGtautau"
+        self.isGtautau_branch = the_tree.GetBranch("isGtautau")
+        #if not self.isGtautau_branch and "isGtautau" not in self.complained:
+        if not self.isGtautau_branch and "isGtautau":
+            warnings.warn( "ETauTree: Expected branch isGtautau does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("isGtautau")
+        else:
+            self.isGtautau_branch.SetAddress(<void*>&self.isGtautau_value)
 
         #print "making isWenu"
         self.isWenu_branch = the_tree.GetBranch("isWenu")
@@ -5239,6 +4927,114 @@ cdef class ETauTree:
         else:
             self.j1ptWoNoisyJets_JetRelativeSampleUp_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetRelativeSampleUp_value)
 
+        #print "making j1pt_JetEC2Down"
+        self.j1pt_JetEC2Down_branch = the_tree.GetBranch("j1pt_JetEC2Down")
+        #if not self.j1pt_JetEC2Down_branch and "j1pt_JetEC2Down" not in self.complained:
+        if not self.j1pt_JetEC2Down_branch and "j1pt_JetEC2Down":
+            warnings.warn( "ETauTree: Expected branch j1pt_JetEC2Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetEC2Down")
+        else:
+            self.j1pt_JetEC2Down_branch.SetAddress(<void*>&self.j1pt_JetEC2Down_value)
+
+        #print "making j1pt_JetEC2Up"
+        self.j1pt_JetEC2Up_branch = the_tree.GetBranch("j1pt_JetEC2Up")
+        #if not self.j1pt_JetEC2Up_branch and "j1pt_JetEC2Up" not in self.complained:
+        if not self.j1pt_JetEC2Up_branch and "j1pt_JetEC2Up":
+            warnings.warn( "ETauTree: Expected branch j1pt_JetEC2Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetEC2Up")
+        else:
+            self.j1pt_JetEC2Up_branch.SetAddress(<void*>&self.j1pt_JetEC2Up_value)
+
+        #print "making j1pt_JetEta0to3Down"
+        self.j1pt_JetEta0to3Down_branch = the_tree.GetBranch("j1pt_JetEta0to3Down")
+        #if not self.j1pt_JetEta0to3Down_branch and "j1pt_JetEta0to3Down" not in self.complained:
+        if not self.j1pt_JetEta0to3Down_branch and "j1pt_JetEta0to3Down":
+            warnings.warn( "ETauTree: Expected branch j1pt_JetEta0to3Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetEta0to3Down")
+        else:
+            self.j1pt_JetEta0to3Down_branch.SetAddress(<void*>&self.j1pt_JetEta0to3Down_value)
+
+        #print "making j1pt_JetEta0to3Up"
+        self.j1pt_JetEta0to3Up_branch = the_tree.GetBranch("j1pt_JetEta0to3Up")
+        #if not self.j1pt_JetEta0to3Up_branch and "j1pt_JetEta0to3Up" not in self.complained:
+        if not self.j1pt_JetEta0to3Up_branch and "j1pt_JetEta0to3Up":
+            warnings.warn( "ETauTree: Expected branch j1pt_JetEta0to3Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetEta0to3Up")
+        else:
+            self.j1pt_JetEta0to3Up_branch.SetAddress(<void*>&self.j1pt_JetEta0to3Up_value)
+
+        #print "making j1pt_JetEta0to5Down"
+        self.j1pt_JetEta0to5Down_branch = the_tree.GetBranch("j1pt_JetEta0to5Down")
+        #if not self.j1pt_JetEta0to5Down_branch and "j1pt_JetEta0to5Down" not in self.complained:
+        if not self.j1pt_JetEta0to5Down_branch and "j1pt_JetEta0to5Down":
+            warnings.warn( "ETauTree: Expected branch j1pt_JetEta0to5Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetEta0to5Down")
+        else:
+            self.j1pt_JetEta0to5Down_branch.SetAddress(<void*>&self.j1pt_JetEta0to5Down_value)
+
+        #print "making j1pt_JetEta0to5Up"
+        self.j1pt_JetEta0to5Up_branch = the_tree.GetBranch("j1pt_JetEta0to5Up")
+        #if not self.j1pt_JetEta0to5Up_branch and "j1pt_JetEta0to5Up" not in self.complained:
+        if not self.j1pt_JetEta0to5Up_branch and "j1pt_JetEta0to5Up":
+            warnings.warn( "ETauTree: Expected branch j1pt_JetEta0to5Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetEta0to5Up")
+        else:
+            self.j1pt_JetEta0to5Up_branch.SetAddress(<void*>&self.j1pt_JetEta0to5Up_value)
+
+        #print "making j1pt_JetEta3to5Down"
+        self.j1pt_JetEta3to5Down_branch = the_tree.GetBranch("j1pt_JetEta3to5Down")
+        #if not self.j1pt_JetEta3to5Down_branch and "j1pt_JetEta3to5Down" not in self.complained:
+        if not self.j1pt_JetEta3to5Down_branch and "j1pt_JetEta3to5Down":
+            warnings.warn( "ETauTree: Expected branch j1pt_JetEta3to5Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetEta3to5Down")
+        else:
+            self.j1pt_JetEta3to5Down_branch.SetAddress(<void*>&self.j1pt_JetEta3to5Down_value)
+
+        #print "making j1pt_JetEta3to5Up"
+        self.j1pt_JetEta3to5Up_branch = the_tree.GetBranch("j1pt_JetEta3to5Up")
+        #if not self.j1pt_JetEta3to5Up_branch and "j1pt_JetEta3to5Up" not in self.complained:
+        if not self.j1pt_JetEta3to5Up_branch and "j1pt_JetEta3to5Up":
+            warnings.warn( "ETauTree: Expected branch j1pt_JetEta3to5Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetEta3to5Up")
+        else:
+            self.j1pt_JetEta3to5Up_branch.SetAddress(<void*>&self.j1pt_JetEta3to5Up_value)
+
+        #print "making j1pt_JetRelativeBalDown"
+        self.j1pt_JetRelativeBalDown_branch = the_tree.GetBranch("j1pt_JetRelativeBalDown")
+        #if not self.j1pt_JetRelativeBalDown_branch and "j1pt_JetRelativeBalDown" not in self.complained:
+        if not self.j1pt_JetRelativeBalDown_branch and "j1pt_JetRelativeBalDown":
+            warnings.warn( "ETauTree: Expected branch j1pt_JetRelativeBalDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetRelativeBalDown")
+        else:
+            self.j1pt_JetRelativeBalDown_branch.SetAddress(<void*>&self.j1pt_JetRelativeBalDown_value)
+
+        #print "making j1pt_JetRelativeBalUp"
+        self.j1pt_JetRelativeBalUp_branch = the_tree.GetBranch("j1pt_JetRelativeBalUp")
+        #if not self.j1pt_JetRelativeBalUp_branch and "j1pt_JetRelativeBalUp" not in self.complained:
+        if not self.j1pt_JetRelativeBalUp_branch and "j1pt_JetRelativeBalUp":
+            warnings.warn( "ETauTree: Expected branch j1pt_JetRelativeBalUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetRelativeBalUp")
+        else:
+            self.j1pt_JetRelativeBalUp_branch.SetAddress(<void*>&self.j1pt_JetRelativeBalUp_value)
+
+        #print "making j1pt_JetRelativeSampleDown"
+        self.j1pt_JetRelativeSampleDown_branch = the_tree.GetBranch("j1pt_JetRelativeSampleDown")
+        #if not self.j1pt_JetRelativeSampleDown_branch and "j1pt_JetRelativeSampleDown" not in self.complained:
+        if not self.j1pt_JetRelativeSampleDown_branch and "j1pt_JetRelativeSampleDown":
+            warnings.warn( "ETauTree: Expected branch j1pt_JetRelativeSampleDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetRelativeSampleDown")
+        else:
+            self.j1pt_JetRelativeSampleDown_branch.SetAddress(<void*>&self.j1pt_JetRelativeSampleDown_value)
+
+        #print "making j1pt_JetRelativeSampleUp"
+        self.j1pt_JetRelativeSampleUp_branch = the_tree.GetBranch("j1pt_JetRelativeSampleUp")
+        #if not self.j1pt_JetRelativeSampleUp_branch and "j1pt_JetRelativeSampleUp" not in self.complained:
+        if not self.j1pt_JetRelativeSampleUp_branch and "j1pt_JetRelativeSampleUp":
+            warnings.warn( "ETauTree: Expected branch j1pt_JetRelativeSampleUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetRelativeSampleUp")
+        else:
+            self.j1pt_JetRelativeSampleUp_branch.SetAddress(<void*>&self.j1pt_JetRelativeSampleUp_value)
+
         #print "making j2csv"
         self.j2csv_branch = the_tree.GetBranch("j2csv")
         #if not self.j2csv_branch and "j2csv" not in self.complained:
@@ -5437,14 +5233,113 @@ cdef class ETauTree:
         else:
             self.j2ptWoNoisyJets_JetRelativeSampleUp_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetRelativeSampleUp_value)
 
-        #print "making jb1eta"
-        self.jb1eta_branch = the_tree.GetBranch("jb1eta")
-        #if not self.jb1eta_branch and "jb1eta" not in self.complained:
-        if not self.jb1eta_branch and "jb1eta":
-            warnings.warn( "ETauTree: Expected branch jb1eta does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jb1eta")
+        #print "making j2pt_JetEC2Down"
+        self.j2pt_JetEC2Down_branch = the_tree.GetBranch("j2pt_JetEC2Down")
+        #if not self.j2pt_JetEC2Down_branch and "j2pt_JetEC2Down" not in self.complained:
+        if not self.j2pt_JetEC2Down_branch and "j2pt_JetEC2Down":
+            warnings.warn( "ETauTree: Expected branch j2pt_JetEC2Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetEC2Down")
         else:
-            self.jb1eta_branch.SetAddress(<void*>&self.jb1eta_value)
+            self.j2pt_JetEC2Down_branch.SetAddress(<void*>&self.j2pt_JetEC2Down_value)
+
+        #print "making j2pt_JetEC2Up"
+        self.j2pt_JetEC2Up_branch = the_tree.GetBranch("j2pt_JetEC2Up")
+        #if not self.j2pt_JetEC2Up_branch and "j2pt_JetEC2Up" not in self.complained:
+        if not self.j2pt_JetEC2Up_branch and "j2pt_JetEC2Up":
+            warnings.warn( "ETauTree: Expected branch j2pt_JetEC2Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetEC2Up")
+        else:
+            self.j2pt_JetEC2Up_branch.SetAddress(<void*>&self.j2pt_JetEC2Up_value)
+
+        #print "making j2pt_JetEta0to3Down"
+        self.j2pt_JetEta0to3Down_branch = the_tree.GetBranch("j2pt_JetEta0to3Down")
+        #if not self.j2pt_JetEta0to3Down_branch and "j2pt_JetEta0to3Down" not in self.complained:
+        if not self.j2pt_JetEta0to3Down_branch and "j2pt_JetEta0to3Down":
+            warnings.warn( "ETauTree: Expected branch j2pt_JetEta0to3Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetEta0to3Down")
+        else:
+            self.j2pt_JetEta0to3Down_branch.SetAddress(<void*>&self.j2pt_JetEta0to3Down_value)
+
+        #print "making j2pt_JetEta0to3Up"
+        self.j2pt_JetEta0to3Up_branch = the_tree.GetBranch("j2pt_JetEta0to3Up")
+        #if not self.j2pt_JetEta0to3Up_branch and "j2pt_JetEta0to3Up" not in self.complained:
+        if not self.j2pt_JetEta0to3Up_branch and "j2pt_JetEta0to3Up":
+            warnings.warn( "ETauTree: Expected branch j2pt_JetEta0to3Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetEta0to3Up")
+        else:
+            self.j2pt_JetEta0to3Up_branch.SetAddress(<void*>&self.j2pt_JetEta0to3Up_value)
+
+        #print "making j2pt_JetEta0to5Down"
+        self.j2pt_JetEta0to5Down_branch = the_tree.GetBranch("j2pt_JetEta0to5Down")
+        #if not self.j2pt_JetEta0to5Down_branch and "j2pt_JetEta0to5Down" not in self.complained:
+        if not self.j2pt_JetEta0to5Down_branch and "j2pt_JetEta0to5Down":
+            warnings.warn( "ETauTree: Expected branch j2pt_JetEta0to5Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetEta0to5Down")
+        else:
+            self.j2pt_JetEta0to5Down_branch.SetAddress(<void*>&self.j2pt_JetEta0to5Down_value)
+
+        #print "making j2pt_JetEta0to5Up"
+        self.j2pt_JetEta0to5Up_branch = the_tree.GetBranch("j2pt_JetEta0to5Up")
+        #if not self.j2pt_JetEta0to5Up_branch and "j2pt_JetEta0to5Up" not in self.complained:
+        if not self.j2pt_JetEta0to5Up_branch and "j2pt_JetEta0to5Up":
+            warnings.warn( "ETauTree: Expected branch j2pt_JetEta0to5Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetEta0to5Up")
+        else:
+            self.j2pt_JetEta0to5Up_branch.SetAddress(<void*>&self.j2pt_JetEta0to5Up_value)
+
+        #print "making j2pt_JetEta3to5Down"
+        self.j2pt_JetEta3to5Down_branch = the_tree.GetBranch("j2pt_JetEta3to5Down")
+        #if not self.j2pt_JetEta3to5Down_branch and "j2pt_JetEta3to5Down" not in self.complained:
+        if not self.j2pt_JetEta3to5Down_branch and "j2pt_JetEta3to5Down":
+            warnings.warn( "ETauTree: Expected branch j2pt_JetEta3to5Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetEta3to5Down")
+        else:
+            self.j2pt_JetEta3to5Down_branch.SetAddress(<void*>&self.j2pt_JetEta3to5Down_value)
+
+        #print "making j2pt_JetEta3to5Up"
+        self.j2pt_JetEta3to5Up_branch = the_tree.GetBranch("j2pt_JetEta3to5Up")
+        #if not self.j2pt_JetEta3to5Up_branch and "j2pt_JetEta3to5Up" not in self.complained:
+        if not self.j2pt_JetEta3to5Up_branch and "j2pt_JetEta3to5Up":
+            warnings.warn( "ETauTree: Expected branch j2pt_JetEta3to5Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetEta3to5Up")
+        else:
+            self.j2pt_JetEta3to5Up_branch.SetAddress(<void*>&self.j2pt_JetEta3to5Up_value)
+
+        #print "making j2pt_JetRelativeBalDown"
+        self.j2pt_JetRelativeBalDown_branch = the_tree.GetBranch("j2pt_JetRelativeBalDown")
+        #if not self.j2pt_JetRelativeBalDown_branch and "j2pt_JetRelativeBalDown" not in self.complained:
+        if not self.j2pt_JetRelativeBalDown_branch and "j2pt_JetRelativeBalDown":
+            warnings.warn( "ETauTree: Expected branch j2pt_JetRelativeBalDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetRelativeBalDown")
+        else:
+            self.j2pt_JetRelativeBalDown_branch.SetAddress(<void*>&self.j2pt_JetRelativeBalDown_value)
+
+        #print "making j2pt_JetRelativeBalUp"
+        self.j2pt_JetRelativeBalUp_branch = the_tree.GetBranch("j2pt_JetRelativeBalUp")
+        #if not self.j2pt_JetRelativeBalUp_branch and "j2pt_JetRelativeBalUp" not in self.complained:
+        if not self.j2pt_JetRelativeBalUp_branch and "j2pt_JetRelativeBalUp":
+            warnings.warn( "ETauTree: Expected branch j2pt_JetRelativeBalUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetRelativeBalUp")
+        else:
+            self.j2pt_JetRelativeBalUp_branch.SetAddress(<void*>&self.j2pt_JetRelativeBalUp_value)
+
+        #print "making j2pt_JetRelativeSampleDown"
+        self.j2pt_JetRelativeSampleDown_branch = the_tree.GetBranch("j2pt_JetRelativeSampleDown")
+        #if not self.j2pt_JetRelativeSampleDown_branch and "j2pt_JetRelativeSampleDown" not in self.complained:
+        if not self.j2pt_JetRelativeSampleDown_branch and "j2pt_JetRelativeSampleDown":
+            warnings.warn( "ETauTree: Expected branch j2pt_JetRelativeSampleDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetRelativeSampleDown")
+        else:
+            self.j2pt_JetRelativeSampleDown_branch.SetAddress(<void*>&self.j2pt_JetRelativeSampleDown_value)
+
+        #print "making j2pt_JetRelativeSampleUp"
+        self.j2pt_JetRelativeSampleUp_branch = the_tree.GetBranch("j2pt_JetRelativeSampleUp")
+        #if not self.j2pt_JetRelativeSampleUp_branch and "j2pt_JetRelativeSampleUp" not in self.complained:
+        if not self.j2pt_JetRelativeSampleUp_branch and "j2pt_JetRelativeSampleUp":
+            warnings.warn( "ETauTree: Expected branch j2pt_JetRelativeSampleUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetRelativeSampleUp")
+        else:
+            self.j2pt_JetRelativeSampleUp_branch.SetAddress(<void*>&self.j2pt_JetRelativeSampleUp_value)
 
         #print "making jb1eta_2016"
         self.jb1eta_2016_branch = the_tree.GetBranch("jb1eta_2016")
@@ -5473,15 +5368,6 @@ cdef class ETauTree:
         else:
             self.jb1eta_2018_branch.SetAddress(<void*>&self.jb1eta_2018_value)
 
-        #print "making jb1hadronflavor"
-        self.jb1hadronflavor_branch = the_tree.GetBranch("jb1hadronflavor")
-        #if not self.jb1hadronflavor_branch and "jb1hadronflavor" not in self.complained:
-        if not self.jb1hadronflavor_branch and "jb1hadronflavor":
-            warnings.warn( "ETauTree: Expected branch jb1hadronflavor does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jb1hadronflavor")
-        else:
-            self.jb1hadronflavor_branch.SetAddress(<void*>&self.jb1hadronflavor_value)
-
         #print "making jb1hadronflavor_2016"
         self.jb1hadronflavor_2016_branch = the_tree.GetBranch("jb1hadronflavor_2016")
         #if not self.jb1hadronflavor_2016_branch and "jb1hadronflavor_2016" not in self.complained:
@@ -5508,15 +5394,6 @@ cdef class ETauTree:
             #self.complained.add("jb1hadronflavor_2018")
         else:
             self.jb1hadronflavor_2018_branch.SetAddress(<void*>&self.jb1hadronflavor_2018_value)
-
-        #print "making jb1phi"
-        self.jb1phi_branch = the_tree.GetBranch("jb1phi")
-        #if not self.jb1phi_branch and "jb1phi" not in self.complained:
-        if not self.jb1phi_branch and "jb1phi":
-            warnings.warn( "ETauTree: Expected branch jb1phi does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jb1phi")
-        else:
-            self.jb1phi_branch.SetAddress(<void*>&self.jb1phi_value)
 
         #print "making jb1phi_2016"
         self.jb1phi_2016_branch = the_tree.GetBranch("jb1phi_2016")
@@ -5545,15 +5422,6 @@ cdef class ETauTree:
         else:
             self.jb1phi_2018_branch.SetAddress(<void*>&self.jb1phi_2018_value)
 
-        #print "making jb1pt"
-        self.jb1pt_branch = the_tree.GetBranch("jb1pt")
-        #if not self.jb1pt_branch and "jb1pt" not in self.complained:
-        if not self.jb1pt_branch and "jb1pt":
-            warnings.warn( "ETauTree: Expected branch jb1pt does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jb1pt")
-        else:
-            self.jb1pt_branch.SetAddress(<void*>&self.jb1pt_value)
-
         #print "making jb1pt_2016"
         self.jb1pt_2016_branch = the_tree.GetBranch("jb1pt_2016")
         #if not self.jb1pt_2016_branch and "jb1pt_2016" not in self.complained:
@@ -5580,15 +5448,6 @@ cdef class ETauTree:
             #self.complained.add("jb1pt_2018")
         else:
             self.jb1pt_2018_branch.SetAddress(<void*>&self.jb1pt_2018_value)
-
-        #print "making jb2eta"
-        self.jb2eta_branch = the_tree.GetBranch("jb2eta")
-        #if not self.jb2eta_branch and "jb2eta" not in self.complained:
-        if not self.jb2eta_branch and "jb2eta":
-            warnings.warn( "ETauTree: Expected branch jb2eta does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jb2eta")
-        else:
-            self.jb2eta_branch.SetAddress(<void*>&self.jb2eta_value)
 
         #print "making jb2eta_2016"
         self.jb2eta_2016_branch = the_tree.GetBranch("jb2eta_2016")
@@ -5617,15 +5476,6 @@ cdef class ETauTree:
         else:
             self.jb2eta_2018_branch.SetAddress(<void*>&self.jb2eta_2018_value)
 
-        #print "making jb2hadronflavor"
-        self.jb2hadronflavor_branch = the_tree.GetBranch("jb2hadronflavor")
-        #if not self.jb2hadronflavor_branch and "jb2hadronflavor" not in self.complained:
-        if not self.jb2hadronflavor_branch and "jb2hadronflavor":
-            warnings.warn( "ETauTree: Expected branch jb2hadronflavor does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jb2hadronflavor")
-        else:
-            self.jb2hadronflavor_branch.SetAddress(<void*>&self.jb2hadronflavor_value)
-
         #print "making jb2hadronflavor_2016"
         self.jb2hadronflavor_2016_branch = the_tree.GetBranch("jb2hadronflavor_2016")
         #if not self.jb2hadronflavor_2016_branch and "jb2hadronflavor_2016" not in self.complained:
@@ -5653,15 +5503,6 @@ cdef class ETauTree:
         else:
             self.jb2hadronflavor_2018_branch.SetAddress(<void*>&self.jb2hadronflavor_2018_value)
 
-        #print "making jb2phi"
-        self.jb2phi_branch = the_tree.GetBranch("jb2phi")
-        #if not self.jb2phi_branch and "jb2phi" not in self.complained:
-        if not self.jb2phi_branch and "jb2phi":
-            warnings.warn( "ETauTree: Expected branch jb2phi does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jb2phi")
-        else:
-            self.jb2phi_branch.SetAddress(<void*>&self.jb2phi_value)
-
         #print "making jb2phi_2016"
         self.jb2phi_2016_branch = the_tree.GetBranch("jb2phi_2016")
         #if not self.jb2phi_2016_branch and "jb2phi_2016" not in self.complained:
@@ -5688,15 +5529,6 @@ cdef class ETauTree:
             #self.complained.add("jb2phi_2018")
         else:
             self.jb2phi_2018_branch.SetAddress(<void*>&self.jb2phi_2018_value)
-
-        #print "making jb2pt"
-        self.jb2pt_branch = the_tree.GetBranch("jb2pt")
-        #if not self.jb2pt_branch and "jb2pt" not in self.complained:
-        if not self.jb2pt_branch and "jb2pt":
-            warnings.warn( "ETauTree: Expected branch jb2pt does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jb2pt")
-        else:
-            self.jb2pt_branch.SetAddress(<void*>&self.jb2pt_value)
 
         #print "making jb2pt_2016"
         self.jb2pt_2016_branch = the_tree.GetBranch("jb2pt_2016")
@@ -5886,6 +5718,24 @@ cdef class ETauTree:
             #self.complained.add("jetVeto30WoNoisyJets_JetEC2Up")
         else:
             self.jetVeto30WoNoisyJets_JetEC2Up_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetEC2Up_value)
+
+        #print "making jetVeto30WoNoisyJets_JetEnDown"
+        self.jetVeto30WoNoisyJets_JetEnDown_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetEnDown")
+        #if not self.jetVeto30WoNoisyJets_JetEnDown_branch and "jetVeto30WoNoisyJets_JetEnDown" not in self.complained:
+        if not self.jetVeto30WoNoisyJets_JetEnDown_branch and "jetVeto30WoNoisyJets_JetEnDown":
+            warnings.warn( "ETauTree: Expected branch jetVeto30WoNoisyJets_JetEnDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30WoNoisyJets_JetEnDown")
+        else:
+            self.jetVeto30WoNoisyJets_JetEnDown_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetEnDown_value)
+
+        #print "making jetVeto30WoNoisyJets_JetEnUp"
+        self.jetVeto30WoNoisyJets_JetEnUp_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetEnUp")
+        #if not self.jetVeto30WoNoisyJets_JetEnUp_branch and "jetVeto30WoNoisyJets_JetEnUp" not in self.complained:
+        if not self.jetVeto30WoNoisyJets_JetEnUp_branch and "jetVeto30WoNoisyJets_JetEnUp":
+            warnings.warn( "ETauTree: Expected branch jetVeto30WoNoisyJets_JetEnUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30WoNoisyJets_JetEnUp")
+        else:
+            self.jetVeto30WoNoisyJets_JetEnUp_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetEnUp_value)
 
         #print "making jetVeto30WoNoisyJets_JetEta0to3Down"
         self.jetVeto30WoNoisyJets_JetEta0to3Down_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetEta0to3Down")
@@ -6085,23 +5935,23 @@ cdef class ETauTree:
         else:
             self.jetVeto30WoNoisyJets_JetPileUpPtRefUp_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetPileUpPtRefUp_value)
 
-        #print "making jetVeto30WoNoisyJets_JetRelativeBalDown"
-        self.jetVeto30WoNoisyJets_JetRelativeBalDown_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetRelativeBalDown")
-        #if not self.jetVeto30WoNoisyJets_JetRelativeBalDown_branch and "jetVeto30WoNoisyJets_JetRelativeBalDown" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetRelativeBalDown_branch and "jetVeto30WoNoisyJets_JetRelativeBalDown":
-            warnings.warn( "ETauTree: Expected branch jetVeto30WoNoisyJets_JetRelativeBalDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetRelativeBalDown")
+        #print "making jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets"
+        self.jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets")
+        #if not self.jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets_branch and "jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets" not in self.complained:
+        if not self.jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets_branch and "jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets":
+            warnings.warn( "ETauTree: Expected branch jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets")
         else:
-            self.jetVeto30WoNoisyJets_JetRelativeBalDown_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetRelativeBalDown_value)
+            self.jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets_value)
 
-        #print "making jetVeto30WoNoisyJets_JetRelativeBalUp"
-        self.jetVeto30WoNoisyJets_JetRelativeBalUp_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetRelativeBalUp")
-        #if not self.jetVeto30WoNoisyJets_JetRelativeBalUp_branch and "jetVeto30WoNoisyJets_JetRelativeBalUp" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetRelativeBalUp_branch and "jetVeto30WoNoisyJets_JetRelativeBalUp":
-            warnings.warn( "ETauTree: Expected branch jetVeto30WoNoisyJets_JetRelativeBalUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetRelativeBalUp")
+        #print "making jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets"
+        self.jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets")
+        #if not self.jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets_branch and "jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets" not in self.complained:
+        if not self.jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets_branch and "jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets":
+            warnings.warn( "ETauTree: Expected branch jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets")
         else:
-            self.jetVeto30WoNoisyJets_JetRelativeBalUp_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetRelativeBalUp_value)
+            self.jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets_value)
 
         #print "making jetVeto30WoNoisyJets_JetRelativeFSRDown"
         self.jetVeto30WoNoisyJets_JetRelativeFSRDown_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetRelativeFSRDown")
@@ -6391,6 +6241,24 @@ cdef class ETauTree:
         else:
             self.jetVeto30WoNoisyJets_JetTotalUp_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetTotalUp_value)
 
+        #print "making jetVeto30_JetEC2Down"
+        self.jetVeto30_JetEC2Down_branch = the_tree.GetBranch("jetVeto30_JetEC2Down")
+        #if not self.jetVeto30_JetEC2Down_branch and "jetVeto30_JetEC2Down" not in self.complained:
+        if not self.jetVeto30_JetEC2Down_branch and "jetVeto30_JetEC2Down":
+            warnings.warn( "ETauTree: Expected branch jetVeto30_JetEC2Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetEC2Down")
+        else:
+            self.jetVeto30_JetEC2Down_branch.SetAddress(<void*>&self.jetVeto30_JetEC2Down_value)
+
+        #print "making jetVeto30_JetEC2Up"
+        self.jetVeto30_JetEC2Up_branch = the_tree.GetBranch("jetVeto30_JetEC2Up")
+        #if not self.jetVeto30_JetEC2Up_branch and "jetVeto30_JetEC2Up" not in self.complained:
+        if not self.jetVeto30_JetEC2Up_branch and "jetVeto30_JetEC2Up":
+            warnings.warn( "ETauTree: Expected branch jetVeto30_JetEC2Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetEC2Up")
+        else:
+            self.jetVeto30_JetEC2Up_branch.SetAddress(<void*>&self.jetVeto30_JetEC2Up_value)
+
         #print "making jetVeto30_JetEnDown"
         self.jetVeto30_JetEnDown_branch = the_tree.GetBranch("jetVeto30_JetEnDown")
         #if not self.jetVeto30_JetEnDown_branch and "jetVeto30_JetEnDown" not in self.complained:
@@ -6408,6 +6276,114 @@ cdef class ETauTree:
             #self.complained.add("jetVeto30_JetEnUp")
         else:
             self.jetVeto30_JetEnUp_branch.SetAddress(<void*>&self.jetVeto30_JetEnUp_value)
+
+        #print "making jetVeto30_JetEta0to3Down"
+        self.jetVeto30_JetEta0to3Down_branch = the_tree.GetBranch("jetVeto30_JetEta0to3Down")
+        #if not self.jetVeto30_JetEta0to3Down_branch and "jetVeto30_JetEta0to3Down" not in self.complained:
+        if not self.jetVeto30_JetEta0to3Down_branch and "jetVeto30_JetEta0to3Down":
+            warnings.warn( "ETauTree: Expected branch jetVeto30_JetEta0to3Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetEta0to3Down")
+        else:
+            self.jetVeto30_JetEta0to3Down_branch.SetAddress(<void*>&self.jetVeto30_JetEta0to3Down_value)
+
+        #print "making jetVeto30_JetEta0to3Up"
+        self.jetVeto30_JetEta0to3Up_branch = the_tree.GetBranch("jetVeto30_JetEta0to3Up")
+        #if not self.jetVeto30_JetEta0to3Up_branch and "jetVeto30_JetEta0to3Up" not in self.complained:
+        if not self.jetVeto30_JetEta0to3Up_branch and "jetVeto30_JetEta0to3Up":
+            warnings.warn( "ETauTree: Expected branch jetVeto30_JetEta0to3Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetEta0to3Up")
+        else:
+            self.jetVeto30_JetEta0to3Up_branch.SetAddress(<void*>&self.jetVeto30_JetEta0to3Up_value)
+
+        #print "making jetVeto30_JetEta0to5Down"
+        self.jetVeto30_JetEta0to5Down_branch = the_tree.GetBranch("jetVeto30_JetEta0to5Down")
+        #if not self.jetVeto30_JetEta0to5Down_branch and "jetVeto30_JetEta0to5Down" not in self.complained:
+        if not self.jetVeto30_JetEta0to5Down_branch and "jetVeto30_JetEta0to5Down":
+            warnings.warn( "ETauTree: Expected branch jetVeto30_JetEta0to5Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetEta0to5Down")
+        else:
+            self.jetVeto30_JetEta0to5Down_branch.SetAddress(<void*>&self.jetVeto30_JetEta0to5Down_value)
+
+        #print "making jetVeto30_JetEta0to5Up"
+        self.jetVeto30_JetEta0to5Up_branch = the_tree.GetBranch("jetVeto30_JetEta0to5Up")
+        #if not self.jetVeto30_JetEta0to5Up_branch and "jetVeto30_JetEta0to5Up" not in self.complained:
+        if not self.jetVeto30_JetEta0to5Up_branch and "jetVeto30_JetEta0to5Up":
+            warnings.warn( "ETauTree: Expected branch jetVeto30_JetEta0to5Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetEta0to5Up")
+        else:
+            self.jetVeto30_JetEta0to5Up_branch.SetAddress(<void*>&self.jetVeto30_JetEta0to5Up_value)
+
+        #print "making jetVeto30_JetEta3to5Down"
+        self.jetVeto30_JetEta3to5Down_branch = the_tree.GetBranch("jetVeto30_JetEta3to5Down")
+        #if not self.jetVeto30_JetEta3to5Down_branch and "jetVeto30_JetEta3to5Down" not in self.complained:
+        if not self.jetVeto30_JetEta3to5Down_branch and "jetVeto30_JetEta3to5Down":
+            warnings.warn( "ETauTree: Expected branch jetVeto30_JetEta3to5Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetEta3to5Down")
+        else:
+            self.jetVeto30_JetEta3to5Down_branch.SetAddress(<void*>&self.jetVeto30_JetEta3to5Down_value)
+
+        #print "making jetVeto30_JetEta3to5Up"
+        self.jetVeto30_JetEta3to5Up_branch = the_tree.GetBranch("jetVeto30_JetEta3to5Up")
+        #if not self.jetVeto30_JetEta3to5Up_branch and "jetVeto30_JetEta3to5Up" not in self.complained:
+        if not self.jetVeto30_JetEta3to5Up_branch and "jetVeto30_JetEta3to5Up":
+            warnings.warn( "ETauTree: Expected branch jetVeto30_JetEta3to5Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetEta3to5Up")
+        else:
+            self.jetVeto30_JetEta3to5Up_branch.SetAddress(<void*>&self.jetVeto30_JetEta3to5Up_value)
+
+        #print "making jetVeto30_JetRelativeBalDown"
+        self.jetVeto30_JetRelativeBalDown_branch = the_tree.GetBranch("jetVeto30_JetRelativeBalDown")
+        #if not self.jetVeto30_JetRelativeBalDown_branch and "jetVeto30_JetRelativeBalDown" not in self.complained:
+        if not self.jetVeto30_JetRelativeBalDown_branch and "jetVeto30_JetRelativeBalDown":
+            warnings.warn( "ETauTree: Expected branch jetVeto30_JetRelativeBalDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetRelativeBalDown")
+        else:
+            self.jetVeto30_JetRelativeBalDown_branch.SetAddress(<void*>&self.jetVeto30_JetRelativeBalDown_value)
+
+        #print "making jetVeto30_JetRelativeBalUp"
+        self.jetVeto30_JetRelativeBalUp_branch = the_tree.GetBranch("jetVeto30_JetRelativeBalUp")
+        #if not self.jetVeto30_JetRelativeBalUp_branch and "jetVeto30_JetRelativeBalUp" not in self.complained:
+        if not self.jetVeto30_JetRelativeBalUp_branch and "jetVeto30_JetRelativeBalUp":
+            warnings.warn( "ETauTree: Expected branch jetVeto30_JetRelativeBalUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetRelativeBalUp")
+        else:
+            self.jetVeto30_JetRelativeBalUp_branch.SetAddress(<void*>&self.jetVeto30_JetRelativeBalUp_value)
+
+        #print "making jetVeto30_JetRelativeSampleDown"
+        self.jetVeto30_JetRelativeSampleDown_branch = the_tree.GetBranch("jetVeto30_JetRelativeSampleDown")
+        #if not self.jetVeto30_JetRelativeSampleDown_branch and "jetVeto30_JetRelativeSampleDown" not in self.complained:
+        if not self.jetVeto30_JetRelativeSampleDown_branch and "jetVeto30_JetRelativeSampleDown":
+            warnings.warn( "ETauTree: Expected branch jetVeto30_JetRelativeSampleDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetRelativeSampleDown")
+        else:
+            self.jetVeto30_JetRelativeSampleDown_branch.SetAddress(<void*>&self.jetVeto30_JetRelativeSampleDown_value)
+
+        #print "making jetVeto30_JetRelativeSampleUp"
+        self.jetVeto30_JetRelativeSampleUp_branch = the_tree.GetBranch("jetVeto30_JetRelativeSampleUp")
+        #if not self.jetVeto30_JetRelativeSampleUp_branch and "jetVeto30_JetRelativeSampleUp" not in self.complained:
+        if not self.jetVeto30_JetRelativeSampleUp_branch and "jetVeto30_JetRelativeSampleUp":
+            warnings.warn( "ETauTree: Expected branch jetVeto30_JetRelativeSampleUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetRelativeSampleUp")
+        else:
+            self.jetVeto30_JetRelativeSampleUp_branch.SetAddress(<void*>&self.jetVeto30_JetRelativeSampleUp_value)
+
+        #print "making jetVeto30_JetTotalDown"
+        self.jetVeto30_JetTotalDown_branch = the_tree.GetBranch("jetVeto30_JetTotalDown")
+        #if not self.jetVeto30_JetTotalDown_branch and "jetVeto30_JetTotalDown" not in self.complained:
+        if not self.jetVeto30_JetTotalDown_branch and "jetVeto30_JetTotalDown":
+            warnings.warn( "ETauTree: Expected branch jetVeto30_JetTotalDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetTotalDown")
+        else:
+            self.jetVeto30_JetTotalDown_branch.SetAddress(<void*>&self.jetVeto30_JetTotalDown_value)
+
+        #print "making jetVeto30_JetTotalUp"
+        self.jetVeto30_JetTotalUp_branch = the_tree.GetBranch("jetVeto30_JetTotalUp")
+        #if not self.jetVeto30_JetTotalUp_branch and "jetVeto30_JetTotalUp" not in self.complained:
+        if not self.jetVeto30_JetTotalUp_branch and "jetVeto30_JetTotalUp":
+            warnings.warn( "ETauTree: Expected branch jetVeto30_JetTotalUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetTotalUp")
+        else:
+            self.jetVeto30_JetTotalUp_branch.SetAddress(<void*>&self.jetVeto30_JetTotalUp_value)
 
         #print "making lumi"
         self.lumi_branch = the_tree.GetBranch("lumi")
@@ -6544,15 +6520,6 @@ cdef class ETauTree:
         else:
             self.muGlbIsoVetoPt10_branch.SetAddress(<void*>&self.muGlbIsoVetoPt10_value)
 
-        #print "making muVeto5"
-        self.muVeto5_branch = the_tree.GetBranch("muVeto5")
-        #if not self.muVeto5_branch and "muVeto5" not in self.complained:
-        if not self.muVeto5_branch and "muVeto5":
-            warnings.warn( "ETauTree: Expected branch muVeto5 does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("muVeto5")
-        else:
-            self.muVeto5_branch.SetAddress(<void*>&self.muVeto5_value)
-
         #print "making muVetoZTTp001dxyz"
         self.muVetoZTTp001dxyz_branch = the_tree.GetBranch("muVetoZTTp001dxyz")
         #if not self.muVetoZTTp001dxyz_branch and "muVetoZTTp001dxyz" not in self.complained:
@@ -6561,15 +6528,6 @@ cdef class ETauTree:
             #self.complained.add("muVetoZTTp001dxyz")
         else:
             self.muVetoZTTp001dxyz_branch.SetAddress(<void*>&self.muVetoZTTp001dxyz_value)
-
-        #print "making muVetoZTTp001dxyzR0"
-        self.muVetoZTTp001dxyzR0_branch = the_tree.GetBranch("muVetoZTTp001dxyzR0")
-        #if not self.muVetoZTTp001dxyzR0_branch and "muVetoZTTp001dxyzR0" not in self.complained:
-        if not self.muVetoZTTp001dxyzR0_branch and "muVetoZTTp001dxyzR0":
-            warnings.warn( "ETauTree: Expected branch muVetoZTTp001dxyzR0 does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("muVetoZTTp001dxyzR0")
-        else:
-            self.muVetoZTTp001dxyzR0_branch.SetAddress(<void*>&self.muVetoZTTp001dxyzR0_value)
 
         #print "making nTruePU"
         self.nTruePU_branch = the_tree.GetBranch("nTruePU")
@@ -6606,6 +6564,33 @@ cdef class ETauTree:
             #self.complained.add("nvtx")
         else:
             self.nvtx_branch.SetAddress(<void*>&self.nvtx_value)
+
+        #print "making prefiring_weight"
+        self.prefiring_weight_branch = the_tree.GetBranch("prefiring_weight")
+        #if not self.prefiring_weight_branch and "prefiring_weight" not in self.complained:
+        if not self.prefiring_weight_branch and "prefiring_weight":
+            warnings.warn( "ETauTree: Expected branch prefiring_weight does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("prefiring_weight")
+        else:
+            self.prefiring_weight_branch.SetAddress(<void*>&self.prefiring_weight_value)
+
+        #print "making prefiring_weight_down"
+        self.prefiring_weight_down_branch = the_tree.GetBranch("prefiring_weight_down")
+        #if not self.prefiring_weight_down_branch and "prefiring_weight_down" not in self.complained:
+        if not self.prefiring_weight_down_branch and "prefiring_weight_down":
+            warnings.warn( "ETauTree: Expected branch prefiring_weight_down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("prefiring_weight_down")
+        else:
+            self.prefiring_weight_down_branch.SetAddress(<void*>&self.prefiring_weight_down_value)
+
+        #print "making prefiring_weight_up"
+        self.prefiring_weight_up_branch = the_tree.GetBranch("prefiring_weight_up")
+        #if not self.prefiring_weight_up_branch and "prefiring_weight_up" not in self.complained:
+        if not self.prefiring_weight_up_branch and "prefiring_weight_up":
+            warnings.warn( "ETauTree: Expected branch prefiring_weight_up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("prefiring_weight_up")
+        else:
+            self.prefiring_weight_up_branch.SetAddress(<void*>&self.prefiring_weight_up_value)
 
         #print "making processID"
         self.processID_branch = the_tree.GetBranch("processID")
@@ -6741,24 +6726,6 @@ cdef class ETauTree:
             #self.complained.add("pvndof")
         else:
             self.pvndof_branch.SetAddress(<void*>&self.pvndof_value)
-
-        #print "making raw_pfMetEt"
-        self.raw_pfMetEt_branch = the_tree.GetBranch("raw_pfMetEt")
-        #if not self.raw_pfMetEt_branch and "raw_pfMetEt" not in self.complained:
-        if not self.raw_pfMetEt_branch and "raw_pfMetEt":
-            warnings.warn( "ETauTree: Expected branch raw_pfMetEt does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("raw_pfMetEt")
-        else:
-            self.raw_pfMetEt_branch.SetAddress(<void*>&self.raw_pfMetEt_value)
-
-        #print "making raw_pfMetPhi"
-        self.raw_pfMetPhi_branch = the_tree.GetBranch("raw_pfMetPhi")
-        #if not self.raw_pfMetPhi_branch and "raw_pfMetPhi" not in self.complained:
-        if not self.raw_pfMetPhi_branch and "raw_pfMetPhi":
-            warnings.warn( "ETauTree: Expected branch raw_pfMetPhi does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("raw_pfMetPhi")
-        else:
-            self.raw_pfMetPhi_branch.SetAddress(<void*>&self.raw_pfMetPhi_value)
 
         #print "making recoilDaught"
         self.recoilDaught_branch = the_tree.GetBranch("recoilDaught")
@@ -7003,15 +6970,6 @@ cdef class ETauTree:
         else:
             self.tAgainstMuonTight3_branch.SetAddress(<void*>&self.tAgainstMuonTight3_value)
 
-        #print "making tByCombinedIsolationDeltaBetaCorrRaw3Hits"
-        self.tByCombinedIsolationDeltaBetaCorrRaw3Hits_branch = the_tree.GetBranch("tByCombinedIsolationDeltaBetaCorrRaw3Hits")
-        #if not self.tByCombinedIsolationDeltaBetaCorrRaw3Hits_branch and "tByCombinedIsolationDeltaBetaCorrRaw3Hits" not in self.complained:
-        if not self.tByCombinedIsolationDeltaBetaCorrRaw3Hits_branch and "tByCombinedIsolationDeltaBetaCorrRaw3Hits":
-            warnings.warn( "ETauTree: Expected branch tByCombinedIsolationDeltaBetaCorrRaw3Hits does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tByCombinedIsolationDeltaBetaCorrRaw3Hits")
-        else:
-            self.tByCombinedIsolationDeltaBetaCorrRaw3Hits_branch.SetAddress(<void*>&self.tByCombinedIsolationDeltaBetaCorrRaw3Hits_value)
-
         #print "making tByIsolationMVArun2v1DBdR03oldDMwLTraw"
         self.tByIsolationMVArun2v1DBdR03oldDMwLTraw_branch = the_tree.GetBranch("tByIsolationMVArun2v1DBdR03oldDMwLTraw")
         #if not self.tByIsolationMVArun2v1DBdR03oldDMwLTraw_branch and "tByIsolationMVArun2v1DBdR03oldDMwLTraw" not in self.complained:
@@ -7020,15 +6978,6 @@ cdef class ETauTree:
             #self.complained.add("tByIsolationMVArun2v1DBdR03oldDMwLTraw")
         else:
             self.tByIsolationMVArun2v1DBdR03oldDMwLTraw_branch.SetAddress(<void*>&self.tByIsolationMVArun2v1DBdR03oldDMwLTraw_value)
-
-        #print "making tByIsolationMVArun2v1DBnewDMwLTraw"
-        self.tByIsolationMVArun2v1DBnewDMwLTraw_branch = the_tree.GetBranch("tByIsolationMVArun2v1DBnewDMwLTraw")
-        #if not self.tByIsolationMVArun2v1DBnewDMwLTraw_branch and "tByIsolationMVArun2v1DBnewDMwLTraw" not in self.complained:
-        if not self.tByIsolationMVArun2v1DBnewDMwLTraw_branch and "tByIsolationMVArun2v1DBnewDMwLTraw":
-            warnings.warn( "ETauTree: Expected branch tByIsolationMVArun2v1DBnewDMwLTraw does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tByIsolationMVArun2v1DBnewDMwLTraw")
-        else:
-            self.tByIsolationMVArun2v1DBnewDMwLTraw_branch.SetAddress(<void*>&self.tByIsolationMVArun2v1DBnewDMwLTraw_value)
 
         #print "making tByIsolationMVArun2v1DBoldDMwLTraw"
         self.tByIsolationMVArun2v1DBoldDMwLTraw_branch = the_tree.GetBranch("tByIsolationMVArun2v1DBoldDMwLTraw")
@@ -7039,15 +6988,6 @@ cdef class ETauTree:
         else:
             self.tByIsolationMVArun2v1DBoldDMwLTraw_branch.SetAddress(<void*>&self.tByIsolationMVArun2v1DBoldDMwLTraw_value)
 
-        #print "making tByLooseCombinedIsolationDeltaBetaCorr3Hits"
-        self.tByLooseCombinedIsolationDeltaBetaCorr3Hits_branch = the_tree.GetBranch("tByLooseCombinedIsolationDeltaBetaCorr3Hits")
-        #if not self.tByLooseCombinedIsolationDeltaBetaCorr3Hits_branch and "tByLooseCombinedIsolationDeltaBetaCorr3Hits" not in self.complained:
-        if not self.tByLooseCombinedIsolationDeltaBetaCorr3Hits_branch and "tByLooseCombinedIsolationDeltaBetaCorr3Hits":
-            warnings.warn( "ETauTree: Expected branch tByLooseCombinedIsolationDeltaBetaCorr3Hits does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tByLooseCombinedIsolationDeltaBetaCorr3Hits")
-        else:
-            self.tByLooseCombinedIsolationDeltaBetaCorr3Hits_branch.SetAddress(<void*>&self.tByLooseCombinedIsolationDeltaBetaCorr3Hits_value)
-
         #print "making tByLooseIsolationMVArun2v1DBdR03oldDMwLT"
         self.tByLooseIsolationMVArun2v1DBdR03oldDMwLT_branch = the_tree.GetBranch("tByLooseIsolationMVArun2v1DBdR03oldDMwLT")
         #if not self.tByLooseIsolationMVArun2v1DBdR03oldDMwLT_branch and "tByLooseIsolationMVArun2v1DBdR03oldDMwLT" not in self.complained:
@@ -7056,15 +6996,6 @@ cdef class ETauTree:
             #self.complained.add("tByLooseIsolationMVArun2v1DBdR03oldDMwLT")
         else:
             self.tByLooseIsolationMVArun2v1DBdR03oldDMwLT_branch.SetAddress(<void*>&self.tByLooseIsolationMVArun2v1DBdR03oldDMwLT_value)
-
-        #print "making tByLooseIsolationMVArun2v1DBnewDMwLT"
-        self.tByLooseIsolationMVArun2v1DBnewDMwLT_branch = the_tree.GetBranch("tByLooseIsolationMVArun2v1DBnewDMwLT")
-        #if not self.tByLooseIsolationMVArun2v1DBnewDMwLT_branch and "tByLooseIsolationMVArun2v1DBnewDMwLT" not in self.complained:
-        if not self.tByLooseIsolationMVArun2v1DBnewDMwLT_branch and "tByLooseIsolationMVArun2v1DBnewDMwLT":
-            warnings.warn( "ETauTree: Expected branch tByLooseIsolationMVArun2v1DBnewDMwLT does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tByLooseIsolationMVArun2v1DBnewDMwLT")
-        else:
-            self.tByLooseIsolationMVArun2v1DBnewDMwLT_branch.SetAddress(<void*>&self.tByLooseIsolationMVArun2v1DBnewDMwLT_value)
 
         #print "making tByLooseIsolationMVArun2v1DBoldDMwLT"
         self.tByLooseIsolationMVArun2v1DBoldDMwLT_branch = the_tree.GetBranch("tByLooseIsolationMVArun2v1DBoldDMwLT")
@@ -7075,15 +7006,6 @@ cdef class ETauTree:
         else:
             self.tByLooseIsolationMVArun2v1DBoldDMwLT_branch.SetAddress(<void*>&self.tByLooseIsolationMVArun2v1DBoldDMwLT_value)
 
-        #print "making tByMediumCombinedIsolationDeltaBetaCorr3Hits"
-        self.tByMediumCombinedIsolationDeltaBetaCorr3Hits_branch = the_tree.GetBranch("tByMediumCombinedIsolationDeltaBetaCorr3Hits")
-        #if not self.tByMediumCombinedIsolationDeltaBetaCorr3Hits_branch and "tByMediumCombinedIsolationDeltaBetaCorr3Hits" not in self.complained:
-        if not self.tByMediumCombinedIsolationDeltaBetaCorr3Hits_branch and "tByMediumCombinedIsolationDeltaBetaCorr3Hits":
-            warnings.warn( "ETauTree: Expected branch tByMediumCombinedIsolationDeltaBetaCorr3Hits does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tByMediumCombinedIsolationDeltaBetaCorr3Hits")
-        else:
-            self.tByMediumCombinedIsolationDeltaBetaCorr3Hits_branch.SetAddress(<void*>&self.tByMediumCombinedIsolationDeltaBetaCorr3Hits_value)
-
         #print "making tByMediumIsolationMVArun2v1DBdR03oldDMwLT"
         self.tByMediumIsolationMVArun2v1DBdR03oldDMwLT_branch = the_tree.GetBranch("tByMediumIsolationMVArun2v1DBdR03oldDMwLT")
         #if not self.tByMediumIsolationMVArun2v1DBdR03oldDMwLT_branch and "tByMediumIsolationMVArun2v1DBdR03oldDMwLT" not in self.complained:
@@ -7092,15 +7014,6 @@ cdef class ETauTree:
             #self.complained.add("tByMediumIsolationMVArun2v1DBdR03oldDMwLT")
         else:
             self.tByMediumIsolationMVArun2v1DBdR03oldDMwLT_branch.SetAddress(<void*>&self.tByMediumIsolationMVArun2v1DBdR03oldDMwLT_value)
-
-        #print "making tByMediumIsolationMVArun2v1DBnewDMwLT"
-        self.tByMediumIsolationMVArun2v1DBnewDMwLT_branch = the_tree.GetBranch("tByMediumIsolationMVArun2v1DBnewDMwLT")
-        #if not self.tByMediumIsolationMVArun2v1DBnewDMwLT_branch and "tByMediumIsolationMVArun2v1DBnewDMwLT" not in self.complained:
-        if not self.tByMediumIsolationMVArun2v1DBnewDMwLT_branch and "tByMediumIsolationMVArun2v1DBnewDMwLT":
-            warnings.warn( "ETauTree: Expected branch tByMediumIsolationMVArun2v1DBnewDMwLT does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tByMediumIsolationMVArun2v1DBnewDMwLT")
-        else:
-            self.tByMediumIsolationMVArun2v1DBnewDMwLT_branch.SetAddress(<void*>&self.tByMediumIsolationMVArun2v1DBnewDMwLT_value)
 
         #print "making tByMediumIsolationMVArun2v1DBoldDMwLT"
         self.tByMediumIsolationMVArun2v1DBoldDMwLT_branch = the_tree.GetBranch("tByMediumIsolationMVArun2v1DBoldDMwLT")
@@ -7120,15 +7033,6 @@ cdef class ETauTree:
         else:
             self.tByPhotonPtSumOutsideSignalCone_branch.SetAddress(<void*>&self.tByPhotonPtSumOutsideSignalCone_value)
 
-        #print "making tByTightCombinedIsolationDeltaBetaCorr3Hits"
-        self.tByTightCombinedIsolationDeltaBetaCorr3Hits_branch = the_tree.GetBranch("tByTightCombinedIsolationDeltaBetaCorr3Hits")
-        #if not self.tByTightCombinedIsolationDeltaBetaCorr3Hits_branch and "tByTightCombinedIsolationDeltaBetaCorr3Hits" not in self.complained:
-        if not self.tByTightCombinedIsolationDeltaBetaCorr3Hits_branch and "tByTightCombinedIsolationDeltaBetaCorr3Hits":
-            warnings.warn( "ETauTree: Expected branch tByTightCombinedIsolationDeltaBetaCorr3Hits does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tByTightCombinedIsolationDeltaBetaCorr3Hits")
-        else:
-            self.tByTightCombinedIsolationDeltaBetaCorr3Hits_branch.SetAddress(<void*>&self.tByTightCombinedIsolationDeltaBetaCorr3Hits_value)
-
         #print "making tByTightIsolationMVArun2v1DBdR03oldDMwLT"
         self.tByTightIsolationMVArun2v1DBdR03oldDMwLT_branch = the_tree.GetBranch("tByTightIsolationMVArun2v1DBdR03oldDMwLT")
         #if not self.tByTightIsolationMVArun2v1DBdR03oldDMwLT_branch and "tByTightIsolationMVArun2v1DBdR03oldDMwLT" not in self.complained:
@@ -7137,15 +7041,6 @@ cdef class ETauTree:
             #self.complained.add("tByTightIsolationMVArun2v1DBdR03oldDMwLT")
         else:
             self.tByTightIsolationMVArun2v1DBdR03oldDMwLT_branch.SetAddress(<void*>&self.tByTightIsolationMVArun2v1DBdR03oldDMwLT_value)
-
-        #print "making tByTightIsolationMVArun2v1DBnewDMwLT"
-        self.tByTightIsolationMVArun2v1DBnewDMwLT_branch = the_tree.GetBranch("tByTightIsolationMVArun2v1DBnewDMwLT")
-        #if not self.tByTightIsolationMVArun2v1DBnewDMwLT_branch and "tByTightIsolationMVArun2v1DBnewDMwLT" not in self.complained:
-        if not self.tByTightIsolationMVArun2v1DBnewDMwLT_branch and "tByTightIsolationMVArun2v1DBnewDMwLT":
-            warnings.warn( "ETauTree: Expected branch tByTightIsolationMVArun2v1DBnewDMwLT does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tByTightIsolationMVArun2v1DBnewDMwLT")
-        else:
-            self.tByTightIsolationMVArun2v1DBnewDMwLT_branch.SetAddress(<void*>&self.tByTightIsolationMVArun2v1DBnewDMwLT_value)
 
         #print "making tByTightIsolationMVArun2v1DBoldDMwLT"
         self.tByTightIsolationMVArun2v1DBoldDMwLT_branch = the_tree.GetBranch("tByTightIsolationMVArun2v1DBoldDMwLT")
@@ -7165,15 +7060,6 @@ cdef class ETauTree:
         else:
             self.tByVLooseIsolationMVArun2v1DBdR03oldDMwLT_branch.SetAddress(<void*>&self.tByVLooseIsolationMVArun2v1DBdR03oldDMwLT_value)
 
-        #print "making tByVLooseIsolationMVArun2v1DBnewDMwLT"
-        self.tByVLooseIsolationMVArun2v1DBnewDMwLT_branch = the_tree.GetBranch("tByVLooseIsolationMVArun2v1DBnewDMwLT")
-        #if not self.tByVLooseIsolationMVArun2v1DBnewDMwLT_branch and "tByVLooseIsolationMVArun2v1DBnewDMwLT" not in self.complained:
-        if not self.tByVLooseIsolationMVArun2v1DBnewDMwLT_branch and "tByVLooseIsolationMVArun2v1DBnewDMwLT":
-            warnings.warn( "ETauTree: Expected branch tByVLooseIsolationMVArun2v1DBnewDMwLT does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tByVLooseIsolationMVArun2v1DBnewDMwLT")
-        else:
-            self.tByVLooseIsolationMVArun2v1DBnewDMwLT_branch.SetAddress(<void*>&self.tByVLooseIsolationMVArun2v1DBnewDMwLT_value)
-
         #print "making tByVLooseIsolationMVArun2v1DBoldDMwLT"
         self.tByVLooseIsolationMVArun2v1DBoldDMwLT_branch = the_tree.GetBranch("tByVLooseIsolationMVArun2v1DBoldDMwLT")
         #if not self.tByVLooseIsolationMVArun2v1DBoldDMwLT_branch and "tByVLooseIsolationMVArun2v1DBoldDMwLT" not in self.complained:
@@ -7192,15 +7078,6 @@ cdef class ETauTree:
         else:
             self.tByVTightIsolationMVArun2v1DBdR03oldDMwLT_branch.SetAddress(<void*>&self.tByVTightIsolationMVArun2v1DBdR03oldDMwLT_value)
 
-        #print "making tByVTightIsolationMVArun2v1DBnewDMwLT"
-        self.tByVTightIsolationMVArun2v1DBnewDMwLT_branch = the_tree.GetBranch("tByVTightIsolationMVArun2v1DBnewDMwLT")
-        #if not self.tByVTightIsolationMVArun2v1DBnewDMwLT_branch and "tByVTightIsolationMVArun2v1DBnewDMwLT" not in self.complained:
-        if not self.tByVTightIsolationMVArun2v1DBnewDMwLT_branch and "tByVTightIsolationMVArun2v1DBnewDMwLT":
-            warnings.warn( "ETauTree: Expected branch tByVTightIsolationMVArun2v1DBnewDMwLT does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tByVTightIsolationMVArun2v1DBnewDMwLT")
-        else:
-            self.tByVTightIsolationMVArun2v1DBnewDMwLT_branch.SetAddress(<void*>&self.tByVTightIsolationMVArun2v1DBnewDMwLT_value)
-
         #print "making tByVTightIsolationMVArun2v1DBoldDMwLT"
         self.tByVTightIsolationMVArun2v1DBoldDMwLT_branch = the_tree.GetBranch("tByVTightIsolationMVArun2v1DBoldDMwLT")
         #if not self.tByVTightIsolationMVArun2v1DBoldDMwLT_branch and "tByVTightIsolationMVArun2v1DBoldDMwLT" not in self.complained:
@@ -7218,15 +7095,6 @@ cdef class ETauTree:
             #self.complained.add("tByVVTightIsolationMVArun2v1DBdR03oldDMwLT")
         else:
             self.tByVVTightIsolationMVArun2v1DBdR03oldDMwLT_branch.SetAddress(<void*>&self.tByVVTightIsolationMVArun2v1DBdR03oldDMwLT_value)
-
-        #print "making tByVVTightIsolationMVArun2v1DBnewDMwLT"
-        self.tByVVTightIsolationMVArun2v1DBnewDMwLT_branch = the_tree.GetBranch("tByVVTightIsolationMVArun2v1DBnewDMwLT")
-        #if not self.tByVVTightIsolationMVArun2v1DBnewDMwLT_branch and "tByVVTightIsolationMVArun2v1DBnewDMwLT" not in self.complained:
-        if not self.tByVVTightIsolationMVArun2v1DBnewDMwLT_branch and "tByVVTightIsolationMVArun2v1DBnewDMwLT":
-            warnings.warn( "ETauTree: Expected branch tByVVTightIsolationMVArun2v1DBnewDMwLT does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tByVVTightIsolationMVArun2v1DBnewDMwLT")
-        else:
-            self.tByVVTightIsolationMVArun2v1DBnewDMwLT_branch.SetAddress(<void*>&self.tByVVTightIsolationMVArun2v1DBnewDMwLT_value)
 
         #print "making tByVVTightIsolationMVArun2v1DBoldDMwLT"
         self.tByVVTightIsolationMVArun2v1DBoldDMwLT_branch = the_tree.GetBranch("tByVVTightIsolationMVArun2v1DBoldDMwLT")
@@ -7300,50 +7168,32 @@ cdef class ETauTree:
         else:
             self.tDecayModeFindingNewDMs_branch.SetAddress(<void*>&self.tDecayModeFindingNewDMs_value)
 
-        #print "making tDeepTau2017v1VSeraw"
-        self.tDeepTau2017v1VSeraw_branch = the_tree.GetBranch("tDeepTau2017v1VSeraw")
-        #if not self.tDeepTau2017v1VSeraw_branch and "tDeepTau2017v1VSeraw" not in self.complained:
-        if not self.tDeepTau2017v1VSeraw_branch and "tDeepTau2017v1VSeraw":
-            warnings.warn( "ETauTree: Expected branch tDeepTau2017v1VSeraw does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tDeepTau2017v1VSeraw")
+        #print "making tDeepTau2017v2p1VSeraw"
+        self.tDeepTau2017v2p1VSeraw_branch = the_tree.GetBranch("tDeepTau2017v2p1VSeraw")
+        #if not self.tDeepTau2017v2p1VSeraw_branch and "tDeepTau2017v2p1VSeraw" not in self.complained:
+        if not self.tDeepTau2017v2p1VSeraw_branch and "tDeepTau2017v2p1VSeraw":
+            warnings.warn( "ETauTree: Expected branch tDeepTau2017v2p1VSeraw does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tDeepTau2017v2p1VSeraw")
         else:
-            self.tDeepTau2017v1VSeraw_branch.SetAddress(<void*>&self.tDeepTau2017v1VSeraw_value)
+            self.tDeepTau2017v2p1VSeraw_branch.SetAddress(<void*>&self.tDeepTau2017v2p1VSeraw_value)
 
-        #print "making tDeepTau2017v1VSjetraw"
-        self.tDeepTau2017v1VSjetraw_branch = the_tree.GetBranch("tDeepTau2017v1VSjetraw")
-        #if not self.tDeepTau2017v1VSjetraw_branch and "tDeepTau2017v1VSjetraw" not in self.complained:
-        if not self.tDeepTau2017v1VSjetraw_branch and "tDeepTau2017v1VSjetraw":
-            warnings.warn( "ETauTree: Expected branch tDeepTau2017v1VSjetraw does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tDeepTau2017v1VSjetraw")
+        #print "making tDeepTau2017v2p1VSjetraw"
+        self.tDeepTau2017v2p1VSjetraw_branch = the_tree.GetBranch("tDeepTau2017v2p1VSjetraw")
+        #if not self.tDeepTau2017v2p1VSjetraw_branch and "tDeepTau2017v2p1VSjetraw" not in self.complained:
+        if not self.tDeepTau2017v2p1VSjetraw_branch and "tDeepTau2017v2p1VSjetraw":
+            warnings.warn( "ETauTree: Expected branch tDeepTau2017v2p1VSjetraw does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tDeepTau2017v2p1VSjetraw")
         else:
-            self.tDeepTau2017v1VSjetraw_branch.SetAddress(<void*>&self.tDeepTau2017v1VSjetraw_value)
+            self.tDeepTau2017v2p1VSjetraw_branch.SetAddress(<void*>&self.tDeepTau2017v2p1VSjetraw_value)
 
-        #print "making tDeepTau2017v1VSmuraw"
-        self.tDeepTau2017v1VSmuraw_branch = the_tree.GetBranch("tDeepTau2017v1VSmuraw")
-        #if not self.tDeepTau2017v1VSmuraw_branch and "tDeepTau2017v1VSmuraw" not in self.complained:
-        if not self.tDeepTau2017v1VSmuraw_branch and "tDeepTau2017v1VSmuraw":
-            warnings.warn( "ETauTree: Expected branch tDeepTau2017v1VSmuraw does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tDeepTau2017v1VSmuraw")
+        #print "making tDeepTau2017v2p1VSmuraw"
+        self.tDeepTau2017v2p1VSmuraw_branch = the_tree.GetBranch("tDeepTau2017v2p1VSmuraw")
+        #if not self.tDeepTau2017v2p1VSmuraw_branch and "tDeepTau2017v2p1VSmuraw" not in self.complained:
+        if not self.tDeepTau2017v2p1VSmuraw_branch and "tDeepTau2017v2p1VSmuraw":
+            warnings.warn( "ETauTree: Expected branch tDeepTau2017v2p1VSmuraw does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tDeepTau2017v2p1VSmuraw")
         else:
-            self.tDeepTau2017v1VSmuraw_branch.SetAddress(<void*>&self.tDeepTau2017v1VSmuraw_value)
-
-        #print "making tDpfTau2016v0VSallraw"
-        self.tDpfTau2016v0VSallraw_branch = the_tree.GetBranch("tDpfTau2016v0VSallraw")
-        #if not self.tDpfTau2016v0VSallraw_branch and "tDpfTau2016v0VSallraw" not in self.complained:
-        if not self.tDpfTau2016v0VSallraw_branch and "tDpfTau2016v0VSallraw":
-            warnings.warn( "ETauTree: Expected branch tDpfTau2016v0VSallraw does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tDpfTau2016v0VSallraw")
-        else:
-            self.tDpfTau2016v0VSallraw_branch.SetAddress(<void*>&self.tDpfTau2016v0VSallraw_value)
-
-        #print "making tDpfTau2016v1VSallraw"
-        self.tDpfTau2016v1VSallraw_branch = the_tree.GetBranch("tDpfTau2016v1VSallraw")
-        #if not self.tDpfTau2016v1VSallraw_branch and "tDpfTau2016v1VSallraw" not in self.complained:
-        if not self.tDpfTau2016v1VSallraw_branch and "tDpfTau2016v1VSallraw":
-            warnings.warn( "ETauTree: Expected branch tDpfTau2016v1VSallraw does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tDpfTau2016v1VSallraw")
-        else:
-            self.tDpfTau2016v1VSallraw_branch.SetAddress(<void*>&self.tDpfTau2016v1VSallraw_value)
+            self.tDeepTau2017v2p1VSmuraw_branch.SetAddress(<void*>&self.tDeepTau2017v2p1VSmuraw_value)
 
         #print "making tEta"
         self.tEta_branch = the_tree.GetBranch("tEta")
@@ -7633,32 +7483,32 @@ cdef class ETauTree:
         else:
             self.tLeadTrackPt_branch.SetAddress(<void*>&self.tLeadTrackPt_value)
 
-        #print "making tLooseDeepTau2017v1VSe"
-        self.tLooseDeepTau2017v1VSe_branch = the_tree.GetBranch("tLooseDeepTau2017v1VSe")
-        #if not self.tLooseDeepTau2017v1VSe_branch and "tLooseDeepTau2017v1VSe" not in self.complained:
-        if not self.tLooseDeepTau2017v1VSe_branch and "tLooseDeepTau2017v1VSe":
-            warnings.warn( "ETauTree: Expected branch tLooseDeepTau2017v1VSe does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tLooseDeepTau2017v1VSe")
+        #print "making tLooseDeepTau2017v2p1VSe"
+        self.tLooseDeepTau2017v2p1VSe_branch = the_tree.GetBranch("tLooseDeepTau2017v2p1VSe")
+        #if not self.tLooseDeepTau2017v2p1VSe_branch and "tLooseDeepTau2017v2p1VSe" not in self.complained:
+        if not self.tLooseDeepTau2017v2p1VSe_branch and "tLooseDeepTau2017v2p1VSe":
+            warnings.warn( "ETauTree: Expected branch tLooseDeepTau2017v2p1VSe does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tLooseDeepTau2017v2p1VSe")
         else:
-            self.tLooseDeepTau2017v1VSe_branch.SetAddress(<void*>&self.tLooseDeepTau2017v1VSe_value)
+            self.tLooseDeepTau2017v2p1VSe_branch.SetAddress(<void*>&self.tLooseDeepTau2017v2p1VSe_value)
 
-        #print "making tLooseDeepTau2017v1VSjet"
-        self.tLooseDeepTau2017v1VSjet_branch = the_tree.GetBranch("tLooseDeepTau2017v1VSjet")
-        #if not self.tLooseDeepTau2017v1VSjet_branch and "tLooseDeepTau2017v1VSjet" not in self.complained:
-        if not self.tLooseDeepTau2017v1VSjet_branch and "tLooseDeepTau2017v1VSjet":
-            warnings.warn( "ETauTree: Expected branch tLooseDeepTau2017v1VSjet does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tLooseDeepTau2017v1VSjet")
+        #print "making tLooseDeepTau2017v2p1VSjet"
+        self.tLooseDeepTau2017v2p1VSjet_branch = the_tree.GetBranch("tLooseDeepTau2017v2p1VSjet")
+        #if not self.tLooseDeepTau2017v2p1VSjet_branch and "tLooseDeepTau2017v2p1VSjet" not in self.complained:
+        if not self.tLooseDeepTau2017v2p1VSjet_branch and "tLooseDeepTau2017v2p1VSjet":
+            warnings.warn( "ETauTree: Expected branch tLooseDeepTau2017v2p1VSjet does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tLooseDeepTau2017v2p1VSjet")
         else:
-            self.tLooseDeepTau2017v1VSjet_branch.SetAddress(<void*>&self.tLooseDeepTau2017v1VSjet_value)
+            self.tLooseDeepTau2017v2p1VSjet_branch.SetAddress(<void*>&self.tLooseDeepTau2017v2p1VSjet_value)
 
-        #print "making tLooseDeepTau2017v1VSmu"
-        self.tLooseDeepTau2017v1VSmu_branch = the_tree.GetBranch("tLooseDeepTau2017v1VSmu")
-        #if not self.tLooseDeepTau2017v1VSmu_branch and "tLooseDeepTau2017v1VSmu" not in self.complained:
-        if not self.tLooseDeepTau2017v1VSmu_branch and "tLooseDeepTau2017v1VSmu":
-            warnings.warn( "ETauTree: Expected branch tLooseDeepTau2017v1VSmu does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tLooseDeepTau2017v1VSmu")
+        #print "making tLooseDeepTau2017v2p1VSmu"
+        self.tLooseDeepTau2017v2p1VSmu_branch = the_tree.GetBranch("tLooseDeepTau2017v2p1VSmu")
+        #if not self.tLooseDeepTau2017v2p1VSmu_branch and "tLooseDeepTau2017v2p1VSmu" not in self.complained:
+        if not self.tLooseDeepTau2017v2p1VSmu_branch and "tLooseDeepTau2017v2p1VSmu":
+            warnings.warn( "ETauTree: Expected branch tLooseDeepTau2017v2p1VSmu does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tLooseDeepTau2017v2p1VSmu")
         else:
-            self.tLooseDeepTau2017v1VSmu_branch.SetAddress(<void*>&self.tLooseDeepTau2017v1VSmu_value)
+            self.tLooseDeepTau2017v2p1VSmu_branch.SetAddress(<void*>&self.tLooseDeepTau2017v2p1VSmu_value)
 
         #print "making tLowestMll"
         self.tLowestMll_branch = the_tree.GetBranch("tLowestMll")
@@ -7678,167 +7528,41 @@ cdef class ETauTree:
         else:
             self.tMass_branch.SetAddress(<void*>&self.tMass_value)
 
-        #print "making tMatchesDoubleMediumCombinedIsoTau35Path"
-        self.tMatchesDoubleMediumCombinedIsoTau35Path_branch = the_tree.GetBranch("tMatchesDoubleMediumCombinedIsoTau35Path")
-        #if not self.tMatchesDoubleMediumCombinedIsoTau35Path_branch and "tMatchesDoubleMediumCombinedIsoTau35Path" not in self.complained:
-        if not self.tMatchesDoubleMediumCombinedIsoTau35Path_branch and "tMatchesDoubleMediumCombinedIsoTau35Path":
-            warnings.warn( "ETauTree: Expected branch tMatchesDoubleMediumCombinedIsoTau35Path does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tMatchesDoubleMediumCombinedIsoTau35Path")
+        #print "making tMatchEmbeddedFilterEle24Tau30"
+        self.tMatchEmbeddedFilterEle24Tau30_branch = the_tree.GetBranch("tMatchEmbeddedFilterEle24Tau30")
+        #if not self.tMatchEmbeddedFilterEle24Tau30_branch and "tMatchEmbeddedFilterEle24Tau30" not in self.complained:
+        if not self.tMatchEmbeddedFilterEle24Tau30_branch and "tMatchEmbeddedFilterEle24Tau30":
+            warnings.warn( "ETauTree: Expected branch tMatchEmbeddedFilterEle24Tau30 does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tMatchEmbeddedFilterEle24Tau30")
         else:
-            self.tMatchesDoubleMediumCombinedIsoTau35Path_branch.SetAddress(<void*>&self.tMatchesDoubleMediumCombinedIsoTau35Path_value)
+            self.tMatchEmbeddedFilterEle24Tau30_branch.SetAddress(<void*>&self.tMatchEmbeddedFilterEle24Tau30_value)
 
-        #print "making tMatchesDoubleMediumHPSTau35Filter"
-        self.tMatchesDoubleMediumHPSTau35Filter_branch = the_tree.GetBranch("tMatchesDoubleMediumHPSTau35Filter")
-        #if not self.tMatchesDoubleMediumHPSTau35Filter_branch and "tMatchesDoubleMediumHPSTau35Filter" not in self.complained:
-        if not self.tMatchesDoubleMediumHPSTau35Filter_branch and "tMatchesDoubleMediumHPSTau35Filter":
-            warnings.warn( "ETauTree: Expected branch tMatchesDoubleMediumHPSTau35Filter does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tMatchesDoubleMediumHPSTau35Filter")
+        #print "making tMatchEmbeddedFilterMu19Tau20"
+        self.tMatchEmbeddedFilterMu19Tau20_branch = the_tree.GetBranch("tMatchEmbeddedFilterMu19Tau20")
+        #if not self.tMatchEmbeddedFilterMu19Tau20_branch and "tMatchEmbeddedFilterMu19Tau20" not in self.complained:
+        if not self.tMatchEmbeddedFilterMu19Tau20_branch and "tMatchEmbeddedFilterMu19Tau20":
+            warnings.warn( "ETauTree: Expected branch tMatchEmbeddedFilterMu19Tau20 does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tMatchEmbeddedFilterMu19Tau20")
         else:
-            self.tMatchesDoubleMediumHPSTau35Filter_branch.SetAddress(<void*>&self.tMatchesDoubleMediumHPSTau35Filter_value)
+            self.tMatchEmbeddedFilterMu19Tau20_branch.SetAddress(<void*>&self.tMatchEmbeddedFilterMu19Tau20_value)
 
-        #print "making tMatchesDoubleMediumHPSTau35Path"
-        self.tMatchesDoubleMediumHPSTau35Path_branch = the_tree.GetBranch("tMatchesDoubleMediumHPSTau35Path")
-        #if not self.tMatchesDoubleMediumHPSTau35Path_branch and "tMatchesDoubleMediumHPSTau35Path" not in self.complained:
-        if not self.tMatchesDoubleMediumHPSTau35Path_branch and "tMatchesDoubleMediumHPSTau35Path":
-            warnings.warn( "ETauTree: Expected branch tMatchesDoubleMediumHPSTau35Path does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tMatchesDoubleMediumHPSTau35Path")
+        #print "making tMatchEmbeddedFilterMu20HPSTau27"
+        self.tMatchEmbeddedFilterMu20HPSTau27_branch = the_tree.GetBranch("tMatchEmbeddedFilterMu20HPSTau27")
+        #if not self.tMatchEmbeddedFilterMu20HPSTau27_branch and "tMatchEmbeddedFilterMu20HPSTau27" not in self.complained:
+        if not self.tMatchEmbeddedFilterMu20HPSTau27_branch and "tMatchEmbeddedFilterMu20HPSTau27":
+            warnings.warn( "ETauTree: Expected branch tMatchEmbeddedFilterMu20HPSTau27 does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tMatchEmbeddedFilterMu20HPSTau27")
         else:
-            self.tMatchesDoubleMediumHPSTau35Path_branch.SetAddress(<void*>&self.tMatchesDoubleMediumHPSTau35Path_value)
+            self.tMatchEmbeddedFilterMu20HPSTau27_branch.SetAddress(<void*>&self.tMatchEmbeddedFilterMu20HPSTau27_value)
 
-        #print "making tMatchesDoubleMediumHPSTau40Filter"
-        self.tMatchesDoubleMediumHPSTau40Filter_branch = the_tree.GetBranch("tMatchesDoubleMediumHPSTau40Filter")
-        #if not self.tMatchesDoubleMediumHPSTau40Filter_branch and "tMatchesDoubleMediumHPSTau40Filter" not in self.complained:
-        if not self.tMatchesDoubleMediumHPSTau40Filter_branch and "tMatchesDoubleMediumHPSTau40Filter":
-            warnings.warn( "ETauTree: Expected branch tMatchesDoubleMediumHPSTau40Filter does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tMatchesDoubleMediumHPSTau40Filter")
+        #print "making tMatchEmbeddedFilterMu20Tau27"
+        self.tMatchEmbeddedFilterMu20Tau27_branch = the_tree.GetBranch("tMatchEmbeddedFilterMu20Tau27")
+        #if not self.tMatchEmbeddedFilterMu20Tau27_branch and "tMatchEmbeddedFilterMu20Tau27" not in self.complained:
+        if not self.tMatchEmbeddedFilterMu20Tau27_branch and "tMatchEmbeddedFilterMu20Tau27":
+            warnings.warn( "ETauTree: Expected branch tMatchEmbeddedFilterMu20Tau27 does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tMatchEmbeddedFilterMu20Tau27")
         else:
-            self.tMatchesDoubleMediumHPSTau40Filter_branch.SetAddress(<void*>&self.tMatchesDoubleMediumHPSTau40Filter_value)
-
-        #print "making tMatchesDoubleMediumHPSTau40Path"
-        self.tMatchesDoubleMediumHPSTau40Path_branch = the_tree.GetBranch("tMatchesDoubleMediumHPSTau40Path")
-        #if not self.tMatchesDoubleMediumHPSTau40Path_branch and "tMatchesDoubleMediumHPSTau40Path" not in self.complained:
-        if not self.tMatchesDoubleMediumHPSTau40Path_branch and "tMatchesDoubleMediumHPSTau40Path":
-            warnings.warn( "ETauTree: Expected branch tMatchesDoubleMediumHPSTau40Path does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tMatchesDoubleMediumHPSTau40Path")
-        else:
-            self.tMatchesDoubleMediumHPSTau40Path_branch.SetAddress(<void*>&self.tMatchesDoubleMediumHPSTau40Path_value)
-
-        #print "making tMatchesDoubleMediumIsoTau35Path"
-        self.tMatchesDoubleMediumIsoTau35Path_branch = the_tree.GetBranch("tMatchesDoubleMediumIsoTau35Path")
-        #if not self.tMatchesDoubleMediumIsoTau35Path_branch and "tMatchesDoubleMediumIsoTau35Path" not in self.complained:
-        if not self.tMatchesDoubleMediumIsoTau35Path_branch and "tMatchesDoubleMediumIsoTau35Path":
-            warnings.warn( "ETauTree: Expected branch tMatchesDoubleMediumIsoTau35Path does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tMatchesDoubleMediumIsoTau35Path")
-        else:
-            self.tMatchesDoubleMediumIsoTau35Path_branch.SetAddress(<void*>&self.tMatchesDoubleMediumIsoTau35Path_value)
-
-        #print "making tMatchesDoubleMediumTau35Filter"
-        self.tMatchesDoubleMediumTau35Filter_branch = the_tree.GetBranch("tMatchesDoubleMediumTau35Filter")
-        #if not self.tMatchesDoubleMediumTau35Filter_branch and "tMatchesDoubleMediumTau35Filter" not in self.complained:
-        if not self.tMatchesDoubleMediumTau35Filter_branch and "tMatchesDoubleMediumTau35Filter":
-            warnings.warn( "ETauTree: Expected branch tMatchesDoubleMediumTau35Filter does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tMatchesDoubleMediumTau35Filter")
-        else:
-            self.tMatchesDoubleMediumTau35Filter_branch.SetAddress(<void*>&self.tMatchesDoubleMediumTau35Filter_value)
-
-        #print "making tMatchesDoubleMediumTau35Path"
-        self.tMatchesDoubleMediumTau35Path_branch = the_tree.GetBranch("tMatchesDoubleMediumTau35Path")
-        #if not self.tMatchesDoubleMediumTau35Path_branch and "tMatchesDoubleMediumTau35Path" not in self.complained:
-        if not self.tMatchesDoubleMediumTau35Path_branch and "tMatchesDoubleMediumTau35Path":
-            warnings.warn( "ETauTree: Expected branch tMatchesDoubleMediumTau35Path does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tMatchesDoubleMediumTau35Path")
-        else:
-            self.tMatchesDoubleMediumTau35Path_branch.SetAddress(<void*>&self.tMatchesDoubleMediumTau35Path_value)
-
-        #print "making tMatchesDoubleMediumTau40Filter"
-        self.tMatchesDoubleMediumTau40Filter_branch = the_tree.GetBranch("tMatchesDoubleMediumTau40Filter")
-        #if not self.tMatchesDoubleMediumTau40Filter_branch and "tMatchesDoubleMediumTau40Filter" not in self.complained:
-        if not self.tMatchesDoubleMediumTau40Filter_branch and "tMatchesDoubleMediumTau40Filter":
-            warnings.warn( "ETauTree: Expected branch tMatchesDoubleMediumTau40Filter does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tMatchesDoubleMediumTau40Filter")
-        else:
-            self.tMatchesDoubleMediumTau40Filter_branch.SetAddress(<void*>&self.tMatchesDoubleMediumTau40Filter_value)
-
-        #print "making tMatchesDoubleMediumTau40Path"
-        self.tMatchesDoubleMediumTau40Path_branch = the_tree.GetBranch("tMatchesDoubleMediumTau40Path")
-        #if not self.tMatchesDoubleMediumTau40Path_branch and "tMatchesDoubleMediumTau40Path" not in self.complained:
-        if not self.tMatchesDoubleMediumTau40Path_branch and "tMatchesDoubleMediumTau40Path":
-            warnings.warn( "ETauTree: Expected branch tMatchesDoubleMediumTau40Path does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tMatchesDoubleMediumTau40Path")
-        else:
-            self.tMatchesDoubleMediumTau40Path_branch.SetAddress(<void*>&self.tMatchesDoubleMediumTau40Path_value)
-
-        #print "making tMatchesDoubleTightHPSTau35Filter"
-        self.tMatchesDoubleTightHPSTau35Filter_branch = the_tree.GetBranch("tMatchesDoubleTightHPSTau35Filter")
-        #if not self.tMatchesDoubleTightHPSTau35Filter_branch and "tMatchesDoubleTightHPSTau35Filter" not in self.complained:
-        if not self.tMatchesDoubleTightHPSTau35Filter_branch and "tMatchesDoubleTightHPSTau35Filter":
-            warnings.warn( "ETauTree: Expected branch tMatchesDoubleTightHPSTau35Filter does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tMatchesDoubleTightHPSTau35Filter")
-        else:
-            self.tMatchesDoubleTightHPSTau35Filter_branch.SetAddress(<void*>&self.tMatchesDoubleTightHPSTau35Filter_value)
-
-        #print "making tMatchesDoubleTightHPSTau35Path"
-        self.tMatchesDoubleTightHPSTau35Path_branch = the_tree.GetBranch("tMatchesDoubleTightHPSTau35Path")
-        #if not self.tMatchesDoubleTightHPSTau35Path_branch and "tMatchesDoubleTightHPSTau35Path" not in self.complained:
-        if not self.tMatchesDoubleTightHPSTau35Path_branch and "tMatchesDoubleTightHPSTau35Path":
-            warnings.warn( "ETauTree: Expected branch tMatchesDoubleTightHPSTau35Path does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tMatchesDoubleTightHPSTau35Path")
-        else:
-            self.tMatchesDoubleTightHPSTau35Path_branch.SetAddress(<void*>&self.tMatchesDoubleTightHPSTau35Path_value)
-
-        #print "making tMatchesDoubleTightHPSTau40Filter"
-        self.tMatchesDoubleTightHPSTau40Filter_branch = the_tree.GetBranch("tMatchesDoubleTightHPSTau40Filter")
-        #if not self.tMatchesDoubleTightHPSTau40Filter_branch and "tMatchesDoubleTightHPSTau40Filter" not in self.complained:
-        if not self.tMatchesDoubleTightHPSTau40Filter_branch and "tMatchesDoubleTightHPSTau40Filter":
-            warnings.warn( "ETauTree: Expected branch tMatchesDoubleTightHPSTau40Filter does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tMatchesDoubleTightHPSTau40Filter")
-        else:
-            self.tMatchesDoubleTightHPSTau40Filter_branch.SetAddress(<void*>&self.tMatchesDoubleTightHPSTau40Filter_value)
-
-        #print "making tMatchesDoubleTightHPSTau40Path"
-        self.tMatchesDoubleTightHPSTau40Path_branch = the_tree.GetBranch("tMatchesDoubleTightHPSTau40Path")
-        #if not self.tMatchesDoubleTightHPSTau40Path_branch and "tMatchesDoubleTightHPSTau40Path" not in self.complained:
-        if not self.tMatchesDoubleTightHPSTau40Path_branch and "tMatchesDoubleTightHPSTau40Path":
-            warnings.warn( "ETauTree: Expected branch tMatchesDoubleTightHPSTau40Path does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tMatchesDoubleTightHPSTau40Path")
-        else:
-            self.tMatchesDoubleTightHPSTau40Path_branch.SetAddress(<void*>&self.tMatchesDoubleTightHPSTau40Path_value)
-
-        #print "making tMatchesDoubleTightTau35Filter"
-        self.tMatchesDoubleTightTau35Filter_branch = the_tree.GetBranch("tMatchesDoubleTightTau35Filter")
-        #if not self.tMatchesDoubleTightTau35Filter_branch and "tMatchesDoubleTightTau35Filter" not in self.complained:
-        if not self.tMatchesDoubleTightTau35Filter_branch and "tMatchesDoubleTightTau35Filter":
-            warnings.warn( "ETauTree: Expected branch tMatchesDoubleTightTau35Filter does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tMatchesDoubleTightTau35Filter")
-        else:
-            self.tMatchesDoubleTightTau35Filter_branch.SetAddress(<void*>&self.tMatchesDoubleTightTau35Filter_value)
-
-        #print "making tMatchesDoubleTightTau35Path"
-        self.tMatchesDoubleTightTau35Path_branch = the_tree.GetBranch("tMatchesDoubleTightTau35Path")
-        #if not self.tMatchesDoubleTightTau35Path_branch and "tMatchesDoubleTightTau35Path" not in self.complained:
-        if not self.tMatchesDoubleTightTau35Path_branch and "tMatchesDoubleTightTau35Path":
-            warnings.warn( "ETauTree: Expected branch tMatchesDoubleTightTau35Path does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tMatchesDoubleTightTau35Path")
-        else:
-            self.tMatchesDoubleTightTau35Path_branch.SetAddress(<void*>&self.tMatchesDoubleTightTau35Path_value)
-
-        #print "making tMatchesDoubleTightTau40Filter"
-        self.tMatchesDoubleTightTau40Filter_branch = the_tree.GetBranch("tMatchesDoubleTightTau40Filter")
-        #if not self.tMatchesDoubleTightTau40Filter_branch and "tMatchesDoubleTightTau40Filter" not in self.complained:
-        if not self.tMatchesDoubleTightTau40Filter_branch and "tMatchesDoubleTightTau40Filter":
-            warnings.warn( "ETauTree: Expected branch tMatchesDoubleTightTau40Filter does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tMatchesDoubleTightTau40Filter")
-        else:
-            self.tMatchesDoubleTightTau40Filter_branch.SetAddress(<void*>&self.tMatchesDoubleTightTau40Filter_value)
-
-        #print "making tMatchesDoubleTightTau40Path"
-        self.tMatchesDoubleTightTau40Path_branch = the_tree.GetBranch("tMatchesDoubleTightTau40Path")
-        #if not self.tMatchesDoubleTightTau40Path_branch and "tMatchesDoubleTightTau40Path" not in self.complained:
-        if not self.tMatchesDoubleTightTau40Path_branch and "tMatchesDoubleTightTau40Path":
-            warnings.warn( "ETauTree: Expected branch tMatchesDoubleTightTau40Path does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tMatchesDoubleTightTau40Path")
-        else:
-            self.tMatchesDoubleTightTau40Path_branch.SetAddress(<void*>&self.tMatchesDoubleTightTau40Path_value)
+            self.tMatchEmbeddedFilterMu20Tau27_branch.SetAddress(<void*>&self.tMatchEmbeddedFilterMu20Tau27_value)
 
         #print "making tMatchesEle24HPSTau30Filter"
         self.tMatchesEle24HPSTau30Filter_branch = the_tree.GetBranch("tMatchesEle24HPSTau30Filter")
@@ -7948,32 +7672,32 @@ cdef class ETauTree:
         else:
             self.tMatchesIsoMu20Tau27Path_branch.SetAddress(<void*>&self.tMatchesIsoMu20Tau27Path_value)
 
-        #print "making tMediumDeepTau2017v1VSe"
-        self.tMediumDeepTau2017v1VSe_branch = the_tree.GetBranch("tMediumDeepTau2017v1VSe")
-        #if not self.tMediumDeepTau2017v1VSe_branch and "tMediumDeepTau2017v1VSe" not in self.complained:
-        if not self.tMediumDeepTau2017v1VSe_branch and "tMediumDeepTau2017v1VSe":
-            warnings.warn( "ETauTree: Expected branch tMediumDeepTau2017v1VSe does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tMediumDeepTau2017v1VSe")
+        #print "making tMediumDeepTau2017v2p1VSe"
+        self.tMediumDeepTau2017v2p1VSe_branch = the_tree.GetBranch("tMediumDeepTau2017v2p1VSe")
+        #if not self.tMediumDeepTau2017v2p1VSe_branch and "tMediumDeepTau2017v2p1VSe" not in self.complained:
+        if not self.tMediumDeepTau2017v2p1VSe_branch and "tMediumDeepTau2017v2p1VSe":
+            warnings.warn( "ETauTree: Expected branch tMediumDeepTau2017v2p1VSe does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tMediumDeepTau2017v2p1VSe")
         else:
-            self.tMediumDeepTau2017v1VSe_branch.SetAddress(<void*>&self.tMediumDeepTau2017v1VSe_value)
+            self.tMediumDeepTau2017v2p1VSe_branch.SetAddress(<void*>&self.tMediumDeepTau2017v2p1VSe_value)
 
-        #print "making tMediumDeepTau2017v1VSjet"
-        self.tMediumDeepTau2017v1VSjet_branch = the_tree.GetBranch("tMediumDeepTau2017v1VSjet")
-        #if not self.tMediumDeepTau2017v1VSjet_branch and "tMediumDeepTau2017v1VSjet" not in self.complained:
-        if not self.tMediumDeepTau2017v1VSjet_branch and "tMediumDeepTau2017v1VSjet":
-            warnings.warn( "ETauTree: Expected branch tMediumDeepTau2017v1VSjet does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tMediumDeepTau2017v1VSjet")
+        #print "making tMediumDeepTau2017v2p1VSjet"
+        self.tMediumDeepTau2017v2p1VSjet_branch = the_tree.GetBranch("tMediumDeepTau2017v2p1VSjet")
+        #if not self.tMediumDeepTau2017v2p1VSjet_branch and "tMediumDeepTau2017v2p1VSjet" not in self.complained:
+        if not self.tMediumDeepTau2017v2p1VSjet_branch and "tMediumDeepTau2017v2p1VSjet":
+            warnings.warn( "ETauTree: Expected branch tMediumDeepTau2017v2p1VSjet does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tMediumDeepTau2017v2p1VSjet")
         else:
-            self.tMediumDeepTau2017v1VSjet_branch.SetAddress(<void*>&self.tMediumDeepTau2017v1VSjet_value)
+            self.tMediumDeepTau2017v2p1VSjet_branch.SetAddress(<void*>&self.tMediumDeepTau2017v2p1VSjet_value)
 
-        #print "making tMediumDeepTau2017v1VSmu"
-        self.tMediumDeepTau2017v1VSmu_branch = the_tree.GetBranch("tMediumDeepTau2017v1VSmu")
-        #if not self.tMediumDeepTau2017v1VSmu_branch and "tMediumDeepTau2017v1VSmu" not in self.complained:
-        if not self.tMediumDeepTau2017v1VSmu_branch and "tMediumDeepTau2017v1VSmu":
-            warnings.warn( "ETauTree: Expected branch tMediumDeepTau2017v1VSmu does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tMediumDeepTau2017v1VSmu")
+        #print "making tMediumDeepTau2017v2p1VSmu"
+        self.tMediumDeepTau2017v2p1VSmu_branch = the_tree.GetBranch("tMediumDeepTau2017v2p1VSmu")
+        #if not self.tMediumDeepTau2017v2p1VSmu_branch and "tMediumDeepTau2017v2p1VSmu" not in self.complained:
+        if not self.tMediumDeepTau2017v2p1VSmu_branch and "tMediumDeepTau2017v2p1VSmu":
+            warnings.warn( "ETauTree: Expected branch tMediumDeepTau2017v2p1VSmu does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tMediumDeepTau2017v2p1VSmu")
         else:
-            self.tMediumDeepTau2017v1VSmu_branch.SetAddress(<void*>&self.tMediumDeepTau2017v1VSmu_value)
+            self.tMediumDeepTau2017v2p1VSmu_branch.SetAddress(<void*>&self.tMediumDeepTau2017v2p1VSmu_value)
 
         #print "making tNChrgHadrIsolationCands"
         self.tNChrgHadrIsolationCands_branch = the_tree.GetBranch("tNChrgHadrIsolationCands")
@@ -8200,185 +7924,167 @@ cdef class ETauTree:
         else:
             self.tRerunMVArun2v2DBoldDMwLTraw_branch.SetAddress(<void*>&self.tRerunMVArun2v2DBoldDMwLTraw_value)
 
-        #print "making tTightDeepTau2017v1VSe"
-        self.tTightDeepTau2017v1VSe_branch = the_tree.GetBranch("tTightDeepTau2017v1VSe")
-        #if not self.tTightDeepTau2017v1VSe_branch and "tTightDeepTau2017v1VSe" not in self.complained:
-        if not self.tTightDeepTau2017v1VSe_branch and "tTightDeepTau2017v1VSe":
-            warnings.warn( "ETauTree: Expected branch tTightDeepTau2017v1VSe does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tTightDeepTau2017v1VSe")
+        #print "making tTightDeepTau2017v2p1VSe"
+        self.tTightDeepTau2017v2p1VSe_branch = the_tree.GetBranch("tTightDeepTau2017v2p1VSe")
+        #if not self.tTightDeepTau2017v2p1VSe_branch and "tTightDeepTau2017v2p1VSe" not in self.complained:
+        if not self.tTightDeepTau2017v2p1VSe_branch and "tTightDeepTau2017v2p1VSe":
+            warnings.warn( "ETauTree: Expected branch tTightDeepTau2017v2p1VSe does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tTightDeepTau2017v2p1VSe")
         else:
-            self.tTightDeepTau2017v1VSe_branch.SetAddress(<void*>&self.tTightDeepTau2017v1VSe_value)
+            self.tTightDeepTau2017v2p1VSe_branch.SetAddress(<void*>&self.tTightDeepTau2017v2p1VSe_value)
 
-        #print "making tTightDeepTau2017v1VSjet"
-        self.tTightDeepTau2017v1VSjet_branch = the_tree.GetBranch("tTightDeepTau2017v1VSjet")
-        #if not self.tTightDeepTau2017v1VSjet_branch and "tTightDeepTau2017v1VSjet" not in self.complained:
-        if not self.tTightDeepTau2017v1VSjet_branch and "tTightDeepTau2017v1VSjet":
-            warnings.warn( "ETauTree: Expected branch tTightDeepTau2017v1VSjet does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tTightDeepTau2017v1VSjet")
+        #print "making tTightDeepTau2017v2p1VSjet"
+        self.tTightDeepTau2017v2p1VSjet_branch = the_tree.GetBranch("tTightDeepTau2017v2p1VSjet")
+        #if not self.tTightDeepTau2017v2p1VSjet_branch and "tTightDeepTau2017v2p1VSjet" not in self.complained:
+        if not self.tTightDeepTau2017v2p1VSjet_branch and "tTightDeepTau2017v2p1VSjet":
+            warnings.warn( "ETauTree: Expected branch tTightDeepTau2017v2p1VSjet does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tTightDeepTau2017v2p1VSjet")
         else:
-            self.tTightDeepTau2017v1VSjet_branch.SetAddress(<void*>&self.tTightDeepTau2017v1VSjet_value)
+            self.tTightDeepTau2017v2p1VSjet_branch.SetAddress(<void*>&self.tTightDeepTau2017v2p1VSjet_value)
 
-        #print "making tTightDeepTau2017v1VSmu"
-        self.tTightDeepTau2017v1VSmu_branch = the_tree.GetBranch("tTightDeepTau2017v1VSmu")
-        #if not self.tTightDeepTau2017v1VSmu_branch and "tTightDeepTau2017v1VSmu" not in self.complained:
-        if not self.tTightDeepTau2017v1VSmu_branch and "tTightDeepTau2017v1VSmu":
-            warnings.warn( "ETauTree: Expected branch tTightDeepTau2017v1VSmu does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tTightDeepTau2017v1VSmu")
+        #print "making tTightDeepTau2017v2p1VSmu"
+        self.tTightDeepTau2017v2p1VSmu_branch = the_tree.GetBranch("tTightDeepTau2017v2p1VSmu")
+        #if not self.tTightDeepTau2017v2p1VSmu_branch and "tTightDeepTau2017v2p1VSmu" not in self.complained:
+        if not self.tTightDeepTau2017v2p1VSmu_branch and "tTightDeepTau2017v2p1VSmu":
+            warnings.warn( "ETauTree: Expected branch tTightDeepTau2017v2p1VSmu does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tTightDeepTau2017v2p1VSmu")
         else:
-            self.tTightDeepTau2017v1VSmu_branch.SetAddress(<void*>&self.tTightDeepTau2017v1VSmu_value)
+            self.tTightDeepTau2017v2p1VSmu_branch.SetAddress(<void*>&self.tTightDeepTau2017v2p1VSmu_value)
 
-        #print "making tTightDpfTau2016v0VSall"
-        self.tTightDpfTau2016v0VSall_branch = the_tree.GetBranch("tTightDpfTau2016v0VSall")
-        #if not self.tTightDpfTau2016v0VSall_branch and "tTightDpfTau2016v0VSall" not in self.complained:
-        if not self.tTightDpfTau2016v0VSall_branch and "tTightDpfTau2016v0VSall":
-            warnings.warn( "ETauTree: Expected branch tTightDpfTau2016v0VSall does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tTightDpfTau2016v0VSall")
+        #print "making tVLooseDeepTau2017v2p1VSe"
+        self.tVLooseDeepTau2017v2p1VSe_branch = the_tree.GetBranch("tVLooseDeepTau2017v2p1VSe")
+        #if not self.tVLooseDeepTau2017v2p1VSe_branch and "tVLooseDeepTau2017v2p1VSe" not in self.complained:
+        if not self.tVLooseDeepTau2017v2p1VSe_branch and "tVLooseDeepTau2017v2p1VSe":
+            warnings.warn( "ETauTree: Expected branch tVLooseDeepTau2017v2p1VSe does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tVLooseDeepTau2017v2p1VSe")
         else:
-            self.tTightDpfTau2016v0VSall_branch.SetAddress(<void*>&self.tTightDpfTau2016v0VSall_value)
+            self.tVLooseDeepTau2017v2p1VSe_branch.SetAddress(<void*>&self.tVLooseDeepTau2017v2p1VSe_value)
 
-        #print "making tTightDpfTau2016v1VSall"
-        self.tTightDpfTau2016v1VSall_branch = the_tree.GetBranch("tTightDpfTau2016v1VSall")
-        #if not self.tTightDpfTau2016v1VSall_branch and "tTightDpfTau2016v1VSall" not in self.complained:
-        if not self.tTightDpfTau2016v1VSall_branch and "tTightDpfTau2016v1VSall":
-            warnings.warn( "ETauTree: Expected branch tTightDpfTau2016v1VSall does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tTightDpfTau2016v1VSall")
+        #print "making tVLooseDeepTau2017v2p1VSjet"
+        self.tVLooseDeepTau2017v2p1VSjet_branch = the_tree.GetBranch("tVLooseDeepTau2017v2p1VSjet")
+        #if not self.tVLooseDeepTau2017v2p1VSjet_branch and "tVLooseDeepTau2017v2p1VSjet" not in self.complained:
+        if not self.tVLooseDeepTau2017v2p1VSjet_branch and "tVLooseDeepTau2017v2p1VSjet":
+            warnings.warn( "ETauTree: Expected branch tVLooseDeepTau2017v2p1VSjet does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tVLooseDeepTau2017v2p1VSjet")
         else:
-            self.tTightDpfTau2016v1VSall_branch.SetAddress(<void*>&self.tTightDpfTau2016v1VSall_value)
+            self.tVLooseDeepTau2017v2p1VSjet_branch.SetAddress(<void*>&self.tVLooseDeepTau2017v2p1VSjet_value)
 
-        #print "making tVLooseDeepTau2017v1VSe"
-        self.tVLooseDeepTau2017v1VSe_branch = the_tree.GetBranch("tVLooseDeepTau2017v1VSe")
-        #if not self.tVLooseDeepTau2017v1VSe_branch and "tVLooseDeepTau2017v1VSe" not in self.complained:
-        if not self.tVLooseDeepTau2017v1VSe_branch and "tVLooseDeepTau2017v1VSe":
-            warnings.warn( "ETauTree: Expected branch tVLooseDeepTau2017v1VSe does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tVLooseDeepTau2017v1VSe")
+        #print "making tVLooseDeepTau2017v2p1VSmu"
+        self.tVLooseDeepTau2017v2p1VSmu_branch = the_tree.GetBranch("tVLooseDeepTau2017v2p1VSmu")
+        #if not self.tVLooseDeepTau2017v2p1VSmu_branch and "tVLooseDeepTau2017v2p1VSmu" not in self.complained:
+        if not self.tVLooseDeepTau2017v2p1VSmu_branch and "tVLooseDeepTau2017v2p1VSmu":
+            warnings.warn( "ETauTree: Expected branch tVLooseDeepTau2017v2p1VSmu does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tVLooseDeepTau2017v2p1VSmu")
         else:
-            self.tVLooseDeepTau2017v1VSe_branch.SetAddress(<void*>&self.tVLooseDeepTau2017v1VSe_value)
+            self.tVLooseDeepTau2017v2p1VSmu_branch.SetAddress(<void*>&self.tVLooseDeepTau2017v2p1VSmu_value)
 
-        #print "making tVLooseDeepTau2017v1VSjet"
-        self.tVLooseDeepTau2017v1VSjet_branch = the_tree.GetBranch("tVLooseDeepTau2017v1VSjet")
-        #if not self.tVLooseDeepTau2017v1VSjet_branch and "tVLooseDeepTau2017v1VSjet" not in self.complained:
-        if not self.tVLooseDeepTau2017v1VSjet_branch and "tVLooseDeepTau2017v1VSjet":
-            warnings.warn( "ETauTree: Expected branch tVLooseDeepTau2017v1VSjet does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tVLooseDeepTau2017v1VSjet")
+        #print "making tVTightDeepTau2017v2p1VSe"
+        self.tVTightDeepTau2017v2p1VSe_branch = the_tree.GetBranch("tVTightDeepTau2017v2p1VSe")
+        #if not self.tVTightDeepTau2017v2p1VSe_branch and "tVTightDeepTau2017v2p1VSe" not in self.complained:
+        if not self.tVTightDeepTau2017v2p1VSe_branch and "tVTightDeepTau2017v2p1VSe":
+            warnings.warn( "ETauTree: Expected branch tVTightDeepTau2017v2p1VSe does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tVTightDeepTau2017v2p1VSe")
         else:
-            self.tVLooseDeepTau2017v1VSjet_branch.SetAddress(<void*>&self.tVLooseDeepTau2017v1VSjet_value)
+            self.tVTightDeepTau2017v2p1VSe_branch.SetAddress(<void*>&self.tVTightDeepTau2017v2p1VSe_value)
 
-        #print "making tVLooseDeepTau2017v1VSmu"
-        self.tVLooseDeepTau2017v1VSmu_branch = the_tree.GetBranch("tVLooseDeepTau2017v1VSmu")
-        #if not self.tVLooseDeepTau2017v1VSmu_branch and "tVLooseDeepTau2017v1VSmu" not in self.complained:
-        if not self.tVLooseDeepTau2017v1VSmu_branch and "tVLooseDeepTau2017v1VSmu":
-            warnings.warn( "ETauTree: Expected branch tVLooseDeepTau2017v1VSmu does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tVLooseDeepTau2017v1VSmu")
+        #print "making tVTightDeepTau2017v2p1VSjet"
+        self.tVTightDeepTau2017v2p1VSjet_branch = the_tree.GetBranch("tVTightDeepTau2017v2p1VSjet")
+        #if not self.tVTightDeepTau2017v2p1VSjet_branch and "tVTightDeepTau2017v2p1VSjet" not in self.complained:
+        if not self.tVTightDeepTau2017v2p1VSjet_branch and "tVTightDeepTau2017v2p1VSjet":
+            warnings.warn( "ETauTree: Expected branch tVTightDeepTau2017v2p1VSjet does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tVTightDeepTau2017v2p1VSjet")
         else:
-            self.tVLooseDeepTau2017v1VSmu_branch.SetAddress(<void*>&self.tVLooseDeepTau2017v1VSmu_value)
+            self.tVTightDeepTau2017v2p1VSjet_branch.SetAddress(<void*>&self.tVTightDeepTau2017v2p1VSjet_value)
 
-        #print "making tVTightDeepTau2017v1VSe"
-        self.tVTightDeepTau2017v1VSe_branch = the_tree.GetBranch("tVTightDeepTau2017v1VSe")
-        #if not self.tVTightDeepTau2017v1VSe_branch and "tVTightDeepTau2017v1VSe" not in self.complained:
-        if not self.tVTightDeepTau2017v1VSe_branch and "tVTightDeepTau2017v1VSe":
-            warnings.warn( "ETauTree: Expected branch tVTightDeepTau2017v1VSe does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tVTightDeepTau2017v1VSe")
+        #print "making tVTightDeepTau2017v2p1VSmu"
+        self.tVTightDeepTau2017v2p1VSmu_branch = the_tree.GetBranch("tVTightDeepTau2017v2p1VSmu")
+        #if not self.tVTightDeepTau2017v2p1VSmu_branch and "tVTightDeepTau2017v2p1VSmu" not in self.complained:
+        if not self.tVTightDeepTau2017v2p1VSmu_branch and "tVTightDeepTau2017v2p1VSmu":
+            warnings.warn( "ETauTree: Expected branch tVTightDeepTau2017v2p1VSmu does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tVTightDeepTau2017v2p1VSmu")
         else:
-            self.tVTightDeepTau2017v1VSe_branch.SetAddress(<void*>&self.tVTightDeepTau2017v1VSe_value)
+            self.tVTightDeepTau2017v2p1VSmu_branch.SetAddress(<void*>&self.tVTightDeepTau2017v2p1VSmu_value)
 
-        #print "making tVTightDeepTau2017v1VSjet"
-        self.tVTightDeepTau2017v1VSjet_branch = the_tree.GetBranch("tVTightDeepTau2017v1VSjet")
-        #if not self.tVTightDeepTau2017v1VSjet_branch and "tVTightDeepTau2017v1VSjet" not in self.complained:
-        if not self.tVTightDeepTau2017v1VSjet_branch and "tVTightDeepTau2017v1VSjet":
-            warnings.warn( "ETauTree: Expected branch tVTightDeepTau2017v1VSjet does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tVTightDeepTau2017v1VSjet")
+        #print "making tVVLooseDeepTau2017v2p1VSe"
+        self.tVVLooseDeepTau2017v2p1VSe_branch = the_tree.GetBranch("tVVLooseDeepTau2017v2p1VSe")
+        #if not self.tVVLooseDeepTau2017v2p1VSe_branch and "tVVLooseDeepTau2017v2p1VSe" not in self.complained:
+        if not self.tVVLooseDeepTau2017v2p1VSe_branch and "tVVLooseDeepTau2017v2p1VSe":
+            warnings.warn( "ETauTree: Expected branch tVVLooseDeepTau2017v2p1VSe does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tVVLooseDeepTau2017v2p1VSe")
         else:
-            self.tVTightDeepTau2017v1VSjet_branch.SetAddress(<void*>&self.tVTightDeepTau2017v1VSjet_value)
+            self.tVVLooseDeepTau2017v2p1VSe_branch.SetAddress(<void*>&self.tVVLooseDeepTau2017v2p1VSe_value)
 
-        #print "making tVTightDeepTau2017v1VSmu"
-        self.tVTightDeepTau2017v1VSmu_branch = the_tree.GetBranch("tVTightDeepTau2017v1VSmu")
-        #if not self.tVTightDeepTau2017v1VSmu_branch and "tVTightDeepTau2017v1VSmu" not in self.complained:
-        if not self.tVTightDeepTau2017v1VSmu_branch and "tVTightDeepTau2017v1VSmu":
-            warnings.warn( "ETauTree: Expected branch tVTightDeepTau2017v1VSmu does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tVTightDeepTau2017v1VSmu")
+        #print "making tVVLooseDeepTau2017v2p1VSjet"
+        self.tVVLooseDeepTau2017v2p1VSjet_branch = the_tree.GetBranch("tVVLooseDeepTau2017v2p1VSjet")
+        #if not self.tVVLooseDeepTau2017v2p1VSjet_branch and "tVVLooseDeepTau2017v2p1VSjet" not in self.complained:
+        if not self.tVVLooseDeepTau2017v2p1VSjet_branch and "tVVLooseDeepTau2017v2p1VSjet":
+            warnings.warn( "ETauTree: Expected branch tVVLooseDeepTau2017v2p1VSjet does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tVVLooseDeepTau2017v2p1VSjet")
         else:
-            self.tVTightDeepTau2017v1VSmu_branch.SetAddress(<void*>&self.tVTightDeepTau2017v1VSmu_value)
+            self.tVVLooseDeepTau2017v2p1VSjet_branch.SetAddress(<void*>&self.tVVLooseDeepTau2017v2p1VSjet_value)
 
-        #print "making tVVLooseDeepTau2017v1VSe"
-        self.tVVLooseDeepTau2017v1VSe_branch = the_tree.GetBranch("tVVLooseDeepTau2017v1VSe")
-        #if not self.tVVLooseDeepTau2017v1VSe_branch and "tVVLooseDeepTau2017v1VSe" not in self.complained:
-        if not self.tVVLooseDeepTau2017v1VSe_branch and "tVVLooseDeepTau2017v1VSe":
-            warnings.warn( "ETauTree: Expected branch tVVLooseDeepTau2017v1VSe does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tVVLooseDeepTau2017v1VSe")
+        #print "making tVVLooseDeepTau2017v2p1VSmu"
+        self.tVVLooseDeepTau2017v2p1VSmu_branch = the_tree.GetBranch("tVVLooseDeepTau2017v2p1VSmu")
+        #if not self.tVVLooseDeepTau2017v2p1VSmu_branch and "tVVLooseDeepTau2017v2p1VSmu" not in self.complained:
+        if not self.tVVLooseDeepTau2017v2p1VSmu_branch and "tVVLooseDeepTau2017v2p1VSmu":
+            warnings.warn( "ETauTree: Expected branch tVVLooseDeepTau2017v2p1VSmu does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tVVLooseDeepTau2017v2p1VSmu")
         else:
-            self.tVVLooseDeepTau2017v1VSe_branch.SetAddress(<void*>&self.tVVLooseDeepTau2017v1VSe_value)
+            self.tVVLooseDeepTau2017v2p1VSmu_branch.SetAddress(<void*>&self.tVVLooseDeepTau2017v2p1VSmu_value)
 
-        #print "making tVVLooseDeepTau2017v1VSjet"
-        self.tVVLooseDeepTau2017v1VSjet_branch = the_tree.GetBranch("tVVLooseDeepTau2017v1VSjet")
-        #if not self.tVVLooseDeepTau2017v1VSjet_branch and "tVVLooseDeepTau2017v1VSjet" not in self.complained:
-        if not self.tVVLooseDeepTau2017v1VSjet_branch and "tVVLooseDeepTau2017v1VSjet":
-            warnings.warn( "ETauTree: Expected branch tVVLooseDeepTau2017v1VSjet does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tVVLooseDeepTau2017v1VSjet")
+        #print "making tVVTightDeepTau2017v2p1VSe"
+        self.tVVTightDeepTau2017v2p1VSe_branch = the_tree.GetBranch("tVVTightDeepTau2017v2p1VSe")
+        #if not self.tVVTightDeepTau2017v2p1VSe_branch and "tVVTightDeepTau2017v2p1VSe" not in self.complained:
+        if not self.tVVTightDeepTau2017v2p1VSe_branch and "tVVTightDeepTau2017v2p1VSe":
+            warnings.warn( "ETauTree: Expected branch tVVTightDeepTau2017v2p1VSe does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tVVTightDeepTau2017v2p1VSe")
         else:
-            self.tVVLooseDeepTau2017v1VSjet_branch.SetAddress(<void*>&self.tVVLooseDeepTau2017v1VSjet_value)
+            self.tVVTightDeepTau2017v2p1VSe_branch.SetAddress(<void*>&self.tVVTightDeepTau2017v2p1VSe_value)
 
-        #print "making tVVLooseDeepTau2017v1VSmu"
-        self.tVVLooseDeepTau2017v1VSmu_branch = the_tree.GetBranch("tVVLooseDeepTau2017v1VSmu")
-        #if not self.tVVLooseDeepTau2017v1VSmu_branch and "tVVLooseDeepTau2017v1VSmu" not in self.complained:
-        if not self.tVVLooseDeepTau2017v1VSmu_branch and "tVVLooseDeepTau2017v1VSmu":
-            warnings.warn( "ETauTree: Expected branch tVVLooseDeepTau2017v1VSmu does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tVVLooseDeepTau2017v1VSmu")
+        #print "making tVVTightDeepTau2017v2p1VSjet"
+        self.tVVTightDeepTau2017v2p1VSjet_branch = the_tree.GetBranch("tVVTightDeepTau2017v2p1VSjet")
+        #if not self.tVVTightDeepTau2017v2p1VSjet_branch and "tVVTightDeepTau2017v2p1VSjet" not in self.complained:
+        if not self.tVVTightDeepTau2017v2p1VSjet_branch and "tVVTightDeepTau2017v2p1VSjet":
+            warnings.warn( "ETauTree: Expected branch tVVTightDeepTau2017v2p1VSjet does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tVVTightDeepTau2017v2p1VSjet")
         else:
-            self.tVVLooseDeepTau2017v1VSmu_branch.SetAddress(<void*>&self.tVVLooseDeepTau2017v1VSmu_value)
+            self.tVVTightDeepTau2017v2p1VSjet_branch.SetAddress(<void*>&self.tVVTightDeepTau2017v2p1VSjet_value)
 
-        #print "making tVVTightDeepTau2017v1VSe"
-        self.tVVTightDeepTau2017v1VSe_branch = the_tree.GetBranch("tVVTightDeepTau2017v1VSe")
-        #if not self.tVVTightDeepTau2017v1VSe_branch and "tVVTightDeepTau2017v1VSe" not in self.complained:
-        if not self.tVVTightDeepTau2017v1VSe_branch and "tVVTightDeepTau2017v1VSe":
-            warnings.warn( "ETauTree: Expected branch tVVTightDeepTau2017v1VSe does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tVVTightDeepTau2017v1VSe")
+        #print "making tVVTightDeepTau2017v2p1VSmu"
+        self.tVVTightDeepTau2017v2p1VSmu_branch = the_tree.GetBranch("tVVTightDeepTau2017v2p1VSmu")
+        #if not self.tVVTightDeepTau2017v2p1VSmu_branch and "tVVTightDeepTau2017v2p1VSmu" not in self.complained:
+        if not self.tVVTightDeepTau2017v2p1VSmu_branch and "tVVTightDeepTau2017v2p1VSmu":
+            warnings.warn( "ETauTree: Expected branch tVVTightDeepTau2017v2p1VSmu does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tVVTightDeepTau2017v2p1VSmu")
         else:
-            self.tVVTightDeepTau2017v1VSe_branch.SetAddress(<void*>&self.tVVTightDeepTau2017v1VSe_value)
+            self.tVVTightDeepTau2017v2p1VSmu_branch.SetAddress(<void*>&self.tVVTightDeepTau2017v2p1VSmu_value)
 
-        #print "making tVVTightDeepTau2017v1VSjet"
-        self.tVVTightDeepTau2017v1VSjet_branch = the_tree.GetBranch("tVVTightDeepTau2017v1VSjet")
-        #if not self.tVVTightDeepTau2017v1VSjet_branch and "tVVTightDeepTau2017v1VSjet" not in self.complained:
-        if not self.tVVTightDeepTau2017v1VSjet_branch and "tVVTightDeepTau2017v1VSjet":
-            warnings.warn( "ETauTree: Expected branch tVVTightDeepTau2017v1VSjet does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tVVTightDeepTau2017v1VSjet")
+        #print "making tVVVLooseDeepTau2017v2p1VSe"
+        self.tVVVLooseDeepTau2017v2p1VSe_branch = the_tree.GetBranch("tVVVLooseDeepTau2017v2p1VSe")
+        #if not self.tVVVLooseDeepTau2017v2p1VSe_branch and "tVVVLooseDeepTau2017v2p1VSe" not in self.complained:
+        if not self.tVVVLooseDeepTau2017v2p1VSe_branch and "tVVVLooseDeepTau2017v2p1VSe":
+            warnings.warn( "ETauTree: Expected branch tVVVLooseDeepTau2017v2p1VSe does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tVVVLooseDeepTau2017v2p1VSe")
         else:
-            self.tVVTightDeepTau2017v1VSjet_branch.SetAddress(<void*>&self.tVVTightDeepTau2017v1VSjet_value)
+            self.tVVVLooseDeepTau2017v2p1VSe_branch.SetAddress(<void*>&self.tVVVLooseDeepTau2017v2p1VSe_value)
 
-        #print "making tVVTightDeepTau2017v1VSmu"
-        self.tVVTightDeepTau2017v1VSmu_branch = the_tree.GetBranch("tVVTightDeepTau2017v1VSmu")
-        #if not self.tVVTightDeepTau2017v1VSmu_branch and "tVVTightDeepTau2017v1VSmu" not in self.complained:
-        if not self.tVVTightDeepTau2017v1VSmu_branch and "tVVTightDeepTau2017v1VSmu":
-            warnings.warn( "ETauTree: Expected branch tVVTightDeepTau2017v1VSmu does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tVVTightDeepTau2017v1VSmu")
+        #print "making tVVVLooseDeepTau2017v2p1VSjet"
+        self.tVVVLooseDeepTau2017v2p1VSjet_branch = the_tree.GetBranch("tVVVLooseDeepTau2017v2p1VSjet")
+        #if not self.tVVVLooseDeepTau2017v2p1VSjet_branch and "tVVVLooseDeepTau2017v2p1VSjet" not in self.complained:
+        if not self.tVVVLooseDeepTau2017v2p1VSjet_branch and "tVVVLooseDeepTau2017v2p1VSjet":
+            warnings.warn( "ETauTree: Expected branch tVVVLooseDeepTau2017v2p1VSjet does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tVVVLooseDeepTau2017v2p1VSjet")
         else:
-            self.tVVTightDeepTau2017v1VSmu_branch.SetAddress(<void*>&self.tVVTightDeepTau2017v1VSmu_value)
+            self.tVVVLooseDeepTau2017v2p1VSjet_branch.SetAddress(<void*>&self.tVVVLooseDeepTau2017v2p1VSjet_value)
 
-        #print "making tVVVLooseDeepTau2017v1VSe"
-        self.tVVVLooseDeepTau2017v1VSe_branch = the_tree.GetBranch("tVVVLooseDeepTau2017v1VSe")
-        #if not self.tVVVLooseDeepTau2017v1VSe_branch and "tVVVLooseDeepTau2017v1VSe" not in self.complained:
-        if not self.tVVVLooseDeepTau2017v1VSe_branch and "tVVVLooseDeepTau2017v1VSe":
-            warnings.warn( "ETauTree: Expected branch tVVVLooseDeepTau2017v1VSe does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tVVVLooseDeepTau2017v1VSe")
+        #print "making tVVVLooseDeepTau2017v2p1VSmu"
+        self.tVVVLooseDeepTau2017v2p1VSmu_branch = the_tree.GetBranch("tVVVLooseDeepTau2017v2p1VSmu")
+        #if not self.tVVVLooseDeepTau2017v2p1VSmu_branch and "tVVVLooseDeepTau2017v2p1VSmu" not in self.complained:
+        if not self.tVVVLooseDeepTau2017v2p1VSmu_branch and "tVVVLooseDeepTau2017v2p1VSmu":
+            warnings.warn( "ETauTree: Expected branch tVVVLooseDeepTau2017v2p1VSmu does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("tVVVLooseDeepTau2017v2p1VSmu")
         else:
-            self.tVVVLooseDeepTau2017v1VSe_branch.SetAddress(<void*>&self.tVVVLooseDeepTau2017v1VSe_value)
-
-        #print "making tVVVLooseDeepTau2017v1VSjet"
-        self.tVVVLooseDeepTau2017v1VSjet_branch = the_tree.GetBranch("tVVVLooseDeepTau2017v1VSjet")
-        #if not self.tVVVLooseDeepTau2017v1VSjet_branch and "tVVVLooseDeepTau2017v1VSjet" not in self.complained:
-        if not self.tVVVLooseDeepTau2017v1VSjet_branch and "tVVVLooseDeepTau2017v1VSjet":
-            warnings.warn( "ETauTree: Expected branch tVVVLooseDeepTau2017v1VSjet does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tVVVLooseDeepTau2017v1VSjet")
-        else:
-            self.tVVVLooseDeepTau2017v1VSjet_branch.SetAddress(<void*>&self.tVVVLooseDeepTau2017v1VSjet_value)
-
-        #print "making tVVVLooseDeepTau2017v1VSmu"
-        self.tVVVLooseDeepTau2017v1VSmu_branch = the_tree.GetBranch("tVVVLooseDeepTau2017v1VSmu")
-        #if not self.tVVVLooseDeepTau2017v1VSmu_branch and "tVVVLooseDeepTau2017v1VSmu" not in self.complained:
-        if not self.tVVVLooseDeepTau2017v1VSmu_branch and "tVVVLooseDeepTau2017v1VSmu":
-            warnings.warn( "ETauTree: Expected branch tVVVLooseDeepTau2017v1VSmu does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("tVVVLooseDeepTau2017v1VSmu")
-        else:
-            self.tVVVLooseDeepTau2017v1VSmu_branch.SetAddress(<void*>&self.tVVVLooseDeepTau2017v1VSmu_value)
+            self.tVVVLooseDeepTau2017v2p1VSmu_branch.SetAddress(<void*>&self.tVVVLooseDeepTau2017v2p1VSmu_value)
 
         #print "making tVZ"
         self.tVZ_branch = the_tree.GetBranch("tVZ")
@@ -8613,6 +8319,24 @@ cdef class ETauTree:
             #self.complained.add("type1_pfMet_shiftedPhi_JetClosureUp")
         else:
             self.type1_pfMet_shiftedPhi_JetClosureUp_branch.SetAddress(<void*>&self.type1_pfMet_shiftedPhi_JetClosureUp_value)
+
+        #print "making type1_pfMet_shiftedPhi_JetEC2Down"
+        self.type1_pfMet_shiftedPhi_JetEC2Down_branch = the_tree.GetBranch("type1_pfMet_shiftedPhi_JetEC2Down")
+        #if not self.type1_pfMet_shiftedPhi_JetEC2Down_branch and "type1_pfMet_shiftedPhi_JetEC2Down" not in self.complained:
+        if not self.type1_pfMet_shiftedPhi_JetEC2Down_branch and "type1_pfMet_shiftedPhi_JetEC2Down":
+            warnings.warn( "ETauTree: Expected branch type1_pfMet_shiftedPhi_JetEC2Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("type1_pfMet_shiftedPhi_JetEC2Down")
+        else:
+            self.type1_pfMet_shiftedPhi_JetEC2Down_branch.SetAddress(<void*>&self.type1_pfMet_shiftedPhi_JetEC2Down_value)
+
+        #print "making type1_pfMet_shiftedPhi_JetEC2Up"
+        self.type1_pfMet_shiftedPhi_JetEC2Up_branch = the_tree.GetBranch("type1_pfMet_shiftedPhi_JetEC2Up")
+        #if not self.type1_pfMet_shiftedPhi_JetEC2Up_branch and "type1_pfMet_shiftedPhi_JetEC2Up" not in self.complained:
+        if not self.type1_pfMet_shiftedPhi_JetEC2Up_branch and "type1_pfMet_shiftedPhi_JetEC2Up":
+            warnings.warn( "ETauTree: Expected branch type1_pfMet_shiftedPhi_JetEC2Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("type1_pfMet_shiftedPhi_JetEC2Up")
+        else:
+            self.type1_pfMet_shiftedPhi_JetEC2Up_branch.SetAddress(<void*>&self.type1_pfMet_shiftedPhi_JetEC2Up_value)
 
         #print "making type1_pfMet_shiftedPhi_JetEnDown"
         self.type1_pfMet_shiftedPhi_JetEnDown_branch = the_tree.GetBranch("type1_pfMet_shiftedPhi_JetEnDown")
@@ -9333,6 +9057,24 @@ cdef class ETauTree:
             #self.complained.add("type1_pfMet_shiftedPt_JetClosureUp")
         else:
             self.type1_pfMet_shiftedPt_JetClosureUp_branch.SetAddress(<void*>&self.type1_pfMet_shiftedPt_JetClosureUp_value)
+
+        #print "making type1_pfMet_shiftedPt_JetEC2Down"
+        self.type1_pfMet_shiftedPt_JetEC2Down_branch = the_tree.GetBranch("type1_pfMet_shiftedPt_JetEC2Down")
+        #if not self.type1_pfMet_shiftedPt_JetEC2Down_branch and "type1_pfMet_shiftedPt_JetEC2Down" not in self.complained:
+        if not self.type1_pfMet_shiftedPt_JetEC2Down_branch and "type1_pfMet_shiftedPt_JetEC2Down":
+            warnings.warn( "ETauTree: Expected branch type1_pfMet_shiftedPt_JetEC2Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("type1_pfMet_shiftedPt_JetEC2Down")
+        else:
+            self.type1_pfMet_shiftedPt_JetEC2Down_branch.SetAddress(<void*>&self.type1_pfMet_shiftedPt_JetEC2Down_value)
+
+        #print "making type1_pfMet_shiftedPt_JetEC2Up"
+        self.type1_pfMet_shiftedPt_JetEC2Up_branch = the_tree.GetBranch("type1_pfMet_shiftedPt_JetEC2Up")
+        #if not self.type1_pfMet_shiftedPt_JetEC2Up_branch and "type1_pfMet_shiftedPt_JetEC2Up" not in self.complained:
+        if not self.type1_pfMet_shiftedPt_JetEC2Up_branch and "type1_pfMet_shiftedPt_JetEC2Up":
+            warnings.warn( "ETauTree: Expected branch type1_pfMet_shiftedPt_JetEC2Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("type1_pfMet_shiftedPt_JetEC2Up")
+        else:
+            self.type1_pfMet_shiftedPt_JetEC2Up_branch.SetAddress(<void*>&self.type1_pfMet_shiftedPt_JetEC2Up_value)
 
         #print "making type1_pfMet_shiftedPt_JetEnDown"
         self.type1_pfMet_shiftedPt_JetEnDown_branch = the_tree.GetBranch("type1_pfMet_shiftedPt_JetEnDown")
@@ -10621,6 +10363,132 @@ cdef class ETauTree:
         else:
             self.vbfMassWoNoisyJets_JetTotalUp_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetTotalUp_value)
 
+        #print "making vbfMass_JetEC2Down"
+        self.vbfMass_JetEC2Down_branch = the_tree.GetBranch("vbfMass_JetEC2Down")
+        #if not self.vbfMass_JetEC2Down_branch and "vbfMass_JetEC2Down" not in self.complained:
+        if not self.vbfMass_JetEC2Down_branch and "vbfMass_JetEC2Down":
+            warnings.warn( "ETauTree: Expected branch vbfMass_JetEC2Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetEC2Down")
+        else:
+            self.vbfMass_JetEC2Down_branch.SetAddress(<void*>&self.vbfMass_JetEC2Down_value)
+
+        #print "making vbfMass_JetEC2Up"
+        self.vbfMass_JetEC2Up_branch = the_tree.GetBranch("vbfMass_JetEC2Up")
+        #if not self.vbfMass_JetEC2Up_branch and "vbfMass_JetEC2Up" not in self.complained:
+        if not self.vbfMass_JetEC2Up_branch and "vbfMass_JetEC2Up":
+            warnings.warn( "ETauTree: Expected branch vbfMass_JetEC2Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetEC2Up")
+        else:
+            self.vbfMass_JetEC2Up_branch.SetAddress(<void*>&self.vbfMass_JetEC2Up_value)
+
+        #print "making vbfMass_JetEta0to3Down"
+        self.vbfMass_JetEta0to3Down_branch = the_tree.GetBranch("vbfMass_JetEta0to3Down")
+        #if not self.vbfMass_JetEta0to3Down_branch and "vbfMass_JetEta0to3Down" not in self.complained:
+        if not self.vbfMass_JetEta0to3Down_branch and "vbfMass_JetEta0to3Down":
+            warnings.warn( "ETauTree: Expected branch vbfMass_JetEta0to3Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetEta0to3Down")
+        else:
+            self.vbfMass_JetEta0to3Down_branch.SetAddress(<void*>&self.vbfMass_JetEta0to3Down_value)
+
+        #print "making vbfMass_JetEta0to3Up"
+        self.vbfMass_JetEta0to3Up_branch = the_tree.GetBranch("vbfMass_JetEta0to3Up")
+        #if not self.vbfMass_JetEta0to3Up_branch and "vbfMass_JetEta0to3Up" not in self.complained:
+        if not self.vbfMass_JetEta0to3Up_branch and "vbfMass_JetEta0to3Up":
+            warnings.warn( "ETauTree: Expected branch vbfMass_JetEta0to3Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetEta0to3Up")
+        else:
+            self.vbfMass_JetEta0to3Up_branch.SetAddress(<void*>&self.vbfMass_JetEta0to3Up_value)
+
+        #print "making vbfMass_JetEta0to5Down"
+        self.vbfMass_JetEta0to5Down_branch = the_tree.GetBranch("vbfMass_JetEta0to5Down")
+        #if not self.vbfMass_JetEta0to5Down_branch and "vbfMass_JetEta0to5Down" not in self.complained:
+        if not self.vbfMass_JetEta0to5Down_branch and "vbfMass_JetEta0to5Down":
+            warnings.warn( "ETauTree: Expected branch vbfMass_JetEta0to5Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetEta0to5Down")
+        else:
+            self.vbfMass_JetEta0to5Down_branch.SetAddress(<void*>&self.vbfMass_JetEta0to5Down_value)
+
+        #print "making vbfMass_JetEta0to5Up"
+        self.vbfMass_JetEta0to5Up_branch = the_tree.GetBranch("vbfMass_JetEta0to5Up")
+        #if not self.vbfMass_JetEta0to5Up_branch and "vbfMass_JetEta0to5Up" not in self.complained:
+        if not self.vbfMass_JetEta0to5Up_branch and "vbfMass_JetEta0to5Up":
+            warnings.warn( "ETauTree: Expected branch vbfMass_JetEta0to5Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetEta0to5Up")
+        else:
+            self.vbfMass_JetEta0to5Up_branch.SetAddress(<void*>&self.vbfMass_JetEta0to5Up_value)
+
+        #print "making vbfMass_JetEta3to5Down"
+        self.vbfMass_JetEta3to5Down_branch = the_tree.GetBranch("vbfMass_JetEta3to5Down")
+        #if not self.vbfMass_JetEta3to5Down_branch and "vbfMass_JetEta3to5Down" not in self.complained:
+        if not self.vbfMass_JetEta3to5Down_branch and "vbfMass_JetEta3to5Down":
+            warnings.warn( "ETauTree: Expected branch vbfMass_JetEta3to5Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetEta3to5Down")
+        else:
+            self.vbfMass_JetEta3to5Down_branch.SetAddress(<void*>&self.vbfMass_JetEta3to5Down_value)
+
+        #print "making vbfMass_JetEta3to5Up"
+        self.vbfMass_JetEta3to5Up_branch = the_tree.GetBranch("vbfMass_JetEta3to5Up")
+        #if not self.vbfMass_JetEta3to5Up_branch and "vbfMass_JetEta3to5Up" not in self.complained:
+        if not self.vbfMass_JetEta3to5Up_branch and "vbfMass_JetEta3to5Up":
+            warnings.warn( "ETauTree: Expected branch vbfMass_JetEta3to5Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetEta3to5Up")
+        else:
+            self.vbfMass_JetEta3to5Up_branch.SetAddress(<void*>&self.vbfMass_JetEta3to5Up_value)
+
+        #print "making vbfMass_JetRelativeBalDown"
+        self.vbfMass_JetRelativeBalDown_branch = the_tree.GetBranch("vbfMass_JetRelativeBalDown")
+        #if not self.vbfMass_JetRelativeBalDown_branch and "vbfMass_JetRelativeBalDown" not in self.complained:
+        if not self.vbfMass_JetRelativeBalDown_branch and "vbfMass_JetRelativeBalDown":
+            warnings.warn( "ETauTree: Expected branch vbfMass_JetRelativeBalDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetRelativeBalDown")
+        else:
+            self.vbfMass_JetRelativeBalDown_branch.SetAddress(<void*>&self.vbfMass_JetRelativeBalDown_value)
+
+        #print "making vbfMass_JetRelativeBalUp"
+        self.vbfMass_JetRelativeBalUp_branch = the_tree.GetBranch("vbfMass_JetRelativeBalUp")
+        #if not self.vbfMass_JetRelativeBalUp_branch and "vbfMass_JetRelativeBalUp" not in self.complained:
+        if not self.vbfMass_JetRelativeBalUp_branch and "vbfMass_JetRelativeBalUp":
+            warnings.warn( "ETauTree: Expected branch vbfMass_JetRelativeBalUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetRelativeBalUp")
+        else:
+            self.vbfMass_JetRelativeBalUp_branch.SetAddress(<void*>&self.vbfMass_JetRelativeBalUp_value)
+
+        #print "making vbfMass_JetRelativeSampleDown"
+        self.vbfMass_JetRelativeSampleDown_branch = the_tree.GetBranch("vbfMass_JetRelativeSampleDown")
+        #if not self.vbfMass_JetRelativeSampleDown_branch and "vbfMass_JetRelativeSampleDown" not in self.complained:
+        if not self.vbfMass_JetRelativeSampleDown_branch and "vbfMass_JetRelativeSampleDown":
+            warnings.warn( "ETauTree: Expected branch vbfMass_JetRelativeSampleDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetRelativeSampleDown")
+        else:
+            self.vbfMass_JetRelativeSampleDown_branch.SetAddress(<void*>&self.vbfMass_JetRelativeSampleDown_value)
+
+        #print "making vbfMass_JetRelativeSampleUp"
+        self.vbfMass_JetRelativeSampleUp_branch = the_tree.GetBranch("vbfMass_JetRelativeSampleUp")
+        #if not self.vbfMass_JetRelativeSampleUp_branch and "vbfMass_JetRelativeSampleUp" not in self.complained:
+        if not self.vbfMass_JetRelativeSampleUp_branch and "vbfMass_JetRelativeSampleUp":
+            warnings.warn( "ETauTree: Expected branch vbfMass_JetRelativeSampleUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetRelativeSampleUp")
+        else:
+            self.vbfMass_JetRelativeSampleUp_branch.SetAddress(<void*>&self.vbfMass_JetRelativeSampleUp_value)
+
+        #print "making vbfMass_JetTotalDown"
+        self.vbfMass_JetTotalDown_branch = the_tree.GetBranch("vbfMass_JetTotalDown")
+        #if not self.vbfMass_JetTotalDown_branch and "vbfMass_JetTotalDown" not in self.complained:
+        if not self.vbfMass_JetTotalDown_branch and "vbfMass_JetTotalDown":
+            warnings.warn( "ETauTree: Expected branch vbfMass_JetTotalDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetTotalDown")
+        else:
+            self.vbfMass_JetTotalDown_branch.SetAddress(<void*>&self.vbfMass_JetTotalDown_value)
+
+        #print "making vbfMass_JetTotalUp"
+        self.vbfMass_JetTotalUp_branch = the_tree.GetBranch("vbfMass_JetTotalUp")
+        #if not self.vbfMass_JetTotalUp_branch and "vbfMass_JetTotalUp" not in self.complained:
+        if not self.vbfMass_JetTotalUp_branch and "vbfMass_JetTotalUp":
+            warnings.warn( "ETauTree: Expected branch vbfMass_JetTotalUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetTotalUp")
+        else:
+            self.vbfMass_JetTotalUp_branch.SetAddress(<void*>&self.vbfMass_JetTotalUp_value)
+
         #print "making vbfNJets20"
         self.vbfNJets20_branch = the_tree.GetBranch("vbfNJets20")
         #if not self.vbfNJets20_branch and "vbfNJets20" not in self.complained:
@@ -10915,6 +10783,11 @@ cdef class ETauTree:
             self.Flag_ecalBadCalibFilter_branch.GetEntry(self.localentry, 0)
             return self.Flag_ecalBadCalibFilter_value
 
+    property Flag_ecalBadCalibReducedMINIAODFilter:
+        def __get__(self):
+            self.Flag_ecalBadCalibReducedMINIAODFilter_branch.GetEntry(self.localentry, 0)
+            return self.Flag_ecalBadCalibReducedMINIAODFilter_value
+
     property Flag_eeBadScFilter:
         def __get__(self):
             self.Flag_eeBadScFilter_branch.GetEntry(self.localentry, 0)
@@ -11035,76 +10908,6 @@ cdef class ETauTree:
             self.Pt_branch.GetEntry(self.localentry, 0)
             return self.Pt_value
 
-    property Rivet_VEta:
-        def __get__(self):
-            self.Rivet_VEta_branch.GetEntry(self.localentry, 0)
-            return self.Rivet_VEta_value
-
-    property Rivet_VPt:
-        def __get__(self):
-            self.Rivet_VPt_branch.GetEntry(self.localentry, 0)
-            return self.Rivet_VPt_value
-
-    property Rivet_errorCode:
-        def __get__(self):
-            self.Rivet_errorCode_branch.GetEntry(self.localentry, 0)
-            return self.Rivet_errorCode_value
-
-    property Rivet_higgsEta:
-        def __get__(self):
-            self.Rivet_higgsEta_branch.GetEntry(self.localentry, 0)
-            return self.Rivet_higgsEta_value
-
-    property Rivet_higgsPt:
-        def __get__(self):
-            self.Rivet_higgsPt_branch.GetEntry(self.localentry, 0)
-            return self.Rivet_higgsPt_value
-
-    property Rivet_nJets25:
-        def __get__(self):
-            self.Rivet_nJets25_branch.GetEntry(self.localentry, 0)
-            return self.Rivet_nJets25_value
-
-    property Rivet_nJets30:
-        def __get__(self):
-            self.Rivet_nJets30_branch.GetEntry(self.localentry, 0)
-            return self.Rivet_nJets30_value
-
-    property Rivet_p4decay_VEta:
-        def __get__(self):
-            self.Rivet_p4decay_VEta_branch.GetEntry(self.localentry, 0)
-            return self.Rivet_p4decay_VEta_value
-
-    property Rivet_p4decay_VPt:
-        def __get__(self):
-            self.Rivet_p4decay_VPt_branch.GetEntry(self.localentry, 0)
-            return self.Rivet_p4decay_VPt_value
-
-    property Rivet_prodMode:
-        def __get__(self):
-            self.Rivet_prodMode_branch.GetEntry(self.localentry, 0)
-            return self.Rivet_prodMode_value
-
-    property Rivet_stage0_cat:
-        def __get__(self):
-            self.Rivet_stage0_cat_branch.GetEntry(self.localentry, 0)
-            return self.Rivet_stage0_cat_value
-
-    property Rivet_stage1_cat_pTjet25GeV:
-        def __get__(self):
-            self.Rivet_stage1_cat_pTjet25GeV_branch.GetEntry(self.localentry, 0)
-            return self.Rivet_stage1_cat_pTjet25GeV_value
-
-    property Rivet_stage1_cat_pTjet30GeV:
-        def __get__(self):
-            self.Rivet_stage1_cat_pTjet30GeV_branch.GetEntry(self.localentry, 0)
-            return self.Rivet_stage1_cat_pTjet30GeV_value
-
-    property Rivet_stage1p1_cat:
-        def __get__(self):
-            self.Rivet_stage1p1_cat_branch.GetEntry(self.localentry, 0)
-            return self.Rivet_stage1p1_cat_value
-
     property VBFDoubleLooseHPSTau20Pass:
         def __get__(self):
             self.VBFDoubleLooseHPSTau20Pass_branch.GetEntry(self.localentry, 0)
@@ -11150,21 +10953,6 @@ cdef class ETauTree:
             self.bjetDeepCSVVeto20Loose_2018_DR0p5_branch.GetEntry(self.localentry, 0)
             return self.bjetDeepCSVVeto20Loose_2018_DR0p5_value
 
-    property bjetDeepCSVVeto20Medium:
-        def __get__(self):
-            self.bjetDeepCSVVeto20Medium_branch.GetEntry(self.localentry, 0)
-            return self.bjetDeepCSVVeto20Medium_value
-
-    property bjetDeepCSVVeto20MediumWoNoisyJets:
-        def __get__(self):
-            self.bjetDeepCSVVeto20MediumWoNoisyJets_branch.GetEntry(self.localentry, 0)
-            return self.bjetDeepCSVVeto20MediumWoNoisyJets_value
-
-    property bjetDeepCSVVeto20MediumWoNoisyJets_2017_DR0p5:
-        def __get__(self):
-            self.bjetDeepCSVVeto20MediumWoNoisyJets_2017_DR0p5_branch.GetEntry(self.localentry, 0)
-            return self.bjetDeepCSVVeto20MediumWoNoisyJets_2017_DR0p5_value
-
     property bjetDeepCSVVeto20Medium_2016_DR0:
         def __get__(self):
             self.bjetDeepCSVVeto20Medium_2016_DR0_branch.GetEntry(self.localentry, 0)
@@ -11209,6 +10997,21 @@ cdef class ETauTree:
         def __get__(self):
             self.bjetDeepCSVVeto20Tight_2018_DR0p5_branch.GetEntry(self.localentry, 0)
             return self.bjetDeepCSVVeto20Tight_2018_DR0p5_value
+
+    property bweight_2016:
+        def __get__(self):
+            self.bweight_2016_branch.GetEntry(self.localentry, 0)
+            return self.bweight_2016_value
+
+    property bweight_2017:
+        def __get__(self):
+            self.bweight_2017_branch.GetEntry(self.localentry, 0)
+            return self.bweight_2017_value
+
+    property bweight_2018:
+        def __get__(self):
+            self.bweight_2018_branch.GetEntry(self.localentry, 0)
+            return self.bweight_2018_value
 
     property charge:
         def __get__(self):
@@ -11270,26 +11073,6 @@ cdef class ETauTree:
             self.doubleTauCmbIso35RegPass_branch.GetEntry(self.localentry, 0)
             return self.doubleTauCmbIso35RegPass_value
 
-    property eCBIDLoose:
-        def __get__(self):
-            self.eCBIDLoose_branch.GetEntry(self.localentry, 0)
-            return self.eCBIDLoose_value
-
-    property eCBIDMedium:
-        def __get__(self):
-            self.eCBIDMedium_branch.GetEntry(self.localentry, 0)
-            return self.eCBIDMedium_value
-
-    property eCBIDTight:
-        def __get__(self):
-            self.eCBIDTight_branch.GetEntry(self.localentry, 0)
-            return self.eCBIDTight_value
-
-    property eCBIDVeto:
-        def __get__(self):
-            self.eCBIDVeto_branch.GetEntry(self.localentry, 0)
-            return self.eCBIDVeto_value
-
     property eCharge:
         def __get__(self):
             self.eCharge_branch.GetEntry(self.localentry, 0)
@@ -11319,21 +11102,6 @@ cdef class ETauTree:
         def __get__(self):
             self.eCorrectedEt_branch.GetEntry(self.localentry, 0)
             return self.eCorrectedEt_value
-
-    property eE1x5:
-        def __get__(self):
-            self.eE1x5_branch.GetEntry(self.localentry, 0)
-            return self.eE1x5_value
-
-    property eE2x5Max:
-        def __get__(self):
-            self.eE2x5Max_branch.GetEntry(self.localentry, 0)
-            return self.eE2x5Max_value
-
-    property eE5x5:
-        def __get__(self):
-            self.eE5x5_branch.GetEntry(self.localentry, 0)
-            return self.eE5x5_value
 
     property eEcalIsoDR03:
         def __get__(self):
@@ -11495,21 +11263,6 @@ cdef class ETauTree:
             self.eGenVtxPVMatch_branch.GetEntry(self.localentry, 0)
             return self.eGenVtxPVMatch_value
 
-    property eHadronicDepth1OverEm:
-        def __get__(self):
-            self.eHadronicDepth1OverEm_branch.GetEntry(self.localentry, 0)
-            return self.eHadronicDepth1OverEm_value
-
-    property eHadronicDepth2OverEm:
-        def __get__(self):
-            self.eHadronicDepth2OverEm_branch.GetEntry(self.localentry, 0)
-            return self.eHadronicDepth2OverEm_value
-
-    property eHadronicOverEM:
-        def __get__(self):
-            self.eHadronicOverEM_branch.GetEntry(self.localentry, 0)
-            return self.eHadronicOverEM_value
-
     property eHcalIsoDR03:
         def __get__(self):
             self.eHcalIsoDR03_branch.GetEntry(self.localentry, 0)
@@ -11600,16 +11353,6 @@ cdef class ETauTree:
             self.eMVAIsoWP90_branch.GetEntry(self.localentry, 0)
             return self.eMVAIsoWP90_value
 
-    property eMVAIsoWPHZZ:
-        def __get__(self):
-            self.eMVAIsoWPHZZ_branch.GetEntry(self.localentry, 0)
-            return self.eMVAIsoWPHZZ_value
-
-    property eMVAIsoWPLoose:
-        def __get__(self):
-            self.eMVAIsoWPLoose_branch.GetEntry(self.localentry, 0)
-            return self.eMVAIsoWPLoose_value
-
     property eMVANoisoWP80:
         def __get__(self):
             self.eMVANoisoWP80_branch.GetEntry(self.localentry, 0)
@@ -11620,15 +11363,40 @@ cdef class ETauTree:
             self.eMVANoisoWP90_branch.GetEntry(self.localentry, 0)
             return self.eMVANoisoWP90_value
 
-    property eMVANoisoWPLoose:
-        def __get__(self):
-            self.eMVANoisoWPLoose_branch.GetEntry(self.localentry, 0)
-            return self.eMVANoisoWPLoose_value
-
     property eMass:
         def __get__(self):
             self.eMass_branch.GetEntry(self.localentry, 0)
             return self.eMass_value
+
+    property eMatchEmbeddedFilterEle24Tau30:
+        def __get__(self):
+            self.eMatchEmbeddedFilterEle24Tau30_branch.GetEntry(self.localentry, 0)
+            return self.eMatchEmbeddedFilterEle24Tau30_value
+
+    property eMatchEmbeddedFilterEle27:
+        def __get__(self):
+            self.eMatchEmbeddedFilterEle27_branch.GetEntry(self.localentry, 0)
+            return self.eMatchEmbeddedFilterEle27_value
+
+    property eMatchEmbeddedFilterEle32:
+        def __get__(self):
+            self.eMatchEmbeddedFilterEle32_branch.GetEntry(self.localentry, 0)
+            return self.eMatchEmbeddedFilterEle32_value
+
+    property eMatchEmbeddedFilterEle32DoubleL1_v1:
+        def __get__(self):
+            self.eMatchEmbeddedFilterEle32DoubleL1_v1_branch.GetEntry(self.localentry, 0)
+            return self.eMatchEmbeddedFilterEle32DoubleL1_v1_value
+
+    property eMatchEmbeddedFilterEle32DoubleL1_v2:
+        def __get__(self):
+            self.eMatchEmbeddedFilterEle32DoubleL1_v2_branch.GetEntry(self.localentry, 0)
+            return self.eMatchEmbeddedFilterEle32DoubleL1_v2_value
+
+    property eMatchEmbeddedFilterEle35:
+        def __get__(self):
+            self.eMatchEmbeddedFilterEle35_branch.GetEntry(self.localentry, 0)
+            return self.eMatchEmbeddedFilterEle35_value
 
     property eMatchesEle24HPSTau30Filter:
         def __get__(self):
@@ -11689,6 +11457,46 @@ cdef class ETauTree:
         def __get__(self):
             self.eMatchesEle35Path_branch.GetEntry(self.localentry, 0)
             return self.eMatchesEle35Path_value
+
+    property eMatchesMu23e12DZFilter:
+        def __get__(self):
+            self.eMatchesMu23e12DZFilter_branch.GetEntry(self.localentry, 0)
+            return self.eMatchesMu23e12DZFilter_value
+
+    property eMatchesMu23e12DZPath:
+        def __get__(self):
+            self.eMatchesMu23e12DZPath_branch.GetEntry(self.localentry, 0)
+            return self.eMatchesMu23e12DZPath_value
+
+    property eMatchesMu23e12Filter:
+        def __get__(self):
+            self.eMatchesMu23e12Filter_branch.GetEntry(self.localentry, 0)
+            return self.eMatchesMu23e12Filter_value
+
+    property eMatchesMu23e12Path:
+        def __get__(self):
+            self.eMatchesMu23e12Path_branch.GetEntry(self.localentry, 0)
+            return self.eMatchesMu23e12Path_value
+
+    property eMatchesMu8e23DZFilter:
+        def __get__(self):
+            self.eMatchesMu8e23DZFilter_branch.GetEntry(self.localentry, 0)
+            return self.eMatchesMu8e23DZFilter_value
+
+    property eMatchesMu8e23DZPath:
+        def __get__(self):
+            self.eMatchesMu8e23DZPath_branch.GetEntry(self.localentry, 0)
+            return self.eMatchesMu8e23DZPath_value
+
+    property eMatchesMu8e23Filter:
+        def __get__(self):
+            self.eMatchesMu8e23Filter_branch.GetEntry(self.localentry, 0)
+            return self.eMatchesMu8e23Filter_value
+
+    property eMatchesMu8e23Path:
+        def __get__(self):
+            self.eMatchesMu8e23Path_branch.GetEntry(self.localentry, 0)
+            return self.eMatchesMu8e23Path_value
 
     property eMissingHits:
         def __get__(self):
@@ -11775,41 +11583,6 @@ cdef class ETauTree:
             self.eRho_branch.GetEntry(self.localentry, 0)
             return self.eRho_value
 
-    property eSCEnergy:
-        def __get__(self):
-            self.eSCEnergy_branch.GetEntry(self.localentry, 0)
-            return self.eSCEnergy_value
-
-    property eSCEta:
-        def __get__(self):
-            self.eSCEta_branch.GetEntry(self.localentry, 0)
-            return self.eSCEta_value
-
-    property eSCEtaWidth:
-        def __get__(self):
-            self.eSCEtaWidth_branch.GetEntry(self.localentry, 0)
-            return self.eSCEtaWidth_value
-
-    property eSCPhi:
-        def __get__(self):
-            self.eSCPhi_branch.GetEntry(self.localentry, 0)
-            return self.eSCPhi_value
-
-    property eSCPhiWidth:
-        def __get__(self):
-            self.eSCPhiWidth_branch.GetEntry(self.localentry, 0)
-            return self.eSCPhiWidth_value
-
-    property eSCPreshowerEnergy:
-        def __get__(self):
-            self.eSCPreshowerEnergy_branch.GetEntry(self.localentry, 0)
-            return self.eSCPreshowerEnergy_value
-
-    property eSCRawEnergy:
-        def __get__(self):
-            self.eSCRawEnergy_branch.GetEntry(self.localentry, 0)
-            return self.eSCRawEnergy_value
-
     property eSIP2D:
         def __get__(self):
             self.eSIP2D_branch.GetEntry(self.localentry, 0)
@@ -11819,11 +11592,6 @@ cdef class ETauTree:
         def __get__(self):
             self.eSIP3D_branch.GetEntry(self.localentry, 0)
             return self.eSIP3D_value
-
-    property eSigmaIEtaIEta:
-        def __get__(self):
-            self.eSigmaIEtaIEta_branch.GetEntry(self.localentry, 0)
-            return self.eSigmaIEtaIEta_value
 
     property eTrkIsoDR03:
         def __get__(self):
@@ -11835,50 +11603,20 @@ cdef class ETauTree:
             self.eVZ_branch.GetEntry(self.localentry, 0)
             return self.eVZ_value
 
-    property eVetoHZZPt5:
+    property eVetoMVAIsoVtx:
         def __get__(self):
-            self.eVetoHZZPt5_branch.GetEntry(self.localentry, 0)
-            return self.eVetoHZZPt5_value
-
-    property eVetoMVAIso:
-        def __get__(self):
-            self.eVetoMVAIso_branch.GetEntry(self.localentry, 0)
-            return self.eVetoMVAIso_value
+            self.eVetoMVAIsoVtx_branch.GetEntry(self.localentry, 0)
+            return self.eVetoMVAIsoVtx_value
 
     property eVetoZTTp001dxyz:
         def __get__(self):
             self.eVetoZTTp001dxyz_branch.GetEntry(self.localentry, 0)
             return self.eVetoZTTp001dxyz_value
 
-    property eVetoZTTp001dxyzR0:
-        def __get__(self):
-            self.eVetoZTTp001dxyzR0_branch.GetEntry(self.localentry, 0)
-            return self.eVetoZTTp001dxyzR0_value
-
-    property eZTTGenDR:
-        def __get__(self):
-            self.eZTTGenDR_branch.GetEntry(self.localentry, 0)
-            return self.eZTTGenDR_value
-
-    property eZTTGenEta:
-        def __get__(self):
-            self.eZTTGenEta_branch.GetEntry(self.localentry, 0)
-            return self.eZTTGenEta_value
-
     property eZTTGenMatching:
         def __get__(self):
             self.eZTTGenMatching_branch.GetEntry(self.localentry, 0)
             return self.eZTTGenMatching_value
-
-    property eZTTGenPhi:
-        def __get__(self):
-            self.eZTTGenPhi_branch.GetEntry(self.localentry, 0)
-            return self.eZTTGenPhi_value
-
-    property eZTTGenPt:
-        def __get__(self):
-            self.eZTTGenPt_branch.GetEntry(self.localentry, 0)
-            return self.eZTTGenPt_value
 
     property e_t_DR:
         def __get__(self):
@@ -11904,36 +11642,6 @@ cdef class ETauTree:
         def __get__(self):
             self.e_t_doubleL1IsoTauMatch_branch.GetEntry(self.localentry, 0)
             return self.e_t_doubleL1IsoTauMatch_value
-
-    property edeltaEtaSuperClusterTrackAtVtx:
-        def __get__(self):
-            self.edeltaEtaSuperClusterTrackAtVtx_branch.GetEntry(self.localentry, 0)
-            return self.edeltaEtaSuperClusterTrackAtVtx_value
-
-    property edeltaPhiSuperClusterTrackAtVtx:
-        def __get__(self):
-            self.edeltaPhiSuperClusterTrackAtVtx_branch.GetEntry(self.localentry, 0)
-            return self.edeltaPhiSuperClusterTrackAtVtx_value
-
-    property eeSuperClusterOverP:
-        def __get__(self):
-            self.eeSuperClusterOverP_branch.GetEntry(self.localentry, 0)
-            return self.eeSuperClusterOverP_value
-
-    property eecalEnergy:
-        def __get__(self):
-            self.eecalEnergy_branch.GetEntry(self.localentry, 0)
-            return self.eecalEnergy_value
-
-    property efBrem:
-        def __get__(self):
-            self.efBrem_branch.GetEntry(self.localentry, 0)
-            return self.efBrem_value
-
-    property etrackMomentumAtVtxP:
-        def __get__(self):
-            self.etrackMomentumAtVtxP_branch.GetEntry(self.localentry, 0)
-            return self.etrackMomentumAtVtxP_value
 
     property evt:
         def __get__(self):
@@ -11979,6 +11687,11 @@ cdef class ETauTree:
         def __get__(self):
             self.genpY_branch.GetEntry(self.localentry, 0)
             return self.genpY_value
+
+    property isGtautau:
+        def __get__(self):
+            self.isGtautau_branch.GetEntry(self.localentry, 0)
+            return self.isGtautau_value
 
     property isWenu:
         def __get__(self):
@@ -12130,6 +11843,66 @@ cdef class ETauTree:
             self.j1ptWoNoisyJets_JetRelativeSampleUp_branch.GetEntry(self.localentry, 0)
             return self.j1ptWoNoisyJets_JetRelativeSampleUp_value
 
+    property j1pt_JetEC2Down:
+        def __get__(self):
+            self.j1pt_JetEC2Down_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetEC2Down_value
+
+    property j1pt_JetEC2Up:
+        def __get__(self):
+            self.j1pt_JetEC2Up_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetEC2Up_value
+
+    property j1pt_JetEta0to3Down:
+        def __get__(self):
+            self.j1pt_JetEta0to3Down_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetEta0to3Down_value
+
+    property j1pt_JetEta0to3Up:
+        def __get__(self):
+            self.j1pt_JetEta0to3Up_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetEta0to3Up_value
+
+    property j1pt_JetEta0to5Down:
+        def __get__(self):
+            self.j1pt_JetEta0to5Down_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetEta0to5Down_value
+
+    property j1pt_JetEta0to5Up:
+        def __get__(self):
+            self.j1pt_JetEta0to5Up_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetEta0to5Up_value
+
+    property j1pt_JetEta3to5Down:
+        def __get__(self):
+            self.j1pt_JetEta3to5Down_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetEta3to5Down_value
+
+    property j1pt_JetEta3to5Up:
+        def __get__(self):
+            self.j1pt_JetEta3to5Up_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetEta3to5Up_value
+
+    property j1pt_JetRelativeBalDown:
+        def __get__(self):
+            self.j1pt_JetRelativeBalDown_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetRelativeBalDown_value
+
+    property j1pt_JetRelativeBalUp:
+        def __get__(self):
+            self.j1pt_JetRelativeBalUp_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetRelativeBalUp_value
+
+    property j1pt_JetRelativeSampleDown:
+        def __get__(self):
+            self.j1pt_JetRelativeSampleDown_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetRelativeSampleDown_value
+
+    property j1pt_JetRelativeSampleUp:
+        def __get__(self):
+            self.j1pt_JetRelativeSampleUp_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetRelativeSampleUp_value
+
     property j2csv:
         def __get__(self):
             self.j2csv_branch.GetEntry(self.localentry, 0)
@@ -12240,10 +12013,65 @@ cdef class ETauTree:
             self.j2ptWoNoisyJets_JetRelativeSampleUp_branch.GetEntry(self.localentry, 0)
             return self.j2ptWoNoisyJets_JetRelativeSampleUp_value
 
-    property jb1eta:
+    property j2pt_JetEC2Down:
         def __get__(self):
-            self.jb1eta_branch.GetEntry(self.localentry, 0)
-            return self.jb1eta_value
+            self.j2pt_JetEC2Down_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetEC2Down_value
+
+    property j2pt_JetEC2Up:
+        def __get__(self):
+            self.j2pt_JetEC2Up_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetEC2Up_value
+
+    property j2pt_JetEta0to3Down:
+        def __get__(self):
+            self.j2pt_JetEta0to3Down_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetEta0to3Down_value
+
+    property j2pt_JetEta0to3Up:
+        def __get__(self):
+            self.j2pt_JetEta0to3Up_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetEta0to3Up_value
+
+    property j2pt_JetEta0to5Down:
+        def __get__(self):
+            self.j2pt_JetEta0to5Down_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetEta0to5Down_value
+
+    property j2pt_JetEta0to5Up:
+        def __get__(self):
+            self.j2pt_JetEta0to5Up_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetEta0to5Up_value
+
+    property j2pt_JetEta3to5Down:
+        def __get__(self):
+            self.j2pt_JetEta3to5Down_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetEta3to5Down_value
+
+    property j2pt_JetEta3to5Up:
+        def __get__(self):
+            self.j2pt_JetEta3to5Up_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetEta3to5Up_value
+
+    property j2pt_JetRelativeBalDown:
+        def __get__(self):
+            self.j2pt_JetRelativeBalDown_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetRelativeBalDown_value
+
+    property j2pt_JetRelativeBalUp:
+        def __get__(self):
+            self.j2pt_JetRelativeBalUp_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetRelativeBalUp_value
+
+    property j2pt_JetRelativeSampleDown:
+        def __get__(self):
+            self.j2pt_JetRelativeSampleDown_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetRelativeSampleDown_value
+
+    property j2pt_JetRelativeSampleUp:
+        def __get__(self):
+            self.j2pt_JetRelativeSampleUp_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetRelativeSampleUp_value
 
     property jb1eta_2016:
         def __get__(self):
@@ -12260,11 +12088,6 @@ cdef class ETauTree:
             self.jb1eta_2018_branch.GetEntry(self.localentry, 0)
             return self.jb1eta_2018_value
 
-    property jb1hadronflavor:
-        def __get__(self):
-            self.jb1hadronflavor_branch.GetEntry(self.localentry, 0)
-            return self.jb1hadronflavor_value
-
     property jb1hadronflavor_2016:
         def __get__(self):
             self.jb1hadronflavor_2016_branch.GetEntry(self.localentry, 0)
@@ -12279,11 +12102,6 @@ cdef class ETauTree:
         def __get__(self):
             self.jb1hadronflavor_2018_branch.GetEntry(self.localentry, 0)
             return self.jb1hadronflavor_2018_value
-
-    property jb1phi:
-        def __get__(self):
-            self.jb1phi_branch.GetEntry(self.localentry, 0)
-            return self.jb1phi_value
 
     property jb1phi_2016:
         def __get__(self):
@@ -12300,11 +12118,6 @@ cdef class ETauTree:
             self.jb1phi_2018_branch.GetEntry(self.localentry, 0)
             return self.jb1phi_2018_value
 
-    property jb1pt:
-        def __get__(self):
-            self.jb1pt_branch.GetEntry(self.localentry, 0)
-            return self.jb1pt_value
-
     property jb1pt_2016:
         def __get__(self):
             self.jb1pt_2016_branch.GetEntry(self.localentry, 0)
@@ -12319,11 +12132,6 @@ cdef class ETauTree:
         def __get__(self):
             self.jb1pt_2018_branch.GetEntry(self.localentry, 0)
             return self.jb1pt_2018_value
-
-    property jb2eta:
-        def __get__(self):
-            self.jb2eta_branch.GetEntry(self.localentry, 0)
-            return self.jb2eta_value
 
     property jb2eta_2016:
         def __get__(self):
@@ -12340,11 +12148,6 @@ cdef class ETauTree:
             self.jb2eta_2018_branch.GetEntry(self.localentry, 0)
             return self.jb2eta_2018_value
 
-    property jb2hadronflavor:
-        def __get__(self):
-            self.jb2hadronflavor_branch.GetEntry(self.localentry, 0)
-            return self.jb2hadronflavor_value
-
     property jb2hadronflavor_2016:
         def __get__(self):
             self.jb2hadronflavor_2016_branch.GetEntry(self.localentry, 0)
@@ -12360,11 +12163,6 @@ cdef class ETauTree:
             self.jb2hadronflavor_2018_branch.GetEntry(self.localentry, 0)
             return self.jb2hadronflavor_2018_value
 
-    property jb2phi:
-        def __get__(self):
-            self.jb2phi_branch.GetEntry(self.localentry, 0)
-            return self.jb2phi_value
-
     property jb2phi_2016:
         def __get__(self):
             self.jb2phi_2016_branch.GetEntry(self.localentry, 0)
@@ -12379,11 +12177,6 @@ cdef class ETauTree:
         def __get__(self):
             self.jb2phi_2018_branch.GetEntry(self.localentry, 0)
             return self.jb2phi_2018_value
-
-    property jb2pt:
-        def __get__(self):
-            self.jb2pt_branch.GetEntry(self.localentry, 0)
-            return self.jb2pt_value
 
     property jb2pt_2016:
         def __get__(self):
@@ -12489,6 +12282,16 @@ cdef class ETauTree:
         def __get__(self):
             self.jetVeto30WoNoisyJets_JetEC2Up_branch.GetEntry(self.localentry, 0)
             return self.jetVeto30WoNoisyJets_JetEC2Up_value
+
+    property jetVeto30WoNoisyJets_JetEnDown:
+        def __get__(self):
+            self.jetVeto30WoNoisyJets_JetEnDown_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30WoNoisyJets_JetEnDown_value
+
+    property jetVeto30WoNoisyJets_JetEnUp:
+        def __get__(self):
+            self.jetVeto30WoNoisyJets_JetEnUp_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30WoNoisyJets_JetEnUp_value
 
     property jetVeto30WoNoisyJets_JetEta0to3Down:
         def __get__(self):
@@ -12600,15 +12403,15 @@ cdef class ETauTree:
             self.jetVeto30WoNoisyJets_JetPileUpPtRefUp_branch.GetEntry(self.localentry, 0)
             return self.jetVeto30WoNoisyJets_JetPileUpPtRefUp_value
 
-    property jetVeto30WoNoisyJets_JetRelativeBalDown:
+    property jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets:
         def __get__(self):
-            self.jetVeto30WoNoisyJets_JetRelativeBalDown_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetRelativeBalDown_value
+            self.jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets_value
 
-    property jetVeto30WoNoisyJets_JetRelativeBalUp:
+    property jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets:
         def __get__(self):
-            self.jetVeto30WoNoisyJets_JetRelativeBalUp_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetRelativeBalUp_value
+            self.jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets_value
 
     property jetVeto30WoNoisyJets_JetRelativeFSRDown:
         def __get__(self):
@@ -12770,6 +12573,16 @@ cdef class ETauTree:
             self.jetVeto30WoNoisyJets_JetTotalUp_branch.GetEntry(self.localentry, 0)
             return self.jetVeto30WoNoisyJets_JetTotalUp_value
 
+    property jetVeto30_JetEC2Down:
+        def __get__(self):
+            self.jetVeto30_JetEC2Down_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetEC2Down_value
+
+    property jetVeto30_JetEC2Up:
+        def __get__(self):
+            self.jetVeto30_JetEC2Up_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetEC2Up_value
+
     property jetVeto30_JetEnDown:
         def __get__(self):
             self.jetVeto30_JetEnDown_branch.GetEntry(self.localentry, 0)
@@ -12779,6 +12592,66 @@ cdef class ETauTree:
         def __get__(self):
             self.jetVeto30_JetEnUp_branch.GetEntry(self.localentry, 0)
             return self.jetVeto30_JetEnUp_value
+
+    property jetVeto30_JetEta0to3Down:
+        def __get__(self):
+            self.jetVeto30_JetEta0to3Down_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetEta0to3Down_value
+
+    property jetVeto30_JetEta0to3Up:
+        def __get__(self):
+            self.jetVeto30_JetEta0to3Up_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetEta0to3Up_value
+
+    property jetVeto30_JetEta0to5Down:
+        def __get__(self):
+            self.jetVeto30_JetEta0to5Down_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetEta0to5Down_value
+
+    property jetVeto30_JetEta0to5Up:
+        def __get__(self):
+            self.jetVeto30_JetEta0to5Up_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetEta0to5Up_value
+
+    property jetVeto30_JetEta3to5Down:
+        def __get__(self):
+            self.jetVeto30_JetEta3to5Down_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetEta3to5Down_value
+
+    property jetVeto30_JetEta3to5Up:
+        def __get__(self):
+            self.jetVeto30_JetEta3to5Up_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetEta3to5Up_value
+
+    property jetVeto30_JetRelativeBalDown:
+        def __get__(self):
+            self.jetVeto30_JetRelativeBalDown_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetRelativeBalDown_value
+
+    property jetVeto30_JetRelativeBalUp:
+        def __get__(self):
+            self.jetVeto30_JetRelativeBalUp_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetRelativeBalUp_value
+
+    property jetVeto30_JetRelativeSampleDown:
+        def __get__(self):
+            self.jetVeto30_JetRelativeSampleDown_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetRelativeSampleDown_value
+
+    property jetVeto30_JetRelativeSampleUp:
+        def __get__(self):
+            self.jetVeto30_JetRelativeSampleUp_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetRelativeSampleUp_value
+
+    property jetVeto30_JetTotalDown:
+        def __get__(self):
+            self.jetVeto30_JetTotalDown_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetTotalDown_value
+
+    property jetVeto30_JetTotalUp:
+        def __get__(self):
+            self.jetVeto30_JetTotalUp_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetTotalUp_value
 
     property lumi:
         def __get__(self):
@@ -12855,20 +12728,10 @@ cdef class ETauTree:
             self.muGlbIsoVetoPt10_branch.GetEntry(self.localentry, 0)
             return self.muGlbIsoVetoPt10_value
 
-    property muVeto5:
-        def __get__(self):
-            self.muVeto5_branch.GetEntry(self.localentry, 0)
-            return self.muVeto5_value
-
     property muVetoZTTp001dxyz:
         def __get__(self):
             self.muVetoZTTp001dxyz_branch.GetEntry(self.localentry, 0)
             return self.muVetoZTTp001dxyz_value
-
-    property muVetoZTTp001dxyzR0:
-        def __get__(self):
-            self.muVetoZTTp001dxyzR0_branch.GetEntry(self.localentry, 0)
-            return self.muVetoZTTp001dxyzR0_value
 
     property nTruePU:
         def __get__(self):
@@ -12889,6 +12752,21 @@ cdef class ETauTree:
         def __get__(self):
             self.nvtx_branch.GetEntry(self.localentry, 0)
             return self.nvtx_value
+
+    property prefiring_weight:
+        def __get__(self):
+            self.prefiring_weight_branch.GetEntry(self.localentry, 0)
+            return self.prefiring_weight_value
+
+    property prefiring_weight_down:
+        def __get__(self):
+            self.prefiring_weight_down_branch.GetEntry(self.localentry, 0)
+            return self.prefiring_weight_down_value
+
+    property prefiring_weight_up:
+        def __get__(self):
+            self.prefiring_weight_up_branch.GetEntry(self.localentry, 0)
+            return self.prefiring_weight_up_value
 
     property processID:
         def __get__(self):
@@ -12964,16 +12842,6 @@ cdef class ETauTree:
         def __get__(self):
             self.pvndof_branch.GetEntry(self.localentry, 0)
             return self.pvndof_value
-
-    property raw_pfMetEt:
-        def __get__(self):
-            self.raw_pfMetEt_branch.GetEntry(self.localentry, 0)
-            return self.raw_pfMetEt_value
-
-    property raw_pfMetPhi:
-        def __get__(self):
-            self.raw_pfMetPhi_branch.GetEntry(self.localentry, 0)
-            return self.raw_pfMetPhi_value
 
     property recoilDaught:
         def __get__(self):
@@ -13110,60 +12978,30 @@ cdef class ETauTree:
             self.tAgainstMuonTight3_branch.GetEntry(self.localentry, 0)
             return self.tAgainstMuonTight3_value
 
-    property tByCombinedIsolationDeltaBetaCorrRaw3Hits:
-        def __get__(self):
-            self.tByCombinedIsolationDeltaBetaCorrRaw3Hits_branch.GetEntry(self.localentry, 0)
-            return self.tByCombinedIsolationDeltaBetaCorrRaw3Hits_value
-
     property tByIsolationMVArun2v1DBdR03oldDMwLTraw:
         def __get__(self):
             self.tByIsolationMVArun2v1DBdR03oldDMwLTraw_branch.GetEntry(self.localentry, 0)
             return self.tByIsolationMVArun2v1DBdR03oldDMwLTraw_value
-
-    property tByIsolationMVArun2v1DBnewDMwLTraw:
-        def __get__(self):
-            self.tByIsolationMVArun2v1DBnewDMwLTraw_branch.GetEntry(self.localentry, 0)
-            return self.tByIsolationMVArun2v1DBnewDMwLTraw_value
 
     property tByIsolationMVArun2v1DBoldDMwLTraw:
         def __get__(self):
             self.tByIsolationMVArun2v1DBoldDMwLTraw_branch.GetEntry(self.localentry, 0)
             return self.tByIsolationMVArun2v1DBoldDMwLTraw_value
 
-    property tByLooseCombinedIsolationDeltaBetaCorr3Hits:
-        def __get__(self):
-            self.tByLooseCombinedIsolationDeltaBetaCorr3Hits_branch.GetEntry(self.localentry, 0)
-            return self.tByLooseCombinedIsolationDeltaBetaCorr3Hits_value
-
     property tByLooseIsolationMVArun2v1DBdR03oldDMwLT:
         def __get__(self):
             self.tByLooseIsolationMVArun2v1DBdR03oldDMwLT_branch.GetEntry(self.localentry, 0)
             return self.tByLooseIsolationMVArun2v1DBdR03oldDMwLT_value
-
-    property tByLooseIsolationMVArun2v1DBnewDMwLT:
-        def __get__(self):
-            self.tByLooseIsolationMVArun2v1DBnewDMwLT_branch.GetEntry(self.localentry, 0)
-            return self.tByLooseIsolationMVArun2v1DBnewDMwLT_value
 
     property tByLooseIsolationMVArun2v1DBoldDMwLT:
         def __get__(self):
             self.tByLooseIsolationMVArun2v1DBoldDMwLT_branch.GetEntry(self.localentry, 0)
             return self.tByLooseIsolationMVArun2v1DBoldDMwLT_value
 
-    property tByMediumCombinedIsolationDeltaBetaCorr3Hits:
-        def __get__(self):
-            self.tByMediumCombinedIsolationDeltaBetaCorr3Hits_branch.GetEntry(self.localentry, 0)
-            return self.tByMediumCombinedIsolationDeltaBetaCorr3Hits_value
-
     property tByMediumIsolationMVArun2v1DBdR03oldDMwLT:
         def __get__(self):
             self.tByMediumIsolationMVArun2v1DBdR03oldDMwLT_branch.GetEntry(self.localentry, 0)
             return self.tByMediumIsolationMVArun2v1DBdR03oldDMwLT_value
-
-    property tByMediumIsolationMVArun2v1DBnewDMwLT:
-        def __get__(self):
-            self.tByMediumIsolationMVArun2v1DBnewDMwLT_branch.GetEntry(self.localentry, 0)
-            return self.tByMediumIsolationMVArun2v1DBnewDMwLT_value
 
     property tByMediumIsolationMVArun2v1DBoldDMwLT:
         def __get__(self):
@@ -13175,20 +13013,10 @@ cdef class ETauTree:
             self.tByPhotonPtSumOutsideSignalCone_branch.GetEntry(self.localentry, 0)
             return self.tByPhotonPtSumOutsideSignalCone_value
 
-    property tByTightCombinedIsolationDeltaBetaCorr3Hits:
-        def __get__(self):
-            self.tByTightCombinedIsolationDeltaBetaCorr3Hits_branch.GetEntry(self.localentry, 0)
-            return self.tByTightCombinedIsolationDeltaBetaCorr3Hits_value
-
     property tByTightIsolationMVArun2v1DBdR03oldDMwLT:
         def __get__(self):
             self.tByTightIsolationMVArun2v1DBdR03oldDMwLT_branch.GetEntry(self.localentry, 0)
             return self.tByTightIsolationMVArun2v1DBdR03oldDMwLT_value
-
-    property tByTightIsolationMVArun2v1DBnewDMwLT:
-        def __get__(self):
-            self.tByTightIsolationMVArun2v1DBnewDMwLT_branch.GetEntry(self.localentry, 0)
-            return self.tByTightIsolationMVArun2v1DBnewDMwLT_value
 
     property tByTightIsolationMVArun2v1DBoldDMwLT:
         def __get__(self):
@@ -13200,11 +13028,6 @@ cdef class ETauTree:
             self.tByVLooseIsolationMVArun2v1DBdR03oldDMwLT_branch.GetEntry(self.localentry, 0)
             return self.tByVLooseIsolationMVArun2v1DBdR03oldDMwLT_value
 
-    property tByVLooseIsolationMVArun2v1DBnewDMwLT:
-        def __get__(self):
-            self.tByVLooseIsolationMVArun2v1DBnewDMwLT_branch.GetEntry(self.localentry, 0)
-            return self.tByVLooseIsolationMVArun2v1DBnewDMwLT_value
-
     property tByVLooseIsolationMVArun2v1DBoldDMwLT:
         def __get__(self):
             self.tByVLooseIsolationMVArun2v1DBoldDMwLT_branch.GetEntry(self.localentry, 0)
@@ -13215,11 +13038,6 @@ cdef class ETauTree:
             self.tByVTightIsolationMVArun2v1DBdR03oldDMwLT_branch.GetEntry(self.localentry, 0)
             return self.tByVTightIsolationMVArun2v1DBdR03oldDMwLT_value
 
-    property tByVTightIsolationMVArun2v1DBnewDMwLT:
-        def __get__(self):
-            self.tByVTightIsolationMVArun2v1DBnewDMwLT_branch.GetEntry(self.localentry, 0)
-            return self.tByVTightIsolationMVArun2v1DBnewDMwLT_value
-
     property tByVTightIsolationMVArun2v1DBoldDMwLT:
         def __get__(self):
             self.tByVTightIsolationMVArun2v1DBoldDMwLT_branch.GetEntry(self.localentry, 0)
@@ -13229,11 +13047,6 @@ cdef class ETauTree:
         def __get__(self):
             self.tByVVTightIsolationMVArun2v1DBdR03oldDMwLT_branch.GetEntry(self.localentry, 0)
             return self.tByVVTightIsolationMVArun2v1DBdR03oldDMwLT_value
-
-    property tByVVTightIsolationMVArun2v1DBnewDMwLT:
-        def __get__(self):
-            self.tByVVTightIsolationMVArun2v1DBnewDMwLT_branch.GetEntry(self.localentry, 0)
-            return self.tByVVTightIsolationMVArun2v1DBnewDMwLT_value
 
     property tByVVTightIsolationMVArun2v1DBoldDMwLT:
         def __get__(self):
@@ -13275,30 +13088,20 @@ cdef class ETauTree:
             self.tDecayModeFindingNewDMs_branch.GetEntry(self.localentry, 0)
             return self.tDecayModeFindingNewDMs_value
 
-    property tDeepTau2017v1VSeraw:
+    property tDeepTau2017v2p1VSeraw:
         def __get__(self):
-            self.tDeepTau2017v1VSeraw_branch.GetEntry(self.localentry, 0)
-            return self.tDeepTau2017v1VSeraw_value
+            self.tDeepTau2017v2p1VSeraw_branch.GetEntry(self.localentry, 0)
+            return self.tDeepTau2017v2p1VSeraw_value
 
-    property tDeepTau2017v1VSjetraw:
+    property tDeepTau2017v2p1VSjetraw:
         def __get__(self):
-            self.tDeepTau2017v1VSjetraw_branch.GetEntry(self.localentry, 0)
-            return self.tDeepTau2017v1VSjetraw_value
+            self.tDeepTau2017v2p1VSjetraw_branch.GetEntry(self.localentry, 0)
+            return self.tDeepTau2017v2p1VSjetraw_value
 
-    property tDeepTau2017v1VSmuraw:
+    property tDeepTau2017v2p1VSmuraw:
         def __get__(self):
-            self.tDeepTau2017v1VSmuraw_branch.GetEntry(self.localentry, 0)
-            return self.tDeepTau2017v1VSmuraw_value
-
-    property tDpfTau2016v0VSallraw:
-        def __get__(self):
-            self.tDpfTau2016v0VSallraw_branch.GetEntry(self.localentry, 0)
-            return self.tDpfTau2016v0VSallraw_value
-
-    property tDpfTau2016v1VSallraw:
-        def __get__(self):
-            self.tDpfTau2016v1VSallraw_branch.GetEntry(self.localentry, 0)
-            return self.tDpfTau2016v1VSallraw_value
+            self.tDeepTau2017v2p1VSmuraw_branch.GetEntry(self.localentry, 0)
+            return self.tDeepTau2017v2p1VSmuraw_value
 
     property tEta:
         def __get__(self):
@@ -13460,20 +13263,20 @@ cdef class ETauTree:
             self.tLeadTrackPt_branch.GetEntry(self.localentry, 0)
             return self.tLeadTrackPt_value
 
-    property tLooseDeepTau2017v1VSe:
+    property tLooseDeepTau2017v2p1VSe:
         def __get__(self):
-            self.tLooseDeepTau2017v1VSe_branch.GetEntry(self.localentry, 0)
-            return self.tLooseDeepTau2017v1VSe_value
+            self.tLooseDeepTau2017v2p1VSe_branch.GetEntry(self.localentry, 0)
+            return self.tLooseDeepTau2017v2p1VSe_value
 
-    property tLooseDeepTau2017v1VSjet:
+    property tLooseDeepTau2017v2p1VSjet:
         def __get__(self):
-            self.tLooseDeepTau2017v1VSjet_branch.GetEntry(self.localentry, 0)
-            return self.tLooseDeepTau2017v1VSjet_value
+            self.tLooseDeepTau2017v2p1VSjet_branch.GetEntry(self.localentry, 0)
+            return self.tLooseDeepTau2017v2p1VSjet_value
 
-    property tLooseDeepTau2017v1VSmu:
+    property tLooseDeepTau2017v2p1VSmu:
         def __get__(self):
-            self.tLooseDeepTau2017v1VSmu_branch.GetEntry(self.localentry, 0)
-            return self.tLooseDeepTau2017v1VSmu_value
+            self.tLooseDeepTau2017v2p1VSmu_branch.GetEntry(self.localentry, 0)
+            return self.tLooseDeepTau2017v2p1VSmu_value
 
     property tLowestMll:
         def __get__(self):
@@ -13485,95 +13288,25 @@ cdef class ETauTree:
             self.tMass_branch.GetEntry(self.localentry, 0)
             return self.tMass_value
 
-    property tMatchesDoubleMediumCombinedIsoTau35Path:
+    property tMatchEmbeddedFilterEle24Tau30:
         def __get__(self):
-            self.tMatchesDoubleMediumCombinedIsoTau35Path_branch.GetEntry(self.localentry, 0)
-            return self.tMatchesDoubleMediumCombinedIsoTau35Path_value
+            self.tMatchEmbeddedFilterEle24Tau30_branch.GetEntry(self.localentry, 0)
+            return self.tMatchEmbeddedFilterEle24Tau30_value
 
-    property tMatchesDoubleMediumHPSTau35Filter:
+    property tMatchEmbeddedFilterMu19Tau20:
         def __get__(self):
-            self.tMatchesDoubleMediumHPSTau35Filter_branch.GetEntry(self.localentry, 0)
-            return self.tMatchesDoubleMediumHPSTau35Filter_value
+            self.tMatchEmbeddedFilterMu19Tau20_branch.GetEntry(self.localentry, 0)
+            return self.tMatchEmbeddedFilterMu19Tau20_value
 
-    property tMatchesDoubleMediumHPSTau35Path:
+    property tMatchEmbeddedFilterMu20HPSTau27:
         def __get__(self):
-            self.tMatchesDoubleMediumHPSTau35Path_branch.GetEntry(self.localentry, 0)
-            return self.tMatchesDoubleMediumHPSTau35Path_value
+            self.tMatchEmbeddedFilterMu20HPSTau27_branch.GetEntry(self.localentry, 0)
+            return self.tMatchEmbeddedFilterMu20HPSTau27_value
 
-    property tMatchesDoubleMediumHPSTau40Filter:
+    property tMatchEmbeddedFilterMu20Tau27:
         def __get__(self):
-            self.tMatchesDoubleMediumHPSTau40Filter_branch.GetEntry(self.localentry, 0)
-            return self.tMatchesDoubleMediumHPSTau40Filter_value
-
-    property tMatchesDoubleMediumHPSTau40Path:
-        def __get__(self):
-            self.tMatchesDoubleMediumHPSTau40Path_branch.GetEntry(self.localentry, 0)
-            return self.tMatchesDoubleMediumHPSTau40Path_value
-
-    property tMatchesDoubleMediumIsoTau35Path:
-        def __get__(self):
-            self.tMatchesDoubleMediumIsoTau35Path_branch.GetEntry(self.localentry, 0)
-            return self.tMatchesDoubleMediumIsoTau35Path_value
-
-    property tMatchesDoubleMediumTau35Filter:
-        def __get__(self):
-            self.tMatchesDoubleMediumTau35Filter_branch.GetEntry(self.localentry, 0)
-            return self.tMatchesDoubleMediumTau35Filter_value
-
-    property tMatchesDoubleMediumTau35Path:
-        def __get__(self):
-            self.tMatchesDoubleMediumTau35Path_branch.GetEntry(self.localentry, 0)
-            return self.tMatchesDoubleMediumTau35Path_value
-
-    property tMatchesDoubleMediumTau40Filter:
-        def __get__(self):
-            self.tMatchesDoubleMediumTau40Filter_branch.GetEntry(self.localentry, 0)
-            return self.tMatchesDoubleMediumTau40Filter_value
-
-    property tMatchesDoubleMediumTau40Path:
-        def __get__(self):
-            self.tMatchesDoubleMediumTau40Path_branch.GetEntry(self.localentry, 0)
-            return self.tMatchesDoubleMediumTau40Path_value
-
-    property tMatchesDoubleTightHPSTau35Filter:
-        def __get__(self):
-            self.tMatchesDoubleTightHPSTau35Filter_branch.GetEntry(self.localentry, 0)
-            return self.tMatchesDoubleTightHPSTau35Filter_value
-
-    property tMatchesDoubleTightHPSTau35Path:
-        def __get__(self):
-            self.tMatchesDoubleTightHPSTau35Path_branch.GetEntry(self.localentry, 0)
-            return self.tMatchesDoubleTightHPSTau35Path_value
-
-    property tMatchesDoubleTightHPSTau40Filter:
-        def __get__(self):
-            self.tMatchesDoubleTightHPSTau40Filter_branch.GetEntry(self.localentry, 0)
-            return self.tMatchesDoubleTightHPSTau40Filter_value
-
-    property tMatchesDoubleTightHPSTau40Path:
-        def __get__(self):
-            self.tMatchesDoubleTightHPSTau40Path_branch.GetEntry(self.localentry, 0)
-            return self.tMatchesDoubleTightHPSTau40Path_value
-
-    property tMatchesDoubleTightTau35Filter:
-        def __get__(self):
-            self.tMatchesDoubleTightTau35Filter_branch.GetEntry(self.localentry, 0)
-            return self.tMatchesDoubleTightTau35Filter_value
-
-    property tMatchesDoubleTightTau35Path:
-        def __get__(self):
-            self.tMatchesDoubleTightTau35Path_branch.GetEntry(self.localentry, 0)
-            return self.tMatchesDoubleTightTau35Path_value
-
-    property tMatchesDoubleTightTau40Filter:
-        def __get__(self):
-            self.tMatchesDoubleTightTau40Filter_branch.GetEntry(self.localentry, 0)
-            return self.tMatchesDoubleTightTau40Filter_value
-
-    property tMatchesDoubleTightTau40Path:
-        def __get__(self):
-            self.tMatchesDoubleTightTau40Path_branch.GetEntry(self.localentry, 0)
-            return self.tMatchesDoubleTightTau40Path_value
+            self.tMatchEmbeddedFilterMu20Tau27_branch.GetEntry(self.localentry, 0)
+            return self.tMatchEmbeddedFilterMu20Tau27_value
 
     property tMatchesEle24HPSTau30Filter:
         def __get__(self):
@@ -13635,20 +13368,20 @@ cdef class ETauTree:
             self.tMatchesIsoMu20Tau27Path_branch.GetEntry(self.localentry, 0)
             return self.tMatchesIsoMu20Tau27Path_value
 
-    property tMediumDeepTau2017v1VSe:
+    property tMediumDeepTau2017v2p1VSe:
         def __get__(self):
-            self.tMediumDeepTau2017v1VSe_branch.GetEntry(self.localentry, 0)
-            return self.tMediumDeepTau2017v1VSe_value
+            self.tMediumDeepTau2017v2p1VSe_branch.GetEntry(self.localentry, 0)
+            return self.tMediumDeepTau2017v2p1VSe_value
 
-    property tMediumDeepTau2017v1VSjet:
+    property tMediumDeepTau2017v2p1VSjet:
         def __get__(self):
-            self.tMediumDeepTau2017v1VSjet_branch.GetEntry(self.localentry, 0)
-            return self.tMediumDeepTau2017v1VSjet_value
+            self.tMediumDeepTau2017v2p1VSjet_branch.GetEntry(self.localentry, 0)
+            return self.tMediumDeepTau2017v2p1VSjet_value
 
-    property tMediumDeepTau2017v1VSmu:
+    property tMediumDeepTau2017v2p1VSmu:
         def __get__(self):
-            self.tMediumDeepTau2017v1VSmu_branch.GetEntry(self.localentry, 0)
-            return self.tMediumDeepTau2017v1VSmu_value
+            self.tMediumDeepTau2017v2p1VSmu_branch.GetEntry(self.localentry, 0)
+            return self.tMediumDeepTau2017v2p1VSmu_value
 
     property tNChrgHadrIsolationCands:
         def __get__(self):
@@ -13775,105 +13508,95 @@ cdef class ETauTree:
             self.tRerunMVArun2v2DBoldDMwLTraw_branch.GetEntry(self.localentry, 0)
             return self.tRerunMVArun2v2DBoldDMwLTraw_value
 
-    property tTightDeepTau2017v1VSe:
+    property tTightDeepTau2017v2p1VSe:
         def __get__(self):
-            self.tTightDeepTau2017v1VSe_branch.GetEntry(self.localentry, 0)
-            return self.tTightDeepTau2017v1VSe_value
+            self.tTightDeepTau2017v2p1VSe_branch.GetEntry(self.localentry, 0)
+            return self.tTightDeepTau2017v2p1VSe_value
 
-    property tTightDeepTau2017v1VSjet:
+    property tTightDeepTau2017v2p1VSjet:
         def __get__(self):
-            self.tTightDeepTau2017v1VSjet_branch.GetEntry(self.localentry, 0)
-            return self.tTightDeepTau2017v1VSjet_value
+            self.tTightDeepTau2017v2p1VSjet_branch.GetEntry(self.localentry, 0)
+            return self.tTightDeepTau2017v2p1VSjet_value
 
-    property tTightDeepTau2017v1VSmu:
+    property tTightDeepTau2017v2p1VSmu:
         def __get__(self):
-            self.tTightDeepTau2017v1VSmu_branch.GetEntry(self.localentry, 0)
-            return self.tTightDeepTau2017v1VSmu_value
+            self.tTightDeepTau2017v2p1VSmu_branch.GetEntry(self.localentry, 0)
+            return self.tTightDeepTau2017v2p1VSmu_value
 
-    property tTightDpfTau2016v0VSall:
+    property tVLooseDeepTau2017v2p1VSe:
         def __get__(self):
-            self.tTightDpfTau2016v0VSall_branch.GetEntry(self.localentry, 0)
-            return self.tTightDpfTau2016v0VSall_value
+            self.tVLooseDeepTau2017v2p1VSe_branch.GetEntry(self.localentry, 0)
+            return self.tVLooseDeepTau2017v2p1VSe_value
 
-    property tTightDpfTau2016v1VSall:
+    property tVLooseDeepTau2017v2p1VSjet:
         def __get__(self):
-            self.tTightDpfTau2016v1VSall_branch.GetEntry(self.localentry, 0)
-            return self.tTightDpfTau2016v1VSall_value
+            self.tVLooseDeepTau2017v2p1VSjet_branch.GetEntry(self.localentry, 0)
+            return self.tVLooseDeepTau2017v2p1VSjet_value
 
-    property tVLooseDeepTau2017v1VSe:
+    property tVLooseDeepTau2017v2p1VSmu:
         def __get__(self):
-            self.tVLooseDeepTau2017v1VSe_branch.GetEntry(self.localentry, 0)
-            return self.tVLooseDeepTau2017v1VSe_value
+            self.tVLooseDeepTau2017v2p1VSmu_branch.GetEntry(self.localentry, 0)
+            return self.tVLooseDeepTau2017v2p1VSmu_value
 
-    property tVLooseDeepTau2017v1VSjet:
+    property tVTightDeepTau2017v2p1VSe:
         def __get__(self):
-            self.tVLooseDeepTau2017v1VSjet_branch.GetEntry(self.localentry, 0)
-            return self.tVLooseDeepTau2017v1VSjet_value
+            self.tVTightDeepTau2017v2p1VSe_branch.GetEntry(self.localentry, 0)
+            return self.tVTightDeepTau2017v2p1VSe_value
 
-    property tVLooseDeepTau2017v1VSmu:
+    property tVTightDeepTau2017v2p1VSjet:
         def __get__(self):
-            self.tVLooseDeepTau2017v1VSmu_branch.GetEntry(self.localentry, 0)
-            return self.tVLooseDeepTau2017v1VSmu_value
+            self.tVTightDeepTau2017v2p1VSjet_branch.GetEntry(self.localentry, 0)
+            return self.tVTightDeepTau2017v2p1VSjet_value
 
-    property tVTightDeepTau2017v1VSe:
+    property tVTightDeepTau2017v2p1VSmu:
         def __get__(self):
-            self.tVTightDeepTau2017v1VSe_branch.GetEntry(self.localentry, 0)
-            return self.tVTightDeepTau2017v1VSe_value
+            self.tVTightDeepTau2017v2p1VSmu_branch.GetEntry(self.localentry, 0)
+            return self.tVTightDeepTau2017v2p1VSmu_value
 
-    property tVTightDeepTau2017v1VSjet:
+    property tVVLooseDeepTau2017v2p1VSe:
         def __get__(self):
-            self.tVTightDeepTau2017v1VSjet_branch.GetEntry(self.localentry, 0)
-            return self.tVTightDeepTau2017v1VSjet_value
+            self.tVVLooseDeepTau2017v2p1VSe_branch.GetEntry(self.localentry, 0)
+            return self.tVVLooseDeepTau2017v2p1VSe_value
 
-    property tVTightDeepTau2017v1VSmu:
+    property tVVLooseDeepTau2017v2p1VSjet:
         def __get__(self):
-            self.tVTightDeepTau2017v1VSmu_branch.GetEntry(self.localentry, 0)
-            return self.tVTightDeepTau2017v1VSmu_value
+            self.tVVLooseDeepTau2017v2p1VSjet_branch.GetEntry(self.localentry, 0)
+            return self.tVVLooseDeepTau2017v2p1VSjet_value
 
-    property tVVLooseDeepTau2017v1VSe:
+    property tVVLooseDeepTau2017v2p1VSmu:
         def __get__(self):
-            self.tVVLooseDeepTau2017v1VSe_branch.GetEntry(self.localentry, 0)
-            return self.tVVLooseDeepTau2017v1VSe_value
+            self.tVVLooseDeepTau2017v2p1VSmu_branch.GetEntry(self.localentry, 0)
+            return self.tVVLooseDeepTau2017v2p1VSmu_value
 
-    property tVVLooseDeepTau2017v1VSjet:
+    property tVVTightDeepTau2017v2p1VSe:
         def __get__(self):
-            self.tVVLooseDeepTau2017v1VSjet_branch.GetEntry(self.localentry, 0)
-            return self.tVVLooseDeepTau2017v1VSjet_value
+            self.tVVTightDeepTau2017v2p1VSe_branch.GetEntry(self.localentry, 0)
+            return self.tVVTightDeepTau2017v2p1VSe_value
 
-    property tVVLooseDeepTau2017v1VSmu:
+    property tVVTightDeepTau2017v2p1VSjet:
         def __get__(self):
-            self.tVVLooseDeepTau2017v1VSmu_branch.GetEntry(self.localentry, 0)
-            return self.tVVLooseDeepTau2017v1VSmu_value
+            self.tVVTightDeepTau2017v2p1VSjet_branch.GetEntry(self.localentry, 0)
+            return self.tVVTightDeepTau2017v2p1VSjet_value
 
-    property tVVTightDeepTau2017v1VSe:
+    property tVVTightDeepTau2017v2p1VSmu:
         def __get__(self):
-            self.tVVTightDeepTau2017v1VSe_branch.GetEntry(self.localentry, 0)
-            return self.tVVTightDeepTau2017v1VSe_value
+            self.tVVTightDeepTau2017v2p1VSmu_branch.GetEntry(self.localentry, 0)
+            return self.tVVTightDeepTau2017v2p1VSmu_value
 
-    property tVVTightDeepTau2017v1VSjet:
+    property tVVVLooseDeepTau2017v2p1VSe:
         def __get__(self):
-            self.tVVTightDeepTau2017v1VSjet_branch.GetEntry(self.localentry, 0)
-            return self.tVVTightDeepTau2017v1VSjet_value
+            self.tVVVLooseDeepTau2017v2p1VSe_branch.GetEntry(self.localentry, 0)
+            return self.tVVVLooseDeepTau2017v2p1VSe_value
 
-    property tVVTightDeepTau2017v1VSmu:
+    property tVVVLooseDeepTau2017v2p1VSjet:
         def __get__(self):
-            self.tVVTightDeepTau2017v1VSmu_branch.GetEntry(self.localentry, 0)
-            return self.tVVTightDeepTau2017v1VSmu_value
+            self.tVVVLooseDeepTau2017v2p1VSjet_branch.GetEntry(self.localentry, 0)
+            return self.tVVVLooseDeepTau2017v2p1VSjet_value
 
-    property tVVVLooseDeepTau2017v1VSe:
+    property tVVVLooseDeepTau2017v2p1VSmu:
         def __get__(self):
-            self.tVVVLooseDeepTau2017v1VSe_branch.GetEntry(self.localentry, 0)
-            return self.tVVVLooseDeepTau2017v1VSe_value
-
-    property tVVVLooseDeepTau2017v1VSjet:
-        def __get__(self):
-            self.tVVVLooseDeepTau2017v1VSjet_branch.GetEntry(self.localentry, 0)
-            return self.tVVVLooseDeepTau2017v1VSjet_value
-
-    property tVVVLooseDeepTau2017v1VSmu:
-        def __get__(self):
-            self.tVVVLooseDeepTau2017v1VSmu_branch.GetEntry(self.localentry, 0)
-            return self.tVVVLooseDeepTau2017v1VSmu_value
+            self.tVVVLooseDeepTau2017v2p1VSmu_branch.GetEntry(self.localentry, 0)
+            return self.tVVVLooseDeepTau2017v2p1VSmu_value
 
     property tVZ:
         def __get__(self):
@@ -14004,6 +13727,16 @@ cdef class ETauTree:
         def __get__(self):
             self.type1_pfMet_shiftedPhi_JetClosureUp_branch.GetEntry(self.localentry, 0)
             return self.type1_pfMet_shiftedPhi_JetClosureUp_value
+
+    property type1_pfMet_shiftedPhi_JetEC2Down:
+        def __get__(self):
+            self.type1_pfMet_shiftedPhi_JetEC2Down_branch.GetEntry(self.localentry, 0)
+            return self.type1_pfMet_shiftedPhi_JetEC2Down_value
+
+    property type1_pfMet_shiftedPhi_JetEC2Up:
+        def __get__(self):
+            self.type1_pfMet_shiftedPhi_JetEC2Up_branch.GetEntry(self.localentry, 0)
+            return self.type1_pfMet_shiftedPhi_JetEC2Up_value
 
     property type1_pfMet_shiftedPhi_JetEnDown:
         def __get__(self):
@@ -14404,6 +14137,16 @@ cdef class ETauTree:
         def __get__(self):
             self.type1_pfMet_shiftedPt_JetClosureUp_branch.GetEntry(self.localentry, 0)
             return self.type1_pfMet_shiftedPt_JetClosureUp_value
+
+    property type1_pfMet_shiftedPt_JetEC2Down:
+        def __get__(self):
+            self.type1_pfMet_shiftedPt_JetEC2Down_branch.GetEntry(self.localentry, 0)
+            return self.type1_pfMet_shiftedPt_JetEC2Down_value
+
+    property type1_pfMet_shiftedPt_JetEC2Up:
+        def __get__(self):
+            self.type1_pfMet_shiftedPt_JetEC2Up_branch.GetEntry(self.localentry, 0)
+            return self.type1_pfMet_shiftedPt_JetEC2Up_value
 
     property type1_pfMet_shiftedPt_JetEnDown:
         def __get__(self):
@@ -15119,6 +14862,76 @@ cdef class ETauTree:
         def __get__(self):
             self.vbfMassWoNoisyJets_JetTotalUp_branch.GetEntry(self.localentry, 0)
             return self.vbfMassWoNoisyJets_JetTotalUp_value
+
+    property vbfMass_JetEC2Down:
+        def __get__(self):
+            self.vbfMass_JetEC2Down_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetEC2Down_value
+
+    property vbfMass_JetEC2Up:
+        def __get__(self):
+            self.vbfMass_JetEC2Up_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetEC2Up_value
+
+    property vbfMass_JetEta0to3Down:
+        def __get__(self):
+            self.vbfMass_JetEta0to3Down_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetEta0to3Down_value
+
+    property vbfMass_JetEta0to3Up:
+        def __get__(self):
+            self.vbfMass_JetEta0to3Up_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetEta0to3Up_value
+
+    property vbfMass_JetEta0to5Down:
+        def __get__(self):
+            self.vbfMass_JetEta0to5Down_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetEta0to5Down_value
+
+    property vbfMass_JetEta0to5Up:
+        def __get__(self):
+            self.vbfMass_JetEta0to5Up_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetEta0to5Up_value
+
+    property vbfMass_JetEta3to5Down:
+        def __get__(self):
+            self.vbfMass_JetEta3to5Down_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetEta3to5Down_value
+
+    property vbfMass_JetEta3to5Up:
+        def __get__(self):
+            self.vbfMass_JetEta3to5Up_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetEta3to5Up_value
+
+    property vbfMass_JetRelativeBalDown:
+        def __get__(self):
+            self.vbfMass_JetRelativeBalDown_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetRelativeBalDown_value
+
+    property vbfMass_JetRelativeBalUp:
+        def __get__(self):
+            self.vbfMass_JetRelativeBalUp_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetRelativeBalUp_value
+
+    property vbfMass_JetRelativeSampleDown:
+        def __get__(self):
+            self.vbfMass_JetRelativeSampleDown_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetRelativeSampleDown_value
+
+    property vbfMass_JetRelativeSampleUp:
+        def __get__(self):
+            self.vbfMass_JetRelativeSampleUp_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetRelativeSampleUp_value
+
+    property vbfMass_JetTotalDown:
+        def __get__(self):
+            self.vbfMass_JetTotalDown_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetTotalDown_value
+
+    property vbfMass_JetTotalUp:
+        def __get__(self):
+            self.vbfMass_JetTotalUp_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetTotalUp_value
 
     property vbfNJets20:
         def __get__(self):

@@ -15,4 +15,4 @@ export jobid=$jobidet
 #ls *pyx | sed "s|pyx|so|" | xargs -n 1 -P 10 rake
 
 #rake "meta:getinputs[$jobid, $datasrc, et/metaInfo, et/summedWeights]"
-#rake "meta:getmeta[inputs/$jobid, et/metaInfo, 13, et/summedWeights]"
+rake "meta:getmeta[inputs/$jobid, et/metaInfo, 13, et/summedWeights]"

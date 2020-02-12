@@ -1,32 +1,21 @@
 '''
 
-Run LFV H->MuTau analysis in the mu+tau channel.
+Run LFV H->MuE analysis in the mu+tau_e channel.
 
-Authors: Maria Cepeda, Aaron Levine, Evan K. Friis, UW
+Authors: Prasanna Siddireddy
 
 '''
 
 import EMTree
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
-import glob
 import os
 import ROOT
-import array as arr
 import math
-import copy
-import itertools
-import operator
 import mcCorrections
 import mcWeights
 import Kinematics
-from RecoilCorrector import RecoilCorrector
-from math import sqrt, pi
-from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVA
-from ROOT import gROOT, gRandom, TRandom3, TFile
 from bTagSF import PromoteDemote
 
-gRandom.SetSeed()
-rnd = gRandom.Rndm
 MetCorrection = True
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target)
@@ -67,7 +56,7 @@ class AnalyzeMuEZTT(MegaBase):
     self.w3 = mcCorrections.w3
     self.we = mcCorrections.we
     self.wp = mcCorrections.wp
- 
+
     self.DYweight = self.mcWeight.DYweight
     self.Wweight = self.mcWeight.Wweight
 
@@ -153,9 +142,9 @@ class AnalyzeMuEZTT(MegaBase):
       self.book(names[x], "vbfMass", "VBF Mass", 100, 0, 1000)
       self.book(names[x], "numOfVtx", "Number of Vertices", 100, 0, 100)
       self.book(names[x], "dEtaMuE", "Delta Eta Mu E", 50, 0, 5)
+      self.book(names[x], "dPhiMuE", "Delta Phi Mu E", 40, 0, 4)
       self.book(names[x], "dPhiEMET", "Delta Phi E MET", 40, 0, 4)
       self.book(names[x], "dPhiMuMET", "Delta Phi Mu MET", 40, 0, 4)
-      self.book(names[x], "dPhiMuE", "Delta Phi Mu E", 40, 0, 4)
       self.book(names[x], "MTEMET", "Electron MET Transverse Mass", 20, 0, 200)
       self.book(names[x], "MTMuMET", "Mu MET Transverse Mass", 20, 0, 200)
 
@@ -182,9 +171,9 @@ class AnalyzeMuEZTT(MegaBase):
     histos[name+'/vbfMass'].Fill(row.vbfMassWoNoisyJets, weight)
     histos[name+'/numOfVtx'].Fill(row.nvtx, weight)
     histos[name+'/dEtaMuE'].Fill(self.deltaEta(myMuon.Eta(), myEle.Eta()), weight)
+    histos[name+'/dPhiMuE'].Fill(self.deltaPhi(myMuon.Phi(), myEle.Phi()), weight)
     histos[name+'/dPhiEMET'].Fill(self.deltaPhi(myEle.Phi(), myMET.Phi()), weight)
     histos[name+'/dPhiMuMET'].Fill(self.deltaPhi(myMuon.Phi(), myMET.Phi()), weight)
-    histos[name+'/dPhiMuE'].Fill(self.deltaPhi(myMuon.Phi(), myEle.Phi()), weight)
     histos[name+'/MTEMET'].Fill(self.transverseMass(myEle, myMET), weight)
     histos[name+'/MTMuMET'].Fill(self.transverseMass(myMuon, myMET), weight)
 
@@ -244,7 +233,7 @@ class AnalyzeMuEZTT(MegaBase):
       if self.is_mc:
         myMETpx = myMETpx - myEle.Px()
         myMETpy = myMETpy - myEle.Py()
-        myMET.SetPxPyPzE(myMETpx, myMETpy, 0, sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+        myMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
 
       if self.is_recoilC and MetCorrection:
         tmpMet = self.Metcorected.CorrectByMeanResolution(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)))
@@ -265,10 +254,6 @@ class AnalyzeMuEZTT(MegaBase):
       beta_1 = row.jb1eta
       if (self.is_mc and nbtag > 0):
         nbtag = PromoteDemote(self.h_btag_eff_b, self.h_btag_eff_c, self.h_btag_eff_oth, nbtag, bpt_1, bflavor_1, beta_1, 0)
-      #if bool(nbtag == 1 and row.jb1pt < 30) or bool(nbtag == 2 and row.jb1pt < 30 and row.jb2pt > 30) or bool(nbtag == 2 and row.jb1pt > 30 and row.jb2pt < 30):
-      #  nbtag = nbtag - 1
-      #if bool(nbtag == 2 and row.jb1pt < 30 and row.jb2pt < 30):
-      #  nbtag = nbtag - 2
       if (nbtag > 0):
         continue
 
@@ -299,7 +284,7 @@ class AnalyzeMuEZTT(MegaBase):
         eID = self.eIDnoIsoWP80(myEle.Pt(), abs(myEle.Eta()))
         eTrk = self.eReco(myEle.Pt(), abs(myEle.Eta()))
         mcSF = self.rc.kSpreadMC(row.mCharge, myMuon.Pt(), myMuon.Eta(), myMuon.Phi(), row.mGenPt, 0, 0)
-        weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*eID*eTrk*mcSF
+        weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*eID*eTrk*mcSF*row.prefiring_weight
         if self.is_DY:
           self.w2.var("z_gen_mass").setVal(row.genMass)
           self.w2.var("z_gen_pt").setVal(row.genpT)
