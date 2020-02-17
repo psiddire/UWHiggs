@@ -58,15 +58,20 @@ for di in Lists.dirs:
     embed = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('Embed'), Lists.mc_samples)])
     emb = Lists.positivize(embed.Get('TightOS'+di+'/e_t_CollinearMass'))
     embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau', binning))
+    # Tau ID
+    for i, tid in enumerate(Lists.tid):
+        emb = Lists.positivize(embed.Get('TightOS'+di+tid+'/e_t_CollinearMass'))
+        embSys.append(emb.Rebin(len(binning)-1, Lists.tidNames[i][0], binning))
+        embSys.append(emb.Rebin(len(binning)-1, Lists.tidNames[i][1], binning))
     # Tracking
     for i, tr in enumerate(Lists.trk):
         emb = Lists.positivize(embed.Get('TightOS'+di+tr+'/e_t_CollinearMass'))
         embSys.append(emb.Rebin(len(binning)-1, Lists.trkNames[i], binning))
     # Tau Scale
-    for i, sc in enumerate(Lists.scaleSys):
+    for i, sc in enumerate(Lists.scaleSysDeep):
         emb = Lists.positivize(embed.Get('TightOS'+di+sc+'/e_t_CollinearMass'))
-        embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau'+Lists.embscaleSysNames[i][0], binning))
-        embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau'+Lists.embscaleSysNames[i][1], binning))
+        embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau'+Lists.embscaleSysDeepNames[i][0], binning))
+        embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau'+Lists.embscaleSysDeepNames[i][1], binning))
     # Write Histograms
     for eSys in embSys:
         eSys.Write()
@@ -92,7 +97,7 @@ for di in Lists.dirs:
     qcd = Lists.positivize(qcd)
     qcdSys.append(qcd.Rebin(len(binning)-1, 'Fakes', binning))
     # Tau Fake Rate
-    for i, tFR in enumerate(Lists.tauFR):
+    for i, tFR in enumerate(Lists.tauDeepFR):
         qcd = QCD.Get('TauLooseOS'+di+tFR+'/e_t_CollinearMass')
         qcdet = QCD.Get('EleLooseTauLooseOS'+di+tFR+'/e_t_CollinearMass')
         qcd.add(efakes)
@@ -104,7 +109,7 @@ for di in Lists.dirs:
         mc = Lists.positivize(mc)
         qcd.Add(mc, -1)
         qcd = Lists.positivize(qcd)
-        qcdSys.append(qcd.Rebin(len(binning)-1, 'Fakes'+Lists.tauFRNames[i], binning))
+        qcdSys.append(qcd.Rebin(len(binning)-1, 'Fakes'+Lists.tauDeepFRNames[i], binning))
     # Ele Fake Rate
     for i, eFR in enumerate(Lists.eleFR):
         qcd = QCD.Get('EleLooseOS'+di+eFR+'/e_t_CollinearMass')
@@ -135,9 +140,9 @@ for di in Lists.dirs:
             dy = Lists.positivize(DY.Get('TightOS'+di+bSys+'/e_t_CollinearMass'))
             dySys.append(dy.Rebin(len(binning)-1, sam+Lists.mcSysNames[j], binning))
         # Tau Scale
-        for j, sc in enumerate(Lists.scaleSys):
+        for j, sc in enumerate(Lists.scaleSysDeep):
             dy = Lists.positivize(DY.Get('TightOS'+di+sc+'/e_t_CollinearMass'))
-            dySys.append(dy.Rebin(len(binning)-1, sam+Lists.scaleSysNames[j], binning))
+            dySys.append(dy.Rebin(len(binning)-1, sam+Lists.scaleSysDeepNames[j], binning))
         # Recoil Uncertainty
         if sam in Lists.recsamp:
             for j, rSys in enumerate(Lists.recSys):

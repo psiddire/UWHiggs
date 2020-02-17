@@ -64,6 +64,8 @@ histoname = [('ePt', 'e p_{T} (GeV)', 1), ('tPt', '#tau p_{T} (GeV)', 1), ('eEta
 
 colhisto = [("e_t_CollinearMass", "M_{col}(e, #tau) (GeV)", 1)]
 
+bdthisto = [("bdtDiscriminator", "BDT Discriminator", 1)]
+
 files = []
 
 lumifiles = []

@@ -1,6 +1,6 @@
 Bimport rootpy.plotting.views as views
 from FinalStateAnalysis.PlotTools.Plotter import Plotter
-f1;95;0crom FinalStateAnalysis.PlotTools.SubtractionView import SubtractionView
+from FinalStateAnalysis.PlotTools.SubtractionView import SubtractionView
 import os
 import ROOT
 import glob

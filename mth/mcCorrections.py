@@ -200,29 +200,24 @@ fesTau = TauPOGCorrections.Tau_FES_2016
 f1 = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2016/htt_scalefactors_legacy_2016.root")
 w1 = f1.Get("w")
 
-#f2 = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2016/htt_scalefactors_v16_12_embedded.root")
-#w2 = f2.Get("w")
+fpt = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2016/MuTauEmbedPt.root")
+wpt0 = fpt.Get("0Jet")
+wpt1 = fpt.Get("1Jet")
+wpt2 = fpt.Get("2Jet")
 
-f3 = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2016/Embedded.root")
-wid = f3.Get("m_sel_idEmb")
-wtrg8 = f3.Get("m_sel_trg8")
-wtrg17 = f3.Get("m_sel_trg17")
-
-def EmbedId(pt, eta):
-    return wid.GetBinContent(wid.GetXaxis().FindBin(pt), wid.GetYaxis().FindBin(eta))
-
-def EmbedTrg8(pt, eta):
-    return wtrg8.GetBinContent(wtrg8.GetXaxis().FindBin(pt), wtrg8.GetYaxis().FindBin(eta))
-
-def EmbedTrg17(pt, eta):
-    return wtrg17.GetBinContent(wtrg17.GetXaxis().FindBin(pt), wtrg17.GetYaxis().FindBin(eta))
-
-def EmbedTrg(pt1, eta1, pt2, eta2):
-    sf = EmbedTrg8(pt1, eta1) * EmbedTrg17(pt2, eta2)
-    sf = sf + EmbedTrg17(pt1, eta1) * EmbedTrg8(pt2, eta2)
-    sf = sf - EmbedTrg17(pt1, eta1) * EmbedTrg17(pt2, eta2)
-    sf = 0.935 * sf
-    return min(1/sf, 2) if sf!=0 else 2
+def EmbedPt(pt, njets, mjj):
+    if njets==0:
+        corr = wpt0.GetBinContent(wpt0.GetXaxis().FindBin(pt))
+    elif njets==1:
+        corr =  wpt1.GetBinContent(wpt1.GetXaxis().FindBin(pt))
+    elif njets==2 and mjj < 550:
+        corr = wpt2.GetBinContent(wpt2.GetXaxis().FindBin(pt))
+    else:
+        corr = 1.0
+    if corr > 2.0:
+        return 1
+    else:
+        return corr
 
 def FesTau(eta, dm):
     fes = (1.0, 0.0, 0.0)
