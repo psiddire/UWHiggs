@@ -50,24 +50,24 @@ class BasePlotter():
 
         data_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('QCD'), Lists.mc_samples)])
         fakesTau = views.SubdirectoryView(data_view, s[1])
-        fakesEle = views.SubdirectoryView(data_view, s[2])
-        fakesTauEle = views.SubdirectoryView(data_view, s[3])
-        fakesET = views.SumView(fakesTau, fakesEle)
-        fakesData = SubtractionView(fakesET, fakesTauEle, restrict_positive=True)
+        fakesMuon = views.SubdirectoryView(data_view, s[2])
+        fakesTauMuon = views.SubdirectoryView(data_view, s[3])
+        fakesET = views.SumView(fakesTau, fakesMuon)
+        fakesData = SubtractionView(fakesET, fakesTauMuon, restrict_positive=True)
         mc_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('MC'), Lists.mc_samples)])
         fakesMCTau = views.SubdirectoryView(mc_view, s[1])
-        fakesMCEle = views.SubdirectoryView(mc_view, s[2])
-        fakesMCTauEle = views.SubdirectoryView(mc_view, s[3])
-        fakesMCET = views.SumView(fakesMCTau, fakesMCEle)
-        fakesMC = SubtractionView(fakesMCET, fakesMCTauEle, restrict_positive=True)
+        fakesMCMuon = views.SubdirectoryView(mc_view, s[2])
+        fakesMCTauMuon = views.SubdirectoryView(mc_view, s[3])
+        fakesMCET = views.SumView(fakesMCTau, fakesMCMuon)
+        fakesMC = SubtractionView(fakesMCET, fakesMCTauMuon, restrict_positive=True)
         QCD = views.StyleView(SubtractionView(fakesData, fakesMC, restrict_positive=True), **Lists.remove_name_entry(data_styles['QCD*']))
         QCD = views.TitleView(QCD, 'W/QCD')
 
-        vbfHET = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'VBF_LFV_HToETau' in x , Lists.mc_samples)]), **Lists.remove_name_entry(data_styles['VBF_LFV*']))
-        ggHET = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'GluGlu_LFV_HToETau' in x , Lists.mc_samples)]), **Lists.remove_name_entry(data_styles['GluGlu_LFV*']))
+        vbfHMT = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'VBF_LFV_HToMuTau' in x , Lists.mc_samples)]), **Lists.remove_name_entry(data_styles['VBF_LFV*']))
+        ggHMT = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'GluGlu_LFV_HToMuTau' in x , Lists.mc_samples)]), **Lists.remove_name_entry(data_styles['GluGlu_LFV*']))
 
-        plotter.views['vbfHET']={'view' : vbfHET }
-        plotter.views['ggHET']={'view' : ggHET }
+        plotter.views['vbfHMT']={'view' : vbfHMT }
+        plotter.views['ggHMT']={'view' : ggHMT }
         plotter.views['DY']={'view' : DY }
         plotter.views['embed']={'view' : embed }
         plotter.views['EWK']={'view' : EWK }

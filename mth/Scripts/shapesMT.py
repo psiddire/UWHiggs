@@ -10,13 +10,13 @@ import Lists
 jobid = os.environ['jobid']
 
 for x in Lists.mc_samples:
-    Lists.files.extend(glob.glob('../results/%s/AnalyzeMuTauSys/%s.root' % (jobid, x)))
+    Lists.files.extend(glob.glob('../results/%s/IsoMu27/AnalyzeMuTauSys27/%s.root' % (jobid, x)))
     Lists.lumifiles.extend(glob.glob('../inputs/%s/%s.lumicalc.sum' % (jobid, x)))
 
 outputdir = 'Shapes/'
 plotter = Plotter(Lists.files, Lists.lumifiles, outputdir)
 
-f = ROOT.TFile( 'Shapes/shapesMT.root', 'RECREATE')
+f = ROOT.TFile( 'Shapes/shapesMT27.root', 'RECREATE')
 
 v = [
 views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('DY'), Lists.mc_samples )]),

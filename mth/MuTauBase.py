@@ -58,7 +58,6 @@ class MuTauBase():
     self.we = mcCorrections.we
     self.w6 = mcCorrections.w6
     self.rc = mcCorrections.rc
-    self.EmbedPt = mcCorrections.EmbedPt
 
     self.DYweight = self.mcWeight.DYweight
 
@@ -103,12 +102,13 @@ class MuTauBase():
 
   # Trigger
   def trigger(self, row):
+    trigger24 = row.IsoMu24Pass and row.mMatchesIsoMu24Filter and row.mMatchesIsoMu24Path and row.mPt > 26
     trigger27 = row.IsoMu27Pass and row.mMatchesIsoMu27Filter and row.mMatchesIsoMu27Path and row.mPt > 29
-    return trigger27
+    return bool(trigger24 or trigger27)
 
   # Kinematics requirements on both the leptons
   def kinematics(self, row):
-    if row.mPt < 29 or abs(row.mEta) >= 2.1:
+    if row.mPt < 26 or abs(row.mEta) >= 2.1:
       return False
     if row.tPt < 30 or abs(row.tEta) >= 2.3:
       return False
@@ -277,7 +277,10 @@ class MuTauBase():
     # Apply all the various corrections to the MC samples
     weight = 1.0
     if self.is_mc:
-      tEff = self.triggerEff27(myMuon.Pt(), abs(myMuon.Eta()))
+      self.w6.var('m_pt').setVal(myMuon.Pt())
+      self.w6.var('m_eta').setVal(myMuon.Eta())
+      self.w6.var('m_iso').setVal(row.mRelPFIsoDBDefaultR04)
+      tEff = self.w6.function('m_trg24_27_binned_kit_ratio').getVal()
       mID = self.muonTightID(myMuon.Pt(), abs(myMuon.Eta()))
       if self.obj1_tight(row):
         mIso = self.muonTightIsoTightID(myMuon.Pt(), abs(myMuon.Eta()))
@@ -313,9 +316,6 @@ class MuTauBase():
           weight = 0.0
       weight = self.mcWeight.lumiWeight(weight)
 
-    njets = row.jetVeto30WoNoisyJets
-    mjj = row.vbfMassWoNoisyJets
-
     # Embed scale factors
     if self.is_embed:
       if row.tDecayMode == 0:
@@ -344,10 +344,10 @@ class MuTauBase():
       self.w6.var('m_pt').setVal(myMuon.Pt())
       self.w6.var('m_eta').setVal(myMuon.Eta())
       self.w6.var('m_iso').setVal(row.mRelPFIsoDBDefaultR04)
-      m_trg_sf = self.w6.function('m_trg27_embed_kit_ratio').getVal()
+      m_trg_sf = self.w6.function('m_trg24_27_embed_kit_ratio').getVal()
       m_id_sf = self.w6.function('m_id_embed_kit_ratio').getVal()
       m_iso_sf = self.w6.function('m_iso_binned_embed_kit_ratio').getVal()
-      weight = row.GenWeight*dm*msel*tsel*trgsel*m_trg_sf*m_id_sf*m_iso_sf*self.EmbedPt(myMuon.Pt(), njets, mjj)
+      weight = row.GenWeight*dm*msel*tsel*trgsel*m_trg_sf*m_id_sf*m_iso_sf#*self.EmbedPt(myMuon.Pt(), njets, mjj)
       # Tau Identification
       if self.obj2_tight(row):
         weight = weight * self.deepTauVSjet_Emb_tight(myTau.Pt())[0]

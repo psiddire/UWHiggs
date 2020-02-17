@@ -16,14 +16,14 @@ for j in Lists.jet:
     s2 = 'TauLooseOS'+j
     s3 = 'MuonLooseOS'+j
     s4 = 'MuonLooseTauLooseOS'+j
-    s1 = 'TightSS'+j
-    s2 = 'TauLooseSS'+j
-    s3 = 'MuonLooseSS'+j
-    s4 = 'MuonLooseTauLooseSS'+j
-    s1 = 'TightWOS'+j
-    s2 = 'TauLooseWOS'+j
-    s3 = 'MuonLooseWOS'+j
-    s4 = 'MuonLooseTauLooseWOS'+j
+    #s1 = 'TightSS'+j
+    #s2 = 'TauLooseSS'+j
+    #s3 = 'MuonLooseSS'+j
+    #s4 = 'MuonLooseTauLooseSS'+j
+    #s1 = 'TightWOS'+j
+    #s2 = 'TauLooseWOS'+j
+    #s3 = 'MuonLooseWOS'+j
+    #s4 = 'MuonLooseTauLooseWOS'+j
 
     s = [s1, s2, s3, s4]
 
@@ -34,5 +34,5 @@ for j in Lists.jet:
     plotter = basePlotter.mcInit(Lists.files, Lists.lumifiles, outputdir, s)
 
     for h in Lists.bdthisto:
-        plotter.plot_mc_vs_data('', ['VBF_LFV_HToMuTau_M125*', 'GluGlu_LFV_HToMuTau_M125*'], h[0], 1, xaxis = h[1], leftside=False, xrange=None, preprocess=None, show_ratio=True, ratio_range=1.5, sort=True, blind_region=True, control=s1, jets=j, year='2017', channel='mutauh')
+        plotter.plot_mc_vs_data('', ['VBF_LFV_HToMuTau_M125*', 'GluGlu_LFV_HToMuTau_M125*'], h[0], 5, xaxis = h[1], leftside=False, xrange=None, preprocess=None, show_ratio=True, ratio_range=1.5, sort=True, blind_region=True, control=s1, jets=j, year='2017', channel='mutauh')
         plotter.save(h[0])

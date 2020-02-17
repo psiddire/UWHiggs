@@ -3,7 +3,7 @@ import os
 from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVA
 
 var_d_star = ['mPt', 'tPt', 'dPhiMuTau', 'dEtaMuTau', 'type1_pfMetEt', 'm_t_collinearMass', 'MTTauMET', 'dPhiTauMET']
-xml_name = os.path.join(os.getcwd(), 'bdtdata/dataset2017/weights/TMVAClassification_BDT.weights.xml')
+xml_name = os.path.join(os.getcwd(), 'bdtdata/dataset2016/weights/TMVAClassification_BDT.weights.xml')
 functor = FunctorFromMVA('BDT method', xml_name, *var_d_star)
 
 def var_d(myMuon, myMET, myTau):
