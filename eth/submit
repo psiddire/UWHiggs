@@ -1,0 +1,231 @@
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_-102X_upgrade2018_realistic_v15-v1.root`
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_-102X_upgrade2018_realistic_v15-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_-102X_upgrade2018_realistic_v15-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_-102X_upgrade2018_realistic_v15-v1.txt results/Data_2018_Dec_et/AnalyzeETauZTT/ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_-102X_upgrade2018_realistic_v15-v1.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_-102X_upgrade2018_realistic_v15-v1.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext1-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_-102X_upgrade2018_realistic_v15-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_-102X_upgrade2018_realistic_v15-v1.txt results/Data_2018_Dec_et/AnalyzeETauZTT/ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_-102X_upgrade2018_realistic_v15-v1.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_-102X_upgrade2018_realistic_v15-v1.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext1-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext1-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext1-v1.txt results/Data_2018_Dec_et/AnalyzeETauZTT/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext1-v1.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext1-v1.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext1-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext1-v1.txt results/Data_2018_Dec_et/AnalyzeETauZTT/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext1-v1.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext1-v1.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext3-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15-v1.txt results/Data_2018_Dec_et/AnalyzeETauZTT/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15-v1.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15-v1.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext2-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext3-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext3-v2.txt results/Data_2018_Dec_et/AnalyzeETauZTT/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext3-v2.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext3-v2.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/VBFHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15_ext1-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext2-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext2-v2.txt results/Data_2018_Dec_et/AnalyzeETauZTT/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext2-v2.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_TTToHadronic_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext2-v2.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/GluGluHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/VBFHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15_ext1-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/VBFHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15_ext1-v1.txt results/Data_2018_Dec_et/AnalyzeETauZTT/VBFHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15_ext1-v1.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_VBFHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15_ext1-v1.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/VBFHToWWTo2L2Nu_M125_13TeV_powheg2_JHUGenV714_pythia8_-102X_upgrade2018_realistic_v15-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/GluGluHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/GluGluHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.txt results/Data_2018_Dec_et/AnalyzeETauZTT/GluGluHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_GluGluHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/GluGluHToWWTo2L2Nu_M125_13TeV_powheg2_JHUGenV714_pythia8_-102X_upgrade2018_realistic_v15-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/VBFHToWWTo2L2Nu_M125_13TeV_powheg2_JHUGenV714_pythia8_-102X_upgrade2018_realistic_v15-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/VBFHToWWTo2L2Nu_M125_13TeV_powheg2_JHUGenV714_pythia8_-102X_upgrade2018_realistic_v15-v1.txt results/Data_2018_Dec_et/AnalyzeETauZTT/VBFHToWWTo2L2Nu_M125_13TeV_powheg2_JHUGenV714_pythia8_-102X_upgrade2018_realistic_v15-v1.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_VBFHToWWTo2L2Nu_M125_13TeV_powheg2_JHUGenV714_pythia8_-102X_upgrade2018_realistic_v15-v1.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/WW_TuneCP5_13TeV-pythia8_-102X_upgrade2018_realistic_v15-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/GluGluHToWWTo2L2Nu_M125_13TeV_powheg2_JHUGenV714_pythia8_-102X_upgrade2018_realistic_v15-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/GluGluHToWWTo2L2Nu_M125_13TeV_powheg2_JHUGenV714_pythia8_-102X_upgrade2018_realistic_v15-v1.txt results/Data_2018_Dec_et/AnalyzeETauZTT/GluGluHToWWTo2L2Nu_M125_13TeV_powheg2_JHUGenV714_pythia8_-102X_upgrade2018_realistic_v15-v1.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_GluGluHToWWTo2L2Nu_M125_13TeV_powheg2_JHUGenV714_pythia8_-102X_upgrade2018_realistic_v15-v1.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/WZ_TuneCP5_13TeV-pythia8_-102X_upgrade2018_realistic_v15-v3.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/WW_TuneCP5_13TeV-pythia8_-102X_upgrade2018_realistic_v15-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/WW_TuneCP5_13TeV-pythia8_-102X_upgrade2018_realistic_v15-v2.txt results/Data_2018_Dec_et/AnalyzeETauZTT/WW_TuneCP5_13TeV-pythia8_-102X_upgrade2018_realistic_v15-v2.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_WW_TuneCP5_13TeV-pythia8_-102X_upgrade2018_realistic_v15-v2.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/ZZ_TuneCP5_13TeV-pythia8_-102X_upgrade2018_realistic_v15-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/WZ_TuneCP5_13TeV-pythia8_-102X_upgrade2018_realistic_v15-v3.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/WZ_TuneCP5_13TeV-pythia8_-102X_upgrade2018_realistic_v15-v3.txt results/Data_2018_Dec_et/AnalyzeETauZTT/WZ_TuneCP5_13TeV-pythia8_-102X_upgrade2018_realistic_v15-v3.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_WZ_TuneCP5_13TeV-pythia8_-102X_upgrade2018_realistic_v15-v3.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/WminusHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/ZZ_TuneCP5_13TeV-pythia8_-102X_upgrade2018_realistic_v15-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/ZZ_TuneCP5_13TeV-pythia8_-102X_upgrade2018_realistic_v15-v2.txt results/Data_2018_Dec_et/AnalyzeETauZTT/ZZ_TuneCP5_13TeV-pythia8_-102X_upgrade2018_realistic_v15-v2.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_ZZ_TuneCP5_13TeV-pythia8_-102X_upgrade2018_realistic_v15-v2.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/WplusHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/WminusHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/WminusHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.txt results/Data_2018_Dec_et/AnalyzeETauZTT/WminusHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_WminusHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/ZHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/WplusHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/WplusHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.txt results/Data_2018_Dec_et/AnalyzeETauZTT/WplusHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_WplusHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/GluGlu_LFV_HToETau_M125_TuneCP5_PSweights_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/ZHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/ZHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.txt results/Data_2018_Dec_et/AnalyzeETauZTT/ZHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_ZHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/VBF_LFV_HToETau_M125_TuneCP5_PSweights_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/GluGlu_LFV_HToETau_M125_TuneCP5_PSweights_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/GluGlu_LFV_HToETau_M125_TuneCP5_PSweights_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v1.txt results/Data_2018_Dec_et/AnalyzeETauZTT/GluGlu_LFV_HToETau_M125_TuneCP5_PSweights_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v1.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_GluGlu_LFV_HToETau_M125_TuneCP5_PSweights_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v1.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/VBF_LFV_HToETau_M125_TuneCP5_PSweights_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/VBF_LFV_HToETau_M125_TuneCP5_PSweights_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v1.txt results/Data_2018_Dec_et/AnalyzeETauZTT/VBF_LFV_HToETau_M125_TuneCP5_PSweights_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v1.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_VBF_LFV_HToETau_M125_TuneCP5_PSweights_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v1.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1.txt results/Data_2018_Dec_et/AnalyzeETauZTT/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_EWKWMinus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/EWKZ2Jets_ZToLL_M-50_TuneCP5_PSweights_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1.txt results/Data_2018_Dec_et/AnalyzeETauZTT/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_EWKWPlus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/EWKZ2Jets_ZToNuNu_TuneCP5_PSweights_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/EWKZ2Jets_ZToLL_M-50_TuneCP5_PSweights_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/EWKZ2Jets_ZToLL_M-50_TuneCP5_PSweights_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1.txt results/Data_2018_Dec_et/AnalyzeETauZTT/EWKZ2Jets_ZToLL_M-50_TuneCP5_PSweights_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_EWKZ2Jets_ZToLL_M-50_TuneCP5_PSweights_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/EWKZ2Jets_ZToNuNu_TuneCP5_PSweights_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/EWKZ2Jets_ZToNuNu_TuneCP5_PSweights_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1.txt results/Data_2018_Dec_et/AnalyzeETauZTT/EWKZ2Jets_ZToNuNu_TuneCP5_PSweights_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_EWKZ2Jets_ZToNuNu_TuneCP5_PSweights_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v1.txt results/Data_2018_Dec_et/AnalyzeETauZTT/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v1.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v1.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2.txt results/Data_2018_Dec_et/AnalyzeETauZTT/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2.txt results/Data_2018_Dec_et/AnalyzeETauZTT/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2.txt results/Data_2018_Dec_et/AnalyzeETauZTT/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v1.txt results/Data_2018_Dec_et/AnalyzeETauZTT/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v1.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v1.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/data_EGamma_Run2018A-17Sep2018.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2.txt results/Data_2018_Dec_et/AnalyzeETauZTT/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/data_EGamma_Run2018B-17Sep2018.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/data_EGamma_Run2018A-17Sep2018.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/data_EGamma_Run2018A-17Sep2018.txt results/Data_2018_Dec_et/AnalyzeETauZTT/data_EGamma_Run2018A-17Sep2018.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_data_EGamma_Run2018A-17Sep2018.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/data_EGamma_Run2018C-17Sep2018.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/data_EGamma_Run2018B-17Sep2018.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/data_EGamma_Run2018B-17Sep2018.txt results/Data_2018_Dec_et/AnalyzeETauZTT/data_EGamma_Run2018B-17Sep2018.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_data_EGamma_Run2018B-17Sep2018.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_et/AnalyzeETauZTT/data_EGamma_Run2018D-PromptReco.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/data_EGamma_Run2018C-17Sep2018.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/data_EGamma_Run2018C-17Sep2018.txt results/Data_2018_Dec_et/AnalyzeETauZTT/data_EGamma_Run2018C-17Sep2018.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_data_EGamma_Run2018C-17Sep2018.log &
+sleep 10s
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_et/AnalyzeETauZTT/data_EGamma_Run2018D-PromptReco.root
+mkdir -p batch_logs
+mega-farmout AnalyzeETauZTT.py inputs/Data_2018_Dec_et/data_EGamma_Run2018D-PromptReco.txt results/Data_2018_Dec_et/AnalyzeETauZTT/data_EGamma_Run2018D-PromptReco.root --verbose >& batch_logs/results_Data_2018_Dec_et_AnalyzeETauZTT_data_EGamma_Run2018D-PromptReco.log &
+sleep 10s
