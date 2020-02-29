@@ -16,14 +16,14 @@ for j in Lists.jet:
     s2 = 'TauLooseOS'+j
     s3 = 'EleLooseOS'+j
     s4 = 'EleLooseTauLooseOS'+j
-    #s1 = 'TightSS'+j
-    #s2 = 'TauLooseSS'+j
-    #s3 = 'EleLooseSS'+j
-    #s4 = 'EleLooseTauLooseSS'+j
-    #s1 = 'TightWOS'+j
-    #s2 = 'TauLooseWOS'+j
-    #s3 = 'EleLooseWOS'+j
-    #s4 = 'EleLooseTauLooseWOS'+j
+    s1 = 'TightSS'+j
+    s2 = 'TauLooseSS'+j
+    s3 = 'EleLooseSS'+j
+    s4 = 'EleLooseTauLooseSS'+j
+    s1 = 'TightWOS'+j
+    s2 = 'TauLooseWOS'+j
+    s3 = 'EleLooseWOS'+j
+    s4 = 'EleLooseTauLooseWOS'+j
 
     s = [s1, s2, s3, s4]
 

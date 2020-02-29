@@ -50,25 +50,25 @@ class AnalyzeEMuSysBDTQCD(MegaBase, EMuQCDBase):
 
 
   def fill_sshistos(self, myEle, myMET, myMuon, njets, weight, name=''):
-    self.w2.var("njets").setVal(njets)
-    self.w2.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Phi(), myMuon.Eta()))
-    self.w2.var("e_pt").setVal(myEle.Pt())
-    self.w2.var("m_pt").setVal(myMuon.Pt())
-    osss = self.w2.function("em_qcd_osss").getVal()
-    osss0rup = self.w2.function("em_qcd_osss_stat_0jet_unc1_up").getVal()
-    osss0rdown = self.w2.function("em_qcd_osss_stat_0jet_unc1_down").getVal()
-    osss1rup = self.w2.function("em_qcd_osss_stat_1jet_unc1_up").getVal()
-    osss1rdown = self.w2.function("em_qcd_osss_stat_1jet_unc1_down").getVal()
-    osss2rup = self.w2.function("em_qcd_osss_stat_2jet_unc1_up").getVal()
-    osss2rdown = self.w2.function("em_qcd_osss_stat_2jet_unc1_down").getVal()
-    osss0sup = self.w2.function("em_qcd_osss_stat_0jet_unc2_up").getVal()
-    osss0sdown = self.w2.function("em_qcd_osss_stat_0jet_unc2_down").getVal()
-    osss1sup = self.w2.function("em_qcd_osss_stat_1jet_unc2_up").getVal()
-    osss1sdown = self.w2.function("em_qcd_osss_stat_1jet_unc2_down").getVal()
-    osss2sup = self.w2.function("em_qcd_osss_stat_2jet_unc2_up").getVal()
-    osss2sdown = self.w2.function("em_qcd_osss_stat_2jet_unc2_down").getVal()
-    osssisoup = self.w2.function("em_qcd_osss_extrap_up").getVal()
-    osssisodown = self.w2.function("em_qcd_osss_extrap_down").getVal()
+    self.w1.var("njets").setVal(njets)
+    self.w1.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Eta(), myMuon.Eta()))
+    self.w1.var("e_pt").setVal(myEle.Pt())
+    self.w1.var("m_pt").setVal(myMuon.Pt())
+    osss = self.w1.function("em_qcd_osss").getVal()
+    osss0rup = self.w1.function("em_qcd_osss_stat_0jet_unc1_up").getVal()
+    osss0rdown = self.w1.function("em_qcd_osss_stat_0jet_unc1_down").getVal()
+    osss1rup = self.w1.function("em_qcd_osss_stat_1jet_unc1_up").getVal()
+    osss1rdown = self.w1.function("em_qcd_osss_stat_1jet_unc1_down").getVal()
+    osss2rup = self.w1.function("em_qcd_osss_stat_2jet_unc1_up").getVal()
+    osss2rdown = self.w1.function("em_qcd_osss_stat_2jet_unc1_down").getVal()
+    osss0sup = self.w1.function("em_qcd_osss_stat_0jet_unc2_up").getVal()
+    osss0sdown = self.w1.function("em_qcd_osss_stat_0jet_unc2_down").getVal()
+    osss1sup = self.w1.function("em_qcd_osss_stat_1jet_unc2_up").getVal()
+    osss1sdown = self.w1.function("em_qcd_osss_stat_1jet_unc2_down").getVal()
+    osss2sup = self.w1.function("em_qcd_osss_stat_2jet_unc2_up").getVal()
+    osss2sdown = self.w1.function("em_qcd_osss_stat_2jet_unc2_down").getVal()
+    osssisoup = self.w1.function("em_qcd_osss_extrap_up").getVal()
+    osssisodown = self.w1.function("em_qcd_osss_extrap_down").getVal()
     if '0Jet' in name:
       oslist = [osss, osss0rup, osss0rdown, osss0sup, osss0sdown, osss, osss, osss, osss, osss, osss, osss, osss, osssisoup, osssisodown]
       for i, osl in enumerate(oslist):
@@ -92,15 +92,15 @@ class AnalyzeEMuSysBDTQCD(MegaBase, EMuQCDBase):
     mtemet = self.transverseMass(myEle, myMET)
     mjj = row.vbfMassWoNoisyJets
     njets = row.jetVeto30WoNoisyJets
-    self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightOS')
-    if njets==0 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
-      self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightOS0Jet')
-    elif njets==1 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
-      self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightOS1Jet')
-    elif njets==2 and mjj < 500 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
-      self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightOS2Jet')
-    elif njets==2 and mjj > 500 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
-      self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightOS2JetVBF')
+    self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS')
+    if njets==0:
+      self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS0Jet')
+    elif njets==1:
+      self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS1Jet')
+    elif njets==2 and mjj < 500:
+      self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS2Jet')
+    elif njets==2 and mjj > 500:
+      self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS2JetVBF')
 
 
   def process(self):

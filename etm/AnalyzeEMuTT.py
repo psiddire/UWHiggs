@@ -13,7 +13,7 @@ import ROOT
 import math
 from bTagSF import bTagEventWeight
 
-class AnalyzeMuETT(MegaBase, EMuBase):
+class AnalyzeEMuTT(MegaBase, EMuBase):
   tree = 'em/final/Ntuple'
 
   def __init__(self, tree, outfile, **kwargs):

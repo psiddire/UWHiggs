@@ -42,7 +42,7 @@ class MuEQCDBase():
     self.eIDnoiso90 = mcCorrections.eIDnoiso90
     self.eReco = mcCorrections.eReco
     self.rc = mcCorrections.rc
-    self.w2 = mcCorrections.w2
+    self.w1 = mcCorrections.w1
     self.DYreweight = mcCorrections.DYreweight
 
     self.DYweight = self.mcWeight.DYweight
@@ -156,12 +156,12 @@ class MuEQCDBase():
     # Apply all the various corrections to the MC samples
     weight = 1.0
     if self.is_mc:
-      self.w2.var("m_pt").setVal(myMuon.Pt())
-      self.w2.var("m_eta").setVal(myMuon.Eta())
-      self.w2.var("e_pt").setVal(myEle.Pt())
-      self.w2.var("e_eta").setVal(myEle.Eta())
-      eff_trg_data = self.w2.function("m_trg_23_ic_data").getVal()*self.w2.function("e_trg_12_ic_data").getVal()
-      eff_trg_mc = self.w2.function("m_trg_23_ic_mc").getVal()*self.w2.function("e_trg_12_ic_mc").getVal()
+      self.w1.var("m_pt").setVal(myMuon.Pt())
+      self.w1.var("m_eta").setVal(myMuon.Eta())
+      self.w1.var("e_pt").setVal(myEle.Pt())
+      self.w1.var("e_eta").setVal(myEle.Eta())
+      eff_trg_data = self.w1.function("m_trg_23_ic_data").getVal()*self.w1.function("e_trg_12_ic_data").getVal()
+      eff_trg_mc = self.w1.function("m_trg_23_ic_mc").getVal()*self.w1.function("e_trg_12_ic_mc").getVal()
       tEff = 0 if eff_trg_mc==0 else eff_trg_data/eff_trg_mc
       mID = self.muonMediumID(myMuon.Pt(), abs(myMuon.Eta()))
       mIso = self.muonLooseIsoMediumID(myMuon.Pt(), abs(myMuon.Eta()))
@@ -192,11 +192,11 @@ class MuEQCDBase():
 
     njets = row.jetVeto30WoNoisyJets
 
-    self.w2.var("njets").setVal(njets)
-    self.w2.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Eta(), myMuon.Eta()))
-    self.w2.var("e_pt").setVal(myEle.Pt())
-    self.w2.var("m_pt").setVal(myMuon.Pt())
-    osss = self.w2.function("em_qcd_osss").getVal()
+    self.w1.var("njets").setVal(njets)
+    self.w1.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Eta(), myMuon.Eta()))
+    self.w1.var("e_pt").setVal(myEle.Pt())
+    self.w1.var("m_pt").setVal(myMuon.Pt())
+    osss = self.w1.function("em_qcd_osss").getVal()
 
     # b-tag
     nbtag = row.bjetDeepCSVVeto20Medium_2017_DR0p5

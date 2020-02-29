@@ -197,13 +197,10 @@ eID90 = EGammaPOGCorrections.make_egamma_pog_electronID90_2017()
 eIDnoiso90 = EGammaPOGCorrections.make_egamma_pog_electronID90_2017()
 eReco = EGammaPOGCorrections.make_egamma_pog_Reco_2017()
 
-f1 = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2017/htt_scalefactors_2017_v1.root")
+f1 = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2017/htt_scalefactors_legacy_2017.root")
 w1 = f1.Get("w")
 
-f2 = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2017/htt_scalefactors_legacy_2017.root")
-w2 = f2.Get("w")
-
-fphi = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2017/MuEEmbedPhi.root")
+fphi = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2017/EMuEmbedPhi.root")
 wphi0 = fphi.Get("0Jet")
 wphi1 = fphi.Get("1Jet")
 wphi2 = fphi.Get("2Jet")
@@ -213,7 +210,7 @@ def EmbedPhi(phi, njets, mjj):
         corr = wphi0.GetBinContent(wphi0.GetXaxis().FindBin(phi))
     elif njets==1:
         corr =  wphi1.GetBinContent(wphi1.GetXaxis().FindBin(phi))
-    elif njets==2 and mjj < 550:
+    elif njets==2 and mjj < 500:
         corr = wphi2.GetBinContent(wphi2.GetXaxis().FindBin(phi))
     else:
         corr = 1.0
@@ -222,7 +219,7 @@ def EmbedPhi(phi, njets, mjj):
     else:
         return corr
 
-feta = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2017/MuEEmbedEta.root")
+feta = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2017/EMuEmbedEta.root")
 weta0 = feta.Get("0Jet")
 weta1 = feta.Get("1Jet")
 weta2 = feta.Get("2Jet")
@@ -232,7 +229,7 @@ def EmbedEta(eta, njets, mjj):
         corr = weta0.GetBinContent(weta0.GetXaxis().FindBin(eta))
     elif njets==1:
         corr =  weta1.GetBinContent(weta1.GetXaxis().FindBin(eta))
-    elif njets==2 and mjj < 550:
+    elif njets==2 and mjj < 500:
         corr = weta2.GetBinContent(weta2.GetXaxis().FindBin(eta))
     else:
         corr = 1.0

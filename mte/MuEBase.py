@@ -45,7 +45,7 @@ class MuEBase():
     self.eIDnoiso80 = mcCorrections.eIDnoiso80
     self.eReco = mcCorrections.eReco
     self.rc = mcCorrections.rc
-    self.w2 = mcCorrections.w2
+    self.w1 = mcCorrections.w1
     self.DYreweight = mcCorrections.DYreweight
     self.EmbedPhi = mcCorrections.EmbedPhi
     self.EmbedEta = mcCorrections.EmbedEta
@@ -230,12 +230,12 @@ class MuEBase():
     # Apply all the various corrections to the MC samples
     weight = 1.0
     if self.is_mc:
-      self.w2.var("m_pt").setVal(myMuon.Pt())
-      self.w2.var("m_eta").setVal(myMuon.Eta())
-      self.w2.var("e_pt").setVal(myEle.Pt())
-      self.w2.var("e_eta").setVal(myEle.Eta())
-      eff_trg_data = self.w2.function("m_trg_23_ic_data").getVal()*self.w2.function("e_trg_12_ic_data").getVal()
-      eff_trg_mc = self.w2.function("m_trg_23_ic_mc").getVal()*self.w2.function("e_trg_12_ic_mc").getVal()
+      self.w1.var("m_pt").setVal(myMuon.Pt())
+      self.w1.var("m_eta").setVal(myMuon.Eta())
+      self.w1.var("e_pt").setVal(myEle.Pt())
+      self.w1.var("e_eta").setVal(myEle.Eta())
+      eff_trg_data = self.w1.function("m_trg_23_ic_data").getVal()*self.w1.function("e_trg_12_ic_data").getVal()
+      eff_trg_mc = self.w1.function("m_trg_23_ic_mc").getVal()*self.w1.function("e_trg_12_ic_mc").getVal()
       tEff = 0 if eff_trg_mc==0 else eff_trg_data/eff_trg_mc
       mID = self.muonTightID(myMuon.Pt(), abs(myMuon.Eta()))
       mIso = self.muonTightIsoTightID(myMuon.Pt(), abs(myMuon.Eta()))
@@ -268,37 +268,37 @@ class MuEBase():
     mjj = row.vbfMassWoNoisyJets
 
     if self.is_embed:
-      self.w2.var("gt_pt").setVal(myMuon.Pt())
-      self.w2.var("gt_eta").setVal(myMuon.Eta())
-      msel = self.w2.function("m_sel_idEmb_ratio").getVal()
-      self.w2.var("gt_pt").setVal(myEle.Pt())
-      self.w2.var("gt_eta").setVal(myEle.Eta())
-      esel = self.w2.function("m_sel_idEmb_ratio").getVal()
-      self.w2.var("gt1_pt").setVal(myMuon.Pt())
-      self.w2.var("gt1_eta").setVal(myMuon.Eta())
-      self.w2.var("gt2_pt").setVal(myEle.Pt())
-      self.w2.var("gt2_eta").setVal(myEle.Eta())
-      trgsel = self.w2.function("m_sel_trg_ratio").getVal()
-      self.w2.var("m_pt").setVal(myMuon.Pt())
-      self.w2.var("m_eta").setVal(myMuon.Eta())
-      self.w2.var("m_iso").setVal(row.mRelPFIsoDBDefaultR04)
-      m_id_sf = self.w2.function("m_id_embed_kit_ratio").getVal()
-      m_iso_sf = self.w2.function("m_iso_binned_embed_kit_ratio").getVal()
-      self.w2.var("e_pt").setVal(myEle.Pt())
-      self.w2.var("e_eta").setVal(myEle.Eta())
-      self.w2.var("e_iso").setVal(row.eRelPFIsoRho)
-      e_id_sf = self.w2.function("e_id80_embed_kit_ratio").getVal()
-      e_iso_sf = self.w2.function("e_iso_binned_embed_kit_ratio").getVal()
-      eff_trg_data = self.w2.function("m_trg_23_ic_data").getVal()*self.w2.function("e_trg_12_ic_data").getVal()
-      eff_trg_embed = self.w2.function("m_trg_23_ic_embed").getVal()*self.w2.function("e_trg_12_ic_embed").getVal()
+      self.w1.var("gt_pt").setVal(myMuon.Pt())
+      self.w1.var("gt_eta").setVal(myMuon.Eta())
+      msel = self.w1.function("m_sel_idEmb_ratio").getVal()
+      self.w1.var("gt_pt").setVal(myEle.Pt())
+      self.w1.var("gt_eta").setVal(myEle.Eta())
+      esel = self.w1.function("m_sel_idEmb_ratio").getVal()
+      self.w1.var("gt1_pt").setVal(myMuon.Pt())
+      self.w1.var("gt1_eta").setVal(myMuon.Eta())
+      self.w1.var("gt2_pt").setVal(myEle.Pt())
+      self.w1.var("gt2_eta").setVal(myEle.Eta())
+      trgsel = self.w1.function("m_sel_trg_ratio").getVal()
+      self.w1.var("m_pt").setVal(myMuon.Pt())
+      self.w1.var("m_eta").setVal(myMuon.Eta())
+      self.w1.var("m_iso").setVal(row.mRelPFIsoDBDefaultR04)
+      m_id_sf = self.w1.function("m_id_embed_kit_ratio").getVal()
+      m_iso_sf = self.w1.function("m_iso_binned_embed_kit_ratio").getVal()
+      self.w1.var("e_pt").setVal(myEle.Pt())
+      self.w1.var("e_eta").setVal(myEle.Eta())
+      self.w1.var("e_iso").setVal(row.eRelPFIsoRho)
+      e_id_sf = self.w1.function("e_id80_embed_kit_ratio").getVal()
+      e_iso_sf = self.w1.function("e_iso_binned_embed_kit_ratio").getVal()
+      eff_trg_data = self.w1.function("m_trg_23_ic_data").getVal()*self.w1.function("e_trg_12_ic_data").getVal()
+      eff_trg_embed = self.w1.function("m_trg_23_ic_embed").getVal()*self.w1.function("e_trg_12_ic_embed").getVal()
       trg_sf = 0 if eff_trg_embed==0 else eff_trg_data/eff_trg_embed
       weight = weight*row.GenWeight*msel*esel*trgsel*trg_sf*m_id_sf*m_iso_sf*e_id_sf*e_iso_sf*self.EmbedPhi(myEle.Phi(), njets, mjj)*self.EmbedEta(myEle.Eta(), njets, mjj)
 
-    self.w2.var("njets").setVal(njets)
-    self.w2.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Eta(), myMuon.Eta()))
-    self.w2.var("e_pt").setVal(myEle.Pt())
-    self.w2.var("m_pt").setVal(myMuon.Pt())
-    osss = self.w2.function("em_qcd_osss").getVal()
+    self.w1.var("njets").setVal(njets)
+    self.w1.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Eta(), myMuon.Eta()))
+    self.w1.var("e_pt").setVal(myEle.Pt())
+    self.w1.var("m_pt").setVal(myMuon.Pt())
+    osss = self.w1.function("em_qcd_osss").getVal()
 
     # b-tag
     nbtag = row.bjetDeepCSVVeto20Medium_2017_DR0p5

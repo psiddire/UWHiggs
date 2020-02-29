@@ -31,7 +31,7 @@ class ETauBase():
     self.is_GluGlu = self.mcWeight.is_GluGlu
     self.is_VBF = self.mcWeight.is_VBF
 
-    self.Emb = True
+    self.Emb = False
     self.is_recoilC = self.mcWeight.is_recoilC
     self.MetCorrection = self.mcWeight.MetCorrection
     if self.is_recoilC and self.MetCorrection:
@@ -120,7 +120,7 @@ class ETauBase():
 
   # Kinematics Selections
   def kinematics(self, row):
-    if row.ePt < 25 or abs(row.eEta) >= 2.1:
+    if row.ePt < 26 or abs(row.eEta) >= 2.1:#25
       return False
     if row.tPt < 30 or abs(row.tEta) >= 2.3:
       return False
@@ -241,7 +241,7 @@ class ETauBase():
   def fill_histos(self, row, myEle, myMET, myTau, weight, name=''):
     histos = self.histograms
     histos[name+'/ePt'].Fill(myEle.Pt(), weight)
-    histos[name+'/tPt'].Fill(myEle.Pt(), weight)
+    histos[name+'/tPt'].Fill(myTau.Pt(), weight)
     histos[name+'/eEta'].Fill(myEle.Eta(), weight)
     histos[name+'/tEta'].Fill(myTau.Eta(), weight)
     histos[name+'/ePhi'].Fill(myEle.Phi(), weight)

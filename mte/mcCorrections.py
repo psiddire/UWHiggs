@@ -197,11 +197,8 @@ eID90 = EGammaPOGCorrections.make_egamma_pog_electronID90_2017()
 eIDnoiso90 = EGammaPOGCorrections.make_egamma_pog_electronID90_2017()
 eReco = EGammaPOGCorrections.make_egamma_pog_Reco_2017()
 
-f1 = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2017/htt_scalefactors_2017_v1.root")
+f1 = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2017/htt_scalefactors_legacy_2017.root")
 w1 = f1.Get("w")
-
-f2 = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2017/htt_scalefactors_legacy_2017.root")
-w2 = f2.Get("w")
 
 fphi = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2017/MuEEmbedPhi.root")
 wphi0 = fphi.Get("0Jet")

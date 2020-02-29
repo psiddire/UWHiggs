@@ -45,7 +45,7 @@ class EMuQCDBase():
     self.eIDnoiso90 = mcCorrections.eIDnoiso90
     self.eReco = mcCorrections.eReco
     self.rc = mcCorrections.rc
-    self.w2 = mcCorrections.w2
+    self.w1 = mcCorrections.w1
     self.DYreweight = mcCorrections.DYreweight
     self.EmbedPhi = mcCorrections.EmbedPhi
     self.EmbedEta = mcCorrections.EmbedEta
@@ -69,8 +69,8 @@ class EMuQCDBase():
     self.sys = Kinematics.sys
     self.sssys = Kinematics.sssys
     self.qcdsys = Kinematics.qcdsys
-    #self.functor = Kinematics.functor
-    #self.var_d = Kinematics.var_d
+    self.functor = Kinematics.functor
+    self.var_d = Kinematics.var_d
 
     self.branches='mPt/F:ePt/F:e_m_collinearMass/F:e_m_visibleMass/F:dPhiMuMET/F:dPhiEMET/F:dPhiEMu/F:MTMuMET/F:e_m_PZeta/F:MTEMET/F:dEtaEMu/F:type1_pfMetEt/F:njets/I:vbfMass/F:weight/F'
     self.holders = []
@@ -171,12 +171,12 @@ class EMuQCDBase():
     # Apply all the various corrections to the MC samples
     weight = 1.0
     if self.is_mc:
-      self.w2.var("e_pt").setVal(myEle.Pt())
-      self.w2.var("e_eta").setVal(myEle.Eta())
-      self.w2.var("m_pt").setVal(myMuon.Pt())
-      self.w2.var("m_eta").setVal(myMuon.Eta())
-      eff_trg_data = self.w2.function("e_trg_23_ic_data").getVal()*self.w2.function("m_trg_8_ic_data").getVal()
-      eff_trg_mc = self.w2.function("e_trg_23_ic_mc").getVal()*self.w2.function("m_trg_8_ic_mc").getVal()
+      self.w1.var("e_pt").setVal(myEle.Pt())
+      self.w1.var("e_eta").setVal(myEle.Eta())
+      self.w1.var("m_pt").setVal(myMuon.Pt())
+      self.w1.var("m_eta").setVal(myMuon.Eta())
+      eff_trg_data = self.w1.function("e_trg_23_ic_data").getVal()*self.w1.function("m_trg_8_ic_data").getVal()
+      eff_trg_mc = self.w1.function("e_trg_23_ic_mc").getVal()*self.w1.function("m_trg_8_ic_mc").getVal()
       tEff = 0 if eff_trg_mc==0 else eff_trg_data/eff_trg_mc
       eID = self.eIDnoiso90(myEle.Eta(), myEle.Pt())
       eReco = self.eReco(myEle.Eta(), myEle.Pt())
@@ -207,11 +207,11 @@ class EMuQCDBase():
 
     njets = row.jetVeto30WoNoisyJets
 
-    self.w2.var("njets").setVal(njets)
-    self.w2.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Eta(), myMuon.Eta()))
-    self.w2.var("e_pt").setVal(myEle.Pt())
-    self.w2.var("m_pt").setVal(myMuon.Pt())
-    osss = self.w2.function("em_qcd_osss").getVal()
+    self.w1.var("njets").setVal(njets)
+    self.w1.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Eta(), myMuon.Eta()))
+    self.w1.var("e_pt").setVal(myEle.Pt())
+    self.w1.var("m_pt").setVal(myMuon.Pt())
+    osss = self.w1.function("em_qcd_osss").getVal()
 
     # b-tag
     nbtag = row.bjetDeepCSVVeto20Medium_2017_DR0p5
