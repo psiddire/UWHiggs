@@ -32,10 +32,10 @@ samples = Hash[
 		"eraB" => get_sample_names('data_EGamma_Run2018B-17Sep2018'),
                 "eraC" => get_sample_names('data_EGamma_Run2018C-17Sep2018'),
                 "eraD" => get_sample_names('data_EGamma_Run2018D-PromptReco'),
-                "embedA" => get_sample_names('embedded_EmbeddingRun2016A_ElTauFinalState'),
-		"embedB" => get_sample_names('embedded_EmbeddingRun2016B_ElTauFinalState'),
-                "embedC" => get_sample_names('embedded_EmbeddingRun2016C_ElTauFinalState'),
-                "embedD" => get_sample_names('embedded_EmbeddingRun2016D_ElTauFinalState'),
+                "embedA" => get_sample_names('embedded_EmbeddingRun2018A_ElTauFinalState'),
+		"embedB" => get_sample_names('embedded_EmbeddingRun2018B_ElTauFinalState'),
+                "embedC" => get_sample_names('embedded_EmbeddingRun2018C_ElTauFinalState'),
+                "embedD" => get_sample_names('embedded_EmbeddingRun2018D_ElTauFinalState'),
 		"DY" => get_sample_names('DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v1'),
 		"DY1" => get_sample_names('DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2'),	
 		"DY2" => get_sample_names('DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2'),
@@ -87,6 +87,20 @@ end
 task :ET => get_analyzer_results("AnalyzeETau.py", samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TT2l'] + samples['TT2s'] + samples['TT2h'] + samples['vbfHTT'] + samples['ggHTT'] + samples['vbfHWW'] + samples['ggHWW'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ggHET'] + samples['vbfHET'] + samples['EWKWminus'] + samples['EWKWplus'] + samples['EWKZll'] + samples['EWKZnunu'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['DY10'] + samples['eraA'] + samples['eraB'] + samples['eraC'] + samples['eraD'])
 
 task :ZTT => get_analyzer_results("AnalyzeETauZTT.py", samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TT2l'] + samples['TT2s'] + samples['TT2h'] + samples['vbfHTT'] + samples['ggHTT'] + samples['vbfHWW'] + samples['ggHWW'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ggHET'] + samples['vbfHET'] + samples['EWKWminus'] + samples['EWKWplus'] + samples['EWKZll'] + samples['EWKZnunu'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['DY10'] + samples['eraA'] + samples['eraB'] + samples['eraC'] + samples['eraD'])
+
+#task :Sys => get_analyzer_results("AnalyzeETauSys.py", samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TT2l'] + samples['TT2s'] + samples['TT2h'] + samples['vbfHTT'] + samples['ggHTT'] + samples['vbfHWW'] + samples['ggHWW'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ggHET'] + samples['vbfHET'] + samples['EWKWminus'] + samples['EWKWplus'] + samples['EWKZll'] + samples['EWKZnunu'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['DY10'] + samples['eraA'] + samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['embedA'] + samples['embedB'] + samples['embedC'] + samples['embedD'])
+
+task :Sys => get_analyzer_results("AnalyzeETauSys.py", samples['DY10'])
+
+task :BDT => get_analyzer_results("AnalyzeETauBDT.py", samples['ggHET'] + samples['vbfHET'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['eraA'] + samples['eraB'] + samples['eraC'] + samples['eraD'])
+
+task :FBDT => get_analyzer_results("AnalyzeETauFitBDT.py", samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TT2l'] + samples['TT2s'] + samples['TT2h'] + samples['vbfHTT'] + samples['ggHTT'] + samples['vbfHWW'] + samples['ggHWW'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ggHET'] + samples['vbfHET'] + samples['EWKWminus'] + samples['EWKWplus'] + samples['EWKZll'] + samples['EWKZnunu'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['DY10'] + samples['eraA'] + samples['eraB'] + samples['eraC'] + samples['eraD'])
+
+#task :SysBDT => get_analyzer_results("AnalyzeETauSysBDT.py", samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TT2l'] + samples['TT2s'] + samples['TT2h'] + samples['vbfHTT'] + samples['ggHTT'] + samples['vbfHWW'] + samples['ggHWW'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ggHET'] + samples['vbfHET'] + samples['EWKWminus'] + samples['EWKWplus'] + samples['EWKZll'] + samples['EWKZnunu'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['DY10'] + samples['eraA'] + samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['embedA'] + samples['embedB'] + samples['embedC'] + samples['embedD'])
+
+task :SysBDT => get_analyzer_results("AnalyzeETauSysBDT.py", samples['DY10'])
+
+task :ZTTBDT => get_analyzer_results("AnalyzeETauZTTBDT.py", samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TT2l'] + samples['TT2s'] + samples['TT2h'] + samples['vbfHTT'] + samples['ggHTT'] + samples['vbfHWW'] + samples['ggHWW'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ggHET'] + samples['vbfHET'] + samples['EWKWminus'] + samples['EWKWplus'] + samples['EWKZll'] + samples['EWKZnunu'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['DY10'] + samples['eraA'] + samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['embedA'] + samples['embedB'] + samples['embedC'] + samples['embedD'])
 
 
 $etdir = "plots/#{$jobid}/AnalyzerMuTau/mt_now/"

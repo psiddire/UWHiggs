@@ -119,8 +119,6 @@ class AnalyzeMuTauSysBDT(MegaBase, MuTauBase):
 
       # Recoil Response and Resolution
       if self.is_recoilC and self.MetCorrection:
-        sysMet = self.Metcorected.CorrectByMeanResolution(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)))
-        myMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
         tmpMET.SetPtEtaPhiM(myMET.Pt(), 0, myMET.Phi(), 0)
         sysMet = self.MetSys.ApplyMEtSys(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)), 0, 0, 0)
         if sysMet!=None:
@@ -143,16 +141,16 @@ class AnalyzeMuTauSysBDT(MegaBase, MuTauBase):
       self.fill_loosecategories(row, myMuon, myMET, myTau, njets, mjj, weight, '')
 
       # B-Tagged Scale Factor
-      nbtag = row.bjetDeepCSVVeto20Medium_2016_DR0p5
+      nbtag = row.bjetDeepCSVVeto20Medium_2018_DR0p5
       if nbtag > 2:
         nbtag = 2
       if nbtag==0:
         self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/bTagUp')
         self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/bTagDown')
       if nbtag > 0:
-        btagweight = bTagEventWeight(nbtag, row.jb1pt_2016, row.jb1hadronflavor_2016, row.jb2pt_2016, row.jb2hadronflavor_2016, 1, 0, 0)
-        btagweightup = bTagEventWeight(nbtag, row.jb1pt_2016, row.jb1hadronflavor_2016, row.jb2pt_2016, row.jb2hadronflavor_2016, 1, 1, 0)
-        btagweightdown = bTagEventWeight(nbtag, row.jb1pt_2016, row.jb1hadronflavor_2016, row.jb2pt_2016, row.jb2hadronflavor_2016, 1, -1, 0)
+        btagweight = bTagEventWeight(nbtag, row.jb1pt_2018, row.jb1hadronflavor_2018, row.jb2pt_2018, row.jb2hadronflavor_2018, 1, 0, 0)
+        btagweightup = bTagEventWeight(nbtag, row.jb1pt_2018, row.jb1hadronflavor_2018, row.jb2pt_2018, row.jb2hadronflavor_2018, 1, 1, 0)
+        btagweightdown = bTagEventWeight(nbtag, row.jb1pt_2018, row.jb1hadronflavor_2018, row.jb2pt_2018, row.jb2hadronflavor_2018, 1, -1, 0)
         self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * btagweightup/btagweight, '/bTagUp')
         self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * btagweightdown/btagweight, '/bTagDown')
 
@@ -245,8 +243,12 @@ class AnalyzeMuTauSysBDT(MegaBase, MuTauBase):
       # DY pT reweighting
       if self.is_DY:
         dyweight = self.DYreweight(row.genMass, row.genpT)
-        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight*(1.1*dyweight-0.1)/dyweight, '/DYptreweightUp')
-        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight*(0.9*dyweight+0.1)/dyweight, '/DYptreweightDown')
+        if dyweight==0:
+          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, 0, '/DYptreweightUp')
+          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, 0, '/DYptreweightDown')
+        else:
+          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight*(1.1*dyweight-0.1)/dyweight, '/DYptreweightUp')
+          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight*(0.9*dyweight+0.1)/dyweight, '/DYptreweightDown')
 
       # TTbar pT reweighting
       if self.is_TT:

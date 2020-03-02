@@ -194,48 +194,62 @@ tauSF = getTauTriggerSFs()
 f1 = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2018/htt_scalefactors_legacy_2018.root")
 w1 = f1.Get("w")
 
-# feta = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2018/ETauEmbedEta.root")
-# weta0 = feta.Get("0Jet")
-# weta1 = feta.Get("1Jet")
-# weta2 = feta.Get("2Jet")
-# weta3 = feta.Get("2JetVBF")
+fpt = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2018/ETauEmbedPt.root")
+wpt0 = fpt.Get("0Jet")
+wpt1 = fpt.Get("1Jet")
+wpt2 = fpt.Get("2Jet")
 
-# def EmbedEta(eta, njets, mjj):
-#     if njets==0:
-#         sf = weta0.GetBinContent(weta0.GetXaxis().FindBin(eta))
-#     elif njets==1:
-#         sf = weta1.GetBinContent(weta1.GetXaxis().FindBin(eta))
-#     elif njets==2 and mjj < 500:
-#         sf = weta2.GetBinContent(weta2.GetXaxis().FindBin(eta))
-#     elif njets==2 and mjj > 500:
-#         sf = weta3.GetBinContent(weta3.GetXaxis().FindBin(eta))
-#     else:
-#         sf = 1.0
-#     if sf > 3:
-#         return 1.0
-#     else:
-#         return sf                                                                                                                                                                                                                                                            
-# fphi = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2018/ETauEmbedPhi.root")
-# wphi0 = fphi.Get("0Jet")
-# wphi1 = fphi.Get("1Jet")
-# wphi2 = fphi.Get("2Jet")
-# wphi3 = fphi.Get("2JetVBF")
+def EmbedPt(pt, njets, mjj):
+    if njets==0:
+        corr = wpt0.GetBinContent(wpt0.GetXaxis().FindBin(pt))
+    elif njets==1:
+        corr =  wpt1.GetBinContent(wpt1.GetXaxis().FindBin(pt))
+    elif njets==2 and mjj < 500:
+        corr = wpt2.GetBinContent(wpt2.GetXaxis().FindBin(pt))
+    else:
+        corr = 1.0
+    if corr > 3.0:
+        return 1
+    else:
+        return corr
 
-# def EmbedPhi(phi, njets, mjj):
-#     if njets==0:
-#         sf = wphi0.GetBinContent(wphi0.GetXaxis().FindBin(phi))
-#     elif njets==1:
-#         sf = wphi1.GetBinContent(wphi1.GetXaxis().FindBin(phi))
-#     elif njets==2 and mjj < 500:
-#         sf = wphi2.GetBinContent(wphi2.GetXaxis().FindBin(phi))
-#     elif njets==2 and mjj > 500:
-#         sf = wphi3.GetBinContent(wphi3.GetXaxis().FindBin(phi))
-#     else:
-#         sf = 1.0
-#     if sf > 3:
-#         return 1.0
-#     else:
-#         return sf
+feta = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2018/ETauEmbedEta.root")
+weta0 = feta.Get("0Jet")
+weta1 = feta.Get("1Jet")
+weta2 = feta.Get("2Jet")
+
+def EmbedEta(eta, njets, mjj):
+    if njets==0:
+        sf = weta0.GetBinContent(weta0.GetXaxis().FindBin(eta))
+    elif njets==1:
+        sf = weta1.GetBinContent(weta1.GetXaxis().FindBin(eta))
+    elif njets==2 and mjj < 500:
+        sf = weta2.GetBinContent(weta2.GetXaxis().FindBin(eta))
+    else:
+        sf = 1.0
+    if sf > 3:
+        return 1.0
+    else:
+        return sf
+
+fphi = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2018/ETauEmbedPhi.root")
+wphi0 = fphi.Get("0Jet")
+wphi1 = fphi.Get("1Jet")
+wphi2 = fphi.Get("2Jet")
+
+def EmbedPhi(phi, njets, mjj):
+    if njets==0:
+        sf = wphi0.GetBinContent(wphi0.GetXaxis().FindBin(phi))
+    elif njets==1:
+        sf = wphi1.GetBinContent(wphi1.GetXaxis().FindBin(phi))
+    elif njets==2 and mjj < 500:
+        sf = wphi2.GetBinContent(wphi2.GetXaxis().FindBin(phi))
+    else:
+        sf = 1.0
+    if sf > 3:
+        return 1.0
+    else:
+        return sf
 
 def FesTau(eta, dm):
     fes = (1.0, 0.0, 0.0)

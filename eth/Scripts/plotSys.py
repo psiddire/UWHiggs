@@ -19,12 +19,12 @@ for j in Lists.jet:
 
     s = [s1, s2, s3, s4]
 
-    outputdir = 'plots/%s/AnalyzeETauSys/2016SelectionsEmbed/%s/' % (jobid, s[0])
+    outputdir = 'plots/%s/AnalyzeETauSys/2018SelectionsEmbed/%s/' % (jobid, s[0])
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
     plotter = basePlotter.mcInit(Lists.files, Lists.lumifiles, outputdir, s)
 
     for h in Lists.colhisto:
-        plotter.plot_mc_vs_data('', ['VBF_LFV_HToETau_M125*', 'GluGlu_LFV_HToETau_M125*'], h[0], 5, xaxis = h[1], leftside=False, xrange=None, preprocess=None, show_ratio=True, ratio_range=1.5, sort=True, blind_region=True, control=s1, jets=j, year='2016', channel='etauh')
+        plotter.plot_mc_vs_data('', ['VBF_LFV_HToETau_M125*', 'GluGlu_LFV_HToETau_M125*'], h[0], 2, xaxis = h[1], leftside=False, xrange=None, preprocess=None, show_ratio=True, ratio_range=1.5, sort=True, blind_region=True, control=s1, jets=j, year='2018', channel='etauh')
         plotter.save(h[0])

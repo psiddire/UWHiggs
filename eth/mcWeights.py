@@ -52,7 +52,7 @@ class mcWeights:
 
     def lumiWeight(self, weight):
         if self.is_DYlow:
-            weight = weight*28.022
+            weight = weight*0.0#28.022
         if self.is_WG:
             weight = weight*4.513
         if self.is_GluGlu:

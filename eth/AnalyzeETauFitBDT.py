@@ -11,6 +11,7 @@ from ETauBase import ETauBase
 import ETauTree
 import ROOT
 import math
+import Kinematics
 
 class AnalyzeETauFitBDT(MegaBase, ETauBase):
   tree = 'et/final/Ntuple'
@@ -86,14 +87,14 @@ class AnalyzeETauFitBDT(MegaBase, ETauBase):
         self.fill_histos_gen(row, myEle, myMET, myTau, weight, name)
 
       if not self.obj1_tight(row) and self.obj1_loose(row) and self.obj2_tight(row):
-        frEle = self.fakeRateEle(myEle.Pt(), myEle.Eta())
+        frEle = self.fakeRateEle(myEle.Pt())
         weight = weight*frEle
         name = ['EleLooseWOS', 'EleLooseOS', 'EleLooseSS']
         self.fill_histos_gen(row, myEle, myMET, myTau, weight, name)
 
       if not self.obj2_tight(row) and self.obj2_loose(row) and not self.obj1_tight(row) and self.obj1_loose(row):
         frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
-        frEle = self.fakeRateEle(myEle.Pt(), myEle.Eta())
+        frEle = self.fakeRateEle(myEle.Pt())
         weight = weight*frEle*frTau
         name = ['EleLooseTauLooseWOS', 'EleLooseTauLooseOS', 'EleLooseTauLooseSS']
         self.fill_histos_gen(row, myEle, myMET, myTau, weight, name)

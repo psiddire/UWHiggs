@@ -2,9 +2,9 @@ from math import sqrt, pi, exp, cos
 import os
 from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVA
 
-#var_d_star = ['ePt', 'tPt', 'dPhiETau', 'dEtaETau', 'e_t_collinearMass', 'e_t_visibleMass', 'MTTauMET', 'dPhiTauMET']
-#xml_name = os.path.join(os.getcwd(), 'bdtdata/dataset/weights/TMVAClassification_BDT.weights.xml')
-#functor = FunctorFromMVA('BDT', xml_name, *var_d_star)
+var_d_star = ['ePt', 'tPt', 'dPhiETau', 'dEtaETau', 'e_t_collinearMass', 'e_t_visibleMass', 'MTTauMET', 'dPhiTauMET']
+xml_name = os.path.join(os.getcwd(), 'bdtdata/dataset/weights/TMVAClassification_BDT.weights.xml')
+functor = FunctorFromMVA('BDT', xml_name, *var_d_star)
 
 def var_d(myEle, myMET, myTau):
   return {'ePt' : myEle.Pt(), 'tPt' : myTau.Pt(), 'dPhiETau' : deltaPhi(myEle.Phi(), myTau.Phi()), 'dEtaETau' : deltaEta(myEle.Eta(), myTau.Eta()), 'e_t_collinearMass' : collMass(myEle, myMET, myTau), 'e_t_visibleMass' : visibleMass(myEle, myTau), 'MTTauMET' : transverseMass(myTau, myMET), 'dPhiTauMET' : deltaPhi(myTau.Phi(), myMET.Phi())}

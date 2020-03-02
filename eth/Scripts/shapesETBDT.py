@@ -37,16 +37,16 @@ for di in Lists.dirs:
 
     if di=='0Jet':
         dr = '0jet'
-        binning = array.array('d', [-0.5, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.2])        
+        binning = array.array('d', [-0.55, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.25])
     elif di=='1Jet':
         dr = '1jet'
-        binning = array.array('d', [-0.5, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.2, 0.25])
+        binning = array.array('d', [-0.55, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.2, 0.3])
     elif di=='2Jet':
         dr = '2jet_gg'
-        binning = array.array('d', [-0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.2, 0.25])
+        binning = array.array('d', [-0.5, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.2, 0.35])
     else:
         dr = '2jet_vbf'
-        binning = array.array('d', [-0.5, -0.4, -0.3, -0.2, -0.1, 0.0, 0.1, 0.2, 0.3])
+        binning = array.array('d', [-0.5, -0.4, -0.3, -0.2, -0.1, 0.0, 0.1, 0.2, 0.4])
 
     # Observed
     d = f.mkdir(dr)
@@ -75,6 +75,11 @@ for di in Lists.dirs:
         emb = Lists.positivize(embed.Get('TightOS'+di+sc+'/bdtDiscriminator'))
         embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau'+Lists.embscaleSysDeepNames[i][0], binning))
         embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau'+Lists.embscaleSysDeepNames[i][1], binning))
+    # Electron Energy Scale
+    for i, esSys in enumerate(Lists.escale):
+        emb = Lists.positivize(embed.Get('TightOS'+di+esSys+'/bdtDiscriminator'))
+        embSys.append(emb.Rebin(len(binning)-1, Lists.escaleNames[i][0], binning))
+        embSys.append(emb.Rebin(len(binning)-1, Lists.escaleNames[i][1], binning))
     # Write Histograms
     for eSys in embSys:
         eSys.Write()
@@ -131,7 +136,7 @@ for di in Lists.dirs:
     for qSys in qcdSys:
         qSys.Write()
 
-    #Monte Carlo
+    # Monte Carlo
     for i, sam in enumerate(Lists.samp):
         print sam
         DY = v[i]
@@ -139,8 +144,8 @@ for di in Lists.dirs:
         dy = Lists.positivize(DY.Get('TightOS'+di+'/bdtDiscriminator'))
         dySys.append(dy.Rebin(len(binning)-1, sam, binning))
         # Pileup, Prefiring, Lepton Faking Tau, Scale
-        for j, bSys in enumerate(Lists.mcSys):
-            dy = Lists.positivize(DY.Get('TightOS'+di+bSys+'/bdtDiscriminator'))
+        for j, mSys in enumerate(Lists.mcSys):
+            dy = Lists.positivize(DY.Get('TightOS'+di+mSys+'/bdtDiscriminator'))
             dySys.append(dy.Rebin(len(binning)-1, sam+Lists.mcSysNames[j], binning))
         # Tau Scale
         for j, sc in enumerate(Lists.scaleSysDeep):

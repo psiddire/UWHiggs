@@ -248,8 +248,15 @@ class AnalyzeETauSys(MegaBase, ETauBase):
       # DY pT reweighting
       if self.is_DY:
         dyweight = self.DYreweight(row.genMass, row.genpT)
-        self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight*(1.1*dyweight-0.1)/dyweight, '/DYptreweightUp')
-        self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight*(0.9*dyweight+0.1)/dyweight, '/DYptreweightDown')
+        if dyweight==0:
+          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, 0, '/DYptreweightUp')
+          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, 0, '/DYptreweightDown')
+        else:
+          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight*(1.1*dyweight-0.1)/dyweight, '/DYptreweightUp')
+          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight*(0.9*dyweight+0.1)/dyweight, '/DYptreweightDown')
+      elif self.is_DYlow:
+        self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/DYptreweightUp')
+        self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/DYptreweightDown')
 
       # TTbar pT reweighting
       if self.is_TT:
@@ -444,7 +451,7 @@ class AnalyzeETauSys(MegaBase, ETauBase):
 
       myEle, myMET, myTau = self.lepVec(row)[0], self.lepVec(row)[1], self.lepVec(row)[2]
 
-      weight = self.corrFact(row, myEle, myTau)
+      weight = self.corrFact(row, myEle, myTau, self.trigger(row)[0])
 
       self.fill_sys(row, myEle, myMET, myTau, weight)
 

@@ -11,6 +11,7 @@ from MuTauBase import MuTauBase
 import MuTauTree
 import ROOT
 import math
+import Kinematics
 
 class AnalyzeMuTauFitBDT(MegaBase, MuTauBase):
   tree = 'mt/final/Ntuple'

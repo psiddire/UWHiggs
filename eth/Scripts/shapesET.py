@@ -72,6 +72,11 @@ for di in Lists.dirs:
         emb = Lists.positivize(embed.Get('TightOS'+di+sc+'/e_t_CollinearMass'))
         embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau'+Lists.embscaleSysDeepNames[i][0], binning))
         embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau'+Lists.embscaleSysDeepNames[i][1], binning))
+    # Electron Energy Scale
+    for i, esSys in enumerate(Lists.escale):
+        emb = Lists.positivize(embed.Get('TightOS'+di+esSys+'/e_t_CollinearMass'))
+        embSys.append(emb.Rebin(len(binning)-1, Lists.escaleNames[i][0], binning))
+        embSys.append(emb.Rebin(len(binning)-1, Lists.escaleNames[i][1], binning))
     # Write Histograms
     for eSys in embSys:
         eSys.Write()
@@ -128,7 +133,7 @@ for di in Lists.dirs:
     for qSys in qcdSys:
         qSys.Write()
 
-    #Monte Carlo
+    # Monte Carlo
     for i, sam in enumerate(Lists.samp):
         print sam
         DY = v[i]

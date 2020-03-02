@@ -32,7 +32,7 @@ class MuTauBase():
     self.is_GluGlu = self.mcWeight.is_GluGlu
     self.is_VBF = self.mcWeight.is_VBF
 
-    self.Emb = False
+    self.Emb = True
     self.is_recoilC = self.mcWeight.is_recoilC
     self.MetCorrection = self.mcWeight.MetCorrection
     if self.is_recoilC and self.MetCorrection:
@@ -40,8 +40,7 @@ class MuTauBase():
       self.MetSys = mcCorrections.MetSys
 
     # Load all the different lepton and trigger scale factors
-    self.triggerEff22 = mcCorrections.muonTrigger22
-    self.triggerEff24 = mcCorrections.muonTrigger24
+    self.triggerEff27 = mcCorrections.muonTrigger27
     self.muonTightID = mcCorrections.muonID_tight
     self.muonTightIsoTightID = mcCorrections.muonIso_tight_tightid
     self.muonLooseIsoTightID = mcCorrections.muonIso_loose_tightid
@@ -58,10 +57,11 @@ class MuTauBase():
     self.DYreweight = mcCorrections.DYreweight
     self.w1 = mcCorrections.w1
     self.rc = mcCorrections.rc
+    self.EmbedPt = mcCorrections.EmbedPt
 
     self.DYweight = self.mcWeight.DYweight
 
-    self.fakeRate = FakeRate.fakerateDeep_weight
+    self.fakeRate = FakeRate.fakerate_weight
     self.fakeRateMuon = FakeRate.fakerateMuon_weight
 
     # Load the definition of the various kinematic variables
@@ -82,8 +82,8 @@ class MuTauBase():
     self.sys = Kinematics.sysDeep
     self.fakeSys = Kinematics.fakeDeepSys
     self.scaleSys = Kinematics.scaleDeepSys
-    #self.functor = Kinematics.functor
-    #self.var_d = Kinematics.var_d
+    self.functor = Kinematics.functor
+    self.var_d = Kinematics.var_d
 
     self.branches='mPt/F:tPt/F:dPhiMuTau/F:dEtaMuTau/F:type1_pfMetEt/F:m_t_collinearMass/F:MTTauMET/F:dPhiTauMET/F:dPhiMuMET/F:m_t_visibleMass/F:m_t_PZeta/F:MTMuMET/F:njets/I:vbfMass/F:weight/F'
     self.holders = []
@@ -103,7 +103,8 @@ class MuTauBase():
   # Trigger
   def trigger(self, row):
     trigger24 = row.IsoMu24Pass and row.mMatchesIsoMu24Filter and row.mMatchesIsoMu24Path and row.mPt > 26
-    return trigger24
+    trigger27 = row.IsoMu27Pass and row.mMatchesIsoMu27Filter and row.mMatchesIsoMu27Path and row.mPt > 29
+    return bool(trigger24 or trigger27)
 
   # Kinematics requirements on both the leptons
   def kinematics(self, row):
@@ -276,12 +277,15 @@ class MuTauBase():
     # Apply all the various corrections to the MC samples
     weight = 1.0
     if self.is_mc:
-      tEff = self.triggerEff24(myMuon.Pt(), abs(myMuon.Eta()))[0]
-      mID = self.muonTightID(myMuon.Eta(), myMuon.Pt())
+      self.w1.var('m_pt').setVal(myMuon.Pt())
+      self.w1.var('m_eta').setVal(myMuon.Eta())
+      self.w1.var('m_iso').setVal(row.mRelPFIsoDBDefaultR04)
+      tEff = self.w1.function('m_trg24_27_binned_kit_ratio').getVal()
+      mID = self.muonTightID(myMuon.Pt(), abs(myMuon.Eta()))
       if self.obj1_tight(row):
-        mIso = self.muonTightIsoTightID(myMuon.Eta(), myMuon.Pt())
+        mIso = self.muonTightIsoTightID(myMuon.Pt(), abs(myMuon.Eta()))
       else:
-        mIso = self.muonLooseIsoTightID(myMuon.Eta(), myMuon.Pt())
+        mIso = self.muonLooseIsoTightID(myMuon.Pt(), abs(myMuon.Eta()))
       mTrk = self.muTracking(myMuon.Eta())[0]
       mcSF = self.rc.kSpreadMC(row.mCharge, myMuon.Pt(), myMuon.Eta(), myMuon.Phi(), row.mGenPt, 0, 0)
       weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*mcSF*row.prefiring_weight
@@ -314,6 +318,8 @@ class MuTauBase():
 
     # Embed scale factors
     if self.is_embed:
+      njets = row.jetVeto30
+      mjj = row.vbfMass
       if row.tDecayMode == 0:
         dm = 0.975
       elif row.tDecayMode == 1:
@@ -325,25 +331,25 @@ class MuTauBase():
       # Muon selection scale factor
       self.w1.var('gt_pt').setVal(myMuon.Pt())
       self.w1.var('gt_eta').setVal(myMuon.Eta())
-      msel = self.w1.function('m_sel_id_ic_ratio').getVal()
+      msel = self.w1.function('m_sel_idEmb_ratio').getVal()
       # Tau selection scale factor
       self.w1.var('gt_pt').setVal(myTau.Pt())
       self.w1.var('gt_eta').setVal(myTau.Eta())
-      tsel = self.w1.function('m_sel_id_ic_ratio').getVal()
+      tsel = self.w1.function('m_sel_idEmb_ratio').getVal()
       # Trigger selection scale factor
       self.w1.var('gt1_pt').setVal(myMuon.Pt())
       self.w1.var('gt1_eta').setVal(myMuon.Eta())
       self.w1.var('gt2_pt').setVal(myTau.Pt())
       self.w1.var('gt2_eta').setVal(myTau.Eta())
-      trgsel = self.w1.function('m_sel_trg_ic_ratio').getVal()
+      trgsel = self.w1.function('m_sel_trg_ratio').getVal()
       # Muon Identification, Isolation, tracking, and trigger scale factors
       self.w1.var("m_pt").setVal(myMuon.Pt())
       self.w1.var("m_eta").setVal(myMuon.Eta())
       self.w1.var("m_iso").setVal(row.mRelPFIsoDBDefaultR04)
-      m_idiso_sf = self.w1.function("m_idiso_ic_embed_ratio").getVal()
-      m_trk_sf = self.w1.function("m_trk_ratio").getVal()
-      m_trg_sf = self.w1.function("m_trg_ic_embed_ratio").getVal()
-      weight = row.GenWeight*dm*msel*tsel*trgsel*m_idiso_sf*m_trk_sf*m_trg_sf
+      m_trg_sf = self.w1.function('m_trg24_27_binned_embed_kit_ratio').getVal()
+      m_id_sf = self.w1.function('m_id_embed_kit_ratio').getVal()
+      m_iso_sf = self.w1.function('m_iso_binned_embed_kit_ratio').getVal()
+      weight = row.GenWeight*dm*msel*tsel*trgsel*m_id_sf*m_iso_sf*m_trg_sf*self.EmbedPt(myMuon.Pt(), njets, mjj)
       # Tau Identification
       if self.obj2_tight(row):
         weight = weight * self.deepTauVSjet_Emb_tight(myTau.Pt())[0]
@@ -353,11 +359,11 @@ class MuTauBase():
         weight = 0
 
     # b-tag
-    nbtag = row.bjetDeepCSVVeto20Medium_2016_DR0p5
+    nbtag = row.bjetDeepCSVVeto20Medium_2018_DR0p5
     if nbtag > 2:
       nbtag = 2
     if (self.is_mc and nbtag > 0):
-      btagweight = bTagEventWeight(nbtag, row.jb1pt_2016, row.jb1hadronflavor_2016, row.jb2pt_2016, row.jb2hadronflavor_2016, 1, 0, 0)
+      btagweight = bTagEventWeight(nbtag, row.jb1pt_2018, row.jb1hadronflavor_2018, row.jb2pt_2018, row.jb2hadronflavor_2018, 1, 0, 0)
       weight = weight * btagweight
     if (bool(self.is_data) and nbtag > 0):
       weight = 0

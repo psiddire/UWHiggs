@@ -27,11 +27,12 @@ class ETauBase():
     self.is_embed = self.mcWeight.is_embed
     self.is_mc = self.mcWeight.is_mc
     self.is_DY = self.mcWeight.is_DY
+    self.is_DYlow = self.mcWeight.is_DYlow
     self.is_TT = self.mcWeight.is_TT
     self.is_GluGlu = self.mcWeight.is_GluGlu
     self.is_VBF = self.mcWeight.is_VBF
 
-    self.Emb = False
+    self.Emb = True
     self.is_recoilC = self.mcWeight.is_recoilC
     self.MetCorrection = self.mcWeight.MetCorrection
     if self.is_recoilC and self.MetCorrection:
@@ -51,8 +52,9 @@ class ETauBase():
     self.FesTau = mcCorrections.FesTau
     self.ScaleTau = mcCorrections.ScaleTau
     self.DYreweight = mcCorrections.DYreweight
-    #self.EmbedEta = mcCorrections.EmbedEta
-    #self.EmbedPhi = mcCorrections.EmbedPhi
+    self.EmbedEta = mcCorrections.EmbedEta
+    self.EmbedPhi = mcCorrections.EmbedPhi
+    self.EmbedPt = mcCorrections.EmbedPt
 
     self.fakeRate = FakeRate.fakerate_weight
     self.fakeRateEle = FakeRate.fakerateEle_weight
@@ -76,8 +78,8 @@ class ETauBase():
     self.sys = Kinematics.sysDeep
     self.fakeSys = Kinematics.fakeDeepSys
     self.scaleSys = Kinematics.scaleDeepSys
-    #self.functor = Kinematics.functor
-    #self.var_d = Kinematics.var_d
+    self.functor = Kinematics.functor
+    self.var_d = Kinematics.var_d
 
     self.branches='ePt/F:tPt/F:dPhiETau/F:dEtaETau/F:dPhiEMET/F:dPhiTauMET/F:e_t_collinearMass/F:e_t_visibleMass/F:e_t_PZeta/F:MTTauMET/F:MTEMET/F:type1_pfMetEt/F:njets/I:vbfMass/F:weight/F'
     self.holders = []
@@ -98,21 +100,21 @@ class ETauBase():
   def trigger(self, row):
     if self.is_embed:
       if abs(row.eEta) < 1.479:
-        trigger27 = row.Ele27WPTightPass and row.eMatchEmbeddedFilterEle27 and row.ePt > 28
         trigger32 = row.Ele32WPTightPass and row.eMatchEmbeddedFilterEle32 and row.ePt > 33
         trigger35 = row.Ele35WPTightPass and row.eMatchEmbeddedFilterEle35 and row.ePt > 36
-        trigger2430 = row.Ele24LooseTau30Pass and row.eMatchEmbeddedFilterEle24Tau30 and row.tMatchEmbeddedFilterEle24Tau30 and row.ePt > 25 and row.ePt < 28 and row.tPt > 35 and abs(row.tEta) < 2.1
+        trigger2430 = row.Ele24LooseTau30Pass and row.eMatchEmbeddedFilterEle24Tau30 and row.tMatchEmbeddedFilterEle24Tau30 and row.ePt > 25 and row.ePt < 33 and row.tPt > 32 and abs(row.tEta) < 2.1
       else:
-        trigger27 = True
         trigger32 = True
         trigger35 = True
         trigger2430 = True
     else:
-      trigger27 = row.Ele27WPTightPass and row.eMatchesEle27Filter and row.eMatchesEle27Path and row.ePt > 28
       trigger32 = row.Ele32WPTightPass and row.eMatchesEle32Filter and row.eMatchesEle32Path and row.ePt > 33
       trigger35 = row.Ele35WPTightPass and row.eMatchesEle35Filter and row.eMatchesEle35Path and row.ePt > 36
-      trigger2430 = row.Ele24LooseTau30Pass and row.eMatchesEle24Tau30Filter and row.eMatchesEle24Tau30Path and row.tMatchesEle24Tau30Filter and row.tMatchesEle24Tau30Path and row.ePt > 25 and row.ePt < 28 and row.tPt > 35 and abs(row.tEta) < 2.1
-    return [trigger27 or trigger32 or trigger35, trigger2430]
+      if self.is_data and row.run < 317509:
+        trigger2430 = row.Ele24LooseTau30Pass and row.eMatchesEle24Tau30Filter and row.eMatchesEle24Tau30Path and row.tMatchesEle24Tau30Filter and row.tMatchesEle24Tau30Path and row.ePt > 25 and row.ePt < 33 and row.tPt > 32 and abs(row.tEta) < 2.1
+      else:
+        trigger2430 = row.Ele24LooseHPSTau30Pass and row.eMatchesEle24HPSTau30Filter and row.eMatchesEle24HPSTau30Path and row.tMatchesEle24HPSTau30Filter and row.tMatchesEle24HPSTau30Path and row.ePt > 25 and row.ePt < 33 and row.tPt > 32 and abs(row.tEta) < 2.1
+    return [trigger32 or trigger35, trigger2430]
 
   # Kinematics Selections
   def kinematics(self, row):
@@ -306,9 +308,9 @@ class ETauBase():
       eReco = self.w1.function('e_trk_ratio').getVal()
       zvtx = 0.991
       if singEle:
-        singleSF = 0 if self.w1.function('e_trg27_trg32_trg35_kit_mc').getVal()==0 else self.w1.function('e_trg27_trg32_trg35_kit_data').getVal()/self.w1.function('e_trg27_trg32_trg35_kit_mc').getVal()
+        singleSF = self.w1.function('e_trg32_trg35_binned_kit_ratio').getVal()
       else:
-        eltauSF = 0 if self.w1.function('e_trg_EleTau_Ele24Leg_desy_mc').getVal()==0 else self.w1.function('e_trg_EleTau_Ele24Leg_desy_data').getVal()/self.w1.function('e_trg_EleTau_Ele24Leg_desy_mc').getVal()
+        eltauSF = self.w1.function('e_trg_EleTau_Ele24Leg_desy_ratio').getVal()
         if row.tDecayMode==11:
           eltauSF = eltauSF * self.tauSF.getTriggerScaleFactor(myTau.Pt(), myTau.Eta(), myTau.Phi(), 10)
         else:
@@ -374,18 +376,18 @@ class ETauBase():
       eIso = self.w1.function('e_iso_binned_embed_kit_ratio').getVal()
       if abs(myEle.Eta()) < 1.479:
         if singEle:
-          trsel = trsel + self.w1.function('e_trg27_trg32_trg35_embed_kit_ratio').getVal()
+          trsel = trsel + self.w1.function('e_trg32_trg35_embed_kit_ratio').getVal()
         else:
-          trsel = trsel + self.w1.function('e_trg_EleTau_Ele24Leg_kit_ratio_embed').getVal()*self.w1.function('et_emb_LooseChargedIsoPFTau30_kit_ratio').getVal()
+          trsel = trsel + self.w1.function('e_trg_EleTau_Ele24Leg_embed_kit_ratio').getVal()*self.w1.function('et_emb_LooseChargedIsoPFTau30_tight_kit_ratio').getVal()
       else:
         if singEle:
-          trsel = trsel + self.w1.function('e_trg27_trg32_trg35_kit_data').getVal()
+          trsel = trsel + self.w1.function('e_trg32_trg35_binned_kit_data').getVal()
         else:
           if row.tDecayMode==11:
             trsel = trsel + self.w1.function('e_trg_EleTau_Ele24Leg_desy_data').getVal()*self.tauSF.getTriggerEfficiencyData(myTau.Pt(), myTau.Eta(), myTau.Phi(), 10)
           else:
             trsel = trsel + self.w1.function('e_trg_EleTau_Ele24Leg_desy_data').getVal()*self.tauSF.getTriggerEfficiencyData(myTau.Pt(), myTau.Eta(), myTau.Phi(), row.tDecayMode)
-      weight = weight*row.GenWeight*dm*esel*tsel*trgsel*eID*eIso*trsel#*self.EmbedEta(myEle.Eta(), njets, mjj)*self.EmbedPhi(myEle.Phi(), njets, mjj)*self.EmbedPt(myEle.Pt(), njets, mjj)
+      weight = weight*row.GenWeight*dm*esel*tsel*trgsel*eID*eIso*trsel*self.EmbedPhi(myEle.Phi(), njets, mjj)*self.EmbedEta(myEle.Eta(), njets, mjj)*self.EmbedPt(myEle.Pt(), njets, mjj)
       # Tau Identification
       if self.obj2_tight(row):
         weight = weight * self.deepTauVSjet_Emb_tight(myTau.Pt())[0]
