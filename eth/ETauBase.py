@@ -27,6 +27,7 @@ class ETauBase():
     self.is_embed = self.mcWeight.is_embed
     self.is_mc = self.mcWeight.is_mc
     self.is_DY = self.mcWeight.is_DY
+    self.is_W = self.mcWeight.is_W
     self.is_DYlow = self.mcWeight.is_DYlow
     self.is_TT = self.mcWeight.is_TT
     self.is_GluGlu = self.mcWeight.is_GluGlu
@@ -60,6 +61,7 @@ class ETauBase():
     self.fakeRateEle = FakeRate.fakerateEle_weight
 
     self.DYweight = self.mcWeight.DYweight
+    self.Wweight = self.mcWeight.Wweight
 
     self.deltaPhi = Kinematics.deltaPhi
     self.deltaEta = Kinematics.deltaEta
@@ -337,6 +339,11 @@ class ETauBase():
           weight = weight * self.DYweight[row.numGenJets]
         else:
           weight = weight * self.DYweight[0]
+      if self.is_W:
+        if row.numGenJets < 5:
+          weight = weight * self.Wweight[row.numGenJets]
+        else:
+          weight = weight * self.Wweight[0]
       if self.is_TT:
         topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
         weight = weight*topweight

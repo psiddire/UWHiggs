@@ -64,6 +64,8 @@ jesSysNames = ['_CMS_MET_Ues_13TeVUp', '_CMS_MET_Ues_13TeVDown', '_CMS_MET_charg
 
 mc_samples = ['DYJetsToLL_M-50*', 'DYJetsToLL_M-10to50*', 'DY1JetsToLL*', 'DY2JetsToLL*', 'DY3JetsToLL*', 'DY4JetsToLL*', 'GluGlu_LFV*', 'VBF_LFV*', 'GluGluHToTauTau*', 'VBFHToTauTau*', 'GluGluHToWWTo2L2Nu*', 'VBFHToWWTo2L2Nu*', 'WminusHToTauTau*', 'WplusHToTauTau*', 'ZHToTauTau*', 'TTTo2L2Nu*', 'TTToSemiLeptonic*', 'TTToHadronic*', 'ST_tW_antitop*', 'ST_tW_top*', 'ST_t-channel_antitop*', 'ST_t-channel_top*', 'QCD*', 'WZ*', 'WW*', 'ZZ*', 'EWKWMinus2Jets*', 'EWKWPlus2Jets*', 'EWKZ2Jets_ZToLL*', 'EWKZ2Jets_ZToNuNu*', 'Embed*', 'MC*', 'data*']
 
+mc_samples_W = mc_samples + ['WJetsToLNu*', 'W1JetsToLNu*', 'W2JetsToLNu*', 'W3JetsToLNu*', 'W4JetsToLNu*']
+
 histoname = [('ePt', 'e p_{T} (GeV)', 1), ('tPt', '#tau p_{T} (GeV)', 1), ('eEta', 'e #eta', 1), ('tEta', '#tau #eta', 1), ('ePhi', 'e #phi', 1), ('tPhi', '#tau #phi', 1), ('j1Pt', 'Jet 1 p_{T}', 1), ('j2Pt', 'Jet 2 p_{T}', 1), ('j1Eta', 'Jet 1 #eta', 1), ('j2Eta', 'Jet 2 #eta', 1), ('j1Phi', 'Jet 1 #phi', 1), ('j2Phi', 'Jet 2 #phi', 1), ('type1_pfMetEt', 'MET (GeV)', 1), ('type1_pfMetPhi', 'MET #phi', 1), ('e_t_Mass', 'M_{vis}(e, #tau) (GeV)', 1), ('e_t_CollinearMass', 'M_{col}(e, #tau) (GeV)', 1), ('e_t_PZeta', 'p_{#zeta}(e, #tau) (GeV)', 1), ('numOfJets', 'Number Of Jets', 1), ('vbfMass', 'VBF Mass', 1), ('numOfVtx', 'Number of Vertices', 1), ('dEtaETau', '#Delta#eta(e, #tau)', 1), ('dPhiEMET', '#Delta#phi(e, MET)', 1), ('dPhiTauMET', '#Delta#phi(#tau, MET)', 1), ('dPhiETau', '#Delta#phi(e, #tau)', 1), ('MTEMET', 'M_{T}(e, MET) (GeV)', 1), ('MTTauMET', 'M_{T}(#tau, MET) (GeV)', 1)]
 
 colhisto = [("e_t_CollinearMass", "M_{col}(e, #tau) (GeV)", 1)]

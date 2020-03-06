@@ -37,11 +37,16 @@ samples = Hash[
                 "embedC" => get_sample_names('embedded_EmbeddingRun2018C_ElTauFinalState'),
                 "embedD" => get_sample_names('embedded_EmbeddingRun2018D_ElTauFinalState'),
 		"DY" => get_sample_names('DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v1'),
-		"DY1" => get_sample_names('DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2'),	
+		"DY1" => get_sample_names('DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2'),
 		"DY2" => get_sample_names('DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2'),
 		"DY3" => get_sample_names('DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2'),
 		"DY4" => get_sample_names('DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v1'),
 		"DY10" => get_sample_names('DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2'),
+                "W" => get_sample_names('WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2'),
+                "W1" => get_sample_names('W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2'),
+                "W2" => get_sample_names('W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2'),
+                "W3" => get_sample_names('W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2'),
+                "W4" => get_sample_names('W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2'),
 		"STtantitop" => get_sample_names('ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_-102X_upgrade2018_realistic_v15-v1'),
 		"STttop" => get_sample_names('ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_-102X_upgrade2018_realistic_v15-v1'),
 		"STtWantitop" => get_sample_names('ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext1-v1'),
@@ -52,7 +57,7 @@ samples = Hash[
 		"EWKWminus" => get_sample_names('EWKWMinus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1'),
 		"EWKWplus" => get_sample_names('EWKWPlus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1'),
 		"EWKZll" => get_sample_names('EWKZ2Jets_ZToLL_M-50_TuneCP5_PSweights_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1'),
-		"EWKZnunu" => get_sample_names('EWKZ2Jets_ZToNuNu_TuneCP5_PSweights_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1'),	
+		"EWKZnunu" => get_sample_names('EWKZ2Jets_ZToNuNu_TuneCP5_PSweights_13TeV-madgraph-pythia8_-102X_upgrade2018_realistic_v15-v1'),
 		"WW" => get_sample_names('WW_TuneCP5_13TeV-pythia8_-102X_upgrade2018_realistic_v15-v2'),
 		"WZ" => get_sample_names('WZ_TuneCP5_13TeV-pythia8_-102X_upgrade2018_realistic_v15-v3'),
 		"ZZ" => get_sample_names('ZZ_TuneCP5_13TeV-pythia8_-102X_upgrade2018_realistic_v15-v2'),
@@ -84,7 +89,9 @@ end
 
 # samples['embedA'] + samples['embedB'] + samples['embedC'] + samples['embedD']
 
-task :ET => get_analyzer_results("AnalyzeETau.py", samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TT2l'] + samples['TT2s'] + samples['TT2h'] + samples['vbfHTT'] + samples['ggHTT'] + samples['vbfHWW'] + samples['ggHWW'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ggHET'] + samples['vbfHET'] + samples['EWKWminus'] + samples['EWKWplus'] + samples['EWKZll'] + samples['EWKZnunu'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['DY10'] + samples['eraA'] + samples['eraB'] + samples['eraC'] + samples['eraD'])
+#task :ET => get_analyzer_results("AnalyzeETau.py", samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TT2l'] + samples['TT2s'] + samples['TT2h'] + samples['vbfHTT'] + samples['ggHTT'] + samples['vbfHWW'] + samples['ggHWW'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ggHET'] + samples['vbfHET'] + samples['EWKWminus'] + samples['EWKWplus'] + samples['EWKZll'] + samples['EWKZnunu'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['DY10'] + samples['eraA'] + samples['eraB'] + samples['eraC'] + samples['eraD'])
+
+task :ET => get_analyzer_results("AnalyzeETau.py", samples['W'] + samples['W1'] + samples['W2'] + samples['W3'] + samples['W4'])
 
 task :ZTT => get_analyzer_results("AnalyzeETauZTT.py", samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TT2l'] + samples['TT2s'] + samples['TT2h'] + samples['vbfHTT'] + samples['ggHTT'] + samples['vbfHWW'] + samples['ggHWW'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ggHET'] + samples['vbfHET'] + samples['EWKWminus'] + samples['EWKWplus'] + samples['EWKZll'] + samples['EWKZnunu'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['DY10'] + samples['eraA'] + samples['eraB'] + samples['eraC'] + samples['eraD'])
 
@@ -104,9 +111,9 @@ task :ZTTBDT => get_analyzer_results("AnalyzeETauZTTBDT.py", samples['STtantitop
 
 
 $etdir = "plots/#{$jobid}/AnalyzerMuTau/mt_now/"
-directory $etdir 
+directory $etdir
 file  "#{$etdir}/plot#{$period}.root" do |t|
   sh "echo $jobid"
-  sh "python myNewPlotterReco.py" 
-  
+  sh "python myNewPlotterReco.py"
+
 end
