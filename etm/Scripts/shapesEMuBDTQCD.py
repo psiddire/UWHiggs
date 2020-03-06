@@ -44,9 +44,9 @@ for k, di in enumerate(Lists.dirs):
     if di=='0Jet':
         binning = array.array('d', [-0.55, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.2, 0.3])
     elif di=='1Jet':
-        binning = array.array('d', [-0.55, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.2, 0.3])
+        binning = array.array('d', [-0.55, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.25])
     elif di=='2Jet':
-        binning = array.array('d', [-0.5, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.2, 0.3])
+        binning = array.array('d', [-0.5, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.3])
     else:
         binning = array.array('d', [-0.5, -0.4, -0.3, -0.2, -0.1, 0.0, 0.1, 0.2, 0.3])
 
@@ -84,13 +84,13 @@ for k, di in enumerate(Lists.dirs):
     QCD = SubtractionView(QCDData, QCDMC, restrict_positive=True)
     qcd = Lists.positivize(QCD.Get('bdtDiscriminator'))
     qcdi = qcd.Integral()
-    qcd = Lists.normQCDBDT(qcd, qcdi, di)
+    qcd = Lists.normQCDBDT(qcd, qcdi, 0, di)
     qcdSys.append(qcd.Rebin(len(binning)-1, 'QCD', binning))
     #QCD Systematics
     for i, qSys in enumerate(Lists.qcdSys):
         qcd = Lists.positivize(QCD.Get(qSys+'bdtDiscriminator'))
         qcdi = qcd.Integral()
-        qcd = Lists.normQCDBDT(qcd, qcdi, di)
+        qcd = Lists.normQCDBDT(qcd, qcdi, i+1, di)
         qcdSys.append(qcd.Rebin(len(binning)-1, Lists.qcdSysNames[i], binning))
     #Write Histograms
     for qSys in qcdSys:

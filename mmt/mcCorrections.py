@@ -58,14 +58,14 @@ muonIso_loose_tightid = MuonPOGCorrections.make_muon_pog_LooseIso_2017('Tight')
 muonTrigger27 = MuonPOGCorrections.make_muon_pog_IsoMu27_2017()
 muonTrigger50 = MuonPOGCorrections.make_muon_pog_Mu50_2017()
 muonTracking = MuonPOGCorrections.mu_trackingEta_2017
-deepTauVSe = TauPOGCorrections.make_tau_pog_DeepTauVSe_2016('VLoose')
-deepTauVSmu = TauPOGCorrections.make_tau_pog_DeepTauVSmu_2016('Tight')
-deepTauVSjet_tight = TauPOGCorrections.make_tau_pog_DeepTauVSjet_2016('Tight')
-deepTauVSjet_vloose = TauPOGCorrections.make_tau_pog_DeepTauVSjet_2016('VLoose')
-deepTauVSjet_Emb_tight = TauPOGCorrections.make_tau_pog_DeepTauVSjet_EMB_2016('Tight')
-deepTauVSjet_Emb_vloose = TauPOGCorrections.make_tau_pog_DeepTauVSjet_EMB_2016('VLoose')
-esTau = TauPOGCorrections.make_tau_pog_ES_2016()
-fesTau = TauPOGCorrections.Tau_FES_2016
+deepTauVSe = TauPOGCorrections.make_tau_pog_DeepTauVSe_2017('VLoose')
+deepTauVSmu = TauPOGCorrections.make_tau_pog_DeepTauVSmu_2017('Tight')
+deepTauVSjet_tight = TauPOGCorrections.make_tau_pog_DeepTauVSjet_2017('Tight')
+deepTauVSjet_vloose = TauPOGCorrections.make_tau_pog_DeepTauVSjet_2017('VLoose')
+deepTauVSjet_Emb_tight = TauPOGCorrections.make_tau_pog_DeepTauVSjet_EMB_2017('Tight')
+deepTauVSjet_Emb_vloose = TauPOGCorrections.make_tau_pog_DeepTauVSjet_EMB_2017('VLoose')
+esTau = TauPOGCorrections.make_tau_pog_ES_2017()
+fesTau = TauPOGCorrections.Tau_FES_2017
 
 def FesTau(eta, dm):
     fes = (1.0, 0.0, 0.0)

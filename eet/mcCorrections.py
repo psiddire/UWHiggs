@@ -50,14 +50,14 @@ eIDnoiso80 = EGammaPOGCorrections.make_egamma_pog_electronID80noiso_2017()
 eID90 = EGammaPOGCorrections.make_egamma_pog_electronID90_2017()
 eIDnoiso90 = EGammaPOGCorrections.make_egamma_pog_electronID90noiso_2017()
 eReco = EGammaPOGCorrections.make_egamma_pog_Reco_2017()
-deepTauVSe = TauPOGCorrections.make_tau_pog_DeepTauVSe_2016('Tight')
-deepTauVSmu = TauPOGCorrections.make_tau_pog_DeepTauVSmu_2016('Loose')
-deepTauVSjet_tight = TauPOGCorrections.make_tau_pog_DeepTauVSjet_2016('Tight')
-deepTauVSjet_vloose = TauPOGCorrections.make_tau_pog_DeepTauVSjet_2016('VLoose')
-deepTauVSjet_Emb_tight = TauPOGCorrections.make_tau_pog_DeepTauVSjet_EMB_2016('Tight')
-deepTauVSjet_Emb_vloose = TauPOGCorrections.make_tau_pog_DeepTauVSjet_EMB_2016('VLoose')
-esTau = TauPOGCorrections.make_tau_pog_ES_2016()
-fesTau = TauPOGCorrections.Tau_FES_2016
+deepTauVSe = TauPOGCorrections.make_tau_pog_DeepTauVSe_2017('Tight')
+deepTauVSmu = TauPOGCorrections.make_tau_pog_DeepTauVSmu_2017('Loose')
+deepTauVSjet_tight = TauPOGCorrections.make_tau_pog_DeepTauVSjet_2017('Tight')
+deepTauVSjet_vloose = TauPOGCorrections.make_tau_pog_DeepTauVSjet_2017('VLoose')
+deepTauVSjet_Emb_tight = TauPOGCorrections.make_tau_pog_DeepTauVSjet_EMB_2017('Tight')
+deepTauVSjet_Emb_vloose = TauPOGCorrections.make_tau_pog_DeepTauVSjet_EMB_2017('VLoose')
+esTau = TauPOGCorrections.make_tau_pog_ES_2017()
+fesTau = TauPOGCorrections.Tau_FES_2017
 
 def FesTau(eta, dm):
     fes = (1.0, 0.0, 0.0)

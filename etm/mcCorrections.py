@@ -71,6 +71,30 @@ def puCorrector(target=''):
         pucorrector = {'' : make_puCorrector('DY4'),
                        'puUp': make_puCorrectorUp('DY4'),
                        'puDown': make_puCorrectorDown('DY4')}
+    elif bool('WJetsToLNu' in target):
+        pucorrector = {'' : make_puCorrector('W'),
+                       'puUp' : make_puCorrectorUp('W'),
+                       'puDown' : make_puCorrectorDown('W')}
+    elif bool('W1JetsToLNu' in target):
+        pucorrector = {'' : make_puCorrector('W1'),
+                       'puUp' : make_puCorrectorUp('W1'),
+                       'puDown' : make_puCorrectorDown('W1')}
+    elif bool('W2JetsToLNu' in target):
+        pucorrector = {'' : make_puCorrector('W2'),
+                       'puUp' : make_puCorrectorUp('W2'),
+                       'puDown' : make_puCorrectorDown('W2')}
+    elif bool('W3JetsToLNu' in target):
+        pucorrector = {'' : make_puCorrector('W3'),
+                       'puUp' : make_puCorrectorUp('W3'),
+                       'puDown' : make_puCorrectorDown('W3')}
+    elif bool('W4JetsToLNu' in target):
+        pucorrector = {'' : make_puCorrector('W4'),
+                       'puUp' : make_puCorrectorUp('W4'),
+                       'puDown' : make_puCorrectorDown('W4')}
+    elif bool('WGToLNuG' in target):
+        pucorrector = {'' : make_puCorrector('WGamma'),
+                       'puUp' : make_puCorrectorUp('WGamma'),
+                       'puDown' : make_puCorrectorDown('WGamma')}
     elif bool('WW_Tune' in target):
         pucorrector = {'' : make_puCorrector('WW'),
                        'puUp': make_puCorrectorUp('WW'),
@@ -237,4 +261,3 @@ def EmbedEta(eta, njets, mjj):
         return 1
     else:
         return corr
-

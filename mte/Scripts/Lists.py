@@ -36,7 +36,7 @@ jesSys = ['UnclusteredEnUp/', 'UnclusteredEnDown/', 'UesCHARGEDUp/', 'UesCHARGED
 
 jesSysNames = ['_CMS_MET_Ues_13TeVUp', '_CMS_MET_Ues_13TeVDown', '_CMS_MET_chargedUes_13TeVUp', '_CMS_MET_chargedUes_13TeVDown', '_CMS_MET_ecalUes_13TeVUp', '_CMS_MET_ecalUes_13TeVDown', '_CMS_MET_hcalUes_13TeVUp', '_CMS_MET_hcalUes_13TeVDown', '_CMS_MET_hfUes_13TeVUp', '_CMS_MET_hfUes_13TeVDown', '_CMS_Jes_JetAbsoluteFlavMap_13TeVUp', '_CMS_Jes_JetAbsoluteFlavMap_13TeVDown', '_CMS_Jes_JetAbsoluteMPFBias_13TeVUp', '_CMS_Jes_JetAbsoluteMPFBias_13TeVDown', '_CMS_Jes_JetAbsoluteScale_13TeVUp', '_CMS_Jes_JetAbsoluteScale_13TeVDown', '_CMS_Jes_JetAbsoluteStat_13TeVUp', '_CMS_Jes_JetAbsoluteStat_13TeVDown', '_CMS_Jes_JetFlavorQCD_13TeVUp', '_CMS_Jes_JetFlavorQCD_13TeVDown', '_CMS_Jes_JetFragmentation_13TeVUp', '_CMS_Jes_JetFragmentation_13TeVDown', '_CMS_Jes_JetPileUpDataMC_13TeVUp', '_CMS_Jes_JetPileUpDataMC_13TeVDown', '_CMS_Jes_JetPileUpPtBB_13TeVUp', '_CMS_Jes_JetPileUpPtBB_13TeVDown', '_CMS_Jes_JetPileUpPtEC1_13TeVUp', '_CMS_Jes_JetPileUpPtEC1_13TeVDown', '_CMS_Jes_JetPileUpPtEC2_13TeVUp', '_CMS_Jes_JetPileUpPtEC2_13TeVDown', '_CMS_Jes_JetPileUpPtHF_13TeVUp', '_CMS_Jes_JetPileUpPtHF_13TeVDown', '_CMS_Jes_JetPileUpPtRef_13TeVUp', '_CMS_Jes_JetPileUpPtRef_13TeVDown', '_CMS_Jes_JetRelativeFSR_13TeVUp', '_CMS_Jes_JetRelativeFSR_13TeVDown', '_CMS_Jes_JetRelativeJEREC1_13TeVUp', '_CMS_Jes_JetRelativeJEREC1_13TeVDown', '_CMS_Jes_JetRelativeJEREC2_13TeVUp', '_CMS_Jes_JetRelativeJEREC2_13TeVDown', '_CMS_Jes_JetRelativeJERHF_13TeVUp', '_CMS_Jes_JetRelativeJERHF_13TeVDown', '_CMS_Jes_JetRelativePtBB_13TeVUp', '_CMS_Jes_JetRelativePtBB_13TeVDown', '_CMS_Jes_JetRelativePtEC1_13TeVUp', '_CMS_Jes_JetRelativePtEC1_13TeVDown', '_CMS_Jes_JetRelativePtEC2_13TeVUp', '_CMS_Jes_JetRelativePtEC2_13TeVDown', '_CMS_Jes_JetRelativePtHF_13TeVUp', '_CMS_Jes_JetRelativePtHF_13TeVDown', '_CMS_Jes_JetRelativeStatEC_13TeVUp', '_CMS_Jes_JetRelativeStatEC_13TeVDown', '_CMS_Jes_JetRelativeStatFSR_13TeVUp', '_CMS_Jes_JetRelativeStatFSR_13TeVDown', '_CMS_Jes_JetRelativeStatHF_13TeVUp', '_CMS_Jes_JetRelativeStatHF_13TeVDown', '_CMS_Jes_JetSinglePionECAL_13TeVUp', '_CMS_Jes_JetSinglePionECAL_13TeVDown', '_CMS_Jes_JetSinglePionHCAL_13TeVUp', '_CMS_Jes_JetSinglePionHCAL_13TeVDown', '_CMS_Jes_JetTimePtEta_13TeVUp', '_CMS_Jes_JetTimePtEta_13TeVDown', '_CMS_Jes_JetRelativeBal_13TeVUp', '_CMS_Jes_JetRelativeBal_13TeVDown', '_CMS_Jes_JetRelativeSample_13TeVUp', '_CMS_Jes_JetRelativeSample_13TeVDown']
 
-mc_samples = ['DYJetsToLL_M-50*', 'DYJetsToLL_M-10to50*', 'DY1JetsToLL*', 'DY2JetsToLL*', 'DY3JetsToLL*', 'DY4JetsToLL*', 'W1JetsToLNu*', 'W2JetsToLNu*', 'W3JetsToLNu*', 'W4JetsToLNu*', 'WGToLNuG*', 'GluGlu_LFV*', 'VBF_LFV*', 'GluGluHToTauTau*', 'VBFHToTauTau*', 'GluGluHToWWTo2L2Nu*', 'VBFHToWWTo2L2Nu*', 'WminusHToTauTau*', 'WplusHToTauTau*', 'ZHToTauTau*', 'TTTo2L2Nu*', 'TTToSemiLeptonic*', 'TTToHadronic*', 'ST_tW_antitop*', 'ST_tW_top*', 'ST_t-channel_antitop*', 'ST_t-channel_top*', 'QCD*', 'WZ*', 'WW*', 'ZZ*', 'EWKWMinus2Jets*', 'EWKWPlus2Jets*', 'EWKZ2Jets_ZToLL*', 'EWKZ2Jets_ZToNuNu*', 'Embed*', 'MC*', 'data*', 'Obs*', 'Bac*']
+mc_samples = ['DYJetsToLL_M-50*', 'DYJetsToLL_M-10to50*', 'DY1JetsToLL*', 'DY2JetsToLL*', 'DY3JetsToLL*', 'DY4JetsToLL*', 'WJetsToLNu*', 'W1JetsToLNu*', 'W2JetsToLNu*', 'W3JetsToLNu*', 'W4JetsToLNu*', 'WGToLNuG*', 'GluGlu_LFV*', 'VBF_LFV*', 'GluGluHToTauTau*', 'VBFHToTauTau*', 'GluGluHToWWTo2L2Nu*', 'VBFHToWWTo2L2Nu*', 'WminusHToTauTau*', 'WplusHToTauTau*', 'ZHToTauTau*', 'TTTo2L2Nu*', 'TTToSemiLeptonic*', 'TTToHadronic*', 'ST_tW_antitop*', 'ST_tW_top*', 'ST_t-channel_antitop*', 'ST_t-channel_top*', 'QCD*', 'WZ*', 'WW*', 'ZZ*', 'EWKWMinus2Jets*', 'EWKWPlus2Jets*', 'EWKZ2Jets_ZToLL*', 'EWKZ2Jets_ZToNuNu*', 'Embed*', 'MC*', 'data*', 'Obs*', 'Bac*']
 
 histoname = [("mPt", "#mu  p_{T} (GeV)", 1), ("ePt", "e p_{T} (Gev)", 1), ("mEta", "#mu #eta", 1), ("eEta", "e #eta", 1), ("mPhi", "#mu #phi", 1), ("ePhi", "e #phi", 1), ("j1Pt", "Jet 1 p_{T}", 1), ("j2Pt", "Jet 2 p_{T}", 1), ("j1Eta", "Jet 1 #eta", 1), ("j2Eta", "Jet 2 #eta", 1), ("j1Phi", "Jet 1 #phi", 1), ("j2Phi", "Jet 2 #phi", 1), ("type1_pfMetEt", "MET (GeV)", 1), ("type1_pfMetPhi", "MET #phi", 1), ("m_e_Mass", "M_{vis}(#mu, e) (GeV)", 1), ("m_e_CollMass", "M_{col}(#mu, e) (GeV)", 1), ("m_e_PZeta", "p_{#zeta}(#mu, e) (GeV)", 1), ("numOfJets", "Number of Jets", 1), ("vbfMass", "VBF Mass", 1), ("numOfVtx", "Number of Vertices", 1), ("dEtaMuE", "#Delta#eta(#mu, e)", 1), ("dPhiEMET", "#Delta#phi(e, MET)", 1), ("dPhiMuMET", "#Delta#phi(#mu, MET)", 1), ("dPhiMuE", "#Delta#phi(#mu, e)", 1), ("MTEMET", "M_{T}(e, MET) (GeV)", 1), ("MTMuMET", "M_{T}(#mu, MET) (GeV)", 1)]
 
@@ -62,26 +62,35 @@ def positivize(histogram):
             output.AddAt(0, i)
     return output
 
-def normQCD(histogram, i, category):
+
+def normQCD(histogram, i, j, category):
     qcd = histogram.Clone()
     if category=='0Jet':
-        qcd.Scale(219.529/i)
+        integ = [457.637, 452.945, 462.431, 457.637, 457.637, 457.637, 457.637, 444.185, 471.088, 457.637, 457.637, 457.637, 457.637, 513.971, 408.287]
+        qcd.Scale(integ[j]/i)
     elif category=='1Jet':
-        qcd.Scale(190.54/i)
+        integ = [435.011, 435.011, 435.011, 445.97, 424.053, 435.011, 435.011, 435.011, 435.011, 442.679, 427.343, 435.011, 435.011, 491.338, 388.663]
+        qcd.Scale(integ[j]/i)
     elif category=='2Jet':
-        qcd.Scale(135.133/i)
+        integ = [185.888, 185.888, 185.888, 185.888, 185.888, 192.174, 179.602, 185.888, 185.888, 185.888, 185.888, 189.695, 182.081, 206.993, 168.343]
+        qcd.Scale(integ[j]/i)
     elif category=='2JetVBF':
-        qcd.Scale(20.236/i)
+        integ = [27.71, 27.71, 27.71, 27.71, 27.71, 28.77, 26.65, 27.71, 27.71, 27.71, 27.71, 28.58, 26.84, 30.539, 25.238]
+        qcd.Scale(integ[j]/i)
     return qcd
 
-def normQCDBDT(histogram, i, category):
+def normQCDBDT(histogram, i, j, category):
     qcd = histogram.Clone()
     if category=='0Jet':
-        qcd.Scale(2385.42/i)
+        integ = [10572.986, 10596.019, 10552.294, 10572.986, 10572.986, 10572.986, 10572.986, 10245.428, 10900.519, 10572.986, 10572.986, 10572.986, 10572.986, 12240.739, 9185.726]
+        qcd.Scale(integ[j]/i)
     elif category=='1Jet':
-        qcd.Scale(1559.1/i)
+        integ = [4394.807, 4394.807, 4394.807, 4501.671, 4287.944, 4394.807, 4394.807, 4394.807, 4394.807, 4462.2, 4327.428, 4394.807, 4394.807, 5073.164, 3826.081]
+        qcd.Scale(integ[j]/i)
     elif category=='2Jet':
-        qcd.Scale(637.657/i)
+        integ = [1358.758, 1358.758, 1358.758, 1358.758, 1358.758, 1402.357, 1315.283, 1358.758, 1358.758, 1358.758, 1358.758, 1380.817, 1337.051, 1533.721, 1213.757]
+        qcd.Scale(integ[j]/i)
     elif category=='2JetVBF':
-        qcd.Scale(202.737/i)
+        integ = [232.579, 232.579, 232.579, 232.579, 232.579, 239.557, 225.601, 232.579, 232.579, 232.579, 232.579, 235.222, 229.997, 254.308, 214.711]
+        qcd.Scale(integ[j]/i)
     return qcd
