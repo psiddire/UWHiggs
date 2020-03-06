@@ -12,19 +12,20 @@ import EMTree
 import ROOT
 import math
 from bTagSF import bTagEventWeight
+import Kinematics
 
-class AnalyzeMuETT(MegaBase, EMuBase):
+class AnalyzeEMuTTBDT(MegaBase, EMuBase):
   tree = 'em/final/Ntuple'
 
   def __init__(self, tree, outfile, **kwargs):
-    super(AnalyzeEMuTT, self).__init__(tree, outfile, **kwargs)
+    super(AnalyzeEMuTTBDT, self).__init__(tree, outfile, **kwargs)
     self.tree = EMTree.EMTree(tree)
     self.out = outfile
     EMuBase.__init__(self)
 
 
   def begin(self):
-    for n in Kinematics.zttnames:
+    for n in Kinematics.fullnames:
       self.book(n, 'bdtDiscriminator', 'BDT Discriminator', 200, -1.0, 1.0)
 
 
@@ -47,18 +48,18 @@ class AnalyzeMuETT(MegaBase, EMuBase):
       osss = self.corrFact(row, myEle, myMuon)[1]
 
       # b-tag
-      nbtag = row.bjetDeepCSVVeto20Medium_2016_DR0p5
+      nbtag = row.bjetDeepCSVVeto20Medium_2018_DR0p5
       if nbtag > 2:
         nbtag = 2
       if bool(self.is_mc):
         if nbtag==0:
-          btagweight = bTagEventWeight(nbtag, row.jb1pt_2016, row.jb1hadronflavor_2016, row.jb2pt_2016, row.jb2hadronflavor_2016, 1, 0, 0)
+          btagweight = bTagEventWeight(nbtag, row.jb1pt_2018, row.jb1hadronflavor_2018, row.jb2pt_2018, row.jb2hadronflavor_2018, 1, 0, 0)
           weight = weight * btagweight
         elif nbtag==1:
-          btagweight = bTagEventWeight(nbtag, row.jb1pt_2016, row.jb1hadronflavor_2016, row.jb2pt_2016, row.jb2hadronflavor_2016, 1, 0, 1)
+          btagweight = bTagEventWeight(nbtag, row.jb1pt_2018, row.jb1hadronflavor_2018, row.jb2pt_2018, row.jb2hadronflavor_2018, 1, 0, 1)
           weight = weight * btagweight
         elif nbtag==2:
-          btagweight = bTagEventWeight(nbtag, row.jb1pt_2016, row.jb1hadronflavor_2016, row.jb2pt_2016, row.jb2hadronflavor_2016, 1, 0, 2)
+          btagweight = bTagEventWeight(nbtag, row.jb1pt_2018, row.jb1hadronflavor_2018, row.jb2pt_2018, row.jb2hadronflavor_2018, 1, 0, 2)
           weight = weight * btagweight
       if nbtag < 1:
         weight = 0

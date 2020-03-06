@@ -73,24 +73,24 @@ for k, di in enumerate(Lists.dirs):
 
     #QCD
     qcdSys = []
-    if di=='2JetVBF':
-        data_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('QCD'), Lists.mc_samples)])
-        mc_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('MC'), Lists.mc_samples)])
-    else:
-        data_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('Obs'), Lists.mc_samples)])
-        mc_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('Bac'), Lists.mc_samples)])
+    #if di=='2JetVBF':
+    #    data_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('QCD'), Lists.mc_samples)])
+    #    mc_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('MC'), Lists.mc_samples)])
+    #else:
+    data_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('Obs'), Lists.mc_samples)])
+    mc_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('Bac'), Lists.mc_samples)])
     QCDData = views.SubdirectoryView(data_view, 'TightSS'+di)
     QCDMC = views.SubdirectoryView(mc_view, 'TightSS'+di)
     QCD = SubtractionView(QCDData, QCDMC, restrict_positive=True)
     qcd = Lists.positivize(QCD.Get('e_m_CollinearMass'))
     qcdi = qcd.Integral()
-    qcd = Lists.normQCD(qcd, qcdi, di)
+    qcd = Lists.normQCD(qcd, qcdi, 0, di)
     qcdSys.append(qcd.Rebin(len(binning)-1, 'QCD', binning))
     #QCD Systematics
     for i, qSys in enumerate(Lists.qcdSys):
         qcd = Lists.positivize(QCD.Get(qSys+'e_m_CollinearMass'))
         qcdi = qcd.Integral()
-        qcd = Lists.normQCD(qcd, qcdi, di)
+        qcd = Lists.normQCD(qcd, qcdi, i+1, di)
         qcdSys.append(qcd.Rebin(len(binning)-1, Lists.qcdSysNames[i], binning))
     #Write Histograms
     for qSys in qcdSys:

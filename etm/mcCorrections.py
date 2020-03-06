@@ -10,7 +10,7 @@ import ROOT
 import RoccoR
 
 dataset = 'muoneg'
-year = '2016'
+year = '2018'
 
 pu_distributions  = {
     'singlem'  : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_SingleMuon*pu.root')),
@@ -151,10 +151,18 @@ def puCorrector(target=''):
         pucorrector = {'' : make_puCorrector('STtWtop'),
                        'puUp': make_puCorrectorUp('STtWtop'),
                        'puDown': make_puCorrectorDown('STtWtop')}
-    elif bool('TT' in target):
-        pucorrector = {'' : make_puCorrector('TT'),
-                       'puUp': make_puCorrectorUp('TT'),
-                       'puDown': make_puCorrectorDown('TT')}
+    elif bool('TTTo2L2Nu' in target):
+        pucorrector = {'' : make_puCorrector('TTTo2L2Nu'),
+                       'puUp': make_puCorrectorUp('TTTo2L2Nu'),
+                       'puDown': make_puCorrectorDown('TTTo2L2Nu')}
+    elif bool('TTToHadronic' in target):
+        pucorrector = {'' : make_puCorrector('TTToHadronic'),
+                       'puUp': make_puCorrectorUp('TTToHadronic'),
+                       'puDown': make_puCorrectorDown('TTToHadronic')}
+    elif bool('TTToSemiLeptonic' in target):
+        pucorrector = {'' : make_puCorrector('TTToSemiLeptonic'),
+                       'puUp': make_puCorrectorUp('TTToSemiLeptonic'),
+                       'puDown': make_puCorrectorDown('TTToSemiLeptonic')}
     elif bool('GluGlu_LFV_HToMuTau' in target):
         pucorrector = {'' : make_puCorrector('GGHMT'),
                        'puUp': make_puCorrectorUp('GGHMT'),
@@ -207,45 +215,45 @@ muonIso_loose_looseid = MuonPOGCorrections.make_muon_pog_LooseIso_2018('Loose')
 muonIso_loose_mediumid = MuonPOGCorrections.make_muon_pog_LooseIso_2018('Medium')
 muonIso_loose_tightid = MuonPOGCorrections.make_muon_pog_LooseIso_2018('Tight')
 muonTrigger27 = MuonPOGCorrections.mu_IsoMu27_2018
-muonTracking = MuonPOGCorrections.mu_trackingEta_2016
+muonTracking = MuonPOGCorrections.mu_trackingEta_2018
 
 f1 = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2018/htt_scalefactors_legacy_2018.root")
 w1 = f1.Get("w")
 
-# fphi = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2018/EMuEmbedPhi.root")
-# wphi0 = fphi.Get("0Jet")
-# wphi1 = fphi.Get("1Jet")
-# wphi2 = fphi.Get("2Jet")
+fphi = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2018/EMuEmbedPhi.root")
+wphi0 = fphi.Get("0Jet")
+wphi1 = fphi.Get("1Jet")
+wphi2 = fphi.Get("2Jet")
 
-# def EmbedPhi(phi, njets, mjj):
-#     if njets==0:
-#         corr = wphi0.GetBinContent(wphi0.GetXaxis().FindBin(phi))
-#     elif njets==1:
-#         corr = wphi1.GetBinContent(wphi1.GetXaxis().FindBin(phi))
-#     elif njets==2 and mjj < 500:
-#         corr = wphi2.GetBinContent(wphi2.GetXaxis().FindBin(phi))
-#     else:
-#         corr = 1.0
-#     if corr > 2.5:
-#         return 1.0
-#     else:
-#         return corr
+def EmbedPhi(phi, njets, mjj):
+    if njets==0:
+        corr = wphi0.GetBinContent(wphi0.GetXaxis().FindBin(phi))
+    elif njets==1:
+        corr = wphi1.GetBinContent(wphi1.GetXaxis().FindBin(phi))
+    elif njets==2 and mjj < 500:
+        corr = wphi2.GetBinContent(wphi2.GetXaxis().FindBin(phi))
+    else:
+        corr = 1.0
+    if corr > 2.5:
+        return 1.0
+    else:
+        return corr
 
-# feta = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2018/EMuEmbedEta.root")
-# weta0 = feta.Get("0Jet")
-# weta1 = feta.Get("1Jet")
-# weta2 = feta.Get("2Jet")
+feta = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2018/EMuEmbedEta.root")
+weta0 = feta.Get("0Jet")
+weta1 = feta.Get("1Jet")
+weta2 = feta.Get("2Jet")
 
-# def EmbedEta(eta, njets, mjj):
-#     if njets==0:
-#         corr = weta0.GetBinContent(weta0.GetXaxis().FindBin(eta))
-#     elif njets==1:
-#         corr =  weta1.GetBinContent(weta1.GetXaxis().FindBin(eta))
-#     elif njets==2 and mjj < 500:
-#         corr = weta2.GetBinContent(weta2.GetXaxis().FindBin(eta))
-#     else:
-#         corr = 1.0
-#     if corr > 2.0 or abs(eta) > 2.4:
-#         return 1
-#     else:
-#         return corr
+def EmbedEta(eta, njets, mjj):
+    if njets==0:
+        corr = weta0.GetBinContent(weta0.GetXaxis().FindBin(eta))
+    elif njets==1:
+        corr =  weta1.GetBinContent(weta1.GetXaxis().FindBin(eta))
+    elif njets==2 and mjj < 500:
+        corr = weta2.GetBinContent(weta2.GetXaxis().FindBin(eta))
+    else:
+        corr = 1.0
+    if corr > 2.0 or abs(eta) > 2.4:
+        return 1
+    else:
+        return corr

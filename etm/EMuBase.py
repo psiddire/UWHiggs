@@ -32,7 +32,7 @@ class EMuBase():
     self.is_GluGlu = self.mcWeight.is_GluGlu
     self.is_VBF = self.mcWeight.is_VBF
 
-    self.Emb = False
+    self.Emb = True
     self.is_recoilC = self.mcWeight.is_recoilC
     self.MetCorrection = self.mcWeight.MetCorrection
     if self.is_recoilC and self.MetCorrection:
@@ -46,8 +46,8 @@ class EMuBase():
     self.rc = mcCorrections.rc
     self.w1 = mcCorrections.w1
     self.DYreweight = mcCorrections.DYreweight
-    #self.EmbedPhi = mcCorrections.EmbedPhi
-    #self.EmbedEta = mcCorrections.EmbedEta
+    self.EmbedPhi = mcCorrections.EmbedPhi
+    self.EmbedEta = mcCorrections.EmbedEta
 
     self.DYweight = self.mcWeight.DYweight
     self.Wweight = self.mcWeight.Wweight
@@ -68,8 +68,8 @@ class EMuBase():
     self.sys = Kinematics.sys
     self.sssys = Kinematics.sssys
     self.qcdsys = Kinematics.qcdsys
-    #self.functor = Kinematics.functor
-    #self.var_d = Kinematics.var_d
+    self.functor = Kinematics.functor
+    self.var_d = Kinematics.var_d
 
     self.branches='mPt/F:ePt/F:e_m_collinearMass/F:e_m_visibleMass/F:dPhiMuMET/F:dPhiEMET/F:dPhiEMu/F:MTMuMET/F:e_m_PZeta/F:MTEMET/F:dEtaEMu/F:type1_pfMetEt/F:njets/I:vbfMass/F:weight/F'
     self.holders = []
@@ -298,7 +298,7 @@ class EMuBase():
       eff_trg_data = self.w1.function("e_trg_23_data").getVal()*self.w1.function("m_trg_8_data").getVal()
       eff_trg_embed = self.w1.function("e_trg_23_embed").getVal()*self.w1.function("m_trg_8_embed").getVal()
       trg_sf = 0 if eff_trg_embed==0 else eff_trg_data/eff_trg_embed
-      weight = weight*row.GenWeight*esel*msel*trgsel*trg_sf*e_id_sf*e_iso_sf*m_id_sf*m_iso_sf#*self.EmbedPhi(myEle.Phi(), njets, mjj)*self.EmbedEta(myEle.Eta(), njets, mjj)
+      weight = weight*row.GenWeight*esel*msel*trgsel*trg_sf*e_id_sf*e_iso_sf*m_id_sf*m_iso_sf*self.EmbedPhi(myEle.Phi(), njets, mjj)*self.EmbedEta(myEle.Eta(), njets, mjj)
       if row.GenWeight > 1.0:
         weight = 0
 
@@ -309,14 +309,14 @@ class EMuBase():
     osss = self.w1.function("em_qcd_osss_binned").getVal()
 
     # b-tag
-    #nbtag = row.bjetDeepCSVVeto20Medium_2018_DR0p5
-    #if nbtag > 2:
-    #  nbtag = 2
-    #if (self.is_mc and nbtag > 0):
-    #  btagweight = bTagEventWeight(nbtag, row.jb1pt_2018, row.jb1hadronflavor_2018, row.jb2pt_2018, row.jb2hadronflavor_2018, 1, 0, 0)
-    #  weight = weight * btagweight
-    #if (bool(self.is_data or self.is_embed) and nbtag > 0):
-    #  weight = 0
+    nbtag = row.bjetDeepCSVVeto20Medium_2018_DR0p5
+    if nbtag > 2:
+     nbtag = 2
+    if (self.is_mc and nbtag > 0):
+     btagweight = bTagEventWeight(nbtag, row.jb1pt_2018, row.jb1hadronflavor_2018, row.jb2pt_2018, row.jb2hadronflavor_2018, 1, 0, 0)
+     weight = weight * btagweight
+    if (bool(self.is_data or self.is_embed) and nbtag > 0):
+     weight = 0
 
     return [weight, osss]
 

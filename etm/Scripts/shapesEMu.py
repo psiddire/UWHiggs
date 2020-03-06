@@ -79,10 +79,12 @@ for k, di in enumerate(Lists.dirs):
     QCDMC = views.SubdirectoryView(mc_view, 'TightSS'+di)
     QCD = SubtractionView(QCDData, QCDMC, restrict_positive=True)
     qcd = Lists.positivize(QCD.Get('e_m_CollinearMass'))
+    print round(qcd.Integral(), 3)
     qcdSys.append(qcd.Rebin(len(binning)-1, 'QCD', binning))
     #QCD Systematics
     for i, qSys in enumerate(Lists.qcdSys):
         qcd = Lists.positivize(QCD.Get(qSys+'e_m_CollinearMass'))
+        print round(qcd.Integral(), 3)
         qcdSys.append(qcd.Rebin(len(binning)-1, Lists.qcdSysNames[i], binning))
     #Write Histograms
     for qSys in qcdSys:

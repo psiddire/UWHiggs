@@ -2,9 +2,9 @@ from math import sqrt, pi, exp, cos
 import os
 from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVA
 
-#var_d_star = ['mPt', 'ePt', 'e_m_collinearMass', 'e_m_visibleMass', 'dPhiMuMET', 'dPhiEMET', 'dPhiEMu', 'MTMuMET']
-#xml_name = os.path.join(os.getcwd(), "bdtdata/dataset/weights/TMVAClassification_BDT.weights.xml")
-#functor = FunctorFromMVA('BDT method', xml_name, *var_d_star)
+var_d_star = ['mPt', 'ePt', 'e_m_collinearMass', 'e_m_visibleMass', 'dPhiMuMET', 'dPhiEMET', 'dPhiEMu', 'MTMuMET']
+xml_name = os.path.join(os.getcwd(), "bdtdata/dataset/weights/TMVAClassification_BDT.weights.xml")
+functor = FunctorFromMVA('BDT method', xml_name, *var_d_star)
 
 def var_d(myEle, myMET, myMuon):                                                                                                                                                                                                                                      
   return {'mPt' : myMuon.Pt(), 'ePt' : myEle.Pt(), 'e_m_collinearMass' : collMass(myEle, myMET, myMuon), 'e_m_visibleMass' : visibleMass(myEle, myMuon), 'dPhiMuMET' : deltaPhi(myMuon.Phi(), myMuon.Phi()), 'dPhiEMET' : deltaPhi(myEle.Phi(), myMET.Phi()), 'dPhiEMu' : deltaPhi(myEle.Phi(), myMuon.Phi()), 'MTMuMET' : transverseMass(myMuon, myMET)}

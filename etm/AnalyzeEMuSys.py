@@ -51,37 +51,38 @@ class AnalyzeEMuSys(MegaBase, EMuBase):
   def fill_categories(self, row, myEle, myMET, myMuon, njets, mjj, weight, name=''):
     dphimumet = self.deltaPhi(myMuon.Phi(), myMET.Phi())
     mtemet = self.transverseMass(myEle, myMET)
+    pzeta = row.e_m_PZeta - 0.85 * row.e_m_PZetaVis
     self.fill_histos(myEle, myMET, myMuon, weight, 'TightOS'+name)
-    if njets==0 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+    if njets==0 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
       self.fill_histos(myEle, myMET, myMuon, weight, 'TightOS0Jet'+name)
-    elif njets==1 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+    elif njets==1 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
       self.fill_histos(myEle, myMET, myMuon, weight, 'TightOS1Jet'+name)
-    elif njets==2 and mjj < 500 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+    elif njets==2 and mjj < 500 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
       self.fill_histos(myEle, myMET, myMuon, weight, 'TightOS2Jet'+name)
-    elif njets==2 and mjj > 500 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+    elif njets==2 and mjj > 500 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
       self.fill_histos(myEle, myMET, myMuon, weight, 'TightOS2JetVBF'+name)
 
 
   def fill_sshistos(self, myEle, myMET, myMuon, njets, weight, name=''):
     self.w1.var("njets").setVal(njets)
-    self.w1.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Phi(), myMuon.Eta()))
+    self.w1.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Eta(), myMuon.Eta()))
     self.w1.var("e_pt").setVal(myEle.Pt())
     self.w1.var("m_pt").setVal(myMuon.Pt())
-    osss = self.w1.function("em_qcd_osss").getVal()
-    osss0rup = self.w1.function("em_qcd_osss_stat_0jet_unc1_up").getVal()
-    osss0rdown = self.w1.function("em_qcd_osss_stat_0jet_unc1_down").getVal()
-    osss1rup = self.w1.function("em_qcd_osss_stat_1jet_unc1_up").getVal()
-    osss1rdown = self.w1.function("em_qcd_osss_stat_1jet_unc1_down").getVal()
-    osss2rup = self.w1.function("em_qcd_osss_stat_2jet_unc1_up").getVal()
-    osss2rdown = self.w1.function("em_qcd_osss_stat_2jet_unc1_down").getVal()
-    osss0sup = self.w1.function("em_qcd_osss_stat_0jet_unc2_up").getVal()
-    osss0sdown = self.w1.function("em_qcd_osss_stat_0jet_unc2_down").getVal()
-    osss1sup = self.w1.function("em_qcd_osss_stat_1jet_unc2_up").getVal()
-    osss1sdown = self.w1.function("em_qcd_osss_stat_1jet_unc2_down").getVal()
-    osss2sup = self.w1.function("em_qcd_osss_stat_2jet_unc2_up").getVal()
-    osss2sdown = self.w1.function("em_qcd_osss_stat_2jet_unc2_down").getVal()
-    osssisoup = self.w1.function("em_qcd_osss_extrap_up").getVal()
-    osssisodown = self.w1.function("em_qcd_osss_extrap_down").getVal()
+    osss = self.w1.function("em_qcd_osss_binned").getVal()
+    osss0rup = self.w1.function("em_qcd_osss_0jet_rateup").getVal()
+    osss0rdown = self.w1.function("em_qcd_osss_0jet_ratedown").getVal()
+    osss1rup = self.w1.function("em_qcd_osss_1jet_rateup").getVal()
+    osss1rdown = self.w1.function("em_qcd_osss_1jet_ratedown").getVal()
+    osss2rup = self.w1.function("em_qcd_osss_2jet_rateup").getVal()
+    osss2rdown = self.w1.function("em_qcd_osss_2jet_ratedown").getVal()
+    osss0sup = self.w1.function("em_qcd_osss_0jet_shapeup").getVal()
+    osss0sdown = self.w1.function("em_qcd_osss_0jet_shapedown").getVal()
+    osss1sup = self.w1.function("em_qcd_osss_1jet_shapeup").getVal()
+    osss1sdown = self.w1.function("em_qcd_osss_1jet_shapedown").getVal()
+    osss2sup = self.w1.function("em_qcd_osss_2jet_shapeup").getVal()
+    osss2sdown = self.w1.function("em_qcd_osss_2jet_shapedown").getVal()
+    osssisoup = self.w1.function("em_qcd_extrap_up").getVal()
+    osssisodown = self.w1.function("em_qcd_extrap_down").getVal()
     if '0Jet' in name:
       oslist = [osss, osss0rup, osss0rdown, osss0sup, osss0sdown, osss, osss, osss, osss, osss, osss, osss, osss, osssisoup, osssisodown]
       for i, osl in enumerate(oslist):
@@ -103,16 +104,17 @@ class AnalyzeEMuSys(MegaBase, EMuBase):
   def fill_sscategories(self, row, myEle, myMET, myMuon, weight):
     dphimumet = self.deltaPhi(myMuon.Phi(), myMET.Phi())
     mtemet = self.transverseMass(myEle, myMET)
+    pzeta = row.e_m_PZeta - 0.85 * row.e_m_PZetaVis
     mjj = row.vbfMass
     njets = row.jetVeto30
     self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS')
-    if njets==0 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+    if njets==0 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
       self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS0Jet')
-    elif njets==1 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+    elif njets==1 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
       self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS1Jet')
-    elif njets==2 and mjj < 500 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+    elif njets==2 and mjj < 500 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
       self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS2Jet')
-    elif njets==2 and mjj > 500 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+    elif njets==2 and mjj > 500 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
       self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS2JetVBF')
 
 
@@ -157,16 +159,16 @@ class AnalyzeEMuSys(MegaBase, EMuBase):
           tmpMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
         self.fill_categories(row, myEle, tmpMET, myMuon, njets, mjj, weight, '/recresoDown')
 
-      nbtag = row.bjetDeepCSVVeto20Medium_2016_DR0p5
+      nbtag = row.bjetDeepCSVVeto20Medium_2018_DR0p5
       if nbtag > 2:
         nbtag = 2
       if nbtag==0:
         self.fill_categories(row, myEle, myMET, myMuon, njets, mjj, weight, '/bTagUp')
         self.fill_categories(row, myEle, myMET, myMuon, njets, mjj, weight, '/bTagDown')
       if nbtag > 0:
-        btagweight = bTagEventWeight(nbtag, row.jb1pt_2016, row.jb1hadronflavor_2016, row.jb2pt_2016, row.jb2hadronflavor_2016, 1, 0, 0)
-        btagweightup = bTagEventWeight(nbtag, row.jb1pt_2016, row.jb1hadronflavor_2016, row.jb2pt_2016, row.jb2hadronflavor_2016, 1, 1, 0)
-        btagweightdown = bTagEventWeight(nbtag, row.jb1pt_2016, row.jb1hadronflavor_2016, row.jb2pt_2016, row.jb2hadronflavor_2016, 1, -1, 0)
+        btagweight = bTagEventWeight(nbtag, row.jb1pt_2018, row.jb1hadronflavor_2018, row.jb2pt_2018, row.jb2hadronflavor_2018, 1, 0, 0)
+        btagweightup = bTagEventWeight(nbtag, row.jb1pt_2018, row.jb1hadronflavor_2018, row.jb2pt_2018, row.jb2hadronflavor_2018, 1, 1, 0)
+        btagweightdown = bTagEventWeight(nbtag, row.jb1pt_2018, row.jb1hadronflavor_2018, row.jb2pt_2018, row.jb2hadronflavor_2018, 1, -1, 0)
         self.fill_categories(row, myEle, myMET, myMuon, njets, mjj, weight * btagweightup/btagweight, '/bTagUp')
         self.fill_categories(row, myEle, myMET, myMuon, njets, mjj, weight * btagweightdown/btagweight, '/bTagDown')
 

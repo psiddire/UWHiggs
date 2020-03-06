@@ -11,6 +11,7 @@ from EMuBase import EMuBase
 import EMTree
 import ROOT
 import math
+import Kinematics
 
 class AnalyzeEMuZTTBDT(MegaBase, EMuBase):
   tree = 'em/final/Ntuple'
@@ -23,7 +24,7 @@ class AnalyzeEMuZTTBDT(MegaBase, EMuBase):
 
 
   def begin(self):
-    for n in Kinematics.zttnames:
+    for n in Kinematics.fullnames:
       self.book(n, 'bdtDiscriminator', 'BDT Discriminator', 200, -1.0, 1.0)
 
 

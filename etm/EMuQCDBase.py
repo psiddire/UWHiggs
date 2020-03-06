@@ -164,14 +164,15 @@ class EMuQCDBase():
       eff_trg_data = self.w1.function("e_trg_23_data").getVal()*self.w1.function("m_trg_8_data").getVal()
       eff_trg_mc = self.w1.function("e_trg_23_mc").getVal()*self.w1.function("m_trg_8_mc").getVal()
       tEff = 0 if eff_trg_mc==0 else eff_trg_data/eff_trg_mc
-      eID = self.w1.function("e_id90_kit_data").getVal()/self.w1.function("e_id90_kit_mc").getVal()
+      eID = self.w1.function("e_id90_kit_ratio").getVal()
       eIso = self.w1.function("e_iso_kit_ratio").getVal()
+      eReco = self.w1.function("e_trk_ratio").getVal()
       #eID = self.eID(myEle.Eta(), myEle.Pt())
       mID = self.muonMediumID(myMuon.Pt(), abs(myMuon.Eta()))
       mIso = self.muonLooseIsoMediumID(myMuon.Pt(), abs(myMuon.Eta()))
       mTrk = self.muTracking(myMuon.Eta())[0]
       mcSF = self.rc.kSpreadMC(row.mCharge, myMuon.Pt(), myMuon.Eta(), myMuon.Phi(), row.mGenPt, 0, 0)
-      weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*eID*eIso*mID*mIso*mTrk*mcSF
+      weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*eID*eIso*eReco*mID*mIso*mTrk*mcSF
       if self.is_DY:
         # DY pT reweighting
         dyweight = self.DYreweight(row.genMass, row.genpT)
@@ -198,7 +199,7 @@ class EMuQCDBase():
     self.w1.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Eta(), myMuon.Eta()))
     self.w1.var("e_pt").setVal(myEle.Pt())
     self.w1.var("m_pt").setVal(myMuon.Pt())
-    osss = self.w1.function("em_qcd_osss").getVal()
+    osss = self.w1.function("em_qcd_osss_binned").getVal()
 
     # b-tag
     nbtag = row.bjetDeepCSVVeto20Medium_2018_DR0p5
