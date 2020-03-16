@@ -57,9 +57,8 @@ def get_plotter_results(analyzer)
   analyzer_base = analyzer.sub('.py', '')
 end
 
-#task :MMM => get_analyzer_results("AnalyzeMMM.py", samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['eraA'] + samples['eraB'] + samples['eraC'] + samples['eraD'])
+task :MMM => get_analyzer_results("AnalyzeMMM.py", samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['eraA'] + samples['eraB'] + samples['eraC'] + samples['eraD'])
 
-task :MMM => get_analyzer_results("AnalyzeMMM.py", samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['WW'] + samples['WZ'] + samples['ZZ'])
 
 $etdir = "plots/#{$jobid}/AnalyzerMuTau/mt_now/"
 directory $etdir 

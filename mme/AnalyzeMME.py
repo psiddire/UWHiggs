@@ -14,7 +14,7 @@ import math
 import mcCorrections
 import mcWeights
 import Kinematics
-from bTagSF import bTagEventWeight
+from FinalStateAnalysis.TagAndProbe.bTagSF2018 import bTagEventWeight
 
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target)
@@ -36,7 +36,6 @@ class AnalyzeMME(MegaBase):
     self.muonTightIsoTightID = mcCorrections.muonIso_tight_tightid
     self.muTracking = mcCorrections.muonTracking
     self.DYreweight = mcCorrections.DYreweight
-    self.DYreweightReco = mcCorrections.DYreweightReco
 
     self.rc = mcCorrections.rc
     self.DYweight = self.mcWeight.DYweight
@@ -110,16 +109,15 @@ class AnalyzeMME(MegaBase):
 
 
   def begin(self):
-    names=['initial', 'eleloose', 'eletight']
-    namesize = len(names)
-    for x in range(0,namesize):
-      self.book(names[x], "ePt", "Electron Pt", 20, 0, 200)
-      self.book(names[x], "eEta", "Electron Eta", 20, -3, 3)
-      self.book(names[x], "m1_m2_Mass", "Invariant Muon Mass", 10, 50, 150)
-      self.book(names[x], "m1Pt", "Muon 1 Pt", 20, 0, 200)
-      self.book(names[x], "m1Eta", "Muon 1 Eta", 20, -3, 3)
-      self.book(names[x], "m2Pt", "Muon 2 Pt", 20, 0, 200)
-      self.book(names[x], "m2Eta", "Muon 2 Eta", 20, -3, 3)
+    names = ['initial', 'eleloose', 'eletight']
+    for n in names:
+      self.book(n, "ePt", "Electron Pt", 20, 0, 200)
+      self.book(n, "eEta", "Electron Eta", 20, -3, 3)
+      self.book(n, "m1_m2_Mass", "Invariant Muon Mass", 10, 50, 150)
+      self.book(n, "m1Pt", "Muon 1 Pt", 20, 0, 200)
+      self.book(n, "m1Eta", "Muon 1 Eta", 20, -3, 3)
+      self.book(n, "m2Pt", "Muon 2 Pt", 20, 0, 200)
+      self.book(n, "m2Eta", "Muon 2 Eta", 20, -3, 3)
 
 
   def fill_histos(self, myMuon1, myMuon2, myEle, weight, name=''):
@@ -137,16 +135,12 @@ class AnalyzeMME(MegaBase):
 
     for row in self.tree:
 
-      #trigger24m1 = row.IsoMu24Pass and row.m1MatchesIsoMu24Filter and row.m1MatchesIsoMu24Path and row.m1Pt > 26
       trigger27m1 = row.IsoMu27Pass and row.m1MatchesIsoMu27Filter and row.m1MatchesIsoMu27Path and row.m1Pt > 29
-      #trigger24m2 = row.IsoMu24Pass and row.m2MatchesIsoMu24Filter and row.m2MatchesIsoMu24Path and row.m2Pt > 26
       trigger27m2 = row.IsoMu27Pass and row.m2MatchesIsoMu27Filter and row.m2MatchesIsoMu27Path and row.m2Pt > 29 
 
       if self.filters(row):
         continue
 
-      #if not bool(trigger24m1 or trigger24m2):
-      #  continue
       if not bool(trigger27m1 or trigger27m2):
         continue
 
@@ -177,7 +171,6 @@ class AnalyzeMME(MegaBase):
       myMuon2.SetPtEtaPhiM(row.m2Pt, row.m2Eta, row.m2Phi, row.m2Mass)
       myEle = ROOT.TLorentzVector()
       myEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
-      #myEle = myEle * ROOT.Double(row.eCorrectedEt/row.eecalEnergy)
 
       if self.visibleMass(myMuon1, myMuon2) < 70 or self.visibleMass(myMuon1, myMuon2) > 110:
         continue
@@ -190,11 +183,11 @@ class AnalyzeMME(MegaBase):
 
       weight = 1.0
       if self.is_mc:
-        # Need updating: Trigger Scale Factors
-        if trigger27m1:# or trigger24m1:
+        # Trigger Scale Factors
+        if trigger27m1:
           tEff = self.triggerEff27(row.m1Pt, abs(row.m1Eta))[0]
           weight = weight * tEff
-        elif trigger27m2:# or trigger24m2:
+        elif trigger27m2:
           tEff = self.triggerEff27(row.m2Pt, abs(row.m2Eta))[0]
           weight = weight * tEff
         # Muon 1 Scale Factors
@@ -206,20 +199,16 @@ class AnalyzeMME(MegaBase):
         m2Iso = self.muonTightIsoTightID(row.m2Pt, abs(row.m2Eta))
         m2Trk = self.muTracking(row.m2Eta)[0]
         # Electron Scale Factors
-        self.w1.var("e_pt").setVal(myEle.Pt())
-        self.w1.var("e_eta").setVal(myEle.Eta())
-        self.w1.var("e_iso").setVal(row.eRelPFIsoRho)
-        eID = 0 if self.w1.function("e_id80_kit_mc").getVal()==0 else self.w1.function("e_id80_kit_data").getVal()/self.w1.function("e_id80_kit_mc").getVal()
-        if row.eRelPFIsoRho < 0.15:
-          eIso = 0 if self.w1.function("e_iso_kit_mc").getVal()==0 else self.w1.function("e_iso_kit_data").getVal()/self.w1.function("e_iso_kit_mc").getVal()
-        else:
-          eIso = 0 if self.w1.function("e_iso_kit_mc").getVal()==0 else self.w1.function("e_iso_kit_data").getVal()/self.w1.function("e_iso_kit_mc").getVal()
-        eTrk = self.w1.function("e_reco_ratio").getVal()
+        self.w1.var('e_pt').setVal(myEle.Pt())
+        self.w1.var('e_eta').setVal(myEle.Eta())
+        self.w1.var('e_iso').setVal(row.eRelPFIsoRho)
+        eID = 0 if self.w1.function('e_id80_kit_mc').getVal()==0 else self.w1.function('e_id80_kit_data').getVal()/self.w1.function('e_id80_kit_mc').getVal()
+        eIso = 0 if self.w1.function('e_iso_kit_mc').getVal()==0 else self.w1.function('e_iso_kit_data').getVal()/self.w1.function('e_iso_kit_mc').getVal()
+        eTrk = self.w1.function('e_reco_ratio').getVal()
         weight = weight * row.GenWeight * pucorrector[''](row.nTruePU) * m1ID * m1Iso * m1Trk * m2ID * m2Iso * m2Trk * eID * eIso * eTrk
         if self.is_DY:
           # DY pT reweighting
-          #dyweight = self.DYreweight(row.genMass, row.genpT)
-          dyweight = self.DYreweightReco((myMuon1+myMuon2).M(), (myMuon1+myMuon2).Pt())
+          dyweight = self.DYreweight(row.genMass, row.genpT)
           weight = weight * dyweight
           if row.numGenJets < 5:
             weight = weight * self.DYweight[row.numGenJets]

@@ -20,16 +20,16 @@ def deltaR(phi1, phi2, eta1, eta2):
   deta = eta1 - eta2
   dphi = abs(phi1-phi2)
   if (dphi>pi) : dphi = 2*pi-dphi
-  return sqrt(deta*deta + dphi*dphi) 
+  return sqrt(deta*deta + dphi*dphi)
 
-def visibleMass(vm, ve):
-  return (vm+ve).M()
+def visibleMass(myLep1, myLep2):
+  return (myLep1+myLep2).M()
 
-def collMass(myMuon, myMET, myEle):
-  ptnu = abs(myMET.Et()*cos(deltaPhi(myMET.Phi(), myEle.Phi())))
-  visfrac = myEle.Pt()/(myEle.Pt() + ptnu)
-  m_e_Mass = visibleMass(myMuon, myEle)
-  return (m_e_Mass/sqrt(visfrac))
+def collMass(myLep1, myMET, myLep2):
+  ptnu = abs(myMET.Et()*cos(deltaPhi(myMET.Phi(), myLep2.Phi())))
+  visfrac = myLep2.Pt()/(myLep2.Pt() + ptnu)
+  l1_l2_Mass = visibleMass(myLep1, myLep2)
+  return (l1_l2_Mass/sqrt(visfrac))
 
 def transverseMass(vobj, vmet):
   totalEt = vobj.Et() + vmet.Et()
@@ -46,5 +46,3 @@ def topPtreweight(pt1, pt2):
   wt2 = exp(a + b * pt2)
   wt = sqrt(wt1 * wt2)
   return wt
-
-jes = ['JetAbsoluteFlavMapUp', 'JetAbsoluteFlavMapDown', 'JetAbsoluteMPFBiasUp', 'JetAbsoluteMPFBiasDown', 'JetAbsoluteScaleUp', 'JetAbsoluteScaleDown', 'JetAbsoluteStatUp', 'JetAbsoluteStatDown', 'JetFlavorQCDUp', 'JetFlavorQCDDown', 'JetFragmentationUp', 'JetFragmentationDown', 'JetPileUpDataMCUp', 'JetPileUpDataMCDown', 'JetPileUpPtBBUp', 'JetPileUpPtBBDown', 'JetPileUpPtEC1Up', 'JetPileUpPtEC1Down', 'JetPileUpPtEC2Up', 'JetPileUpPtEC2Down', 'JetPileUpPtHFUp', 'JetPileUpPtHFDown', 'JetPileUpPtRefUp', 'JetPileUpPtRefDown', 'JetRelativeFSRUp', 'JetRelativeFSRDown', 'JetRelativeJEREC1Up', 'JetRelativeJEREC1Down', 'JetRelativeJEREC2Up', 'JetRelativeJEREC2Down', 'JetRelativeJERHFUp', 'JetRelativeJERHFDown', 'JetRelativePtBBUp', 'JetRelativePtBBDown', 'JetRelativePtEC1Up', 'JetRelativePtEC1Down', 'JetRelativePtEC2Up', 'JetRelativePtEC2Down', 'JetRelativePtHFUp', 'JetRelativePtHFDown', 'JetRelativeStatECUp', 'JetRelativeStatECDown', 'JetRelativeStatFSRUp', 'JetRelativeStatFSRDown', 'JetRelativeStatHFUp', 'JetRelativeStatHFDown', 'JetSinglePionECALUp', 'JetSinglePionECALDown', 'JetSinglePionHCALUp', 'JetSinglePionHCALDown', 'JetTimePtEtaUp', 'JetTimePtEtaDown', 'JetRelativeBalUp', 'JetRelativeBalDown', 'JetRelativeSampleUp', 'JetRelativeSampleDown']

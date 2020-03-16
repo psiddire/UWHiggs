@@ -4,7 +4,9 @@
 export datasrc=/hdfs/store/user/kaho
 export MEGAPATH=/hdfs/store/user/kaho
 
-source jobid.sh
+export jobidet='Data_2018_Dec_et'
+#export jobidet='MC2018_Dec'
+#export jobidet='Embed2018et'
 export jobid=$jobidet
 
 #export afile=`find $datasrc/$jobid | grep root | head -n 1`

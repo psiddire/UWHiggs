@@ -10,7 +10,6 @@ from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 from MuTauBase import MuTauBase
 import MuTauTree
 import ROOT
-import math
 import array
 
 class AnalyzeMuTauBDT(MegaBase, MuTauBase):

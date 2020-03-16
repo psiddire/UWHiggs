@@ -14,7 +14,6 @@ import math
 import itertools
 import os
 import mcCorrections
-from bTagSF import bTagEventWeight
 
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target)

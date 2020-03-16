@@ -4,7 +4,9 @@
 export datasrc=/hdfs/store/user/kaho
 export MEGAPATH=/hdfs/store/user/kaho
 
-source jobid.sh
+export jobidmt='Data_2018_Dec_mt'
+#export jobidmt='MC2018_Dec'
+#export jobidmt='Embed2018mt'
 export jobid=$jobidmt
 
 #export afile=`find $datasrc/$jobid | grep root | head -n 1`
@@ -16,5 +18,3 @@ export jobid=$jobidmt
 
 #rake "meta:getinputs[$jobid, $datasrc, mt/metaInfo, mt/summedWeights]"
 rake "meta:getmeta[inputs/$jobid, mt/metaInfo, 13, mt/summedWeights]"
-
-

@@ -9,10 +9,8 @@ Authors: Prasanna Siddireddy
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 from EMuBase import EMuBase
 import EMTree
-import ROOT
-import math
-from bTagSF import bTagEventWeight
 import Kinematics
+from FinalStateAnalysis.TagAndProbe.bTagSF2018 import bTagEventWeight
 
 class AnalyzeEMuTTBDT(MegaBase, EMuBase):
   tree = 'em/final/Ntuple'

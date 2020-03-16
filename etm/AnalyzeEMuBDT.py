@@ -10,7 +10,6 @@ from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 from EMuBase import EMuBase
 import EMTree
 import ROOT
-import math
 import array
 
 class AnalyzeEMuBDT(MegaBase, EMuBase):

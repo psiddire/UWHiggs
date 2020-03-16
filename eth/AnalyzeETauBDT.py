@@ -10,7 +10,6 @@ from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 from ETauBase import ETauBase
 import ETauTree
 import ROOT
-import math
 import array
 
 class AnalyzeETauBDT(MegaBase, ETauBase):

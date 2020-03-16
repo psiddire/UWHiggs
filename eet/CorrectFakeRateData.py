@@ -36,7 +36,7 @@ if __name__ == "__main__":
     import rootpy.plotting as plotting
     from FinalStateAnalysis.MetaData.data_views import data_views
 
-    samples = ['WZ*', 'WW*', 'ZZ*', 'DYJ*', 'data*']
+    samples = ['WZ*', 'WW*', 'ZZ*', 'DYJ*', 'DY1*', 'DY2*', 'DY3*', 'DY4*', 'data*']
     files = []
     lumifiles = []
     for x in samples:

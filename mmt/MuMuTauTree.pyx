@@ -121,12 +121,6 @@ cdef class MuMuTauTree:
     cdef TBranch* Ele35WPTightPass_branch
     cdef float Ele35WPTightPass_value
 
-    cdef TBranch* Ele38WPTightPass_branch
-    cdef float Ele38WPTightPass_value
-
-    cdef TBranch* Ele40WPTightPass_branch
-    cdef float Ele40WPTightPass_value
-
     cdef TBranch* EmbPtWeight_branch
     cdef float EmbPtWeight_value
 
@@ -231,6 +225,15 @@ cdef class MuMuTauTree:
 
     cdef TBranch* Pt_branch
     cdef float Pt_value
+
+    cdef TBranch* SingleTau180MediumPass_branch
+    cdef float SingleTau180MediumPass_value
+
+    cdef TBranch* SingleTau200MediumPass_branch
+    cdef float SingleTau200MediumPass_value
+
+    cdef TBranch* SingleTau220MediumPass_branch
+    cdef float SingleTau220MediumPass_value
 
     cdef TBranch* VBFDoubleLooseHPSTau20Pass_branch
     cdef float VBFDoubleLooseHPSTau20Pass_value
@@ -2170,24 +2173,6 @@ cdef class MuMuTauTree:
         else:
             self.Ele35WPTightPass_branch.SetAddress(<void*>&self.Ele35WPTightPass_value)
 
-        #print "making Ele38WPTightPass"
-        self.Ele38WPTightPass_branch = the_tree.GetBranch("Ele38WPTightPass")
-        #if not self.Ele38WPTightPass_branch and "Ele38WPTightPass" not in self.complained:
-        if not self.Ele38WPTightPass_branch and "Ele38WPTightPass":
-            warnings.warn( "MuMuTauTree: Expected branch Ele38WPTightPass does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("Ele38WPTightPass")
-        else:
-            self.Ele38WPTightPass_branch.SetAddress(<void*>&self.Ele38WPTightPass_value)
-
-        #print "making Ele40WPTightPass"
-        self.Ele40WPTightPass_branch = the_tree.GetBranch("Ele40WPTightPass")
-        #if not self.Ele40WPTightPass_branch and "Ele40WPTightPass" not in self.complained:
-        if not self.Ele40WPTightPass_branch and "Ele40WPTightPass":
-            warnings.warn( "MuMuTauTree: Expected branch Ele40WPTightPass does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("Ele40WPTightPass")
-        else:
-            self.Ele40WPTightPass_branch.SetAddress(<void*>&self.Ele40WPTightPass_value)
-
         #print "making EmbPtWeight"
         self.EmbPtWeight_branch = the_tree.GetBranch("EmbPtWeight")
         #if not self.EmbPtWeight_branch and "EmbPtWeight" not in self.complained:
@@ -2502,6 +2487,33 @@ cdef class MuMuTauTree:
             #self.complained.add("Pt")
         else:
             self.Pt_branch.SetAddress(<void*>&self.Pt_value)
+
+        #print "making SingleTau180MediumPass"
+        self.SingleTau180MediumPass_branch = the_tree.GetBranch("SingleTau180MediumPass")
+        #if not self.SingleTau180MediumPass_branch and "SingleTau180MediumPass" not in self.complained:
+        if not self.SingleTau180MediumPass_branch and "SingleTau180MediumPass":
+            warnings.warn( "MuMuTauTree: Expected branch SingleTau180MediumPass does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("SingleTau180MediumPass")
+        else:
+            self.SingleTau180MediumPass_branch.SetAddress(<void*>&self.SingleTau180MediumPass_value)
+
+        #print "making SingleTau200MediumPass"
+        self.SingleTau200MediumPass_branch = the_tree.GetBranch("SingleTau200MediumPass")
+        #if not self.SingleTau200MediumPass_branch and "SingleTau200MediumPass" not in self.complained:
+        if not self.SingleTau200MediumPass_branch and "SingleTau200MediumPass":
+            warnings.warn( "MuMuTauTree: Expected branch SingleTau200MediumPass does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("SingleTau200MediumPass")
+        else:
+            self.SingleTau200MediumPass_branch.SetAddress(<void*>&self.SingleTau200MediumPass_value)
+
+        #print "making SingleTau220MediumPass"
+        self.SingleTau220MediumPass_branch = the_tree.GetBranch("SingleTau220MediumPass")
+        #if not self.SingleTau220MediumPass_branch and "SingleTau220MediumPass" not in self.complained:
+        if not self.SingleTau220MediumPass_branch and "SingleTau220MediumPass":
+            warnings.warn( "MuMuTauTree: Expected branch SingleTau220MediumPass does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("SingleTau220MediumPass")
+        else:
+            self.SingleTau220MediumPass_branch.SetAddress(<void*>&self.SingleTau220MediumPass_value)
 
         #print "making VBFDoubleLooseHPSTau20Pass"
         self.VBFDoubleLooseHPSTau20Pass_branch = the_tree.GetBranch("VBFDoubleLooseHPSTau20Pass")
@@ -7759,16 +7771,6 @@ cdef class MuMuTauTree:
             self.Ele35WPTightPass_branch.GetEntry(self.localentry, 0)
             return self.Ele35WPTightPass_value
 
-    property Ele38WPTightPass:
-        def __get__(self):
-            self.Ele38WPTightPass_branch.GetEntry(self.localentry, 0)
-            return self.Ele38WPTightPass_value
-
-    property Ele40WPTightPass:
-        def __get__(self):
-            self.Ele40WPTightPass_branch.GetEntry(self.localentry, 0)
-            return self.Ele40WPTightPass_value
-
     property EmbPtWeight:
         def __get__(self):
             self.EmbPtWeight_branch.GetEntry(self.localentry, 0)
@@ -7943,6 +7945,21 @@ cdef class MuMuTauTree:
         def __get__(self):
             self.Pt_branch.GetEntry(self.localentry, 0)
             return self.Pt_value
+
+    property SingleTau180MediumPass:
+        def __get__(self):
+            self.SingleTau180MediumPass_branch.GetEntry(self.localentry, 0)
+            return self.SingleTau180MediumPass_value
+
+    property SingleTau200MediumPass:
+        def __get__(self):
+            self.SingleTau200MediumPass_branch.GetEntry(self.localentry, 0)
+            return self.SingleTau200MediumPass_value
+
+    property SingleTau220MediumPass:
+        def __get__(self):
+            self.SingleTau220MediumPass_branch.GetEntry(self.localentry, 0)
+            return self.SingleTau220MediumPass_value
 
     property VBFDoubleLooseHPSTau20Pass:
         def __get__(self):

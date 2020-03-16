@@ -14,7 +14,7 @@ import math
 import mcCorrections
 import mcWeights
 import Kinematics
-from bTagSF import bTagEventWeight
+from FinalStateAnalysis.TagAndProbe.bTagSF2018 import bTagEventWeight
 
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target)
@@ -34,8 +34,15 @@ class AnalyzeMMT(MegaBase):
     self.muonTightID = mcCorrections.muonID_tight
     self.muonTightIsoTightID = mcCorrections.muonIso_tight_tightid
     self.muTracking = mcCorrections.muonTracking
+    self.deepTauVSe = mcCorrections.deepTauVSe
+    self.deepTauVSmu = mcCorrections.deepTauVSmu
+    self.deepTauVSjet_tight = mcCorrections.deepTauVSjet_tight
+    self.deepTauVSjet_vloose = mcCorrections.deepTauVSjet_vloose
+    self.deepTauVSjet_Emb_tight = mcCorrections.deepTauVSjet_Emb_tight
+    self.deepTauVSjet_Emb_vloose = mcCorrections.deepTauVSjet_Emb_vloose
+    self.esTau = mcCorrections.esTau
+    self.FesTau = mcCorrections.FesTau
     self.DYreweight = mcCorrections.DYreweight
-    self.DYreweightReco = mcCorrections.DYreweightReco
 
     self.rc = mcCorrections.rc
     self.DYweight = self.mcWeight.DYweight
@@ -77,11 +84,11 @@ class AnalyzeMMT(MegaBase):
   # Particle Flow Identification along with Primary Vertex matching for Muon 1
   def obj1_id(self,row):
     return bool(row.m1PFIDTight) and bool(abs(row.m1PVDZ) < 0.2) and bool(abs(row.m1PVDXY) < 0.045)
- 
+
   # Isolation requirement using Delta Beta method for Muon 1
   def obj1_iso(self,row):
     return bool(row.m1RelPFIsoDBDefaultR04 < 0.15)
-  
+
   # Particle Flow Identification along with Primary Vertex matching for Muon 2
   def obj2_id(self, row):
     return bool(row.m2PFIDTight) and bool(abs(row.m2PVDZ) < 0.2) and bool(abs(row.m2PVDXY) < 0.045)
@@ -92,23 +99,15 @@ class AnalyzeMMT(MegaBase):
 
   # Tau decay mode finding along with discrimination against electron and muon, and primary vertex matching
   def tau_id(self, row):
-    return bool(row.tDecayModeFinding > 0.5) and bool(row.tAgainstElectronVLooseMVA6 > 0.5) and bool(row.tAgainstMuonTight3 > 0.5) and bool(abs(row.tPVDZ) < 0.2)
+    return bool(row.tDecayModeFindingNewDMs > 0.5) and bool(row.tVLooseDeepTau2017v2p1VSe > 0.5) and bool(row.tTightDeepTau2017v2p1VSmu > 0.5) and bool(abs(row.tPVDZ) < 0.2)
 
-  # Tight Working Point(WP) for Isolation for tau
+  # Tight Working Point(WP) for tau
   def tau_tight(self, row):
-    return bool(row.tRerunMVArun2v2DBoldDMwLTTight > 0.5)
+    return bool(row.tTightDeepTau2017v2p1VSjet > 0.5)
 
-  # Loose Working Point(WP) for Isolation for tau
-  def tau_loose(self, row):
-    return bool(row.tRerunMVArun2v2DBoldDMwLTLoose > 0.5)
-
-  # Very Loose Working Point(WP) for Isolation for tau
+  # Very Loose Working Point(WP) for tau
   def tau_vloose(self, row):
-    return bool(row.tRerunMVArun2v2DBoldDMwLTVLoose > 0.5)
-
-  # Very Tight Working Point(WP) for Isolation for tau
-  def tau_vtight(self, row):
-    return bool(row.tRerunMVArun2v2DBoldDMwLTVTight > 0.5)
+    return bool(row.tVLooseDeepTau2017v2p1VSjet > 0.5)
 
   # Veto of events with additional leptons coming from the primary vertex
   def vetos(self, row):
@@ -116,17 +115,16 @@ class AnalyzeMMT(MegaBase):
 
 
   def begin(self):
-    names=['initial', 'loose', 'LDM0', 'LDM1', 'LDM10', 'LEBDM0', 'LEBDM1', 'LEBDM10', 'LEEDM0', 'LEEDM1', 'LEEDM10', 'tight', 'TDM0', 'TDM1', 'TDM10', 'TEBDM0', 'TEBDM1', 'TEBDM10', 'TEEDM0', 'TEEDM1', 'TEEDM10']
-    namesize = len(names)
-    for x in range(0,namesize):
-      self.book(names[x], "tPt", "Tau Pt", 20, 0, 200)
-      self.book(names[x], "tEta", "Tau Eta", 20, -3, 3)
-      self.book(names[x], "tDecayMode", "Tau Decay Mode", 20, 0, 20)
-      self.book(names[x], "m1_m2_Mass", "Invariant Muon Mass", 10, 50, 150)
-      self.book(names[x], "m1Pt", "Muon 1 Pt", 20, 0, 200)
-      self.book(names[x], "m1Eta", "Muon 1 Eta", 20, -3, 3)
-      self.book(names[x], "m2Pt", "Muon 2 Pt", 20, 0, 200)
-      self.book(names[x], "m2Eta", "Muon 2 Eta", 20, -3, 3)
+    names = ['initial', 'loose', 'LEBDM0', 'LEBDM1', 'LEBDM10', 'LEBDM11', 'LEEDM0', 'LEEDM1', 'LEEDM10', 'LEEDM11', 'tight', 'TEBDM0', 'TEBDM1', 'TEBDM10', 'TEBDM11', 'TEEDM0', 'TEEDM1', 'TEEDM10', 'TEEDM11']
+    for n in names:
+      self.book(n, "tPt", "Tau Pt", 20, 0, 200)
+      self.book(n, "tEta", "Tau Eta", 20, -3, 3)
+      self.book(n, "tDecayMode", "Tau Decay Mode", 20, 0, 20)
+      self.book(n, "m1_m2_Mass", "Invariant Muon Mass", 10, 50, 150)
+      self.book(n, "m1Pt", "Muon 1 Pt", 20, 0, 200)
+      self.book(n, "m1Eta", "Muon 1 Eta", 20, -3, 3)
+      self.book(n, "m2Pt", "Muon 2 Pt", 20, 0, 200)
+      self.book(n, "m2Eta", "Muon 2 Eta", 20, -3, 3)
 
 
   def fill_histos(self, row, myMuon1, myMuon2, myTau, weight, name=''):
@@ -140,23 +138,15 @@ class AnalyzeMMT(MegaBase):
     histos[name+'/m2Pt'].Fill(myMuon2.Pt(), weight)
     histos[name+'/m2Eta'].Fill(myMuon2.Eta(), weight)
 
-  # Tau energy scale correction
+  # Tau pT correction
   def tauPtC(self, row, myTau):
     tmpTau = myTau
-    if self.is_mc and row.tZTTGenMatching==5:
-      if row.tDecayMode == 0:
-        tmpTau = myTau * ROOT.Double(0.987)
-      elif row.tDecayMode == 1:
-        tmpTau = myTau * ROOT.Double(0.995)
-      elif row.tDecayMode == 10:
-        tmpTau = myTau * ROOT.Double(0.988)# Corrected from 0.998
-    ## 2017 numbers below. Need to update when 2018 numbers are available.
-    # if self.is_mc and bool(row.tZTTGenMatching==1 or row.tZTTGenMatching==3):
-    #   if row.tDecayMode == 0:
-    #     tmpTau = myTau * ROOT.Double(1.003)
-    #   elif row.tDecayMode == 1:
-    #     tmpTau = myTau * ROOT.Double(1.036)
-
+    if self.is_mc and not self.is_DY and row.tZTTGenMatching==5:
+      es = self.esTau(row.tDecayMode)
+      tmpTau = myTau * ROOT.Double(es[0])
+    if self.is_mc and bool(row.tZTTGenMatching==1 or row.tZTTGenMatching==3):
+      fes = self.FesTau(myTau.Eta(), row.tDecayMode)
+      tmpTau = myTau * ROOT.Double(fes[0])
     return tmpTau
 
 
@@ -164,16 +154,12 @@ class AnalyzeMMT(MegaBase):
 
     for row in self.tree:
 
-      #trigger24m1 = row.IsoMu24Pass and row.m1MatchesIsoMu24Filter and row.m1MatchesIsoMu24Path and row.m1Pt > 26
       trigger27m1 = row.IsoMu27Pass and row.m1MatchesIsoMu27Filter and row.m1MatchesIsoMu27Path and row.m1Pt > 29
-      #trigger24m2 = row.IsoMu24Pass and row.m2MatchesIsoMu24Filter and row.m2MatchesIsoMu24Path and row.m2Pt > 26
       trigger27m2 = row.IsoMu27Pass and row.m2MatchesIsoMu27Filter and row.m2MatchesIsoMu27Path and row.m2Pt > 29 
 
       if self.filters(row):
         continue
 
-      #if not bool(trigger24m1 or trigger24m2): # or trigger27m1 or trigger27m2
-      #  continue
       if not bool(trigger27m1 or trigger27m2):
         continue
 
@@ -198,6 +184,12 @@ class AnalyzeMMT(MegaBase):
       if not self.obj2_iso(row):
         continue
 
+      if not self.tau_id(row):
+        continue
+
+      if row.tDecayMode==5 or row.tDecayMode==6:
+        continue
+
       myMuon1 = ROOT.TLorentzVector()
       myMuon1.SetPtEtaPhiM(row.m1Pt, row.m1Eta, row.m1Phi, row.m1Mass)
       myMuon2 = ROOT.TLorentzVector()
@@ -209,56 +201,44 @@ class AnalyzeMMT(MegaBase):
       if self.visibleMass(myMuon1, myMuon2) < 70 or self.visibleMass(myMuon1, myMuon2) > 110:
         continue
 
-      if not self.tau_id(row):
-        continue
-
       weight = 1.0
       if self.is_mc:
-        # Need updating: Trigger Scale Factors
-        if trigger27m1:# or trigger24m1:
+        # Trigger Scale Factors
+        if trigger27m1:
           tEff = self.triggerEff27(row.m1Pt, abs(row.m1Eta))[0]
           weight = weight * tEff
-        elif trigger27m2:# or trigger24m2:
+        if trigger27m2:
           tEff = self.triggerEff27(row.m2Pt, abs(row.m2Eta))[0]
           weight = weight * tEff
         # Muon 1 Scale Factors
         m1ID = self.muonTightID(row.m1Pt, abs(row.m1Eta))
         m1Iso = self.muonTightIsoTightID(row.m1Pt, abs(row.m1Eta))
-        m1Trk = self.muTracking(row.m1Eta)[0]
+        m1Trk = self.muTracking(myMuon1.Eta())[0]
         # Muon 2 Scale Factors
         m2ID = self.muonTightID(row.m2Pt, abs(row.m2Eta))
         m2Iso = self.muonTightIsoTightID(row.m2Pt, abs(row.m2Eta))
-        m2Trk = self.muTracking(row.m2Eta)[0]
+        m2Trk = self.muTracking(myMuon2.Eta())[0]
         weight = weight * row.GenWeight * pucorrector[''](row.nTruePU) * m1ID * m1Iso * m1Trk * m2ID * m2Iso * m2Trk
-        # Anti-Muon and Anti-Electron Discriminator Scale Factors
+        # Anti-Muon Discriminator Scale Factors
         if row.tZTTGenMatching==2 or row.tZTTGenMatching==4:
-          if abs(row.tEta) < 0.4:
-            weight = weight * 1.23
-          elif abs(row.tEta) < 0.8:
-            weight = weight * 1.37
-          elif abs(row.tEta) < 1.2:
-            weight = weight * 1.12
-          elif abs(row.tEta) < 1.7:
-            weight = weight * 1.84
-          else:
-            weight = weight * 2.01
-        elif row.tZTTGenMatching==1 or row.tZTTGenMatching==3: 
-          if abs(row.tEta) < 1.448: # Corrected
-            weight = weight * 1.13
-          elif abs(row.tEta) > 1.558:
-            weight = weight * 1.003
+          weight = weight * self.deepTauVSmu(myTau.Eta())[0]
+        # Anti-Electron Discriminator Scale Factors
+        elif row.tZTTGenMatching==1 or row.tZTTGenMatching==3:
+          weight = weight * self.deepTauVSe(myTau.Eta())[0]
         # Tau ID Scale Factor
         elif row.tZTTGenMatching==5:
-          weight = weight * 0.90
+          if self.tau_tight(row):
+            weight = weight * self.deepTauVSjet_tight(myTau.Pt())[0]
+          elif self.tau_vloose(row):
+            weight = weight * self.deepTauVSjet_vloose(myTau.Pt())[0]
         if self.is_DY:
           # DY pT reweighting
-          #dyweight = self.DYreweight(row.genMass, row.genpT)
-          dyweight = self.DYreweightReco((myMuon1+myMuon2).M(), (myMuon1+myMuon2).Pt())
+          dyweight = self.DYreweight(row.genMass, row.genpT)
           weight = weight * dyweight
-          #if row.numGenJets < 5:
-          #  weight = weight * self.DYweight[row.numGenJets]
-          #else:
-          #  weight = weight * self.DYweight[0]
+          if row.numGenJets < 5:
+            weight = weight * self.DYweight[row.numGenJets]
+          else:
+            weight = weight * self.DYweight[0]
         weight = self.mcWeight.lumiWeight(weight)
 
       # B-Jet Veto using b-tagging event weight method
@@ -276,13 +256,6 @@ class AnalyzeMMT(MegaBase):
 
       if self.tau_vloose(row):
         self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'loose')
-        if row.tDecayMode == 0:
-          self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'LDM0')
-        elif row.tDecayMode == 1:
-          self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'LDM1')
-        elif row.tDecayMode == 10:
-          self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'LDM10')
-
         if abs(row.tEta) < 1.5:
           if row.tDecayMode == 0:
             self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'LEBDM0')
@@ -290,6 +263,8 @@ class AnalyzeMMT(MegaBase):
             self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'LEBDM1')
           elif row.tDecayMode == 10:
             self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'LEBDM10')
+          elif row.tDecayMode == 11:
+            self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'LEBDM11')
         else:
           if row.tDecayMode == 0:
             self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'LEEDM0')
@@ -297,16 +272,11 @@ class AnalyzeMMT(MegaBase):
             self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'LEEDM1')
           elif row.tDecayMode == 10:
             self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'LEEDM10')
+          elif row.tDecayMode == 11:
+            self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'LEEDM11')
 
       if self.tau_tight(row):
         self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'tight')
-        if row.tDecayMode == 0:
-          self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'TDM0')
-        elif row.tDecayMode == 1:
-          self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'TDM1')
-        elif row.tDecayMode == 10:
-          self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'TDM10')
-
         if abs(row.tEta) < 1.5:
           if row.tDecayMode == 0:
             self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'TEBDM0')
@@ -314,6 +284,8 @@ class AnalyzeMMT(MegaBase):
             self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'TEBDM1')
           elif row.tDecayMode == 10:
             self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'TEBDM10')
+          elif row.tDecayMode == 11:
+            self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'TEBDM11')
         else:
           if row.tDecayMode == 0:
             self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'TEEDM0')
@@ -321,6 +293,8 @@ class AnalyzeMMT(MegaBase):
             self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'TEEDM1')
           elif row.tDecayMode == 10:
             self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'TEEDM10')
+          elif row.tDecayMode == 11:
+            self.fill_histos(row, myMuon1, myMuon2, myTau, weight, 'TEEDM11')
 
 
   def finish(self):

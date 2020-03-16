@@ -9,8 +9,7 @@ Authors: Prasanna Siddireddy
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 from MuEBase import MuEBase
 import EMTree
-import ROOT
-import math
+from FinalStateAnalysis.TagAndProbe.bTagSF2018 import bTagEventWeight
 
 class AnalyzeMuETTBDT(MegaBase, MuEBase):
   tree = 'em/final/Ntuple'
