@@ -12,7 +12,7 @@ import math
 import mcCorrections
 import mcWeights
 import Kinematics
-from bTagSF import bTagEventWeight
+from FinalStateAnalysis.TagAndProbe.bTagSF2016 import bTagEventWeight
 
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target)
@@ -46,8 +46,8 @@ class MuEBase():
     self.rc = mcCorrections.rc
     self.w1 = mcCorrections.w1
     self.DYreweight = mcCorrections.DYreweight
-    #self.EmbedPhi = mcCorrections.EmbedPhi
-    #self.EmbedEta = mcCorrections.EmbedEta
+    self.EmbedPhi = mcCorrections.EmbedPhi
+    self.EmbedEta = mcCorrections.EmbedEta
 
     self.DYweight = self.mcWeight.DYweight
     self.Wweight = self.mcWeight.Wweight
@@ -276,21 +276,23 @@ class MuEBase():
       self.w1.var("gt1_eta").setVal(myMuon.Eta())
       self.w1.var("gt2_pt").setVal(myEle.Pt())
       self.w1.var("gt2_eta").setVal(myEle.Eta())
-      trgsel = self.w1.function("m_sel_trg_ratio").getVal()
+      trgsel = self.w1.function("m_sel_trg_ic_ratio").getVal()
       self.w1.var("m_pt").setVal(myMuon.Pt())
       self.w1.var("m_eta").setVal(myMuon.Eta())
       self.w1.var("m_iso").setVal(row.mRelPFIsoDBDefaultR04)
-      m_id_sf = self.w1.function("m_id_embed_kit_ratio").getVal()
-      m_iso_sf = self.w1.function("m_iso_binned_embed_kit_ratio").getVal()
+      m_id_sf = self.w1.function("m_id_ic_embed_ratio").getVal()
+      m_iso_sf = self.w1.function("m_iso_binned_ic_embed_ratio").getVal()
       self.w1.var("e_pt").setVal(myEle.Pt())
       self.w1.var("e_eta").setVal(myEle.Eta())
       self.w1.var("e_iso").setVal(row.eRelPFIsoRho)
-      e_id_sf = self.w1.function("e_id80_embed_kit_ratio").getVal()
-      e_iso_sf = self.w1.function("e_iso_binned_embed_kit_ratio").getVal()
+      e_id_sf = self.w1.function("e_id80_data").getVal()/self.w1.function("e_id80_emb").getVal()
+      e_iso_sf = self.w1.function("e_iso_binned_ic_embed_ratio").getVal()
       eff_trg_data = self.w1.function("m_trg_23_ic_data").getVal()*self.w1.function("e_trg_12_ic_data").getVal()
       eff_trg_embed = self.w1.function("m_trg_23_ic_embed").getVal()*self.w1.function("e_trg_12_ic_embed").getVal()
       trg_sf = 0 if eff_trg_embed==0 else eff_trg_data/eff_trg_embed
-      weight = weight*row.GenWeight*msel*esel*trgsel*trg_sf*m_id_sf*m_iso_sf*e_id_sf*e_iso_sf#*self.EmbedPhi(myEle.Phi(), njets, mjj)*self.EmbedEta(myEle.Eta(), njets, mjj)
+      weight = weight*row.GenWeight*msel*esel*trgsel*trg_sf*m_id_sf*m_iso_sf*e_id_sf*e_iso_sf*self.EmbedPhi(myEle.Phi(), njets, mjj)*self.EmbedEta(myEle.Eta(), njets, mjj)
+      if row.GenWeight > 1.0:
+        weight = 0
 
     self.w1.var("njets").setVal(njets)
     self.w1.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Eta(), myMuon.Eta()))
@@ -309,4 +311,3 @@ class MuEBase():
       weight = 0
 
     return [weight, osss]
-

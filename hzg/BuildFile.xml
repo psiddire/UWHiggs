@@ -1,9 +1,0 @@
-<use name="classlib"/>
-<use name="rootcintex"/>
-<use name="roofit"/>
-<use name="root"/>
-
-
-<export>  
-  <lib   name="1"/>
-</export>

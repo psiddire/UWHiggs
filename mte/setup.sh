@@ -4,7 +4,11 @@
 export datasrc=/hdfs/store/user/ndev
 export MEGAPATH=/hdfs/store/user/ndev
 
-source jobid.sh
+export jobidem='Data2016'
+#export jobidem='MC2016'
+#export jobidem='MC2016Sys'
+#export jobidem='Embed2016ElMu'
+#export jobidem='Signal2016'
 export jobid=$jobidem
 
 #export afile=`find $datasrc/$jobid | grep root | head -n 1`
@@ -16,5 +20,3 @@ export jobid=$jobidem
 
 #rake "meta:getinputs[$jobid, $datasrc, em/metaInfo, em/summedWeights]"
 rake "meta:getmeta[inputs/$jobid, em/metaInfo, 13, em/summedWeights]"
-
-

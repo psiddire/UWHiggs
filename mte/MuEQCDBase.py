@@ -12,7 +12,7 @@ import math
 import mcCorrections
 import mcWeights
 import Kinematics
-from bTagSF import bTagEventWeight
+from FinalStateAnalysis.TagAndProbe.bTagSF2016 import bTagEventWeight
 
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target)
@@ -63,8 +63,8 @@ class MuEQCDBase():
     self.sys = Kinematics.sys
     self.sssys = Kinematics.sssys
     self.qcdsys = Kinematics.qcdsys
-    #self.functor = Kinematics.functor
-    #self.var_d = Kinematics.var_d
+    self.functor = Kinematics.functor
+    self.var_d = Kinematics.var_d
 
   # Requirement on the charge of the leptons
   def oppositesign(self, row):

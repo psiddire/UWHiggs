@@ -33,18 +33,18 @@ class mcWeights:
         self.is_recoilC = bool(self.is_DYlow or self.is_DY or self.is_GluGlu or self.is_VBF or self.is_EWK or self.is_VBFH or self.is_GluGluH or self.is_VBFHWW or self.is_GluGluHWW or self.is_W)
         self.MetCorrection = True
         self.DYweight = {
-            0 : 1.50919237,
-            1 : 0.481912142,
-            2 : 0.49924333,
-            3 : 0.529136939,
-            4 : 0.881668827
-        } 
+            0 : 1.489999272,
+            1 : 0.475783442,
+            2 : 0.492894221,
+            3 : 0.522407659,
+            4 : 0.870456236
+        }
         self.Wweight = {
-            0 : 25.7159816,
-            1 : 6.922117517,
-            2 : 3.904817721,
-            3 : 1.039121461,
-            4 : 7.413353904
+            0 : 25.38893955,
+            1 : 6.834085743,
+            2 : 3.855158346,
+            3 : 1.025906472,
+            4 : 7.319074849
         }
 
     def lumiWeight(self, weight):
@@ -94,4 +94,4 @@ class mcWeights:
             weight = weight*0.00245
         if self.is_GluGluHWW:
             weight = weight*0.191
-        return weight
+        return weight*(35866.0/36328.0)

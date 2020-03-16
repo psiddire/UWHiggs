@@ -9,8 +9,6 @@ Authors: Prasanna Siddireddy
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 from MuTauBase import MuTauBase
 import MuTauTree
-import ROOT
-import math
 
 class AnalyzeMuTauZMM(MegaBase, MuTauBase):
   tree = 'mt/final/Ntuple'

@@ -10,7 +10,6 @@ from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 from ETauBase import ETauBase
 import ETauTree
 import ROOT
-import math
 import array
 
 class AnalyzeETauBDT(MegaBase, ETauBase):
@@ -65,9 +64,9 @@ class AnalyzeETauBDT(MegaBase, ETauBase):
       elif varname=='type1_pfMetEt':
         holder[0] = myMET.Pt()
       elif varname=='njets':
-        holder[0] = int(row.jetVeto30WoNoisyJets)
+        holder[0] = int(row.jetVeto30)
       elif varname=='vbfMass':
-        holder[0] = row.vbfMassWoNoisyJets
+        holder[0] = row.vbfMass
       elif varname=='weight':
         holder[0] = weight
     self.tree1.Fill()
@@ -82,7 +81,7 @@ class AnalyzeETauBDT(MegaBase, ETauBase):
 
       myEle, myMET, myTau = self.lepVec(row)[0], self.lepVec(row)[1], self.lepVec(row)[2]
 
-      weight = self.corrFact(row, myEle, myTau, self.trigger(row)[0])
+      weight = self.corrFact(row, myEle, myTau)
 
       if self.is_data:
         if not self.obj2_tight(row) and self.obj2_loose(row) and not self.obj1_tight(row) and self.obj1_loose(row):

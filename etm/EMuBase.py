@@ -12,7 +12,7 @@ import math
 import mcCorrections
 import mcWeights
 import Kinematics
-from bTagSF import bTagEventWeight
+from FinalStateAnalysis.TagAndProbe.bTagSF2016 import bTagEventWeight
 
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target)
@@ -27,6 +27,7 @@ class EMuBase():
     self.is_embed = self.mcWeight.is_embed
     self.is_mc = self.mcWeight.is_mc
     self.is_DY = self.mcWeight.is_DY
+    self.is_DYlow = self.mcWeight.is_DYlow
     self.is_W = self.mcWeight.is_W
     self.is_TT = self.mcWeight.is_TT
     self.is_GluGlu = self.mcWeight.is_GluGlu
@@ -46,8 +47,8 @@ class EMuBase():
     self.rc = mcCorrections.rc
     self.w1 = mcCorrections.w1
     self.DYreweight = mcCorrections.DYreweight
-    #self.EmbedPhi = mcCorrections.EmbedPhi
-    #self.EmbedEta = mcCorrections.EmbedEta
+    self.EmbedPhi = mcCorrections.EmbedPhi
+    self.EmbedEta = mcCorrections.EmbedEta
 
     self.DYweight = self.mcWeight.DYweight
     self.Wweight = self.mcWeight.Wweight
@@ -68,8 +69,8 @@ class EMuBase():
     self.sys = Kinematics.sys
     self.sssys = Kinematics.sssys
     self.qcdsys = Kinematics.qcdsys
-    #self.functor = Kinematics.functor
-    #self.var_d = Kinematics.var_d
+    self.functor = Kinematics.functor
+    self.var_d = Kinematics.var_d
 
     self.branches='mPt/F:ePt/F:e_m_collinearMass/F:e_m_visibleMass/F:dPhiMuMET/F:dPhiEMET/F:dPhiEMu/F:MTMuMET/F:e_m_PZeta/F:MTEMET/F:dEtaEMu/F:type1_pfMetEt/F:njets/I:vbfMass/F:weight/F'
     self.holders = []
@@ -255,11 +256,11 @@ class EMuBase():
           weight = weight*self.Wweight[row.numGenJets]
         else:
           weight = weight*self.Wweight[0]
-      if self.is_TT:
-        topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
-        weight = weight*topweight
-        if row.mZTTGenMatching > 2 and row.mZTTGenMatching < 6 and row.eZTTGenMatching > 2 and row.eZTTGenMatching < 6 and self.Emb:
-          weight = 0.0
+      # if self.is_TT:
+      #   topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
+      #   weight = weight*topweight
+      #   if row.mZTTGenMatching > 2 and row.mZTTGenMatching < 6 and row.eZTTGenMatching > 2 and row.eZTTGenMatching < 6 and self.Emb:
+      #     weight = 0.0
       weight = self.mcWeight.lumiWeight(weight)
 
     njets = row.jetVeto30
@@ -276,21 +277,23 @@ class EMuBase():
       self.w1.var("gt1_eta").setVal(myEle.Eta())
       self.w1.var("gt2_pt").setVal(myMuon.Pt())
       self.w1.var("gt2_eta").setVal(myMuon.Eta())
-      trgsel = self.w1.function("m_sel_trg_ratio").getVal()
+      trgsel = self.w1.function("m_sel_trg_ic_ratio").getVal()
       self.w1.var("e_pt").setVal(myEle.Pt())
       self.w1.var("e_eta").setVal(myEle.Eta())
       self.w1.var("e_iso").setVal(row.eRelPFIsoRho)
-      e_id_sf = self.w1.function("e_id80_embed_kit_ratio").getVal()
-      e_iso_sf = self.w1.function("e_iso_binned_embed_kit_ratio").getVal()
+      e_id_sf = self.w1.function("e_id80_data").getVal()/self.w1.function("e_id80_emb").getVal()
+      e_iso_sf = self.w1.function("e_iso_binned_ic_embed_ratio").getVal()
       self.w1.var("m_pt").setVal(myMuon.Pt())
       self.w1.var("m_eta").setVal(myMuon.Eta())
       self.w1.var("m_iso").setVal(row.mRelPFIsoDBDefaultR04)
-      m_id_sf = self.w1.function("m_id_embed_kit_ratio").getVal()
-      m_iso_sf = self.w1.function("m_iso_binned_embed_kit_ratio").getVal()
+      m_id_sf = self.w1.function("m_id_ic_embed_ratio").getVal()
+      m_iso_sf = self.w1.function("m_iso_binned_ic_embed_ratio").getVal()
       eff_trg_data = self.w1.function("e_trg_23_ic_data").getVal()*self.w1.function("m_trg_8_ic_data").getVal()
       eff_trg_embed = self.w1.function("e_trg_23_ic_embed").getVal()*self.w1.function("m_trg_8_ic_embed").getVal()
       trg_sf = 0 if eff_trg_embed==0 else eff_trg_data/eff_trg_embed
-      weight = weight*row.GenWeight*esel*msel*trgsel*trg_sf*e_id_sf*e_iso_sf*m_id_sf*m_iso_sf#*self.EmbedPhi(myEle.Phi(), njets, mjj)*self.EmbedEta(myEle.Eta(), njets, mjj)
+      weight = weight*row.GenWeight*esel*msel*trgsel*trg_sf*e_id_sf*e_iso_sf*m_id_sf*m_iso_sf*self.EmbedPhi(myEle.Phi(), njets, mjj)*self.EmbedEta(myEle.Eta(), njets, mjj)
+      if row.GenWeight > 1.0:
+        weight = 0
 
     self.w1.var("njets").setVal(njets)
     self.w1.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Eta(), myMuon.Eta()))
@@ -299,14 +302,14 @@ class EMuBase():
     osss = self.w1.function("em_qcd_osss").getVal()
 
     # b-tag
-    nbtag = row.bjetDeepCSVVeto20Medium_2016_DR0p5
-    if nbtag > 2:
-      nbtag = 2
-    if (self.is_mc and nbtag > 0):
-      btagweight = bTagEventWeight(nbtag, row.jb1pt_2016, row.jb1hadronflavor_2016, row.jb2pt_2016, row.jb2hadronflavor_2016, 1, 0, 0)
-      weight = weight * btagweight
-    if (bool(self.is_data or self.is_embed) and nbtag > 0):
-      weight = 0
+    # nbtag = row.bjetDeepCSVVeto20Medium_2016_DR0p5
+    # if nbtag > 2:
+    #   nbtag = 2
+    # if (self.is_mc and nbtag > 0):
+    #   btagweight = bTagEventWeight(nbtag, row.jb1pt_2016, row.jb1hadronflavor_2016, row.jb2pt_2016, row.jb2hadronflavor_2016, 1, 0, 0)
+    #   weight = weight * btagweight
+    # if (bool(self.is_data or self.is_embed) and nbtag > 0):
+    #   weight = 0
 
     return [weight, osss]
 

@@ -6,8 +6,8 @@ import FinalStateAnalysis.TagAndProbe.TauPOGCorrections as TauPOGCorrections
 import FinalStateAnalysis.TagAndProbe.DYCorrection as DYCorrection
 import FinalStateAnalysis.TagAndProbe.RecoilCorrector as RecoilCorrector
 import FinalStateAnalysis.TagAndProbe.MEtSys as MEtSys
+import FinalStateAnalysis.TagAndProbe.RoccoR as RoccoR
 import ROOT
-import RoccoR
 
 dataset = 'singlem'
 year = '2016'
@@ -169,7 +169,7 @@ def puCorrector(target=''):
                        'puDown': make_puCorrectorDown('DY')}
     return pucorrector
 
-rc = RoccoR.RoccoR("../../FinalStateAnalysis/TagAndProbe/data/2016/RoccoR/RoccoR2016.txt")
+rc = RoccoR.RoccoR("2016/RoccoR/RoccoR2016.txt")
 DYreweight = DYCorrection.make_DYreweight_2016()
 Metcorected = RecoilCorrector.Metcorrected("2016/TypeI-PFMet_Run2016_legacy.root")
 MetSys = MEtSys.MEtSystematics("2016/PFMEtSys_2016.root")

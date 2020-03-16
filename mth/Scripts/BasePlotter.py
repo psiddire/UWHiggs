@@ -63,11 +63,11 @@ class BasePlotter():
         QCD = views.StyleView(SubtractionView(fakesData, fakesMC, restrict_positive=True), **Lists.remove_name_entry(data_styles['QCD*']))
         QCD = views.TitleView(QCD, 'W/QCD')
 
-        vbfHET = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'VBF_LFV_HToETau' in x , Lists.mc_samples)]), **Lists.remove_name_entry(data_styles['VBF_LFV*']))
-        ggHET = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'GluGlu_LFV_HToETau' in x , Lists.mc_samples)]), **Lists.remove_name_entry(data_styles['GluGlu_LFV*']))
+        vbfHMT = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'VBF_LFV_HToMuTau' in x , Lists.mc_samples)]), **Lists.remove_name_entry(data_styles['VBF_LFV*']))
+        ggHMT = views.StyleView(views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : 'GluGlu_LFV_HToMuTau' in x , Lists.mc_samples)]), **Lists.remove_name_entry(data_styles['GluGlu_LFV*']))
 
-        plotter.views['vbfHET']={'view' : vbfHET }
-        plotter.views['ggHET']={'view' : ggHET }
+        plotter.views['vbfHMT']={'view' : vbfHMT }
+        plotter.views['ggHMT']={'view' : ggHMT }
         plotter.views['DY']={'view' : DY }
         plotter.views['embed']={'view' : embed }
         plotter.views['EWK']={'view' : EWK }

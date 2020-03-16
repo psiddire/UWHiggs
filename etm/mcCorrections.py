@@ -6,8 +6,8 @@ import FinalStateAnalysis.TagAndProbe.EGammaPOGCorrections as EGammaPOGCorrectio
 import FinalStateAnalysis.TagAndProbe.DYCorrection as DYCorrection
 import FinalStateAnalysis.TagAndProbe.RecoilCorrector as RecoilCorrector
 import FinalStateAnalysis.TagAndProbe.MEtSys as MEtSys
+import FinalStateAnalysis.TagAndProbe.RoccoR as RoccoR
 import ROOT
-import RoccoR
 
 dataset = 'muoneg'
 year = '2016'
@@ -193,7 +193,7 @@ def puCorrector(target=''):
                        'puDown': make_puCorrectorDown('DY')}
     return pucorrector
 
-rc = RoccoR.RoccoR("../../FinalStateAnalysis/TagAndProbe/data/2016/RoccoR/RoccoR2016.txt")
+rc = RoccoR.RoccoR("2016/RoccoR/RoccoR2016.txt")
 DYreweight = DYCorrection.make_DYreweight_2016()
 Metcorected = RecoilCorrector.Metcorrected("2016/TypeI-PFMet_Run2016_legacy.root")
 MetSys = MEtSys.MEtSystematics("2016/PFMEtSys_2016.root")
@@ -219,71 +219,40 @@ EleIdIso = EGammaPOGCorrections.el_IdIso_2016
 f1 = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2016/htt_scalefactors_legacy_2016.root")
 w1 = f1.Get("w")
 
-#f2 = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2016/htt_scalefactors_v16_12_embedded.root")
-#w2 = f2.Get("w")
+fphi = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2016/EMuEmbedPhi.root")
+wphi0 = fphi.Get("0Jet")
+wphi1 = fphi.Get("1Jet")
+wphi2 = fphi.Get("2Jet")
 
-f3 = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2016/Embedded.root")
-wid = f3.Get("m_sel_idEmb")
-wtrg8 = f3.Get("m_sel_trg8")
-wtrg17 = f3.Get("m_sel_trg17")
-
-def EmbedId(pt, eta):
-    return wid.GetBinContent(wid.GetXaxis().FindBin(pt), wid.GetYaxis().FindBin(eta))
-
-def EmbedTrg8(pt, eta):
-    return wtrg8.GetBinContent(wtrg8.GetXaxis().FindBin(pt), wtrg8.GetYaxis().FindBin(eta))
-
-def EmbedTrg17(pt, eta):
-    return wtrg17.GetBinContent(wtrg17.GetXaxis().FindBin(pt), wtrg17.GetYaxis().FindBin(eta))
-
-def EmbedTrg(pt1, eta1, pt2, eta2):
-    sf = EmbedTrg8(pt1, eta1) * EmbedTrg17(pt2, eta2)
-    sf = sf + EmbedTrg17(pt1, eta1) * EmbedTrg8(pt2, eta2)
-    sf = sf - EmbedTrg17(pt1, eta1) * EmbedTrg17(pt2, eta2)
-    sf = 0.935 * sf
-    return min(1/sf, 2) if sf!=0 else 2
+def EmbedPhi(phi, njets, mjj):
+    if njets==0:
+        corr = wphi0.GetBinContent(wphi0.GetXaxis().FindBin(phi))
+    elif njets==1:
+        corr = wphi1.GetBinContent(wphi1.GetXaxis().FindBin(phi))
+    elif njets==2 and mjj < 500:
+        corr = wphi2.GetBinContent(wphi2.GetXaxis().FindBin(phi))
+    else:
+        corr = 1.0
+    if corr > 2.5:
+        return 1.0
+    else:
+        return corr
 
 feta = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2016/EMuEmbedEta.root")
 weta0 = feta.Get("0Jet")
 weta1 = feta.Get("1Jet")
 weta2 = feta.Get("2Jet")
-weta3 = feta.Get("2JetVBF")
 
 def EmbedEta(eta, njets, mjj):
     if njets==0:
-        sf = weta0.GetBinContent(weta0.GetXaxis().FindBin(eta))
+        corr = weta0.GetBinContent(weta0.GetXaxis().FindBin(eta))
     elif njets==1:
-        sf = weta1.GetBinContent(weta1.GetXaxis().FindBin(eta))
-    elif njets==2 and mjj < 550:
-        sf = weta2.GetBinContent(weta2.GetXaxis().FindBin(eta))
-    elif njets==2 and mjj > 550:
-        sf = weta3.GetBinContent(weta3.GetXaxis().FindBin(eta))
+        corr =  weta1.GetBinContent(weta1.GetXaxis().FindBin(eta))
+    elif njets==2 and mjj < 500:
+        corr = weta2.GetBinContent(weta2.GetXaxis().FindBin(eta))
     else:
-        sf = 1.0
-    if sf > 2:
-        return 1.0
+        corr = 1.0
+    if corr > 2.0 or abs(eta) > 2.4:
+        return 1
     else:
-        return sf
-
-
-fphi = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2016/EMuEmbedPhi.root")
-wphi0 = fphi.Get("0Jet")
-wphi1 = fphi.Get("1Jet")
-wphi2 = fphi.Get("2Jet")
-wphi3 = fphi.Get("2JetVBF")
-
-def EmbedPhi(phi, njets, mjj):
-    if njets==0:
-        sf = wphi0.GetBinContent(wphi0.GetXaxis().FindBin(phi))
-    elif njets==1:
-        sf = wphi1.GetBinContent(wphi1.GetXaxis().FindBin(phi))
-    elif njets==2 and mjj < 550:
-        sf = wphi2.GetBinContent(wphi2.GetXaxis().FindBin(phi))
-    elif njets==2 and mjj > 550:
-        sf = wphi3.GetBinContent(wphi3.GetXaxis().FindBin(phi))
-    else:
-        sf = 1.0
-    if sf > 2.5:
-        return 1.0
-    else:
-        return sf
+        return corr

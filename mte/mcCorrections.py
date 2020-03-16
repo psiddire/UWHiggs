@@ -6,8 +6,8 @@ import FinalStateAnalysis.TagAndProbe.EGammaPOGCorrections as EGammaPOGCorrectio
 import FinalStateAnalysis.TagAndProbe.DYCorrection as DYCorrection
 import FinalStateAnalysis.TagAndProbe.RecoilCorrector as RecoilCorrector
 import FinalStateAnalysis.TagAndProbe.MEtSys as MEtSys
+import FinalStateAnalysis.TagAndProbe.RoccoR as RoccoR
 import ROOT
-import RoccoR
 
 dataset = 'muoneg'
 year = '2016'
@@ -193,7 +193,7 @@ def puCorrector(target=''):
                        'puDown': make_puCorrectorDown('DY')}
     return pucorrector
 
-rc = RoccoR.RoccoR("../../FinalStateAnalysis/TagAndProbe/data/2016/RoccoR/RoccoR2016.txt")
+rc = RoccoR.RoccoR("2016/RoccoR/RoccoR2016.txt")
 DYreweight = DYCorrection.make_DYreweight_2016()
 Metcorected = RecoilCorrector.Metcorrected("2016/TypeI-PFMet_Run2016_legacy.root")
 MetSys = MEtSys.MEtSystematics("2016/PFMEtSys_2016.root")
@@ -218,47 +218,40 @@ EleIdIso = EGammaPOGCorrections.el_IdIso_2016
 f1 = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2016/htt_scalefactors_legacy_2016.root")
 w1 = f1.Get("w")
 
-feta = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2016/MuEEmbedEta.root")
-weta0 = feta.Get("0Jet")
-weta1 = feta.Get("1Jet")
-weta2 = feta.Get("2Jet")
-weta3 = feta.Get("2JetVBF")
-
-def EmbedEta(eta, njets, mjj):
-    if njets==0:
-        sf = weta0.GetBinContent(weta0.GetXaxis().FindBin(eta))
-    elif njets==1:
-        sf = weta1.GetBinContent(weta1.GetXaxis().FindBin(eta))
-    elif njets==2 and mjj < 550:
-        sf = weta2.GetBinContent(weta2.GetXaxis().FindBin(eta))
-    elif njets==2 and mjj > 550:
-        sf = weta3.GetBinContent(weta3.GetXaxis().FindBin(eta))
-    else:
-        sf = 1.0
-    if sf > 2:
-        return 1.0
-    else:
-        return sf
-
-
 fphi = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2016/MuEEmbedPhi.root")
 wphi0 = fphi.Get("0Jet")
 wphi1 = fphi.Get("1Jet")
 wphi2 = fphi.Get("2Jet")
-wphi3 = fphi.Get("2JetVBF")
 
 def EmbedPhi(phi, njets, mjj):
     if njets==0:
-        sf = wphi0.GetBinContent(wphi0.GetXaxis().FindBin(phi))
+        corr = wphi0.GetBinContent(wphi0.GetXaxis().FindBin(phi))
     elif njets==1:
-        sf = wphi1.GetBinContent(wphi1.GetXaxis().FindBin(phi))
+        corr =  wphi1.GetBinContent(wphi1.GetXaxis().FindBin(phi))
     elif njets==2 and mjj < 550:
-        sf = wphi2.GetBinContent(wphi2.GetXaxis().FindBin(phi))
-    elif njets==2 and mjj > 550:
-        sf = wphi3.GetBinContent(wphi3.GetXaxis().FindBin(phi))
+        corr = wphi2.GetBinContent(wphi2.GetXaxis().FindBin(phi))
     else:
-        sf = 1.0
-    if sf > 2.5:
-        return 1.0
+        corr = 1.0
+    if corr > 2.0:
+        return 1
     else:
-        return sf
+        return corr
+
+feta = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2016/MuEEmbedEta.root")
+weta0 = feta.Get("0Jet")
+weta1 = feta.Get("1Jet")
+weta2 = feta.Get("2Jet")
+
+def EmbedEta(eta, njets, mjj):
+    if njets==0:
+        corr = weta0.GetBinContent(weta0.GetXaxis().FindBin(eta))
+    elif njets==1:
+        corr =  weta1.GetBinContent(weta1.GetXaxis().FindBin(eta))
+    elif njets==2 and mjj < 550:
+        corr = weta2.GetBinContent(weta2.GetXaxis().FindBin(eta))
+    else:
+        corr = 1.0
+    if corr > 3.0 or abs(eta) > 2.4:
+        return 1
+    else:
+        return corr

@@ -4,7 +4,11 @@
 export datasrc=/hdfs/store/user/ndev
 export MEGAPATH=/hdfs/store/user/ndev
 
-source jobid.sh
+export jobidet='Data2016et'
+#export jobidet='MC2016'
+#export jobidet='MC2016Sys'
+#export jobidet='Embed2016ElTau'
+#export jobidet='Signal2016'
 export jobid=$jobidet
 
 #export afile=`find $datasrc/$jobid | grep root | head -n 1`

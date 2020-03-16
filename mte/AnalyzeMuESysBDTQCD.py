@@ -43,19 +43,46 @@ class AnalyzeMuESysBDTQCD(MegaBase, MuEQCDBase):
 
 
   def fill_sshistos(self, myMuon, myMET, myEle, njets, weight, name=''):
-    self.w2.var("njets").setVal(njets)
-    self.w2.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Phi(), myMuon.Eta()))
-    self.w2.var("e_pt").setVal(myEle.Pt())
-    self.w2.var("m_pt").setVal(myMuon.Pt())
-    osss = self.w2.function("em_qcd_osss").getVal()
-    osss0rup = self.w2.function("em_qcd_osss_stat_0jet_unc1_up").getVal()
-    osss0rdown = self.w2.function("em_qcd_osss_stat_0jet_unc1_down").getVal()
-    osss1rup = self.w2.function("em_qcd_osss_stat_1jet_unc1_up").getVal()
-    osss1rdown = self.w2.function("em_qcd_osss_stat_1jet_unc1_down").getVal()
-    osss2rup = self.w2.function("em_qcd_osss_stat_2jet_unc1_up").getVal()
-    osss2rdown = self.w2.function("em_qcd_osss_stat_2jet_unc1_down").getVal()
-    osss0sup = self.w2.function("em_qcd_osss_stat_0jet_unc2_up").getVal()
-    osss0sdown = self.w2.function("em_qcd_osss_stat_0jet_unc2_down").getVal()
+    self.w1.var("njets").setVal(njets)
+    self.w1.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Eta(), myMuon.Eta()))
+    self.w1.var("e_pt").setVal(myEle.Pt())
+    self.w1.var("m_pt").setVal(myMuon.Pt())
+    osss = self.w1.function("em_qcd_osss").getVal()
+    osss0rup = self.w1.function("em_qcd_osss_stat_0jet_unc1_up").getVal()
+    osss0rdown = self.w1.function("em_qcd_osss_stat_0jet_unc1_down").getVal()
+    osss1rup = self.w1.function("em_qcd_osss_stat_1jet_unc1_up").getVal()
+    osss1rdown = self.w1.function("em_qcd_osss_stat_1jet_unc1_down").getVal()
+    osss2rup = self.w1.function("em_qcd_osss_stat_2jet_unc1_up").getVal()
+    osss2rdown = self.w1.function("em_qcd_osss_stat_2jet_unc1_down").getVal()
+    osss0sup = self.w1.function("em_qcd_osss_stat_0jet_unc2_up").getVal()
+    osss0sdown = self.w1.function("em_qcd_osss_stat_0jet_unc2_down").getVal()
+    osss1sup = self.w1.function("em_qcd_osss_stat_1jet_unc2_up").getVal()
+    osss1sdown = self.w1.function("em_qcd_osss_stat_1jet_unc2_down").getVal()
+    osss2sup = self.w1.function("em_qcd_osss_stat_2jet_unc2_up").getVal()
+    osss2sdown = self.w1.function("em_qcd_osss_stat_2jet_unc2_down").getVal()
+    osssisoup = self.w1.function("em_qcd_osss_extrap_up").getVal()
+    osssisodown = self.w1.function("em_qcd_osss_extrap_down").getVal()
+    if '0Jet' in name:
+      oslist = [osss, osss0rup, osss0rdown, osss0sup, osss0sdown, osss, osss, osss, osss, osss, osss, osss, osss, osssisoup, osssisodown]
+      for i, osl in enumerate(oslist):
+        self.fill_histos(myMuon, myMET, myEle, weight*osl, name+self.qcdsys[i])
+    elif '1Jet' in name:
+      oslist = [osss, osss, osss, osss, osss, osss1rup, osss1rdown, osss1sup, osss1sdown, osss, osss, osss, osss, osssisoup, osssisodown]
+      for i, osl in enumerate(oslist):
+        self.fill_histos(myMuon, myMET, myEle, weight*osl, name+self.qcdsys[i])
+    elif '2Jet' in name:
+      oslist = [osss, osss, osss, osss, osss, osss, osss, osss, osss, osss2rup, osss2rdown, osss2sup, osss2sdown, osssisoup, osssisodown]
+      for i, osl in enumerate(oslist):
+        self.fill_histos(myMuon, myMET, myEle, weight*osl, name+self.qcdsys[i])
+    else:
+      oslist = [osss, osss, osss, osss, osss, osss, osss, osss, osss, osss, osss, osss, osss, osss, osss]
+      for i, osl in enumerate(oslist):
+        self.fill_histos(myMuon, myMET, myEle, weight*osl, name+self.qcdsys[i])
+
+
+  def fill_sscategories(self, row, myMuon, myMET, myEle, weight, name=''):
+    mjj = row.vbfMass
+    njets = row.jetVeto30
     self.fill_sshistos(myMuon, myMET, myEle, njets, weight, 'TightSS')
     if njets==0:
       self.fill_sshistos(myMuon, myMET, myEle, njets, weight, 'TightSS0Jet')

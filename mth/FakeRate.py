@@ -1,181 +1,124 @@
 import math
+import ROOT
+
+f = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2016/FRMMT.root")
+bdm0 = f.Get("EBDM0")
+bdm1 = f.Get("EBDM1")
+bdm10 = f.Get("EBDM10")
+bdm11 = f.Get("EBDM11")
+edm0 = f.Get("EEDM0")
+edm1 = f.Get("EEDM1")
+edm10 = f.Get("EEDM10")
+edm11 = f.Get("EEDM11")
 
 def fakerate_weight(pt, eta, dm, shift=''):
     if eta < 1.5:
         if dm==0:
             if shift=='':
-                fr = 0.2629 - 0.0006034*pt
+                fr = bdm0.Value(0) + bdm0.Value(1) * pt
             elif shift=='frp0Up':
-                fr = 0.2743 - 0.0006034*pt
+                fr = bdm0.Value(0) + bdm0.ParError(0) + bdm0.Value(1) * pt
             elif shift=='frp0Down':
-                fr = 0.2515 - 0.0006034*pt
+                fr = bdm0.Value(0) - bdm0.ParError(0) + bdm0.Value(1) * pt
             elif shift=='frp1Up':
-                fr = 0.2629 - 0.0003713*pt
+                fr = bdm0.Value(0) + (bdm0.Value(1) + bdm0.ParError(1)) * pt
             elif shift=='frp1Down':
-                fr = 0.2629 - 0.0008355*pt
+                fr = bdm0.Value(0) + (bdm0.Value(1) - bdm0.ParError(1)) * pt
         elif dm==1:
             if shift=='':
-                fr = 0.2032 - 0.0005448*pt
+                fr = bdm1.Value(0) + bdm1.Value(1) * pt
             elif shift=='frp0Up':
-                fr = 0.2099 - 0.0005448*pt
+                fr = bdm1.Value(0) + bdm1.ParError(0) + bdm1.Value(1) * pt
             elif shift=='frp0Down':
-                fr = 0.1964 - 0.0005448*pt
+                fr = bdm1.Value(0) - bdm1.ParError(0) + bdm1.Value(1) * pt
             elif shift=='frp1Up':
-                fr = 0.2032 - 0.0004108*pt
+                fr = bdm1.Value(0) + (bdm1.Value(1) + bdm1.ParError(1)) * pt
             elif shift=='frp1Down':
-                fr = 0.2032 - 0.0006788*pt
+                fr = bdm1.Value(0) + (bdm1.Value(1) - bdm1.ParError(1)) * pt
         elif dm==10:
             if shift=='':
-                fr = 0.1717 - 0.0002652*pt
+                fr = bdm10.Value(0) + bdm10.Value(1) * pt
             elif shift=='frp0Up':
-                fr = 0.1849 - 0.0002652*pt
+                fr = bdm10.Value(0) + bdm10.ParError(0) + bdm10.Value(1) * pt
             elif shift=='frp0Down':
-                fr = 0.1584 - 0.0002652*pt
+                fr = bdm10.Value(0) - bdm10.ParError(0) + bdm10.Value(1) * pt
             elif shift=='frp1Up':
-                fr = 0.1717 + 0.0000232*pt
+                fr = bdm10.Value(0) + (bdm10.Value(1) + bdm10.ParError(1)) * pt
             elif shift=='frp1Down':
-                fr = 0.1717 - 0.0005536*pt
+                fr = bdm10.Value(0) + (bdm10.Value(1) - bdm10.ParError(1)) * pt
+        elif dm==11:
+            if shift=='':
+                fr = bdm11.Value(0) + bdm11.Value(1) * pt
+            elif shift=='frp0Up':
+                fr = bdm11.Value(0) + bdm11.ParError(0) + bdm11.Value(1) * pt
+            elif shift=='frp0Down':
+                fr = bdm11.Value(0) - bdm11.ParError(0) + bdm11.Value(1) * pt
+            elif shift=='frp1Up':
+                fr = bdm11.Value(0) + (bdm11.Value(1) + bdm11.ParError(1)) * pt
+            elif shift=='frp1Down':
+                fr = bdm11.Value(0) + (bdm11.Value(1) - bdm11.ParError(1)) * pt
     else:
         if dm==0:
             if shift=='':
-                fr = 0.2816 - 0.0007871*pt
+                fr = edm0.Value(0) + edm0.Value(1) * pt
             elif shift=='frp0Up':
-                fr = 0.3009 - 0.0007871*pt
+                fr = edm0.Value(0) + edm0.ParError(0) + edm0.Value(1) * pt
             elif shift=='frp0Down':
-                fr = 0.2623 - 0.0007871*pt
+                fr = edm0.Value(0) - edm0.ParError(0) + edm0.Value(1) * pt
             elif shift=='frp1Up':
-                fr = 0.2816 - 0.0003953*pt
+                fr = edm0.Value(0) + (edm0.Value(1) + edm0.ParError(1)) * pt
             elif shift=='frp1Down':
-                fr = 0.2816 - 0.0011789*pt
+                fr = edm0.Value(0) + (edm0.Value(1) - edm0.ParError(1)) * pt
         elif dm==1:
             if shift=='':
-                fr = 0.1978 - 0.0009533*pt
+                fr = edm1.Value(0) + edm1.Value(1) * pt
             elif shift=='frp0Up':
-                fr = 0.2078 - 0.0009533*pt
+                fr = edm1.Value(0) + edm1.ParError(0) + edm1.Value(1) * pt
             elif shift=='frp0Down':
-                fr = 0.1878 - 0.0009533*pt
+                fr = edm1.Value(0) - edm1.ParError(0) + edm1.Value(1) * pt
             elif shift=='frp1Up':
-                fr = 0.1978 - 0.0007721*pt
+                fr = edm1.Value(0) + (edm1.Value(1) + edm1.ParError(1)) * pt
             elif shift=='frp1Down':
-                fr = 0.1978 - 0.0011345*pt
+                fr = edm1.Value(0) + (edm1.Value(1) - edm1.ParError(1)) * pt
         elif dm==10:
             if shift=='':
-                fr = 0.1068 + 0.0007412*pt
+                fr = edm10.Value(0) + edm10.Value(1) * pt
             elif shift=='frp0Up':
-                fr = 0.1301 + 0.0007412*pt
+                fr = edm10.Value(0) + edm10.ParError(0) + edm10.Value(1) * pt
             elif shift=='frp0Down':
-                fr = 0.0835 + 0.0007412*pt
+                fr = edm10.Value(0) - edm10.ParError(0) + edm10.Value(1) * pt
             elif shift=='frp1Up':
-                fr = 0.1068 + 0.0012720*pt
+                fr = edm10.Value(0) + (edm10.Value(1) + edm10.ParError(1)) * pt
             elif shift=='frp1Down':
-                fr = 0.1068 + 0.0002104*pt
+                fr = edm10.Value(0) + (edm10.Value(1) - edm10.ParError(1)) * pt
+        elif dm==11:
+            if shift=='':
+                fr = edm11.Value(0) + edm11.Value(1) * pt
+            elif shift=='frp0Up':
+                fr = edm11.Value(0) + edm11.ParError(0) + edm11.Value(1) * pt
+            elif shift=='frp0Down':
+                fr = edm11.Value(0) - edm11.ParError(0) + edm11.Value(1) * pt
+            elif shift=='frp1Up':
+                fr = edm11.Value(0) + (edm11.Value(1) + edm11.ParError(1)) * pt
+            elif shift=='frp1Down':
+                fr = edm11.Value(0) + (edm11.Value(1) - edm11.ParError(1)) * pt
     return fr/(1-fr)
 
-def fakerateDeep_weight(pt, eta, dm, shift=''):
-    if eta < 1.5:
-        if dm==0:
-            if shift=='':
-                fr = 0.2535 - 0.0004245*pt
-            elif shift=='frp0Up':
-                fr = 0.2669 - 0.0004245*pt
-            elif shift=='frp0Down':
-                fr = 0.2400 - 0.0004245*pt
-            elif shift=='frp1Up':
-                fr = 0.2535 - 0.0001531*pt
-            elif shift=='frp1Down':
-                fr = 0.2535 - 0.0006959*pt
-        elif dm==1:
-            if shift=='':
-                fr = 0.1619 - 0.0000363*pt
-            elif shift=='frp0Up':
-                fr = 0.1699 - 0.0000363*pt
-            elif shift=='frp0Down':
-                fr = 0.1539 - 0.0000363*pt
-            elif shift=='frp1Up':
-                fr = 0.1619 + 0.0001284*pt
-            elif shift=='frp1Down':
-                fr = 0.1619 - 0.0002010*pt
-        elif dm==10:
-            if shift=='':
-                fr = 0.09829 + 0.0008355*pt
-            elif shift=='frp0Up':
-                fr = 0.10956 + 0.0008355*pt
-            elif shift=='frp0Down':
-                fr = 0.08702 + 0.0008355*pt
-            elif shift=='frp1Up':
-                fr = 0.09829 + 0.0010750*pt
-            elif shift=='frp1Down':
-                fr = 0.09829 + 0.0005960*pt
-        elif dm==11:
-            if shift=='':
-                fr = 0.05200 + 0.0003307*pt
-            elif shift=='frp0Up':
-                fr = 0.06315 + 0.0003307*pt
-            elif shift=='frp0Down':
-                fr = 0.04085 + 0.0003307*pt
-            elif shift=='frp1Up':
-                fr = 0.05200 + 0.0005617*pt
-            elif shift=='frp1Down':
-                fr = 0.05200 + 0.0000997*pt
-    else:
-        if dm==0:
-            if shift=='':
-                fr = 0.1359 + 0.0008005*pt
-            elif shift=='frp0Up':
-                fr = 0.1609 + 0.0008005*pt
-            elif shift=='frp0Down':
-                fr = 0.1109 + 0.0008005*pt
-            elif shift=='frp1Up':
-                fr = 0.1359 + 0.0013383*pt
-            elif shift=='frp1Down':
-                fr = 0.1359 + 0.0002627*pt
-        elif dm==1:
-            if shift=='':
-                fr = 0.1353 - 0.00001524*pt
-            elif shift=='frp0Up':
-                fr = 0.1499 - 0.00001524*pt
-            elif shift=='frp0Down':
-                fr = 0.1207 - 0.00001524*pt
-            elif shift=='frp1Up':
-                fr = 0.1353 + 0.00029236*pt
-            elif shift=='frp1Down':
-                fr = 0.1353 - 0.00032284*pt
-        elif dm==10:
-            if shift=='':
-                fr = 0.06742 + 0.001015*pt
-            elif shift=='frp0Up':
-                fr = 0.08644 + 0.001015*pt
-            elif shift=='frp0Down':
-                fr = 0.04840 + 0.001015*pt
-            elif shift=='frp1Up':
-                fr = 0.06742 + 0.0014335*pt
-            elif shift=='frp1Down':
-                fr = 0.06742 + 0.0005965*pt
-        elif dm==11:
-            if shift=='':
-                fr = 0.01726 + 0.0005942*pt
-            elif shift=='frp0Up':
-                fr = 0.03232 + 0.0005942*pt
-            elif shift=='frp0Down':
-                fr = 0.00220 + 0.0005942*pt
-            elif shift=='frp1Up':
-                fr = 0.01726 + 0.0009167*pt
-            elif shift=='frp1Down':
-                fr = 0.01726 + 0.0002717*pt
-    return fr/(1-fr)
+fm = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2016/FRMMM.root")
+mfr = fm.Get("MuonFR")
 
 def fakerateMuon_weight(pt, shift=''):
     if pt < 100:
         if shift=='':
-            fr = math.tanh(0.2908 + 0.01176*pt)
+            fr = math.tanh(mfr.Value(0) + mfr.Value(1) * pt)
         elif shift=='frp0Up':
-            fr = math.tanh(0.3407 + 0.01176*pt)
+            fr = math.tanh(mfr.Value(0) + mfr.ParError(0) + mfr.Value(1) * pt)
         elif shift=='frp0Down':
-            fr = math.tanh(0.2409 + 0.01176*pt)
+            fr = math.tanh(mfr.Value(0) - mfr.ParError(0) + mfr.Value(1) * pt)
         elif shift=='frp1Up':
-            fr = math.tanh(0.2908 + 0.01312*pt)
+            fr = math.tanh(mfr.Value(0) + (mfr.Value(1) + mfr.ParError(1)) * pt)
         elif shift=='frp1Down':
-            fr = math.tanh(0.2908 + 0.01040*pt)
+            fr = math.tanh(mfr.Value(0) + (mfr.Value(1) - mfr.ParError(1)) * pt)
     else:
         fr = 0
     return fr/(1-fr)

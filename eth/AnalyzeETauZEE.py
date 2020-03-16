@@ -9,8 +9,6 @@ Authors: Prasanna Siddireddy
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 from ETauBase import ETauBase
 import ETauTree
-import ROOT
-import math
 
 class AnalyzeETauZEE(MegaBase, ETauBase):
   tree = 'et/final/Ntuple'
@@ -41,7 +39,7 @@ class AnalyzeETauZEE(MegaBase, ETauBase):
       if myMET.Pt() > 25:
         continue
 
-      weight = self.corrFact(row, myEle, myTau, singEle)
+      weight = self.corrFact(row, myEle, myTau)
 
       if not self.obj2_tight(row) and self.obj2_loose(row) and self.obj1_tight(row):
         frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)

@@ -14,7 +14,7 @@ import math
 import itertools
 import os
 import mcCorrections
-from bTagSF import bTagEventWeight
+from FinalStateAnalysis.TagAndProbe.bTagSF2016 import bTagEventWeight
 
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target)
@@ -51,20 +51,21 @@ class AnalyzeEMuSys(MegaBase, EMuBase):
   def fill_categories(self, row, myEle, myMET, myMuon, njets, mjj, weight, name=''):
     dphimumet = self.deltaPhi(myMuon.Phi(), myMET.Phi())
     mtemet = self.transverseMass(myEle, myMET)
+    pzeta = row.e_m_PZeta - 0.85 * row.e_m_PZetaVis
     self.fill_histos(myEle, myMET, myMuon, weight, 'TightOS'+name)
-    if njets==0 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+    if njets==0 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
       self.fill_histos(myEle, myMET, myMuon, weight, 'TightOS0Jet'+name)
-    elif njets==1 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+    elif njets==1 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
       self.fill_histos(myEle, myMET, myMuon, weight, 'TightOS1Jet'+name)
-    elif njets==2 and mjj < 500 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+    elif njets==2 and mjj < 500 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
       self.fill_histos(myEle, myMET, myMuon, weight, 'TightOS2Jet'+name)
-    elif njets==2 and mjj > 500 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+    elif njets==2 and mjj > 500 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
       self.fill_histos(myEle, myMET, myMuon, weight, 'TightOS2JetVBF'+name)
 
 
   def fill_sshistos(self, myEle, myMET, myMuon, njets, weight, name=''):
     self.w1.var("njets").setVal(njets)
-    self.w1.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Phi(), myMuon.Eta()))
+    self.w1.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Eta(), myMuon.Eta()))
     self.w1.var("e_pt").setVal(myEle.Pt())
     self.w1.var("m_pt").setVal(myMuon.Pt())
     osss = self.w1.function("em_qcd_osss").getVal()
@@ -103,17 +104,18 @@ class AnalyzeEMuSys(MegaBase, EMuBase):
   def fill_sscategories(self, row, myEle, myMET, myMuon, weight):
     dphimumet = self.deltaPhi(myMuon.Phi(), myMET.Phi())
     mtemet = self.transverseMass(myEle, myMET)
+    pzeta = row.e_m_PZeta - 0.85 * row.e_m_PZetaVis
     mjj = row.vbfMass
     njets = row.jetVeto30
-    self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightOS')
-    if njets==0 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
-      self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightOS0Jet')
-    elif njets==1 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
-      self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightOS1Jet')
-    elif njets==2 and mjj < 500 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
-      self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightOS2Jet')
-    elif njets==2 and mjj > 500 and mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
-      self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightOS2JetVBF')
+    self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS')
+    if njets==0 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
+      self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS0Jet')
+    elif njets==1 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
+      self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS1Jet')
+    elif njets==2 and mjj < 500 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
+      self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS2Jet')
+    elif njets==2 and mjj > 500 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
+      self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS2JetVBF')
 
 
   def fill_sys(self, row, myEle, myMET, myMuon, weight):
@@ -209,6 +211,9 @@ class AnalyzeEMuSys(MegaBase, EMuBase):
         else:
           self.fill_categories(row, myEle, myMET, myMuon, njets, mjj, weight*(1.1*dyweight-0.1)/dyweight, '/DYptreweightUp')
           self.fill_categories(row, myEle, myMET, myMuon, njets, mjj, weight*(0.9*dyweight+0.1)/dyweight, '/DYptreweightDown')
+      elif self.is_DYlow:
+        self.fill_categories(row, myEle, myMET, myMuon, njets, mjj, weight, '/DYptreweightUp')
+        self.fill_categories(row, myEle, myMET, myMuon, njets, mjj, weight, '/DYptreweightDown')
 
       if self.is_TT:
         topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)

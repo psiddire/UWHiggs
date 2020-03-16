@@ -12,7 +12,7 @@ import math
 import mcCorrections
 import mcWeights
 import Kinematics
-from bTagSF import bTagEventWeight
+from FinalStateAnalysis.TagAndProbe.bTagSF2016 import bTagEventWeight
 
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target)
@@ -45,8 +45,6 @@ class EMuQCDBase():
     self.rc = mcCorrections.rc
     self.w1 = mcCorrections.w1
     self.DYreweight = mcCorrections.DYreweight
-    #self.EmbedPhi = mcCorrections.EmbedPhi
-    #self.EmbedEta = mcCorrections.EmbedEta
 
     self.DYweight = self.mcWeight.DYweight
     self.Wweight = self.mcWeight.Wweight
@@ -67,8 +65,8 @@ class EMuQCDBase():
     self.sys = Kinematics.sys
     self.sssys = Kinematics.sssys
     self.qcdsys = Kinematics.qcdsys
-    #self.functor = Kinematics.functor
-    #self.var_d = Kinematics.var_d
+    self.functor = Kinematics.functor
+    self.var_d = Kinematics.var_d
 
   # Requirement on the charge of the leptons
   def oppositesign(self, row):
@@ -208,7 +206,7 @@ class EMuQCDBase():
     if (self.is_mc and nbtag > 0):
       btagweight = bTagEventWeight(nbtag, row.jb1pt_2016, row.jb1hadronflavor_2016, row.jb2pt_2016, row.jb2hadronflavor_2016, 1, 0, 0)
       weight = weight * btagweight
-    if (bool(self.is_data or self.is_embed) and nbtag > 0):
+    if (bool(self.is_data) and nbtag > 0):
       weight = 0
 
     return [weight, osss]

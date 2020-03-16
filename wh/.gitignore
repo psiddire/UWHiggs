@@ -1,8 +1,0 @@
-build/
-*.cpp
-inputs
-results*/
-*.pyx
-*_setup.py
-7TeV
-8TeV

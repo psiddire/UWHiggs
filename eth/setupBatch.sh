@@ -1,6 +1,10 @@
+export jobidet='Data2016et'
+#export jobidet='MC2016'
+#export jobidet='MC2016Sys'
+#export jobidet='Embed2016ElTau'
+#export jobidet='Signal2016'
 export MEGAPATH=/hdfs/store/user/ndev
 export farmout=1
 export dryrun=1
 export CutFlow=1
-source jobid.sh
 export jobid=$jobidet

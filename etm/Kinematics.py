@@ -1,13 +1,20 @@
 from math import sqrt, pi, exp, cos
 import os
-from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVA
+from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVA, FunctorFromMVACat
 
 var_d_star = ['mPt', 'ePt', 'e_m_collinearMass', 'e_m_visibleMass', 'dPhiMuMET', 'dPhiEMET', 'dPhiEMu', 'MTMuMET']
 xml_name = os.path.join(os.getcwd(), "bdtdata/dataset/weights/TMVAClassification_BDT.weights.xml")
 functor = FunctorFromMVA('BDT method', xml_name, *var_d_star)
 
-def var_d(myEle, myMET, myMuon):                                                                                                                                                                                                                                      
+def var_d(myEle, myMET, myMuon):
   return {'mPt' : myMuon.Pt(), 'ePt' : myEle.Pt(), 'e_m_collinearMass' : collMass(myEle, myMET, myMuon), 'e_m_visibleMass' : visibleMass(myEle, myMuon), 'dPhiMuMET' : deltaPhi(myMuon.Phi(), myMuon.Phi()), 'dPhiEMET' : deltaPhi(myEle.Phi(), myMET.Phi()), 'dPhiEMu' : deltaPhi(myEle.Phi(), myMuon.Phi()), 'MTMuMET' : transverseMass(myMuon, myMET)}
+
+# var_d_star = ['mPt', 'ePt', 'e_m_collinearMass', 'e_m_visibleMass', 'dPhiMuMET', 'dPhiEMET', 'dPhiEMu', 'MTMuMET', 'njets', 'vbfMass']
+# xml_name = os.path.join(os.getcwd(), "bdtdata/datasetCat/weights/TMVAClassification_BDTCat.weights.xml")
+# functor = FunctorFromMVACat('BDTCat method', xml_name, *var_d_star)
+
+# def var_d(myEle, myMET, myMuon, njets, mjj):
+#   return {'mPt' : myMuon.Pt(), 'ePt' : myEle.Pt(), 'e_m_collinearMass' : collMass(myEle, myMET, myMuon), 'e_m_visibleMass' : visibleMass(myEle, myMuon), 'dPhiMuMET' : deltaPhi(myMuon.Phi(), myMuon.Phi()), 'dPhiEMET' : deltaPhi(myEle.Phi(), myMET.Phi()), 'dPhiEMu' : deltaPhi(myEle.Phi(), myMuon.Phi()), 'MTMuMET' : transverseMass(myMuon, myMET), 'njets' : njets, 'vbfMass' : mjj}
 
 def invert_case(letter):
   if letter.upper() == letter:
@@ -29,16 +36,16 @@ def deltaR(phi1, phi2, eta1, eta2):
   deta = eta1 - eta2
   dphi = abs(phi1-phi2)
   if (dphi>pi) : dphi = 2*pi-dphi
-  return sqrt(deta*deta + dphi*dphi) 
+  return sqrt(deta*deta + dphi*dphi)
 
-def visibleMass(vm, ve):
-  return (vm+ve).M()
+def visibleMass(v1, v2):
+  return (v1+v2).M()
 
-def collMass(myMuon, myMET, myEle):
-  ptnu = abs(myMET.Et()*cos(deltaPhi(myMET.Phi(), myEle.Phi())))
-  visfrac = myEle.Pt()/(myEle.Pt() + ptnu)
-  m_e_Mass = visibleMass(myMuon, myEle)
-  return (m_e_Mass/sqrt(visfrac))
+def collMass(myLep1, myMET, myLep2):
+  ptnu = abs(myMET.Et()*cos(deltaPhi(myMET.Phi(), myLep2.Phi())))
+  visfrac = myLep2.Pt()/(myLep2.Pt() + ptnu)
+  l1_l2_Mass = visibleMass(myLep1, myLep2)
+  return (l1_l2_Mass/sqrt(visfrac))
 
 def transverseMass(vobj, vmet):
   totalEt = vobj.Et() + vmet.Et()
@@ -66,7 +73,7 @@ ssnames = ['TightSS', 'TightSS0Jet', 'TightSS1Jet', 'TightSS2Jet', 'TightSS2JetV
 
 fullnames = ['TightOS', 'TightOS0Jet', 'TightOS1Jet', 'TightOS2Jet', 'TightOS2JetVBF', 'TightSS', 'TightSS0Jet', 'TightSS1Jet', 'TightSS2Jet', 'TightSS2JetVBF']
 
-fullnamescut = ['TightOS', 'TightSS', 'TightOS0Jet', 'TightSS0Jet', 'TightOS1Jet', 'TightSS1Jet', 'TightOS0JetCut', 'TightSS0JetCut', 'TightOS1JetCut', 'TightSS1JetCut', 'TightOS2Jet', 'TightSS2Jet', 'TightOS2JetVBF', 'TightSS2JetVBF', 'TightOS2JetCut', 'TightSS2JetCut', 'TightOS2JetVBFCut', 'TightSS2JetVBFCut']
+plotnames = ['TightOS', 'TightSS', 'TightOS0Jet', 'TightSS0Jet', 'TightOS1Jet', 'TightSS1Jet', 'TightOS0JetCut', 'TightSS0JetCut', 'TightOS1JetCut', 'TightSS1JetCut', 'TightOS2Jet', 'TightSS2Jet', 'TightOS2JetVBF', 'TightSS2JetVBF', 'TightOS2JetCut', 'TightSS2JetCut', 'TightOS2JetVBFCut', 'TightSS2JetVBFCut']
 
 sys = ['', 'puUp', 'puDown', 'pfUp', 'pfDown', 'trUp', 'trDown', 'recrespUp', 'recrespDown', 'recresoUp', 'recresoDown', 'bTagUp', 'bTagDown', 'eescUp', 'eescDown', 'mesUp', 'mesDown', 'DYptreweightUp', 'DYptreweightDown', 'TopptreweightUp', 'TopptreweightDown']
 

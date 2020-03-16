@@ -9,8 +9,6 @@ Authors: Prasanna Siddireddy
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 from ETauBase import ETauBase
 import ETauTree
-import ROOT
-import math
 
 class AnalyzeETauFitBDT(MegaBase, ETauBase):
   tree = 'et/final/Ntuple'
@@ -77,7 +75,7 @@ class AnalyzeETauFitBDT(MegaBase, ETauBase):
 
       myEle, myMET, myTau = self.lepVec(row)[0], self.lepVec(row)[1], self.lepVec(row)[2]
 
-      weight = self.corrFact(row, myEle, myTau, self.trigger(row)[0])
+      weight = self.corrFact(row, myEle, myTau)
 
       if not self.obj2_tight(row) and self.obj2_loose(row) and self.obj1_tight(row):
         frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)

@@ -9,11 +9,9 @@ Authors: Prasanna Siddireddy
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 from EMuBase import EMuBase
 import EMTree
-import ROOT
-import math
-from bTagSF import bTagEventWeight
+from FinalStateAnalysis.TagAndProbe.bTagSF2016 import bTagEventWeight
 
-class AnalyzeMuETT(MegaBase, EMuBase):
+class AnalyzeEMuTT(MegaBase, EMuBase):
   tree = 'em/final/Ntuple'
 
   def __init__(self, tree, outfile, **kwargs):
