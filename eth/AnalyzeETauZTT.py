@@ -9,8 +9,6 @@ Authors: Prasanna Siddireddy
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 from ETauBase import ETauBase
 import ETauTree
-import ROOT
-import math
 
 class AnalyzeETauZTT(MegaBase, ETauBase):
   tree = 'et/final/Ntuple'

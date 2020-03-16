@@ -9,8 +9,6 @@ Authors: Prasanna Siddireddy
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 from MuEBase import MuEBase
 import EMTree
-import ROOT
-import math
 
 class AnalyzeMuEQCD(MegaBase, MuEBase):
   tree = 'em/final/Ntuple'

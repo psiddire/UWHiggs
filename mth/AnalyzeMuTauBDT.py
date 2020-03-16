@@ -7,10 +7,9 @@ Authors: Prasanna Siddireddy
 '''
 
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
-from MuTauBase24 import MuTauBase24
+from MuTauBase import MuTauBase
 import MuTauTree
 import ROOT
-import math
 import array
 
 class AnalyzeMuTauBDT(MegaBase, MuTauBase24):
@@ -20,7 +19,7 @@ class AnalyzeMuTauBDT(MegaBase, MuTauBase24):
     super(AnalyzeMuTauBDT, self).__init__(tree, outfile, **kwargs)
     self.tree = MuTauTree.MuTauTree(tree)
     self.out = outfile
-    MuTauBase24.__init__(self)
+    MuTauBase.__init__(self)
 
 
   def begin(self):

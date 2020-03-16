@@ -4,7 +4,9 @@
 export datasrc=/hdfs/store/user/psiddire
 export MEGAPATH=/hdfs/store/user/psiddire
 
-source jobid.sh
+export jobidmt='Data2017mt'
+#export jobidmt='MC2017'
+#export jobidmt='Embed2017mt'
 export jobid=$jobidmt
 
 #export afile=`find $datasrc/$jobid | grep root | head -n 1`
@@ -16,5 +18,3 @@ export jobid=$jobidmt
 
 #rake "meta:getinputs[$jobid, $datasrc, mt/metaInfo, mt/summedWeights]"
 rake "meta:getmeta[inputs/$jobid, mt/metaInfo, 13, mt/summedWeights]"
-
-

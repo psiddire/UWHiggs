@@ -4,7 +4,9 @@
 export datasrc=/hdfs/store/user/psiddire
 export MEGAPATH=/hdfs/store/user/psiddire
 
-source jobid.sh
+export jobidet='Data2017et'
+#export jobidet='MC2017'
+#export jobidet='Embed2017et'
 export jobid=$jobidet
 
 #export afile=`find $datasrc/$jobid | grep root | head -n 1`

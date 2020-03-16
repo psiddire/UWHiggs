@@ -2,15 +2,17 @@ dirs = ['0Jet', '1Jet', '2Jet', '2JetVBF']
 
 drs = ['0jet', '1jet', '2jet_gg', '2jet_vbf']
 
-samp = ['Zothers', 'W', 'WG', 'EWK', 'ggH_htt', 'qqH_htt', 'ggH_hww', 'qqH_hww', 'vH_htt', 'TT', 'T', 'Diboson', 'LFVGG125', 'LFVVBF125']
+#samp = ['Zothers', 'W', 'WG', 'EWK', 'ggH_htt', 'qqH_htt', 'ggH_hww', 'qqH_hww', 'vH_htt', 'TT', 'T', 'Diboson', 'LFVGG125', 'LFVVBF125']
+samp = ['Zothers', 'W', 'EWK', 'ggH_htt', 'qqH_htt', 'ggH_hww', 'qqH_hww', 'vH_htt', 'TT', 'T', 'Diboson', 'LFVGG125', 'LFVVBF125']
 
 recsamp = ['Zothers', 'W', 'EWK', 'ggH_htt', 'qqH_htt', 'ggH_hww', 'qqH_hww', 'LFVGG125', 'LFVVBF125']
 
-norecsamp = ['WG', 'vH_htt', 'TT', 'T', 'Diboson']
+#norecsamp = ['WG', 'vH_htt', 'TT', 'T', 'Diboson']
+norecsamp = ['vH_htt', 'TT', 'T', 'Diboson']
 
 qcdSys = ['Rate0JetUp/', 'Rate0JetDown/', 'Rate1JetUp/', 'Rate1JetDown/', 'Rate2JetUp/', 'Rate2JetDown/', 'Shape0JetUp/', 'Shape0JetDown/', 'Shape1JetUp/', 'Shape1JetDown/', 'Shape2JetUp/', 'Shape2JetDown/', 'IsoUp/', 'IsoDown/']
 
-qcdSysNames = ['QCD_CMS_0JetRate_13TeVUp', 'QCD_CMS_0JetRate_13TeVDown', 'QCD_CMS_1JetRate_13TeVUp', 'QCD_CMS_1JetRate_13TeVDown', 'QCD_CMS_2JetRate_13TeVUp', 'QCD_CMS_2JetRate_13TeVDown', 'QCD_CMS_0JetShape_13TeVUp', 'QCD_CMS_0JetShape_13TeVDown', 'QCD_CMS_1JetShape_13TeVUp', 'QCD_CMS_1JetShape_13TeVDown', 'QCD_CMS_2JetShape_13TeVUp', 'QCD_CMS_2JetShape_13TeVDown', 'QCD_CMS_Extrapolation_13TeVUp', 'QCD_CMS_Extrapolation_13TeVDown']
+qcdSysNames = ['QCD_CMS_QCD_0JetRate_13TeVUp', 'QCD_CMS_QCD_0JetRate_13TeVDown', 'QCD_CMS_QCD_1JetRate_13TeVUp', 'QCD_CMS_QCD_1JetRate_13TeVDown', 'QCD_CMS_QCD_2JetRate_13TeVUp', 'QCD_CMS_QCD_2JetRate_13TeVDown', 'QCD_CMS_QCD_0JetShape_13TeVUp', 'QCD_CMS_QCD_0JetShape_13TeVDown', 'QCD_CMS_QCD_1JetShape_13TeVUp', 'QCD_CMS_QCD_1JetShape_13TeVDown', 'QCD_CMS_QCD_2JetShape_13TeVUp', 'QCD_CMS_QCD_2JetShape_13TeVDown', 'QCD_CMS_QCD_Extrapolation_13TeVUp', 'QCD_CMS_QCD_Extrapolation_13TeVDown']
 
 escale = ['eescUp/', 'eescDown/']
 

@@ -14,7 +14,7 @@ import math
 import mcCorrections
 import mcWeights
 import Kinematics
-from bTagSF import bTagEventWeight
+from FinalStateAnalysis.TagAndProbe.bTagSF2017 import bTagEventWeight
 
 target = os.path.basename(os.environ['megatarget'])
 pucorrector = mcCorrections.puCorrector(target)
