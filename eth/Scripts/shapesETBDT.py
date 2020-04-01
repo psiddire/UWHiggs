@@ -162,10 +162,10 @@ for di in Lists.dirs:
                 dy = Lists.positivize(DY.Get('TightOS'+di+dSys+'/bdtDiscriminator'))
                 dySys.append(dy.Rebin(len(binning)-1, sam+Lists.dyptSysNames[j], binning))
         # Top pT Reweighting
-        if sam=='TT':
-            for j, tSys in enumerate(Lists.ttSys):
-                dy = Lists.positivize(DY.Get('TightOS'+di+tSys+'/bdtDiscriminator'))
-                dySys.append(dy.Rebin(len(binning)-1, sam+Lists.ttSysNames[j], binning))
+        # if sam=='TT':
+        #     for j, tSys in enumerate(Lists.ttSys):
+        #         dy = Lists.positivize(DY.Get('TightOS'+di+tSys+'/bdtDiscriminator'))
+        #         dySys.append(dy.Rebin(len(binning)-1, sam+Lists.ttSysNames[j], binning))
         # Jet and Unclustered Energy Scale
         if sam in Lists.norecsamp:
             for j, jSys in enumerate(Lists.jesSys):

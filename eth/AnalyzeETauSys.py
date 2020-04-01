@@ -259,10 +259,10 @@ class AnalyzeETauSys(MegaBase, ETauBase):
         self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/DYptreweightDown')
 
       # TTbar pT reweighting
-      if self.is_TT:
-        topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
-        self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight*topweight, '/TopptreweightUp')
-        self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight/topweight, '/TopptreweightDown')
+      # if self.is_TT:
+      #   topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
+      #   self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight*topweight, '/TopptreweightUp')
+      #   self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight/topweight, '/TopptreweightDown')
 
       # Fake Rate
       self.tauFRSys(row, myEle, myMET, myTau, njets, mjj, weight)

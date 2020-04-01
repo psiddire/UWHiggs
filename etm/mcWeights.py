@@ -36,35 +36,35 @@ class mcWeights:
         self.is_recoilC = bool(self.is_DYlow or self.is_DY or self.is_GluGlu or self.is_VBF or self.is_EWK or self.is_VBFH or self.is_GluGluH or self.is_VBFHWW or self.is_GluGluHWW or self.is_W)
         self.MetCorrection = True
         self.DYweight = {
-            0 : 3.600934444,
-            1 : 0.693874567,
-            2 : 0.785158684,
-            3 : 0.972741704,
-            4 : 0.824787552
-        } 
+            0 : 3.60210681,
+            1 : 0.694100474,
+            2 : 0.78541431,
+            3 : 0.973058402,
+            4 : 0.825056081
+        }
         self.Wweight = {
-            0 : 0.0,#51.39715163,
-            1 : 9.018341605,
-            2 : 7.122418504,
-            3 : 4.332903463,
-            4 : 3.483322641
+            0 : 51.41388515,
+            1 : 9.021277732,
+            2 : 7.124737369,
+            3 : 4.334314139,
+            4 : 3.484456716
         }
 
     def lumiWeight(self, weight):
         if self.is_DYlow:
             weight = weight*0.0#28.022
         if self.is_WG:
-            weight = weight*4.513
+            weight = weight*4.514#4.513
         if self.is_GluGlu:
             weight = weight*0.00068074#67038
         if self.is_VBF:
             weight = weight*0.00029536#29406
         if self.is_WW:
-            weight = weight*0.57318*(118.7/75.88)
+            weight = weight*0.57337*(118.7/75.88)#0.57318
         if self.is_WZ:
-            weight = weight*0.42097*(51.11/27.57)
+            weight = weight*0.42111*(51.11/27.57)#0.42097
         if self.is_ZZ:
-            weight = weight*0.36359*(16.91/12.14)
+            weight = weight*0.36371*(16.91/12.14)#0.36359
         if self.is_EWKWMinus:
             weight = weight*0.27437
         if self.is_EWKWPlus:
@@ -74,25 +74,25 @@ class mcWeights:
         if self.is_EWKZToNuNu:
             weight = weight*0.20256
         if self.is_ZHTT:
-            weight = weight*0.0008821
+            weight = weight*0.0008824#0.0008821
         if self.is_Wminus:
-            weight = weight*0.0009434
+            weight = weight*0.0009437#0.0009434
         if self.is_Wplus:
-            weight = weight*0.0009526
+            weight = weight*0.0009529#0.0009526
         if self.is_STtantitop:
-            weight = weight*0.0009359
+            weight = weight*0.0009362#0.0009359
         if self.is_STttop:
-            weight = weight*0.0004855
+            weight = weight*0.0004904#0.0004855
         if self.is_STtWantitop:
-            weight = weight*0.007973
+            weight = weight*0.007976#0.007973
         if self.is_STtWtop:
-            weight = weight*0.006344
+            weight = weight*0.006346#0.006344
         if self.is_TTTo2L2Nu:
-            weight = weight*0.001129
+            weight = weight*0.00113#0.001129
         if self.is_TTToHadronic:
-            weight = weight*0.00035775
+            weight = weight*0.0004018#0.00035775
         if self.is_TTToSemiLeptonic:
-            weight = weight*0.00036016
+            weight = weight*0.0003669#0.00036016
         if self.is_VBFH:
             weight = weight*0.0012143
         if self.is_GluGluH:
@@ -101,4 +101,4 @@ class mcWeights:
             weight = weight*0.0013134
         if self.is_GluGluHWW:
             weight = weight*0.0022648
-        return weight
+        return weight*(59281.0/59262.0)

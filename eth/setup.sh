@@ -6,6 +6,7 @@ export MEGAPATH=/hdfs/store/user/kaho
 
 export jobidet='Data_2018_Dec_et'
 #export jobidet='MC2018_Dec'
+#export jobidet='MC2018_DecSys'
 #export jobidet='Embed2018et'
 export jobid=$jobidet
 

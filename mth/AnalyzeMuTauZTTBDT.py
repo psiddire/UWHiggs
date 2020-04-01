@@ -70,21 +70,21 @@ class AnalyzeMuTauZTTBDT(MegaBase, MuTauBase):
       if not self.obj2_tight(row) and self.obj2_loose(row) and self.obj1_tight(row):
         frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
         weight = weight*frTau
-        self.fill_histos(row, myMuon, myMET, myTau, weight, 'TauLooseOS')
+        self.fill_histos_gen(row, myMuon, myMET, myTau, weight, 'TauLooseOS')
 
       if not self.obj1_tight(row) and self.obj1_loose(row) and self.obj2_tight(row):
         frMuon = self.fakeRateMuon(myMuon.Pt())
         weight = weight*frMuon
-        self.fill_histos(row, myMuon, myMET, myTau, weight, 'MuonLooseOS')
+        self.fill_histos_gen(row, myMuon, myMET, myTau, weight, 'MuonLooseOS')
 
       if not self.obj2_tight(row) and self.obj2_loose(row) and not self.obj1_tight(row) and self.obj1_loose(row):
         frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
         frMuon = self.fakeRateMuon(myMuon.Pt())
         weight = weight*frMuon*frTau
-        self.fill_histos(row, myMuon, myMET, myTau, weight, 'MuonLooseTauLooseOS')
+        self.fill_histos_gen(row, myMuon, myMET, myTau, weight, 'MuonLooseTauLooseOS')
 
       if self.obj2_tight(row) and self.obj1_tight(row):
-        self.fill_histos(row, myMuon, myMET, myTau, weight, 'TightOS')
+        self.fill_histos_gen(row, myMuon, myMET, myTau, weight, 'TightOS')
 
   # Write the histograms to the output files
   def finish(self):

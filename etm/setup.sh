@@ -4,17 +4,18 @@
 export datasrc=/hdfs/store/user/kaho
 export MEGAPATH=/hdfs/store/user/kaho
 
-export jobidem='Data2018_Dec_em'
+#export jobidem='Data2018_Dec_em'
 #export jobidem='MC2018_Dec'
+export jobidem='MC2018_DecSys'
 #export jobidem='Embed2018em'
 export jobid=$jobidem
 
 export afile=`find $datasrc/$jobid | grep root | head -n 1`
 
-## Build the cython wrappers
-#rake "make_wrapper[$afile, em/final/Ntuple, EMTree]"
+# Build the cython wrappers
+rake "make_wrapper[$afile, em/final/Ntuple, EMTree]"
 
-#ls *pyx | sed "s|pyx|so|" | xargs -n 1 -P 10 rake
+ls *pyx | sed "s|pyx|so|" | xargs -n 1 -P 10 rake
 
 #rake "meta:getinputs[$jobid, $datasrc, em/metaInfo, em/summedWeights]"
-rake "meta:getmeta[inputs/$jobid, em/metaInfo, 13, em/summedWeights]"
+#rake "meta:getmeta[inputs/$jobid, em/metaInfo, 13, em/summedWeights]"

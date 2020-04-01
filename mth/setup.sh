@@ -4,8 +4,9 @@
 export datasrc=/hdfs/store/user/kaho
 export MEGAPATH=/hdfs/store/user/kaho
 
-export jobidmt='Data_2018_Dec_mt'
+#export jobidmt='Data_2018_Dec_mt'
 #export jobidmt='MC2018_Dec'
+export jobidmt='MC2018_DecSys'
 #export jobidmt='Embed2018mt'
 export jobid=$jobidmt
 

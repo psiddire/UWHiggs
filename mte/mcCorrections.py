@@ -230,7 +230,7 @@ def EmbedPhi(phi, njets, mjj):
         corr = wphi0.GetBinContent(wphi0.GetXaxis().FindBin(phi))
     elif njets==1:
         corr = wphi1.GetBinContent(wphi1.GetXaxis().FindBin(phi))
-    elif njets==2 and mjj < 550:
+    elif njets==2 and mjj < 500:
         corr = wphi2.GetBinContent(wphi2.GetXaxis().FindBin(phi))
     else:
         corr = 1.0
@@ -249,7 +249,7 @@ def EmbedEta(eta, njets, mjj):
         corr = weta0.GetBinContent(weta0.GetXaxis().FindBin(eta))
     elif njets==1:
         corr =  weta1.GetBinContent(weta1.GetXaxis().FindBin(eta))
-    elif njets==2 and mjj < 550:
+    elif njets==2 and mjj < 500:
         corr = weta2.GetBinContent(weta2.GetXaxis().FindBin(eta))
     else:
         corr = 1.0

@@ -9,6 +9,7 @@ Authors: Prasanna Siddireddy
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 from MuEBase import MuEBase
 import EMTree
+import Kinematics
 from FinalStateAnalysis.TagAndProbe.bTagSF2018 import bTagEventWeight
 
 class AnalyzeMuETTBDT(MegaBase, MuEBase):
@@ -65,25 +66,25 @@ class AnalyzeMuETTBDT(MegaBase, MuEBase):
       mjj = row.vbfMass
 
       if self.oppositesign(row):
-        self.fill_histos(row, myMuon, myMET, myEle, weight, 'TightOS')
+        self.fill_histos(myMuon, myMET, myEle, weight, 'TightOS')
         if njets==0:
-          self.fill_histos(row, myMuon, myMET, myEle, weight, 'TightOS0Jet')
+          self.fill_histos(myMuon, myMET, myEle, weight, 'TightOS0Jet')
         elif njets==1:
-          self.fill_histos(row, myMuon, myMET, myEle, weight, 'TightOS1Jet')
+          self.fill_histos(myMuon, myMET, myEle, weight, 'TightOS1Jet')
         elif njets==2 and mjj < 550:
-          self.fill_histos(row, myMuon, myMET, myEle, weight, 'TightOS2Jet')
+          self.fill_histos(myMuon, myMET, myEle, weight, 'TightOS2Jet')
         elif njets==2 and mjj > 550:
-          self.fill_histos(row, myMuon, myMET, myEle, weight, 'TightOS2JetVBF')
+          self.fill_histos(myMuon, myMET, myEle, weight, 'TightOS2JetVBF')
       else:
-        self.fill_histos(row, myMuon, myMET, myEle, weight*osss, 'TightSS')
+        self.fill_histos(myMuon, myMET, myEle, weight*osss, 'TightSS')
         if njets==0:
-          self.fill_histos(row, myMuon, myMET, myEle, weight*osss, 'TightSS0Jet')
+          self.fill_histos(myMuon, myMET, myEle, weight*osss, 'TightSS0Jet')
         elif njets==1:
-          self.fill_histos(row, myMuon, myMET, myEle, weight*osss, 'TightSS1Jet')
+          self.fill_histos(myMuon, myMET, myEle, weight*osss, 'TightSS1Jet')
         elif njets==2 and mjj < 550:
-          self.fill_histos(row, myMuon, myMET, myEle, weight*osss, 'TightSS2Jet')
+          self.fill_histos(myMuon, myMET, myEle, weight*osss, 'TightSS2Jet')
         elif njets==2 and mjj > 550:
-          self.fill_histos(row, myMuon, myMET, myEle, weight*osss, 'TightSS2JetVBF')
+          self.fill_histos(myMuon, myMET, myEle, weight*osss, 'TightSS2JetVBF')
 
 
   def finish(self):
