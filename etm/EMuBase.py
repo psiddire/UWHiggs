@@ -32,7 +32,7 @@ class EMuBase():
     self.is_GluGlu = self.mcWeight.is_GluGlu
     self.is_VBF = self.mcWeight.is_VBF
 
-    self.Emb = True
+    self.Emb = False
     self.is_recoilC = self.mcWeight.is_recoilC
     self.MetCorrection = self.mcWeight.MetCorrection
     if self.is_recoilC and self.MetCorrection:
@@ -44,9 +44,11 @@ class EMuBase():
     self.muTracking = mcCorrections.muonTracking
     self.eIDnoiso80 = mcCorrections.eIDnoiso80
     self.eReco = mcCorrections.eReco
-    self.rc = mcCorrections.rc
-    self.w1 = mcCorrections.w1
+    self.MESSys = mcCorrections.MESSys
+
     self.DYreweight = mcCorrections.DYreweight
+    self.w1 = mcCorrections.w1
+    self.rc = mcCorrections.rc
     self.EmbedPhi = mcCorrections.EmbedPhi
     self.EmbedEta = mcCorrections.EmbedEta
 
@@ -69,6 +71,7 @@ class EMuBase():
     self.sys = Kinematics.sys
     self.sssys = Kinematics.sssys
     self.qcdsys = Kinematics.qcdsys
+    self.mesSys = Kinematics.mesSys
     self.functor = Kinematics.functor
     self.var_d = Kinematics.var_d
 
@@ -112,6 +115,14 @@ class EMuBase():
   # Electron Isolation
   def obj1_iso(self, row):
     return bool(row.eRelPFIsoRho < 0.1)
+
+  # Electron Tight Isolation
+  def obj1_tight(self, row):
+    return bool(row.eRelPFIsoRho < 0.1)
+
+  # Electron Loose Isolation
+  def obj1_loose(self, row):
+    return bool(row.eRelPFIsoRho < 0.5)
 
   # Muon Identification
   def obj2_id(self, row):
@@ -258,8 +269,8 @@ class EMuBase():
         else:
           weight = weight*self.Wweight[0]
       if self.is_TT:
-        topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
-        weight = weight*topweight
+        #topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
+        #weight = weight*topweight
         if row.mZTTGenMatching > 2 and row.mZTTGenMatching < 6 and row.eZTTGenMatching > 2 and row.eZTTGenMatching < 6 and self.Emb:
           weight = 0.0
       weight = self.mcWeight.lumiWeight(weight)

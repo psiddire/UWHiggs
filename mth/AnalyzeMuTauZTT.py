@@ -7,17 +7,17 @@ Authors: Prasanna Siddireddy
 '''
 
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
-from MuTauBase24 import MuTauBase24
+from MuTauBase import MuTauBase
 import MuTauTree
 
-class AnalyzeMuTauZTT(MegaBase, MuTauBase24):
+class AnalyzeMuTauZTT(MegaBase, MuTauBase):
   tree = 'mt/final/Ntuple'
 
   def __init__(self, tree, outfile, **kwargs):
     super(AnalyzeMuTauZTT, self).__init__(tree, outfile, **kwargs)
     self.tree = MuTauTree.MuTauTree(tree)
     self.out = outfile
-    MuTauBase24.__init__(self)
+    MuTauBase.__init__(self)
 
 
   def fill_histos_gen(self, row, myMuon, myMET, myTau, weight, name=''):

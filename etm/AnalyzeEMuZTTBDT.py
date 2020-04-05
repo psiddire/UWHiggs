@@ -9,6 +9,7 @@ Authors: Prasanna Siddireddy
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 from EMuBase import EMuBase
 import EMTree
+import Kinematics
 
 class AnalyzeEMuZTTBDT(MegaBase, EMuBase):
   tree = 'em/final/Ntuple'

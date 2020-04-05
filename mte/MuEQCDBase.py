@@ -184,8 +184,8 @@ class MuEQCDBase():
         else:
           weight = weight*self.Wweight[0]
       if self.is_TT:
-        topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
-        weight = weight*topweight
+        #topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
+        #weight = weight*topweight
         if row.mZTTGenMatching > 2 and row.mZTTGenMatching < 6 and row.eZTTGenMatching > 2 and row.eZTTGenMatching < 6 and self.Emb:
           weight = 0.0
       weight = self.mcWeight.lumiWeight(weight)

@@ -64,8 +64,7 @@ for k, di in enumerate(Lists.dirs):
     #Electron Energy Scale
     for i, esSys in enumerate(Lists.escale):
         emb = Lists.positivize(emball.Get(esSys+'m_e_CollinearMass'))
-        embSys.append(emb.Rebin(len(binning)-1, Lists.escaleNames[i][0], binning))
-        embSys.append(emb.Rebin(len(binning)-1, Lists.escaleNames[i][1], binning))
+        embSys.append(emb.Rebin(len(binning)-1, Lists.escaleNames[i], binning))
     #Write Histograms
     for eSys in embSys:
         eSys.Write()
@@ -111,11 +110,6 @@ for k, di in enumerate(Lists.dirs):
             for j, dSys in enumerate(Lists.dyptSys):
                 dy = Lists.positivize(DY.Get(dSys+'m_e_CollinearMass'))
                 dySys.append(dy.Rebin(len(binning)-1, sam+Lists.dyptSysNames[j], binning))
-        #Top Pt Reweighting
-        if sam=='TT':
-            for j, tSys in enumerate(Lists.ttSys):
-                dy = Lists.positivize(DY.Get(tSys+'m_e_CollinearMass'))
-                dySys.append(dy.Rebin(len(binning)-1, sam+Lists.ttSysNames[j], binning))
         #Jet and Unclustered Energy Scale
         if sam in Lists.norecsamp:
             for j, jSys in enumerate(Lists.jesSys):

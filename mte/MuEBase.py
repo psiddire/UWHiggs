@@ -32,7 +32,7 @@ class MuEBase():
     self.is_GluGlu = self.mcWeight.is_GluGlu
     self.is_VBF = self.mcWeight.is_VBF
 
-    self.Emb = True
+    self.Emb = False
     self.is_recoilC = self.mcWeight.is_recoilC
     self.MetCorrection = self.mcWeight.MetCorrection
     if self.is_recoilC and self.MetCorrection:
@@ -112,6 +112,14 @@ class MuEBase():
   # Muon Isolation
   def obj1_iso(self, row):
     return bool(row.mRelPFIsoDBDefaultR04 < 0.15)
+
+  # Muon Tight Isolation
+  def obj1_tight(self, row):
+    return bool(row.mRelPFIsoDBDefaultR04 < 0.15)
+
+  # Muon Loose Isolation
+  def obj1_loose(self, row):
+    return bool(row.mRelPFIsoDBDefaultR04 < 0.5)
 
   # Electron Identification
   def obj2_id(self, row):
@@ -203,8 +211,8 @@ class MuEBase():
       return False
     elif not self.obj2_id(row):
       return False
-    elif not self.obj1_iso(row):
-      return False
+    #elif not self.obj1_iso(row):
+    #  return False
     elif not self.obj2_iso(row):
       return False
     elif not self.vetos(row):
@@ -258,8 +266,8 @@ class MuEBase():
         else:
           weight = weight*self.Wweight[0]
       if self.is_TT:
-        topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
-        weight = weight*topweight
+        #topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
+        #weight = weight*topweight
         if row.mZTTGenMatching > 2 and row.mZTTGenMatching < 6 and row.eZTTGenMatching > 2 and row.eZTTGenMatching < 6 and self.Emb:
           weight = 0.0
       weight = self.mcWeight.lumiWeight(weight)

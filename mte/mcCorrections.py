@@ -9,40 +9,27 @@ import FinalStateAnalysis.TagAndProbe.MEtSys as MEtSys
 import FinalStateAnalysis.TagAndProbe.RoccoR as RoccoR
 import ROOT
 
-dataset = 'muoneg'
 year = '2017'
 
-pu_distributions  = {
-    'singlem'  : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_SingleMuon*pu.root')),
-    'muoneg'   : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_MuonEG*pu.root')),
-    'singlee'  : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_SingleElectron*pu.root'))
-}
-pu_distributionsUp  = {
-    'singlem'  : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_SingleMuon*pu_up.root')),
-    'muoneg'   : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_MuonEG*pu_up.root')),
-    'singlee'  : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_SingleElectron*pu_up.root'))
-}
-pu_distributionsDown  = {
-    'singlem'  : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_SingleMuon*pu_down.root')),
-    'muoneg'   : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_MuonEG*pu_down.root')),
-    'singlee'  : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_SingleElectron*pu_down.root'))
-}
+pu_distributions = glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_MuonEG*pu.root'))
+pu_distributionsUp = glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_MuonEG*pu_up.root'))
+pu_distributionsDown = glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_MuonEG*pu_down.root'))
 
 def make_puCorrector(puname=''):
     if dataset in pu_distributions:
-        return PileupWeight.PileupWeight(puname, year, *pu_distributions[dataset])
+        return PileupWeight.PileupWeight(puname, year, *pu_distributions)
     else:
         raise KeyError('dataset not present. Please check the spelling or add it to mcCorrectors.py')
 
 def make_puCorrectorUp(puname=''):
     if dataset in pu_distributionsUp:
-        return PileupWeight.PileupWeight(puname, year, *(pu_distributionsUp[dataset]))
+        return PileupWeight.PileupWeight(puname, year, *pu_distributionsUp)
     else:
         raise KeyError('dataset not present. Please check the spelling or add it to mcCorrectors.py')
 
 def make_puCorrectorDown(puname=''):
     if dataset in pu_distributionsDown:
-        return PileupWeight.PileupWeight(puname, year, *(pu_distributionsDown[dataset]))
+        return PileupWeight.PileupWeight(puname, year, *pu_distributionsDown)
     else:
         raise KeyError('dataset not present. Please check the spelling or add it to mcCorrectors.py')
 
@@ -51,82 +38,10 @@ def puCorrector(target=''):
         pucorrector = {'' : make_puCorrector('DY'),
                        'puUp': make_puCorrectorUp('DY'),
                        'puDown': make_puCorrectorDown('DY')}
-    elif bool('DYJetsToLL_M-10to50' in target):
-        pucorrector = {'' : make_puCorrector('DY10'),
-                       'puUp': make_puCorrectorUp('DY10'),
-                       'puDown': make_puCorrectorDown('DY10')}
-    elif bool('DY1JetsToLL' in target):
-        pucorrector = {'' : make_puCorrector('DY1'),
-                       'puUp': make_puCorrectorUp('DY1'),
-                       'puDown': make_puCorrectorDown('DY1')}
-    elif bool('DY2JetsToLL' in target):
-        pucorrector = {'' : make_puCorrector('DY2'),
-                       'puUp': make_puCorrectorUp('DY2'),
-                       'puDown': make_puCorrectorDown('DY2')}
-    elif bool('DY3JetsToLL' in target):
-        pucorrector = {'' : make_puCorrector('DY3'),
-                       'puUp': make_puCorrectorUp('DY3'),
-                       'puDown': make_puCorrectorDown('DY3')}
-    elif bool('DY4JetsToLL' in target):
-        pucorrector = {'' : make_puCorrector('DY4'),
-                       'puUp': make_puCorrectorUp('DY4'),
-                       'puDown': make_puCorrectorDown('DY4')}
-    elif bool('WJetsToLNu' in target):
-        pucorrector = {'' : make_puCorrector('W'),
-                       'puUp' : make_puCorrectorUp('W'),
-                       'puDown' : make_puCorrectorDown('W')}
-    elif bool('W1JetsToLNu' in target):
-        pucorrector = {'' : make_puCorrector('W1'),
-                       'puUp' : make_puCorrectorUp('W1'),
-                       'puDown' : make_puCorrectorDown('W1')}
-    elif bool('W2JetsToLNu' in target):
-        pucorrector = {'' : make_puCorrector('W2'),
-                       'puUp' : make_puCorrectorUp('W2'),
-                       'puDown' : make_puCorrectorDown('W2')}
     elif bool('W3JetsToLNu' in target):
         pucorrector = {'' : make_puCorrector('W3'),
                        'puUp' : make_puCorrectorUp('W3'),
                        'puDown' : make_puCorrectorDown('W3')}
-    elif bool('W4JetsToLNu' in target):
-        pucorrector = {'' : make_puCorrector('W4'),
-                       'puUp' : make_puCorrectorUp('W4'),
-                       'puDown' : make_puCorrectorDown('W4')}
-    elif bool('WGToLNuG' in target):
-        pucorrector = {'' : make_puCorrector('WGamma'),
-                       'puUp' : make_puCorrectorUp('WGamma'),
-                       'puDown' : make_puCorrectorDown('WGamma')}
-    elif bool('WW_Tune' in target):
-        pucorrector = {'' : make_puCorrector('WW'),
-                       'puUp': make_puCorrectorUp('WW'),
-                       'puDown': make_puCorrectorDown('WW')}
-    elif bool('WZ_Tune' in target):
-        pucorrector = {'' : make_puCorrector('WZ'),
-                       'puUp': make_puCorrectorUp('WZ'),
-                       'puDown': make_puCorrectorDown('WZ')}
-    elif bool('ZZ_Tune' in target):
-        pucorrector = {'' : make_puCorrector('ZZ'),
-                       'puUp': make_puCorrectorUp('ZZ'),
-                       'puDown': make_puCorrectorDown('ZZ')}
-    elif bool('EWKWMinus' in target):
-        pucorrector = {'' : make_puCorrector('EWKWminus'),
-                       'puUp': make_puCorrectorUp('EWKWminus'),
-                       'puDown': make_puCorrectorDown('EWKWminus')}
-    elif bool('EWKWPlus' in target):
-        pucorrector = {'' : make_puCorrector('EWKWplus'),
-                       'puUp': make_puCorrectorUp('EWKWplus'),
-                       'puDown': make_puCorrectorDown('EWKWplus')}
-    elif bool('EWKZ2Jets_ZToLL' in target):
-        pucorrector = {'' : make_puCorrector('EWKZll'),
-                       'puUp': make_puCorrectorUp('EWKZll'),
-                       'puDown': make_puCorrectorDown('EWKZll')}
-    elif bool('EWKZ2Jets_ZToNuNu' in target):
-        pucorrector = {'' : make_puCorrector('EWKZnunu'),
-                       'puUp': make_puCorrectorUp('EWKZnunu'),
-                       'puDown': make_puCorrectorDown('EWKZnunu')}
-    elif bool('ZHToTauTau' in target):
-        pucorrector = {'' : make_puCorrector('ZHTT'),
-                       'puUp': make_puCorrectorUp('ZHTT'),
-                       'puDown': make_puCorrectorDown('ZHTT')}
     elif bool('Wminus' in target):
         pucorrector = {'' : make_puCorrector('WminusHTT'),
                        'puUp': make_puCorrectorUp('WminusHTT'),
@@ -135,66 +50,6 @@ def puCorrector(target=''):
         pucorrector = {'' : make_puCorrector('WplusHTT'),
                        'puUp': make_puCorrectorUp('WplusHTT'),
                        'puDown': make_puCorrectorDown('WplusHTT')}
-    elif bool('ST_t-channel_antitop' in target):
-        pucorrector = {'' : make_puCorrector('STtantitop'),
-                       'puUp': make_puCorrectorUp('STtantitop'),
-                       'puDown': make_puCorrectorDown('STtantitop')}
-    elif bool('ST_t-channel_top' in target):
-        pucorrector = {'' : make_puCorrector('STttop'),
-                       'puUp': make_puCorrectorUp('STttop'),
-                       'puDown': make_puCorrectorDown('STttop')}
-    elif bool('ST_tW_antitop' in target):
-        pucorrector = {'' : make_puCorrector('STtWantitop'),
-                       'puUp': make_puCorrectorUp('STtWantitop'),
-                       'puDown': make_puCorrectorDown('STtWantitop')}
-    elif bool('ST_tW_top' in target):
-        pucorrector = {'' : make_puCorrector('STtWtop'),
-                       'puUp': make_puCorrectorUp('STtWtop'),
-                       'puDown': make_puCorrectorDown('STtWtop')}
-    elif bool('TTTo2L2Nu' in target):
-        pucorrector = {'' : make_puCorrector('TTTo2L2Nu'),
-                       'puUp': make_puCorrectorUp('TTTo2L2Nu'),
-                       'puDown': make_puCorrectorDown('TTTo2L2Nu')}
-    elif bool('TTToHadronic' in target):
-        pucorrector = {'' : make_puCorrector('TTToHadronic'),
-                       'puUp': make_puCorrectorUp('TTToHadronic'),
-                       'puDown': make_puCorrectorDown('TTToHadronic')}
-    elif bool('TTToSemiLeptonic' in target):
-        pucorrector = {'' : make_puCorrector('TTToSemiLeptonic'),
-                       'puUp': make_puCorrectorUp('TTToSemiLeptonic'),
-                       'puDown': make_puCorrectorDown('TTToSemiLeptonic')}
-    elif bool('GluGlu_LFV_HToMuTau' in target):
-        pucorrector = {'' : make_puCorrector('GGHMT'),
-                       'puUp': make_puCorrectorUp('GGHMT'),
-                       'puDown': make_puCorrectorDown('GGHMT')}
-    elif bool('GluGlu_LFV_HToETau' in target):
-        pucorrector = {'' : make_puCorrector('GGHET'),
-                       'puUp': make_puCorrectorUp('GGHET'),
-                       'puDown': make_puCorrectorDown('GGHET')}
-    elif bool('GluGluHToTauTau' in target):
-        pucorrector = {'' : make_puCorrector('GGHTT'),
-                       'puUp': make_puCorrectorUp('GGHTT'),
-                       'puDown': make_puCorrectorDown('GGHTT')}
-    elif bool('GluGluHToWW' in target):
-        pucorrector = {'' : make_puCorrector('GGHWW'),
-                       'puUp': make_puCorrectorUp('GGHWW'),
-                       'puDown': make_puCorrectorDown('GGHWW')}
-    elif bool('VBF_LFV_HToMuTau' in target):
-        pucorrector = {'' : make_puCorrector('VBFHMT'),
-                       'puUp': make_puCorrectorUp('VBFHMT'),
-                       'puDown': make_puCorrectorDown('VBFHMT')}
-    elif bool('VBF_LFV_HToETau' in target):
-        pucorrector = {'' : make_puCorrector('VBFHET'),
-                       'puUp': make_puCorrectorUp('VBFHET'),
-                       'puDown': make_puCorrectorDown('VBFHET')}
-    elif bool('VBFHToTauTau' in target):
-        pucorrector = {'' : make_puCorrector('VBFHTT'),
-                       'puUp': make_puCorrectorUp('VBFHTT'),
-                       'puDown': make_puCorrectorDown('VBFHTT')}
-    elif bool('VBFHToWW' in target):
-        pucorrector = {'' : make_puCorrector('VBFHWW'),
-                       'puUp': make_puCorrectorUp('VBFHWW'),
-                       'puDown': make_puCorrectorDown('VBFHWW')}
     else:
         pucorrector = {'' : make_puCorrector('DY1'),
                        'puUp': make_puCorrectorUp('DY1'),
@@ -221,10 +76,11 @@ eID90 = EGammaPOGCorrections.make_egamma_pog_electronID90_2017()
 eIDnoiso90 = EGammaPOGCorrections.make_egamma_pog_electronID90_2017()
 eReco = EGammaPOGCorrections.make_egamma_pog_Reco_2017()
 
-f1 = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2017/htt_scalefactors_legacy_2017.root")
+cmsswBase = '/afs/hep.wisc.edu/home/ndev/CMSSW_10_2_16_UL/src/FinalStateAnalysis/TagAndProbe/data/2017/'
+f1 = ROOT.TFile(cmsswBase + "htt_scalefactors_legacy_2017.root")
 w1 = f1.Get("w")
 
-fphi = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2017/MuEEmbedPhi.root")
+fphi = ROOT.TFile(cmsswBase + "MuEEmbedPhi.root")
 wphi0 = fphi.Get("0Jet")
 wphi1 = fphi.Get("1Jet")
 wphi2 = fphi.Get("2Jet")
@@ -243,7 +99,7 @@ def EmbedPhi(phi, njets, mjj):
     else:
         return corr
 
-feta = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2017/MuEEmbedEta.root")
+feta = ROOT.TFile(cmsswBase + "MuEEmbedEta.root")
 weta0 = feta.Get("0Jet")
 weta1 = feta.Get("1Jet")
 weta2 = feta.Get("2Jet")
@@ -262,3 +118,14 @@ def EmbedEta(eta, njets, mjj):
     else:
         return corr
 
+def MESSys(eta):
+    if eta < 1.2:
+        me = 0.004
+        mes = ['/mes1p2Up', '/mes1p2Down']
+    elif eta < 2.1:
+        me = 0.009
+        mes = ['/mes2p1Up', '/mes2p1Down']
+    else:
+        me = 0.027
+        mes = ['/mes2p4Up', '/mes2p4Down']
+    return [me, mes]

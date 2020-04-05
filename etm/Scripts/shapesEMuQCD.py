@@ -49,35 +49,34 @@ for k, di in enumerate(Lists.dirs):
     else:
         binning = array.array('d', range(0, 300, 25))
 
-    #Observed
+    # Observed
     DataTotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('QCD'), Lists.mc_samples)])
     data = Lists.positivize(DataTotal.Get('TightOS'+di+'/e_m_CollinearMass'))
     data = data.Rebin(len(binning)-1, 'data_obs', binning)
     data.Write()
 
-    #Embedded
+    # Embedded
     embSys = []
     embed = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('Embed'), Lists.mc_samples)])
     emball = views.SubdirectoryView(embed, 'TightOS'+di)
     emb = Lists.positivize(emball.Get('e_m_CollinearMass'))
     embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau', binning))
-    #Electron Energy Scale
+    # Electron Energy Scale
     for i, esSys in enumerate(Lists.escale):
         emb = Lists.positivize(emball.Get(esSys+'e_m_CollinearMass'))
-        embSys.append(emb.Rebin(len(binning)-1, Lists.escaleNames[i][0], binning))
-        embSys.append(emb.Rebin(len(binning)-1, Lists.escaleNames[i][1], binning))
-    #Write Histograms
+        embSys.append(emb.Rebin(len(binning)-1, Lists.escaleNames[i], binning))
+    # Write Histograms
     for eSys in embSys:
         eSys.Write()
 
-    #QCD
+    # QCD
     qcdSys = []
-    if di=='2JetVBF':
-        data_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('QCD'), Lists.mc_samples)])
-        mc_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('MC'), Lists.mc_samples)])
-    else:
-        data_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('Obs'), Lists.mc_samples)])
-        mc_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('Bac'), Lists.mc_samples)])
+    #if di=='2JetVBF':
+    #    data_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('QCD'), Lists.mc_samples)])
+    #    mc_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('MC'), Lists.mc_samples)])
+    #else:
+    data_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('Obs'), Lists.mc_samples)])
+    mc_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('Bac'), Lists.mc_samples)])
     QCDData = views.SubdirectoryView(data_view, 'TightSS'+di)
     QCDMC = views.SubdirectoryView(mc_view, 'TightSS'+di)
     QCD = SubtractionView(QCDData, QCDMC, restrict_positive=True)
@@ -85,13 +84,13 @@ for k, di in enumerate(Lists.dirs):
     qcdi = qcd.Integral()
     qcd = Lists.normQCD(qcd, qcdi, 0, di)
     qcdSys.append(qcd.Rebin(len(binning)-1, 'QCD', binning))
-    #QCD Systematics
+    # QCD Systematics
     for i, qSys in enumerate(Lists.qcdSys):
         qcd = Lists.positivize(QCD.Get(qSys+'e_m_CollinearMass'))
         qcdi = qcd.Integral()
         qcd = Lists.normQCD(qcd, qcdi, i+1, di)
         qcdSys.append(qcd.Rebin(len(binning)-1, Lists.qcdSysNames[i], binning))
-    #Write Histograms
+    # Write Histograms
     for qSys in qcdSys:
         qSys.Write()
 
@@ -103,30 +102,25 @@ for k, di in enumerate(Lists.dirs):
         dy = DY.Get('e_m_CollinearMass')
         dy = Lists.positivize(dy)
         dySys.append(dy.Rebin(len(binning)-1, sam, binning))
-        #Systematics
+        # Systematics
         for j, mSys in enumerate(Lists.mcSys):
             dy = Lists.positivize(DY.Get(mSys+'e_m_CollinearMass'))
             dySys.append(dy.Rebin(len(binning)-1, sam+Lists.mcSysNames[j], binning))
-        #Recoil Response and Resolution
+        # Recoil Response and Resolution
         if sam in Lists.recsamp:
             for j, rSys in enumerate(Lists.recSys):
                 dy = Lists.positivize(DY.Get(rSys+'e_m_CollinearMass'))
                 dySys.append(dy.Rebin(len(binning)-1, sam+Lists.recSysNames[j], binning))
-        #DY Pt Reweighting
+        # DY Pt Reweighting
         if sam=='Zothers':
             for j, dSys in enumerate(Lists.dyptSys):
                 dy = Lists.positivize(DY.Get(dSys+'e_m_CollinearMass'))
                 dySys.append(dy.Rebin(len(binning)-1, sam+Lists.dyptSysNames[j], binning))
-        #Top Pt Reweighting
-        if sam=='TT':
-            for j, tSys in enumerate(Lists.ttSys):
-                dy = Lists.positivize(DY.Get(tSys+'e_m_CollinearMass'))
-                dySys.append(dy.Rebin(len(binning)-1, sam+Lists.ttSysNames[j], binning))
-        #Jet and Unclustered Energy Scale
+        # Jet and Unclustered Energy Scale
         if sam in Lists.norecsamp:
             for j, jSys in enumerate(Lists.jesSys):
                 dy = Lists.positivize(DY.Get(jSys+'e_m_CollinearMass'))
                 dySys.append(dy.Rebin(len(binning)-1, sam+Lists.jesSysNames[j], binning))
-        #Write Histograms
+        # Write Histograms
         for dSys in dySys:
             dSys.Write()

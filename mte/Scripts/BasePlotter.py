@@ -53,7 +53,7 @@ class BasePlotter():
         QCDData = views.SubdirectoryView(data_view, s[1])
         QCDMC = views.SubdirectoryView(mc_view, s[1])
         QCD = SubtractionView(QCDData, QCDMC, restrict_positive=True)
-        Wtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('W1') or x.startswith('W2') or x.startswith('W3') or x.startswith('W4') or x.startswith('WGToLNuG'), Lists.mc_samples)])
+        Wtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('WJ') or x.startswith('W1') or x.startswith('W2') or x.startswith('W3') or x.startswith('W4') or x.startswith('WGToLNuG'), Lists.mc_samples)])
         W = views.SubdirectoryView(Wtotal, s[0])
         QCD = views.StyleView(views.SumView(QCD, W), **Lists.remove_name_entry(data_styles['QCD*']))
         QCD = views.TitleView(QCD, "W/QCD")

@@ -43,7 +43,7 @@ class mcWeights:
             4 : 0.406245799
         }
         self.Wweight = {
-            0 : 28.58021356,
+            0 : 0.0,#28.58021356,
             1 : 5.70213272,
             2 : 3.640560097,
             3 : 2.245532765,
@@ -54,17 +54,17 @@ class mcWeights:
         if self.is_DYlow:
             weight = weight*0.0
         if self.is_WG:
-            weight = weight*3.094
+            weight = weight*3.0717#3.094
         if self.is_GluGlu:
             weight = weight*0.0005
         if self.is_VBF:
             weight = weight*0.000214#6
         if self.is_WW:
-            weight = weight*0.409*(118.7/75.88)
+            weight = weight*0.406*(118.7/75.88)#0.409
         if self.is_WZ:
-            weight = weight*0.294*(51.11/27.57)
+            weight = weight*0.301*(51.11/27.57)#0.294
         if self.is_ZZ:
-            weight = weight*0.264*(16.91/12.14)
+            weight = weight*0.262*(16.91/12.14)#0.264
         if self.is_EWKWMinus:
             weight = weight*0.191
         if self.is_EWKWPlus:
@@ -74,25 +74,25 @@ class mcWeights:
         if self.is_EWKZToNuNu:
             weight = weight*0.140
         if self.is_ZHTT:
-            weight = weight*0.000693
+            weight = weight*0.000686#0.000693
         if self.is_Wminus:
-            weight = weight*0.00067
+            weight = weight*0.000806#0.00067
         if self.is_Wplus:
-            weight = weight*0.000863
+            weight = weight*0.000713#0.000863
         if self.is_STtantitop:
-            weight = weight*0.9218
+            weight = weight*0.9287#0.9218
         if self.is_STttop:
-            weight = weight*0.9518
+            weight = weight*0.9449#0.9518
         if self.is_STtWantitop:
-            weight = weight*0.0059
+            weight = weight*0.00586#0.0059
         if self.is_STtWtop:
-            weight = weight*0.0056
+            weight = weight*0.00587#0.0056
         if self.is_TTTo2L2Nu:
-            weight = weight*0.005818
+            weight = weight*0.02735#0.005818
         if self.is_TTToHadronic:
-            weight = weight*0.421
+            weight = weight*0.4256#0.421
         if self.is_TTToSemiLeptonic:
-            weight = weight*0.001377
+            weight = weight*0.002893#0.001377
         if self.is_VBFH:
             weight = weight*0.000864
         if self.is_GluGluH:

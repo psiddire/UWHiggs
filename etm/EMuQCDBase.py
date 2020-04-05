@@ -44,9 +44,10 @@ class EMuQCDBase():
     self.muTracking = mcCorrections.muonTracking
     self.eIDnoiso90 = mcCorrections.eIDnoiso90
     self.eReco = mcCorrections.eReco
-    self.rc = mcCorrections.rc
-    self.w1 = mcCorrections.w1
+
     self.DYreweight = mcCorrections.DYreweight
+    self.w1 = mcCorrections.w1
+    self.rc = mcCorrections.rc
     self.EmbedPhi = mcCorrections.EmbedPhi
     self.EmbedEta = mcCorrections.EmbedEta
 
@@ -71,15 +72,6 @@ class EMuQCDBase():
     self.qcdsys = Kinematics.qcdsys
     self.functor = Kinematics.functor
     self.var_d = Kinematics.var_d
-
-    self.branches='mPt/F:ePt/F:e_m_collinearMass/F:e_m_visibleMass/F:dPhiMuMET/F:dPhiEMET/F:dPhiEMu/F:MTMuMET/F:e_m_PZeta/F:MTEMET/F:dEtaEMu/F:type1_pfMetEt/F:njets/I:vbfMass/F:weight/F'
-    self.holders = []
-    if self.is_GluGlu or self.is_VBF:
-      self.name='TreeS'
-      self.title='TreeS'
-    else:
-      self.name='TreeB'
-      self.title='TreeB'
 
   # Requirement on the charge of the leptons
   def oppositesign(self, row):
@@ -199,8 +191,8 @@ class EMuQCDBase():
         else:
           weight = weight*self.Wweight[0]
       if self.is_TT:
-        topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
-        weight = weight*topweight
+        #topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
+        #weight = weight*topweight
         if row.mZTTGenMatching > 2 and row.mZTTGenMatching < 6 and row.eZTTGenMatching > 2 and row.eZTTGenMatching < 6 and self.Emb:
           weight = 0.0
       weight = self.mcWeight.lumiWeight(weight)

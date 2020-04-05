@@ -55,10 +55,15 @@ class MuTauBase():
     self.esTau = mcCorrections.esTau
     self.FesTau = mcCorrections.FesTau
     self.ScaleTau = mcCorrections.ScaleTau
+    self.TauID = mcCorrections.TauID
+    self.MuonFakeTau = mcCorrections.MuonFakeTau
+    self.EleFakeTau = mcCorrections.EleFakeTau
+    self.MESSys = mcCorrections.MESSys
+
     self.DYreweight = mcCorrections.DYreweight
-    self.we = mcCorrections.we
-    self.w6 = mcCorrections.w6
+    self.w1 = mcCorrections.w1
     self.rc = mcCorrections.rc
+    self.EmbedPt = mcCorrections.EmbedPt
 
     self.DYweight = self.mcWeight.DYweight
     self.Wweight = self.mcWeight.Wweight
@@ -80,10 +85,16 @@ class MuTauBase():
     self.loosenames = Kinematics.loosenames
     self.jes = Kinematics.jes
     self.ues = Kinematics.ues
-    self.fakes = Kinematics.fakesDeep
-    self.sys = Kinematics.sysDeep
-    self.fakeSys = Kinematics.fakeDeepSys
-    self.scaleSys = Kinematics.scaleDeepSys
+    self.fakes = Kinematics.fakes
+    self.sys = Kinematics.sys
+    self.fakeSys = Kinematics.fakeSys
+    self.scaleSys = Kinematics.scaleSys
+    self.tauidSys = Kinematics.tauidSys
+    self.mtfakeSys = Kinematics.mtfakeSys
+    self.etfakeSys = Kinematics.etfakeSys
+    self.etfakeesSys = Kinematics.etfakeesSys
+    self.mtfakeesSys = Kinematics.mtfakeesSys
+    self.mesSys = Kinematics.mesSys
     self.functor = Kinematics.functor
     self.var_d = Kinematics.var_d
 
@@ -279,10 +290,10 @@ class MuTauBase():
     # Apply all the various corrections to the MC samples
     weight = 1.0
     if self.is_mc:
-      self.w6.var('m_pt').setVal(myMuon.Pt())
-      self.w6.var('m_eta').setVal(myMuon.Eta())
-      self.w6.var('m_iso').setVal(row.mRelPFIsoDBDefaultR04)
-      tEff = self.w6.function('m_trg24_27_binned_kit_ratio').getVal()
+      self.w1.var('m_pt').setVal(myMuon.Pt())
+      self.w1.var('m_eta').setVal(myMuon.Eta())
+      self.w1.var('m_iso').setVal(row.mRelPFIsoDBDefaultR04)
+      tEff = self.w1.function('m_trg24_27_binned_kit_ratio').getVal()
       mID = self.muonTightID(myMuon.Pt(), abs(myMuon.Eta()))
       if self.obj1_tight(row):
         mIso = self.muonTightIsoTightID(myMuon.Pt(), abs(myMuon.Eta()))
@@ -317,11 +328,14 @@ class MuTauBase():
         else:
           weight = weight * self.Wweight[0]
       if self.is_TT:
-        topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
-        weight = weight*topweight
+        #topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
+        #weight = weight*topweight
         if row.mZTTGenMatching > 2 and row.mZTTGenMatching < 6 and row.tZTTGenMatching > 2 and row.tZTTGenMatching < 6 and self.Emb:
           weight = 0.0
       weight = self.mcWeight.lumiWeight(weight)
+
+    njets = row.jetVeto30WoNoisyJets
+    mjj = row.vbfMassWoNoisyJets
 
     # Embed scale factors
     if self.is_embed:
@@ -334,27 +348,27 @@ class MuTauBase():
       elif row.tDecayMode == 11:
         dm = pow(0.975, 3)*1.051
       # Muon selection scale factor
-      self.w6.var('gt_pt').setVal(myMuon.Pt())
-      self.w6.var('gt_eta').setVal(myMuon.Eta())
-      msel = self.w6.function('m_sel_idEmb_ratio').getVal()
+      self.w1.var('gt_pt').setVal(myMuon.Pt())
+      self.w1.var('gt_eta').setVal(myMuon.Eta())
+      msel = self.w1.function('m_sel_idEmb_ratio').getVal()
       # Tau selection scale factor
-      self.w6.var('gt_pt').setVal(myTau.Pt())
-      self.w6.var('gt_eta').setVal(myTau.Eta())
-      tsel = self.w6.function('m_sel_idEmb_ratio').getVal()
+      self.w1.var('gt_pt').setVal(myTau.Pt())
+      self.w1.var('gt_eta').setVal(myTau.Eta())
+      tsel = self.w1.function('m_sel_idEmb_ratio').getVal()
       # Trigger selection scale factor
-      self.w6.var('gt1_pt').setVal(myMuon.Pt())
-      self.w6.var('gt1_eta').setVal(myMuon.Eta())
-      self.w6.var('gt2_pt').setVal(myTau.Pt())
-      self.w6.var('gt2_eta').setVal(myTau.Eta())
-      trgsel = self.w6.function('m_sel_trg_ratio').getVal()
+      self.w1.var('gt1_pt').setVal(myMuon.Pt())
+      self.w1.var('gt1_eta').setVal(myMuon.Eta())
+      self.w1.var('gt2_pt').setVal(myTau.Pt())
+      self.w1.var('gt2_eta').setVal(myTau.Eta())
+      trgsel = self.w1.function('m_sel_trg_ratio').getVal()
       # Muon Identification, Isolation, tracking, and trigger scale factors
-      self.w6.var('m_pt').setVal(myMuon.Pt())
-      self.w6.var('m_eta').setVal(myMuon.Eta())
-      self.w6.var('m_iso').setVal(row.mRelPFIsoDBDefaultR04)
-      m_trg_sf = self.w6.function('m_trg24_27_embed_kit_ratio').getVal()
-      m_id_sf = self.w6.function('m_id_embed_kit_ratio').getVal()
-      m_iso_sf = self.w6.function('m_iso_binned_embed_kit_ratio').getVal()
-      weight = row.GenWeight*dm*msel*tsel*trgsel*m_trg_sf*m_id_sf*m_iso_sf#*self.EmbedPt(myMuon.Pt(), njets, mjj)
+      self.w1.var('m_pt').setVal(myMuon.Pt())
+      self.w1.var('m_eta').setVal(myMuon.Eta())
+      self.w1.var('m_iso').setVal(row.mRelPFIsoDBDefaultR04)
+      m_trg_sf = self.w1.function('m_trg24_27_embed_kit_ratio').getVal()
+      m_id_sf = self.w1.function('m_id_embed_kit_ratio').getVal()
+      m_iso_sf = self.w1.function('m_iso_binned_embed_kit_ratio').getVal()
+      weight = row.GenWeight*dm*msel*tsel*trgsel*m_trg_sf*m_id_sf*m_iso_sf*self.EmbedPt(myMuon.Pt(), njets, mjj)
       # Tau Identification
       if self.obj2_tight(row):
         weight = weight * self.deepTauVSjet_Emb_tight(myTau.Pt())[0]
@@ -371,4 +385,3 @@ class MuTauBase():
     if (bool(self.is_data or self.is_embed) and nbtag > 0):
       weight = 0
     return weight
-

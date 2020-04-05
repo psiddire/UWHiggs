@@ -4,14 +4,15 @@
 export datasrc=/hdfs/store/user/psiddire
 export MEGAPATH=/hdfs/store/user/psiddire
 
-export jobidmt='Data2017mt'
+#export jobidmt='Data2017mt'
 #export jobidmt='MC2017'
+export jobidmt='MC2017Sys'
 #export jobidmt='Embed2017mt'
 export jobid=$jobidmt
 
 #export afile=`find $datasrc/$jobid | grep root | head -n 1`
 
-## Build the cython wrappers
+# Build the cython wrappers
 #rake "make_wrapper[$afile, mt/final/Ntuple, MuTauTree]"
 
 #ls *pyx | sed "s|pyx|so|" | xargs -n 1 -P 10 rake

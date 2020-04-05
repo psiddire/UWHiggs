@@ -12,7 +12,7 @@ import MuTauTree
 import ROOT
 import array
 
-class AnalyzeMuTauBDT(MegaBase, MuTauBase24):
+class AnalyzeMuTauBDT(MegaBase, MuTauBase):
   tree = 'mt/final/Ntuple'
 
   def __init__(self, tree, outfile, **kwargs):
