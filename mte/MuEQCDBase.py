@@ -1,6 +1,6 @@
 '''
 
-Run LFV H->EMu analysis in the e+tau_mu channel.
+Run LFV H->MuE analysis in the mu+tau_e channel.
 
 Authors: Prasanna Siddireddy
 
@@ -24,13 +24,10 @@ class MuEQCDBase():
 
     self.mcWeight = mcWeights.mcWeights(target)
     self.is_data = self.mcWeight.is_data
-    self.is_embed = self.mcWeight.is_embed
     self.is_mc = self.mcWeight.is_mc
     self.is_DY = self.mcWeight.is_DY
     self.is_W = self.mcWeight.is_W
     self.is_TT = self.mcWeight.is_TT
-    self.is_GluGlu = self.mcWeight.is_GluGlu
-    self.is_VBF = self.mcWeight.is_VBF
 
     self.Emb = False
     self.is_recoilC = self.mcWeight.is_recoilC
@@ -143,12 +140,23 @@ class MuEQCDBase():
 
   # TVector
   def lepVec(self, row):
-    myEle = ROOT.TLorentzVector()
-    myEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
-    myMET = ROOT.TLorentzVector()
-    myMET.SetPtEtaPhiM(row.type1_pfMetEt, 0, row.type1_pfMetPhi, 0)
     myMuon = ROOT.TLorentzVector()
     myMuon.SetPtEtaPhiM(row.mPt, row.mEta, row.mPhi, row.mMass)
+    myMET = ROOT.TLorentzVector()
+    myMET.SetPtEtaPhiM(row.type1_pfMetEt, 0, row.type1_pfMetPhi, 0)
+    myEle = ROOT.TLorentzVector()
+    myEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
+    # Electron Scale Correction
+    if self.is_mc:
+      myMETpx = myMET.Px() + myEle.Px()
+      myMETpy = myMET.Py() + myEle.Py()
+    if self.is_data or self.is_mc:
+      myEle = myEle * ROOT.Double(row.eCorrectedEt/myEle.E())
+    if self.is_mc:
+      myMETpx = myMETpx - myEle.Px()
+      myMETpy = myMETpy - myEle.Py()
+      myMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+    # Recoil
     if self.is_recoilC and self.MetCorrection:
       tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30)))
       myMET.SetPtEtaPhiM(math.sqrt(tmpMet[0]*tmpMet[0] + tmpMet[1]*tmpMet[1]), 0, math.atan2(tmpMet[1], tmpMet[0]), 0)
@@ -159,23 +167,22 @@ class MuEQCDBase():
     # Apply all the various corrections to the MC samples
     weight = 1.0
     if self.is_mc:
+      self.w1.var("m_pt").setVal(myMuon.Pt())
+      self.w1.var("m_eta").setVal(myMuon.Eta())
       self.w1.var("e_pt").setVal(myEle.Pt())
       self.w1.var("e_eta").setVal(myEle.Eta())
       self.w1.var("e_iso").setVal(row.eRelPFIsoRho)
-      self.w1.var("m_pt").setVal(myMuon.Pt())
-      self.w1.var("m_eta").setVal(myMuon.Eta())
       eff_trg_data = self.w1.function("m_trg_23_data").getVal()*self.w1.function("e_trg_12_data").getVal()
       eff_trg_mc = self.w1.function("m_trg_23_mc").getVal()*self.w1.function("e_trg_12_mc").getVal()
       tEff = 0 if eff_trg_mc==0 else eff_trg_data/eff_trg_mc
-      eID = self.w1.function("e_id90_kit_ratio").getVal()
-      eIso = self.w1.function("e_iso_kit_ratio").getVal()
-      eReco = self.w1.function('e_trk_ratio').getVal()
-      #eID = self.eID(myEle.Eta(), myEle.Pt())
       mID = self.muonMediumID(myMuon.Pt(), abs(myMuon.Eta()))
       mIso = self.muonLooseIsoMediumID(myMuon.Pt(), abs(myMuon.Eta()))
       mTrk = self.muTracking(myMuon.Eta())[0]
       mcSF = self.rc.kSpreadMC(row.mCharge, myMuon.Pt(), myMuon.Eta(), myMuon.Phi(), row.mGenPt, 0, 0)
-      weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*eID*eIso*eReco*mID*mIso*mTrk*mcSF
+      eID = self.w1.function("e_id90_kit_ratio").getVal()
+      eIso = self.w1.function("e_iso_kit_ratio").getVal()
+      eReco = self.w1.function('e_trk_ratio').getVal()
+      weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*mcSF*eID*eIso*eReco
       if self.is_DY:
         # DY pT reweighting
         dyweight = self.DYreweight(row.genMass, row.genpT)
@@ -206,12 +213,11 @@ class MuEQCDBase():
     # b-tag
     nbtag = row.bjetDeepCSVVeto20Medium_2018_DR0p5
     if nbtag > 2:
-     nbtag = 2
+      nbtag = 2
     if (self.is_mc and nbtag > 0):
-     btagweight = bTagEventWeight(nbtag, row.jb1pt_2018, row.jb1hadronflavor_2018, row.jb2pt_2018, row.jb2hadronflavor_2018, 1, 0, 0)
-     weight = weight * btagweight
-    if (bool(self.is_data or self.is_embed) and nbtag > 0):
-     weight = 0
+      btagweight = bTagEventWeight(nbtag, row.jb1pt_2018, row.jb1hadronflavor_2018, row.jb2pt_2018, row.jb2hadronflavor_2018, 1, 0, 0)
+      weight = weight * btagweight
+    if (bool(self.is_data) and nbtag > 0):
+      weight = 0
 
     return [weight, osss]
-

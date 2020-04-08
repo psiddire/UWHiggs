@@ -46,7 +46,6 @@ class MuTauBase():
     self.deepTauVSjet_Emb_vloose = mcCorrections.deepTauVSjet_Emb_vloose
     self.esTau = mcCorrections.esTau
     self.FesTau = mcCorrections.FesTau
-    self.ScaleTau = mcCorrections.ScaleTau
     self.w1 = mcCorrections.w1
     self.rc = mcCorrections.rc
 

@@ -66,12 +66,13 @@ for di in Lists.dirs:
     # Tracking
     for i, tr in enumerate(Lists.trk):
         emb = Lists.positivize(embed.Get('TightOS'+di+tr+'/m_t_CollinearMass'))
-        embSys.append(emb.Rebin(len(binning)-1, Lists.trkNames[i], binning))
+        embSys.append(emb.Rebin(len(binning)-1, Lists.trkNames[i][0], binning))
+        embSys.append(emb.Rebin(len(binning)-1, Lists.trkNames[i][1], binning))
     # Tau Scale
-    for i, sc in enumerate(Lists.scaleSysDeep):
+    for i, sc in enumerate(Lists.scaleSys):
         emb = Lists.positivize(embed.Get('TightOS'+di+sc+'/m_t_CollinearMass'))
-        embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau'+Lists.embscaleSysDeepNames[i][0], binning))
-        embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau'+Lists.embscaleSysDeepNames[i][1], binning))
+        embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau'+Lists.embscaleSysNames[i][0], binning))
+        embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau'+Lists.embscaleSysNames[i][1], binning))
     # Write Histograms
     for eSys in embSys:
         eSys.Write()
@@ -97,7 +98,7 @@ for di in Lists.dirs:
     qcd = Lists.positivize(qcd)
     qcdSys.append(qcd.Rebin(len(binning)-1, 'Fakes', binning))
     # Tau Fake Rate
-    for i, tFR in enumerate(Lists.tauDeepFR):
+    for i, tFR in enumerate(Lists.tauFR):
         qcd = QCD.Get('TauLooseOS'+di+tFR+'/m_t_CollinearMass')
         qcdmt = QCD.Get('MuonLooseTauLooseOS'+di+tFR+'/m_t_CollinearMass')
         qcd.add(mfakes)
@@ -109,15 +110,17 @@ for di in Lists.dirs:
         mc = Lists.positivize(mc)
         qcd.Add(mc, -1)
         qcd = Lists.positivize(qcd)
-        qcdSys.append(qcd.Rebin(len(binning)-1, 'Fakes'+Lists.tauDeepFRNames[i], binning))
+        qcdSys.append(qcd.Rebin(len(binning)-1, 'Fakes'+Lists.tauFRNames[i], binning))
     # Muon Fake Rate
     for i, mFR in enumerate(Lists.muonFR):
         qcd = QCD.Get('MuonLooseOS'+di+mFR+'/m_t_CollinearMass')
-        qcdmt = QCD.Get('MuonLooseTauLooseOS'+di+mFR+'/m_t_CollinearMass')
+        #qcdmt = QCD.Get('MuonLooseTauLooseOS'+di+mFR+'/m_t_CollinearMass')
+        qcdmt = QCD.Get('MuonLooseTauLooseOS'+di+'/m_t_CollinearMass')
         qcd.add(tfakes)
         qcd.add(qcdmt, -1)
         mc = MC.Get('MuonLooseOS'+di+mFR+'/m_t_CollinearMass')
-        mcmt = MC.Get('MuonLooseTauLooseOS'+di+mFR+'/m_t_CollinearMass')
+        #mcmt = MC.Get('MuonLooseTauLooseOS'+di+mFR+'/m_t_CollinearMass')
+        mcmt = MC.Get('MuonLooseTauLooseOS'+di+'/m_t_CollinearMass')
         mc.add(tfakes_mc)
         mc.add(mcmt, -1)
         mc = Lists.positivize(mc)
@@ -140,9 +143,9 @@ for di in Lists.dirs:
             dy = Lists.positivize(DY.Get('TightOS'+di+mSys+'/m_t_CollinearMass'))
             dySys.append(dy.Rebin(len(binning)-1, sam+Lists.mcSysNames[j], binning))
         # Tau Scale
-        for j, sc in enumerate(Lists.scaleSysDeep):
+        for j, sc in enumerate(Lists.scaleSys):
             dy = Lists.positivize(DY.Get('TightOS'+di+sc+'/m_t_CollinearMass'))
-            dySys.append(dy.Rebin(len(binning)-1, sam+Lists.scaleSysDeepNames[j], binning))
+            dySys.append(dy.Rebin(len(binning)-1, sam+Lists.scaleSysNames[j], binning))
         # Recoil Uncertainty
         if sam in Lists.recsamp:
             for j, rSys in enumerate(Lists.recSys):
@@ -153,11 +156,6 @@ for di in Lists.dirs:
             for j, dSys in enumerate(Lists.dyptSys):
                 dy = Lists.positivize(DY.Get('TightOS'+di+dSys+'/m_t_CollinearMass'))
                 dySys.append(dy.Rebin(len(binning)-1, sam+Lists.dyptSysNames[j], binning))
-        # Top pT Reweighting
-        # if sam=='TT':
-        #     for j, tSys in enumerate(Lists.ttSys):
-        #         dy = Lists.positivize(DY.Get('TightOS'+di+tSys+'/m_t_CollinearMass'))
-        #         dySys.append(dy.Rebin(len(binning)-1, sam+Lists.ttSysNames[j], binning))
         # Jet and Unclustered Energy Scale
         if sam in Lists.norecsamp:
             for j, jSys in enumerate(Lists.jesSys):

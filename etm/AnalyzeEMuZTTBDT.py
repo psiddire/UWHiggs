@@ -22,7 +22,7 @@ class AnalyzeEMuZTTBDT(MegaBase, EMuBase):
 
 
   def begin(self):
-    for n in Kinematics.fullnames:
+    for n in Kinematics.zttnames:
       self.book(n, 'bdtDiscriminator', 'BDT Discriminator', 200, -1.0, 1.0)
 
 

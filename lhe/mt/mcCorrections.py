@@ -9,39 +9,15 @@ import FinalStateAnalysis.TagAndProbe.MEtSys as MEtSys
 import FinalStateAnalysis.TagAndProbe.RoccoR as RoccoR
 import ROOT
 
-dataset = 'singlem'
 year = '2018'
 
-pu_distributions  = {
-    'singlem'  : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_SingleMuon*pu.root')),
-    'muoneg'   : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_MuonEG*pu.root')),
-    'egamma'   : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_EGamma*pu.root'))
-}
+pu_distributions = glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_SingleMuon*pu.root'))}
 
 def make_puCorrector(puname=''):
-    if dataset in pu_distributions:
-        return PileupWeight.PileupWeight(puname, year, *pu_distributions[dataset])
-    else:
-        raise KeyError('dataset not present. Please check the spelling or add it to mcCorrectors.py')
-
+    return PileupWeight.PileupWeight(puname, year, *pu_distributions)
 
 def puCorrector(target=''):
-    if bool('GluGlu_LFV_HToMuTau' in target):
-        pucorrector = {'' : make_puCorrector('GGHMT')}
-    elif bool('GluGluHToTauTau' in target):
-        pucorrector = {'' : make_puCorrector('GGHTT')}
-    elif bool('GluGluHToWW' in target):
-        pucorrector = {'' : make_puCorrector('GGHWW')}
-    elif bool('VBF_LFV_HToMuTau' in target):
-        pucorrector = {'' : make_puCorrector('VBFHMT')}
-    elif bool('VBFHToTauTau' in target):
-        pucorrector = {'' : make_puCorrector('VBFHTT')}
-    elif bool('VBFHToWW' in target):
-        pucorrector = {'' : make_puCorrector('VBFHWW')}
-    else:
-        pucorrector = {'' : make_puCorrector('DY'),
-                       'puUp': make_puCorrectorUp('DY'),
-                       'puDown': make_puCorrectorDown('DY')}
+    pucorrector = {'' : make_puCorrector('GGHMT')}
     return pucorrector
 
 rc = RoccoR.RoccoR("2018/RoccoR/RoccoR2018.txt")
@@ -85,13 +61,3 @@ def FesTau(eta, dm):
             fes = fesTau('EEDM1')
     return fes
 
-def ScaleTau(dm):
-    if dm==0:
-        st = (0.01, ['/scaletDM0Up', '/scaletDM0Down'])
-    elif dm==1:
-        st = (0.009, ['/scaletDM1Up', '/scaletDM1Down'])
-    elif dm==10:
-        st = (0.011, ['/scaletDM10Up', '/scaletDM10Down'])
-    elif dm==11:
-        st = (0.011, ['/scaletDM11Up', '/scaletDM11Down'])
-    return st

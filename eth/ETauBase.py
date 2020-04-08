@@ -33,7 +33,7 @@ class ETauBase():
     self.is_GluGlu = self.mcWeight.is_GluGlu
     self.is_VBF = self.mcWeight.is_VBF
 
-    self.Emb = True
+    self.Emb = False
     self.is_recoilC = self.mcWeight.is_recoilC
     self.MetCorrection = self.mcWeight.MetCorrection
     if self.is_recoilC and self.MetCorrection:
@@ -42,7 +42,6 @@ class ETauBase():
     self.tauSF = mcCorrections.tauSF
 
     self.eID = mcCorrections.eID
-    self.w1 = mcCorrections.w1
     self.deepTauVSe = mcCorrections.deepTauVSe
     self.deepTauVSmu = mcCorrections.deepTauVSmu
     self.deepTauVSjet_tight = mcCorrections.deepTauVSjet_tight
@@ -52,7 +51,13 @@ class ETauBase():
     self.esTau = mcCorrections.esTau
     self.FesTau = mcCorrections.FesTau
     self.ScaleTau = mcCorrections.ScaleTau
+    self.TauID = mcCorrections.TauID
+    self.MuonFakeTau = mcCorrections.MuonFakeTau
+    self.EleFakeTau = mcCorrections.EleFakeTau
+    self.MESSys = mcCorrections.MESSys
+
     self.DYreweight = mcCorrections.DYreweight
+    self.w1 = mcCorrections.w1
     self.EmbedEta = mcCorrections.EmbedEta
     self.EmbedPhi = mcCorrections.EmbedPhi
     self.EmbedPt = mcCorrections.EmbedPt
@@ -80,6 +85,11 @@ class ETauBase():
     self.sys = Kinematics.sysDeep
     self.fakeSys = Kinematics.fakeDeepSys
     self.scaleSys = Kinematics.scaleDeepSys
+    self.tauidSys = Kinematics.tauidSys
+    self.mtfakeSys = Kinematics.mtfakeSys
+    self.etfakeSys = Kinematics.etfakeSys
+    self.etfakeesSys = Kinematics.etfakeesSys
+    self.mtfakeesSys = Kinematics.mtfakeesSys
     self.functor = Kinematics.functor
     self.var_d = Kinematics.var_d
 
@@ -200,6 +210,7 @@ class ETauBase():
     myMET.SetPtEtaPhiM(row.type1_pfMetEt, 0, row.type1_pfMetPhi, 0)
     myTau = ROOT.TLorentzVector()
     myTau.SetPtEtaPhiM(row.tPt, row.tEta, row.tPhi, row.tMass)
+    # Electron Scale Correction
     if self.is_mc:
       myMETpx = myMET.Px() + myEle.Px()
       myMETpy = myMET.Py() + myEle.Py()
@@ -209,6 +220,7 @@ class ETauBase():
       myMETpx = myMETpx - myEle.Px()
       myMETpy = myMETpy - myEle.Py()
       myMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+    # Recoil
     if self.is_recoilC and self.MetCorrection:
       tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30)))
       myMET.SetPtEtaPhiM(math.sqrt(tmpMet[0]*tmpMet[0] + tmpMet[1]*tmpMet[1]), 0, math.atan2(tmpMet[1], tmpMet[0]), 0)

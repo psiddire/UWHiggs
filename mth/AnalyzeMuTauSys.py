@@ -164,68 +164,96 @@ class AnalyzeMuTauSys(MegaBase, MuTauBase):
         self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * puweightUp/puweight, '/puUp')
         self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * puweightDown/puweight, '/puDown')
 
-      # Prefiring
-      self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * row.prefiring_weight_up/row.prefiring_weight, '/pfUp')
-      self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * row.prefiring_weight_down/row.prefiring_weight, '/pfDown')
-
       # Tau ID
       if row.tZTTGenMatching==5:
         tW = self.deepTauVSjet_tight(myTau.Pt())
-        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * tW[1]/tW[0], '/tidUp')
-        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * tW[2]/tW[0], '/tidDown')
+        tid = self.TauID(myTau.Pt())
+        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * tW[1]/tW[0], tid[0])
+        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * tW[2]/tW[0], tid[1])
+        tSys = [x for x in self.tauidSys if x not in tid]
+        self.fill_SysNames(row, myMuon, myMET, myTau, njets, mjj, weight, tSys)
       else:
-        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/tidUp')
-        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/tidDown')
+        self.fill_SysNames(row, myMuon, myMET, myTau, njets, mjj, weight, self.tauidSys)
 
       # Against Muon Discriminator
       if row.tZTTGenMatching==2 or row.tZTTGenMatching==4:
         mW = self.deepTauVSmu(myTau.Eta())
-        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * mW[1]/mW[0], '/mtfakeUp')
-        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * mW[2]/mW[0], '/mtfakeDown')
+        mft = self.MuonFakeTau(abs(myTau.Eta()))
+        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * mW[1]/mW[0], mft[0])
+        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * mW[2]/mW[0], mft[1])
+        mSys = [x for x in self.mtfakeSys if x not in mft]
+        self.fill_SysNames(row, myMuon, myMET, myTau, njets, mjj, weight, mSys)
       else:
-        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/mtfakeUp')
-        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/mtfakeDown')
+        self.fill_SysNames(row, myMuon, myMET, myTau, njets, mjj, weight, self.mtfakeSys)
 
+      # Muon Fake Tau Energy Scale
+      if row.tZTTGenMatching==2 or row.tZTTGenMatching==4:
+        mSys = [x for x in self.mtfakeesSys if 'Up' in x]
+        myMETpx = myMET.Px() - 0.01 * myTau.Px()
+        myMETpy = myMET.Py() - 0.01 * myTau.Py()
+        tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+        tmpTau = myTau * ROOT.Double(1.01)
+        self.fill_SysNames(row, myMuon, tmpMET, tmpTau, njets, mjj, weight, mSys)
+        mSys = [x for x in self.mtfakeesSys if 'Down' in x]
+        myMETpx = myMET.Px() + 0.01 * myTau.Px()
+        myMETpy = myMET.Py() + 0.01 * myTau.Py()
+        tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+        tmpTau = myTau * ROOT.Double(0.99)
+        self.fill_SysNames(row, myMuon, tmpMET, tmpTau, njets, mjj, weight, mSys)
+      else:
+        self.fill_SysNames(row, myMuon, myMET, myTau, njets, mjj, weight, self.mtfakeesSys)
+
+      # Against Electron Discriminator
       if row.tZTTGenMatching==1 or row.tZTTGenMatching==3:
-        # Against Electron Discriminator
         eW = self.deepTauVSe(myTau.Eta())
-        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * eW[1]/eW[0], '/etfakeUp')
-        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * eW[2]/eW[0], '/etfakeDown')
-        # Electron Fake Tau Energy Scale
-        fes = self.FesTau(myTau.Eta(), row.tDecayMode)
+        eft = self.EleFakeTau(abs(myTau.Eta()))
+        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * eW[1]/eW[0], eft[0])
+        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * eW[2]/eW[0], eft[1])
+        eSys = [x for x in self.etfakeSys if x not in eft]
+        self.fill_SysNames(row, myMuon, myMET, myTau, njets, mjj, weight, eSys)
+      else:
+        self.fill_SysNames(row, myMuon, myMET, myTau, njets, mjj, weight, self.etfakeSys)
+
+      # Electron Fake Tau Energy Scale
+      if row.tZTTGenMatching==1 or row.tZTTGenMatching==3:
+        fes = self.FesTau(myTau.Eta(), row.tDecayMode)[0]
+        efes = self.FesTau(myTau.Eta(), row.tDecayMode)[1]
         myMETpx = myMET.Px() - fes[1] * myTau.Px()
         myMETpy = myMET.Py() - fes[1] * myTau.Py()
         tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
         tmpTau = myTau * ROOT.Double(1.000 + fes[1])
-        self.fill_categories(row, myMuon, tmpMET, tmpTau, njets, mjj, weight, '/etefakeUp')
+        self.fill_categories(row, myMuon, tmpMET, tmpTau, njets, mjj, weight, efes[0])
         myMETpx = myMET.Px() + fes[2] * myTau.Px()
         myMETpy = myMET.Py() + fes[2] * myTau.Py()
         tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
         tmpTau = myTau * ROOT.Double(1.000 - fes[2])
-        self.fill_categories(row, myMuon, tmpMET, tmpTau, njets, mjj, weight, '/etefakeDown')
+        self.fill_categories(row, myMuon, tmpMET, tmpTau, njets, mjj, weight, efes[1])
+        eSys = [x for x in self.etfakeesSys if x not in efes]
+        self.fill_SysNames(row, myMuon, myMET, myTau, njets, mjj, weight, eSys)
       else:
-        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/etfakeUp')
-        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/etfakeDown')
-        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/etefakeUp')
-        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/etefakeDown')
+        self.fill_SysNames(row, myMuon, myMET, myTau, njets, mjj, weight, self.etfakeesSys)
 
       # Muon Energy Scale
-      myMETpx = myMET.Px() - 0.002 * myMuon.Px()
-      myMETpy = myMET.Py() - 0.002 * myMuon.Py()
+      me = self.MESSys(myMuon.Eta())[0]
+      mes = self.MESSys(myMuon.Eta())[1]
+      myMETpx = myMET.Px() - me * myMuon.Px()
+      myMETpy = myMET.Py() - me * myMuon.Py()
       tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-      tmpMuon = myMuon * ROOT.Double(1.002)
-      self.fill_categories(row, tmpMuon, tmpMET, myTau, njets, mjj, weight, '/mesUp')
-      myMETpx = myMET.Px() + 0.002 * myMuon.Px()
-      myMETpy = myMET.Py() + 0.002 * myMuon.Py()
+      tmpMuon = myMuon * ROOT.Double(1.000 + me)
+      self.fill_categories(row, tmpMuon, tmpMET, myTau, njets, mjj, weight, mes[0])
+      myMETpx = myMET.Px() + me * myMuon.Px()
+      myMETpy = myMET.Py() + me * myMuon.Py()
       tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-      tmpMuon = myMuon * ROOT.Double(0.998)
-      self.fill_categories(row, tmpMuon, tmpMET, myTau, njets, mjj, weight, '/mesDown')
+      tmpMuon = myMuon * ROOT.Double(1.000 - me)
+      self.fill_categories(row, tmpMuon, tmpMET, myTau, njets, mjj, weight, mes[1])
+      mSys = [x for x in self.mesSys if x not in mes]
+      self.fill_SysNames(row, myMuon, myMET, myTau, njets, mjj, weight, mSys)
 
       # Tau Energy Scale
       if row.tZTTGenMatching==5:
         tes = self.ScaleTau(row.tDecayMode)
         sSys = [x for x in self.scaleSys if x not in tes[1]]
-        self.fill_scaleSys(row, myMuon, myMET, myTau, njets, mjj, weight, sSys)
+        self.fill_SysNames(row, myMuon, myMET, myTau, njets, mjj, weight, sSys)
         myMETpx = myMET.Px() - tes[0] * myTau.Px()
         myMETpy = myMET.Py() - tes[0] * myTau.Py()
         tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
@@ -237,7 +265,7 @@ class AnalyzeMuTauSys(MegaBase, MuTauBase):
         tmpTau = myTau * ROOT.Double(1.000 - tes[0])
         self.fill_categories(row, myMuon, tmpMET, tmpTau, njets, mjj, weight, tes[1][1])
       else:
-        self.fill_scaleSys(row, myMuon, myMET, myTau, njets, mjj, weight, self.scaleSys)
+        self.fill_SysNames(row, myMuon, myMET, myTau, njets, mjj, weight, self.scaleSys)
 
       # DY pT reweighting
       if self.is_DY:
@@ -248,12 +276,6 @@ class AnalyzeMuTauSys(MegaBase, MuTauBase):
         else:
           self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight*(1.1*dyweight-0.1)/dyweight, '/DYptreweightUp')
           self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight*(0.9*dyweight+0.1)/dyweight, '/DYptreweightDown')
-
-      # TTbar pT reweighting
-      # if self.is_TT:
-      #   topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
-      #   self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight*topweight, '/TopptreweightUp')
-      #   self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight/topweight, '/TopptreweightDown')
 
       # Fake Rate
       self.tauFRSys(row, myMuon, myMET, myTau, njets, mjj, weight)
@@ -313,13 +335,16 @@ class AnalyzeMuTauSys(MegaBase, MuTauBase):
       if self.is_embed:
         # Embed Tau
         tW = self.deepTauVSjet_Emb_tight(myTau.Pt())
-        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * tW[1]/tW[0], '/tidUp')
-        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * tW[2]/tW[0], '/tidDown')
+        tid = self.TauID(myTau.Pt())
+        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * tW[1]/tW[0], tid[0])
+        self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * tW[2]/tW[0], tid[1])
+        tSys = [x for x in self.tauidSys if x not in tid]
+        self.fill_SysNames(row, myMuon, myMET, myTau, njets, mjj, weight, tSys)
 
         # Embed Tau Energy Scale
         tes = self.ScaleTau(row.tDecayMode)
         sSys = [x for x in self.scaleSys if x not in tes[1]]
-        self.fill_scaleSys(row, myMuon, myMET, myTau, njets, mjj, weight, sSys)
+        self.fill_SysNames(row, myMuon, myMET, myTau, njets, mjj, weight, sSys)
         myMETpx = myMET.Px() - tes[0] * myTau.Px()
         myMETpy = myMET.Py() - tes[0] * myTau.Py()
         tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
@@ -332,22 +357,23 @@ class AnalyzeMuTauSys(MegaBase, MuTauBase):
         self.fill_categories(row, myMuon, tmpMET, tmpTau, njets, mjj, weight, tes[1][1])
 
         # Embed Tracking
-        if row.tDecayMode == 0:
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * 0.983/0.975, '/embtrkUp')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * 0.967/0.975, '/embtrkDown')
-        elif row.tDecayMode == 1:
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * (0.983*1.065)/(0.975*1.051), '/embtrkUp')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * (0.967*1.037)/(0.975*1.051), '/embtrkDown')
-        elif row.tDecayMode == 10:
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * pow(0.983, 3)/pow(0.975, 3), '/embtrkUp')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * pow(0.967, 3)/pow(0.975, 3), '/embtrkDown')
-        elif row.tDecayMode == 11:
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * (pow(0.983, 3)*1.065)/(pow(0.975, 3)*1.051), '/embtrkUp')
-          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * (pow(0.967, 3)*1.037)/(pow(0.975, 3)*1.051), '/embtrkDown')
+        if row.tDecayMode==0 or row.tDecayMode==1:
+          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * 0.983/0.975, '/embtrk0Up')
+          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * 0.967/0.975, '/embtrk0Down')
+        else:
+          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * pow(0.983, 3)/pow(0.975, 3), '/embtrk0Up')
+          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * pow(0.983, 3)/pow(0.975, 3), '/embtrk0Down')
+
+        if row.tDecayMode==0 or row.tDecayMode==10:
+          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/embtrk1Up')
+          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/embtrk1Down')
+        else:
+          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * 1.065/1.051, '/embtrk1Up')
+          self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight * 1.037/1.051, '/embtrk1Down')
 
 
-  def fill_scaleSys(self, row, myMuon, myMET, myTau, njets, mjj, weight, scaleSys):
-    for s in scaleSys:
+  def fill_SysNames(self, row, myMuon, myMET, myTau, njets, mjj, weight, sysNames):
+    for s in sysNames:
       self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, s)
 
 

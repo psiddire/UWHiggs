@@ -9,36 +9,15 @@ import FinalStateAnalysis.TagAndProbe.MEtSys as MEtSys
 import FinalStateAnalysis.TagAndProbe.RoccoR as RoccoR
 import ROOT
 
-dataset = 'muoneg'
 year = '2018'
 
-pu_distributions  = {
-    'singlem'  : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_SingleMuon*pu.root')),
-    'muoneg'   : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_MuonEG*pu.root')),
-    'egamma'  : glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_EGamma*pu.root'))
-}
+pu_distributions = glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_MuonEG*pu.root'))
 
 def make_puCorrector(puname=''):
-    if dataset in pu_distributions:
-        return PileupWeight.PileupWeight(puname, year, *pu_distributions[dataset])
-    else:
-        raise KeyError('dataset not present. Please check the spelling or add it to mcCorrectors.py')
+    return PileupWeight.PileupWeight(puname, year, *pu_distributions[dataset])
 
 def puCorrector(target=''):
-    if bool('GluGlu_LFV_HToETau' in target):
-        pucorrector = {'' : make_puCorrector('GGHET')}
-    elif bool('GluGluHToTauTau' in target):
-        pucorrector = {'' : make_puCorrector('GGHTT')}
-    elif bool('GluGluHToWW' in target):
-        pucorrector = {'' : make_puCorrector('GGHWW')}
-    elif bool('VBF_LFV_HToETau' in target):
-        pucorrector = {'' : make_puCorrector('VBFHET')}
-    elif bool('VBFHToTauTau' in target):
-        pucorrector = {'' : make_puCorrector('VBFHTT')}
-    elif bool('VBFHToWW' in target):
-        pucorrector = {'' : make_puCorrector('VBFHWW')}
-    else:
-        pucorrector = {'' : make_puCorrector('DY')}
+    pucorrector = {'' : make_puCorrector('GGHET')}
     return pucorrector
 
 rc = RoccoR.RoccoR("2018/RoccoR/RoccoR2018.txt")

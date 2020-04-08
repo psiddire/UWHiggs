@@ -69,17 +69,17 @@ for di in Lists.dirs:
     # Tracking
     for i, tr in enumerate(Lists.trk):
         emb = Lists.positivize(embed.Get('TightOS'+di+tr+'/bdtDiscriminator'))
-        embSys.append(emb.Rebin(len(binning)-1, Lists.trkNames[i], binning))
+        embSys.append(emb.Rebin(len(binning)-1, Lists.trkNames[i][0], binning))
+        embSys.append(emb.Rebin(len(binning)-1, Lists.trkNames[i][1], binning))
     # Tau Scale
-    for i, sc in enumerate(Lists.scaleSysDeep):
+    for i, sc in enumerate(Lists.scaleSys):
         emb = Lists.positivize(embed.Get('TightOS'+di+sc+'/bdtDiscriminator'))
-        embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau'+Lists.embscaleSysDeepNames[i][0], binning))
-        embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau'+Lists.embscaleSysDeepNames[i][1], binning))
+        embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau'+Lists.embscaleSysNames[i][0], binning))
+        embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau'+Lists.embscaleSysNames[i][1], binning))
     # Electron Energy Scale
     for i, esSys in enumerate(Lists.escale):
         emb = Lists.positivize(embed.Get('TightOS'+di+esSys+'/bdtDiscriminator'))
-        embSys.append(emb.Rebin(len(binning)-1, Lists.escaleNames[i][0], binning))
-        embSys.append(emb.Rebin(len(binning)-1, Lists.escaleNames[i][1], binning))
+        embSys.append(emb.Rebin(len(binning)-1, Lists.escaleNames[i], binning))
     # Write Histograms
     for eSys in embSys:
         eSys.Write()
@@ -105,7 +105,7 @@ for di in Lists.dirs:
     qcd = Lists.positivize(qcd)
     qcdSys.append(qcd.Rebin(len(binning)-1, 'Fakes', binning))
     # Tau Fake Rate
-    for i, tFR in enumerate(Lists.tauDeepFR):
+    for i, tFR in enumerate(Lists.tauFR):
         qcd = QCD.Get('TauLooseOS'+di+tFR+'/bdtDiscriminator')
         qcdet = QCD.Get('EleLooseTauLooseOS'+di+tFR+'/bdtDiscriminator')
         qcd.add(efakes)
@@ -117,15 +117,17 @@ for di in Lists.dirs:
         mc = Lists.positivize(mc)
         qcd.Add(mc, -1)
         qcd = Lists.positivize(qcd)
-        qcdSys.append(qcd.Rebin(len(binning)-1, 'Fakes'+Lists.tauDeepFRNames[i], binning))
+        qcdSys.append(qcd.Rebin(len(binning)-1, 'Fakes'+Lists.tauFRNames[i], binning))
     # Ele Fake Rate
     for i, eFR in enumerate(Lists.eleFR):
         qcd = QCD.Get('EleLooseOS'+di+eFR+'/bdtDiscriminator')
-        qcdet = QCD.Get('EleLooseTauLooseOS'+di+eFR+'/bdtDiscriminator')
+        #qcdet = QCD.Get('EleLooseTauLooseOS'+di+eFR+'/bdtDiscriminator')
+        qcdet = QCD.Get('EleLooseTauLooseOS'+di+'/bdtDiscriminator')
         qcd.add(tfakes)
         qcd.add(qcdet, -1)
         mc = MC.Get('EleLooseOS'+di+eFR+'/bdtDiscriminator')
-        mcet = MC.Get('EleLooseTauLooseOS'+di+eFR+'/bdtDiscriminator')
+        #mcet = MC.Get('EleLooseTauLooseOS'+di+eFR+'/bdtDiscriminator')
+        mcet = MC.Get('EleLooseTauLooseOS'+di+'/bdtDiscriminator')
         mc.add(tfakes_mc)
         mc.add(mcet, -1)
         mc = Lists.positivize(mc)
@@ -148,9 +150,9 @@ for di in Lists.dirs:
             dy = Lists.positivize(DY.Get('TightOS'+di+mSys+'/bdtDiscriminator'))
             dySys.append(dy.Rebin(len(binning)-1, sam+Lists.mcSysNames[j], binning))
         # Tau Scale
-        for j, sc in enumerate(Lists.scaleSysDeep):
+        for j, sc in enumerate(Lists.scaleSys):
             dy = Lists.positivize(DY.Get('TightOS'+di+sc+'/bdtDiscriminator'))
-            dySys.append(dy.Rebin(len(binning)-1, sam+Lists.scaleSysDeepNames[j], binning))
+            dySys.append(dy.Rebin(len(binning)-1, sam+Lists.scaleSysNames[j], binning))
         # Recoil Uncertainty
         if sam in Lists.recsamp:
             for j, rSys in enumerate(Lists.recSys):
@@ -161,11 +163,6 @@ for di in Lists.dirs:
             for j, dSys in enumerate(Lists.dyptSys):
                 dy = Lists.positivize(DY.Get('TightOS'+di+dSys+'/bdtDiscriminator'))
                 dySys.append(dy.Rebin(len(binning)-1, sam+Lists.dyptSysNames[j], binning))
-        # Top pT Reweighting
-        # if sam=='TT':
-        #     for j, tSys in enumerate(Lists.ttSys):
-        #         dy = Lists.positivize(DY.Get('TightOS'+di+tSys+'/bdtDiscriminator'))
-        #         dySys.append(dy.Rebin(len(binning)-1, sam+Lists.ttSysNames[j], binning))
         # Jet and Unclustered Energy Scale
         if sam in Lists.norecsamp:
             for j, jSys in enumerate(Lists.jesSys):

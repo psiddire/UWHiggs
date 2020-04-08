@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Get the data
-export datasrc=/hdfs/store/user/psiddire
-export MEGAPATH=/hdfs/store/user/psiddire
+export datasrc=/hdfs/store/user/kaho
+export MEGAPATH=/hdfs/store/user/kaho
 
-export jobidet='MCLHE'
+export jobidet='MCLHE2018'
 export jobid=$jobidet
 
 export afile=`find $datasrc/$jobid | grep root | head -n 1`

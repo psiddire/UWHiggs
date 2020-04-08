@@ -42,7 +42,6 @@ class ETauBase():
     self.deepTauVSjet_Emb_vloose = mcCorrections.deepTauVSjet_Emb_vloose
     self.esTau = mcCorrections.esTau
     self.FesTau = mcCorrections.FesTau
-    self.ScaleTau = mcCorrections.ScaleTau
 
     self.fakeRate = FakeRate.fakerate_weight
     self.fakeRateEle = FakeRate.fakerateEle_weight

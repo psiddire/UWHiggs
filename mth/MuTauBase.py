@@ -33,7 +33,7 @@ class MuTauBase():
     self.is_GluGlu = self.mcWeight.is_GluGlu
     self.is_VBF = self.mcWeight.is_VBF
 
-    self.Emb = True
+    self.Emb = False
     self.is_recoilC = self.mcWeight.is_recoilC
     self.MetCorrection = self.mcWeight.MetCorrection
     if self.is_recoilC and self.MetCorrection:
@@ -55,6 +55,11 @@ class MuTauBase():
     self.esTau = mcCorrections.esTau
     self.FesTau = mcCorrections.FesTau
     self.ScaleTau = mcCorrections.ScaleTau
+    self.TauID = mcCorrections.TauID
+    self.MuonFakeTau = mcCorrections.MuonFakeTau
+    self.EleFakeTau = mcCorrections.EleFakeTau
+    self.MESSys = mcCorrections.MESSys
+
     self.DYreweight = mcCorrections.DYreweight
     self.w1 = mcCorrections.w1
     self.rc = mcCorrections.rc
@@ -84,6 +89,12 @@ class MuTauBase():
     self.sys = Kinematics.sysDeep
     self.fakeSys = Kinematics.fakeDeepSys
     self.scaleSys = Kinematics.scaleDeepSys
+    self.tauidSys = Kinematics.tauidSys
+    self.mtfakeSys = Kinematics.mtfakeSys
+    self.etfakeSys = Kinematics.etfakeSys
+    self.etfakeesSys = Kinematics.etfakeesSys
+    self.mtfakeesSys = Kinematics.mtfakeesSys
+    self.mesSys = Kinematics.mesSys
     self.functor = Kinematics.functor
     self.var_d = Kinematics.var_d
 
