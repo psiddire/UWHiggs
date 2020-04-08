@@ -11,7 +11,7 @@ import ROOT
 
 year = '2018'
 
-pu_distributions = glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_SingleMuon*pu.root'))}
+pu_distributions = glob.glob(os.path.join('inputs', os.environ['jobid'], 'data_SingleMuon*pu.root'))
 
 def make_puCorrector(puname=''):
     return PileupWeight.PileupWeight(puname, year, *pu_distributions)
@@ -43,7 +43,7 @@ muonIso_loose_tightid = MuonPOGCorrections.make_muon_pog_LooseIso_2018('Tight')
 muonTrigger27 = MuonPOGCorrections.mu_IsoMu27_2018
 muonTracking = MuonPOGCorrections.mu_trackingEta_2018
 
-cmsswBase = "/afs/hep.wisc.edu/home/psiddire/CMSSW_10_2_16_UL/src/FinalStateAnalysis/TagAndProbe/data"
+cmsswBase = "/afs/hep.wisc.edu/home/psiddire/CMSSW_10_2_16_UL/src/FinalStateAnalysis/TagAndProbe/data/"
 f1 = ROOT.TFile(cmsswBase + "2018/htt_scalefactors_legacy_2018.root")
 w1 = f1.Get("w")
 

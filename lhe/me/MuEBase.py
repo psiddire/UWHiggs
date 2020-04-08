@@ -143,6 +143,7 @@ class MuEBase():
   def corrFact(self, row, myMuon, myEle):
     # Apply all the various corrections to the MC samples
     weight = 1.0
+    njets = row.jetVeto30
     self.w1.var("e_pt").setVal(myEle.Pt())
     self.w1.var("e_eta").setVal(myEle.Eta())
     self.w1.var("e_iso").setVal(row.eRelPFIsoRho)

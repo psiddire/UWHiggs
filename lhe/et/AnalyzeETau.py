@@ -10,6 +10,8 @@ from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 from ETauBase import ETauBase
 import ETauTree
 import itertools
+import os
+import ROOT
 
 class AnalyzeETau(MegaBase, ETauBase):
   tree = 'et/final/Ntuple'
@@ -51,7 +53,9 @@ class AnalyzeETau(MegaBase, ETauBase):
 
       myEle, myMET, myTau = self.lepVec(row)[0], self.lepVec(row)[1], self.lepVec(row)[2]
 
-      weight = self.corrFact(row, myEle, myTau)
+      weight = self.corrFact(row, myEle, myTau, self.trigger(row)[0])
+
+      njets, mjj = row.jetVeto30, row.vbfMass
 
       if self.obj2_tight(row) and self.obj1_tight(row):
         self.fill_histos(row, myEle, myMET, myTau, weight, 'TightOS')

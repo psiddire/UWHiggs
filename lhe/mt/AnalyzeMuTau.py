@@ -10,6 +10,8 @@ from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 from MuTauBase import MuTauBase
 import MuTauTree
 import itertools
+import os
+import ROOT
 
 class AnalyzeMuTau(MegaBase, MuTauBase):
   tree = 'mt/final/Ntuple'
@@ -52,6 +54,8 @@ class AnalyzeMuTau(MegaBase, MuTauBase):
       myMuon, myMET, myTau = self.lepVec(row)[0], self.lepVec(row)[1], self.lepVec(row)[2]
 
       weight = self.corrFact(row, myMuon, myTau)
+
+      njets, mjj = row.jetVeto30, row.vbfMass
 
       if self.obj2_tight(row) and self.obj1_tight(row):
         self.fill_histos(row, myMuon, myMET, myTau, weight, 'TightOS')

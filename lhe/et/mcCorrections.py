@@ -11,7 +11,7 @@ from getTauTriggerSFs import getTauTriggerSFs
 
 year = '2018'
 
-pu_distributions = glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_EGamma*pu.root'))
+pu_distributions = glob.glob(os.path.join('inputs', os.environ['jobid'], 'data_EGamma*pu.root'))
 
 def make_puCorrector(puname=''):
     return PileupWeight.PileupWeight(puname, year, *pu_distributions)
@@ -21,8 +21,8 @@ def puCorrector(target=''):
     return pucorrector
 
 DYreweight = DYCorrection.make_DYreweight_2018()
-Metcorected = RecoilCorrector.Metcorrected("2018/TypeI-PFMet_Run2018.root")
-MetSys = MEtSys.MEtSystematics("2017/PFMEtSys_2017.root")
+Metcorected = RecoilCorrector.Metcorrected('2018/TypeI-PFMet_Run2018.root')
+MetSys = MEtSys.MEtSystematics('2017/PFMEtSys_2017.root')
 eID = EGammaPOGCorrections.make_egamma_pog_electronID_2018()
 deepTauVSe = TauPOGCorrections.make_tau_pog_DeepTauVSe_2018('Tight')
 deepTauVSmu = TauPOGCorrections.make_tau_pog_DeepTauVSmu_2018('Loose')
@@ -34,9 +34,9 @@ esTau = TauPOGCorrections.make_tau_pog_ES_2018()
 fesTau = TauPOGCorrections.Tau_FES_2018
 tauSF = getTauTriggerSFs()
 
-cmsswBase = "/afs/hep.wisc.edu/home/psiddire/CMSSW_10_2_16_UL/src/FinalStateAnalysis/TagAndProbe/data"
-f1 = ROOT.TFile(cmsswBase + "2018/htt_scalefactors_legacy_2018.root")
-w1 = f1.Get("w")
+cmsswBase = '/afs/hep.wisc.edu/home/psiddire/CMSSW_10_2_16_UL/src/FinalStateAnalysis/TagAndProbe/data/'
+f1 = ROOT.TFile(cmsswBase + '2018/htt_scalefactors_legacy_2018.root')
+w1 = f1.Get('w')
 
 def FesTau(eta, dm):
     fes = (1.0, 0.0, 0.0)

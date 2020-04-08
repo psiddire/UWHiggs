@@ -26,13 +26,14 @@ def get_sample_names(substring)
   return inputs
 end
 #
+
 samples = Hash[
-		"vbfHET" => get_sample_names('VBF_LFV_HToETau_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1'),
-                "ggHET" => get_sample_names('GluGlu_LFV_HToETau_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1'),
-		"vbfHTT" => get_sample_names('VBFHToTauTau_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1'),
-                "ggHTT" => get_sample_names('GluGluHToTauTau_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2'),
-		"vbfHWW" => get_sample_names('VBFHToWWTo2L2Nu_M125_13TeV_powheg2_JHUGenV714_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1'),
-                "ggHWW" => get_sample_names('GluGluHToWWTo2L2Nu_M125_13TeV_powheg2_JHUGenV714_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1'),
+		"vbfHET" => get_sample_names('VBF_LFV_HToETau_M125_TuneCP5_PSweights_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v1'),
+                "ggHET" => get_sample_names('GluGlu_LFV_HToETau_M125_TuneCP5_PSweights_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v1'),
+		"vbfHTT" => get_sample_names('VBFHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15_ext1-v1'),
+                "ggHTT" => get_sample_names('GluGluHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2'),
+		"vbfHWW" => get_sample_names('VBFHToWWTo2L2Nu_M125_13TeV_powheg2_JHUGenV714_pythia8_-102X_upgrade2018_realistic_v15-v1'),
+                "ggHWW" => get_sample_names('GluGluHToWWTo2L2Nu_M125_13TeV_powheg2_JHUGenV714_pythia8_-102X_upgrade2018_realistic_v15-v1'),
 ]
 
 
@@ -51,7 +52,6 @@ def get_plotter_results(analyzer)
 end
 
 task :EM => get_analyzer_results("AnalyzeEMu.py", samples['vbfHTT'] + samples['ggHTT'] + samples['vbfHWW'] + samples['ggHWW'] + samples['ggHET'] + samples['vbfHET'])
-
 
 $etdir = "plots/#{$jobid}/AnalyzerMuTau/mt_now/"
 directory $etdir 

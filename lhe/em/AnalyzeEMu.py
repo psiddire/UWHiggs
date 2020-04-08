@@ -10,6 +10,8 @@ from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 from EMuBase import EMuBase
 import EMTree
 import itertools
+import os
+import ROOT
 
 class AnalyzeEMu(MegaBase, EMuBase):
   tree = 'em/final/Ntuple'
@@ -50,6 +52,10 @@ class AnalyzeEMu(MegaBase, EMuBase):
         continue
 
       myEle, myMET, myMuon = self.lepVec(row)[0], self.lepVec(row)[1], self.lepVec(row)[2]
+
+      weight = self.corrFact(row, myMuon, myEle)[0]
+
+      njets, mjj = row.jetVeto30, row.vbfMass
 
       if self.obj2_iso(row) and self.obj1_iso(row):
         self.fill_histos(row, myEle, myMET, myMuon, weight, 'TightOS')

@@ -205,7 +205,7 @@ class ETauBase():
       else:
         eltauSF = eltauSF * self.tauSF.getTriggerScaleFactor(myTau.Pt(), myTau.Eta(), myTau.Phi(), row.tDecayMode)
     tEff = singleSF + eltauSF
-    weight = row.GenWeight*pucorrector[''](row.nTruePU)*tEff*eID*eIso*eReco*zvtx
+    weight = row.GenWeight*pucorrector[''](row.nTruePU)*tEff*eID*eIso*eReco
     # Anti-Muon Discriminator Scale Factors
     if row.tZTTGenMatching==2 or row.tZTTGenMatching==4:
       weight = weight * self.deepTauVSmu(myTau.Eta())[0]
