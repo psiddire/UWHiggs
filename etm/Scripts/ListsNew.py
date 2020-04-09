@@ -8,34 +8,34 @@ recsamp = ['Zothers', 'W', 'EWK', 'ggH_htt', 'qqH_htt', 'ggH_hww', 'qqH_hww', 'L
 
 norecsamp = ['vH_htt', 'TT', 'T', 'Diboson']
 
+# QCD
 qcdSys = ['Rate0JetUp/', 'Rate0JetDown/', 'Rate1JetUp/', 'Rate1JetDown/', 'Rate2JetUp/', 'Rate2JetDown/', 'Shape0JetUp/', 'Shape0JetDown/', 'Shape1JetUp/', 'Shape1JetDown/', 'Shape2JetUp/', 'Shape2JetDown/', 'IsoUp/', 'IsoDown/']
 
-qcdSysNames = ['QCD_CMS_QCD_0JetRate_13TeVUp', 'QCD_CMS_QCD_0JetRate_13TeVDown', 'QCD_CMS_QCD_1JetRate_13TeVUp', 'QCD_CMS_QCD_1JetRate_13TeVDown', 'QCD_CMS_QCD_2JetRate_13TeVUp', 'QCD_CMS_QCD_2JetRate_13TeVDown', 'QCD_CMS_QCD_0JetShape_13TeVUp', 'QCD_CMS_QCD_0JetShape_13TeVDown', 'QCD_CMS_QCD_1JetShape_13TeVUp', 'QCD_CMS_QCD_1JetShape_13TeVDown', 'QCD_CMS_QCD_2JetShape_13TeVUp', 'QCD_CMS_QCD_2JetShape_13TeVDown', 'QCD_CMS_QCD_Extrapolation_13TeVUp', 'QCD_CMS_QCD_Extrapolation_13TeVDown']
+qcdSysNames = ['QCD_CMS_QCD_0JetRate_2016_13TeVUp', 'QCD_CMS_QCD_0JetRate_2016_13TeVDown', 'QCD_CMS_QCD_1JetRate_2016_13TeVUp', 'QCD_CMS_QCD_1JetRate_2016_13TeVDown', 'QCD_CMS_QCD_2JetRate_2016_13TeVUp', 'QCD_CMS_QCD_2JetRate_2016_13TeVDown', 'QCD_CMS_QCD_0JetShape_2016_13TeVUp', 'QCD_CMS_QCD_0JetShape_2016_13TeVDown', 'QCD_CMS_QCD_1JetShape_2016_13TeVUp', 'QCD_CMS_QCD_1JetShape_2016_13TeVDown', 'QCD_CMS_QCD_2JetShape_2016_13TeVUp', 'QCD_CMS_QCD_2JetShape_2016_13TeVDown', 'QCD_CMS_QCD_Extrapolation_13TeVUp', 'QCD_CMS_QCD_Extrapolation_13TeVDown']
 
-escale = ['eescUp/', 'eescDown/']
+# MC
+mcSys = ['puUp/', 'puDown/', 'pfUp/', 'pfDown/', 'bTagUp/', 'bTagDown/', 'eesUp/', 'eesDown/', '/mes1p2Up', '/mes1p2Down', '/mes2p1Up', '/mes2p1Down', '/mes2p4Up', '/mes2p4Down']
 
-escaleNames = [['ZTauTau_CMS_EES_13TeVUp', 'ZTauTau_CMS_EES_emb_13TeVUp'], ['ZTauTau_CMS_EES_13TeVDown', 'ZTauTau_CMS_EES_emb_13TeVDown']]
+mcSysNames = ['_CMS_Pileup_13TeVUp', '_CMS_Pileup_13TeVDown', '_CMS_Prefiring_13TeVUp', '_CMS_Prefiring_13TeVDown', '_CMS_eff_btag_2016_13TeVUp', '_CMS_eff_btag_2016_13TeVDown', '_CMS_scale_e_13TeVUp', '_CMS_scale_e_13TeVDown', '_CMS_scale_m_etaLt1p2_13TeVUp', '_CMS_scale_m_etaLt1p2_13TeVDown', '_CMS_scale_m_eta1p2to2p1_13TeVUp', '_CMS_scale_m_eta1p2to2p1_13TeVDown', '_CMS_scale_m_eta2p1to2p4_13TeVUp', '_CMS_scale_m_eta2p1to2p4_13TeVDown']
 
-mcSys = ['puUp/', 'puDown/', 'pfUp/', 'pfDown/', 'bTagUp/', 'bTagDown/', 'eescUp/', 'eescDown/', 'mesUp/', 'mesDown/']
+escale = ['eesUp/', 'eesDown/']
 
-mcSysNames = ['_CMS_Pileup_13TeVUp', '_CMS_Pileup_13TeVDown', '_CMS_Prefiring_13TeVUp', '_CMS_Prefiring_13TeVDown', '_CMS_eff_btag_13TeVUp', '_CMS_eff_btag_13TeVDown', '_CMS_EES_13TeVUp', '_CMS_EES_13TeVDown', '_CMS_MES_13TeVUp', '_CMS_MES_13TeVDown']
-
-esSys = [['eescUp/', 'eescDown/'], ['mesUp/', 'mesDown/']]
-
-esSysNames = [['_CMS_EES_13TeVUp', '_CMS_EES_13TeVDown'], ['_CMS_MES_13TeVUp', '_CMS_MES_13TeVDown']]
-
-recSys = [['recrespUp/', 'recrespDown/'], ['recresoUp/', 'recresoDown/']]
-
-recSysNames = [['_CMS_RecoilResponse_13TeVUp', '_CMS_RecoilResponse_13TeVDown'], ['_CMS_RecoilResolution_13TeVUp', '_CMS_RecoilResolution_13TeVDown']]
+escaleNames = ['ZTauTau_CMS_scale_e_emb_13TeVUp', 'ZTauTau_CMS_scale_e_emb_13TeVDown']
 
 dyptSys = ['DYptreweightUp/', 'DYptreweightDown/']
 
-dyptSysNames = ['_CMS_DYpTreweight_13TeVUp', '_CMS_DYpTreweight_13TeVDown']
+dyptSysNames = ['_CMS_DYpTreweight_2016_13TeVUp', '_CMS_DYpTreweight_2016_13TeVDown']
 
-jesSys = [['UnclusteredEnUp/', 'UnclusteredEnDown/'], ['UesCHARGEDUp/', 'UesCHARGEDDown/'], ['UesECALUp/', 'UesECALDown/'], ['UesHCALUp/', 'UesHCALDown/'], ['UesHFUp/', 'UesHFDown/'], ['JetAbsoluteUp/', 'JetAbsoluteDown/'], ['JetAbsoluteyearUp/', 'JetAbsoluteyearDown/'], ['JetBBEC1Up/', 'JetBBEC1Down/'], ['JetBBEC1yearUp/', 'JetBBEC1yearDown/'], ['JetFlavorQCDUp/', 'JetFlavorQCDDown/'], ['JetEC2Up/', 'JetEC2Down/'], ['JetEC2yearUp/', 'JetEC2yearDown/'], ['JetHFUp/', 'JetHFDown/'], ['JetHFyearUp/', 'JetHFyearDown/'], ['JetRelativeBalUp/', 'JetRelativeBalDown/'], ['JetRelativeSampleUp/', 'JetRelativeSampleDown/'], ['JERUp/', 'JERDown/']]
+# Recoil, JES
+recSys = ['recrespUp/', 'recrespDown/', 'recresoUp/', 'recresoDown/']
 
-jesSysNames = [['_CMS_MET_Ues_13TeVUp', '_CMS_MET_Ues_13TeVDown'], ['_CMS_MET_chargedUes_13TeVUp', '_CMS_MET_chargedUes_13TeVDown'], ['_CMS_MET_ecalUes_13TeVUp', '_CMS_MET_ecalUes_13TeVDown'], ['_CMS_MET_hcalUes_13TeVUp', '_CMS_MET_hcalUes_13TeVDown'], ['_CMS_MET_hfUes_13TeVUp', '_CMS_MET_hfUes_13TeVDown'], ['_CMS_Jes_JetAbsolute_13TeVUp', '_CMS_Jes_JetAbsolute_13TeVDown'], ['_CMS_Jes_JetAbsolute_2017_13TeVUp', '_CMS_Jes_JetAbsolute_2017_13TeVDown'], ['_CMS_Jes_JetBBEC1_13TeVUp', '_CMS_Jes_JetBBEC1_13TeVDown'], ['_CMS_Jes_JetBBEC1_2017_13TeVUp', '_CMS_Jes_JetBBEC1_2017_13TeVDown'], ['_CMS_Jes_JetFlavorQCD_13TeVUp', '_CMS_Jes_JetFlavorQCD_13TeVDown'], ['_CMS_Jes_JetEC2_13TeVUp', '_CMS_Jes_JetEC2_13TeVDown'], ['_CMS_Jes_JetEC2_2017_13TeVUp', '_CMS_Jes_JetEC2_2017_13TeVDown'], ['_CMS_Jes_JetHF_13TeVUp', '_CMS_Jes_JetHF_13TeVDown'], ['_CMS_Jes_JetHF_2017_13TeVUp', '_CMS_Jes_JetHF_2017_13TeVDown'], ['_CMS_Jes_JetRelativeBal_13TeVUp', '_CMS_Jes_JetRelativeBal_13TeVDown'], ['_CMS_Jes_JetRelativeSample_13TeVUp', '_CMS_Jes_JetRelativeSample_13TeVDown'], ['_CMS_Jer_2017_13TeVUp', '_CMS_Jer_2017_13TeVDown']]
+recSysNames = ['_CMS_RecoilResponse_2016_13TeVUp', '_CMS_RecoilResponse_2016_13TeVDown', '_CMS_RecoilResolution_2016_13TeVUp', '_CMS_RecoilResolution_2016_13TeVDown']
 
+jesSys = ['UnclusteredEnUp/', 'UnclusteredEnDown/', 'UesCHARGEDUp/', 'UesCHARGEDDown/', 'UesECALUp/', 'UesECALDown/', 'UesHCALUp/', 'UesHCALDown/', 'UesHFUp/', 'UesHFDown/', 'JetAbsoluteUp/', 'JetAbsoluteDown/', 'JetAbsoluteyearUp/', 'JetAbsoluteyearDown/', 'JetBBEC1Up/', 'JetBBEC1Down/', 'JetBBEC1yearUp/', 'JetBBEC1yearDown/', 'JetFlavorQCDUp/', 'JetFlavorQCDDown/', 'JetEC2Up/', 'JetEC2Down/', 'JetEC2yearUp/', 'JetEC2yearDown/', 'JetHFUp/', 'JetHFDown/', 'JetHFyearUp/', 'JetHFyearDown/', 'JetRelativeBalUp/', 'JetRelativeBalDown/', 'JetRelativeSampleUp/', 'JetRelativeSampleDown/', 'JERUp/', 'JERDown/']
+
+jesSysNames = ['_CMS_MET_Ues_13TeVUp', '_CMS_MET_Ues_13TeVDown', '_CMS_MET_chargedUes_13TeVUp', '_CMS_MET_chargedUes_13TeVDown', '_CMS_MET_ecalUes_13TeVUp', '_CMS_MET_ecalUes_13TeVDown', '_CMS_MET_hcalUes_13TeVUp', '_CMS_MET_hcalUes_13TeVDown', '_CMS_MET_hfUes_13TeVUp', '_CMS_MET_hfUes_13TeVDown', '_CMS_Jes_JetAbsolute_13TeVUp', '_CMS_Jes_JetAbsolute_13TeVDown', '_CMS_Jes_JetAbsolute_2016_13TeVUp', '_CMS_Jes_JetAbsolute_2016_13TeVDown', '_CMS_Jes_JetBBEC1_13TeVUp', '_CMS_Jes_JetBBEC1_13TeVDown', '_CMS_Jes_JetBBEC1_2016_13TeVUp', '_CMS_Jes_JetBBEC1_2016_13TeVDown', '_CMS_Jes_JetFlavorQCD_13TeVUp', '_CMS_Jes_JetFlavorQCD_13TeVDown', '_CMS_Jes_JetEC2_13TeVUp', '_CMS_Jes_JetEC2_13TeVDown', '_CMS_Jes_JetEC2_2016_13TeVUp', '_CMS_Jes_JetEC2_2016_13TeVDown', '_CMS_Jes_JetHF_13TeVUp', '_CMS_Jes_JetHF_13TeVDown', '_CMS_Jes_JetHF_2016_13TeVUp', '_CMS_Jes_JetHF_2016_13TeVDown', '_CMS_Jes_JetRelativeBal_13TeVUp', '_CMS_Jes_JetRelativeBal_13TeVDown', '_CMS_Jes_JetRelativeSample_13TeVUp', '_CMS_Jes_JetRelativeSample_13TeVDown', '_CMS_Jer_2016_13TeVUp', '_CMS_Jer_2016_13TeVDown']
+
+# Samples
 mc_samples = ['DYJetsToLL_M-50*', 'DYJetsToLL_M-10to50*', 'DY1JetsToLL*', 'DY2JetsToLL*', 'DY3JetsToLL*', 'DY4JetsToLL*', 'WJetsToLNu*', 'W1JetsToLNu*', 'W2JetsToLNu*', 'W3JetsToLNu*', 'W4JetsToLNu*', 'WGToLNuG*', 'GluGlu_LFV*', 'VBF_LFV*', 'GluGluHToTauTau*', 'VBFHToTauTau*', 'GluGluHToWWTo2L2Nu*', 'VBFHToWWTo2L2Nu*', 'WminusHToTauTau*', 'WplusHToTauTau*', 'ZHToTauTau*', 'TTTo2L2Nu*', 'TTToSemiLeptonic*', 'TTToHadronic*', 'ST_tW_antitop*', 'ST_tW_top*', 'ST_t-channel_antitop*', 'ST_t-channel_top*', 'QCD*', 'WZ*', 'WW*', 'ZZ*', 'EWKWMinus2Jets*', 'EWKWPlus2Jets*', 'EWKZ2Jets_ZToLL*', 'EWKZ2Jets_ZToNuNu*', 'Embed*', 'MC*', 'data*', 'Obs*', 'Bac*']
 
 histoname = [("mPt", "#mu  p_{T} (GeV)", 1), ("ePt", "e p_{T} (Gev)", 1), ("mEta", "#mu #eta", 1), ("eEta", "e #eta", 1), ("mPhi", "#mu #phi", 1), ("ePhi", "e #phi", 1), ("j1Pt", "Jet 1 p_{T}", 1), ("j2Pt", "Jet 2 p_{T}", 1), ("j1Eta", "Jet 1 #eta", 1), ("j2Eta", "Jet 2 #eta", 1), ("j1Phi", "Jet 1 #phi", 1), ("j2Phi", "Jet 2 #phi", 1), ("type1_pfMetEt", "MET (GeV)", 1), ("type1_pfMetPhi", "MET #phi", 1), ("e_m_Mass", "M_{vis}(e, #mu) (GeV)", 1), ("e_m_CollMass", "M_{col}(e, #mu) (GeV)", 1), ("e_m_PZeta", "p_{#zeta}(e, #mu) (GeV)", 1), ("numOfJets", "Number of Jets", 1), ("vbfMass", "VBF Mass", 1), ("numOfVtx", "Number of Vertices", 1), ("dEtaEMu", "#Delta#eta(e, #mu)", 1), ("dPhiEMET", "#Delta#phi(e, MET)", 1), ("dPhiMuMET", "#Delta#phi(#mu, MET)", 1), ("dPhiEMu", "#Delta#phi(e, #mu)", 1), ("MTEMET", "M_{T}(e, MET) (GeV)", 1), ("MTMuMET", "M_{T}(#mu, MET) (GeV)", 1)]
@@ -119,9 +119,3 @@ def normHist(h0, h1, h2):
             h4.SetBinContent(i, h0.GetBinContent(i) + err)
     return [h3, h4]
 
-#def normHist(h0, h1, h2):
-#    h4 = h2.Clone()
-#    for i in range(1, h0.GetNbinsX()+1):
-#        err = h1.GetBinContent(i) - h0.GetBinContent(i)
-#        h4.SetBinContent(i, h0.GetBinContent(i) - err)
-#    return h4

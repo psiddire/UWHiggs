@@ -53,12 +53,15 @@ class MuTauBase():
     self.deepTauVSjet_Emb_tight = mcCorrections.deepTauVSjet_Emb_tight
     self.deepTauVSjet_Emb_vloose = mcCorrections.deepTauVSjet_Emb_vloose
     self.esTau = mcCorrections.esTau
+    self.tesMC = mcCorrections.tesMC
     self.FesTau = mcCorrections.FesTau
     self.ScaleTau = mcCorrections.ScaleTau
+    self.ScaleEmbTau = mcCorrections.ScaleEmbTau
     self.TauID = mcCorrections.TauID
     self.MuonFakeTau = mcCorrections.MuonFakeTau
     self.EleFakeTau = mcCorrections.EleFakeTau
     self.MESSys = mcCorrections.MESSys
+    self.RecSys = mcCorrections.RecSys
 
     self.DYreweight = mcCorrections.DYreweight
     self.w1 = mcCorrections.w1
@@ -87,13 +90,14 @@ class MuTauBase():
     self.ues = Kinematics.ues
     self.fakes = Kinematics.fakes
     self.sys = Kinematics.sys
+    self.recSys = Kinematics.recSys
     self.fakeSys = Kinematics.fakeSys
     self.scaleSys = Kinematics.scaleSys
     self.tauidSys = Kinematics.tauidSys
     self.mtfakeSys = Kinematics.mtfakeSys
     self.etfakeSys = Kinematics.etfakeSys
-    self.etfakeesSys = Kinematics.etfakeesSys
     self.mtfakeesSys = Kinematics.mtfakeesSys
+    self.etfakeesSys = Kinematics.etfakeesSys
     self.mesSys = Kinematics.mesSys
     self.functor = Kinematics.functor
     self.var_d = Kinematics.var_d
@@ -224,24 +228,6 @@ class MuTauBase():
     histos[name+'/MTMuMET'].Fill(self.transverseMass(myMuon, myMET), weight)
     histos[name+'/MTTauMET'].Fill(self.transverseMass(myTau, myMET), weight)
 
-  # Tau momentum correction
-  def tauPtC(self, row, myMET, myTau):
-    tmpMET = myMET
-    tmpTau = myTau
-    if self.is_mc and not self.is_DY and row.tZTTGenMatching==5:
-      es = self.esTau(row.tDecayMode)
-      myMETpx = myMET.Px() + (1 - es[0]) * myTau.Px()
-      myMETpy = myMET.Py() + (1 - es[0]) * myTau.Py()
-      tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-      tmpTau = myTau * ROOT.Double(es[0])
-    if self.is_mc and bool(row.tZTTGenMatching==1 or row.tZTTGenMatching==3):
-      fes = self.FesTau(myTau.Eta(), row.tDecayMode)
-      myMETpx = myMET.Px() + (1 - fes[0]) * myTau.Px()
-      myMETpy = myMET.Py() + (1 - fes[0]) * myTau.Py()
-      tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-      tmpTau = myTau * ROOT.Double(fes[0])
-    return [tmpMET, tmpTau]
-
   # Selections
   def eventSel(self, row):
     njets = row.jetVeto30WoNoisyJets
@@ -274,10 +260,9 @@ class MuTauBase():
   def lepVec(self, row):
     myMuon = ROOT.TLorentzVector()
     myMuon.SetPtEtaPhiM(row.mPt, row.mEta, row.mPhi, row.mMass)
-    myMET = ROOT.TLorentzVector()
-    myMET.SetPtEtaPhiM(row.type1_pfMetEt, 0, row.type1_pfMetPhi, 0)
     myTau = ROOT.TLorentzVector()
     myTau.SetPtEtaPhiM(row.tPt, row.tEta, row.tPhi, row.tMass)
+    myMET = ROOT.TLorentzVector()
     if self.is_recoilC and self.MetCorrection:
       tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30WoNoisyJets)))
       myMET.SetPtEtaPhiM(math.sqrt(tmpMet[0]*tmpMet[0] + tmpMet[1]*tmpMet[1]), 0, math.atan2(tmpMet[1], tmpMet[0]), 0)
@@ -285,6 +270,29 @@ class MuTauBase():
     myTau = self.tauPtC(row, myMET, myTau)[1]
     return [myMuon, myMET, myTau]
 
+  # Tau pT correction
+  def tauPtC(self, row, myMET, myTau):
+    tmpMET = myMET
+    tmpTau = myTau
+    if self.is_mc and row.tZTTGenMatching==5:
+      es = self.tesMC(row.tDecayMode)
+      myMETpx = myMET.Px() + (1 - es[0]) * myTau.Px()
+      myMETpy = myMET.Py() + (1 - es[0]) * myTau.Py()
+      tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+      tmpTau = myTau * ROOT.Double(es[0])
+    if self.is_embed:
+      es = self.ScaleEmbTau(row.tDecayMode)
+      myMETpx = myMET.Px() + (1 - es[0][0]) * myTau.Px()
+      myMETpy = myMET.Py() + (1 - es[0][0]) * myTau.Py()
+      tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+      tmpTau = myTau * ROOT.Double(es[0][0])
+    if self.is_mc and bool(row.tZTTGenMatching==1 or row.tZTTGenMatching==3):
+      fes = self.FesTau(myTau.Eta(), row.tDecayMode)
+      myMETpx = myMET.Px() + (1 - fes[0][0]) * myTau.Px()
+      myMETpy = myMET.Py() + (1 - fes[0][0]) * myTau.Py()
+      tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+      tmpTau = myTau * ROOT.Double(fes[0][0])
+    return [tmpMET, tmpTau]
 
   def corrFact(self, row, myMuon, myTau):
     # Apply all the various corrections to the MC samples
@@ -347,15 +355,12 @@ class MuTauBase():
         dm = pow(0.975, 3)
       elif row.tDecayMode == 11:
         dm = pow(0.975, 3)*1.051
-      # Muon selection scale factor
       self.w1.var('gt_pt').setVal(myMuon.Pt())
       self.w1.var('gt_eta').setVal(myMuon.Eta())
       msel = self.w1.function('m_sel_idEmb_ratio').getVal()
-      # Tau selection scale factor
       self.w1.var('gt_pt').setVal(myTau.Pt())
       self.w1.var('gt_eta').setVal(myTau.Eta())
       tsel = self.w1.function('m_sel_idEmb_ratio').getVal()
-      # Trigger selection scale factor
       self.w1.var('gt1_pt').setVal(myMuon.Pt())
       self.w1.var('gt1_eta').setVal(myMuon.Eta())
       self.w1.var('gt2_pt').setVal(myTau.Pt())

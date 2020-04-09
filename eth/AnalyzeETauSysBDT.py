@@ -123,23 +123,26 @@ class AnalyzeETauSysBDT(MegaBase, ETauBase):
 
       # Recoil Response and Resolution
       if self.is_recoilC and self.MetCorrection:
+        rSys = self.RecSys(int(round(njets)))
+        reSys = [x for x in self.recSys if x not in rSys]
+        self.fill_SysNames(row, myEle, myMET, myTau, njets, mjj, weight, reSys)
         tmpMET.SetPtEtaPhiM(myMET.Pt(), 0, myMET.Phi(), 0)
         sysMet = self.MetSys.ApplyMEtSys(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)), 0, 0, 0)
         if sysMet!=None:
           tmpMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
-        self.fill_categories(row, myEle, tmpMET, myTau, njets, mjj, weight, '/recrespUp')
+        self.fill_categories(row, myEle, tmpMET, myTau, njets, mjj, weight, rSys[0])
         sysMet = self.MetSys.ApplyMEtSys(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)), 0, 0, 1)
         if sysMet!=None:
           tmpMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
-        self.fill_categories(row, myEle, tmpMET, myTau, njets, mjj, weight, '/recrespDown')
+        self.fill_categories(row, myEle, tmpMET, myTau, njets, mjj, weight, rSys[1])
         sysMet = self.MetSys.ApplyMEtSys(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)), 0, 1, 0)
         if sysMet!=None:
           tmpMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
-        self.fill_categories(row, myEle, tmpMET, myTau, njets, mjj, weight, '/recresoUp')
+        self.fill_categories(row, myEle, tmpMET, myTau, njets, mjj, weight, rSys[2])
         sysMet = self.MetSys.ApplyMEtSys(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)), 0, 1, 1)
         if sysMet!=None:
           tmpMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
-        self.fill_categories(row, myEle, tmpMET, myTau, njets, mjj, weight, '/recresoDown')
+        self.fill_categories(row, myEle, tmpMET, myTau, njets, mjj, weight, rSys[3])
 
       # B-Tagged Scale Factor
       nbtag = row.bjetDeepCSVVeto20Medium_2017_DR0p5
@@ -165,6 +168,14 @@ class AnalyzeETauSysBDT(MegaBase, ETauBase):
       else:
         self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight * puweightUp/puweight, '/puUp')
         self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight * puweightDown/puweight, '/puDown')
+
+      # Trigger
+      if self.trigger(row)[0]:
+        self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight * 1.02, '/trUp')
+        self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight * 0.98, '/trDown')
+      elif self.trigger(row)[1]:
+        self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight * 1.054, '/trUp')
+        self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight * 0.946, '/trDown')
 
       # Prefiring
       self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight * row.prefiring_weight_up/row.prefiring_weight, '/pfUp')
@@ -224,16 +235,17 @@ class AnalyzeETauSysBDT(MegaBase, ETauBase):
       if row.tZTTGenMatching==1 or row.tZTTGenMatching==3:
         fes = self.FesTau(myTau.Eta(), row.tDecayMode)[0]
         efes = self.FesTau(myTau.Eta(), row.tDecayMode)[1]
-        myMETpx = myMET.Px() - fes[1] * myTau.Px()
-        myMETpy = myMET.Py() - fes[1] * myTau.Py()
-        tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-        tmpTau = myTau * ROOT.Double(1.000 + fes[1])
-        self.fill_categories(row, myEle, tmpMET, tmpTau, njets, mjj, weight, efes[0])
-        myMETpx = myMET.Px() + fes[2] * myTau.Px()
-        myMETpy = myMET.Py() + fes[2] * myTau.Py()
-        tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-        tmpTau = myTau * ROOT.Double(1.000 - fes[2])
-        self.fill_categories(row, myEle, tmpMET, tmpTau, njets, mjj, weight, efes[1])
+        if efes!=[]:
+          myMETpx = myMET.Px() - fes[1] * myTau.Px()
+          myMETpy = myMET.Py() - fes[1] * myTau.Py()
+          tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+          tmpTau = myTau * ROOT.Double(1.000 + fes[1])
+          self.fill_categories(row, myEle, tmpMET, tmpTau, njets, mjj, weight, efes[0])
+          myMETpx = myMET.Px() + fes[2] * myTau.Px()
+          myMETpy = myMET.Py() + fes[2] * myTau.Py()
+          tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+          tmpTau = myTau * ROOT.Double(1.000 - fes[2])
+          self.fill_categories(row, myEle, tmpMET, tmpTau, njets, mjj, weight, efes[1])
         eSys = [x for x in self.etfakeesSys if x not in efes]
         self.fill_SysNames(row, myEle, myMET, myTau, njets, mjj, weight, eSys)
       else:
@@ -277,8 +289,8 @@ class AnalyzeETauSysBDT(MegaBase, ETauBase):
       if self.is_DY:
         dyweight = self.DYreweight(row.genMass, row.genpT)
         if dyweight==0:
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, 0, '/DYptreweightUp')
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, 0, '/DYptreweightDown')
+          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/DYptreweightUp')
+          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/DYptreweightDown')
         else:
           self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight*(1.1*dyweight-0.1)/dyweight, '/DYptreweightUp')
           self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight*(0.9*dyweight+0.1)/dyweight, '/DYptreweightDown')
@@ -352,9 +364,9 @@ class AnalyzeETauSysBDT(MegaBase, ETauBase):
 
         # Embed Electron Energy Scale
         if abs(myEle.Eta()) < 1.479:
-          eCorr = 0.01
+          eCorr = 0.005
         else:
-          eCorr = 0.025
+          eCorr = 0.0125
         myMETpx = myMET.Px() + myEle.Px()
         myMETpy = myMET.Py() + myEle.Py()
         tmpEle = myEle * ROOT.Double(1.00 + eCorr)

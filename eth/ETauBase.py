@@ -32,7 +32,7 @@ class ETauBase():
     self.is_GluGlu = self.mcWeight.is_GluGlu
     self.is_VBF = self.mcWeight.is_VBF
 
-    self.Emb = True
+    self.Emb = False
     self.is_recoilC = self.mcWeight.is_recoilC
     self.MetCorrection = self.mcWeight.MetCorrection
     if self.is_recoilC and self.MetCorrection:
@@ -50,8 +50,15 @@ class ETauBase():
     self.deepTauVSjet_Emb_tight = mcCorrections.deepTauVSjet_Emb_tight
     self.deepTauVSjet_Emb_vloose = mcCorrections.deepTauVSjet_Emb_vloose
     self.esTau = mcCorrections.esTau
+    self.tesMC = mcCorrections.tesMC
     self.FesTau = mcCorrections.FesTau
     self.ScaleTau = mcCorrections.ScaleTau
+    self.ScaleEmbTau = mcCorrections.ScaleEmbTau
+    self.TauID = mcCorrections.TauID
+    self.MuonFakeTau = mcCorrections.MuonFakeTau
+    self.EleFakeTau = mcCorrections.EleFakeTau
+    self.RecSys = mcCorrections.RecSys
+
     self.DYreweight = mcCorrections.DYreweight
     self.w2 = mcCorrections.w2
     self.w6 = mcCorrections.w6
@@ -78,10 +85,16 @@ class ETauBase():
     self.loosenames = Kinematics.loosenames
     self.jes = Kinematics.jes
     self.ues = Kinematics.ues
-    self.fakes = Kinematics.fakesDeep
-    self.sys = Kinematics.sysDeep
-    self.fakeSys = Kinematics.fakeDeepSys
-    self.scaleSys = Kinematics.scaleDeepSys
+    self.fakes = Kinematics.fakes
+    self.sys = Kinematics.sys
+    self.recSys = Kinematics.recSys
+    self.fakeSys = Kinematics.fakeSys
+    self.scaleSys = Kinematics.scaleSys
+    self.tauidSys = Kinematics.tauidSys
+    self.mtfakeSys = Kinematics.mtfakeSys
+    self.etfakeSys = Kinematics.etfakeSys
+    self.mtfakeesSys = Kinematics.mtfakeesSys
+    self.etfakeesSys = Kinematics.etfakeesSys
     self.functor = Kinematics.functor
     self.var_d = Kinematics.var_d
 
@@ -122,7 +135,7 @@ class ETauBase():
 
   # Kinematics Selections
   def kinematics(self, row):
-    if row.ePt < 26 or abs(row.eEta) >= 2.1:#25
+    if row.ePt < 25 or abs(row.eEta) >= 2.1:
       return False
     if row.tPt < 30 or abs(row.tEta) >= 2.3:
       return False
@@ -165,49 +178,6 @@ class ETauBase():
   # Di-electron veto
   def dieleveto(self, row):
     return bool(row.dielectronVeto < 0.5)
-
-  # Selections
-  def eventSel(self, row):
-    njets = row.jetVeto30WoNoisyJets
-    if self.filters(row):
-      return False
-    elif not bool(self.trigger(row)[0] or self.trigger(row)[1]):
-      return False
-    elif not self.kinematics(row):
-      return False
-    elif self.deltaR(row.ePhi, row.tPhi, row.eEta, row.tEta) < 0.5:
-      return False
-    elif self.Emb and self.is_DY and not bool(row.isZmumu or row.isZee):
-      return False
-    elif njets > 2:
-      return False
-    elif not self.obj1_id(row):
-      return False
-    elif not self.obj2_id(row):
-      return False
-    elif row.tDecayMode==5 or row.tDecayMode==6:
-      return False
-    elif not self.vetos(row):
-      return False
-    elif not self.dieleveto(row):
-      return False
-    else:
-      return True
-
-  # TVector
-  def lepVec(self, row):
-    myEle = ROOT.TLorentzVector()
-    myEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
-    myMET = ROOT.TLorentzVector()
-    myMET.SetPtEtaPhiM(row.type1_pfMetEt, 0, row.type1_pfMetPhi, 0)
-    myTau = ROOT.TLorentzVector()
-    myTau.SetPtEtaPhiM(row.tPt, row.tEta, row.tPhi, row.tMass)
-    if self.is_recoilC and self.MetCorrection:
-      tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30WoNoisyJets)))
-      myMET.SetPtEtaPhiM(math.sqrt(tmpMet[0]*tmpMet[0] + tmpMet[1]*tmpMet[1]), 0, math.atan2(tmpMet[1], tmpMet[0]), 0)
-    myMET = self.tauPtC(row, myMET, myTau)[0]
-    myTau = self.tauPtC(row, myMET, myTau)[1]
-    return [myEle, myMET, myTau]
 
   # Book the histograms
   def begin(self):
@@ -269,24 +239,87 @@ class ETauBase():
     histos[name+'/MTEMET'].Fill(self.transverseMass(myEle, myMET), weight)
     histos[name+'/MTTauMET'].Fill(self.transverseMass(myTau, myMET), weight)
 
+  # Selections
+  def eventSel(self, row):
+    njets = row.jetVeto30WoNoisyJets
+    if self.filters(row):
+      return False
+    elif not bool(self.trigger(row)[0] or self.trigger(row)[1]):
+      return False
+    elif not self.kinematics(row):
+      return False
+    elif self.deltaR(row.ePhi, row.tPhi, row.eEta, row.tEta) < 0.5:
+      return False
+    elif self.Emb and self.is_DY and not bool(row.isZmumu or row.isZee):
+      return False
+    elif njets > 2:
+      return False
+    elif not self.obj1_id(row):
+      return False
+    elif not self.obj2_id(row):
+      return False
+    elif row.tDecayMode==5 or row.tDecayMode==6:
+      return False
+    elif not self.vetos(row):
+      return False
+    elif not self.dieleveto(row):
+      return False
+    else:
+      return True
+
+  # TVector
+  def lepVec(self, row):
+    myEle = ROOT.TLorentzVector()
+    myEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
+    myTau = ROOT.TLorentzVector()
+    myTau.SetPtEtaPhiM(row.tPt, row.tEta, row.tPhi, row.tMass)
+    myMET = ROOT.TLorentzVector()
+    # Recoil
+    if self.is_recoilC and self.MetCorrection:
+      tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30)))
+      myMET.SetPtEtaPhiM(math.sqrt(tmpMet[0]*tmpMet[0] + tmpMet[1]*tmpMet[1]), 0, math.atan2(tmpMet[1], tmpMet[0]), 0)
+    # Electron Scale Correction
+    if self.is_data:
+      myEle = myEle * ROOT.Double(row.eCorrectedEt/myEle.E())
+    else:
+      myMETpx = myMET.Px() + myEle.Px()
+      myMETpy = myMET.Py() + myEle.Py()
+      if self.is_mc:
+        myEle = myEle * ROOT.Double(row.eCorrectedEt/myEle.E())
+      elif self.is_embed:
+        myEle = myEle * ROOT.Double(0.9993) if abs(myEle.Eta()) < 1.479 else myEle * ROOT.Double(0.9887)
+      myMETpx = myMETpx - myEle.Px()
+      myMETpy = myMETpy - myEle.Py()
+      myMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+    myMET = self.tauPtC(row, myMET, myTau)[0]
+    myTau = self.tauPtC(row, myMET, myTau)[1]
+    return [myEle, myMET, myTau]
+
   # Tau pT correction
   def tauPtC(self, row, myMET, myTau):
     tmpMET = myMET
     tmpTau = myTau
-    if self.is_mc and not self.is_DY and row.tZTTGenMatching==5:
+    if self.is_mc and row.tZTTGenMatching==5:
       es = self.esTau(row.tDecayMode)
       myMETpx = myMET.Px() + (1 - es[0]) * myTau.Px()
       myMETpy = myMET.Py() + (1 - es[0]) * myTau.Py()
       tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
       tmpTau = myTau * ROOT.Double(es[0])
+    if self.is_embed:
+      es = self.ScaleEmbTau(row.tDecayMode)
+      myMETpx = myMET.Px() + (1 - es[0][0]) * myTau.Px()
+      myMETpy = myMET.Py() + (1 - es[0][0]) * myTau.Py()
+      tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+      tmpTau = myTau * ROOT.Double(es[0][0])
     if self.is_mc and bool(row.tZTTGenMatching==1 or row.tZTTGenMatching==3):
       fes = self.FesTau(myTau.Eta(), row.tDecayMode)
-      myMETpx = myMET.Px() + (1 - fes[0]) * myTau.Px()
-      myMETpy = myMET.Py() + (1 - fes[0]) * myTau.Py()
+      myMETpx = myMET.Px() + (1 - fes[0][0]) * myTau.Px()
+      myMETpy = myMET.Py() + (1 - fes[0][0]) * myTau.Py()
       tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-      tmpTau = myTau * ROOT.Double(fes[0])
+      tmpTau = myTau * ROOT.Double(fes[0][0])
     return [tmpMET, tmpTau]
 
+  # Correction Factors
   def corrFact(self, row, myEle, myTau, singEle):
     weight = 1.0
     # MC Corrections
@@ -306,7 +339,7 @@ class ETauBase():
         eltauSF = 0 if self.w2.function('e_trg_EleTau_Ele24Leg_desy_mc').getVal()==0 else self.w2.function('e_trg_EleTau_Ele24Leg_desy_data').getVal()/self.w2.function('e_trg_EleTau_Ele24Leg_desy_mc').getVal()
         eltauSF = eltauSF * self.tauSF.getETauScaleFactor(myTau.Pt(), myTau.Eta(), myTau.Phi())
       tEff = singleSF + eltauSF
-      weight = row.GenWeight*pucorrector[''](row.nTruePU)*tEff*eID*eIso*eReco*zvtx*row.prefiring_weight
+      weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*eID*eIso*eReco*zvtx*row.prefiring_weight
       # Anti-Muon Discriminator Scale Factors
       if row.tZTTGenMatching==2 or row.tZTTGenMatching==4:
         weight = weight * self.deepTauVSmu(myTau.Eta())[0]
@@ -336,7 +369,7 @@ class ETauBase():
         #topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
         #weight = weight*topweight
         if row.eZTTGenMatching > 2 and row.eZTTGenMatching < 6 and row.tZTTGenMatching > 2 and row.tZTTGenMatching < 6 and self.Emb:
-          weight = 0
+          weight = 0.0
       weight = self.mcWeight.lumiWeight(weight)
 
     # Embed Corrections
@@ -379,14 +412,14 @@ class ETauBase():
           trsel = trsel + self.w6.function('e_trg27_trg32_trg35_kit_data').getVal()
         else:
           trsel = trsel + self.w6.function('e_trg_EleTau_Ele24Leg_desy_data').getVal()*self.tauSF.getETauEfficiencyData(myTau.Pt(), myTau.Eta(), myTau.Phi())
-      weight = weight*row.GenWeight*dm*esel*tsel*trgsel*eID*eIso*trsel*self.EmbedEta(myEle.Eta(), njets, mjj)*self.EmbedPhi(myEle.Phi(), njets, mjj)*self.EmbedPt(myEle.Pt(), njets, mjj)
+      weight = weight*row.GenWeight*dm*esel*tsel*trgsel*eID*eIso*trsel*self.EmbedPhi(myEle.Phi(), njets, mjj)*self.EmbedEta(myEle.Eta(), njets, mjj)*self.EmbedPt(myEle.Pt(), njets, mjj)
       # Tau Identification
       if self.obj2_tight(row):
         weight = weight * self.deepTauVSjet_Emb_tight(myTau.Pt())[0]
       elif self.obj2_loose(row):
         weight = weight * self.deepTauVSjet_Emb_vloose(myTau.Pt())[0]
       if weight > 1 or trsel > 1:
-        weight = 0
+        weight = 0.0
 
     # b-tag
     nbtag = row.bjetDeepCSVVeto20Medium_2017_DR0p5
@@ -396,5 +429,5 @@ class ETauBase():
       btagweight = bTagEventWeight(nbtag, row.jb1pt_2017, row.jb1hadronflavor_2017, row.jb2pt_2017, row.jb2hadronflavor_2017, 1, 0, 0)
       weight = weight * btagweight
     if (bool(self.is_data or self.is_embed) and nbtag > 0):
-      weight = 0
+      weight = 0.0
     return weight

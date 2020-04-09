@@ -16,40 +16,23 @@ pu_distributionsUp = glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'dat
 pu_distributionsDown = glob.glob(os.path.join( 'inputs', os.environ['jobid'], 'data_SingleMuon*pu_down.root'))
 
 def make_puCorrector(puname=''):
-    if dataset in pu_distributions:
-        return PileupWeight.PileupWeight(puname, year, *pu_distributions)
-    else:
-        raise KeyError('dataset not present. Please check the spelling or add it to mcCorrectors.py')
+    return PileupWeight.PileupWeight(puname, year, *pu_distributions)
 
 def make_puCorrectorUp(puname=''):
-    if dataset in pu_distributionsUp:
-        return PileupWeight.PileupWeight(puname, year, *pu_distributionsUp)
-    else:
-        raise KeyError('dataset not present. Please check the spelling or add it to mcCorrectors.py')
+    return PileupWeight.PileupWeight(puname, year, *pu_distributionsUp)
 
 def make_puCorrectorDown(puname=''):
-    if dataset in pu_distributionsDown:
-        return PileupWeight.PileupWeight(puname, year, *pu_distributionsDown)
-    else:
-        raise KeyError('dataset not present. Please check the spelling or add it to mcCorrectors.py')
+    return PileupWeight.PileupWeight(puname, year, *pu_distributionsDown)
 
 def puCorrector(target=''):
     if bool('DYJetsToLL_M-50' in target):
-        pucorrector = {'' : make_puCorrector('DY'),
-                       'puUp': make_puCorrectorUp('DY'),
-                       'puDown': make_puCorrectorDown('DY')}
+        pucorrector = {'' : make_puCorrector('DY'), 'puUp' : make_puCorrectorUp('DY'), 'puDown' : make_puCorrectorDown('DY')}
     elif bool('Wminus' in target):
-        pucorrector = {'' : make_puCorrector('WminusHTT'),
-                       'puUp': make_puCorrectorUp('WminusHTT'),
-                       'puDown': make_puCorrectorDown('WminusHTT')}
+        pucorrector = {'' : make_puCorrector('WminusHTT'), 'puUp' : make_puCorrectorUp('WminusHTT'), 'puDown' : make_puCorrectorDown('WminusHTT')}
     elif bool('Wplus' in target):
-        pucorrector = {'' : make_puCorrector('WplusHTT'),
-                       'puUp': make_puCorrectorUp('WplusHTT'),
-                       'puDown': make_puCorrectorDown('WplusHTT')}
+        pucorrector = {'' : make_puCorrector('WplusHTT'), 'puUp' : make_puCorrectorUp('WplusHTT'), 'puDown' : make_puCorrectorDown('WplusHTT')}
     else:
-        pucorrector = {'' : make_puCorrector('DY1'),
-                       'puUp': make_puCorrectorUp('DY1'),
-                       'puDown': make_puCorrectorDown('DY1')}
+        pucorrector = {'' : make_puCorrector('DY1'), 'puUp' : make_puCorrectorUp('DY1'), 'puDown' : make_puCorrectorDown('DY1')}
     return pucorrector
 
 rc = RoccoR.RoccoR('2017/RoccoR/RoccoR2017.txt')
@@ -77,6 +60,7 @@ deepTauVSjet_Emb_vloose = TauPOGCorrections.make_tau_pog_DeepTauVSjet_EMB_2017('
 mvaTau_tight = TauPOGCorrections.make_tau_pog_MVA_2017('Tight')
 mvaTau_vloose = TauPOGCorrections.make_tau_pog_MVA_2017('VLoose')
 esTau = TauPOGCorrections.make_tau_pog_ES_2017()
+tesMC = TauPOGCorrections.make_tau_pog_TES_2017()
 fesTau = TauPOGCorrections.Tau_FES_2017
 
 cmsswBase = '/afs/hep.wisc.edu/home/ndev/CMSSW_10_2_16_UL/src/FinalStateAnalysis/TagAndProbe/data/2017/'
@@ -109,28 +93,39 @@ def FesTau(eta, dm):
     if abs(eta) < 1.479:
         if dm == 0:
             fes = fesTau('EBDM0')
-            ef = ['etfakeesbdm0Up', 'etfakeesbdm0Down']
+            ef = ['/etfakeesbdm0Up', '/etfakeesbdm0Down']
         elif dm == 1:
             fes = fesTau('EBDM1')
-            ef = ['etfakeesbdm1Up', 'etfakeesbdm1Down']
+            ef = ['/etfakeesbdm1Up', '/etfakeesbdm1Down']
     else:
         if dm == 0:
             fes = fesTau('EEDM0')
-            ef = ['etfakeesedm0Up', 'etfakeesedm0Down']
+            ef = ['/etfakeesedm0Up', '/etfakeesedm0Down']
         elif dm == 1:
             fes = fesTau('EEDM1')
-            ef = ['etfakeesedm1Up', 'etfakeesedm1Down']
+            ef = ['/etfakeesedm1Up', '/etfakeesedm1Down']
     return [fes, ef]
 
 def ScaleTau(dm):
     if dm==0:
         st = (0.01, ['/scaletDM0Up', '/scaletDM0Down'])
     elif dm==1:
-        st = (0.009, ['/scaletDM1Up', '/scaletDM1Down'])
+        st = (0.006, ['/scaletDM1Up', '/scaletDM1Down'])
     elif dm==10:
-        st = (0.011, ['/scaletDM10Up', '/scaletDM10Down'])
+        st = (0.007, ['/scaletDM10Up', '/scaletDM10Down'])
     elif dm==11:
-        st = (0.011, ['/scaletDM11Up', '/scaletDM11Down'])
+        st = (0.014, ['/scaletDM11Up', '/scaletDM11Down'])
+    return st
+
+def ScaleEmbTau(dm):
+    if dm==0:
+        st = ([1.000, 0.004, -0.004], ['/scaletDM0Up', '/scaletDM0Down'])
+    elif dm==1:
+        st = ([0.988, 0.005, -0.002], ['/scaletDM1Up', '/scaletDM1Down'])
+    elif dm==10:
+        st = ([0.992, 0.004, -0.005], ['/scaletDM10Up', '/scaletDM10Down'])
+    elif dm==11:
+        st = ([0.992, 0.004, -0.005], ['/scaletDM11Up', '/scaletDM11Down'])
     return st
 
 def TauID(pt):
@@ -170,3 +165,12 @@ def MESSys(eta):
         me = 0.009
         mes = ['/mes2p1Up', '/mes2p1Down']
     return [me, mes]
+
+def RecSys(njets):
+    if njets==0:
+        rSys = ['/recresp0Up', '/recresp0Down', '/recreso0Up', '/recreso0Down']
+    elif njets==1:
+        rSys = ['/recresp1Up', '/recresp1Down', '/recreso1Up', '/recreso1Down']
+    elif njets==2:
+        rSys = ['/recresp2Up', '/recresp2Down', '/recreso2Up', '/recreso2Down']
+    return rSys

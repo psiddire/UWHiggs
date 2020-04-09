@@ -1,10 +1,10 @@
 dirs = ['0Jet', '1Jet', '2Jet', '2JetVBF']
 
-samp = ['Zothers', 'EWK', 'ggH_htt', 'qqH_htt', 'ggH_hww', 'qqH_hww', 'vH_htt', 'TT', 'T', 'Diboson', 'LFVGG125', 'LFVVBF125']
+samp = ['Zothers', 'EWK', 'ggH_htt', 'qqH_htt', 'ggH_hww', 'qqH_hww', 'TT', 'T', 'Diboson', 'LFVGG125', 'LFVVBF125']
 
 recsamp = ['Zothers', 'EWK', 'ggH_htt', 'qqH_htt', 'ggH_hww', 'qqH_hww', 'LFVGG125', 'LFVVBF125']
 
-norecsamp = ['vH_htt', 'TT', 'T', 'Diboson']
+norecsamp = ['TT', 'T', 'Diboson']
 
 # Embed
 trk = ['/embtrk0Up', '/embtrk0Down', '/embtrk1Up', '/embtrk1Down']
@@ -20,9 +20,9 @@ tauFR = ['/TauFakep0EBDM0Up', '/TauFakep0EBDM0Down', '/TauFakep0EBDM1Up', '/TauF
 
 muonFR = ['/MuonFakep0Up', '/MuonFakep0Down', '/MuonFakep1Up', '/MuonFakep1Down']
 
-tauFRNames = ['_CMS_TauFakeRate_p0_dm0_B_2017_13TeVUp', '_CMS_TauFakeRate_p0_dm0_B_2017_13TeVDown', '_CMS_TauFakeRate_p0_dm1_B_2017_13TeVUp', '_CMS_TauFakeRate_p0_dm1_B_2017_13TeVDown', '_CMS_TauFakeRate_p0_dm10_B_2017_13TeVUp', '_CMS_TauFakeRate_p0_dm10_B_2017_13TeVDown', '_CMS_TauFakeRate_p0_dm0_E_2017_13TeVUp', '_CMS_TauFakeRate_p0_dm0_E_2017_13TeVDown', '_CMS_TauFakeRate_p0_dm1_E_2017_13TeVUp', '_CMS_TauFakeRate_p0_dm1_E_2017_13TeVDown', '_CMS_TauFakeRate_p0_dm10_E_2017_13TeVUp', '_CMS_TauFakeRate_p0_dm10_E_2017_13TeVDown', '_CMS_TauFakeRate_p1_dm0_B_2017_13TeVUp', '_CMS_TauFakeRate_p1_dm0_B_2017_13TeVDown', '_CMS_TauFakeRate_p1_dm1_B_2017_13TeVUp', '_CMS_TauFakeRate_p1_dm1_B_2017_13TeVDown', '_CMS_TauFakeRate_p1_dm10_B_2017_13TeVUp', '_CMS_TauFakeRate_p1_dm10_B_2017_13TeVDown', '_CMS_TauFakeRate_p1_dm0_E_2017_13TeVUp', '_CMS_TauFakeRate_p1_dm0_E_2017_13TeVDown', '_CMS_TauFakeRate_p1_dm1_E_2017_13TeVUp', '_CMS_TauFakeRate_p1_dm1_E_2017_13TeVDown', '_CMS_TauFakeRate_p1_dm10_E_2017_13TeVUp', '_CMS_TauFakeRate_p1_dm10_E_2017_13TeVDown', '_CMS_TauFakeRate_p0_dm11_B_2017_13TeVUp', '_CMS_TauFakeRate_p0_dm11_B_2017_13TeVDown', '_CMS_TauFakeRate_p0_dm11_E_2017_13TeVUp', '_CMS_TauFakeRate_p0_dm11_E_2017_13TeVDown', '_CMS_TauFakeRate_p1_dm11_B_2017_13TeVUp', '_CMS_TauFakeRate_p1_dm11_B_2017_13TeVDown', '_CMS_TauFakeRate_p1_dm11_E_2017_13TeVUp', '_CMS_TauFakeRate_p1_dm11_E_2017_13TeVDown']
+tauFRNames = ['_CMS_tauFR_p0_dm0_B_2017_13TeVUp', '_CMS_tauFR_p0_dm0_B_2017_13TeVDown', '_CMS_tauFR_p0_dm1_B_2017_13TeVUp', '_CMS_tauFR_p0_dm1_B_2017_13TeVDown', '_CMS_tauFR_p0_dm10_B_2017_13TeVUp', '_CMS_tauFR_p0_dm10_B_2017_13TeVDown', '_CMS_tauFR_p0_dm0_E_2017_13TeVUp', '_CMS_tauFR_p0_dm0_E_2017_13TeVDown', '_CMS_tauFR_p0_dm1_E_2017_13TeVUp', '_CMS_tauFR_p0_dm1_E_2017_13TeVDown', '_CMS_tauFR_p0_dm10_E_2017_13TeVUp', '_CMS_tauFR_p0_dm10_E_2017_13TeVDown', '_CMS_tauFR_p1_dm0_B_2017_13TeVUp', '_CMS_tauFR_p1_dm0_B_2017_13TeVDown', '_CMS_tauFR_p1_dm1_B_2017_13TeVUp', '_CMS_tauFR_p1_dm1_B_2017_13TeVDown', '_CMS_tauFR_p1_dm10_B_2017_13TeVUp', '_CMS_tauFR_p1_dm10_B_2017_13TeVDown', '_CMS_tauFR_p1_dm0_E_2017_13TeVUp', '_CMS_tauFR_p1_dm0_E_2017_13TeVDown', '_CMS_tauFR_p1_dm1_E_2017_13TeVUp', '_CMS_tauFR_p1_dm1_E_2017_13TeVDown', '_CMS_tauFR_p1_dm10_E_2017_13TeVUp', '_CMS_tauFR_p1_dm10_E_2017_13TeVDown', '_CMS_tauFR_p0_dm11_B_2017_13TeVUp', '_CMS_tauFR_p0_dm11_B_2017_13TeVDown', '_CMS_tauFR_p0_dm11_E_2017_13TeVUp', '_CMS_tauFR_p0_dm11_E_2017_13TeVDown', '_CMS_tauFR_p1_dm11_B_2017_13TeVUp', '_CMS_tauFR_p1_dm11_B_2017_13TeVDown', '_CMS_tauFR_p1_dm11_E_2017_13TeVUp', '_CMS_tauFR_p1_dm11_E_2017_13TeVDown']
 
-muonFRNames = ['_CMS_MuonFakeRate_p0_2017_13TeVUp', '_CMS_MuonFakeRate_p0_2017_13TeVDown', '_CMS_MuonFakeRate_p1_2017_13TeVUp', '_CMS_MuonFakeRate_p1_2017_13TeVDown']
+muonFRNames = ['_CMS_muFR_p0_2017_13TeVUp', '_CMS_muFR_p0_2017_13TeVDown', '_CMS_muFR_p1_2017_13TeVUp', '_CMS_muFR_p1_2017_13TeVDown']
 
 # Scale
 scaleSys = ['/scaletDM0Up', '/scaletDM0Down', '/scaletDM1Up', '/scaletDM1Down', '/scaletDM10Up', '/scaletDM10Down', '/scaletDM11Up', '/scaletDM11Down']
@@ -41,9 +41,9 @@ dyptSys = ['/DYptreweightUp', '/DYptreweightDown']
 dyptSysNames = ['_CMS_DYpTreweight_2017_13TeVUp', '_CMS_DYpTreweight_2017_13TeVDown']
 
 # Recoil, JES
-recSys = ['/recrespUp', '/recrespDown', '/recresoUp', '/recresoDown']
+recSys = ['/recresp0Up', '/recresp0Down', '/recreso0Up', '/recreso0Down', '/recresp1Up', '/recresp1Down', '/recreso1Up', '/recreso1Down', '/recresp2Up', '/recresp2Down', '/recreso2Up', '/recreso2Down']
 
-recSysNames = ['_CMS_RecoilResponse_2017_13TeVUp', '_CMS_RecoilResponse_2017_13TeVDown', '_CMS_RecoilResolution_2017_13TeVUp', '_CMS_RecoilResolution_2017_13TeVDown']
+recSysNames = ['_CMS_scale_met_0Jet_2017_13TeVUp', '_CMS_scale_met_0Jet_2017_13TeVDown', '_CMS_reso_met_0Jet_2017_13TeVUp', '_CMS_reso_met_0Jet_2017_13TeVDown', '_CMS_scale_met_1Jet_2017_13TeVUp', '_CMS_scale_met_1Jet_2017_13TeVDown', '_CMS_reso_met_1Jet_2017_13TeVUp', '_CMS_reso_met_1Jet_2017_13TeVDown', '_CMS_scale_met_2Jet_2017_13TeVUp', '_CMS_scale_met_2Jet_2017_13TeVDown', '_CMS_reso_met_2Jet_2017_13TeVUp', '_CMS_reso_met_2Jet_2017_13TeVDown']
 
 jesSys = ['UnclusteredEnUp/', 'UnclusteredEnDown/', 'UesCHARGEDUp/', 'UesCHARGEDDown/', 'UesECALUp/', 'UesECALDown/', 'UesHCALUp/', 'UesHCALDown/', 'UesHFUp/', 'UesHFDown/', 'JetAbsoluteUp/', 'JetAbsoluteDown/', 'JetAbsoluteyearUp/', 'JetAbsoluteyearDown/', 'JetBBEC1Up/', 'JetBBEC1Down/', 'JetBBEC1yearUp/', 'JetBBEC1yearDown/', 'JetFlavorQCDUp/', 'JetFlavorQCDDown/', 'JetEC2Up/', 'JetEC2Down/', 'JetEC2yearUp/', 'JetEC2yearDown/', 'JetHFUp/', 'JetHFDown/', 'JetHFyearUp/', 'JetHFyearDown/', 'JetRelativeBalUp/', 'JetRelativeBalDown/', 'JetRelativeSampleUp/', 'JetRelativeSampleDown/', 'JERUp/', 'JERDown/']
 

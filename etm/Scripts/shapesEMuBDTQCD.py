@@ -66,7 +66,8 @@ for k, di in enumerate(Lists.dirs):
     for i, esSys in enumerate(Lists.escale):
         emb = Lists.positivize(emball.Get(esSys+'bdtDiscriminator'))
         emb = Lists.normEmb(emb, nom, esSys)
-        embSys.append(emb.Rebin(len(binning)-1, Lists.escaleNames[i], binning))
+        embSys.append(emb.Rebin(len(binning)-1, Lists.escaleNames[i][0], binning))
+        embSys.append(emb.Rebin(len(binning)-1, Lists.escaleNames[i][1], binning))
     # Write Histograms
     for eSys in embSys:
         eSys.Write()
@@ -103,8 +104,9 @@ for k, di in enumerate(Lists.dirs):
         DY = views.SubdirectoryView(DYtotal, 'TightOS'+di)
         dy = DY.Get('bdtDiscriminator')
         dy = Lists.positivize(dy)
-        nom = dy.Integral()
-        dySys.append(dy.Rebin(len(binning)-1, sam, binning))
+        dy = dy.Rebin(len(binning)-1, sam, binning)
+        h = dy.Clone()
+        dySys.append(dy)
         # Systematics
         for j, mSys in enumerate(Lists.mcSys):
             dy = Lists.positivize(DY.Get(mSys+'bdtDiscriminator'))
@@ -113,17 +115,21 @@ for k, di in enumerate(Lists.dirs):
         for j, eSys in enumerate(Lists.esSys):
             dy0 = Lists.positivize(DY.Get(eSys[0]+'bdtDiscriminator'))
             dy1 = Lists.positivize(DY.Get(eSys[1]+'bdtDiscriminator'))
-            dy0, dy1 = Lists.normHist(dy0, dy1, nom, eSys)[0], Lists.normHist(dy0, dy1, nom, eSys)[1]
-            dySys.append(dy0.Rebin(len(binning)-1, sam+Lists.esSysNames[j][0], binning))
-            dySys.append(dy1.Rebin(len(binning)-1, sam+Lists.esSysNames[j][1], binning))
+            dy0 = dy0.Rebin(len(binning)-1, sam+Lists.esSysNames[j][0], binning)
+            dy1 = dy1.Rebin(len(binning)-1, sam+Lists.esSysNames[j][1], binning)
+            dy0, dy1 = Lists.positivize(Lists.normHist(h, dy0, dy1)[0]), Lists.positivize(Lists.normHist(h, dy0, dy1)[1])
+            dySys.append(dy0)
+            dySys.append(dy1)
         # Recoil Response and Resolution
         if sam in Lists.recsamp:
             for j, rSys in enumerate(Lists.recSys):
                 dy0 = Lists.positivize(DY.Get(rSys[0]+'bdtDiscriminator'))
                 dy1 = Lists.positivize(DY.Get(rSys[1]+'bdtDiscriminator'))
-                dy0, dy1 = Lists.normHist(dy0, dy1, nom, rSys)[0], Lists.normHist(dy0, dy1, nom, rSys)[1]
-                dySys.append(dy0.Rebin(len(binning)-1, sam+Lists.recSysNames[j][0], binning))
-                dySys.append(dy1.Rebin(len(binning)-1, sam+Lists.recSysNames[j][1], binning))
+                dy0 = dy0.Rebin(len(binning)-1, sam+Lists.recSysNames[j][0], binning)
+                dy1 = dy1.Rebin(len(binning)-1, sam+Lists.recSysNames[j][1], binning)
+                dy0, dy1 = Lists.positivize(Lists.normHist(h, dy0, dy1)[0]), Lists.positivize(Lists.normHist(h, dy0, dy1)[1])
+                dySys.append(dy0)
+                dySys.append(dy1)
         # DY Pt Reweighting
         if sam=='Zothers':
             for j, dSys in enumerate(Lists.dyptSys):
@@ -134,9 +140,11 @@ for k, di in enumerate(Lists.dirs):
             for j, jSys in enumerate(Lists.jesSys):
                 dy0 = Lists.positivize(DY.Get(jSys[0]+'bdtDiscriminator'))
                 dy1 = Lists.positivize(DY.Get(jSys[1]+'bdtDiscriminator'))
-                dy0, dy1 = Lists.normHist(dy0, dy1, nom, jSys)[0], Lists.normHist(dy0, dy1, nom, jSys)[1]
-                dySys.append(dy0.Rebin(len(binning)-1, sam+Lists.jesSysNames[j][0], binning))
-                dySys.append(dy1.Rebin(len(binning)-1, sam+Lists.jesSysNames[j][1], binning))
+                dy0 = dy0.Rebin(len(binning)-1, sam+Lists.jesSysNames[j][0], binning)
+                dy1 = dy1.Rebin(len(binning)-1, sam+Lists.jesSysNames[j][1], binning)
+                dy0, dy1 = Lists.positivize(Lists.normHist(h, dy0, dy1)[0]), Lists.positivize(Lists.normHist(h, dy0, dy1)[1])
+                dySys.append(dy0)
+                dySys.append(dy1)
         # Write Histograms
         for dSys in dySys:
             dSys.Write()
