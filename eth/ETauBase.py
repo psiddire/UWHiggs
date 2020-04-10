@@ -52,6 +52,7 @@ class ETauBase():
     self.esTau = mcCorrections.esTau
     self.tesMC = mcCorrections.tesMC
     self.FesTau = mcCorrections.FesTau
+    self.FesMuTau = mcCorrections.FesMuTau
     self.ScaleTau = mcCorrections.ScaleTau
     self.ScaleEmbTau = mcCorrections.ScaleEmbTau
     self.TauID = mcCorrections.TauID
@@ -271,9 +272,10 @@ class ETauBase():
   def lepVec(self, row):
     myEle = ROOT.TLorentzVector()
     myEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
+    myMET = ROOT.TLorentzVector()
+    myMET.SetPtEtaPhiM(row.type1_pfMetEt, 0, row.type1_pfMetPhi, 0)
     myTau = ROOT.TLorentzVector()
     myTau.SetPtEtaPhiM(row.tPt, row.tEta, row.tPhi, row.tMass)
-    myMET = ROOT.TLorentzVector()
     # Recoil
     if self.is_recoilC and self.MetCorrection:
       tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30)))
@@ -305,18 +307,24 @@ class ETauBase():
       myMETpy = myMET.Py() + (1 - es[0]) * myTau.Py()
       tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
       tmpTau = myTau * ROOT.Double(es[0])
-    if self.is_embed:
-      es = self.ScaleEmbTau(row.tDecayMode)
-      myMETpx = myMET.Px() + (1 - es[0][0]) * myTau.Px()
-      myMETpy = myMET.Py() + (1 - es[0][0]) * myTau.Py()
-      tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-      tmpTau = myTau * ROOT.Double(es[0][0])
     if self.is_mc and bool(row.tZTTGenMatching==1 or row.tZTTGenMatching==3):
       fes = self.FesTau(myTau.Eta(), row.tDecayMode)
       myMETpx = myMET.Px() + (1 - fes[0][0]) * myTau.Px()
       myMETpy = myMET.Py() + (1 - fes[0][0]) * myTau.Py()
       tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
       tmpTau = myTau * ROOT.Double(fes[0][0])
+    if self.is_mc and bool(row.tZTTGenMatching==2 or row.tZTTGenMatching==4):
+      fes = self.FesMuTau(row.tDecayMode)
+      myMETpx = myMET.Px() + (1 - fes) * myTau.Px()
+      myMETpy = myMET.Py() + (1 - fes) * myTau.Py()
+      tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+      tmpTau = myTau * ROOT.Double(fes)
+    if self.is_embed:
+      es = self.ScaleEmbTau(row.tDecayMode)
+      myMETpx = myMET.Px() + (1 - es[0][0]) * myTau.Px()
+      myMETpy = myMET.Py() + (1 - es[0][0]) * myTau.Py()
+      tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
+      tmpTau = myTau * ROOT.Double(es[0][0])
     return [tmpMET, tmpTau]
 
   # Correction Factors

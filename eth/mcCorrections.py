@@ -142,6 +142,14 @@ def FesTau(eta, dm):
             ef = ['/etfakeesedm1Up', '/etfakeesedm1Down']
     return [fes, ef]
 
+def FesMuTau(dm):
+    fes = 1.0
+    if dm == 0:
+        fes = 1.000
+    elif dm == 1:
+        fes = 0.995
+    return fes
+
 def ScaleTau(dm):
     if dm==0:
         st = (0.01, ['/scaletDM0Up', '/scaletDM0Down'])
