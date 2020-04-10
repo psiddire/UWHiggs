@@ -125,6 +125,33 @@ class AnalyzeMuESysBDT(MegaBase, MuEBase):
 
       self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, '')
 
+      # Recoil Response and Resolution
+      if self.is_recoilC and self.MetCorrection:
+        if self.is_W:
+          nj = njets + 1
+        else:
+          nj = njets
+        rSys = self.RecSys(int(round(nj)))
+        reSys = [x for x in self.recSys if x not in rSys]
+        self.fill_SysNames(myMuon, myMET, myEle, njets, mjj, weight, reSys)
+        tmpMET.SetPtEtaPhiM(myMET.Pt(), 0, myMET.Phi(), 0)
+        sysMet = self.MetSys.ApplyMEtSys(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(nj)), 0, 0, 0)
+        if sysMet!=None:
+          tmpMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
+        self.fill_categories(myMuon, tmpMET, myEle, njets, mjj, weight, rSys[0])
+        sysMet = self.MetSys.ApplyMEtSys(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(nj)), 0, 0, 1)
+        if sysMet!=None:
+          tmpMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
+        self.fill_categories(myMuon, tmpMET, myEle, njets, mjj, weight, rSys[1])
+        sysMet = self.MetSys.ApplyMEtSys(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(nj)), 0, 1, 0)
+        if sysMet!=None:
+          tmpMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
+        self.fill_categories(myMuon, tmpMET, myEle, njets, mjj, weight, rSys[2])
+        sysMet = self.MetSys.ApplyMEtSys(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(nj)), 0, 1, 1)
+        if sysMet!=None:
+          tmpMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
+        self.fill_categories(myMuon, tmpMET, myEle, njets, mjj, weight, rSys[3])
+
       # Pileup
       puweightUp = pucorrector['puUp'](row.nTruePU)
       puweightDown = pucorrector['puDown'](row.nTruePU)
@@ -135,26 +162,6 @@ class AnalyzeMuESysBDT(MegaBase, MuEBase):
       else:
         self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight * puweightUp/puweight, '/puUp')
         self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight * puweightDown/puweight, '/puDown')
-
-      # Recoil
-      if self.is_recoilC and self.MetCorrection:
-        tmpMET.SetPtEtaPhiM(myMET.Pt(), 0, myMET.Phi(), 0)
-        sysMet = self.MetSys.ApplyMEtSys(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)), 0, 0, 0)
-        if sysMet!=None:
-          tmpMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
-        self.fill_categories(myMuon, tmpMET, myEle, njets, mjj, weight, '/recrespUp')
-        sysMet = self.MetSys.ApplyMEtSys(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)), 0, 0, 1)
-        if sysMet!=None:
-          tmpMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
-        self.fill_categories(myMuon, tmpMET, myEle, njets, mjj, weight, '/recrespDown')
-        sysMet = self.MetSys.ApplyMEtSys(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)), 0, 1, 0)
-        if sysMet!=None:
-          tmpMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
-        self.fill_categories(myMuon, tmpMET, myEle, njets, mjj, weight, '/recresoUp')
-        sysMet = self.MetSys.ApplyMEtSys(myMET.Et()*math.cos(myMET.Phi()), myMET.Et()*math.sin(myMET.Phi()), row.genpX, row.genpY, row.vispX, row.vispY, int(round(njets)), 0, 1, 1)
-        if sysMet!=None:
-          tmpMET.SetPtEtaPhiM(math.sqrt(sysMet[0]*sysMet[0] + sysMet[1]*sysMet[1]), 0, math.atan2(sysMet[1], sysMet[0]), 0)
-        self.fill_categories(myMuon, tmpMET, myEle, njets, mjj, weight, '/recresoDown')
 
       # b-tag
       nbtag = row.bjetDeepCSVVeto20Medium_2017_DR0p5
@@ -235,9 +242,9 @@ class AnalyzeMuESysBDT(MegaBase, MuEBase):
       if self.is_embed:
         # Embed Electron Energy Scale
         if abs(myEle.Eta()) < 1.479:
-          eCorr = 0.01
+          eCorr = 0.005
         else:
-          eCorr = 0.025
+          eCorr = 0.0125
         myMETpx = myMET.Px() + myEle.Px()
         myMETpy = myMET.Py() + myEle.Py()
         tmpEle = myEle * ROOT.Double(1.00 + eCorr)
@@ -257,7 +264,6 @@ class AnalyzeMuESysBDT(MegaBase, MuEBase):
   def fill_SysNames(self, myMuon, myMET, myEle, njets, mjj, weight, sysNames):
     for s in sysNames:
       self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, s)
-
 
 
   def process(self):

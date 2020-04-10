@@ -44,6 +44,8 @@ class EMuQCDBase():
     self.muTracking = mcCorrections.muonTracking
     self.eIDnoiso90 = mcCorrections.eIDnoiso90
     self.eReco = mcCorrections.eReco
+    self.MESSys = mcCorrections.MESSys
+    self.RecSys = mcCorrections.RecSys
 
     self.DYreweight = mcCorrections.DYreweight
     self.w1 = mcCorrections.w1
@@ -68,8 +70,10 @@ class EMuQCDBase():
     self.names = Kinematics.names
     self.ssnames = Kinematics.ssnames
     self.sys = Kinematics.sys
+    self.recSys = Kinematics.recSys
     self.sssys = Kinematics.sssys
     self.qcdsys = Kinematics.qcdsys
+    self.mesSys = Kinematics.mesSys
     self.functor = Kinematics.functor
     self.var_d = Kinematics.var_d
 
@@ -153,9 +157,26 @@ class EMuQCDBase():
     myMET.SetPtEtaPhiM(row.type1_pfMetEt, 0, row.type1_pfMetPhi, 0)
     myMuon = ROOT.TLorentzVector()
     myMuon.SetPtEtaPhiM(row.mPt, row.mEta, row.mPhi, row.mMass)
+    # Recoil
     if self.is_recoilC and self.MetCorrection:
-      tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30WoNoisyJets)))
+      if self.is_W:
+        tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30WoNoisyJets + 1)))
+      else:
+        tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30WoNoisyJets)))
       myMET.SetPtEtaPhiM(math.sqrt(tmpMet[0]*tmpMet[0] + tmpMet[1]*tmpMet[1]), 0, math.atan2(tmpMet[1], tmpMet[0]), 0)
+    # Electron Scale Correction
+    if self.is_data:
+      myEle = myEle * ROOT.Double(row.eCorrectedEt/myEle.E())
+    else:
+      myMETpx = myMET.Px() + myEle.Px()
+      myMETpy = myMET.Py() + myEle.Py()
+      if self.is_mc:
+        myEle = myEle * ROOT.Double(row.eCorrectedEt/myEle.E())
+      elif self.is_embed:
+        myEle = myEle * ROOT.Double(0.9993) if abs(myEle.Eta()) < 1.479 else myEle * ROOT.Double(0.9887)
+      myMETpx = myMETpx - myEle.Px()
+      myMETpy = myMETpy - myEle.Py()
+      myMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
     return [myEle, myMET, myMuon]
 
 
@@ -175,8 +196,9 @@ class EMuQCDBase():
       mID = self.muonMediumID(myMuon.Pt(), abs(myMuon.Eta()))
       mIso = self.muonLooseIsoMediumID(myMuon.Pt(), abs(myMuon.Eta()))
       mTrk = self.muTracking(myMuon.Eta())[0]
+      zvtx = 0.991
       mcSF = self.rc.kSpreadMC(row.mCharge, myMuon.Pt(), myMuon.Eta(), myMuon.Phi(), row.mGenPt, 0, 0)
-      weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*eID*eReco*mID*mIso*mTrk*mcSF*row.prefiring_weight
+      weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*eID*eReco*mID*mIso*mTrk*zvtx*mcSF*row.prefiring_weight
       if self.is_DY:
         # DY pT reweighting
         dyweight = self.DYreweight(row.genMass, row.genpT)
@@ -216,4 +238,3 @@ class EMuQCDBase():
       weight = 0
 
     return [weight, osss]
-

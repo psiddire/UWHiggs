@@ -68,7 +68,9 @@ plotnames = ['TightOS', 'TightSS', 'TightOS0Jet', 'TightSS0Jet', 'TightOS1Jet', 
 
 zttnames = ['TightOS', 'TightSS', 'TightOS0Jet', 'TightSS0Jet', 'TightOS1Jet', 'TightSS1Jet', 'TightOS2Jet', 'TightSS2Jet', 'TightOS2JetVBF', 'TightSS2JetVBF']
 
-sys = ['', 'puUp', 'puDown', 'pfUp', 'pfDown', 'recrespUp', 'recrespDown', 'recresoUp', 'recresoDown', 'bTagUp', 'bTagDown', 'eesUp', 'eesDown', 'mes1p2Up', 'mes1p2Down', 'mes2p1Up', 'mes2p1Down', 'mes2p4Up', 'mes2p4Down', 'DYptreweightUp', 'DYptreweightDown']
+sys = ['', 'puUp', 'puDown', 'pfUp', 'pfDown', 'recresp0Up', 'recresp0Down', 'recreso0Up', 'recreso0Down', 'recresp1Up', 'recresp1Down', 'recreso1Up', 'recreso1Down', 'recresp2Up', 'recresp2Down', 'recreso2Up', 'recreso2Down', 'bTagUp', 'bTagDown', 'eesUp', 'eesDown', 'mes1p2Up', 'mes1p2Down', 'mes2p1Up', 'mes2p1Down', 'mes2p4Up', 'mes2p4Down', 'DYptreweightUp', 'DYptreweightDown']
+
+recSys = ['/recresp0Up', '/recresp0Down', '/recreso0Up', '/recreso0Down', '/recresp1Up', '/recresp1Down', '/recreso1Up', '/recreso1Down', '/recresp2Up', '/recresp2Down', '/recreso2Up', '/recreso2Down']
 
 mesSys = ['/mes1p2Up', '/mes1p2Down', '/mes2p1Up', '/mes2p1Down', '/mes2p4Up', '/mes2p4Down']
 
