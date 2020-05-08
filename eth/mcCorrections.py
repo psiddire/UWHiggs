@@ -39,6 +39,7 @@ deepTauVSjet_vloose = TauPOGCorrections.make_tau_pog_DeepTauVSjet_2018('VLoose')
 deepTauVSjet_Emb_tight = TauPOGCorrections.make_tau_pog_DeepTauVSjet_EMB_2018('Tight')
 deepTauVSjet_Emb_vloose = TauPOGCorrections.make_tau_pog_DeepTauVSjet_EMB_2018('VLoose')
 esTau = TauPOGCorrections.make_tau_pog_ES_2018()
+tesMC = TauPOGCorrections.make_tau_pog_TES_2018()
 fesTau = TauPOGCorrections.Tau_FES_2018
 tauSF = getTauTriggerSFs()
 
@@ -50,6 +51,7 @@ fpt = ROOT.TFile(cmsswBase + 'ETauEmbedPt.root')
 wpt0 = fpt.Get('0Jet')
 wpt1 = fpt.Get('1Jet')
 wpt2 = fpt.Get('2Jet')
+wpt3 = fpt.Get('2JetVBF')
 
 def EmbedPt(pt, njets, mjj):
     if njets==0:
@@ -58,6 +60,8 @@ def EmbedPt(pt, njets, mjj):
         corr =  wpt1.GetBinContent(wpt1.GetXaxis().FindBin(pt))
     elif njets==2 and mjj < 500:
         corr = wpt2.GetBinContent(wpt2.GetXaxis().FindBin(pt))
+    elif njets==2 and mjj > 500:
+        corr = wpt3.GetBinContent(wpt3.GetXaxis().FindBin(pt))
     else:
         corr = 1.0
     if corr > 3.0:
@@ -69,6 +73,7 @@ feta = ROOT.TFile(cmsswBase + 'ETauEmbedEta.root')
 weta0 = feta.Get('0Jet')
 weta1 = feta.Get('1Jet')
 weta2 = feta.Get('2Jet')
+weta3 = feta.Get('2JetVBF')
 
 def EmbedEta(eta, njets, mjj):
     if njets==0:
@@ -77,6 +82,8 @@ def EmbedEta(eta, njets, mjj):
         sf = weta1.GetBinContent(weta1.GetXaxis().FindBin(eta))
     elif njets==2 and mjj < 500:
         sf = weta2.GetBinContent(weta2.GetXaxis().FindBin(eta))
+    elif njets==2 and mjj > 500:
+        sf = weta3.GetBinContent(weta3.GetXaxis().FindBin(eta))
     else:
         sf = 1.0
     if sf > 3:
@@ -88,6 +95,7 @@ fphi = ROOT.TFile(cmsswBase + 'ETauEmbedPhi.root')
 wphi0 = fphi.Get('0Jet')
 wphi1 = fphi.Get('1Jet')
 wphi2 = fphi.Get('2Jet')
+wphi3 = fphi.Get('2JetVBF')
 
 def EmbedPhi(phi, njets, mjj):
     if njets==0:
@@ -96,6 +104,8 @@ def EmbedPhi(phi, njets, mjj):
         sf = wphi1.GetBinContent(wphi1.GetXaxis().FindBin(phi))
     elif njets==2 and mjj < 500:
         sf = wphi2.GetBinContent(wphi2.GetXaxis().FindBin(phi))
+    elif njets==2 and mjj > 500:
+        sf = wphi3.GetBinContent(wphi3.GetXaxis().FindBin(phi))
     else:
         sf = 1.0
     if sf > 3:
@@ -109,39 +119,47 @@ def FesTau(eta, dm):
     if abs(eta) < 1.479:
         if dm == 0:
             fes = fesTau('EBDM0')
-            ef = ['etfakeesbdm0Up', 'etfakeesbdm0Down']
+            ef = ['/etfakeesbdm0Up', '/etfakeesbdm0Down']
         elif dm == 1:
             fes = fesTau('EBDM1')
-            ef = ['etfakeesbdm1Up', 'etfakeesbdm1Down']
+            ef = ['/etfakeesbdm1Up', '/etfakeesbdm1Down']
     else:
         if dm == 0:
             fes = fesTau('EEDM0')
-            ef = ['etfakeesedm0Up', 'etfakeesedm0Down']
+            ef = ['/etfakeesedm0Up', '/etfakeesedm0Down']
         elif dm == 1:
             fes = fesTau('EEDM1')
-            ef = ['etfakeesedm1Up', 'etfakeesedm1Down']
+            ef = ['/etfakeesedm1Up', '/etfakeesedm1Down']
     return [fes, ef]
+
+def FesMuTau(dm):
+    fes = 1.0
+    if dm == 0:
+        fes = 0.998
+    elif dm == 1:
+        fes = 0.99
+    return fes
 
 def ScaleTau(dm):
     if dm==0:
-        st = ([0.007, -0.007], ['/scaletDM0Up', '/scaletDM0Down'])
+        st = (0.009, ['/scaletDM0Up', '/scaletDM0Down'])
     elif dm==1:
-        st = ([0.004, -0.004], ['/scaletDM1Up', '/scaletDM1Down'])
+        st = (0.006, ['/scaletDM1Up', '/scaletDM1Down'])
     elif dm==10:
-        st = ([0.005, -0.005], ['/scaletDM10Up', '/scaletDM10Down'])
+        st = (0.007, ['/scaletDM10Up', '/scaletDM10Down'])
     elif dm==11:
-        st = ([0.011, -0.009], ['/scaletDM11Up', '/scaletDM11Down'])
+        st = (0.012, ['/scaletDM11Up', '/scaletDM11Down'])
     return st
 
 def ScaleEmbTau(dm):
     if dm==0:
-        st = ([0.004, -0.004], ['/scaletDM0Up', '/scaletDM0Down'])
+        st = ([0.997, 0.004, -0.004], ['/scaletDM0Up', '/scaletDM0Down'])
     elif dm==1:
-        st = ([0.004, -0.003], ['/scaletDM1Up', '/scaletDM1Down'])
+        st = ([0.994, 0.004, -0.003], ['/scaletDM1Up', '/scaletDM1Down'])
     elif dm==10:
-        st = ([0.003, -0.003], ['/scaletDM10Up', '/scaletDM10Down'])
+        st = ([0.993, 0.003, -0.003], ['/scaletDM10Up', '/scaletDM10Down'])
     elif dm==11:
-        st = ([0.003, -0.003], ['/scaletDM11Up', '/scaletDM11Down'])
+        st = ([0.993, 0.003, -0.003], ['/scaletDM11Up', '/scaletDM11Down'])
     return st
 
 def TauID(pt):
@@ -172,3 +190,12 @@ def EleFakeTau(eta):
     else:
         ef = ['/etfakeeUp', '/etfakeeDown']
     return ef
+
+def RecSys(njets):
+    if njets==0:
+        rSys = ['/recresp0Up', '/recresp0Down', '/recreso0Up', '/recreso0Down']
+    elif njets==1:
+        rSys = ['/recresp1Up', '/recresp1Down', '/recreso1Up', '/recreso1Down']
+    else:
+        rSys = ['/recresp2Up', '/recresp2Down', '/recreso2Up', '/recreso2Down']
+    return rSys

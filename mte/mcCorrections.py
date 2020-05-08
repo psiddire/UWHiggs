@@ -97,3 +97,12 @@ def MESSys(eta):
         me = 0.027
         mes = ['/mes2p4Up', '/mes2p4Down']
     return [me, mes]
+
+def RecSys(njets):
+    if njets==0:
+        rSys = ['/recresp0Up', '/recresp0Down', '/recreso0Up', '/recreso0Down']
+    elif njets==1:
+        rSys = ['/recresp1Up', '/recresp1Down', '/recreso1Up', '/recreso1Down']
+    else:
+        rSys = ['/recresp2Up', '/recresp2Down', '/recreso2Up', '/recreso2Down']
+    return rSys

@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Get the data
-export datasrc=/hdfs/store/user/kaho
-export MEGAPATH=/hdfs/store/user/kaho
+export datasrc=/hdfs/store/user/ndev
+export MEGAPATH=/hdfs/store/user/ndev
 
 #export jobidem='Data2018_Dec_em'
 #export jobidem='MC2018_Dec'
-export jobidem='MC2018_DecSys'
+export jobidem='MC2018Sys'
 #export jobidem='Embed2018em'
 export jobid=$jobidem
 

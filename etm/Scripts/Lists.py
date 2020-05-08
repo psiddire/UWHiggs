@@ -2,11 +2,11 @@ dirs = ['0Jet', '1Jet', '2Jet', '2JetVBF']
 
 drs = ['0jet', '1jet', '2jet_gg', '2jet_vbf']
 
-samp = ['Zothers', 'W', 'EWK', 'ggH_htt', 'qqH_htt', 'ggH_hww', 'qqH_hww', 'vH_htt', 'TT', 'T', 'Diboson', 'LFVGG125', 'LFVVBF125']
+samp = ['Zothers', 'W', 'EWK', 'ggH_htt', 'qqH_htt', 'ggH_hww', 'qqH_hww', 'TT', 'T', 'Diboson', 'LFVGG125', 'LFVVBF125']
 
 recsamp = ['Zothers', 'W', 'EWK', 'ggH_htt', 'qqH_htt', 'ggH_hww', 'qqH_hww', 'LFVGG125', 'LFVVBF125']
 
-norecsamp = ['vH_htt', 'TT', 'T', 'Diboson']
+norecsamp = ['TT', 'T', 'Diboson']
 
 # QCD
 qcdSys = ['Rate0JetUp/', 'Rate0JetDown/', 'Rate1JetUp/', 'Rate1JetDown/', 'Rate2JetUp/', 'Rate2JetDown/', 'Shape0JetUp/', 'Shape0JetDown/', 'Shape1JetUp/', 'Shape1JetDown/', 'Shape2JetUp/', 'Shape2JetDown/', 'IsoUp/', 'IsoDown/']
@@ -14,7 +14,7 @@ qcdSys = ['Rate0JetUp/', 'Rate0JetDown/', 'Rate1JetUp/', 'Rate1JetDown/', 'Rate2
 qcdSysNames = ['QCD_CMS_QCD_0JetRate_2018_13TeVUp', 'QCD_CMS_QCD_0JetRate_2018_13TeVDown', 'QCD_CMS_QCD_1JetRate_2018_13TeVUp', 'QCD_CMS_QCD_1JetRate_2018_13TeVDown', 'QCD_CMS_QCD_2JetRate_2018_13TeVUp', 'QCD_CMS_QCD_2JetRate_2018_13TeVDown', 'QCD_CMS_QCD_0JetShape_2018_13TeVUp', 'QCD_CMS_QCD_0JetShape_2018_13TeVDown', 'QCD_CMS_QCD_1JetShape_2018_13TeVUp', 'QCD_CMS_QCD_1JetShape_2018_13TeVDown', 'QCD_CMS_QCD_2JetShape_2018_13TeVUp', 'QCD_CMS_QCD_2JetShape_2018_13TeVDown', 'QCD_CMS_QCD_Extrapolation_13TeVUp', 'QCD_CMS_QCD_Extrapolation_13TeVDown']
 
 # MC
-mcSys = ['puUp/', 'puDown/', 'bTagUp/', 'bTagDown/', 'eesUp/', 'eesDown/', '/mes1p2Up', '/mes1p2Down', '/mes2p1Up', '/mes2p1Down', '/mes2p4Up', '/mes2p4Down']
+mcSys = ['puUp/', 'puDown/', 'bTagUp/', 'bTagDown/', 'eesUp/', 'eesDown/', 'mes1p2Up/', 'mes1p2Down/', 'mes2p1Up/', 'mes2p1Down/', 'mes2p4Up/', 'mes2p4Down/']
 
 mcSysNames = ['_CMS_Pileup_13TeVUp', '_CMS_Pileup_13TeVDown', '_CMS_eff_btag_2018_13TeVUp', '_CMS_eff_btag_2018_13TeVDown', '_CMS_scale_e_13TeVUp', '_CMS_scale_e_13TeVDown', '_CMS_scale_m_etaLt1p2_13TeVUp', '_CMS_scale_m_etaLt1p2_13TeVDown', '_CMS_scale_m_eta1p2to2p1_13TeVUp', '_CMS_scale_m_eta1p2to2p1_13TeVDown', '_CMS_scale_m_eta2p1to2p4_13TeVUp', '_CMS_scale_m_eta2p1to2p4_13TeVDown']
 
@@ -27,9 +27,9 @@ dyptSys = ['DYptreweightUp/', 'DYptreweightDown/']
 dyptSysNames = ['_CMS_DYpTreweight_2018_13TeVUp', '_CMS_DYpTreweight_2018_13TeVDown']
 
 # Recoil, JES
-recSys = ['recrespUp/', 'recrespDown/', 'recresoUp/', 'recresoDown/']
+recSys = ['recresp0Up/', 'recresp0Down/', 'recreso0Up/', 'recreso0Down/', 'recresp1Up/', 'recresp1Down/', 'recreso1Up/', 'recreso1Down/', 'recresp2Up/', 'recresp2Down/', 'recreso2Up/', 'recreso2Down/']
 
-recSysNames = ['_CMS_RecoilResponse_2018_13TeVUp', '_CMS_RecoilResponse_2018_13TeVDown', '_CMS_RecoilResolution_2018_13TeVUp', '_CMS_RecoilResolution_2018_13TeVDown']
+recSysNames = ['_CMS_scale_met_0Jet_2018_13TeVUp', '_CMS_scale_met_0Jet_2018_13TeVDown', '_CMS_reso_met_0Jet_2018_13TeVUp', '_CMS_reso_met_0Jet_2018_13TeVDown', '_CMS_scale_met_1Jet_2018_13TeVUp', '_CMS_scale_met_1Jet_2018_13TeVDown', '_CMS_reso_met_1Jet_2018_13TeVUp', '_CMS_reso_met_1Jet_2018_13TeVDown', '_CMS_scale_met_2Jet_2018_13TeVUp', '_CMS_scale_met_2Jet_2018_13TeVDown', '_CMS_reso_met_2Jet_2018_13TeVUp', '_CMS_reso_met_2Jet_2018_13TeVDown']
 
 jesSys = ['UnclusteredEnUp/', 'UnclusteredEnDown/', 'UesCHARGEDUp/', 'UesCHARGEDDown/', 'UesECALUp/', 'UesECALDown/', 'UesHCALUp/', 'UesHCALDown/', 'UesHFUp/', 'UesHFDown/', 'JetAbsoluteUp/', 'JetAbsoluteDown/', 'JetAbsoluteyearUp/', 'JetAbsoluteyearDown/', 'JetBBEC1Up/', 'JetBBEC1Down/', 'JetBBEC1yearUp/', 'JetBBEC1yearDown/', 'JetFlavorQCDUp/', 'JetFlavorQCDDown/', 'JetEC2Up/', 'JetEC2Down/', 'JetEC2yearUp/', 'JetEC2yearDown/', 'JetHFUp/', 'JetHFDown/', 'JetHFyearUp/', 'JetHFyearDown/', 'JetRelativeBalUp/', 'JetRelativeBalDown/', 'JetRelativeSampleUp/', 'JetRelativeSampleDown/', 'JERUp/', 'JERDown/']
 
@@ -67,31 +67,47 @@ def positivize(histogram):
 def normQCD(histogram, i, j, category):
     qcd = histogram.Clone()
     if category=='0Jet':
-        integ = [5969.426, 6394.269, 5544.582, 5969.426, 5969.426, 5969.426, 5969.426, 6377.252, 5561.641, 5969.426, 5969.426, 5969.426, 5969.426, 5693.108, 6275.701]
+        integ = [2403.257, 2574.637, 2231.877, 2403.257, 2403.257, 2403.257, 2403.257, 2570.992, 2235.521, 2403.257, 2403.257, 2403.257, 2403.257, 2322.993, 2493.94]
         qcd.Scale(integ[j]/i)
     elif category=='1Jet':
-        integ = [1852.227, 1852.227, 1852.227, 1912.638, 1791.817, 1852.227, 1852.227, 1852.227, 1852.227, 1910.358, 1794.183, 1852.447, 1852.227, 1765.597, 1950.129]
+        integ = [1913.364, 1913.364, 1913.364, 1975.715, 1851.012, 1913.364, 1913.364, 1913.364, 1913.364, 1973.24, 1853.487, 1913.364, 1913.364, 1827.737, 2008.89]
         qcd.Scale(integ[j]/i)
     elif category=='2Jet':
-        integ = [509.869, 509.869, 509.869, 509.869, 509.869, 536.649, 483.09, 509.869, 509.869, 509.869, 509.869, 530.454, 489.284, 480.767, 543.259]
+        integ = [573.641, 573.641, 573.641, 573.641, 573.641, 601.446, 545.836, 573.641, 573.641, 573.641, 573.641, 591.6, 555.682, 544.179, 606.88]
         qcd.Scale(integ[j]/i)
     elif category=='2JetVBF':
-        integ = [75.559, 75.559, 75.559, 75.559, 75.559, 79.408, 71.71, 75.559, 75.559, 75.559, 75.559, 78.343, 72.775, 70.045, 81.824]
+        integ = [56.189, 56.189, 56.189, 56.189, 56.189, 58.912, 53.467, 56.189, 56.189, 56.189, 56.189, 57.945, 54.434, 52.042, 60.914]
         qcd.Scale(integ[j]/i)
     return qcd
+
+# def normQCD(histogram, i, j, category):
+#     qcd = histogram.Clone()
+#     if category=='0Jet':
+#         integ = [6104.596, 6539.11, 5670.081, 6104.596, 6104.596, 6104.596, 6104.596, 6522.146, 5687.044, 6104.596, 6104.596, 6104.596, 6104.596, 5819.735, 6419.592]
+#         qcd.Scale(integ[j]/i)
+#     elif category=='1Jet':
+#         integ = [1923.468, 1923.468, 1923.468, 1986.131, 1860.806, 1923.468, 1923.468, 1923.468, 1923.468, 1983.603, 1863.334, 1923.468, 1923.468, 1831.11, 2026.908]
+#         qcd.Scale(integ[j]/i)
+#     elif category=='2Jet':
+#         integ = [540.994, 540.994, 540.994, 540.994, 540.994, 568.774, 513.23, 540.994, 540.994, 540.994, 540.994, 561.485, 520.606, 510.686, 576.083]
+#         qcd.Scale(integ[j]/i)
+#     elif category=='2JetVBF':
+#         integ = [78.654, 78.654, 78.654, 78.654, 78.654, 82.716, 74.592, 78.654, 78.654, 78.654, 78.654, 81.676, 75.633, 73.057, 85.025]
+#         qcd.Scale(integ[j]/i)
+#     return qcd
 
 def normQCDBDT(histogram, i, j, category):
     qcd = histogram.Clone()
     if category=='0Jet':
-        integ = [29825.101, 31939.373, 27710.828, 29825.101, 29825.101, 29825.101, 29825.101, 31774.857, 27875.344, 29825.101, 29825.101, 29825.101, 29825.101, 28245.896, 31566.095]
+        integ = [30372.54, 32524.457, 28220.621, 30372.54, 30372.54, 30372.54, 30372.54, 32345.927, 28399.153, 30372.54, 30372.54, 30372.54, 30372.54, 28773.246, 32136.44]
         qcd.Scale(integ[j]/i)
     elif category=='1Jet':
-        integ = [13073.126, 13073.126, 13073.126, 13478.341, 12667.912, 13073.126, 13073.126, 13073.126, 13073.126, 13414.38, 12731.873, 13073.126, 13073.126, 12484.576, 13717.537]
+        integ = [13384.796, 13384.796, 13384.796, 13799.198, 12970.394, 13384.796, 13384.796, 13384.796, 13384.796, 13732.643, 13036.949, 13384.796, 13384.796, 12776.161, 14051.968]
         qcd.Scale(integ[j]/i)
     elif category=='2Jet':
-        integ = [3312.183, 3312.183, 3312.183, 3312.183, 3312.183, 3477.174, 3147.249, 3312.183, 3312.183, 3312.183, 3312.183, 3425.831, 3198.85, 3152.544, 3490.065]
+        integ = [3534.941, 3534.941, 3534.941, 3534.941, 3534.941, 3709.536, 3360.347, 3534.941, 3534.941, 3534.941, 3534.941, 3653.204, 3416.992, 3360.912, 3729.88]
         qcd.Scale(integ[j]/i)
     elif category=='2JetVBF':
-        integ = [585.672, 585.672, 585.672, 585.672, 585.672, 613.763, 557.58, 585.672, 585.672, 585.672, 585.672, 603.344, 567.999, 545.084, 631.599]
+        integ = [573.4, 573.4, 573.4, 573.4, 573.4, 600.885, 545.915, 573.4, 573.4, 573.4, 573.4, 590.661, 556.139, 534.473, 617.808]
         qcd.Scale(integ[j]/i)
     return qcd

@@ -1,15 +1,16 @@
 import math
 import ROOT
 
-f = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2018/FREET.root")
-bdm0 = f.Get("EBDM0")
-bdm1 = f.Get("EBDM1")
-bdm10 = f.Get("EBDM10")
-bdm11 = f.Get("EBDM11")
-edm0 = f.Get("EEDM0")
-edm1 = f.Get("EEDM1")
-edm10 = f.Get("EEDM10")
-edm11 = f.Get("EEDM11")
+cmsswBase = '/afs/hep.wisc.edu/home/psiddire/CMSSW_10_2_16_UL/src/FinalStateAnalysis/TagAndProbe/data/'
+f = ROOT.TFile(cmsswBase + '2018/FREET.root')
+bdm0 = f.Get('EBDM0')
+bdm1 = f.Get('EBDM1')
+bdm10 = f.Get('EBDM10')
+bdm11 = f.Get('EBDM11')
+edm0 = f.Get('EEDM0')
+edm1 = f.Get('EEDM1')
+edm10 = f.Get('EEDM10')
+edm11 = f.Get('EEDM11')
 
 def fakerate_weight(pt, eta, dm, shift=''):
     if eta < 1.5:
@@ -104,8 +105,8 @@ def fakerate_weight(pt, eta, dm, shift=''):
                 fr = edm11.Value(0) + (edm11.Value(1) - edm11.ParError(1)) * pt
     return fr/(1-fr)
 
-fe = ROOT.TFile("../../FinalStateAnalysis/TagAndProbe/data/2018/FRMME.root")
-efr = fe.Get("EleFR")
+fe = ROOT.TFile(cmsswBase + '2018/FRMME.root')
+efr = fe.Get('EleFR')
 
 def fakerateEle_weight(pt, shift=''):
     if pt < 100:

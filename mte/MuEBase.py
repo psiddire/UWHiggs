@@ -32,7 +32,7 @@ class MuEBase():
     self.is_GluGlu = self.mcWeight.is_GluGlu
     self.is_VBF = self.mcWeight.is_VBF
 
-    self.Emb = False
+    self.Emb = True
     self.is_recoilC = self.mcWeight.is_recoilC
     self.MetCorrection = self.mcWeight.MetCorrection
     if self.is_recoilC and self.MetCorrection:
@@ -44,6 +44,7 @@ class MuEBase():
     self.muTracking = mcCorrections.muonTracking
     self.eID = mcCorrections.eID
     self.MESSys = mcCorrections.MESSys
+    self.RecSys = mcCorrections.RecSys
 
     self.DYreweight = mcCorrections.DYreweight
     self.w1 = mcCorrections.w1
@@ -68,6 +69,7 @@ class MuEBase():
     self.names = Kinematics.names
     self.ssnames = Kinematics.ssnames
     self.sys = Kinematics.sys
+    self.recSys = Kinematics.recSys
     self.sssys = Kinematics.sssys
     self.qcdsys = Kinematics.qcdsys
     self.mesSys = Kinematics.mesSys
@@ -234,20 +236,26 @@ class MuEBase():
     myMET.SetPtEtaPhiM(row.type1_pfMetEt, 0, row.type1_pfMetPhi, 0)
     myEle = ROOT.TLorentzVector()
     myEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
+    # Recoil
+    if self.is_recoilC and self.MetCorrection:
+      if self.is_W:
+        tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30 + 1)))
+      else:
+        tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30)))
+      myMET.SetPtEtaPhiM(math.sqrt(tmpMet[0]*tmpMet[0] + tmpMet[1]*tmpMet[1]), 0, math.atan2(tmpMet[1], tmpMet[0]), 0)
     # Electron Scale Correction
-    if self.is_mc:
+    if self.is_data:
+      myEle = myEle * ROOT.Double(row.eCorrectedEt/myEle.E())
+    else:
       myMETpx = myMET.Px() + myEle.Px()
       myMETpy = myMET.Py() + myEle.Py()
-    if self.is_data or self.is_mc:
-      myEle = myEle * ROOT.Double(row.eCorrectedEt/myEle.E())
-    if self.is_mc:
+      if self.is_mc:
+        myEle = myEle * ROOT.Double(row.eCorrectedEt/myEle.E())
+      elif self.is_embed:
+        myEle = myEle * ROOT.Double(0.9967) if abs(myEle.Eta()) < 1.479 else myEle * ROOT.Double(0.9944)
       myMETpx = myMETpx - myEle.Px()
       myMETpy = myMETpy - myEle.Py()
       myMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-    # Recoil
-    if self.is_recoilC and self.MetCorrection:
-      tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30)))
-      myMET.SetPtEtaPhiM(math.sqrt(tmpMet[0]*tmpMet[0] + tmpMet[1]*tmpMet[1]), 0, math.atan2(tmpMet[1], tmpMet[0]), 0)
     return [myMuon, myMET, myEle]
 
 

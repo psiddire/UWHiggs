@@ -32,7 +32,7 @@ class EMuBase():
     self.is_GluGlu = self.mcWeight.is_GluGlu
     self.is_VBF = self.mcWeight.is_VBF
 
-    self.Emb = False
+    self.Emb = True
     self.is_recoilC = self.mcWeight.is_recoilC
     self.MetCorrection = self.mcWeight.MetCorrection
     if self.is_recoilC and self.MetCorrection:
@@ -43,9 +43,12 @@ class EMuBase():
     self.muonTightIsoTightID = mcCorrections.muonIso_tight_tightid
     self.muTracking = mcCorrections.muonTracking
     self.eID = mcCorrections.eID
-    self.rc = mcCorrections.rc
-    self.w1 = mcCorrections.w1
+    self.MESSys = mcCorrections.MESSys
+    self.RecSys = mcCorrections.RecSys
+
     self.DYreweight = mcCorrections.DYreweight
+    self.w1 = mcCorrections.w1
+    self.rc = mcCorrections.rc
     self.EmbedPhi = mcCorrections.EmbedPhi
     self.EmbedEta = mcCorrections.EmbedEta
 
@@ -66,8 +69,10 @@ class EMuBase():
     self.names = Kinematics.names
     self.ssnames = Kinematics.ssnames
     self.sys = Kinematics.sys
+    self.recSys = Kinematics.recSys
     self.sssys = Kinematics.sssys
     self.qcdsys = Kinematics.qcdsys
+    self.mesSys = Kinematics.mesSys
     self.functor = Kinematics.functor
     self.var_d = Kinematics.var_d
 
@@ -214,8 +219,8 @@ class EMuBase():
       return False
     elif not self.obj2_id(row):
       return False
-    #elif not self.obj1_iso(row):
-    #  return False
+    elif not self.obj1_iso(row):
+      return False
     elif not self.obj2_iso(row):
       return False
     elif not self.vetos(row):
@@ -231,11 +236,27 @@ class EMuBase():
     myMET.SetPtEtaPhiM(row.type1_pfMetEt, 0, row.type1_pfMetPhi, 0)
     myMuon = ROOT.TLorentzVector()
     myMuon.SetPtEtaPhiM(row.mPt, row.mEta, row.mPhi, row.mMass)
+    # Recoil
     if self.is_recoilC and self.MetCorrection:
-      tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30)))
+      if self.is_W:
+        tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30 + 1)))
+      else:
+        tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30)))
       myMET.SetPtEtaPhiM(math.sqrt(tmpMet[0]*tmpMet[0] + tmpMet[1]*tmpMet[1]), 0, math.atan2(tmpMet[1], tmpMet[0]), 0)
+    # Electron Scale Correction
+    if self.is_data:
+      myEle = myEle * ROOT.Double(row.eCorrectedEt/myEle.E())
+    else:
+      myMETpx = myMET.Px() + myEle.Px()
+      myMETpy = myMET.Py() + myEle.Py()
+      if self.is_mc:
+        myEle = myEle * ROOT.Double(row.eCorrectedEt/myEle.E())
+      elif self.is_embed:
+        myEle = myEle * ROOT.Double(0.9967) if abs(myEle.Eta()) < 1.479 else myEle * ROOT.Double(0.9944)
+      myMETpx = myMETpx - myEle.Px()
+      myMETpy = myMETpy - myEle.Py()
+      myMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
     return [myEle, myMET, myMuon]
-
 
   def corrFact(self, row, myEle, myMuon):
     # Apply all the various corrections to the MC samples
@@ -252,7 +273,6 @@ class EMuBase():
       eID = self.w1.function("e_id80_kit_ratio").getVal()
       eIso = self.w1.function("e_iso_kit_ratio").getVal()
       eReco = self.w1.function('e_trk_ratio').getVal()
-      #eID = self.eID(myEle.Eta(), myEle.Pt())
       mID = self.muonTightID(myMuon.Pt(), abs(myMuon.Eta()))
       mIso = self.muonTightIsoTightID(myMuon.Pt(), abs(myMuon.Eta()))
       mTrk = self.muTracking(myMuon.Eta())[0]
@@ -277,6 +297,8 @@ class EMuBase():
         if row.mZTTGenMatching > 2 and row.mZTTGenMatching < 6 and row.eZTTGenMatching > 2 and row.eZTTGenMatching < 6 and self.Emb:
           weight = 0.0
       weight = self.mcWeight.lumiWeight(weight)
+      if weight > 10:
+        weight = 0
 
     njets = row.jetVeto30
     mjj = row.vbfMass
@@ -319,12 +341,11 @@ class EMuBase():
     # b-tag
     nbtag = row.bjetDeepCSVVeto20Medium_2018_DR0p5
     if nbtag > 2:
-     nbtag = 2
+      nbtag = 2
     if (self.is_mc and nbtag > 0):
-     btagweight = bTagEventWeight(nbtag, row.jb1pt_2018, row.jb1hadronflavor_2018, row.jb2pt_2018, row.jb2hadronflavor_2018, 1, 0, 0)
-     weight = weight * btagweight
+      btagweight = bTagEventWeight(nbtag, row.jb1pt_2018, row.jb1hadronflavor_2018, row.jb2pt_2018, row.jb2hadronflavor_2018, 1, 0, 0)
+      weight = weight * btagweight
     if (bool(self.is_data or self.is_embed) and nbtag > 0):
-     weight = 0
+      weight = 0
 
     return [weight, osss]
-

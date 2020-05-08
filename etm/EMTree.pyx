@@ -760,77 +760,77 @@ cdef class EMTree:
     cdef TBranch* j1ptWoNoisyJets_branch
     cdef float j1ptWoNoisyJets_value
 
-    cdef TBranch* j1ptWoNoisyJets_JERDown_branch
-    cdef float j1ptWoNoisyJets_JERDown_value
+    cdef TBranch* j1pt_JERDown_branch
+    cdef float j1pt_JERDown_value
 
-    cdef TBranch* j1ptWoNoisyJets_JERUp_branch
-    cdef float j1ptWoNoisyJets_JERUp_value
+    cdef TBranch* j1pt_JERUp_branch
+    cdef float j1pt_JERUp_value
 
-    cdef TBranch* j1ptWoNoisyJets_JetAbsoluteDown_branch
-    cdef float j1ptWoNoisyJets_JetAbsoluteDown_value
+    cdef TBranch* j1pt_JetAbsoluteDown_branch
+    cdef float j1pt_JetAbsoluteDown_value
 
-    cdef TBranch* j1ptWoNoisyJets_JetAbsoluteUp_branch
-    cdef float j1ptWoNoisyJets_JetAbsoluteUp_value
+    cdef TBranch* j1pt_JetAbsoluteUp_branch
+    cdef float j1pt_JetAbsoluteUp_value
 
-    cdef TBranch* j1ptWoNoisyJets_JetAbsoluteyearDown_branch
-    cdef float j1ptWoNoisyJets_JetAbsoluteyearDown_value
+    cdef TBranch* j1pt_JetAbsoluteyearDown_branch
+    cdef float j1pt_JetAbsoluteyearDown_value
 
-    cdef TBranch* j1ptWoNoisyJets_JetAbsoluteyearUp_branch
-    cdef float j1ptWoNoisyJets_JetAbsoluteyearUp_value
+    cdef TBranch* j1pt_JetAbsoluteyearUp_branch
+    cdef float j1pt_JetAbsoluteyearUp_value
 
-    cdef TBranch* j1ptWoNoisyJets_JetBBEC1Down_branch
-    cdef float j1ptWoNoisyJets_JetBBEC1Down_value
+    cdef TBranch* j1pt_JetBBEC1Down_branch
+    cdef float j1pt_JetBBEC1Down_value
 
-    cdef TBranch* j1ptWoNoisyJets_JetBBEC1Up_branch
-    cdef float j1ptWoNoisyJets_JetBBEC1Up_value
+    cdef TBranch* j1pt_JetBBEC1Up_branch
+    cdef float j1pt_JetBBEC1Up_value
 
-    cdef TBranch* j1ptWoNoisyJets_JetBBEC1yearDown_branch
-    cdef float j1ptWoNoisyJets_JetBBEC1yearDown_value
+    cdef TBranch* j1pt_JetBBEC1yearDown_branch
+    cdef float j1pt_JetBBEC1yearDown_value
 
-    cdef TBranch* j1ptWoNoisyJets_JetBBEC1yearUp_branch
-    cdef float j1ptWoNoisyJets_JetBBEC1yearUp_value
+    cdef TBranch* j1pt_JetBBEC1yearUp_branch
+    cdef float j1pt_JetBBEC1yearUp_value
 
-    cdef TBranch* j1ptWoNoisyJets_JetEC2Down_branch
-    cdef float j1ptWoNoisyJets_JetEC2Down_value
+    cdef TBranch* j1pt_JetEC2Down_branch
+    cdef float j1pt_JetEC2Down_value
 
-    cdef TBranch* j1ptWoNoisyJets_JetEC2Up_branch
-    cdef float j1ptWoNoisyJets_JetEC2Up_value
+    cdef TBranch* j1pt_JetEC2Up_branch
+    cdef float j1pt_JetEC2Up_value
 
-    cdef TBranch* j1ptWoNoisyJets_JetEC2yearDown_branch
-    cdef float j1ptWoNoisyJets_JetEC2yearDown_value
+    cdef TBranch* j1pt_JetEC2yearDown_branch
+    cdef float j1pt_JetEC2yearDown_value
 
-    cdef TBranch* j1ptWoNoisyJets_JetEC2yearUp_branch
-    cdef float j1ptWoNoisyJets_JetEC2yearUp_value
+    cdef TBranch* j1pt_JetEC2yearUp_branch
+    cdef float j1pt_JetEC2yearUp_value
 
-    cdef TBranch* j1ptWoNoisyJets_JetFlavorQCDDown_branch
-    cdef float j1ptWoNoisyJets_JetFlavorQCDDown_value
+    cdef TBranch* j1pt_JetFlavorQCDDown_branch
+    cdef float j1pt_JetFlavorQCDDown_value
 
-    cdef TBranch* j1ptWoNoisyJets_JetFlavorQCDUp_branch
-    cdef float j1ptWoNoisyJets_JetFlavorQCDUp_value
+    cdef TBranch* j1pt_JetFlavorQCDUp_branch
+    cdef float j1pt_JetFlavorQCDUp_value
 
-    cdef TBranch* j1ptWoNoisyJets_JetHFDown_branch
-    cdef float j1ptWoNoisyJets_JetHFDown_value
+    cdef TBranch* j1pt_JetHFDown_branch
+    cdef float j1pt_JetHFDown_value
 
-    cdef TBranch* j1ptWoNoisyJets_JetHFUp_branch
-    cdef float j1ptWoNoisyJets_JetHFUp_value
+    cdef TBranch* j1pt_JetHFUp_branch
+    cdef float j1pt_JetHFUp_value
 
-    cdef TBranch* j1ptWoNoisyJets_JetHFyearDown_branch
-    cdef float j1ptWoNoisyJets_JetHFyearDown_value
+    cdef TBranch* j1pt_JetHFyearDown_branch
+    cdef float j1pt_JetHFyearDown_value
 
-    cdef TBranch* j1ptWoNoisyJets_JetHFyearUp_branch
-    cdef float j1ptWoNoisyJets_JetHFyearUp_value
+    cdef TBranch* j1pt_JetHFyearUp_branch
+    cdef float j1pt_JetHFyearUp_value
 
-    cdef TBranch* j1ptWoNoisyJets_JetRelativeBalDown_branch
-    cdef float j1ptWoNoisyJets_JetRelativeBalDown_value
+    cdef TBranch* j1pt_JetRelativeBalDown_branch
+    cdef float j1pt_JetRelativeBalDown_value
 
-    cdef TBranch* j1ptWoNoisyJets_JetRelativeBalUp_branch
-    cdef float j1ptWoNoisyJets_JetRelativeBalUp_value
+    cdef TBranch* j1pt_JetRelativeBalUp_branch
+    cdef float j1pt_JetRelativeBalUp_value
 
-    cdef TBranch* j1ptWoNoisyJets_JetRelativeSampleDown_branch
-    cdef float j1ptWoNoisyJets_JetRelativeSampleDown_value
+    cdef TBranch* j1pt_JetRelativeSampleDown_branch
+    cdef float j1pt_JetRelativeSampleDown_value
 
-    cdef TBranch* j1ptWoNoisyJets_JetRelativeSampleUp_branch
-    cdef float j1ptWoNoisyJets_JetRelativeSampleUp_value
+    cdef TBranch* j1pt_JetRelativeSampleUp_branch
+    cdef float j1pt_JetRelativeSampleUp_value
 
     cdef TBranch* j2csv_branch
     cdef float j2csv_value
@@ -862,77 +862,77 @@ cdef class EMTree:
     cdef TBranch* j2ptWoNoisyJets_branch
     cdef float j2ptWoNoisyJets_value
 
-    cdef TBranch* j2ptWoNoisyJets_JERDown_branch
-    cdef float j2ptWoNoisyJets_JERDown_value
+    cdef TBranch* j2pt_JERDown_branch
+    cdef float j2pt_JERDown_value
 
-    cdef TBranch* j2ptWoNoisyJets_JERUp_branch
-    cdef float j2ptWoNoisyJets_JERUp_value
+    cdef TBranch* j2pt_JERUp_branch
+    cdef float j2pt_JERUp_value
 
-    cdef TBranch* j2ptWoNoisyJets_JetAbsoluteDown_branch
-    cdef float j2ptWoNoisyJets_JetAbsoluteDown_value
+    cdef TBranch* j2pt_JetAbsoluteDown_branch
+    cdef float j2pt_JetAbsoluteDown_value
 
-    cdef TBranch* j2ptWoNoisyJets_JetAbsoluteUp_branch
-    cdef float j2ptWoNoisyJets_JetAbsoluteUp_value
+    cdef TBranch* j2pt_JetAbsoluteUp_branch
+    cdef float j2pt_JetAbsoluteUp_value
 
-    cdef TBranch* j2ptWoNoisyJets_JetAbsoluteyearDown_branch
-    cdef float j2ptWoNoisyJets_JetAbsoluteyearDown_value
+    cdef TBranch* j2pt_JetAbsoluteyearDown_branch
+    cdef float j2pt_JetAbsoluteyearDown_value
 
-    cdef TBranch* j2ptWoNoisyJets_JetAbsoluteyearUp_branch
-    cdef float j2ptWoNoisyJets_JetAbsoluteyearUp_value
+    cdef TBranch* j2pt_JetAbsoluteyearUp_branch
+    cdef float j2pt_JetAbsoluteyearUp_value
 
-    cdef TBranch* j2ptWoNoisyJets_JetBBEC1Down_branch
-    cdef float j2ptWoNoisyJets_JetBBEC1Down_value
+    cdef TBranch* j2pt_JetBBEC1Down_branch
+    cdef float j2pt_JetBBEC1Down_value
 
-    cdef TBranch* j2ptWoNoisyJets_JetBBEC1Up_branch
-    cdef float j2ptWoNoisyJets_JetBBEC1Up_value
+    cdef TBranch* j2pt_JetBBEC1Up_branch
+    cdef float j2pt_JetBBEC1Up_value
 
-    cdef TBranch* j2ptWoNoisyJets_JetBBEC1yearDown_branch
-    cdef float j2ptWoNoisyJets_JetBBEC1yearDown_value
+    cdef TBranch* j2pt_JetBBEC1yearDown_branch
+    cdef float j2pt_JetBBEC1yearDown_value
 
-    cdef TBranch* j2ptWoNoisyJets_JetBBEC1yearUp_branch
-    cdef float j2ptWoNoisyJets_JetBBEC1yearUp_value
+    cdef TBranch* j2pt_JetBBEC1yearUp_branch
+    cdef float j2pt_JetBBEC1yearUp_value
 
-    cdef TBranch* j2ptWoNoisyJets_JetEC2Down_branch
-    cdef float j2ptWoNoisyJets_JetEC2Down_value
+    cdef TBranch* j2pt_JetEC2Down_branch
+    cdef float j2pt_JetEC2Down_value
 
-    cdef TBranch* j2ptWoNoisyJets_JetEC2Up_branch
-    cdef float j2ptWoNoisyJets_JetEC2Up_value
+    cdef TBranch* j2pt_JetEC2Up_branch
+    cdef float j2pt_JetEC2Up_value
 
-    cdef TBranch* j2ptWoNoisyJets_JetEC2yearDown_branch
-    cdef float j2ptWoNoisyJets_JetEC2yearDown_value
+    cdef TBranch* j2pt_JetEC2yearDown_branch
+    cdef float j2pt_JetEC2yearDown_value
 
-    cdef TBranch* j2ptWoNoisyJets_JetEC2yearUp_branch
-    cdef float j2ptWoNoisyJets_JetEC2yearUp_value
+    cdef TBranch* j2pt_JetEC2yearUp_branch
+    cdef float j2pt_JetEC2yearUp_value
 
-    cdef TBranch* j2ptWoNoisyJets_JetFlavorQCDDown_branch
-    cdef float j2ptWoNoisyJets_JetFlavorQCDDown_value
+    cdef TBranch* j2pt_JetFlavorQCDDown_branch
+    cdef float j2pt_JetFlavorQCDDown_value
 
-    cdef TBranch* j2ptWoNoisyJets_JetFlavorQCDUp_branch
-    cdef float j2ptWoNoisyJets_JetFlavorQCDUp_value
+    cdef TBranch* j2pt_JetFlavorQCDUp_branch
+    cdef float j2pt_JetFlavorQCDUp_value
 
-    cdef TBranch* j2ptWoNoisyJets_JetHFDown_branch
-    cdef float j2ptWoNoisyJets_JetHFDown_value
+    cdef TBranch* j2pt_JetHFDown_branch
+    cdef float j2pt_JetHFDown_value
 
-    cdef TBranch* j2ptWoNoisyJets_JetHFUp_branch
-    cdef float j2ptWoNoisyJets_JetHFUp_value
+    cdef TBranch* j2pt_JetHFUp_branch
+    cdef float j2pt_JetHFUp_value
 
-    cdef TBranch* j2ptWoNoisyJets_JetHFyearDown_branch
-    cdef float j2ptWoNoisyJets_JetHFyearDown_value
+    cdef TBranch* j2pt_JetHFyearDown_branch
+    cdef float j2pt_JetHFyearDown_value
 
-    cdef TBranch* j2ptWoNoisyJets_JetHFyearUp_branch
-    cdef float j2ptWoNoisyJets_JetHFyearUp_value
+    cdef TBranch* j2pt_JetHFyearUp_branch
+    cdef float j2pt_JetHFyearUp_value
 
-    cdef TBranch* j2ptWoNoisyJets_JetRelativeBalDown_branch
-    cdef float j2ptWoNoisyJets_JetRelativeBalDown_value
+    cdef TBranch* j2pt_JetRelativeBalDown_branch
+    cdef float j2pt_JetRelativeBalDown_value
 
-    cdef TBranch* j2ptWoNoisyJets_JetRelativeBalUp_branch
-    cdef float j2ptWoNoisyJets_JetRelativeBalUp_value
+    cdef TBranch* j2pt_JetRelativeBalUp_branch
+    cdef float j2pt_JetRelativeBalUp_value
 
-    cdef TBranch* j2ptWoNoisyJets_JetRelativeSampleDown_branch
-    cdef float j2ptWoNoisyJets_JetRelativeSampleDown_value
+    cdef TBranch* j2pt_JetRelativeSampleDown_branch
+    cdef float j2pt_JetRelativeSampleDown_value
 
-    cdef TBranch* j2ptWoNoisyJets_JetRelativeSampleUp_branch
-    cdef float j2ptWoNoisyJets_JetRelativeSampleUp_value
+    cdef TBranch* j2pt_JetRelativeSampleUp_branch
+    cdef float j2pt_JetRelativeSampleUp_value
 
     cdef TBranch* jb1eta_2016_branch
     cdef float jb1eta_2016_value
@@ -1024,95 +1024,95 @@ cdef class EMTree:
     cdef TBranch* jetVeto30WoNoisyJets_branch
     cdef float jetVeto30WoNoisyJets_value
 
-    cdef TBranch* jetVeto30WoNoisyJets_JERDown_branch
-    cdef float jetVeto30WoNoisyJets_JERDown_value
-
-    cdef TBranch* jetVeto30WoNoisyJets_JERUp_branch
-    cdef float jetVeto30WoNoisyJets_JERUp_value
-
-    cdef TBranch* jetVeto30WoNoisyJets_JetAbsoluteDown_branch
-    cdef float jetVeto30WoNoisyJets_JetAbsoluteDown_value
-
-    cdef TBranch* jetVeto30WoNoisyJets_JetAbsoluteUp_branch
-    cdef float jetVeto30WoNoisyJets_JetAbsoluteUp_value
-
-    cdef TBranch* jetVeto30WoNoisyJets_JetAbsoluteyearDown_branch
-    cdef float jetVeto30WoNoisyJets_JetAbsoluteyearDown_value
-
-    cdef TBranch* jetVeto30WoNoisyJets_JetAbsoluteyearUp_branch
-    cdef float jetVeto30WoNoisyJets_JetAbsoluteyearUp_value
-
-    cdef TBranch* jetVeto30WoNoisyJets_JetBBEC1Down_branch
-    cdef float jetVeto30WoNoisyJets_JetBBEC1Down_value
-
-    cdef TBranch* jetVeto30WoNoisyJets_JetBBEC1Up_branch
-    cdef float jetVeto30WoNoisyJets_JetBBEC1Up_value
-
-    cdef TBranch* jetVeto30WoNoisyJets_JetBBEC1yearDown_branch
-    cdef float jetVeto30WoNoisyJets_JetBBEC1yearDown_value
-
-    cdef TBranch* jetVeto30WoNoisyJets_JetBBEC1yearUp_branch
-    cdef float jetVeto30WoNoisyJets_JetBBEC1yearUp_value
-
-    cdef TBranch* jetVeto30WoNoisyJets_JetEC2Down_branch
-    cdef float jetVeto30WoNoisyJets_JetEC2Down_value
-
-    cdef TBranch* jetVeto30WoNoisyJets_JetEC2Up_branch
-    cdef float jetVeto30WoNoisyJets_JetEC2Up_value
-
-    cdef TBranch* jetVeto30WoNoisyJets_JetEC2yearDown_branch
-    cdef float jetVeto30WoNoisyJets_JetEC2yearDown_value
-
-    cdef TBranch* jetVeto30WoNoisyJets_JetEC2yearUp_branch
-    cdef float jetVeto30WoNoisyJets_JetEC2yearUp_value
-
     cdef TBranch* jetVeto30WoNoisyJets_JetEnDown_branch
     cdef float jetVeto30WoNoisyJets_JetEnDown_value
 
     cdef TBranch* jetVeto30WoNoisyJets_JetEnUp_branch
     cdef float jetVeto30WoNoisyJets_JetEnUp_value
 
-    cdef TBranch* jetVeto30WoNoisyJets_JetFlavorQCDDown_branch
-    cdef float jetVeto30WoNoisyJets_JetFlavorQCDDown_value
+    cdef TBranch* jetVeto30_JERDown_branch
+    cdef float jetVeto30_JERDown_value
 
-    cdef TBranch* jetVeto30WoNoisyJets_JetFlavorQCDUp_branch
-    cdef float jetVeto30WoNoisyJets_JetFlavorQCDUp_value
+    cdef TBranch* jetVeto30_JERUp_branch
+    cdef float jetVeto30_JERUp_value
 
-    cdef TBranch* jetVeto30WoNoisyJets_JetHFDown_branch
-    cdef float jetVeto30WoNoisyJets_JetHFDown_value
+    cdef TBranch* jetVeto30_JetAbsoluteDown_branch
+    cdef float jetVeto30_JetAbsoluteDown_value
 
-    cdef TBranch* jetVeto30WoNoisyJets_JetHFUp_branch
-    cdef float jetVeto30WoNoisyJets_JetHFUp_value
+    cdef TBranch* jetVeto30_JetAbsoluteUp_branch
+    cdef float jetVeto30_JetAbsoluteUp_value
 
-    cdef TBranch* jetVeto30WoNoisyJets_JetHFyearDown_branch
-    cdef float jetVeto30WoNoisyJets_JetHFyearDown_value
+    cdef TBranch* jetVeto30_JetAbsoluteyearDown_branch
+    cdef float jetVeto30_JetAbsoluteyearDown_value
 
-    cdef TBranch* jetVeto30WoNoisyJets_JetHFyearUp_branch
-    cdef float jetVeto30WoNoisyJets_JetHFyearUp_value
+    cdef TBranch* jetVeto30_JetAbsoluteyearUp_branch
+    cdef float jetVeto30_JetAbsoluteyearUp_value
 
-    cdef TBranch* jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets_branch
-    cdef float jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets_value
+    cdef TBranch* jetVeto30_JetBBEC1Down_branch
+    cdef float jetVeto30_JetBBEC1Down_value
 
-    cdef TBranch* jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets_branch
-    cdef float jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets_value
+    cdef TBranch* jetVeto30_JetBBEC1Up_branch
+    cdef float jetVeto30_JetBBEC1Up_value
 
-    cdef TBranch* jetVeto30WoNoisyJets_JetRelativeSampleDown_branch
-    cdef float jetVeto30WoNoisyJets_JetRelativeSampleDown_value
+    cdef TBranch* jetVeto30_JetBBEC1yearDown_branch
+    cdef float jetVeto30_JetBBEC1yearDown_value
 
-    cdef TBranch* jetVeto30WoNoisyJets_JetRelativeSampleUp_branch
-    cdef float jetVeto30WoNoisyJets_JetRelativeSampleUp_value
+    cdef TBranch* jetVeto30_JetBBEC1yearUp_branch
+    cdef float jetVeto30_JetBBEC1yearUp_value
 
-    cdef TBranch* jetVeto30WoNoisyJets_JetTotalDown_branch
-    cdef float jetVeto30WoNoisyJets_JetTotalDown_value
+    cdef TBranch* jetVeto30_JetEC2Down_branch
+    cdef float jetVeto30_JetEC2Down_value
 
-    cdef TBranch* jetVeto30WoNoisyJets_JetTotalUp_branch
-    cdef float jetVeto30WoNoisyJets_JetTotalUp_value
+    cdef TBranch* jetVeto30_JetEC2Up_branch
+    cdef float jetVeto30_JetEC2Up_value
+
+    cdef TBranch* jetVeto30_JetEC2yearDown_branch
+    cdef float jetVeto30_JetEC2yearDown_value
+
+    cdef TBranch* jetVeto30_JetEC2yearUp_branch
+    cdef float jetVeto30_JetEC2yearUp_value
 
     cdef TBranch* jetVeto30_JetEnDown_branch
     cdef float jetVeto30_JetEnDown_value
 
     cdef TBranch* jetVeto30_JetEnUp_branch
     cdef float jetVeto30_JetEnUp_value
+
+    cdef TBranch* jetVeto30_JetFlavorQCDDown_branch
+    cdef float jetVeto30_JetFlavorQCDDown_value
+
+    cdef TBranch* jetVeto30_JetFlavorQCDUp_branch
+    cdef float jetVeto30_JetFlavorQCDUp_value
+
+    cdef TBranch* jetVeto30_JetHFDown_branch
+    cdef float jetVeto30_JetHFDown_value
+
+    cdef TBranch* jetVeto30_JetHFUp_branch
+    cdef float jetVeto30_JetHFUp_value
+
+    cdef TBranch* jetVeto30_JetHFyearDown_branch
+    cdef float jetVeto30_JetHFyearDown_value
+
+    cdef TBranch* jetVeto30_JetHFyearUp_branch
+    cdef float jetVeto30_JetHFyearUp_value
+
+    cdef TBranch* jetVeto30_JetRelativeBalDown_branch
+    cdef float jetVeto30_JetRelativeBalDown_value
+
+    cdef TBranch* jetVeto30_JetRelativeBalUp_branch
+    cdef float jetVeto30_JetRelativeBalUp_value
+
+    cdef TBranch* jetVeto30_JetRelativeSampleDown_branch
+    cdef float jetVeto30_JetRelativeSampleDown_value
+
+    cdef TBranch* jetVeto30_JetRelativeSampleUp_branch
+    cdef float jetVeto30_JetRelativeSampleUp_value
+
+    cdef TBranch* jetVeto30_JetTotalDown_branch
+    cdef float jetVeto30_JetTotalDown_value
+
+    cdef TBranch* jetVeto30_JetTotalUp_branch
+    cdef float jetVeto30_JetTotalUp_value
 
     cdef TBranch* lumi_branch
     cdef int lumi_value
@@ -1885,83 +1885,83 @@ cdef class EMTree:
     cdef TBranch* vbfMassWoNoisyJets_branch
     cdef float vbfMassWoNoisyJets_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JERDown_branch
-    cdef float vbfMassWoNoisyJets_JERDown_value
+    cdef TBranch* vbfMass_JERDown_branch
+    cdef float vbfMass_JERDown_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JERUp_branch
-    cdef float vbfMassWoNoisyJets_JERUp_value
+    cdef TBranch* vbfMass_JERUp_branch
+    cdef float vbfMass_JERUp_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetAbsoluteDown_branch
-    cdef float vbfMassWoNoisyJets_JetAbsoluteDown_value
+    cdef TBranch* vbfMass_JetAbsoluteDown_branch
+    cdef float vbfMass_JetAbsoluteDown_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetAbsoluteUp_branch
-    cdef float vbfMassWoNoisyJets_JetAbsoluteUp_value
+    cdef TBranch* vbfMass_JetAbsoluteUp_branch
+    cdef float vbfMass_JetAbsoluteUp_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetAbsoluteyearDown_branch
-    cdef float vbfMassWoNoisyJets_JetAbsoluteyearDown_value
+    cdef TBranch* vbfMass_JetAbsoluteyearDown_branch
+    cdef float vbfMass_JetAbsoluteyearDown_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetAbsoluteyearUp_branch
-    cdef float vbfMassWoNoisyJets_JetAbsoluteyearUp_value
+    cdef TBranch* vbfMass_JetAbsoluteyearUp_branch
+    cdef float vbfMass_JetAbsoluteyearUp_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetBBEC1Down_branch
-    cdef float vbfMassWoNoisyJets_JetBBEC1Down_value
+    cdef TBranch* vbfMass_JetBBEC1Down_branch
+    cdef float vbfMass_JetBBEC1Down_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetBBEC1Up_branch
-    cdef float vbfMassWoNoisyJets_JetBBEC1Up_value
+    cdef TBranch* vbfMass_JetBBEC1Up_branch
+    cdef float vbfMass_JetBBEC1Up_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetBBEC1yearDown_branch
-    cdef float vbfMassWoNoisyJets_JetBBEC1yearDown_value
+    cdef TBranch* vbfMass_JetBBEC1yearDown_branch
+    cdef float vbfMass_JetBBEC1yearDown_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetBBEC1yearUp_branch
-    cdef float vbfMassWoNoisyJets_JetBBEC1yearUp_value
+    cdef TBranch* vbfMass_JetBBEC1yearUp_branch
+    cdef float vbfMass_JetBBEC1yearUp_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetEC2Down_branch
-    cdef float vbfMassWoNoisyJets_JetEC2Down_value
+    cdef TBranch* vbfMass_JetEC2Down_branch
+    cdef float vbfMass_JetEC2Down_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetEC2Up_branch
-    cdef float vbfMassWoNoisyJets_JetEC2Up_value
+    cdef TBranch* vbfMass_JetEC2Up_branch
+    cdef float vbfMass_JetEC2Up_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetEC2yearDown_branch
-    cdef float vbfMassWoNoisyJets_JetEC2yearDown_value
+    cdef TBranch* vbfMass_JetEC2yearDown_branch
+    cdef float vbfMass_JetEC2yearDown_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetEC2yearUp_branch
-    cdef float vbfMassWoNoisyJets_JetEC2yearUp_value
+    cdef TBranch* vbfMass_JetEC2yearUp_branch
+    cdef float vbfMass_JetEC2yearUp_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetFlavorQCDDown_branch
-    cdef float vbfMassWoNoisyJets_JetFlavorQCDDown_value
+    cdef TBranch* vbfMass_JetFlavorQCDDown_branch
+    cdef float vbfMass_JetFlavorQCDDown_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetFlavorQCDUp_branch
-    cdef float vbfMassWoNoisyJets_JetFlavorQCDUp_value
+    cdef TBranch* vbfMass_JetFlavorQCDUp_branch
+    cdef float vbfMass_JetFlavorQCDUp_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetHFDown_branch
-    cdef float vbfMassWoNoisyJets_JetHFDown_value
+    cdef TBranch* vbfMass_JetHFDown_branch
+    cdef float vbfMass_JetHFDown_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetHFUp_branch
-    cdef float vbfMassWoNoisyJets_JetHFUp_value
+    cdef TBranch* vbfMass_JetHFUp_branch
+    cdef float vbfMass_JetHFUp_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetHFyearDown_branch
-    cdef float vbfMassWoNoisyJets_JetHFyearDown_value
+    cdef TBranch* vbfMass_JetHFyearDown_branch
+    cdef float vbfMass_JetHFyearDown_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetHFyearUp_branch
-    cdef float vbfMassWoNoisyJets_JetHFyearUp_value
+    cdef TBranch* vbfMass_JetHFyearUp_branch
+    cdef float vbfMass_JetHFyearUp_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetRelativeBalDown_branch
-    cdef float vbfMassWoNoisyJets_JetRelativeBalDown_value
+    cdef TBranch* vbfMass_JetRelativeBalDown_branch
+    cdef float vbfMass_JetRelativeBalDown_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetRelativeBalUp_branch
-    cdef float vbfMassWoNoisyJets_JetRelativeBalUp_value
+    cdef TBranch* vbfMass_JetRelativeBalUp_branch
+    cdef float vbfMass_JetRelativeBalUp_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetRelativeSampleDown_branch
-    cdef float vbfMassWoNoisyJets_JetRelativeSampleDown_value
+    cdef TBranch* vbfMass_JetRelativeSampleDown_branch
+    cdef float vbfMass_JetRelativeSampleDown_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetRelativeSampleUp_branch
-    cdef float vbfMassWoNoisyJets_JetRelativeSampleUp_value
+    cdef TBranch* vbfMass_JetRelativeSampleUp_branch
+    cdef float vbfMass_JetRelativeSampleUp_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetTotalDown_branch
-    cdef float vbfMassWoNoisyJets_JetTotalDown_value
+    cdef TBranch* vbfMass_JetTotalDown_branch
+    cdef float vbfMass_JetTotalDown_value
 
-    cdef TBranch* vbfMassWoNoisyJets_JetTotalUp_branch
-    cdef float vbfMassWoNoisyJets_JetTotalUp_value
+    cdef TBranch* vbfMass_JetTotalUp_branch
+    cdef float vbfMass_JetTotalUp_value
 
     cdef TBranch* vbfNJets20_branch
     cdef float vbfNJets20_value
@@ -4144,221 +4144,221 @@ cdef class EMTree:
         else:
             self.j1ptWoNoisyJets_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_value)
 
-        #print "making j1ptWoNoisyJets_JERDown"
-        self.j1ptWoNoisyJets_JERDown_branch = the_tree.GetBranch("j1ptWoNoisyJets_JERDown")
-        #if not self.j1ptWoNoisyJets_JERDown_branch and "j1ptWoNoisyJets_JERDown" not in self.complained:
-        if not self.j1ptWoNoisyJets_JERDown_branch and "j1ptWoNoisyJets_JERDown":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JERDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JERDown")
+        #print "making j1pt_JERDown"
+        self.j1pt_JERDown_branch = the_tree.GetBranch("j1pt_JERDown")
+        #if not self.j1pt_JERDown_branch and "j1pt_JERDown" not in self.complained:
+        if not self.j1pt_JERDown_branch and "j1pt_JERDown":
+            warnings.warn( "EMTree: Expected branch j1pt_JERDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JERDown")
         else:
-            self.j1ptWoNoisyJets_JERDown_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JERDown_value)
+            self.j1pt_JERDown_branch.SetAddress(<void*>&self.j1pt_JERDown_value)
 
-        #print "making j1ptWoNoisyJets_JERUp"
-        self.j1ptWoNoisyJets_JERUp_branch = the_tree.GetBranch("j1ptWoNoisyJets_JERUp")
-        #if not self.j1ptWoNoisyJets_JERUp_branch and "j1ptWoNoisyJets_JERUp" not in self.complained:
-        if not self.j1ptWoNoisyJets_JERUp_branch and "j1ptWoNoisyJets_JERUp":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JERUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JERUp")
+        #print "making j1pt_JERUp"
+        self.j1pt_JERUp_branch = the_tree.GetBranch("j1pt_JERUp")
+        #if not self.j1pt_JERUp_branch and "j1pt_JERUp" not in self.complained:
+        if not self.j1pt_JERUp_branch and "j1pt_JERUp":
+            warnings.warn( "EMTree: Expected branch j1pt_JERUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JERUp")
         else:
-            self.j1ptWoNoisyJets_JERUp_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JERUp_value)
+            self.j1pt_JERUp_branch.SetAddress(<void*>&self.j1pt_JERUp_value)
 
-        #print "making j1ptWoNoisyJets_JetAbsoluteDown"
-        self.j1ptWoNoisyJets_JetAbsoluteDown_branch = the_tree.GetBranch("j1ptWoNoisyJets_JetAbsoluteDown")
-        #if not self.j1ptWoNoisyJets_JetAbsoluteDown_branch and "j1ptWoNoisyJets_JetAbsoluteDown" not in self.complained:
-        if not self.j1ptWoNoisyJets_JetAbsoluteDown_branch and "j1ptWoNoisyJets_JetAbsoluteDown":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JetAbsoluteDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JetAbsoluteDown")
+        #print "making j1pt_JetAbsoluteDown"
+        self.j1pt_JetAbsoluteDown_branch = the_tree.GetBranch("j1pt_JetAbsoluteDown")
+        #if not self.j1pt_JetAbsoluteDown_branch and "j1pt_JetAbsoluteDown" not in self.complained:
+        if not self.j1pt_JetAbsoluteDown_branch and "j1pt_JetAbsoluteDown":
+            warnings.warn( "EMTree: Expected branch j1pt_JetAbsoluteDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetAbsoluteDown")
         else:
-            self.j1ptWoNoisyJets_JetAbsoluteDown_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetAbsoluteDown_value)
+            self.j1pt_JetAbsoluteDown_branch.SetAddress(<void*>&self.j1pt_JetAbsoluteDown_value)
 
-        #print "making j1ptWoNoisyJets_JetAbsoluteUp"
-        self.j1ptWoNoisyJets_JetAbsoluteUp_branch = the_tree.GetBranch("j1ptWoNoisyJets_JetAbsoluteUp")
-        #if not self.j1ptWoNoisyJets_JetAbsoluteUp_branch and "j1ptWoNoisyJets_JetAbsoluteUp" not in self.complained:
-        if not self.j1ptWoNoisyJets_JetAbsoluteUp_branch and "j1ptWoNoisyJets_JetAbsoluteUp":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JetAbsoluteUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JetAbsoluteUp")
+        #print "making j1pt_JetAbsoluteUp"
+        self.j1pt_JetAbsoluteUp_branch = the_tree.GetBranch("j1pt_JetAbsoluteUp")
+        #if not self.j1pt_JetAbsoluteUp_branch and "j1pt_JetAbsoluteUp" not in self.complained:
+        if not self.j1pt_JetAbsoluteUp_branch and "j1pt_JetAbsoluteUp":
+            warnings.warn( "EMTree: Expected branch j1pt_JetAbsoluteUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetAbsoluteUp")
         else:
-            self.j1ptWoNoisyJets_JetAbsoluteUp_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetAbsoluteUp_value)
+            self.j1pt_JetAbsoluteUp_branch.SetAddress(<void*>&self.j1pt_JetAbsoluteUp_value)
 
-        #print "making j1ptWoNoisyJets_JetAbsoluteyearDown"
-        self.j1ptWoNoisyJets_JetAbsoluteyearDown_branch = the_tree.GetBranch("j1ptWoNoisyJets_JetAbsoluteyearDown")
-        #if not self.j1ptWoNoisyJets_JetAbsoluteyearDown_branch and "j1ptWoNoisyJets_JetAbsoluteyearDown" not in self.complained:
-        if not self.j1ptWoNoisyJets_JetAbsoluteyearDown_branch and "j1ptWoNoisyJets_JetAbsoluteyearDown":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JetAbsoluteyearDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JetAbsoluteyearDown")
+        #print "making j1pt_JetAbsoluteyearDown"
+        self.j1pt_JetAbsoluteyearDown_branch = the_tree.GetBranch("j1pt_JetAbsoluteyearDown")
+        #if not self.j1pt_JetAbsoluteyearDown_branch and "j1pt_JetAbsoluteyearDown" not in self.complained:
+        if not self.j1pt_JetAbsoluteyearDown_branch and "j1pt_JetAbsoluteyearDown":
+            warnings.warn( "EMTree: Expected branch j1pt_JetAbsoluteyearDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetAbsoluteyearDown")
         else:
-            self.j1ptWoNoisyJets_JetAbsoluteyearDown_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetAbsoluteyearDown_value)
+            self.j1pt_JetAbsoluteyearDown_branch.SetAddress(<void*>&self.j1pt_JetAbsoluteyearDown_value)
 
-        #print "making j1ptWoNoisyJets_JetAbsoluteyearUp"
-        self.j1ptWoNoisyJets_JetAbsoluteyearUp_branch = the_tree.GetBranch("j1ptWoNoisyJets_JetAbsoluteyearUp")
-        #if not self.j1ptWoNoisyJets_JetAbsoluteyearUp_branch and "j1ptWoNoisyJets_JetAbsoluteyearUp" not in self.complained:
-        if not self.j1ptWoNoisyJets_JetAbsoluteyearUp_branch and "j1ptWoNoisyJets_JetAbsoluteyearUp":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JetAbsoluteyearUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JetAbsoluteyearUp")
+        #print "making j1pt_JetAbsoluteyearUp"
+        self.j1pt_JetAbsoluteyearUp_branch = the_tree.GetBranch("j1pt_JetAbsoluteyearUp")
+        #if not self.j1pt_JetAbsoluteyearUp_branch and "j1pt_JetAbsoluteyearUp" not in self.complained:
+        if not self.j1pt_JetAbsoluteyearUp_branch and "j1pt_JetAbsoluteyearUp":
+            warnings.warn( "EMTree: Expected branch j1pt_JetAbsoluteyearUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetAbsoluteyearUp")
         else:
-            self.j1ptWoNoisyJets_JetAbsoluteyearUp_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetAbsoluteyearUp_value)
+            self.j1pt_JetAbsoluteyearUp_branch.SetAddress(<void*>&self.j1pt_JetAbsoluteyearUp_value)
 
-        #print "making j1ptWoNoisyJets_JetBBEC1Down"
-        self.j1ptWoNoisyJets_JetBBEC1Down_branch = the_tree.GetBranch("j1ptWoNoisyJets_JetBBEC1Down")
-        #if not self.j1ptWoNoisyJets_JetBBEC1Down_branch and "j1ptWoNoisyJets_JetBBEC1Down" not in self.complained:
-        if not self.j1ptWoNoisyJets_JetBBEC1Down_branch and "j1ptWoNoisyJets_JetBBEC1Down":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JetBBEC1Down does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JetBBEC1Down")
+        #print "making j1pt_JetBBEC1Down"
+        self.j1pt_JetBBEC1Down_branch = the_tree.GetBranch("j1pt_JetBBEC1Down")
+        #if not self.j1pt_JetBBEC1Down_branch and "j1pt_JetBBEC1Down" not in self.complained:
+        if not self.j1pt_JetBBEC1Down_branch and "j1pt_JetBBEC1Down":
+            warnings.warn( "EMTree: Expected branch j1pt_JetBBEC1Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetBBEC1Down")
         else:
-            self.j1ptWoNoisyJets_JetBBEC1Down_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetBBEC1Down_value)
+            self.j1pt_JetBBEC1Down_branch.SetAddress(<void*>&self.j1pt_JetBBEC1Down_value)
 
-        #print "making j1ptWoNoisyJets_JetBBEC1Up"
-        self.j1ptWoNoisyJets_JetBBEC1Up_branch = the_tree.GetBranch("j1ptWoNoisyJets_JetBBEC1Up")
-        #if not self.j1ptWoNoisyJets_JetBBEC1Up_branch and "j1ptWoNoisyJets_JetBBEC1Up" not in self.complained:
-        if not self.j1ptWoNoisyJets_JetBBEC1Up_branch and "j1ptWoNoisyJets_JetBBEC1Up":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JetBBEC1Up does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JetBBEC1Up")
+        #print "making j1pt_JetBBEC1Up"
+        self.j1pt_JetBBEC1Up_branch = the_tree.GetBranch("j1pt_JetBBEC1Up")
+        #if not self.j1pt_JetBBEC1Up_branch and "j1pt_JetBBEC1Up" not in self.complained:
+        if not self.j1pt_JetBBEC1Up_branch and "j1pt_JetBBEC1Up":
+            warnings.warn( "EMTree: Expected branch j1pt_JetBBEC1Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetBBEC1Up")
         else:
-            self.j1ptWoNoisyJets_JetBBEC1Up_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetBBEC1Up_value)
+            self.j1pt_JetBBEC1Up_branch.SetAddress(<void*>&self.j1pt_JetBBEC1Up_value)
 
-        #print "making j1ptWoNoisyJets_JetBBEC1yearDown"
-        self.j1ptWoNoisyJets_JetBBEC1yearDown_branch = the_tree.GetBranch("j1ptWoNoisyJets_JetBBEC1yearDown")
-        #if not self.j1ptWoNoisyJets_JetBBEC1yearDown_branch and "j1ptWoNoisyJets_JetBBEC1yearDown" not in self.complained:
-        if not self.j1ptWoNoisyJets_JetBBEC1yearDown_branch and "j1ptWoNoisyJets_JetBBEC1yearDown":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JetBBEC1yearDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JetBBEC1yearDown")
+        #print "making j1pt_JetBBEC1yearDown"
+        self.j1pt_JetBBEC1yearDown_branch = the_tree.GetBranch("j1pt_JetBBEC1yearDown")
+        #if not self.j1pt_JetBBEC1yearDown_branch and "j1pt_JetBBEC1yearDown" not in self.complained:
+        if not self.j1pt_JetBBEC1yearDown_branch and "j1pt_JetBBEC1yearDown":
+            warnings.warn( "EMTree: Expected branch j1pt_JetBBEC1yearDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetBBEC1yearDown")
         else:
-            self.j1ptWoNoisyJets_JetBBEC1yearDown_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetBBEC1yearDown_value)
+            self.j1pt_JetBBEC1yearDown_branch.SetAddress(<void*>&self.j1pt_JetBBEC1yearDown_value)
 
-        #print "making j1ptWoNoisyJets_JetBBEC1yearUp"
-        self.j1ptWoNoisyJets_JetBBEC1yearUp_branch = the_tree.GetBranch("j1ptWoNoisyJets_JetBBEC1yearUp")
-        #if not self.j1ptWoNoisyJets_JetBBEC1yearUp_branch and "j1ptWoNoisyJets_JetBBEC1yearUp" not in self.complained:
-        if not self.j1ptWoNoisyJets_JetBBEC1yearUp_branch and "j1ptWoNoisyJets_JetBBEC1yearUp":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JetBBEC1yearUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JetBBEC1yearUp")
+        #print "making j1pt_JetBBEC1yearUp"
+        self.j1pt_JetBBEC1yearUp_branch = the_tree.GetBranch("j1pt_JetBBEC1yearUp")
+        #if not self.j1pt_JetBBEC1yearUp_branch and "j1pt_JetBBEC1yearUp" not in self.complained:
+        if not self.j1pt_JetBBEC1yearUp_branch and "j1pt_JetBBEC1yearUp":
+            warnings.warn( "EMTree: Expected branch j1pt_JetBBEC1yearUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetBBEC1yearUp")
         else:
-            self.j1ptWoNoisyJets_JetBBEC1yearUp_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetBBEC1yearUp_value)
+            self.j1pt_JetBBEC1yearUp_branch.SetAddress(<void*>&self.j1pt_JetBBEC1yearUp_value)
 
-        #print "making j1ptWoNoisyJets_JetEC2Down"
-        self.j1ptWoNoisyJets_JetEC2Down_branch = the_tree.GetBranch("j1ptWoNoisyJets_JetEC2Down")
-        #if not self.j1ptWoNoisyJets_JetEC2Down_branch and "j1ptWoNoisyJets_JetEC2Down" not in self.complained:
-        if not self.j1ptWoNoisyJets_JetEC2Down_branch and "j1ptWoNoisyJets_JetEC2Down":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JetEC2Down does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JetEC2Down")
+        #print "making j1pt_JetEC2Down"
+        self.j1pt_JetEC2Down_branch = the_tree.GetBranch("j1pt_JetEC2Down")
+        #if not self.j1pt_JetEC2Down_branch and "j1pt_JetEC2Down" not in self.complained:
+        if not self.j1pt_JetEC2Down_branch and "j1pt_JetEC2Down":
+            warnings.warn( "EMTree: Expected branch j1pt_JetEC2Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetEC2Down")
         else:
-            self.j1ptWoNoisyJets_JetEC2Down_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetEC2Down_value)
+            self.j1pt_JetEC2Down_branch.SetAddress(<void*>&self.j1pt_JetEC2Down_value)
 
-        #print "making j1ptWoNoisyJets_JetEC2Up"
-        self.j1ptWoNoisyJets_JetEC2Up_branch = the_tree.GetBranch("j1ptWoNoisyJets_JetEC2Up")
-        #if not self.j1ptWoNoisyJets_JetEC2Up_branch and "j1ptWoNoisyJets_JetEC2Up" not in self.complained:
-        if not self.j1ptWoNoisyJets_JetEC2Up_branch and "j1ptWoNoisyJets_JetEC2Up":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JetEC2Up does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JetEC2Up")
+        #print "making j1pt_JetEC2Up"
+        self.j1pt_JetEC2Up_branch = the_tree.GetBranch("j1pt_JetEC2Up")
+        #if not self.j1pt_JetEC2Up_branch and "j1pt_JetEC2Up" not in self.complained:
+        if not self.j1pt_JetEC2Up_branch and "j1pt_JetEC2Up":
+            warnings.warn( "EMTree: Expected branch j1pt_JetEC2Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetEC2Up")
         else:
-            self.j1ptWoNoisyJets_JetEC2Up_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetEC2Up_value)
+            self.j1pt_JetEC2Up_branch.SetAddress(<void*>&self.j1pt_JetEC2Up_value)
 
-        #print "making j1ptWoNoisyJets_JetEC2yearDown"
-        self.j1ptWoNoisyJets_JetEC2yearDown_branch = the_tree.GetBranch("j1ptWoNoisyJets_JetEC2yearDown")
-        #if not self.j1ptWoNoisyJets_JetEC2yearDown_branch and "j1ptWoNoisyJets_JetEC2yearDown" not in self.complained:
-        if not self.j1ptWoNoisyJets_JetEC2yearDown_branch and "j1ptWoNoisyJets_JetEC2yearDown":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JetEC2yearDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JetEC2yearDown")
+        #print "making j1pt_JetEC2yearDown"
+        self.j1pt_JetEC2yearDown_branch = the_tree.GetBranch("j1pt_JetEC2yearDown")
+        #if not self.j1pt_JetEC2yearDown_branch and "j1pt_JetEC2yearDown" not in self.complained:
+        if not self.j1pt_JetEC2yearDown_branch and "j1pt_JetEC2yearDown":
+            warnings.warn( "EMTree: Expected branch j1pt_JetEC2yearDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetEC2yearDown")
         else:
-            self.j1ptWoNoisyJets_JetEC2yearDown_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetEC2yearDown_value)
+            self.j1pt_JetEC2yearDown_branch.SetAddress(<void*>&self.j1pt_JetEC2yearDown_value)
 
-        #print "making j1ptWoNoisyJets_JetEC2yearUp"
-        self.j1ptWoNoisyJets_JetEC2yearUp_branch = the_tree.GetBranch("j1ptWoNoisyJets_JetEC2yearUp")
-        #if not self.j1ptWoNoisyJets_JetEC2yearUp_branch and "j1ptWoNoisyJets_JetEC2yearUp" not in self.complained:
-        if not self.j1ptWoNoisyJets_JetEC2yearUp_branch and "j1ptWoNoisyJets_JetEC2yearUp":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JetEC2yearUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JetEC2yearUp")
+        #print "making j1pt_JetEC2yearUp"
+        self.j1pt_JetEC2yearUp_branch = the_tree.GetBranch("j1pt_JetEC2yearUp")
+        #if not self.j1pt_JetEC2yearUp_branch and "j1pt_JetEC2yearUp" not in self.complained:
+        if not self.j1pt_JetEC2yearUp_branch and "j1pt_JetEC2yearUp":
+            warnings.warn( "EMTree: Expected branch j1pt_JetEC2yearUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetEC2yearUp")
         else:
-            self.j1ptWoNoisyJets_JetEC2yearUp_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetEC2yearUp_value)
+            self.j1pt_JetEC2yearUp_branch.SetAddress(<void*>&self.j1pt_JetEC2yearUp_value)
 
-        #print "making j1ptWoNoisyJets_JetFlavorQCDDown"
-        self.j1ptWoNoisyJets_JetFlavorQCDDown_branch = the_tree.GetBranch("j1ptWoNoisyJets_JetFlavorQCDDown")
-        #if not self.j1ptWoNoisyJets_JetFlavorQCDDown_branch and "j1ptWoNoisyJets_JetFlavorQCDDown" not in self.complained:
-        if not self.j1ptWoNoisyJets_JetFlavorQCDDown_branch and "j1ptWoNoisyJets_JetFlavorQCDDown":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JetFlavorQCDDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JetFlavorQCDDown")
+        #print "making j1pt_JetFlavorQCDDown"
+        self.j1pt_JetFlavorQCDDown_branch = the_tree.GetBranch("j1pt_JetFlavorQCDDown")
+        #if not self.j1pt_JetFlavorQCDDown_branch and "j1pt_JetFlavorQCDDown" not in self.complained:
+        if not self.j1pt_JetFlavorQCDDown_branch and "j1pt_JetFlavorQCDDown":
+            warnings.warn( "EMTree: Expected branch j1pt_JetFlavorQCDDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetFlavorQCDDown")
         else:
-            self.j1ptWoNoisyJets_JetFlavorQCDDown_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetFlavorQCDDown_value)
+            self.j1pt_JetFlavorQCDDown_branch.SetAddress(<void*>&self.j1pt_JetFlavorQCDDown_value)
 
-        #print "making j1ptWoNoisyJets_JetFlavorQCDUp"
-        self.j1ptWoNoisyJets_JetFlavorQCDUp_branch = the_tree.GetBranch("j1ptWoNoisyJets_JetFlavorQCDUp")
-        #if not self.j1ptWoNoisyJets_JetFlavorQCDUp_branch and "j1ptWoNoisyJets_JetFlavorQCDUp" not in self.complained:
-        if not self.j1ptWoNoisyJets_JetFlavorQCDUp_branch and "j1ptWoNoisyJets_JetFlavorQCDUp":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JetFlavorQCDUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JetFlavorQCDUp")
+        #print "making j1pt_JetFlavorQCDUp"
+        self.j1pt_JetFlavorQCDUp_branch = the_tree.GetBranch("j1pt_JetFlavorQCDUp")
+        #if not self.j1pt_JetFlavorQCDUp_branch and "j1pt_JetFlavorQCDUp" not in self.complained:
+        if not self.j1pt_JetFlavorQCDUp_branch and "j1pt_JetFlavorQCDUp":
+            warnings.warn( "EMTree: Expected branch j1pt_JetFlavorQCDUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetFlavorQCDUp")
         else:
-            self.j1ptWoNoisyJets_JetFlavorQCDUp_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetFlavorQCDUp_value)
+            self.j1pt_JetFlavorQCDUp_branch.SetAddress(<void*>&self.j1pt_JetFlavorQCDUp_value)
 
-        #print "making j1ptWoNoisyJets_JetHFDown"
-        self.j1ptWoNoisyJets_JetHFDown_branch = the_tree.GetBranch("j1ptWoNoisyJets_JetHFDown")
-        #if not self.j1ptWoNoisyJets_JetHFDown_branch and "j1ptWoNoisyJets_JetHFDown" not in self.complained:
-        if not self.j1ptWoNoisyJets_JetHFDown_branch and "j1ptWoNoisyJets_JetHFDown":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JetHFDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JetHFDown")
+        #print "making j1pt_JetHFDown"
+        self.j1pt_JetHFDown_branch = the_tree.GetBranch("j1pt_JetHFDown")
+        #if not self.j1pt_JetHFDown_branch and "j1pt_JetHFDown" not in self.complained:
+        if not self.j1pt_JetHFDown_branch and "j1pt_JetHFDown":
+            warnings.warn( "EMTree: Expected branch j1pt_JetHFDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetHFDown")
         else:
-            self.j1ptWoNoisyJets_JetHFDown_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetHFDown_value)
+            self.j1pt_JetHFDown_branch.SetAddress(<void*>&self.j1pt_JetHFDown_value)
 
-        #print "making j1ptWoNoisyJets_JetHFUp"
-        self.j1ptWoNoisyJets_JetHFUp_branch = the_tree.GetBranch("j1ptWoNoisyJets_JetHFUp")
-        #if not self.j1ptWoNoisyJets_JetHFUp_branch and "j1ptWoNoisyJets_JetHFUp" not in self.complained:
-        if not self.j1ptWoNoisyJets_JetHFUp_branch and "j1ptWoNoisyJets_JetHFUp":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JetHFUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JetHFUp")
+        #print "making j1pt_JetHFUp"
+        self.j1pt_JetHFUp_branch = the_tree.GetBranch("j1pt_JetHFUp")
+        #if not self.j1pt_JetHFUp_branch and "j1pt_JetHFUp" not in self.complained:
+        if not self.j1pt_JetHFUp_branch and "j1pt_JetHFUp":
+            warnings.warn( "EMTree: Expected branch j1pt_JetHFUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetHFUp")
         else:
-            self.j1ptWoNoisyJets_JetHFUp_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetHFUp_value)
+            self.j1pt_JetHFUp_branch.SetAddress(<void*>&self.j1pt_JetHFUp_value)
 
-        #print "making j1ptWoNoisyJets_JetHFyearDown"
-        self.j1ptWoNoisyJets_JetHFyearDown_branch = the_tree.GetBranch("j1ptWoNoisyJets_JetHFyearDown")
-        #if not self.j1ptWoNoisyJets_JetHFyearDown_branch and "j1ptWoNoisyJets_JetHFyearDown" not in self.complained:
-        if not self.j1ptWoNoisyJets_JetHFyearDown_branch and "j1ptWoNoisyJets_JetHFyearDown":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JetHFyearDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JetHFyearDown")
+        #print "making j1pt_JetHFyearDown"
+        self.j1pt_JetHFyearDown_branch = the_tree.GetBranch("j1pt_JetHFyearDown")
+        #if not self.j1pt_JetHFyearDown_branch and "j1pt_JetHFyearDown" not in self.complained:
+        if not self.j1pt_JetHFyearDown_branch and "j1pt_JetHFyearDown":
+            warnings.warn( "EMTree: Expected branch j1pt_JetHFyearDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetHFyearDown")
         else:
-            self.j1ptWoNoisyJets_JetHFyearDown_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetHFyearDown_value)
+            self.j1pt_JetHFyearDown_branch.SetAddress(<void*>&self.j1pt_JetHFyearDown_value)
 
-        #print "making j1ptWoNoisyJets_JetHFyearUp"
-        self.j1ptWoNoisyJets_JetHFyearUp_branch = the_tree.GetBranch("j1ptWoNoisyJets_JetHFyearUp")
-        #if not self.j1ptWoNoisyJets_JetHFyearUp_branch and "j1ptWoNoisyJets_JetHFyearUp" not in self.complained:
-        if not self.j1ptWoNoisyJets_JetHFyearUp_branch and "j1ptWoNoisyJets_JetHFyearUp":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JetHFyearUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JetHFyearUp")
+        #print "making j1pt_JetHFyearUp"
+        self.j1pt_JetHFyearUp_branch = the_tree.GetBranch("j1pt_JetHFyearUp")
+        #if not self.j1pt_JetHFyearUp_branch and "j1pt_JetHFyearUp" not in self.complained:
+        if not self.j1pt_JetHFyearUp_branch and "j1pt_JetHFyearUp":
+            warnings.warn( "EMTree: Expected branch j1pt_JetHFyearUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetHFyearUp")
         else:
-            self.j1ptWoNoisyJets_JetHFyearUp_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetHFyearUp_value)
+            self.j1pt_JetHFyearUp_branch.SetAddress(<void*>&self.j1pt_JetHFyearUp_value)
 
-        #print "making j1ptWoNoisyJets_JetRelativeBalDown"
-        self.j1ptWoNoisyJets_JetRelativeBalDown_branch = the_tree.GetBranch("j1ptWoNoisyJets_JetRelativeBalDown")
-        #if not self.j1ptWoNoisyJets_JetRelativeBalDown_branch and "j1ptWoNoisyJets_JetRelativeBalDown" not in self.complained:
-        if not self.j1ptWoNoisyJets_JetRelativeBalDown_branch and "j1ptWoNoisyJets_JetRelativeBalDown":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JetRelativeBalDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JetRelativeBalDown")
+        #print "making j1pt_JetRelativeBalDown"
+        self.j1pt_JetRelativeBalDown_branch = the_tree.GetBranch("j1pt_JetRelativeBalDown")
+        #if not self.j1pt_JetRelativeBalDown_branch and "j1pt_JetRelativeBalDown" not in self.complained:
+        if not self.j1pt_JetRelativeBalDown_branch and "j1pt_JetRelativeBalDown":
+            warnings.warn( "EMTree: Expected branch j1pt_JetRelativeBalDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetRelativeBalDown")
         else:
-            self.j1ptWoNoisyJets_JetRelativeBalDown_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetRelativeBalDown_value)
+            self.j1pt_JetRelativeBalDown_branch.SetAddress(<void*>&self.j1pt_JetRelativeBalDown_value)
 
-        #print "making j1ptWoNoisyJets_JetRelativeBalUp"
-        self.j1ptWoNoisyJets_JetRelativeBalUp_branch = the_tree.GetBranch("j1ptWoNoisyJets_JetRelativeBalUp")
-        #if not self.j1ptWoNoisyJets_JetRelativeBalUp_branch and "j1ptWoNoisyJets_JetRelativeBalUp" not in self.complained:
-        if not self.j1ptWoNoisyJets_JetRelativeBalUp_branch and "j1ptWoNoisyJets_JetRelativeBalUp":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JetRelativeBalUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JetRelativeBalUp")
+        #print "making j1pt_JetRelativeBalUp"
+        self.j1pt_JetRelativeBalUp_branch = the_tree.GetBranch("j1pt_JetRelativeBalUp")
+        #if not self.j1pt_JetRelativeBalUp_branch and "j1pt_JetRelativeBalUp" not in self.complained:
+        if not self.j1pt_JetRelativeBalUp_branch and "j1pt_JetRelativeBalUp":
+            warnings.warn( "EMTree: Expected branch j1pt_JetRelativeBalUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetRelativeBalUp")
         else:
-            self.j1ptWoNoisyJets_JetRelativeBalUp_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetRelativeBalUp_value)
+            self.j1pt_JetRelativeBalUp_branch.SetAddress(<void*>&self.j1pt_JetRelativeBalUp_value)
 
-        #print "making j1ptWoNoisyJets_JetRelativeSampleDown"
-        self.j1ptWoNoisyJets_JetRelativeSampleDown_branch = the_tree.GetBranch("j1ptWoNoisyJets_JetRelativeSampleDown")
-        #if not self.j1ptWoNoisyJets_JetRelativeSampleDown_branch and "j1ptWoNoisyJets_JetRelativeSampleDown" not in self.complained:
-        if not self.j1ptWoNoisyJets_JetRelativeSampleDown_branch and "j1ptWoNoisyJets_JetRelativeSampleDown":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JetRelativeSampleDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JetRelativeSampleDown")
+        #print "making j1pt_JetRelativeSampleDown"
+        self.j1pt_JetRelativeSampleDown_branch = the_tree.GetBranch("j1pt_JetRelativeSampleDown")
+        #if not self.j1pt_JetRelativeSampleDown_branch and "j1pt_JetRelativeSampleDown" not in self.complained:
+        if not self.j1pt_JetRelativeSampleDown_branch and "j1pt_JetRelativeSampleDown":
+            warnings.warn( "EMTree: Expected branch j1pt_JetRelativeSampleDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetRelativeSampleDown")
         else:
-            self.j1ptWoNoisyJets_JetRelativeSampleDown_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetRelativeSampleDown_value)
+            self.j1pt_JetRelativeSampleDown_branch.SetAddress(<void*>&self.j1pt_JetRelativeSampleDown_value)
 
-        #print "making j1ptWoNoisyJets_JetRelativeSampleUp"
-        self.j1ptWoNoisyJets_JetRelativeSampleUp_branch = the_tree.GetBranch("j1ptWoNoisyJets_JetRelativeSampleUp")
-        #if not self.j1ptWoNoisyJets_JetRelativeSampleUp_branch and "j1ptWoNoisyJets_JetRelativeSampleUp" not in self.complained:
-        if not self.j1ptWoNoisyJets_JetRelativeSampleUp_branch and "j1ptWoNoisyJets_JetRelativeSampleUp":
-            warnings.warn( "EMTree: Expected branch j1ptWoNoisyJets_JetRelativeSampleUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j1ptWoNoisyJets_JetRelativeSampleUp")
+        #print "making j1pt_JetRelativeSampleUp"
+        self.j1pt_JetRelativeSampleUp_branch = the_tree.GetBranch("j1pt_JetRelativeSampleUp")
+        #if not self.j1pt_JetRelativeSampleUp_branch and "j1pt_JetRelativeSampleUp" not in self.complained:
+        if not self.j1pt_JetRelativeSampleUp_branch and "j1pt_JetRelativeSampleUp":
+            warnings.warn( "EMTree: Expected branch j1pt_JetRelativeSampleUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j1pt_JetRelativeSampleUp")
         else:
-            self.j1ptWoNoisyJets_JetRelativeSampleUp_branch.SetAddress(<void*>&self.j1ptWoNoisyJets_JetRelativeSampleUp_value)
+            self.j1pt_JetRelativeSampleUp_branch.SetAddress(<void*>&self.j1pt_JetRelativeSampleUp_value)
 
         #print "making j2csv"
         self.j2csv_branch = the_tree.GetBranch("j2csv")
@@ -4450,221 +4450,221 @@ cdef class EMTree:
         else:
             self.j2ptWoNoisyJets_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_value)
 
-        #print "making j2ptWoNoisyJets_JERDown"
-        self.j2ptWoNoisyJets_JERDown_branch = the_tree.GetBranch("j2ptWoNoisyJets_JERDown")
-        #if not self.j2ptWoNoisyJets_JERDown_branch and "j2ptWoNoisyJets_JERDown" not in self.complained:
-        if not self.j2ptWoNoisyJets_JERDown_branch and "j2ptWoNoisyJets_JERDown":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JERDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JERDown")
+        #print "making j2pt_JERDown"
+        self.j2pt_JERDown_branch = the_tree.GetBranch("j2pt_JERDown")
+        #if not self.j2pt_JERDown_branch and "j2pt_JERDown" not in self.complained:
+        if not self.j2pt_JERDown_branch and "j2pt_JERDown":
+            warnings.warn( "EMTree: Expected branch j2pt_JERDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JERDown")
         else:
-            self.j2ptWoNoisyJets_JERDown_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JERDown_value)
+            self.j2pt_JERDown_branch.SetAddress(<void*>&self.j2pt_JERDown_value)
 
-        #print "making j2ptWoNoisyJets_JERUp"
-        self.j2ptWoNoisyJets_JERUp_branch = the_tree.GetBranch("j2ptWoNoisyJets_JERUp")
-        #if not self.j2ptWoNoisyJets_JERUp_branch and "j2ptWoNoisyJets_JERUp" not in self.complained:
-        if not self.j2ptWoNoisyJets_JERUp_branch and "j2ptWoNoisyJets_JERUp":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JERUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JERUp")
+        #print "making j2pt_JERUp"
+        self.j2pt_JERUp_branch = the_tree.GetBranch("j2pt_JERUp")
+        #if not self.j2pt_JERUp_branch and "j2pt_JERUp" not in self.complained:
+        if not self.j2pt_JERUp_branch and "j2pt_JERUp":
+            warnings.warn( "EMTree: Expected branch j2pt_JERUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JERUp")
         else:
-            self.j2ptWoNoisyJets_JERUp_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JERUp_value)
+            self.j2pt_JERUp_branch.SetAddress(<void*>&self.j2pt_JERUp_value)
 
-        #print "making j2ptWoNoisyJets_JetAbsoluteDown"
-        self.j2ptWoNoisyJets_JetAbsoluteDown_branch = the_tree.GetBranch("j2ptWoNoisyJets_JetAbsoluteDown")
-        #if not self.j2ptWoNoisyJets_JetAbsoluteDown_branch and "j2ptWoNoisyJets_JetAbsoluteDown" not in self.complained:
-        if not self.j2ptWoNoisyJets_JetAbsoluteDown_branch and "j2ptWoNoisyJets_JetAbsoluteDown":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JetAbsoluteDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JetAbsoluteDown")
+        #print "making j2pt_JetAbsoluteDown"
+        self.j2pt_JetAbsoluteDown_branch = the_tree.GetBranch("j2pt_JetAbsoluteDown")
+        #if not self.j2pt_JetAbsoluteDown_branch and "j2pt_JetAbsoluteDown" not in self.complained:
+        if not self.j2pt_JetAbsoluteDown_branch and "j2pt_JetAbsoluteDown":
+            warnings.warn( "EMTree: Expected branch j2pt_JetAbsoluteDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetAbsoluteDown")
         else:
-            self.j2ptWoNoisyJets_JetAbsoluteDown_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetAbsoluteDown_value)
+            self.j2pt_JetAbsoluteDown_branch.SetAddress(<void*>&self.j2pt_JetAbsoluteDown_value)
 
-        #print "making j2ptWoNoisyJets_JetAbsoluteUp"
-        self.j2ptWoNoisyJets_JetAbsoluteUp_branch = the_tree.GetBranch("j2ptWoNoisyJets_JetAbsoluteUp")
-        #if not self.j2ptWoNoisyJets_JetAbsoluteUp_branch and "j2ptWoNoisyJets_JetAbsoluteUp" not in self.complained:
-        if not self.j2ptWoNoisyJets_JetAbsoluteUp_branch and "j2ptWoNoisyJets_JetAbsoluteUp":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JetAbsoluteUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JetAbsoluteUp")
+        #print "making j2pt_JetAbsoluteUp"
+        self.j2pt_JetAbsoluteUp_branch = the_tree.GetBranch("j2pt_JetAbsoluteUp")
+        #if not self.j2pt_JetAbsoluteUp_branch and "j2pt_JetAbsoluteUp" not in self.complained:
+        if not self.j2pt_JetAbsoluteUp_branch and "j2pt_JetAbsoluteUp":
+            warnings.warn( "EMTree: Expected branch j2pt_JetAbsoluteUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetAbsoluteUp")
         else:
-            self.j2ptWoNoisyJets_JetAbsoluteUp_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetAbsoluteUp_value)
+            self.j2pt_JetAbsoluteUp_branch.SetAddress(<void*>&self.j2pt_JetAbsoluteUp_value)
 
-        #print "making j2ptWoNoisyJets_JetAbsoluteyearDown"
-        self.j2ptWoNoisyJets_JetAbsoluteyearDown_branch = the_tree.GetBranch("j2ptWoNoisyJets_JetAbsoluteyearDown")
-        #if not self.j2ptWoNoisyJets_JetAbsoluteyearDown_branch and "j2ptWoNoisyJets_JetAbsoluteyearDown" not in self.complained:
-        if not self.j2ptWoNoisyJets_JetAbsoluteyearDown_branch and "j2ptWoNoisyJets_JetAbsoluteyearDown":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JetAbsoluteyearDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JetAbsoluteyearDown")
+        #print "making j2pt_JetAbsoluteyearDown"
+        self.j2pt_JetAbsoluteyearDown_branch = the_tree.GetBranch("j2pt_JetAbsoluteyearDown")
+        #if not self.j2pt_JetAbsoluteyearDown_branch and "j2pt_JetAbsoluteyearDown" not in self.complained:
+        if not self.j2pt_JetAbsoluteyearDown_branch and "j2pt_JetAbsoluteyearDown":
+            warnings.warn( "EMTree: Expected branch j2pt_JetAbsoluteyearDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetAbsoluteyearDown")
         else:
-            self.j2ptWoNoisyJets_JetAbsoluteyearDown_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetAbsoluteyearDown_value)
+            self.j2pt_JetAbsoluteyearDown_branch.SetAddress(<void*>&self.j2pt_JetAbsoluteyearDown_value)
 
-        #print "making j2ptWoNoisyJets_JetAbsoluteyearUp"
-        self.j2ptWoNoisyJets_JetAbsoluteyearUp_branch = the_tree.GetBranch("j2ptWoNoisyJets_JetAbsoluteyearUp")
-        #if not self.j2ptWoNoisyJets_JetAbsoluteyearUp_branch and "j2ptWoNoisyJets_JetAbsoluteyearUp" not in self.complained:
-        if not self.j2ptWoNoisyJets_JetAbsoluteyearUp_branch and "j2ptWoNoisyJets_JetAbsoluteyearUp":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JetAbsoluteyearUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JetAbsoluteyearUp")
+        #print "making j2pt_JetAbsoluteyearUp"
+        self.j2pt_JetAbsoluteyearUp_branch = the_tree.GetBranch("j2pt_JetAbsoluteyearUp")
+        #if not self.j2pt_JetAbsoluteyearUp_branch and "j2pt_JetAbsoluteyearUp" not in self.complained:
+        if not self.j2pt_JetAbsoluteyearUp_branch and "j2pt_JetAbsoluteyearUp":
+            warnings.warn( "EMTree: Expected branch j2pt_JetAbsoluteyearUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetAbsoluteyearUp")
         else:
-            self.j2ptWoNoisyJets_JetAbsoluteyearUp_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetAbsoluteyearUp_value)
+            self.j2pt_JetAbsoluteyearUp_branch.SetAddress(<void*>&self.j2pt_JetAbsoluteyearUp_value)
 
-        #print "making j2ptWoNoisyJets_JetBBEC1Down"
-        self.j2ptWoNoisyJets_JetBBEC1Down_branch = the_tree.GetBranch("j2ptWoNoisyJets_JetBBEC1Down")
-        #if not self.j2ptWoNoisyJets_JetBBEC1Down_branch and "j2ptWoNoisyJets_JetBBEC1Down" not in self.complained:
-        if not self.j2ptWoNoisyJets_JetBBEC1Down_branch and "j2ptWoNoisyJets_JetBBEC1Down":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JetBBEC1Down does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JetBBEC1Down")
+        #print "making j2pt_JetBBEC1Down"
+        self.j2pt_JetBBEC1Down_branch = the_tree.GetBranch("j2pt_JetBBEC1Down")
+        #if not self.j2pt_JetBBEC1Down_branch and "j2pt_JetBBEC1Down" not in self.complained:
+        if not self.j2pt_JetBBEC1Down_branch and "j2pt_JetBBEC1Down":
+            warnings.warn( "EMTree: Expected branch j2pt_JetBBEC1Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetBBEC1Down")
         else:
-            self.j2ptWoNoisyJets_JetBBEC1Down_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetBBEC1Down_value)
+            self.j2pt_JetBBEC1Down_branch.SetAddress(<void*>&self.j2pt_JetBBEC1Down_value)
 
-        #print "making j2ptWoNoisyJets_JetBBEC1Up"
-        self.j2ptWoNoisyJets_JetBBEC1Up_branch = the_tree.GetBranch("j2ptWoNoisyJets_JetBBEC1Up")
-        #if not self.j2ptWoNoisyJets_JetBBEC1Up_branch and "j2ptWoNoisyJets_JetBBEC1Up" not in self.complained:
-        if not self.j2ptWoNoisyJets_JetBBEC1Up_branch and "j2ptWoNoisyJets_JetBBEC1Up":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JetBBEC1Up does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JetBBEC1Up")
+        #print "making j2pt_JetBBEC1Up"
+        self.j2pt_JetBBEC1Up_branch = the_tree.GetBranch("j2pt_JetBBEC1Up")
+        #if not self.j2pt_JetBBEC1Up_branch and "j2pt_JetBBEC1Up" not in self.complained:
+        if not self.j2pt_JetBBEC1Up_branch and "j2pt_JetBBEC1Up":
+            warnings.warn( "EMTree: Expected branch j2pt_JetBBEC1Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetBBEC1Up")
         else:
-            self.j2ptWoNoisyJets_JetBBEC1Up_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetBBEC1Up_value)
+            self.j2pt_JetBBEC1Up_branch.SetAddress(<void*>&self.j2pt_JetBBEC1Up_value)
 
-        #print "making j2ptWoNoisyJets_JetBBEC1yearDown"
-        self.j2ptWoNoisyJets_JetBBEC1yearDown_branch = the_tree.GetBranch("j2ptWoNoisyJets_JetBBEC1yearDown")
-        #if not self.j2ptWoNoisyJets_JetBBEC1yearDown_branch and "j2ptWoNoisyJets_JetBBEC1yearDown" not in self.complained:
-        if not self.j2ptWoNoisyJets_JetBBEC1yearDown_branch and "j2ptWoNoisyJets_JetBBEC1yearDown":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JetBBEC1yearDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JetBBEC1yearDown")
+        #print "making j2pt_JetBBEC1yearDown"
+        self.j2pt_JetBBEC1yearDown_branch = the_tree.GetBranch("j2pt_JetBBEC1yearDown")
+        #if not self.j2pt_JetBBEC1yearDown_branch and "j2pt_JetBBEC1yearDown" not in self.complained:
+        if not self.j2pt_JetBBEC1yearDown_branch and "j2pt_JetBBEC1yearDown":
+            warnings.warn( "EMTree: Expected branch j2pt_JetBBEC1yearDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetBBEC1yearDown")
         else:
-            self.j2ptWoNoisyJets_JetBBEC1yearDown_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetBBEC1yearDown_value)
+            self.j2pt_JetBBEC1yearDown_branch.SetAddress(<void*>&self.j2pt_JetBBEC1yearDown_value)
 
-        #print "making j2ptWoNoisyJets_JetBBEC1yearUp"
-        self.j2ptWoNoisyJets_JetBBEC1yearUp_branch = the_tree.GetBranch("j2ptWoNoisyJets_JetBBEC1yearUp")
-        #if not self.j2ptWoNoisyJets_JetBBEC1yearUp_branch and "j2ptWoNoisyJets_JetBBEC1yearUp" not in self.complained:
-        if not self.j2ptWoNoisyJets_JetBBEC1yearUp_branch and "j2ptWoNoisyJets_JetBBEC1yearUp":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JetBBEC1yearUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JetBBEC1yearUp")
+        #print "making j2pt_JetBBEC1yearUp"
+        self.j2pt_JetBBEC1yearUp_branch = the_tree.GetBranch("j2pt_JetBBEC1yearUp")
+        #if not self.j2pt_JetBBEC1yearUp_branch and "j2pt_JetBBEC1yearUp" not in self.complained:
+        if not self.j2pt_JetBBEC1yearUp_branch and "j2pt_JetBBEC1yearUp":
+            warnings.warn( "EMTree: Expected branch j2pt_JetBBEC1yearUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetBBEC1yearUp")
         else:
-            self.j2ptWoNoisyJets_JetBBEC1yearUp_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetBBEC1yearUp_value)
+            self.j2pt_JetBBEC1yearUp_branch.SetAddress(<void*>&self.j2pt_JetBBEC1yearUp_value)
 
-        #print "making j2ptWoNoisyJets_JetEC2Down"
-        self.j2ptWoNoisyJets_JetEC2Down_branch = the_tree.GetBranch("j2ptWoNoisyJets_JetEC2Down")
-        #if not self.j2ptWoNoisyJets_JetEC2Down_branch and "j2ptWoNoisyJets_JetEC2Down" not in self.complained:
-        if not self.j2ptWoNoisyJets_JetEC2Down_branch and "j2ptWoNoisyJets_JetEC2Down":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JetEC2Down does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JetEC2Down")
+        #print "making j2pt_JetEC2Down"
+        self.j2pt_JetEC2Down_branch = the_tree.GetBranch("j2pt_JetEC2Down")
+        #if not self.j2pt_JetEC2Down_branch and "j2pt_JetEC2Down" not in self.complained:
+        if not self.j2pt_JetEC2Down_branch and "j2pt_JetEC2Down":
+            warnings.warn( "EMTree: Expected branch j2pt_JetEC2Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetEC2Down")
         else:
-            self.j2ptWoNoisyJets_JetEC2Down_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetEC2Down_value)
+            self.j2pt_JetEC2Down_branch.SetAddress(<void*>&self.j2pt_JetEC2Down_value)
 
-        #print "making j2ptWoNoisyJets_JetEC2Up"
-        self.j2ptWoNoisyJets_JetEC2Up_branch = the_tree.GetBranch("j2ptWoNoisyJets_JetEC2Up")
-        #if not self.j2ptWoNoisyJets_JetEC2Up_branch and "j2ptWoNoisyJets_JetEC2Up" not in self.complained:
-        if not self.j2ptWoNoisyJets_JetEC2Up_branch and "j2ptWoNoisyJets_JetEC2Up":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JetEC2Up does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JetEC2Up")
+        #print "making j2pt_JetEC2Up"
+        self.j2pt_JetEC2Up_branch = the_tree.GetBranch("j2pt_JetEC2Up")
+        #if not self.j2pt_JetEC2Up_branch and "j2pt_JetEC2Up" not in self.complained:
+        if not self.j2pt_JetEC2Up_branch and "j2pt_JetEC2Up":
+            warnings.warn( "EMTree: Expected branch j2pt_JetEC2Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetEC2Up")
         else:
-            self.j2ptWoNoisyJets_JetEC2Up_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetEC2Up_value)
+            self.j2pt_JetEC2Up_branch.SetAddress(<void*>&self.j2pt_JetEC2Up_value)
 
-        #print "making j2ptWoNoisyJets_JetEC2yearDown"
-        self.j2ptWoNoisyJets_JetEC2yearDown_branch = the_tree.GetBranch("j2ptWoNoisyJets_JetEC2yearDown")
-        #if not self.j2ptWoNoisyJets_JetEC2yearDown_branch and "j2ptWoNoisyJets_JetEC2yearDown" not in self.complained:
-        if not self.j2ptWoNoisyJets_JetEC2yearDown_branch and "j2ptWoNoisyJets_JetEC2yearDown":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JetEC2yearDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JetEC2yearDown")
+        #print "making j2pt_JetEC2yearDown"
+        self.j2pt_JetEC2yearDown_branch = the_tree.GetBranch("j2pt_JetEC2yearDown")
+        #if not self.j2pt_JetEC2yearDown_branch and "j2pt_JetEC2yearDown" not in self.complained:
+        if not self.j2pt_JetEC2yearDown_branch and "j2pt_JetEC2yearDown":
+            warnings.warn( "EMTree: Expected branch j2pt_JetEC2yearDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetEC2yearDown")
         else:
-            self.j2ptWoNoisyJets_JetEC2yearDown_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetEC2yearDown_value)
+            self.j2pt_JetEC2yearDown_branch.SetAddress(<void*>&self.j2pt_JetEC2yearDown_value)
 
-        #print "making j2ptWoNoisyJets_JetEC2yearUp"
-        self.j2ptWoNoisyJets_JetEC2yearUp_branch = the_tree.GetBranch("j2ptWoNoisyJets_JetEC2yearUp")
-        #if not self.j2ptWoNoisyJets_JetEC2yearUp_branch and "j2ptWoNoisyJets_JetEC2yearUp" not in self.complained:
-        if not self.j2ptWoNoisyJets_JetEC2yearUp_branch and "j2ptWoNoisyJets_JetEC2yearUp":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JetEC2yearUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JetEC2yearUp")
+        #print "making j2pt_JetEC2yearUp"
+        self.j2pt_JetEC2yearUp_branch = the_tree.GetBranch("j2pt_JetEC2yearUp")
+        #if not self.j2pt_JetEC2yearUp_branch and "j2pt_JetEC2yearUp" not in self.complained:
+        if not self.j2pt_JetEC2yearUp_branch and "j2pt_JetEC2yearUp":
+            warnings.warn( "EMTree: Expected branch j2pt_JetEC2yearUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetEC2yearUp")
         else:
-            self.j2ptWoNoisyJets_JetEC2yearUp_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetEC2yearUp_value)
+            self.j2pt_JetEC2yearUp_branch.SetAddress(<void*>&self.j2pt_JetEC2yearUp_value)
 
-        #print "making j2ptWoNoisyJets_JetFlavorQCDDown"
-        self.j2ptWoNoisyJets_JetFlavorQCDDown_branch = the_tree.GetBranch("j2ptWoNoisyJets_JetFlavorQCDDown")
-        #if not self.j2ptWoNoisyJets_JetFlavorQCDDown_branch and "j2ptWoNoisyJets_JetFlavorQCDDown" not in self.complained:
-        if not self.j2ptWoNoisyJets_JetFlavorQCDDown_branch and "j2ptWoNoisyJets_JetFlavorQCDDown":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JetFlavorQCDDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JetFlavorQCDDown")
+        #print "making j2pt_JetFlavorQCDDown"
+        self.j2pt_JetFlavorQCDDown_branch = the_tree.GetBranch("j2pt_JetFlavorQCDDown")
+        #if not self.j2pt_JetFlavorQCDDown_branch and "j2pt_JetFlavorQCDDown" not in self.complained:
+        if not self.j2pt_JetFlavorQCDDown_branch and "j2pt_JetFlavorQCDDown":
+            warnings.warn( "EMTree: Expected branch j2pt_JetFlavorQCDDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetFlavorQCDDown")
         else:
-            self.j2ptWoNoisyJets_JetFlavorQCDDown_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetFlavorQCDDown_value)
+            self.j2pt_JetFlavorQCDDown_branch.SetAddress(<void*>&self.j2pt_JetFlavorQCDDown_value)
 
-        #print "making j2ptWoNoisyJets_JetFlavorQCDUp"
-        self.j2ptWoNoisyJets_JetFlavorQCDUp_branch = the_tree.GetBranch("j2ptWoNoisyJets_JetFlavorQCDUp")
-        #if not self.j2ptWoNoisyJets_JetFlavorQCDUp_branch and "j2ptWoNoisyJets_JetFlavorQCDUp" not in self.complained:
-        if not self.j2ptWoNoisyJets_JetFlavorQCDUp_branch and "j2ptWoNoisyJets_JetFlavorQCDUp":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JetFlavorQCDUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JetFlavorQCDUp")
+        #print "making j2pt_JetFlavorQCDUp"
+        self.j2pt_JetFlavorQCDUp_branch = the_tree.GetBranch("j2pt_JetFlavorQCDUp")
+        #if not self.j2pt_JetFlavorQCDUp_branch and "j2pt_JetFlavorQCDUp" not in self.complained:
+        if not self.j2pt_JetFlavorQCDUp_branch and "j2pt_JetFlavorQCDUp":
+            warnings.warn( "EMTree: Expected branch j2pt_JetFlavorQCDUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetFlavorQCDUp")
         else:
-            self.j2ptWoNoisyJets_JetFlavorQCDUp_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetFlavorQCDUp_value)
+            self.j2pt_JetFlavorQCDUp_branch.SetAddress(<void*>&self.j2pt_JetFlavorQCDUp_value)
 
-        #print "making j2ptWoNoisyJets_JetHFDown"
-        self.j2ptWoNoisyJets_JetHFDown_branch = the_tree.GetBranch("j2ptWoNoisyJets_JetHFDown")
-        #if not self.j2ptWoNoisyJets_JetHFDown_branch and "j2ptWoNoisyJets_JetHFDown" not in self.complained:
-        if not self.j2ptWoNoisyJets_JetHFDown_branch and "j2ptWoNoisyJets_JetHFDown":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JetHFDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JetHFDown")
+        #print "making j2pt_JetHFDown"
+        self.j2pt_JetHFDown_branch = the_tree.GetBranch("j2pt_JetHFDown")
+        #if not self.j2pt_JetHFDown_branch and "j2pt_JetHFDown" not in self.complained:
+        if not self.j2pt_JetHFDown_branch and "j2pt_JetHFDown":
+            warnings.warn( "EMTree: Expected branch j2pt_JetHFDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetHFDown")
         else:
-            self.j2ptWoNoisyJets_JetHFDown_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetHFDown_value)
+            self.j2pt_JetHFDown_branch.SetAddress(<void*>&self.j2pt_JetHFDown_value)
 
-        #print "making j2ptWoNoisyJets_JetHFUp"
-        self.j2ptWoNoisyJets_JetHFUp_branch = the_tree.GetBranch("j2ptWoNoisyJets_JetHFUp")
-        #if not self.j2ptWoNoisyJets_JetHFUp_branch and "j2ptWoNoisyJets_JetHFUp" not in self.complained:
-        if not self.j2ptWoNoisyJets_JetHFUp_branch and "j2ptWoNoisyJets_JetHFUp":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JetHFUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JetHFUp")
+        #print "making j2pt_JetHFUp"
+        self.j2pt_JetHFUp_branch = the_tree.GetBranch("j2pt_JetHFUp")
+        #if not self.j2pt_JetHFUp_branch and "j2pt_JetHFUp" not in self.complained:
+        if not self.j2pt_JetHFUp_branch and "j2pt_JetHFUp":
+            warnings.warn( "EMTree: Expected branch j2pt_JetHFUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetHFUp")
         else:
-            self.j2ptWoNoisyJets_JetHFUp_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetHFUp_value)
+            self.j2pt_JetHFUp_branch.SetAddress(<void*>&self.j2pt_JetHFUp_value)
 
-        #print "making j2ptWoNoisyJets_JetHFyearDown"
-        self.j2ptWoNoisyJets_JetHFyearDown_branch = the_tree.GetBranch("j2ptWoNoisyJets_JetHFyearDown")
-        #if not self.j2ptWoNoisyJets_JetHFyearDown_branch and "j2ptWoNoisyJets_JetHFyearDown" not in self.complained:
-        if not self.j2ptWoNoisyJets_JetHFyearDown_branch and "j2ptWoNoisyJets_JetHFyearDown":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JetHFyearDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JetHFyearDown")
+        #print "making j2pt_JetHFyearDown"
+        self.j2pt_JetHFyearDown_branch = the_tree.GetBranch("j2pt_JetHFyearDown")
+        #if not self.j2pt_JetHFyearDown_branch and "j2pt_JetHFyearDown" not in self.complained:
+        if not self.j2pt_JetHFyearDown_branch and "j2pt_JetHFyearDown":
+            warnings.warn( "EMTree: Expected branch j2pt_JetHFyearDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetHFyearDown")
         else:
-            self.j2ptWoNoisyJets_JetHFyearDown_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetHFyearDown_value)
+            self.j2pt_JetHFyearDown_branch.SetAddress(<void*>&self.j2pt_JetHFyearDown_value)
 
-        #print "making j2ptWoNoisyJets_JetHFyearUp"
-        self.j2ptWoNoisyJets_JetHFyearUp_branch = the_tree.GetBranch("j2ptWoNoisyJets_JetHFyearUp")
-        #if not self.j2ptWoNoisyJets_JetHFyearUp_branch and "j2ptWoNoisyJets_JetHFyearUp" not in self.complained:
-        if not self.j2ptWoNoisyJets_JetHFyearUp_branch and "j2ptWoNoisyJets_JetHFyearUp":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JetHFyearUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JetHFyearUp")
+        #print "making j2pt_JetHFyearUp"
+        self.j2pt_JetHFyearUp_branch = the_tree.GetBranch("j2pt_JetHFyearUp")
+        #if not self.j2pt_JetHFyearUp_branch and "j2pt_JetHFyearUp" not in self.complained:
+        if not self.j2pt_JetHFyearUp_branch and "j2pt_JetHFyearUp":
+            warnings.warn( "EMTree: Expected branch j2pt_JetHFyearUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetHFyearUp")
         else:
-            self.j2ptWoNoisyJets_JetHFyearUp_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetHFyearUp_value)
+            self.j2pt_JetHFyearUp_branch.SetAddress(<void*>&self.j2pt_JetHFyearUp_value)
 
-        #print "making j2ptWoNoisyJets_JetRelativeBalDown"
-        self.j2ptWoNoisyJets_JetRelativeBalDown_branch = the_tree.GetBranch("j2ptWoNoisyJets_JetRelativeBalDown")
-        #if not self.j2ptWoNoisyJets_JetRelativeBalDown_branch and "j2ptWoNoisyJets_JetRelativeBalDown" not in self.complained:
-        if not self.j2ptWoNoisyJets_JetRelativeBalDown_branch and "j2ptWoNoisyJets_JetRelativeBalDown":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JetRelativeBalDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JetRelativeBalDown")
+        #print "making j2pt_JetRelativeBalDown"
+        self.j2pt_JetRelativeBalDown_branch = the_tree.GetBranch("j2pt_JetRelativeBalDown")
+        #if not self.j2pt_JetRelativeBalDown_branch and "j2pt_JetRelativeBalDown" not in self.complained:
+        if not self.j2pt_JetRelativeBalDown_branch and "j2pt_JetRelativeBalDown":
+            warnings.warn( "EMTree: Expected branch j2pt_JetRelativeBalDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetRelativeBalDown")
         else:
-            self.j2ptWoNoisyJets_JetRelativeBalDown_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetRelativeBalDown_value)
+            self.j2pt_JetRelativeBalDown_branch.SetAddress(<void*>&self.j2pt_JetRelativeBalDown_value)
 
-        #print "making j2ptWoNoisyJets_JetRelativeBalUp"
-        self.j2ptWoNoisyJets_JetRelativeBalUp_branch = the_tree.GetBranch("j2ptWoNoisyJets_JetRelativeBalUp")
-        #if not self.j2ptWoNoisyJets_JetRelativeBalUp_branch and "j2ptWoNoisyJets_JetRelativeBalUp" not in self.complained:
-        if not self.j2ptWoNoisyJets_JetRelativeBalUp_branch and "j2ptWoNoisyJets_JetRelativeBalUp":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JetRelativeBalUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JetRelativeBalUp")
+        #print "making j2pt_JetRelativeBalUp"
+        self.j2pt_JetRelativeBalUp_branch = the_tree.GetBranch("j2pt_JetRelativeBalUp")
+        #if not self.j2pt_JetRelativeBalUp_branch and "j2pt_JetRelativeBalUp" not in self.complained:
+        if not self.j2pt_JetRelativeBalUp_branch and "j2pt_JetRelativeBalUp":
+            warnings.warn( "EMTree: Expected branch j2pt_JetRelativeBalUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetRelativeBalUp")
         else:
-            self.j2ptWoNoisyJets_JetRelativeBalUp_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetRelativeBalUp_value)
+            self.j2pt_JetRelativeBalUp_branch.SetAddress(<void*>&self.j2pt_JetRelativeBalUp_value)
 
-        #print "making j2ptWoNoisyJets_JetRelativeSampleDown"
-        self.j2ptWoNoisyJets_JetRelativeSampleDown_branch = the_tree.GetBranch("j2ptWoNoisyJets_JetRelativeSampleDown")
-        #if not self.j2ptWoNoisyJets_JetRelativeSampleDown_branch and "j2ptWoNoisyJets_JetRelativeSampleDown" not in self.complained:
-        if not self.j2ptWoNoisyJets_JetRelativeSampleDown_branch and "j2ptWoNoisyJets_JetRelativeSampleDown":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JetRelativeSampleDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JetRelativeSampleDown")
+        #print "making j2pt_JetRelativeSampleDown"
+        self.j2pt_JetRelativeSampleDown_branch = the_tree.GetBranch("j2pt_JetRelativeSampleDown")
+        #if not self.j2pt_JetRelativeSampleDown_branch and "j2pt_JetRelativeSampleDown" not in self.complained:
+        if not self.j2pt_JetRelativeSampleDown_branch and "j2pt_JetRelativeSampleDown":
+            warnings.warn( "EMTree: Expected branch j2pt_JetRelativeSampleDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetRelativeSampleDown")
         else:
-            self.j2ptWoNoisyJets_JetRelativeSampleDown_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetRelativeSampleDown_value)
+            self.j2pt_JetRelativeSampleDown_branch.SetAddress(<void*>&self.j2pt_JetRelativeSampleDown_value)
 
-        #print "making j2ptWoNoisyJets_JetRelativeSampleUp"
-        self.j2ptWoNoisyJets_JetRelativeSampleUp_branch = the_tree.GetBranch("j2ptWoNoisyJets_JetRelativeSampleUp")
-        #if not self.j2ptWoNoisyJets_JetRelativeSampleUp_branch and "j2ptWoNoisyJets_JetRelativeSampleUp" not in self.complained:
-        if not self.j2ptWoNoisyJets_JetRelativeSampleUp_branch and "j2ptWoNoisyJets_JetRelativeSampleUp":
-            warnings.warn( "EMTree: Expected branch j2ptWoNoisyJets_JetRelativeSampleUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("j2ptWoNoisyJets_JetRelativeSampleUp")
+        #print "making j2pt_JetRelativeSampleUp"
+        self.j2pt_JetRelativeSampleUp_branch = the_tree.GetBranch("j2pt_JetRelativeSampleUp")
+        #if not self.j2pt_JetRelativeSampleUp_branch and "j2pt_JetRelativeSampleUp" not in self.complained:
+        if not self.j2pt_JetRelativeSampleUp_branch and "j2pt_JetRelativeSampleUp":
+            warnings.warn( "EMTree: Expected branch j2pt_JetRelativeSampleUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("j2pt_JetRelativeSampleUp")
         else:
-            self.j2ptWoNoisyJets_JetRelativeSampleUp_branch.SetAddress(<void*>&self.j2ptWoNoisyJets_JetRelativeSampleUp_value)
+            self.j2pt_JetRelativeSampleUp_branch.SetAddress(<void*>&self.j2pt_JetRelativeSampleUp_value)
 
         #print "making jb1eta_2016"
         self.jb1eta_2016_branch = the_tree.GetBranch("jb1eta_2016")
@@ -4936,132 +4936,6 @@ cdef class EMTree:
         else:
             self.jetVeto30WoNoisyJets_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_value)
 
-        #print "making jetVeto30WoNoisyJets_JERDown"
-        self.jetVeto30WoNoisyJets_JERDown_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JERDown")
-        #if not self.jetVeto30WoNoisyJets_JERDown_branch and "jetVeto30WoNoisyJets_JERDown" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JERDown_branch and "jetVeto30WoNoisyJets_JERDown":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JERDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JERDown")
-        else:
-            self.jetVeto30WoNoisyJets_JERDown_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JERDown_value)
-
-        #print "making jetVeto30WoNoisyJets_JERUp"
-        self.jetVeto30WoNoisyJets_JERUp_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JERUp")
-        #if not self.jetVeto30WoNoisyJets_JERUp_branch and "jetVeto30WoNoisyJets_JERUp" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JERUp_branch and "jetVeto30WoNoisyJets_JERUp":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JERUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JERUp")
-        else:
-            self.jetVeto30WoNoisyJets_JERUp_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JERUp_value)
-
-        #print "making jetVeto30WoNoisyJets_JetAbsoluteDown"
-        self.jetVeto30WoNoisyJets_JetAbsoluteDown_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetAbsoluteDown")
-        #if not self.jetVeto30WoNoisyJets_JetAbsoluteDown_branch and "jetVeto30WoNoisyJets_JetAbsoluteDown" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetAbsoluteDown_branch and "jetVeto30WoNoisyJets_JetAbsoluteDown":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetAbsoluteDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetAbsoluteDown")
-        else:
-            self.jetVeto30WoNoisyJets_JetAbsoluteDown_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetAbsoluteDown_value)
-
-        #print "making jetVeto30WoNoisyJets_JetAbsoluteUp"
-        self.jetVeto30WoNoisyJets_JetAbsoluteUp_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetAbsoluteUp")
-        #if not self.jetVeto30WoNoisyJets_JetAbsoluteUp_branch and "jetVeto30WoNoisyJets_JetAbsoluteUp" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetAbsoluteUp_branch and "jetVeto30WoNoisyJets_JetAbsoluteUp":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetAbsoluteUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetAbsoluteUp")
-        else:
-            self.jetVeto30WoNoisyJets_JetAbsoluteUp_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetAbsoluteUp_value)
-
-        #print "making jetVeto30WoNoisyJets_JetAbsoluteyearDown"
-        self.jetVeto30WoNoisyJets_JetAbsoluteyearDown_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetAbsoluteyearDown")
-        #if not self.jetVeto30WoNoisyJets_JetAbsoluteyearDown_branch and "jetVeto30WoNoisyJets_JetAbsoluteyearDown" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetAbsoluteyearDown_branch and "jetVeto30WoNoisyJets_JetAbsoluteyearDown":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetAbsoluteyearDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetAbsoluteyearDown")
-        else:
-            self.jetVeto30WoNoisyJets_JetAbsoluteyearDown_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetAbsoluteyearDown_value)
-
-        #print "making jetVeto30WoNoisyJets_JetAbsoluteyearUp"
-        self.jetVeto30WoNoisyJets_JetAbsoluteyearUp_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetAbsoluteyearUp")
-        #if not self.jetVeto30WoNoisyJets_JetAbsoluteyearUp_branch and "jetVeto30WoNoisyJets_JetAbsoluteyearUp" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetAbsoluteyearUp_branch and "jetVeto30WoNoisyJets_JetAbsoluteyearUp":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetAbsoluteyearUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetAbsoluteyearUp")
-        else:
-            self.jetVeto30WoNoisyJets_JetAbsoluteyearUp_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetAbsoluteyearUp_value)
-
-        #print "making jetVeto30WoNoisyJets_JetBBEC1Down"
-        self.jetVeto30WoNoisyJets_JetBBEC1Down_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetBBEC1Down")
-        #if not self.jetVeto30WoNoisyJets_JetBBEC1Down_branch and "jetVeto30WoNoisyJets_JetBBEC1Down" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetBBEC1Down_branch and "jetVeto30WoNoisyJets_JetBBEC1Down":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetBBEC1Down does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetBBEC1Down")
-        else:
-            self.jetVeto30WoNoisyJets_JetBBEC1Down_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetBBEC1Down_value)
-
-        #print "making jetVeto30WoNoisyJets_JetBBEC1Up"
-        self.jetVeto30WoNoisyJets_JetBBEC1Up_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetBBEC1Up")
-        #if not self.jetVeto30WoNoisyJets_JetBBEC1Up_branch and "jetVeto30WoNoisyJets_JetBBEC1Up" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetBBEC1Up_branch and "jetVeto30WoNoisyJets_JetBBEC1Up":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetBBEC1Up does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetBBEC1Up")
-        else:
-            self.jetVeto30WoNoisyJets_JetBBEC1Up_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetBBEC1Up_value)
-
-        #print "making jetVeto30WoNoisyJets_JetBBEC1yearDown"
-        self.jetVeto30WoNoisyJets_JetBBEC1yearDown_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetBBEC1yearDown")
-        #if not self.jetVeto30WoNoisyJets_JetBBEC1yearDown_branch and "jetVeto30WoNoisyJets_JetBBEC1yearDown" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetBBEC1yearDown_branch and "jetVeto30WoNoisyJets_JetBBEC1yearDown":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetBBEC1yearDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetBBEC1yearDown")
-        else:
-            self.jetVeto30WoNoisyJets_JetBBEC1yearDown_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetBBEC1yearDown_value)
-
-        #print "making jetVeto30WoNoisyJets_JetBBEC1yearUp"
-        self.jetVeto30WoNoisyJets_JetBBEC1yearUp_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetBBEC1yearUp")
-        #if not self.jetVeto30WoNoisyJets_JetBBEC1yearUp_branch and "jetVeto30WoNoisyJets_JetBBEC1yearUp" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetBBEC1yearUp_branch and "jetVeto30WoNoisyJets_JetBBEC1yearUp":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetBBEC1yearUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetBBEC1yearUp")
-        else:
-            self.jetVeto30WoNoisyJets_JetBBEC1yearUp_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetBBEC1yearUp_value)
-
-        #print "making jetVeto30WoNoisyJets_JetEC2Down"
-        self.jetVeto30WoNoisyJets_JetEC2Down_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetEC2Down")
-        #if not self.jetVeto30WoNoisyJets_JetEC2Down_branch and "jetVeto30WoNoisyJets_JetEC2Down" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetEC2Down_branch and "jetVeto30WoNoisyJets_JetEC2Down":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetEC2Down does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetEC2Down")
-        else:
-            self.jetVeto30WoNoisyJets_JetEC2Down_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetEC2Down_value)
-
-        #print "making jetVeto30WoNoisyJets_JetEC2Up"
-        self.jetVeto30WoNoisyJets_JetEC2Up_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetEC2Up")
-        #if not self.jetVeto30WoNoisyJets_JetEC2Up_branch and "jetVeto30WoNoisyJets_JetEC2Up" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetEC2Up_branch and "jetVeto30WoNoisyJets_JetEC2Up":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetEC2Up does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetEC2Up")
-        else:
-            self.jetVeto30WoNoisyJets_JetEC2Up_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetEC2Up_value)
-
-        #print "making jetVeto30WoNoisyJets_JetEC2yearDown"
-        self.jetVeto30WoNoisyJets_JetEC2yearDown_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetEC2yearDown")
-        #if not self.jetVeto30WoNoisyJets_JetEC2yearDown_branch and "jetVeto30WoNoisyJets_JetEC2yearDown" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetEC2yearDown_branch and "jetVeto30WoNoisyJets_JetEC2yearDown":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetEC2yearDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetEC2yearDown")
-        else:
-            self.jetVeto30WoNoisyJets_JetEC2yearDown_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetEC2yearDown_value)
-
-        #print "making jetVeto30WoNoisyJets_JetEC2yearUp"
-        self.jetVeto30WoNoisyJets_JetEC2yearUp_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetEC2yearUp")
-        #if not self.jetVeto30WoNoisyJets_JetEC2yearUp_branch and "jetVeto30WoNoisyJets_JetEC2yearUp" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetEC2yearUp_branch and "jetVeto30WoNoisyJets_JetEC2yearUp":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetEC2yearUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetEC2yearUp")
-        else:
-            self.jetVeto30WoNoisyJets_JetEC2yearUp_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetEC2yearUp_value)
-
         #print "making jetVeto30WoNoisyJets_JetEnDown"
         self.jetVeto30WoNoisyJets_JetEnDown_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetEnDown")
         #if not self.jetVeto30WoNoisyJets_JetEnDown_branch and "jetVeto30WoNoisyJets_JetEnDown" not in self.complained:
@@ -5080,113 +4954,131 @@ cdef class EMTree:
         else:
             self.jetVeto30WoNoisyJets_JetEnUp_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetEnUp_value)
 
-        #print "making jetVeto30WoNoisyJets_JetFlavorQCDDown"
-        self.jetVeto30WoNoisyJets_JetFlavorQCDDown_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetFlavorQCDDown")
-        #if not self.jetVeto30WoNoisyJets_JetFlavorQCDDown_branch and "jetVeto30WoNoisyJets_JetFlavorQCDDown" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetFlavorQCDDown_branch and "jetVeto30WoNoisyJets_JetFlavorQCDDown":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetFlavorQCDDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetFlavorQCDDown")
+        #print "making jetVeto30_JERDown"
+        self.jetVeto30_JERDown_branch = the_tree.GetBranch("jetVeto30_JERDown")
+        #if not self.jetVeto30_JERDown_branch and "jetVeto30_JERDown" not in self.complained:
+        if not self.jetVeto30_JERDown_branch and "jetVeto30_JERDown":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JERDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JERDown")
         else:
-            self.jetVeto30WoNoisyJets_JetFlavorQCDDown_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetFlavorQCDDown_value)
+            self.jetVeto30_JERDown_branch.SetAddress(<void*>&self.jetVeto30_JERDown_value)
 
-        #print "making jetVeto30WoNoisyJets_JetFlavorQCDUp"
-        self.jetVeto30WoNoisyJets_JetFlavorQCDUp_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetFlavorQCDUp")
-        #if not self.jetVeto30WoNoisyJets_JetFlavorQCDUp_branch and "jetVeto30WoNoisyJets_JetFlavorQCDUp" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetFlavorQCDUp_branch and "jetVeto30WoNoisyJets_JetFlavorQCDUp":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetFlavorQCDUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetFlavorQCDUp")
+        #print "making jetVeto30_JERUp"
+        self.jetVeto30_JERUp_branch = the_tree.GetBranch("jetVeto30_JERUp")
+        #if not self.jetVeto30_JERUp_branch and "jetVeto30_JERUp" not in self.complained:
+        if not self.jetVeto30_JERUp_branch and "jetVeto30_JERUp":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JERUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JERUp")
         else:
-            self.jetVeto30WoNoisyJets_JetFlavorQCDUp_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetFlavorQCDUp_value)
+            self.jetVeto30_JERUp_branch.SetAddress(<void*>&self.jetVeto30_JERUp_value)
 
-        #print "making jetVeto30WoNoisyJets_JetHFDown"
-        self.jetVeto30WoNoisyJets_JetHFDown_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetHFDown")
-        #if not self.jetVeto30WoNoisyJets_JetHFDown_branch and "jetVeto30WoNoisyJets_JetHFDown" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetHFDown_branch and "jetVeto30WoNoisyJets_JetHFDown":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetHFDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetHFDown")
+        #print "making jetVeto30_JetAbsoluteDown"
+        self.jetVeto30_JetAbsoluteDown_branch = the_tree.GetBranch("jetVeto30_JetAbsoluteDown")
+        #if not self.jetVeto30_JetAbsoluteDown_branch and "jetVeto30_JetAbsoluteDown" not in self.complained:
+        if not self.jetVeto30_JetAbsoluteDown_branch and "jetVeto30_JetAbsoluteDown":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetAbsoluteDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetAbsoluteDown")
         else:
-            self.jetVeto30WoNoisyJets_JetHFDown_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetHFDown_value)
+            self.jetVeto30_JetAbsoluteDown_branch.SetAddress(<void*>&self.jetVeto30_JetAbsoluteDown_value)
 
-        #print "making jetVeto30WoNoisyJets_JetHFUp"
-        self.jetVeto30WoNoisyJets_JetHFUp_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetHFUp")
-        #if not self.jetVeto30WoNoisyJets_JetHFUp_branch and "jetVeto30WoNoisyJets_JetHFUp" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetHFUp_branch and "jetVeto30WoNoisyJets_JetHFUp":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetHFUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetHFUp")
+        #print "making jetVeto30_JetAbsoluteUp"
+        self.jetVeto30_JetAbsoluteUp_branch = the_tree.GetBranch("jetVeto30_JetAbsoluteUp")
+        #if not self.jetVeto30_JetAbsoluteUp_branch and "jetVeto30_JetAbsoluteUp" not in self.complained:
+        if not self.jetVeto30_JetAbsoluteUp_branch and "jetVeto30_JetAbsoluteUp":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetAbsoluteUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetAbsoluteUp")
         else:
-            self.jetVeto30WoNoisyJets_JetHFUp_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetHFUp_value)
+            self.jetVeto30_JetAbsoluteUp_branch.SetAddress(<void*>&self.jetVeto30_JetAbsoluteUp_value)
 
-        #print "making jetVeto30WoNoisyJets_JetHFyearDown"
-        self.jetVeto30WoNoisyJets_JetHFyearDown_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetHFyearDown")
-        #if not self.jetVeto30WoNoisyJets_JetHFyearDown_branch and "jetVeto30WoNoisyJets_JetHFyearDown" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetHFyearDown_branch and "jetVeto30WoNoisyJets_JetHFyearDown":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetHFyearDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetHFyearDown")
+        #print "making jetVeto30_JetAbsoluteyearDown"
+        self.jetVeto30_JetAbsoluteyearDown_branch = the_tree.GetBranch("jetVeto30_JetAbsoluteyearDown")
+        #if not self.jetVeto30_JetAbsoluteyearDown_branch and "jetVeto30_JetAbsoluteyearDown" not in self.complained:
+        if not self.jetVeto30_JetAbsoluteyearDown_branch and "jetVeto30_JetAbsoluteyearDown":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetAbsoluteyearDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetAbsoluteyearDown")
         else:
-            self.jetVeto30WoNoisyJets_JetHFyearDown_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetHFyearDown_value)
+            self.jetVeto30_JetAbsoluteyearDown_branch.SetAddress(<void*>&self.jetVeto30_JetAbsoluteyearDown_value)
 
-        #print "making jetVeto30WoNoisyJets_JetHFyearUp"
-        self.jetVeto30WoNoisyJets_JetHFyearUp_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetHFyearUp")
-        #if not self.jetVeto30WoNoisyJets_JetHFyearUp_branch and "jetVeto30WoNoisyJets_JetHFyearUp" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetHFyearUp_branch and "jetVeto30WoNoisyJets_JetHFyearUp":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetHFyearUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetHFyearUp")
+        #print "making jetVeto30_JetAbsoluteyearUp"
+        self.jetVeto30_JetAbsoluteyearUp_branch = the_tree.GetBranch("jetVeto30_JetAbsoluteyearUp")
+        #if not self.jetVeto30_JetAbsoluteyearUp_branch and "jetVeto30_JetAbsoluteyearUp" not in self.complained:
+        if not self.jetVeto30_JetAbsoluteyearUp_branch and "jetVeto30_JetAbsoluteyearUp":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetAbsoluteyearUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetAbsoluteyearUp")
         else:
-            self.jetVeto30WoNoisyJets_JetHFyearUp_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetHFyearUp_value)
+            self.jetVeto30_JetAbsoluteyearUp_branch.SetAddress(<void*>&self.jetVeto30_JetAbsoluteyearUp_value)
 
-        #print "making jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets"
-        self.jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets")
-        #if not self.jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets_branch and "jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets_branch and "jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets")
+        #print "making jetVeto30_JetBBEC1Down"
+        self.jetVeto30_JetBBEC1Down_branch = the_tree.GetBranch("jetVeto30_JetBBEC1Down")
+        #if not self.jetVeto30_JetBBEC1Down_branch and "jetVeto30_JetBBEC1Down" not in self.complained:
+        if not self.jetVeto30_JetBBEC1Down_branch and "jetVeto30_JetBBEC1Down":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetBBEC1Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetBBEC1Down")
         else:
-            self.jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets_value)
+            self.jetVeto30_JetBBEC1Down_branch.SetAddress(<void*>&self.jetVeto30_JetBBEC1Down_value)
 
-        #print "making jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets"
-        self.jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets")
-        #if not self.jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets_branch and "jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets_branch and "jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets")
+        #print "making jetVeto30_JetBBEC1Up"
+        self.jetVeto30_JetBBEC1Up_branch = the_tree.GetBranch("jetVeto30_JetBBEC1Up")
+        #if not self.jetVeto30_JetBBEC1Up_branch and "jetVeto30_JetBBEC1Up" not in self.complained:
+        if not self.jetVeto30_JetBBEC1Up_branch and "jetVeto30_JetBBEC1Up":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetBBEC1Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetBBEC1Up")
         else:
-            self.jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets_value)
+            self.jetVeto30_JetBBEC1Up_branch.SetAddress(<void*>&self.jetVeto30_JetBBEC1Up_value)
 
-        #print "making jetVeto30WoNoisyJets_JetRelativeSampleDown"
-        self.jetVeto30WoNoisyJets_JetRelativeSampleDown_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetRelativeSampleDown")
-        #if not self.jetVeto30WoNoisyJets_JetRelativeSampleDown_branch and "jetVeto30WoNoisyJets_JetRelativeSampleDown" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetRelativeSampleDown_branch and "jetVeto30WoNoisyJets_JetRelativeSampleDown":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetRelativeSampleDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetRelativeSampleDown")
+        #print "making jetVeto30_JetBBEC1yearDown"
+        self.jetVeto30_JetBBEC1yearDown_branch = the_tree.GetBranch("jetVeto30_JetBBEC1yearDown")
+        #if not self.jetVeto30_JetBBEC1yearDown_branch and "jetVeto30_JetBBEC1yearDown" not in self.complained:
+        if not self.jetVeto30_JetBBEC1yearDown_branch and "jetVeto30_JetBBEC1yearDown":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetBBEC1yearDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetBBEC1yearDown")
         else:
-            self.jetVeto30WoNoisyJets_JetRelativeSampleDown_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetRelativeSampleDown_value)
+            self.jetVeto30_JetBBEC1yearDown_branch.SetAddress(<void*>&self.jetVeto30_JetBBEC1yearDown_value)
 
-        #print "making jetVeto30WoNoisyJets_JetRelativeSampleUp"
-        self.jetVeto30WoNoisyJets_JetRelativeSampleUp_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetRelativeSampleUp")
-        #if not self.jetVeto30WoNoisyJets_JetRelativeSampleUp_branch and "jetVeto30WoNoisyJets_JetRelativeSampleUp" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetRelativeSampleUp_branch and "jetVeto30WoNoisyJets_JetRelativeSampleUp":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetRelativeSampleUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetRelativeSampleUp")
+        #print "making jetVeto30_JetBBEC1yearUp"
+        self.jetVeto30_JetBBEC1yearUp_branch = the_tree.GetBranch("jetVeto30_JetBBEC1yearUp")
+        #if not self.jetVeto30_JetBBEC1yearUp_branch and "jetVeto30_JetBBEC1yearUp" not in self.complained:
+        if not self.jetVeto30_JetBBEC1yearUp_branch and "jetVeto30_JetBBEC1yearUp":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetBBEC1yearUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetBBEC1yearUp")
         else:
-            self.jetVeto30WoNoisyJets_JetRelativeSampleUp_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetRelativeSampleUp_value)
+            self.jetVeto30_JetBBEC1yearUp_branch.SetAddress(<void*>&self.jetVeto30_JetBBEC1yearUp_value)
 
-        #print "making jetVeto30WoNoisyJets_JetTotalDown"
-        self.jetVeto30WoNoisyJets_JetTotalDown_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetTotalDown")
-        #if not self.jetVeto30WoNoisyJets_JetTotalDown_branch and "jetVeto30WoNoisyJets_JetTotalDown" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetTotalDown_branch and "jetVeto30WoNoisyJets_JetTotalDown":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetTotalDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetTotalDown")
+        #print "making jetVeto30_JetEC2Down"
+        self.jetVeto30_JetEC2Down_branch = the_tree.GetBranch("jetVeto30_JetEC2Down")
+        #if not self.jetVeto30_JetEC2Down_branch and "jetVeto30_JetEC2Down" not in self.complained:
+        if not self.jetVeto30_JetEC2Down_branch and "jetVeto30_JetEC2Down":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetEC2Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetEC2Down")
         else:
-            self.jetVeto30WoNoisyJets_JetTotalDown_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetTotalDown_value)
+            self.jetVeto30_JetEC2Down_branch.SetAddress(<void*>&self.jetVeto30_JetEC2Down_value)
 
-        #print "making jetVeto30WoNoisyJets_JetTotalUp"
-        self.jetVeto30WoNoisyJets_JetTotalUp_branch = the_tree.GetBranch("jetVeto30WoNoisyJets_JetTotalUp")
-        #if not self.jetVeto30WoNoisyJets_JetTotalUp_branch and "jetVeto30WoNoisyJets_JetTotalUp" not in self.complained:
-        if not self.jetVeto30WoNoisyJets_JetTotalUp_branch and "jetVeto30WoNoisyJets_JetTotalUp":
-            warnings.warn( "EMTree: Expected branch jetVeto30WoNoisyJets_JetTotalUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("jetVeto30WoNoisyJets_JetTotalUp")
+        #print "making jetVeto30_JetEC2Up"
+        self.jetVeto30_JetEC2Up_branch = the_tree.GetBranch("jetVeto30_JetEC2Up")
+        #if not self.jetVeto30_JetEC2Up_branch and "jetVeto30_JetEC2Up" not in self.complained:
+        if not self.jetVeto30_JetEC2Up_branch and "jetVeto30_JetEC2Up":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetEC2Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetEC2Up")
         else:
-            self.jetVeto30WoNoisyJets_JetTotalUp_branch.SetAddress(<void*>&self.jetVeto30WoNoisyJets_JetTotalUp_value)
+            self.jetVeto30_JetEC2Up_branch.SetAddress(<void*>&self.jetVeto30_JetEC2Up_value)
+
+        #print "making jetVeto30_JetEC2yearDown"
+        self.jetVeto30_JetEC2yearDown_branch = the_tree.GetBranch("jetVeto30_JetEC2yearDown")
+        #if not self.jetVeto30_JetEC2yearDown_branch and "jetVeto30_JetEC2yearDown" not in self.complained:
+        if not self.jetVeto30_JetEC2yearDown_branch and "jetVeto30_JetEC2yearDown":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetEC2yearDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetEC2yearDown")
+        else:
+            self.jetVeto30_JetEC2yearDown_branch.SetAddress(<void*>&self.jetVeto30_JetEC2yearDown_value)
+
+        #print "making jetVeto30_JetEC2yearUp"
+        self.jetVeto30_JetEC2yearUp_branch = the_tree.GetBranch("jetVeto30_JetEC2yearUp")
+        #if not self.jetVeto30_JetEC2yearUp_branch and "jetVeto30_JetEC2yearUp" not in self.complained:
+        if not self.jetVeto30_JetEC2yearUp_branch and "jetVeto30_JetEC2yearUp":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetEC2yearUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetEC2yearUp")
+        else:
+            self.jetVeto30_JetEC2yearUp_branch.SetAddress(<void*>&self.jetVeto30_JetEC2yearUp_value)
 
         #print "making jetVeto30_JetEnDown"
         self.jetVeto30_JetEnDown_branch = the_tree.GetBranch("jetVeto30_JetEnDown")
@@ -5205,6 +5097,114 @@ cdef class EMTree:
             #self.complained.add("jetVeto30_JetEnUp")
         else:
             self.jetVeto30_JetEnUp_branch.SetAddress(<void*>&self.jetVeto30_JetEnUp_value)
+
+        #print "making jetVeto30_JetFlavorQCDDown"
+        self.jetVeto30_JetFlavorQCDDown_branch = the_tree.GetBranch("jetVeto30_JetFlavorQCDDown")
+        #if not self.jetVeto30_JetFlavorQCDDown_branch and "jetVeto30_JetFlavorQCDDown" not in self.complained:
+        if not self.jetVeto30_JetFlavorQCDDown_branch and "jetVeto30_JetFlavorQCDDown":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetFlavorQCDDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetFlavorQCDDown")
+        else:
+            self.jetVeto30_JetFlavorQCDDown_branch.SetAddress(<void*>&self.jetVeto30_JetFlavorQCDDown_value)
+
+        #print "making jetVeto30_JetFlavorQCDUp"
+        self.jetVeto30_JetFlavorQCDUp_branch = the_tree.GetBranch("jetVeto30_JetFlavorQCDUp")
+        #if not self.jetVeto30_JetFlavorQCDUp_branch and "jetVeto30_JetFlavorQCDUp" not in self.complained:
+        if not self.jetVeto30_JetFlavorQCDUp_branch and "jetVeto30_JetFlavorQCDUp":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetFlavorQCDUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetFlavorQCDUp")
+        else:
+            self.jetVeto30_JetFlavorQCDUp_branch.SetAddress(<void*>&self.jetVeto30_JetFlavorQCDUp_value)
+
+        #print "making jetVeto30_JetHFDown"
+        self.jetVeto30_JetHFDown_branch = the_tree.GetBranch("jetVeto30_JetHFDown")
+        #if not self.jetVeto30_JetHFDown_branch and "jetVeto30_JetHFDown" not in self.complained:
+        if not self.jetVeto30_JetHFDown_branch and "jetVeto30_JetHFDown":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetHFDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetHFDown")
+        else:
+            self.jetVeto30_JetHFDown_branch.SetAddress(<void*>&self.jetVeto30_JetHFDown_value)
+
+        #print "making jetVeto30_JetHFUp"
+        self.jetVeto30_JetHFUp_branch = the_tree.GetBranch("jetVeto30_JetHFUp")
+        #if not self.jetVeto30_JetHFUp_branch and "jetVeto30_JetHFUp" not in self.complained:
+        if not self.jetVeto30_JetHFUp_branch and "jetVeto30_JetHFUp":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetHFUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetHFUp")
+        else:
+            self.jetVeto30_JetHFUp_branch.SetAddress(<void*>&self.jetVeto30_JetHFUp_value)
+
+        #print "making jetVeto30_JetHFyearDown"
+        self.jetVeto30_JetHFyearDown_branch = the_tree.GetBranch("jetVeto30_JetHFyearDown")
+        #if not self.jetVeto30_JetHFyearDown_branch and "jetVeto30_JetHFyearDown" not in self.complained:
+        if not self.jetVeto30_JetHFyearDown_branch and "jetVeto30_JetHFyearDown":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetHFyearDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetHFyearDown")
+        else:
+            self.jetVeto30_JetHFyearDown_branch.SetAddress(<void*>&self.jetVeto30_JetHFyearDown_value)
+
+        #print "making jetVeto30_JetHFyearUp"
+        self.jetVeto30_JetHFyearUp_branch = the_tree.GetBranch("jetVeto30_JetHFyearUp")
+        #if not self.jetVeto30_JetHFyearUp_branch and "jetVeto30_JetHFyearUp" not in self.complained:
+        if not self.jetVeto30_JetHFyearUp_branch and "jetVeto30_JetHFyearUp":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetHFyearUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetHFyearUp")
+        else:
+            self.jetVeto30_JetHFyearUp_branch.SetAddress(<void*>&self.jetVeto30_JetHFyearUp_value)
+
+        #print "making jetVeto30_JetRelativeBalDown"
+        self.jetVeto30_JetRelativeBalDown_branch = the_tree.GetBranch("jetVeto30_JetRelativeBalDown")
+        #if not self.jetVeto30_JetRelativeBalDown_branch and "jetVeto30_JetRelativeBalDown" not in self.complained:
+        if not self.jetVeto30_JetRelativeBalDown_branch and "jetVeto30_JetRelativeBalDown":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetRelativeBalDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetRelativeBalDown")
+        else:
+            self.jetVeto30_JetRelativeBalDown_branch.SetAddress(<void*>&self.jetVeto30_JetRelativeBalDown_value)
+
+        #print "making jetVeto30_JetRelativeBalUp"
+        self.jetVeto30_JetRelativeBalUp_branch = the_tree.GetBranch("jetVeto30_JetRelativeBalUp")
+        #if not self.jetVeto30_JetRelativeBalUp_branch and "jetVeto30_JetRelativeBalUp" not in self.complained:
+        if not self.jetVeto30_JetRelativeBalUp_branch and "jetVeto30_JetRelativeBalUp":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetRelativeBalUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetRelativeBalUp")
+        else:
+            self.jetVeto30_JetRelativeBalUp_branch.SetAddress(<void*>&self.jetVeto30_JetRelativeBalUp_value)
+
+        #print "making jetVeto30_JetRelativeSampleDown"
+        self.jetVeto30_JetRelativeSampleDown_branch = the_tree.GetBranch("jetVeto30_JetRelativeSampleDown")
+        #if not self.jetVeto30_JetRelativeSampleDown_branch and "jetVeto30_JetRelativeSampleDown" not in self.complained:
+        if not self.jetVeto30_JetRelativeSampleDown_branch and "jetVeto30_JetRelativeSampleDown":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetRelativeSampleDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetRelativeSampleDown")
+        else:
+            self.jetVeto30_JetRelativeSampleDown_branch.SetAddress(<void*>&self.jetVeto30_JetRelativeSampleDown_value)
+
+        #print "making jetVeto30_JetRelativeSampleUp"
+        self.jetVeto30_JetRelativeSampleUp_branch = the_tree.GetBranch("jetVeto30_JetRelativeSampleUp")
+        #if not self.jetVeto30_JetRelativeSampleUp_branch and "jetVeto30_JetRelativeSampleUp" not in self.complained:
+        if not self.jetVeto30_JetRelativeSampleUp_branch and "jetVeto30_JetRelativeSampleUp":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetRelativeSampleUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetRelativeSampleUp")
+        else:
+            self.jetVeto30_JetRelativeSampleUp_branch.SetAddress(<void*>&self.jetVeto30_JetRelativeSampleUp_value)
+
+        #print "making jetVeto30_JetTotalDown"
+        self.jetVeto30_JetTotalDown_branch = the_tree.GetBranch("jetVeto30_JetTotalDown")
+        #if not self.jetVeto30_JetTotalDown_branch and "jetVeto30_JetTotalDown" not in self.complained:
+        if not self.jetVeto30_JetTotalDown_branch and "jetVeto30_JetTotalDown":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetTotalDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetTotalDown")
+        else:
+            self.jetVeto30_JetTotalDown_branch.SetAddress(<void*>&self.jetVeto30_JetTotalDown_value)
+
+        #print "making jetVeto30_JetTotalUp"
+        self.jetVeto30_JetTotalUp_branch = the_tree.GetBranch("jetVeto30_JetTotalUp")
+        #if not self.jetVeto30_JetTotalUp_branch and "jetVeto30_JetTotalUp" not in self.complained:
+        if not self.jetVeto30_JetTotalUp_branch and "jetVeto30_JetTotalUp":
+            warnings.warn( "EMTree: Expected branch jetVeto30_JetTotalUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("jetVeto30_JetTotalUp")
+        else:
+            self.jetVeto30_JetTotalUp_branch.SetAddress(<void*>&self.jetVeto30_JetTotalUp_value)
 
         #print "making lumi"
         self.lumi_branch = the_tree.GetBranch("lumi")
@@ -7519,239 +7519,239 @@ cdef class EMTree:
         else:
             self.vbfMassWoNoisyJets_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_value)
 
-        #print "making vbfMassWoNoisyJets_JERDown"
-        self.vbfMassWoNoisyJets_JERDown_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JERDown")
-        #if not self.vbfMassWoNoisyJets_JERDown_branch and "vbfMassWoNoisyJets_JERDown" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JERDown_branch and "vbfMassWoNoisyJets_JERDown":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JERDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JERDown")
+        #print "making vbfMass_JERDown"
+        self.vbfMass_JERDown_branch = the_tree.GetBranch("vbfMass_JERDown")
+        #if not self.vbfMass_JERDown_branch and "vbfMass_JERDown" not in self.complained:
+        if not self.vbfMass_JERDown_branch and "vbfMass_JERDown":
+            warnings.warn( "EMTree: Expected branch vbfMass_JERDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JERDown")
         else:
-            self.vbfMassWoNoisyJets_JERDown_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JERDown_value)
+            self.vbfMass_JERDown_branch.SetAddress(<void*>&self.vbfMass_JERDown_value)
 
-        #print "making vbfMassWoNoisyJets_JERUp"
-        self.vbfMassWoNoisyJets_JERUp_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JERUp")
-        #if not self.vbfMassWoNoisyJets_JERUp_branch and "vbfMassWoNoisyJets_JERUp" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JERUp_branch and "vbfMassWoNoisyJets_JERUp":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JERUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JERUp")
+        #print "making vbfMass_JERUp"
+        self.vbfMass_JERUp_branch = the_tree.GetBranch("vbfMass_JERUp")
+        #if not self.vbfMass_JERUp_branch and "vbfMass_JERUp" not in self.complained:
+        if not self.vbfMass_JERUp_branch and "vbfMass_JERUp":
+            warnings.warn( "EMTree: Expected branch vbfMass_JERUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JERUp")
         else:
-            self.vbfMassWoNoisyJets_JERUp_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JERUp_value)
+            self.vbfMass_JERUp_branch.SetAddress(<void*>&self.vbfMass_JERUp_value)
 
-        #print "making vbfMassWoNoisyJets_JetAbsoluteDown"
-        self.vbfMassWoNoisyJets_JetAbsoluteDown_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetAbsoluteDown")
-        #if not self.vbfMassWoNoisyJets_JetAbsoluteDown_branch and "vbfMassWoNoisyJets_JetAbsoluteDown" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetAbsoluteDown_branch and "vbfMassWoNoisyJets_JetAbsoluteDown":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetAbsoluteDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetAbsoluteDown")
+        #print "making vbfMass_JetAbsoluteDown"
+        self.vbfMass_JetAbsoluteDown_branch = the_tree.GetBranch("vbfMass_JetAbsoluteDown")
+        #if not self.vbfMass_JetAbsoluteDown_branch and "vbfMass_JetAbsoluteDown" not in self.complained:
+        if not self.vbfMass_JetAbsoluteDown_branch and "vbfMass_JetAbsoluteDown":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetAbsoluteDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetAbsoluteDown")
         else:
-            self.vbfMassWoNoisyJets_JetAbsoluteDown_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetAbsoluteDown_value)
+            self.vbfMass_JetAbsoluteDown_branch.SetAddress(<void*>&self.vbfMass_JetAbsoluteDown_value)
 
-        #print "making vbfMassWoNoisyJets_JetAbsoluteUp"
-        self.vbfMassWoNoisyJets_JetAbsoluteUp_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetAbsoluteUp")
-        #if not self.vbfMassWoNoisyJets_JetAbsoluteUp_branch and "vbfMassWoNoisyJets_JetAbsoluteUp" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetAbsoluteUp_branch and "vbfMassWoNoisyJets_JetAbsoluteUp":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetAbsoluteUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetAbsoluteUp")
+        #print "making vbfMass_JetAbsoluteUp"
+        self.vbfMass_JetAbsoluteUp_branch = the_tree.GetBranch("vbfMass_JetAbsoluteUp")
+        #if not self.vbfMass_JetAbsoluteUp_branch and "vbfMass_JetAbsoluteUp" not in self.complained:
+        if not self.vbfMass_JetAbsoluteUp_branch and "vbfMass_JetAbsoluteUp":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetAbsoluteUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetAbsoluteUp")
         else:
-            self.vbfMassWoNoisyJets_JetAbsoluteUp_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetAbsoluteUp_value)
+            self.vbfMass_JetAbsoluteUp_branch.SetAddress(<void*>&self.vbfMass_JetAbsoluteUp_value)
 
-        #print "making vbfMassWoNoisyJets_JetAbsoluteyearDown"
-        self.vbfMassWoNoisyJets_JetAbsoluteyearDown_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetAbsoluteyearDown")
-        #if not self.vbfMassWoNoisyJets_JetAbsoluteyearDown_branch and "vbfMassWoNoisyJets_JetAbsoluteyearDown" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetAbsoluteyearDown_branch and "vbfMassWoNoisyJets_JetAbsoluteyearDown":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetAbsoluteyearDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetAbsoluteyearDown")
+        #print "making vbfMass_JetAbsoluteyearDown"
+        self.vbfMass_JetAbsoluteyearDown_branch = the_tree.GetBranch("vbfMass_JetAbsoluteyearDown")
+        #if not self.vbfMass_JetAbsoluteyearDown_branch and "vbfMass_JetAbsoluteyearDown" not in self.complained:
+        if not self.vbfMass_JetAbsoluteyearDown_branch and "vbfMass_JetAbsoluteyearDown":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetAbsoluteyearDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetAbsoluteyearDown")
         else:
-            self.vbfMassWoNoisyJets_JetAbsoluteyearDown_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetAbsoluteyearDown_value)
+            self.vbfMass_JetAbsoluteyearDown_branch.SetAddress(<void*>&self.vbfMass_JetAbsoluteyearDown_value)
 
-        #print "making vbfMassWoNoisyJets_JetAbsoluteyearUp"
-        self.vbfMassWoNoisyJets_JetAbsoluteyearUp_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetAbsoluteyearUp")
-        #if not self.vbfMassWoNoisyJets_JetAbsoluteyearUp_branch and "vbfMassWoNoisyJets_JetAbsoluteyearUp" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetAbsoluteyearUp_branch and "vbfMassWoNoisyJets_JetAbsoluteyearUp":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetAbsoluteyearUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetAbsoluteyearUp")
+        #print "making vbfMass_JetAbsoluteyearUp"
+        self.vbfMass_JetAbsoluteyearUp_branch = the_tree.GetBranch("vbfMass_JetAbsoluteyearUp")
+        #if not self.vbfMass_JetAbsoluteyearUp_branch and "vbfMass_JetAbsoluteyearUp" not in self.complained:
+        if not self.vbfMass_JetAbsoluteyearUp_branch and "vbfMass_JetAbsoluteyearUp":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetAbsoluteyearUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetAbsoluteyearUp")
         else:
-            self.vbfMassWoNoisyJets_JetAbsoluteyearUp_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetAbsoluteyearUp_value)
+            self.vbfMass_JetAbsoluteyearUp_branch.SetAddress(<void*>&self.vbfMass_JetAbsoluteyearUp_value)
 
-        #print "making vbfMassWoNoisyJets_JetBBEC1Down"
-        self.vbfMassWoNoisyJets_JetBBEC1Down_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetBBEC1Down")
-        #if not self.vbfMassWoNoisyJets_JetBBEC1Down_branch and "vbfMassWoNoisyJets_JetBBEC1Down" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetBBEC1Down_branch and "vbfMassWoNoisyJets_JetBBEC1Down":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetBBEC1Down does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetBBEC1Down")
+        #print "making vbfMass_JetBBEC1Down"
+        self.vbfMass_JetBBEC1Down_branch = the_tree.GetBranch("vbfMass_JetBBEC1Down")
+        #if not self.vbfMass_JetBBEC1Down_branch and "vbfMass_JetBBEC1Down" not in self.complained:
+        if not self.vbfMass_JetBBEC1Down_branch and "vbfMass_JetBBEC1Down":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetBBEC1Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetBBEC1Down")
         else:
-            self.vbfMassWoNoisyJets_JetBBEC1Down_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetBBEC1Down_value)
+            self.vbfMass_JetBBEC1Down_branch.SetAddress(<void*>&self.vbfMass_JetBBEC1Down_value)
 
-        #print "making vbfMassWoNoisyJets_JetBBEC1Up"
-        self.vbfMassWoNoisyJets_JetBBEC1Up_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetBBEC1Up")
-        #if not self.vbfMassWoNoisyJets_JetBBEC1Up_branch and "vbfMassWoNoisyJets_JetBBEC1Up" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetBBEC1Up_branch and "vbfMassWoNoisyJets_JetBBEC1Up":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetBBEC1Up does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetBBEC1Up")
+        #print "making vbfMass_JetBBEC1Up"
+        self.vbfMass_JetBBEC1Up_branch = the_tree.GetBranch("vbfMass_JetBBEC1Up")
+        #if not self.vbfMass_JetBBEC1Up_branch and "vbfMass_JetBBEC1Up" not in self.complained:
+        if not self.vbfMass_JetBBEC1Up_branch and "vbfMass_JetBBEC1Up":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetBBEC1Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetBBEC1Up")
         else:
-            self.vbfMassWoNoisyJets_JetBBEC1Up_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetBBEC1Up_value)
+            self.vbfMass_JetBBEC1Up_branch.SetAddress(<void*>&self.vbfMass_JetBBEC1Up_value)
 
-        #print "making vbfMassWoNoisyJets_JetBBEC1yearDown"
-        self.vbfMassWoNoisyJets_JetBBEC1yearDown_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetBBEC1yearDown")
-        #if not self.vbfMassWoNoisyJets_JetBBEC1yearDown_branch and "vbfMassWoNoisyJets_JetBBEC1yearDown" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetBBEC1yearDown_branch and "vbfMassWoNoisyJets_JetBBEC1yearDown":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetBBEC1yearDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetBBEC1yearDown")
+        #print "making vbfMass_JetBBEC1yearDown"
+        self.vbfMass_JetBBEC1yearDown_branch = the_tree.GetBranch("vbfMass_JetBBEC1yearDown")
+        #if not self.vbfMass_JetBBEC1yearDown_branch and "vbfMass_JetBBEC1yearDown" not in self.complained:
+        if not self.vbfMass_JetBBEC1yearDown_branch and "vbfMass_JetBBEC1yearDown":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetBBEC1yearDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetBBEC1yearDown")
         else:
-            self.vbfMassWoNoisyJets_JetBBEC1yearDown_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetBBEC1yearDown_value)
+            self.vbfMass_JetBBEC1yearDown_branch.SetAddress(<void*>&self.vbfMass_JetBBEC1yearDown_value)
 
-        #print "making vbfMassWoNoisyJets_JetBBEC1yearUp"
-        self.vbfMassWoNoisyJets_JetBBEC1yearUp_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetBBEC1yearUp")
-        #if not self.vbfMassWoNoisyJets_JetBBEC1yearUp_branch and "vbfMassWoNoisyJets_JetBBEC1yearUp" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetBBEC1yearUp_branch and "vbfMassWoNoisyJets_JetBBEC1yearUp":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetBBEC1yearUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetBBEC1yearUp")
+        #print "making vbfMass_JetBBEC1yearUp"
+        self.vbfMass_JetBBEC1yearUp_branch = the_tree.GetBranch("vbfMass_JetBBEC1yearUp")
+        #if not self.vbfMass_JetBBEC1yearUp_branch and "vbfMass_JetBBEC1yearUp" not in self.complained:
+        if not self.vbfMass_JetBBEC1yearUp_branch and "vbfMass_JetBBEC1yearUp":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetBBEC1yearUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetBBEC1yearUp")
         else:
-            self.vbfMassWoNoisyJets_JetBBEC1yearUp_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetBBEC1yearUp_value)
+            self.vbfMass_JetBBEC1yearUp_branch.SetAddress(<void*>&self.vbfMass_JetBBEC1yearUp_value)
 
-        #print "making vbfMassWoNoisyJets_JetEC2Down"
-        self.vbfMassWoNoisyJets_JetEC2Down_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetEC2Down")
-        #if not self.vbfMassWoNoisyJets_JetEC2Down_branch and "vbfMassWoNoisyJets_JetEC2Down" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetEC2Down_branch and "vbfMassWoNoisyJets_JetEC2Down":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetEC2Down does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetEC2Down")
+        #print "making vbfMass_JetEC2Down"
+        self.vbfMass_JetEC2Down_branch = the_tree.GetBranch("vbfMass_JetEC2Down")
+        #if not self.vbfMass_JetEC2Down_branch and "vbfMass_JetEC2Down" not in self.complained:
+        if not self.vbfMass_JetEC2Down_branch and "vbfMass_JetEC2Down":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetEC2Down does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetEC2Down")
         else:
-            self.vbfMassWoNoisyJets_JetEC2Down_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetEC2Down_value)
+            self.vbfMass_JetEC2Down_branch.SetAddress(<void*>&self.vbfMass_JetEC2Down_value)
 
-        #print "making vbfMassWoNoisyJets_JetEC2Up"
-        self.vbfMassWoNoisyJets_JetEC2Up_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetEC2Up")
-        #if not self.vbfMassWoNoisyJets_JetEC2Up_branch and "vbfMassWoNoisyJets_JetEC2Up" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetEC2Up_branch and "vbfMassWoNoisyJets_JetEC2Up":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetEC2Up does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetEC2Up")
+        #print "making vbfMass_JetEC2Up"
+        self.vbfMass_JetEC2Up_branch = the_tree.GetBranch("vbfMass_JetEC2Up")
+        #if not self.vbfMass_JetEC2Up_branch and "vbfMass_JetEC2Up" not in self.complained:
+        if not self.vbfMass_JetEC2Up_branch and "vbfMass_JetEC2Up":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetEC2Up does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetEC2Up")
         else:
-            self.vbfMassWoNoisyJets_JetEC2Up_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetEC2Up_value)
+            self.vbfMass_JetEC2Up_branch.SetAddress(<void*>&self.vbfMass_JetEC2Up_value)
 
-        #print "making vbfMassWoNoisyJets_JetEC2yearDown"
-        self.vbfMassWoNoisyJets_JetEC2yearDown_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetEC2yearDown")
-        #if not self.vbfMassWoNoisyJets_JetEC2yearDown_branch and "vbfMassWoNoisyJets_JetEC2yearDown" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetEC2yearDown_branch and "vbfMassWoNoisyJets_JetEC2yearDown":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetEC2yearDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetEC2yearDown")
+        #print "making vbfMass_JetEC2yearDown"
+        self.vbfMass_JetEC2yearDown_branch = the_tree.GetBranch("vbfMass_JetEC2yearDown")
+        #if not self.vbfMass_JetEC2yearDown_branch and "vbfMass_JetEC2yearDown" not in self.complained:
+        if not self.vbfMass_JetEC2yearDown_branch and "vbfMass_JetEC2yearDown":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetEC2yearDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetEC2yearDown")
         else:
-            self.vbfMassWoNoisyJets_JetEC2yearDown_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetEC2yearDown_value)
+            self.vbfMass_JetEC2yearDown_branch.SetAddress(<void*>&self.vbfMass_JetEC2yearDown_value)
 
-        #print "making vbfMassWoNoisyJets_JetEC2yearUp"
-        self.vbfMassWoNoisyJets_JetEC2yearUp_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetEC2yearUp")
-        #if not self.vbfMassWoNoisyJets_JetEC2yearUp_branch and "vbfMassWoNoisyJets_JetEC2yearUp" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetEC2yearUp_branch and "vbfMassWoNoisyJets_JetEC2yearUp":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetEC2yearUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetEC2yearUp")
+        #print "making vbfMass_JetEC2yearUp"
+        self.vbfMass_JetEC2yearUp_branch = the_tree.GetBranch("vbfMass_JetEC2yearUp")
+        #if not self.vbfMass_JetEC2yearUp_branch and "vbfMass_JetEC2yearUp" not in self.complained:
+        if not self.vbfMass_JetEC2yearUp_branch and "vbfMass_JetEC2yearUp":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetEC2yearUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetEC2yearUp")
         else:
-            self.vbfMassWoNoisyJets_JetEC2yearUp_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetEC2yearUp_value)
+            self.vbfMass_JetEC2yearUp_branch.SetAddress(<void*>&self.vbfMass_JetEC2yearUp_value)
 
-        #print "making vbfMassWoNoisyJets_JetFlavorQCDDown"
-        self.vbfMassWoNoisyJets_JetFlavorQCDDown_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetFlavorQCDDown")
-        #if not self.vbfMassWoNoisyJets_JetFlavorQCDDown_branch and "vbfMassWoNoisyJets_JetFlavorQCDDown" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetFlavorQCDDown_branch and "vbfMassWoNoisyJets_JetFlavorQCDDown":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetFlavorQCDDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetFlavorQCDDown")
+        #print "making vbfMass_JetFlavorQCDDown"
+        self.vbfMass_JetFlavorQCDDown_branch = the_tree.GetBranch("vbfMass_JetFlavorQCDDown")
+        #if not self.vbfMass_JetFlavorQCDDown_branch and "vbfMass_JetFlavorQCDDown" not in self.complained:
+        if not self.vbfMass_JetFlavorQCDDown_branch and "vbfMass_JetFlavorQCDDown":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetFlavorQCDDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetFlavorQCDDown")
         else:
-            self.vbfMassWoNoisyJets_JetFlavorQCDDown_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetFlavorQCDDown_value)
+            self.vbfMass_JetFlavorQCDDown_branch.SetAddress(<void*>&self.vbfMass_JetFlavorQCDDown_value)
 
-        #print "making vbfMassWoNoisyJets_JetFlavorQCDUp"
-        self.vbfMassWoNoisyJets_JetFlavorQCDUp_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetFlavorQCDUp")
-        #if not self.vbfMassWoNoisyJets_JetFlavorQCDUp_branch and "vbfMassWoNoisyJets_JetFlavorQCDUp" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetFlavorQCDUp_branch and "vbfMassWoNoisyJets_JetFlavorQCDUp":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetFlavorQCDUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetFlavorQCDUp")
+        #print "making vbfMass_JetFlavorQCDUp"
+        self.vbfMass_JetFlavorQCDUp_branch = the_tree.GetBranch("vbfMass_JetFlavorQCDUp")
+        #if not self.vbfMass_JetFlavorQCDUp_branch and "vbfMass_JetFlavorQCDUp" not in self.complained:
+        if not self.vbfMass_JetFlavorQCDUp_branch and "vbfMass_JetFlavorQCDUp":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetFlavorQCDUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetFlavorQCDUp")
         else:
-            self.vbfMassWoNoisyJets_JetFlavorQCDUp_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetFlavorQCDUp_value)
+            self.vbfMass_JetFlavorQCDUp_branch.SetAddress(<void*>&self.vbfMass_JetFlavorQCDUp_value)
 
-        #print "making vbfMassWoNoisyJets_JetHFDown"
-        self.vbfMassWoNoisyJets_JetHFDown_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetHFDown")
-        #if not self.vbfMassWoNoisyJets_JetHFDown_branch and "vbfMassWoNoisyJets_JetHFDown" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetHFDown_branch and "vbfMassWoNoisyJets_JetHFDown":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetHFDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetHFDown")
+        #print "making vbfMass_JetHFDown"
+        self.vbfMass_JetHFDown_branch = the_tree.GetBranch("vbfMass_JetHFDown")
+        #if not self.vbfMass_JetHFDown_branch and "vbfMass_JetHFDown" not in self.complained:
+        if not self.vbfMass_JetHFDown_branch and "vbfMass_JetHFDown":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetHFDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetHFDown")
         else:
-            self.vbfMassWoNoisyJets_JetHFDown_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetHFDown_value)
+            self.vbfMass_JetHFDown_branch.SetAddress(<void*>&self.vbfMass_JetHFDown_value)
 
-        #print "making vbfMassWoNoisyJets_JetHFUp"
-        self.vbfMassWoNoisyJets_JetHFUp_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetHFUp")
-        #if not self.vbfMassWoNoisyJets_JetHFUp_branch and "vbfMassWoNoisyJets_JetHFUp" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetHFUp_branch and "vbfMassWoNoisyJets_JetHFUp":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetHFUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetHFUp")
+        #print "making vbfMass_JetHFUp"
+        self.vbfMass_JetHFUp_branch = the_tree.GetBranch("vbfMass_JetHFUp")
+        #if not self.vbfMass_JetHFUp_branch and "vbfMass_JetHFUp" not in self.complained:
+        if not self.vbfMass_JetHFUp_branch and "vbfMass_JetHFUp":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetHFUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetHFUp")
         else:
-            self.vbfMassWoNoisyJets_JetHFUp_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetHFUp_value)
+            self.vbfMass_JetHFUp_branch.SetAddress(<void*>&self.vbfMass_JetHFUp_value)
 
-        #print "making vbfMassWoNoisyJets_JetHFyearDown"
-        self.vbfMassWoNoisyJets_JetHFyearDown_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetHFyearDown")
-        #if not self.vbfMassWoNoisyJets_JetHFyearDown_branch and "vbfMassWoNoisyJets_JetHFyearDown" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetHFyearDown_branch and "vbfMassWoNoisyJets_JetHFyearDown":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetHFyearDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetHFyearDown")
+        #print "making vbfMass_JetHFyearDown"
+        self.vbfMass_JetHFyearDown_branch = the_tree.GetBranch("vbfMass_JetHFyearDown")
+        #if not self.vbfMass_JetHFyearDown_branch and "vbfMass_JetHFyearDown" not in self.complained:
+        if not self.vbfMass_JetHFyearDown_branch and "vbfMass_JetHFyearDown":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetHFyearDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetHFyearDown")
         else:
-            self.vbfMassWoNoisyJets_JetHFyearDown_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetHFyearDown_value)
+            self.vbfMass_JetHFyearDown_branch.SetAddress(<void*>&self.vbfMass_JetHFyearDown_value)
 
-        #print "making vbfMassWoNoisyJets_JetHFyearUp"
-        self.vbfMassWoNoisyJets_JetHFyearUp_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetHFyearUp")
-        #if not self.vbfMassWoNoisyJets_JetHFyearUp_branch and "vbfMassWoNoisyJets_JetHFyearUp" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetHFyearUp_branch and "vbfMassWoNoisyJets_JetHFyearUp":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetHFyearUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetHFyearUp")
+        #print "making vbfMass_JetHFyearUp"
+        self.vbfMass_JetHFyearUp_branch = the_tree.GetBranch("vbfMass_JetHFyearUp")
+        #if not self.vbfMass_JetHFyearUp_branch and "vbfMass_JetHFyearUp" not in self.complained:
+        if not self.vbfMass_JetHFyearUp_branch and "vbfMass_JetHFyearUp":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetHFyearUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetHFyearUp")
         else:
-            self.vbfMassWoNoisyJets_JetHFyearUp_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetHFyearUp_value)
+            self.vbfMass_JetHFyearUp_branch.SetAddress(<void*>&self.vbfMass_JetHFyearUp_value)
 
-        #print "making vbfMassWoNoisyJets_JetRelativeBalDown"
-        self.vbfMassWoNoisyJets_JetRelativeBalDown_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetRelativeBalDown")
-        #if not self.vbfMassWoNoisyJets_JetRelativeBalDown_branch and "vbfMassWoNoisyJets_JetRelativeBalDown" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetRelativeBalDown_branch and "vbfMassWoNoisyJets_JetRelativeBalDown":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetRelativeBalDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetRelativeBalDown")
+        #print "making vbfMass_JetRelativeBalDown"
+        self.vbfMass_JetRelativeBalDown_branch = the_tree.GetBranch("vbfMass_JetRelativeBalDown")
+        #if not self.vbfMass_JetRelativeBalDown_branch and "vbfMass_JetRelativeBalDown" not in self.complained:
+        if not self.vbfMass_JetRelativeBalDown_branch and "vbfMass_JetRelativeBalDown":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetRelativeBalDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetRelativeBalDown")
         else:
-            self.vbfMassWoNoisyJets_JetRelativeBalDown_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetRelativeBalDown_value)
+            self.vbfMass_JetRelativeBalDown_branch.SetAddress(<void*>&self.vbfMass_JetRelativeBalDown_value)
 
-        #print "making vbfMassWoNoisyJets_JetRelativeBalUp"
-        self.vbfMassWoNoisyJets_JetRelativeBalUp_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetRelativeBalUp")
-        #if not self.vbfMassWoNoisyJets_JetRelativeBalUp_branch and "vbfMassWoNoisyJets_JetRelativeBalUp" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetRelativeBalUp_branch and "vbfMassWoNoisyJets_JetRelativeBalUp":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetRelativeBalUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetRelativeBalUp")
+        #print "making vbfMass_JetRelativeBalUp"
+        self.vbfMass_JetRelativeBalUp_branch = the_tree.GetBranch("vbfMass_JetRelativeBalUp")
+        #if not self.vbfMass_JetRelativeBalUp_branch and "vbfMass_JetRelativeBalUp" not in self.complained:
+        if not self.vbfMass_JetRelativeBalUp_branch and "vbfMass_JetRelativeBalUp":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetRelativeBalUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetRelativeBalUp")
         else:
-            self.vbfMassWoNoisyJets_JetRelativeBalUp_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetRelativeBalUp_value)
+            self.vbfMass_JetRelativeBalUp_branch.SetAddress(<void*>&self.vbfMass_JetRelativeBalUp_value)
 
-        #print "making vbfMassWoNoisyJets_JetRelativeSampleDown"
-        self.vbfMassWoNoisyJets_JetRelativeSampleDown_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetRelativeSampleDown")
-        #if not self.vbfMassWoNoisyJets_JetRelativeSampleDown_branch and "vbfMassWoNoisyJets_JetRelativeSampleDown" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetRelativeSampleDown_branch and "vbfMassWoNoisyJets_JetRelativeSampleDown":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetRelativeSampleDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetRelativeSampleDown")
+        #print "making vbfMass_JetRelativeSampleDown"
+        self.vbfMass_JetRelativeSampleDown_branch = the_tree.GetBranch("vbfMass_JetRelativeSampleDown")
+        #if not self.vbfMass_JetRelativeSampleDown_branch and "vbfMass_JetRelativeSampleDown" not in self.complained:
+        if not self.vbfMass_JetRelativeSampleDown_branch and "vbfMass_JetRelativeSampleDown":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetRelativeSampleDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetRelativeSampleDown")
         else:
-            self.vbfMassWoNoisyJets_JetRelativeSampleDown_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetRelativeSampleDown_value)
+            self.vbfMass_JetRelativeSampleDown_branch.SetAddress(<void*>&self.vbfMass_JetRelativeSampleDown_value)
 
-        #print "making vbfMassWoNoisyJets_JetRelativeSampleUp"
-        self.vbfMassWoNoisyJets_JetRelativeSampleUp_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetRelativeSampleUp")
-        #if not self.vbfMassWoNoisyJets_JetRelativeSampleUp_branch and "vbfMassWoNoisyJets_JetRelativeSampleUp" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetRelativeSampleUp_branch and "vbfMassWoNoisyJets_JetRelativeSampleUp":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetRelativeSampleUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetRelativeSampleUp")
+        #print "making vbfMass_JetRelativeSampleUp"
+        self.vbfMass_JetRelativeSampleUp_branch = the_tree.GetBranch("vbfMass_JetRelativeSampleUp")
+        #if not self.vbfMass_JetRelativeSampleUp_branch and "vbfMass_JetRelativeSampleUp" not in self.complained:
+        if not self.vbfMass_JetRelativeSampleUp_branch and "vbfMass_JetRelativeSampleUp":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetRelativeSampleUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetRelativeSampleUp")
         else:
-            self.vbfMassWoNoisyJets_JetRelativeSampleUp_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetRelativeSampleUp_value)
+            self.vbfMass_JetRelativeSampleUp_branch.SetAddress(<void*>&self.vbfMass_JetRelativeSampleUp_value)
 
-        #print "making vbfMassWoNoisyJets_JetTotalDown"
-        self.vbfMassWoNoisyJets_JetTotalDown_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetTotalDown")
-        #if not self.vbfMassWoNoisyJets_JetTotalDown_branch and "vbfMassWoNoisyJets_JetTotalDown" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetTotalDown_branch and "vbfMassWoNoisyJets_JetTotalDown":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetTotalDown does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetTotalDown")
+        #print "making vbfMass_JetTotalDown"
+        self.vbfMass_JetTotalDown_branch = the_tree.GetBranch("vbfMass_JetTotalDown")
+        #if not self.vbfMass_JetTotalDown_branch and "vbfMass_JetTotalDown" not in self.complained:
+        if not self.vbfMass_JetTotalDown_branch and "vbfMass_JetTotalDown":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetTotalDown does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetTotalDown")
         else:
-            self.vbfMassWoNoisyJets_JetTotalDown_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetTotalDown_value)
+            self.vbfMass_JetTotalDown_branch.SetAddress(<void*>&self.vbfMass_JetTotalDown_value)
 
-        #print "making vbfMassWoNoisyJets_JetTotalUp"
-        self.vbfMassWoNoisyJets_JetTotalUp_branch = the_tree.GetBranch("vbfMassWoNoisyJets_JetTotalUp")
-        #if not self.vbfMassWoNoisyJets_JetTotalUp_branch and "vbfMassWoNoisyJets_JetTotalUp" not in self.complained:
-        if not self.vbfMassWoNoisyJets_JetTotalUp_branch and "vbfMassWoNoisyJets_JetTotalUp":
-            warnings.warn( "EMTree: Expected branch vbfMassWoNoisyJets_JetTotalUp does not exist!"                " It will crash if you try and use it!",Warning)
-            #self.complained.add("vbfMassWoNoisyJets_JetTotalUp")
+        #print "making vbfMass_JetTotalUp"
+        self.vbfMass_JetTotalUp_branch = the_tree.GetBranch("vbfMass_JetTotalUp")
+        #if not self.vbfMass_JetTotalUp_branch and "vbfMass_JetTotalUp" not in self.complained:
+        if not self.vbfMass_JetTotalUp_branch and "vbfMass_JetTotalUp":
+            warnings.warn( "EMTree: Expected branch vbfMass_JetTotalUp does not exist!"                " It will crash if you try and use it!",Warning)
+            #self.complained.add("vbfMass_JetTotalUp")
         else:
-            self.vbfMassWoNoisyJets_JetTotalUp_branch.SetAddress(<void*>&self.vbfMassWoNoisyJets_JetTotalUp_value)
+            self.vbfMass_JetTotalUp_branch.SetAddress(<void*>&self.vbfMass_JetTotalUp_value)
 
         #print "making vbfNJets20"
         self.vbfNJets20_branch = the_tree.GetBranch("vbfNJets20")
@@ -9052,125 +9052,125 @@ cdef class EMTree:
             self.j1ptWoNoisyJets_branch.GetEntry(self.localentry, 0)
             return self.j1ptWoNoisyJets_value
 
-    property j1ptWoNoisyJets_JERDown:
+    property j1pt_JERDown:
         def __get__(self):
-            self.j1ptWoNoisyJets_JERDown_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JERDown_value
+            self.j1pt_JERDown_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JERDown_value
 
-    property j1ptWoNoisyJets_JERUp:
+    property j1pt_JERUp:
         def __get__(self):
-            self.j1ptWoNoisyJets_JERUp_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JERUp_value
+            self.j1pt_JERUp_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JERUp_value
 
-    property j1ptWoNoisyJets_JetAbsoluteDown:
+    property j1pt_JetAbsoluteDown:
         def __get__(self):
-            self.j1ptWoNoisyJets_JetAbsoluteDown_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JetAbsoluteDown_value
+            self.j1pt_JetAbsoluteDown_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetAbsoluteDown_value
 
-    property j1ptWoNoisyJets_JetAbsoluteUp:
+    property j1pt_JetAbsoluteUp:
         def __get__(self):
-            self.j1ptWoNoisyJets_JetAbsoluteUp_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JetAbsoluteUp_value
+            self.j1pt_JetAbsoluteUp_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetAbsoluteUp_value
 
-    property j1ptWoNoisyJets_JetAbsoluteyearDown:
+    property j1pt_JetAbsoluteyearDown:
         def __get__(self):
-            self.j1ptWoNoisyJets_JetAbsoluteyearDown_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JetAbsoluteyearDown_value
+            self.j1pt_JetAbsoluteyearDown_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetAbsoluteyearDown_value
 
-    property j1ptWoNoisyJets_JetAbsoluteyearUp:
+    property j1pt_JetAbsoluteyearUp:
         def __get__(self):
-            self.j1ptWoNoisyJets_JetAbsoluteyearUp_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JetAbsoluteyearUp_value
+            self.j1pt_JetAbsoluteyearUp_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetAbsoluteyearUp_value
 
-    property j1ptWoNoisyJets_JetBBEC1Down:
+    property j1pt_JetBBEC1Down:
         def __get__(self):
-            self.j1ptWoNoisyJets_JetBBEC1Down_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JetBBEC1Down_value
+            self.j1pt_JetBBEC1Down_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetBBEC1Down_value
 
-    property j1ptWoNoisyJets_JetBBEC1Up:
+    property j1pt_JetBBEC1Up:
         def __get__(self):
-            self.j1ptWoNoisyJets_JetBBEC1Up_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JetBBEC1Up_value
+            self.j1pt_JetBBEC1Up_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetBBEC1Up_value
 
-    property j1ptWoNoisyJets_JetBBEC1yearDown:
+    property j1pt_JetBBEC1yearDown:
         def __get__(self):
-            self.j1ptWoNoisyJets_JetBBEC1yearDown_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JetBBEC1yearDown_value
+            self.j1pt_JetBBEC1yearDown_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetBBEC1yearDown_value
 
-    property j1ptWoNoisyJets_JetBBEC1yearUp:
+    property j1pt_JetBBEC1yearUp:
         def __get__(self):
-            self.j1ptWoNoisyJets_JetBBEC1yearUp_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JetBBEC1yearUp_value
+            self.j1pt_JetBBEC1yearUp_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetBBEC1yearUp_value
 
-    property j1ptWoNoisyJets_JetEC2Down:
+    property j1pt_JetEC2Down:
         def __get__(self):
-            self.j1ptWoNoisyJets_JetEC2Down_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JetEC2Down_value
+            self.j1pt_JetEC2Down_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetEC2Down_value
 
-    property j1ptWoNoisyJets_JetEC2Up:
+    property j1pt_JetEC2Up:
         def __get__(self):
-            self.j1ptWoNoisyJets_JetEC2Up_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JetEC2Up_value
+            self.j1pt_JetEC2Up_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetEC2Up_value
 
-    property j1ptWoNoisyJets_JetEC2yearDown:
+    property j1pt_JetEC2yearDown:
         def __get__(self):
-            self.j1ptWoNoisyJets_JetEC2yearDown_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JetEC2yearDown_value
+            self.j1pt_JetEC2yearDown_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetEC2yearDown_value
 
-    property j1ptWoNoisyJets_JetEC2yearUp:
+    property j1pt_JetEC2yearUp:
         def __get__(self):
-            self.j1ptWoNoisyJets_JetEC2yearUp_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JetEC2yearUp_value
+            self.j1pt_JetEC2yearUp_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetEC2yearUp_value
 
-    property j1ptWoNoisyJets_JetFlavorQCDDown:
+    property j1pt_JetFlavorQCDDown:
         def __get__(self):
-            self.j1ptWoNoisyJets_JetFlavorQCDDown_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JetFlavorQCDDown_value
+            self.j1pt_JetFlavorQCDDown_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetFlavorQCDDown_value
 
-    property j1ptWoNoisyJets_JetFlavorQCDUp:
+    property j1pt_JetFlavorQCDUp:
         def __get__(self):
-            self.j1ptWoNoisyJets_JetFlavorQCDUp_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JetFlavorQCDUp_value
+            self.j1pt_JetFlavorQCDUp_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetFlavorQCDUp_value
 
-    property j1ptWoNoisyJets_JetHFDown:
+    property j1pt_JetHFDown:
         def __get__(self):
-            self.j1ptWoNoisyJets_JetHFDown_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JetHFDown_value
+            self.j1pt_JetHFDown_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetHFDown_value
 
-    property j1ptWoNoisyJets_JetHFUp:
+    property j1pt_JetHFUp:
         def __get__(self):
-            self.j1ptWoNoisyJets_JetHFUp_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JetHFUp_value
+            self.j1pt_JetHFUp_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetHFUp_value
 
-    property j1ptWoNoisyJets_JetHFyearDown:
+    property j1pt_JetHFyearDown:
         def __get__(self):
-            self.j1ptWoNoisyJets_JetHFyearDown_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JetHFyearDown_value
+            self.j1pt_JetHFyearDown_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetHFyearDown_value
 
-    property j1ptWoNoisyJets_JetHFyearUp:
+    property j1pt_JetHFyearUp:
         def __get__(self):
-            self.j1ptWoNoisyJets_JetHFyearUp_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JetHFyearUp_value
+            self.j1pt_JetHFyearUp_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetHFyearUp_value
 
-    property j1ptWoNoisyJets_JetRelativeBalDown:
+    property j1pt_JetRelativeBalDown:
         def __get__(self):
-            self.j1ptWoNoisyJets_JetRelativeBalDown_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JetRelativeBalDown_value
+            self.j1pt_JetRelativeBalDown_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetRelativeBalDown_value
 
-    property j1ptWoNoisyJets_JetRelativeBalUp:
+    property j1pt_JetRelativeBalUp:
         def __get__(self):
-            self.j1ptWoNoisyJets_JetRelativeBalUp_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JetRelativeBalUp_value
+            self.j1pt_JetRelativeBalUp_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetRelativeBalUp_value
 
-    property j1ptWoNoisyJets_JetRelativeSampleDown:
+    property j1pt_JetRelativeSampleDown:
         def __get__(self):
-            self.j1ptWoNoisyJets_JetRelativeSampleDown_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JetRelativeSampleDown_value
+            self.j1pt_JetRelativeSampleDown_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetRelativeSampleDown_value
 
-    property j1ptWoNoisyJets_JetRelativeSampleUp:
+    property j1pt_JetRelativeSampleUp:
         def __get__(self):
-            self.j1ptWoNoisyJets_JetRelativeSampleUp_branch.GetEntry(self.localentry, 0)
-            return self.j1ptWoNoisyJets_JetRelativeSampleUp_value
+            self.j1pt_JetRelativeSampleUp_branch.GetEntry(self.localentry, 0)
+            return self.j1pt_JetRelativeSampleUp_value
 
     property j2csv:
         def __get__(self):
@@ -9222,125 +9222,125 @@ cdef class EMTree:
             self.j2ptWoNoisyJets_branch.GetEntry(self.localentry, 0)
             return self.j2ptWoNoisyJets_value
 
-    property j2ptWoNoisyJets_JERDown:
+    property j2pt_JERDown:
         def __get__(self):
-            self.j2ptWoNoisyJets_JERDown_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JERDown_value
+            self.j2pt_JERDown_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JERDown_value
 
-    property j2ptWoNoisyJets_JERUp:
+    property j2pt_JERUp:
         def __get__(self):
-            self.j2ptWoNoisyJets_JERUp_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JERUp_value
+            self.j2pt_JERUp_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JERUp_value
 
-    property j2ptWoNoisyJets_JetAbsoluteDown:
+    property j2pt_JetAbsoluteDown:
         def __get__(self):
-            self.j2ptWoNoisyJets_JetAbsoluteDown_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JetAbsoluteDown_value
+            self.j2pt_JetAbsoluteDown_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetAbsoluteDown_value
 
-    property j2ptWoNoisyJets_JetAbsoluteUp:
+    property j2pt_JetAbsoluteUp:
         def __get__(self):
-            self.j2ptWoNoisyJets_JetAbsoluteUp_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JetAbsoluteUp_value
+            self.j2pt_JetAbsoluteUp_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetAbsoluteUp_value
 
-    property j2ptWoNoisyJets_JetAbsoluteyearDown:
+    property j2pt_JetAbsoluteyearDown:
         def __get__(self):
-            self.j2ptWoNoisyJets_JetAbsoluteyearDown_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JetAbsoluteyearDown_value
+            self.j2pt_JetAbsoluteyearDown_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetAbsoluteyearDown_value
 
-    property j2ptWoNoisyJets_JetAbsoluteyearUp:
+    property j2pt_JetAbsoluteyearUp:
         def __get__(self):
-            self.j2ptWoNoisyJets_JetAbsoluteyearUp_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JetAbsoluteyearUp_value
+            self.j2pt_JetAbsoluteyearUp_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetAbsoluteyearUp_value
 
-    property j2ptWoNoisyJets_JetBBEC1Down:
+    property j2pt_JetBBEC1Down:
         def __get__(self):
-            self.j2ptWoNoisyJets_JetBBEC1Down_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JetBBEC1Down_value
+            self.j2pt_JetBBEC1Down_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetBBEC1Down_value
 
-    property j2ptWoNoisyJets_JetBBEC1Up:
+    property j2pt_JetBBEC1Up:
         def __get__(self):
-            self.j2ptWoNoisyJets_JetBBEC1Up_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JetBBEC1Up_value
+            self.j2pt_JetBBEC1Up_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetBBEC1Up_value
 
-    property j2ptWoNoisyJets_JetBBEC1yearDown:
+    property j2pt_JetBBEC1yearDown:
         def __get__(self):
-            self.j2ptWoNoisyJets_JetBBEC1yearDown_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JetBBEC1yearDown_value
+            self.j2pt_JetBBEC1yearDown_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetBBEC1yearDown_value
 
-    property j2ptWoNoisyJets_JetBBEC1yearUp:
+    property j2pt_JetBBEC1yearUp:
         def __get__(self):
-            self.j2ptWoNoisyJets_JetBBEC1yearUp_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JetBBEC1yearUp_value
+            self.j2pt_JetBBEC1yearUp_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetBBEC1yearUp_value
 
-    property j2ptWoNoisyJets_JetEC2Down:
+    property j2pt_JetEC2Down:
         def __get__(self):
-            self.j2ptWoNoisyJets_JetEC2Down_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JetEC2Down_value
+            self.j2pt_JetEC2Down_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetEC2Down_value
 
-    property j2ptWoNoisyJets_JetEC2Up:
+    property j2pt_JetEC2Up:
         def __get__(self):
-            self.j2ptWoNoisyJets_JetEC2Up_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JetEC2Up_value
+            self.j2pt_JetEC2Up_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetEC2Up_value
 
-    property j2ptWoNoisyJets_JetEC2yearDown:
+    property j2pt_JetEC2yearDown:
         def __get__(self):
-            self.j2ptWoNoisyJets_JetEC2yearDown_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JetEC2yearDown_value
+            self.j2pt_JetEC2yearDown_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetEC2yearDown_value
 
-    property j2ptWoNoisyJets_JetEC2yearUp:
+    property j2pt_JetEC2yearUp:
         def __get__(self):
-            self.j2ptWoNoisyJets_JetEC2yearUp_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JetEC2yearUp_value
+            self.j2pt_JetEC2yearUp_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetEC2yearUp_value
 
-    property j2ptWoNoisyJets_JetFlavorQCDDown:
+    property j2pt_JetFlavorQCDDown:
         def __get__(self):
-            self.j2ptWoNoisyJets_JetFlavorQCDDown_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JetFlavorQCDDown_value
+            self.j2pt_JetFlavorQCDDown_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetFlavorQCDDown_value
 
-    property j2ptWoNoisyJets_JetFlavorQCDUp:
+    property j2pt_JetFlavorQCDUp:
         def __get__(self):
-            self.j2ptWoNoisyJets_JetFlavorQCDUp_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JetFlavorQCDUp_value
+            self.j2pt_JetFlavorQCDUp_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetFlavorQCDUp_value
 
-    property j2ptWoNoisyJets_JetHFDown:
+    property j2pt_JetHFDown:
         def __get__(self):
-            self.j2ptWoNoisyJets_JetHFDown_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JetHFDown_value
+            self.j2pt_JetHFDown_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetHFDown_value
 
-    property j2ptWoNoisyJets_JetHFUp:
+    property j2pt_JetHFUp:
         def __get__(self):
-            self.j2ptWoNoisyJets_JetHFUp_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JetHFUp_value
+            self.j2pt_JetHFUp_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetHFUp_value
 
-    property j2ptWoNoisyJets_JetHFyearDown:
+    property j2pt_JetHFyearDown:
         def __get__(self):
-            self.j2ptWoNoisyJets_JetHFyearDown_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JetHFyearDown_value
+            self.j2pt_JetHFyearDown_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetHFyearDown_value
 
-    property j2ptWoNoisyJets_JetHFyearUp:
+    property j2pt_JetHFyearUp:
         def __get__(self):
-            self.j2ptWoNoisyJets_JetHFyearUp_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JetHFyearUp_value
+            self.j2pt_JetHFyearUp_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetHFyearUp_value
 
-    property j2ptWoNoisyJets_JetRelativeBalDown:
+    property j2pt_JetRelativeBalDown:
         def __get__(self):
-            self.j2ptWoNoisyJets_JetRelativeBalDown_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JetRelativeBalDown_value
+            self.j2pt_JetRelativeBalDown_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetRelativeBalDown_value
 
-    property j2ptWoNoisyJets_JetRelativeBalUp:
+    property j2pt_JetRelativeBalUp:
         def __get__(self):
-            self.j2ptWoNoisyJets_JetRelativeBalUp_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JetRelativeBalUp_value
+            self.j2pt_JetRelativeBalUp_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetRelativeBalUp_value
 
-    property j2ptWoNoisyJets_JetRelativeSampleDown:
+    property j2pt_JetRelativeSampleDown:
         def __get__(self):
-            self.j2ptWoNoisyJets_JetRelativeSampleDown_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JetRelativeSampleDown_value
+            self.j2pt_JetRelativeSampleDown_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetRelativeSampleDown_value
 
-    property j2ptWoNoisyJets_JetRelativeSampleUp:
+    property j2pt_JetRelativeSampleUp:
         def __get__(self):
-            self.j2ptWoNoisyJets_JetRelativeSampleUp_branch.GetEntry(self.localentry, 0)
-            return self.j2ptWoNoisyJets_JetRelativeSampleUp_value
+            self.j2pt_JetRelativeSampleUp_branch.GetEntry(self.localentry, 0)
+            return self.j2pt_JetRelativeSampleUp_value
 
     property jb1eta_2016:
         def __get__(self):
@@ -9492,76 +9492,6 @@ cdef class EMTree:
             self.jetVeto30WoNoisyJets_branch.GetEntry(self.localentry, 0)
             return self.jetVeto30WoNoisyJets_value
 
-    property jetVeto30WoNoisyJets_JERDown:
-        def __get__(self):
-            self.jetVeto30WoNoisyJets_JERDown_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JERDown_value
-
-    property jetVeto30WoNoisyJets_JERUp:
-        def __get__(self):
-            self.jetVeto30WoNoisyJets_JERUp_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JERUp_value
-
-    property jetVeto30WoNoisyJets_JetAbsoluteDown:
-        def __get__(self):
-            self.jetVeto30WoNoisyJets_JetAbsoluteDown_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetAbsoluteDown_value
-
-    property jetVeto30WoNoisyJets_JetAbsoluteUp:
-        def __get__(self):
-            self.jetVeto30WoNoisyJets_JetAbsoluteUp_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetAbsoluteUp_value
-
-    property jetVeto30WoNoisyJets_JetAbsoluteyearDown:
-        def __get__(self):
-            self.jetVeto30WoNoisyJets_JetAbsoluteyearDown_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetAbsoluteyearDown_value
-
-    property jetVeto30WoNoisyJets_JetAbsoluteyearUp:
-        def __get__(self):
-            self.jetVeto30WoNoisyJets_JetAbsoluteyearUp_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetAbsoluteyearUp_value
-
-    property jetVeto30WoNoisyJets_JetBBEC1Down:
-        def __get__(self):
-            self.jetVeto30WoNoisyJets_JetBBEC1Down_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetBBEC1Down_value
-
-    property jetVeto30WoNoisyJets_JetBBEC1Up:
-        def __get__(self):
-            self.jetVeto30WoNoisyJets_JetBBEC1Up_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetBBEC1Up_value
-
-    property jetVeto30WoNoisyJets_JetBBEC1yearDown:
-        def __get__(self):
-            self.jetVeto30WoNoisyJets_JetBBEC1yearDown_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetBBEC1yearDown_value
-
-    property jetVeto30WoNoisyJets_JetBBEC1yearUp:
-        def __get__(self):
-            self.jetVeto30WoNoisyJets_JetBBEC1yearUp_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetBBEC1yearUp_value
-
-    property jetVeto30WoNoisyJets_JetEC2Down:
-        def __get__(self):
-            self.jetVeto30WoNoisyJets_JetEC2Down_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetEC2Down_value
-
-    property jetVeto30WoNoisyJets_JetEC2Up:
-        def __get__(self):
-            self.jetVeto30WoNoisyJets_JetEC2Up_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetEC2Up_value
-
-    property jetVeto30WoNoisyJets_JetEC2yearDown:
-        def __get__(self):
-            self.jetVeto30WoNoisyJets_JetEC2yearDown_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetEC2yearDown_value
-
-    property jetVeto30WoNoisyJets_JetEC2yearUp:
-        def __get__(self):
-            self.jetVeto30WoNoisyJets_JetEC2yearUp_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetEC2yearUp_value
-
     property jetVeto30WoNoisyJets_JetEnDown:
         def __get__(self):
             self.jetVeto30WoNoisyJets_JetEnDown_branch.GetEntry(self.localentry, 0)
@@ -9572,65 +9502,75 @@ cdef class EMTree:
             self.jetVeto30WoNoisyJets_JetEnUp_branch.GetEntry(self.localentry, 0)
             return self.jetVeto30WoNoisyJets_JetEnUp_value
 
-    property jetVeto30WoNoisyJets_JetFlavorQCDDown:
+    property jetVeto30_JERDown:
         def __get__(self):
-            self.jetVeto30WoNoisyJets_JetFlavorQCDDown_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetFlavorQCDDown_value
+            self.jetVeto30_JERDown_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JERDown_value
 
-    property jetVeto30WoNoisyJets_JetFlavorQCDUp:
+    property jetVeto30_JERUp:
         def __get__(self):
-            self.jetVeto30WoNoisyJets_JetFlavorQCDUp_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetFlavorQCDUp_value
+            self.jetVeto30_JERUp_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JERUp_value
 
-    property jetVeto30WoNoisyJets_JetHFDown:
+    property jetVeto30_JetAbsoluteDown:
         def __get__(self):
-            self.jetVeto30WoNoisyJets_JetHFDown_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetHFDown_value
+            self.jetVeto30_JetAbsoluteDown_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetAbsoluteDown_value
 
-    property jetVeto30WoNoisyJets_JetHFUp:
+    property jetVeto30_JetAbsoluteUp:
         def __get__(self):
-            self.jetVeto30WoNoisyJets_JetHFUp_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetHFUp_value
+            self.jetVeto30_JetAbsoluteUp_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetAbsoluteUp_value
 
-    property jetVeto30WoNoisyJets_JetHFyearDown:
+    property jetVeto30_JetAbsoluteyearDown:
         def __get__(self):
-            self.jetVeto30WoNoisyJets_JetHFyearDown_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetHFyearDown_value
+            self.jetVeto30_JetAbsoluteyearDown_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetAbsoluteyearDown_value
 
-    property jetVeto30WoNoisyJets_JetHFyearUp:
+    property jetVeto30_JetAbsoluteyearUp:
         def __get__(self):
-            self.jetVeto30WoNoisyJets_JetHFyearUp_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetHFyearUp_value
+            self.jetVeto30_JetAbsoluteyearUp_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetAbsoluteyearUp_value
 
-    property jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets:
+    property jetVeto30_JetBBEC1Down:
         def __get__(self):
-            self.jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetRelativeBalDownWoNoisyJets_value
+            self.jetVeto30_JetBBEC1Down_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetBBEC1Down_value
 
-    property jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets:
+    property jetVeto30_JetBBEC1Up:
         def __get__(self):
-            self.jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetRelativeBalUpWoNoisyJets_value
+            self.jetVeto30_JetBBEC1Up_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetBBEC1Up_value
 
-    property jetVeto30WoNoisyJets_JetRelativeSampleDown:
+    property jetVeto30_JetBBEC1yearDown:
         def __get__(self):
-            self.jetVeto30WoNoisyJets_JetRelativeSampleDown_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetRelativeSampleDown_value
+            self.jetVeto30_JetBBEC1yearDown_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetBBEC1yearDown_value
 
-    property jetVeto30WoNoisyJets_JetRelativeSampleUp:
+    property jetVeto30_JetBBEC1yearUp:
         def __get__(self):
-            self.jetVeto30WoNoisyJets_JetRelativeSampleUp_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetRelativeSampleUp_value
+            self.jetVeto30_JetBBEC1yearUp_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetBBEC1yearUp_value
 
-    property jetVeto30WoNoisyJets_JetTotalDown:
+    property jetVeto30_JetEC2Down:
         def __get__(self):
-            self.jetVeto30WoNoisyJets_JetTotalDown_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetTotalDown_value
+            self.jetVeto30_JetEC2Down_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetEC2Down_value
 
-    property jetVeto30WoNoisyJets_JetTotalUp:
+    property jetVeto30_JetEC2Up:
         def __get__(self):
-            self.jetVeto30WoNoisyJets_JetTotalUp_branch.GetEntry(self.localentry, 0)
-            return self.jetVeto30WoNoisyJets_JetTotalUp_value
+            self.jetVeto30_JetEC2Up_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetEC2Up_value
+
+    property jetVeto30_JetEC2yearDown:
+        def __get__(self):
+            self.jetVeto30_JetEC2yearDown_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetEC2yearDown_value
+
+    property jetVeto30_JetEC2yearUp:
+        def __get__(self):
+            self.jetVeto30_JetEC2yearUp_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetEC2yearUp_value
 
     property jetVeto30_JetEnDown:
         def __get__(self):
@@ -9641,6 +9581,66 @@ cdef class EMTree:
         def __get__(self):
             self.jetVeto30_JetEnUp_branch.GetEntry(self.localentry, 0)
             return self.jetVeto30_JetEnUp_value
+
+    property jetVeto30_JetFlavorQCDDown:
+        def __get__(self):
+            self.jetVeto30_JetFlavorQCDDown_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetFlavorQCDDown_value
+
+    property jetVeto30_JetFlavorQCDUp:
+        def __get__(self):
+            self.jetVeto30_JetFlavorQCDUp_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetFlavorQCDUp_value
+
+    property jetVeto30_JetHFDown:
+        def __get__(self):
+            self.jetVeto30_JetHFDown_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetHFDown_value
+
+    property jetVeto30_JetHFUp:
+        def __get__(self):
+            self.jetVeto30_JetHFUp_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetHFUp_value
+
+    property jetVeto30_JetHFyearDown:
+        def __get__(self):
+            self.jetVeto30_JetHFyearDown_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetHFyearDown_value
+
+    property jetVeto30_JetHFyearUp:
+        def __get__(self):
+            self.jetVeto30_JetHFyearUp_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetHFyearUp_value
+
+    property jetVeto30_JetRelativeBalDown:
+        def __get__(self):
+            self.jetVeto30_JetRelativeBalDown_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetRelativeBalDown_value
+
+    property jetVeto30_JetRelativeBalUp:
+        def __get__(self):
+            self.jetVeto30_JetRelativeBalUp_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetRelativeBalUp_value
+
+    property jetVeto30_JetRelativeSampleDown:
+        def __get__(self):
+            self.jetVeto30_JetRelativeSampleDown_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetRelativeSampleDown_value
+
+    property jetVeto30_JetRelativeSampleUp:
+        def __get__(self):
+            self.jetVeto30_JetRelativeSampleUp_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetRelativeSampleUp_value
+
+    property jetVeto30_JetTotalDown:
+        def __get__(self):
+            self.jetVeto30_JetTotalDown_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetTotalDown_value
+
+    property jetVeto30_JetTotalUp:
+        def __get__(self):
+            self.jetVeto30_JetTotalUp_branch.GetEntry(self.localentry, 0)
+            return self.jetVeto30_JetTotalUp_value
 
     property lumi:
         def __get__(self):
@@ -10927,135 +10927,135 @@ cdef class EMTree:
             self.vbfMassWoNoisyJets_branch.GetEntry(self.localentry, 0)
             return self.vbfMassWoNoisyJets_value
 
-    property vbfMassWoNoisyJets_JERDown:
+    property vbfMass_JERDown:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JERDown_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JERDown_value
+            self.vbfMass_JERDown_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JERDown_value
 
-    property vbfMassWoNoisyJets_JERUp:
+    property vbfMass_JERUp:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JERUp_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JERUp_value
+            self.vbfMass_JERUp_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JERUp_value
 
-    property vbfMassWoNoisyJets_JetAbsoluteDown:
+    property vbfMass_JetAbsoluteDown:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetAbsoluteDown_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetAbsoluteDown_value
+            self.vbfMass_JetAbsoluteDown_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetAbsoluteDown_value
 
-    property vbfMassWoNoisyJets_JetAbsoluteUp:
+    property vbfMass_JetAbsoluteUp:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetAbsoluteUp_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetAbsoluteUp_value
+            self.vbfMass_JetAbsoluteUp_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetAbsoluteUp_value
 
-    property vbfMassWoNoisyJets_JetAbsoluteyearDown:
+    property vbfMass_JetAbsoluteyearDown:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetAbsoluteyearDown_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetAbsoluteyearDown_value
+            self.vbfMass_JetAbsoluteyearDown_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetAbsoluteyearDown_value
 
-    property vbfMassWoNoisyJets_JetAbsoluteyearUp:
+    property vbfMass_JetAbsoluteyearUp:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetAbsoluteyearUp_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetAbsoluteyearUp_value
+            self.vbfMass_JetAbsoluteyearUp_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetAbsoluteyearUp_value
 
-    property vbfMassWoNoisyJets_JetBBEC1Down:
+    property vbfMass_JetBBEC1Down:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetBBEC1Down_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetBBEC1Down_value
+            self.vbfMass_JetBBEC1Down_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetBBEC1Down_value
 
-    property vbfMassWoNoisyJets_JetBBEC1Up:
+    property vbfMass_JetBBEC1Up:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetBBEC1Up_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetBBEC1Up_value
+            self.vbfMass_JetBBEC1Up_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetBBEC1Up_value
 
-    property vbfMassWoNoisyJets_JetBBEC1yearDown:
+    property vbfMass_JetBBEC1yearDown:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetBBEC1yearDown_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetBBEC1yearDown_value
+            self.vbfMass_JetBBEC1yearDown_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetBBEC1yearDown_value
 
-    property vbfMassWoNoisyJets_JetBBEC1yearUp:
+    property vbfMass_JetBBEC1yearUp:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetBBEC1yearUp_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetBBEC1yearUp_value
+            self.vbfMass_JetBBEC1yearUp_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetBBEC1yearUp_value
 
-    property vbfMassWoNoisyJets_JetEC2Down:
+    property vbfMass_JetEC2Down:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetEC2Down_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetEC2Down_value
+            self.vbfMass_JetEC2Down_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetEC2Down_value
 
-    property vbfMassWoNoisyJets_JetEC2Up:
+    property vbfMass_JetEC2Up:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetEC2Up_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetEC2Up_value
+            self.vbfMass_JetEC2Up_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetEC2Up_value
 
-    property vbfMassWoNoisyJets_JetEC2yearDown:
+    property vbfMass_JetEC2yearDown:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetEC2yearDown_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetEC2yearDown_value
+            self.vbfMass_JetEC2yearDown_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetEC2yearDown_value
 
-    property vbfMassWoNoisyJets_JetEC2yearUp:
+    property vbfMass_JetEC2yearUp:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetEC2yearUp_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetEC2yearUp_value
+            self.vbfMass_JetEC2yearUp_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetEC2yearUp_value
 
-    property vbfMassWoNoisyJets_JetFlavorQCDDown:
+    property vbfMass_JetFlavorQCDDown:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetFlavorQCDDown_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetFlavorQCDDown_value
+            self.vbfMass_JetFlavorQCDDown_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetFlavorQCDDown_value
 
-    property vbfMassWoNoisyJets_JetFlavorQCDUp:
+    property vbfMass_JetFlavorQCDUp:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetFlavorQCDUp_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetFlavorQCDUp_value
+            self.vbfMass_JetFlavorQCDUp_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetFlavorQCDUp_value
 
-    property vbfMassWoNoisyJets_JetHFDown:
+    property vbfMass_JetHFDown:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetHFDown_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetHFDown_value
+            self.vbfMass_JetHFDown_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetHFDown_value
 
-    property vbfMassWoNoisyJets_JetHFUp:
+    property vbfMass_JetHFUp:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetHFUp_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetHFUp_value
+            self.vbfMass_JetHFUp_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetHFUp_value
 
-    property vbfMassWoNoisyJets_JetHFyearDown:
+    property vbfMass_JetHFyearDown:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetHFyearDown_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetHFyearDown_value
+            self.vbfMass_JetHFyearDown_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetHFyearDown_value
 
-    property vbfMassWoNoisyJets_JetHFyearUp:
+    property vbfMass_JetHFyearUp:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetHFyearUp_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetHFyearUp_value
+            self.vbfMass_JetHFyearUp_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetHFyearUp_value
 
-    property vbfMassWoNoisyJets_JetRelativeBalDown:
+    property vbfMass_JetRelativeBalDown:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetRelativeBalDown_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetRelativeBalDown_value
+            self.vbfMass_JetRelativeBalDown_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetRelativeBalDown_value
 
-    property vbfMassWoNoisyJets_JetRelativeBalUp:
+    property vbfMass_JetRelativeBalUp:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetRelativeBalUp_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetRelativeBalUp_value
+            self.vbfMass_JetRelativeBalUp_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetRelativeBalUp_value
 
-    property vbfMassWoNoisyJets_JetRelativeSampleDown:
+    property vbfMass_JetRelativeSampleDown:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetRelativeSampleDown_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetRelativeSampleDown_value
+            self.vbfMass_JetRelativeSampleDown_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetRelativeSampleDown_value
 
-    property vbfMassWoNoisyJets_JetRelativeSampleUp:
+    property vbfMass_JetRelativeSampleUp:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetRelativeSampleUp_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetRelativeSampleUp_value
+            self.vbfMass_JetRelativeSampleUp_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetRelativeSampleUp_value
 
-    property vbfMassWoNoisyJets_JetTotalDown:
+    property vbfMass_JetTotalDown:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetTotalDown_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetTotalDown_value
+            self.vbfMass_JetTotalDown_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetTotalDown_value
 
-    property vbfMassWoNoisyJets_JetTotalUp:
+    property vbfMass_JetTotalUp:
         def __get__(self):
-            self.vbfMassWoNoisyJets_JetTotalUp_branch.GetEntry(self.localentry, 0)
-            return self.vbfMassWoNoisyJets_JetTotalUp_value
+            self.vbfMass_JetTotalUp_branch.GetEntry(self.localentry, 0)
+            return self.vbfMass_JetTotalUp_value
 
     property vbfNJets20:
         def __get__(self):

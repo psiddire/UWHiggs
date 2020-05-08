@@ -24,6 +24,10 @@ class AnalyzeMuE(MegaBase, MuEBase):
 
     for row in self.tree:
 
+      if row.evt==8255647:
+        print "Pass 1: ", row.evt, round(myMuon.Pt(), 3), round(myMuon.Eta(), 3), round(myMuon.Phi(), 3), round(row.mRelPFIsoDBDefaultR04, 3), round(myEle.Pt(), 3), round(myEle.Eta(), 3), round(myEle.Phi(), 3), round(row.eRelPFIsoRho, 3), round(myMET.Pt(), 3), round(myMET.Phi(), 3), round(row.j1pt, 3), round(row.j1eta, 3), round(row.j1phi, 3), round(row.j2pt, 3), round(row.j2eta, 3), round(row.j2phi, 3), round(row.vbfMass, 3), row.jetVeto30, row.bjetDeepCSVVeto20Medium_2018_DR0p5
+        print row.muGlbIsoVetoPt10, row.muVetoZTTp001dxyz
+
       if not self.eventSel(row):
         continue
 
@@ -50,8 +54,13 @@ class AnalyzeMuE(MegaBase, MuEBase):
           if mtmumet > 40 and dphiemet < 0.7 and dphiemu > 1.0 and myMuon.Pt() > 26:
             self.fill_histos(row, myMuon, myMET, myEle, weight, 'TightOS1JetCut')
         elif njets==2 and mjj < 550:
+          if row.evt==8255647:
+            print "Pass 2 ", row.evt, round(myMuon.Pt(), 3), round(myMuon.Eta(), 3), round(myMuon.Phi(), 3), round(row.mRelPFIsoDBDefaultR04, 3), round(myEle.Pt(), 3), round(myEle.Eta(), 3), round(myEle.Phi(), 3), round(row.eRelPFIsoRho, 3), round(myMET.Pt(), 3), round(myMET.Phi(), 3), round(row.j1pt, 3), round(row.j1eta, 3), round(row.j1phi, 3), round(row.j2pt, 3), round(row.j2eta, 3), round(row.j2phi, 3), round(row.vbfMass, 3), row.jetVeto30, row.bjetDeepCSVVeto20Medium_2018_DR0p5
+            print mtmumet, dphiemet
           self.fill_histos(row, myMuon, myMET, myEle, weight, 'TightOS2Jet')
           if mtmumet > 15 and dphiemet < 0.5 and myMuon.Pt() > 26:
+            if row.evt==8255647:
+              print "Pass 3"
             self.fill_histos(row, myMuon, myMET, myEle, weight, 'TightOS2JetCut')
         elif njets==2 and mjj > 550:
           self.fill_histos(row, myMuon, myMET, myEle, weight, 'TightOS2JetVBF')

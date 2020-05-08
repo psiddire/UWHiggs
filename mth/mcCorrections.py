@@ -81,39 +81,47 @@ def FesTau(eta, dm):
     if abs(eta) < 1.479:
         if dm == 0:
             fes = fesTau('EBDM0')
-            ef = ['etfakeesbdm0Up', 'etfakeesbdm0Down']
+            ef = ['/etfakeesbdm0Up', '/etfakeesbdm0Down']
         elif dm == 1:
             fes = fesTau('EBDM1')
-            ef = ['etfakeesbdm1Up', 'etfakeesbdm1Down']
+            ef = ['/etfakeesbdm1Up', '/etfakeesbdm1Down']
     else:
         if dm == 0:
             fes = fesTau('EEDM0')
-            ef = ['etfakeesedm0Up', 'etfakeesedm0Down']
+            ef = ['/etfakeesedm0Up', '/etfakeesedm0Down']
         elif dm == 1:
             fes = fesTau('EEDM1')
-            ef = ['etfakeesedm1Up', 'etfakeesedm1Down']
+            ef = ['/etfakeesedm1Up', '/etfakeesedm1Down']
     return [fes, ef]
+
+def FesMuTau(dm):
+    fes = 1.0
+    if dm == 0:
+        fes = 0.998
+    elif dm == 1:
+        fes = 0.99
+    return fes
 
 def ScaleTau(dm):
     if dm==0:
-        st = ([0.007, -0.007], ['/scaletDM0Up', '/scaletDM0Down'])
+        st = (0.009, ['/scaletDM0Up', '/scaletDM0Down'])
     elif dm==1:
-        st = ([0.004, -0.004], ['/scaletDM1Up', '/scaletDM1Down'])
+        st = (0.006, ['/scaletDM1Up', '/scaletDM1Down'])
     elif dm==10:
-        st = ([0.005, -0.005], ['/scaletDM10Up', '/scaletDM10Down'])
+        st = (0.007, ['/scaletDM10Up', '/scaletDM10Down'])
     elif dm==11:
-        st = ([0.011, -0.009], ['/scaletDM11Up', '/scaletDM11Down'])
+        st = (0.012, ['/scaletDM11Up', '/scaletDM11Down'])
     return st
 
 def ScaleEmbTau(dm):
     if dm==0:
-        st = ([0.004, -0.004], ['/scaletDM0Up', '/scaletDM0Down'])
+        st = ([0.997, 0.004, -0.004], ['/scaletDM0Up', '/scaletDM0Down'])
     elif dm==1:
-        st = ([0.004, -0.003], ['/scaletDM1Up', '/scaletDM1Down'])
+        st = ([0.994, 0.004, -0.003], ['/scaletDM1Up', '/scaletDM1Down'])
     elif dm==10:
-        st = ([0.003, -0.003], ['/scaletDM10Up', '/scaletDM10Down'])
+        st = ([0.993, 0.003, -0.003], ['/scaletDM10Up', '/scaletDM10Down'])
     elif dm==11:
-        st = ([0.003, -0.003], ['/scaletDM11Up', '/scaletDM11Down'])
+        st = ([0.993, 0.003, -0.003], ['/scaletDM11Up', '/scaletDM11Down'])
     return st
 
 def TauID(pt):
@@ -153,3 +161,12 @@ def MESSys(eta):
         me = 0.009
         mes = ['/mes2p1Up', '/mes2p1Down']
     return [me, mes]
+
+def RecSys(njets):
+    if njets==0:
+        rSys = ['/recresp0Up', '/recresp0Down', '/recreso0Up', '/recreso0Down']
+    elif njets==1:
+        rSys = ['/recresp1Up', '/recresp1Down', '/recreso1Up', '/recreso1Down']
+    else:
+        rSys = ['/recresp2Up', '/recresp2Down', '/recreso2Up', '/recreso2Down']
+    return rSys

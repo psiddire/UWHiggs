@@ -49,4 +49,6 @@ def topPtreweight(pt1, pt2):
 
 names = ['TightOS', 'TightOS0Jet', 'TightOS1Jet', 'TightOS2Jet', 'TightOS2JetVBF']
 
+gennames = ['TightOSAll', 'TightOS0JetAll', 'TightOS1JetAll', 'TightOS2JetAll', 'TightOS2JetVBFAll']
+
 lhe = ['lhe0', 'lhe1', 'lhe2', 'lhe3', 'lhe4', 'lhe5', 'lhe6', 'lhe7', 'lhe8', 'lhe9', 'lhe10', 'lhe11', 'lhe12', 'lhe13', 'lhe14', 'lhe15', 'lhe16', 'lhe17', 'lhe18', 'lhe19', 'lhe20', 'lhe21', 'lhe22', 'lhe23', 'lhe24', 'lhe25', 'lhe26', 'lhe27', 'lhe28', 'lhe29', 'lhe30', 'lhe31', 'lhe32', 'lhe33', 'lhe34', 'lhe35', 'lhe36', 'lhe37', 'lhe38', 'lhe39', 'lhe40', 'lhe41', 'lhe42', 'lhe43', 'lhe44', 'lhe45', 'lhe46', 'lhe47', 'lhe48', 'lhe49', 'lhe50', 'lhe51', 'lhe52', 'lhe53', 'lhe54', 'lhe55', 'lhe56', 'lhe57', 'lhe58', 'lhe59', 'lhe60', 'lhe61', 'lhe62', 'lhe63', 'lhe64', 'lhe65', 'lhe66', 'lhe67', 'lhe68', 'lhe69', 'lhe70', 'lhe71', 'lhe72', 'lhe73', 'lhe74', 'lhe75', 'lhe76', 'lhe77', 'lhe78', 'lhe79', 'lhe80', 'lhe81', 'lhe82', 'lhe83', 'lhe84', 'lhe85', 'lhe86', 'lhe87', 'lhe88', 'lhe89', 'lhe90', 'lhe91', 'lhe92', 'lhe93', 'lhe94', 'lhe95', 'lhe96', 'lhe97', 'lhe98', 'lhe99', 'lhe100', 'lhe101', 'lhe102', 'lhe103', 'lhe104', 'lhe105', 'lhe106', 'lhe107', 'lhe108', 'lhe109', 'lhe110', 'lhe111', 'lhe112', 'lhe113', 'lhe114', 'lhe115', 'lhe116', 'lhe117', 'lhe118', 'lhe119']
