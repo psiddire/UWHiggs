@@ -57,7 +57,7 @@ eID90 = EGammaPOGCorrections.make_egamma_pog_electronID90_2017()
 eIDnoiso90 = EGammaPOGCorrections.make_egamma_pog_electronID90_2017()
 eReco = EGammaPOGCorrections.make_egamma_pog_Reco_2017()
 
-cmsswBase = '/afs/hep.wisc.edu/home/ndev/CMSSW_10_2_16_UL/src/FinalStateAnalysis/TagAndProbe/data/2017/'
+cmsswBase = '/afs/hep.wisc.edu/home/psiddire/CMSSW_10_2_16_UL/src/FinalStateAnalysis/TagAndProbe/data/2017/'
 f1 = ROOT.TFile(cmsswBase + 'htt_scalefactors_legacy_2017.root')
 w1 = f1.Get('w')
 
@@ -116,6 +116,6 @@ def RecSys(njets):
         rSys = ['/recresp0Up', '/recresp0Down', '/recreso0Up', '/recreso0Down']
     elif njets==1:
         rSys = ['/recresp1Up', '/recresp1Down', '/recreso1Up', '/recreso1Down']
-    elif njets==2:
+    else:
         rSys = ['/recresp2Up', '/recresp2Down', '/recreso2Up', '/recreso2Down']
     return rSys

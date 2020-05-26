@@ -40,13 +40,13 @@ for k, di in enumerate(Lists.dirs):
     d = f.mkdir(Lists.drs[k])
     d.cd()
     if di=='0Jet':
-        binning = array.array('d', [-0.55, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.2, 0.3])
+        binning = array.array('d', [-1.0, -0.55, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.2, 0.3, 1.0])
     elif di=='1Jet':
-        binning = array.array('d', [-0.55, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.25])
+        binning = array.array('d', [-1.0, -0.55, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.2, 0.3, 1.0])
     elif di=='2Jet':
-        binning = array.array('d', [-0.5, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.3])
+        binning = array.array('d', [-1.0, -0.55, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.2, 0.3, 1.0])
     else:
-        binning = array.array('d', [-0.5, -0.4, -0.3, -0.2, -0.1, 0.0, 0.1, 0.2, 0.3])
+        binning = array.array('d', [-1.0, -0.55, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.3, 1.0])
 
     # Observed
     DataTotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('QCD'), Lists.mc_samples)])
@@ -59,24 +59,17 @@ for k, di in enumerate(Lists.dirs):
     embed = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('Embed'), Lists.mc_samples)])
     emball = views.SubdirectoryView(embed, 'TightOS'+di)
     emb = Lists.positivize(emball.Get('bdtDiscriminator'))
-    nom = emb.Integral()
     embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau', binning))
     # Electron Energy Scale
     for i, esSys in enumerate(Lists.escale):
         emb = Lists.positivize(emball.Get(esSys+'bdtDiscriminator'))
-        emb = Lists.normEmb(emb, nom, esSys)
-        embSys.append(emb.Rebin(len(binning)-1, Lists.escaleNames[i][0], binning))
-        embSys.append(emb.Rebin(len(binning)-1, Lists.escaleNames[i][1], binning))
+        embSys.append(emb.Rebin(len(binning)-1, Lists.escaleNames[i], binning))
     # Write Histograms
     for eSys in embSys:
         eSys.Write()
 
     # QCD
     qcdSys = []
-    #if di=='2JetVBF':
-    #    data_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('QCD'), Lists.mc_samples)])
-    #    mc_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('MC'), Lists.mc_samples)])
-    #else:
     data_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('Obs'), Lists.mc_samples)])
     mc_view = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('Bac'), Lists.mc_samples)])
     QCDData = views.SubdirectoryView(data_view, 'TightSS'+di)
@@ -96,6 +89,7 @@ for k, di in enumerate(Lists.dirs):
     for qSys in qcdSys:
         qSys.Write()
 
+    # MC
     for i, sam in enumerate(Lists.samp):
         print sam
         dySys = []
@@ -103,32 +97,16 @@ for k, di in enumerate(Lists.dirs):
         DY = views.SubdirectoryView(DYtotal, 'TightOS'+di)
         dy = DY.Get('bdtDiscriminator')
         dy = Lists.positivize(dy)
-        dy = dy.Rebin(len(binning)-1, sam, binning)
-        h = dy.Clone()
-        dySys.append(dy)
+        dySys.append(dy.Rebin(len(binning)-1, sam, binning))
         # Systematics
         for j, mSys in enumerate(Lists.mcSys):
             dy = Lists.positivize(DY.Get(mSys+'bdtDiscriminator'))
             dySys.append(dy.Rebin(len(binning)-1, sam+Lists.mcSysNames[j], binning))
-        # MES and EES
-        for j, eSys in enumerate(Lists.esSys):
-            dy0 = Lists.positivize(DY.Get(eSys[0]+'bdtDiscriminator'))
-            dy1 = Lists.positivize(DY.Get(eSys[1]+'bdtDiscriminator'))
-            dy0 = dy0.Rebin(len(binning)-1, sam+Lists.esSysNames[j][0], binning)
-            dy1 = dy1.Rebin(len(binning)-1, sam+Lists.esSysNames[j][1], binning)
-            dy0, dy1 = Lists.positivize(Lists.normHist(h, dy0, dy1)[0]), Lists.positivize(Lists.normHist(h, dy0, dy1)[1])
-            dySys.append(dy0)
-            dySys.append(dy1)
         # Recoil Response and Resolution
         if sam in Lists.recsamp:
             for j, rSys in enumerate(Lists.recSys):
-                dy0 = Lists.positivize(DY.Get(rSys[0]+'bdtDiscriminator'))
-                dy1 = Lists.positivize(DY.Get(rSys[1]+'bdtDiscriminator'))
-                dy0 = dy0.Rebin(len(binning)-1, sam+Lists.recSysNames[j][0], binning)
-                dy1 = dy1.Rebin(len(binning)-1, sam+Lists.recSysNames[j][1], binning)
-                dy0, dy1 = Lists.positivize(Lists.normHist(h, dy0, dy1)[0]), Lists.positivize(Lists.normHist(h, dy0, dy1)[1])
-                dySys.append(dy0)
-                dySys.append(dy1)
+                dy = Lists.positivize(DY.Get(rSys+'bdtDiscriminator'))
+                dySys.append(dy.Rebin(len(binning)-1, sam+Lists.recSysNames[j], binning))
         # DY Pt Reweighting
         if sam=='Zothers':
             for j, dSys in enumerate(Lists.dyptSys):
@@ -137,13 +115,8 @@ for k, di in enumerate(Lists.dirs):
         # Jet and Unclustered Energy Scale
         if sam in Lists.norecsamp:
             for j, jSys in enumerate(Lists.jesSys):
-                dy0 = Lists.positivize(DY.Get(jSys[0]+'bdtDiscriminator'))
-                dy1 = Lists.positivize(DY.Get(jSys[1]+'bdtDiscriminator'))
-                dy0 = dy0.Rebin(len(binning)-1, sam+Lists.jesSysNames[j][0], binning)
-                dy1 = dy1.Rebin(len(binning)-1, sam+Lists.jesSysNames[j][1], binning)
-                dy0, dy1 = Lists.positivize(Lists.normHist(h, dy0, dy1)[0]), Lists.positivize(Lists.normHist(h, dy0, dy1)[1])
-                dySys.append(dy0)
-                dySys.append(dy1)
+                dy = Lists.positivize(DY.Get(jSys+'bdtDiscriminator'))
+                dySys.append(dy.Rebin(len(binning)-1, sam+Lists.jesSysNames[j], binning))
         # Write Histograms
         for dSys in dySys:
             dSys.Write()

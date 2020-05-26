@@ -49,17 +49,17 @@ class AnalyzeEMuSys(MegaBase, EMuBase):
 
 
   def fill_categories(self, row, myEle, myMET, myMuon, njets, mjj, weight, name=''):
+    dphiemu = self.deltaPhi(myEle.Phi(), myMuon.Phi())
     dphimumet = self.deltaPhi(myMuon.Phi(), myMET.Phi())
     mtemet = self.transverseMass(myEle, myMET)
-    pzeta = row.e_m_PZeta - 0.85 * row.e_m_PZetaVis
     self.fill_histos(myEle, myMET, myMuon, weight, 'TightOS'+name)
-    if njets==0 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
+    if njets==0 and mtemet > 60 and dphimumet < 0.7 and dphiemu > 2.5 and myEle.Pt() > 30:
       self.fill_histos(myEle, myMET, myMuon, weight, 'TightOS0Jet'+name)
-    elif njets==1 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
+    elif njets==1 and mtemet > 40 and dphimumet < 0.7 and dphiemu > 1.0 and myEle.Pt() > 26:
       self.fill_histos(myEle, myMET, myMuon, weight, 'TightOS1Jet'+name)
-    elif njets==2 and mjj < 500 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
+    elif njets==2 and mjj < 500 and mtemet > 15 and dphimumet < 0.5 and myEle.Pt() > 26:
       self.fill_histos(myEle, myMET, myMuon, weight, 'TightOS2Jet'+name)
-    elif njets==2 and mjj > 500 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
+    elif njets==2 and mjj > 500 and mtemet > 15 and dphimumet < 0.3 and myEle.Pt() > 26:
       self.fill_histos(myEle, myMET, myMuon, weight, 'TightOS2JetVBF'+name)
 
 
@@ -102,19 +102,19 @@ class AnalyzeEMuSys(MegaBase, EMuBase):
 
 
   def fill_sscategories(self, row, myEle, myMET, myMuon, weight):
+    dphiemu = self.deltaPhi(myEle.Phi(), myMuon.Phi())
     dphimumet = self.deltaPhi(myMuon.Phi(), myMET.Phi())
     mtemet = self.transverseMass(myEle, myMET)
-    pzeta = row.e_m_PZeta - 0.85 * row.e_m_PZetaVis
     mjj = row.vbfMassWoNoisyJets
     njets = row.jetVeto30WoNoisyJets
     self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS')
-    if njets==0 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
+    if njets==0 and mtemet > 60 and dphimumet < 0.7 and dphiemu > 2.5 and myEle.Pt() > 30:
       self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS0Jet')
-    elif njets==1 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
+    elif njets==1 and mtemet > 40 and dphimumet < 0.7 and dphiemu > 1.0 and myEle.Pt() > 26:
       self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS1Jet')
-    elif njets==2 and mjj < 500 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
+    elif njets==2 and mjj < 500 and mtemet > 15 and dphimumet < 0.5 and myEle.Pt() > 26:
       self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS2Jet')
-    elif njets==2 and mjj > 500 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
+    elif njets==2 and mjj > 500 and mtemet > 15 and dphimumet < 0.3 and myEle.Pt() > 26:
       self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS2JetVBF')
 
 
@@ -247,9 +247,9 @@ class AnalyzeEMuSys(MegaBase, EMuBase):
       if self.is_embed:
         # Embed Electron Energy Scale
         if abs(myEle.Eta()) < 1.479:
-          eCorr = 0.01
+          eCorr = 0.005
         else:
-          eCorr = 0.025
+          eCorr = 0.0125
         myMETpx = myMET.Px() + myEle.Px()
         myMETpy = myMET.Py() + myEle.Py()
         tmpEle = myEle * ROOT.Double(1.00 + eCorr)

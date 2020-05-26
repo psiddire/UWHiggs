@@ -50,8 +50,6 @@ class EMuQCDBase():
     self.DYreweight = mcCorrections.DYreweight
     self.w1 = mcCorrections.w1
     self.rc = mcCorrections.rc
-    self.EmbedPhi = mcCorrections.EmbedPhi
-    self.EmbedEta = mcCorrections.EmbedEta
 
     self.DYweight = self.mcWeight.DYweight
     self.Wweight = self.mcWeight.Wweight
@@ -86,11 +84,12 @@ class EMuQCDBase():
   # Trigger
   def trigger(self, row):
     triggerm8e23 = row.mu8e23DZPass and row.mPt > 10 and row.ePt > 24# and row.eMatchesMu8e23DZFilter and row.eMatchesMu8e23DZPath and row.mMatchesMu8e23DZFilter and row.mMatchesMu8e23DZPath
-    return bool(triggerm8e23)
+    triggerm23e12 = row.mu23e12DZPass and row.mPt > 24 and row.ePt > 13# and row.eMatchesMu23e12DZFilter and row.eMatchesMu23e12DZPath and row.mMatchesMu23e12DZFilter and row.mMatchesMu23e12DZPath
+    return bool(triggerm8e23 or triggerm23e12)
 
   # Kinematics requirements on both the leptons
   def kinematics(self, row):
-    if row.ePt < 24 or abs(row.eEta) >= 2.5:
+    if row.ePt < 13 or abs(row.eEta) >= 2.5:
       return False
     if row.mPt < 10 or abs(row.mEta) >= 2.4:
       return False
@@ -183,13 +182,22 @@ class EMuQCDBase():
   def corrFact(self, row, myEle, myMuon):
     # Apply all the various corrections to the MC samples
     weight = 1.0
+    eff_trg_data = 0
+    eff_trg_mc = 0
     if self.is_mc:
       self.w1.var("e_pt").setVal(myEle.Pt())
       self.w1.var("e_eta").setVal(myEle.Eta())
       self.w1.var("m_pt").setVal(myMuon.Pt())
       self.w1.var("m_eta").setVal(myMuon.Eta())
-      eff_trg_data = self.w1.function("e_trg_23_ic_data").getVal()*self.w1.function("m_trg_8_ic_data").getVal()
-      eff_trg_mc = self.w1.function("e_trg_23_ic_mc").getVal()*self.w1.function("m_trg_8_ic_mc").getVal()
+      if row.mu23e12DZPass:
+        eff_trg_data = eff_trg_data + self.w1.function("m_trg_23_ic_data").getVal()*self.w1.function("e_trg_12_ic_data").getVal()
+        eff_trg_mc = eff_trg_mc + self.w1.function("m_trg_23_ic_mc").getVal()*self.w1.function("e_trg_12_ic_mc").getVal()
+      if row.mu8e23DZPass:
+        eff_trg_data = eff_trg_data + self.w1.function("m_trg_8_ic_data").getVal()*self.w1.function("e_trg_23_ic_data").getVal()
+        eff_trg_mc = eff_trg_mc + self.w1.function("m_trg_8_ic_mc").getVal()*self.w1.function("e_trg_23_ic_mc").getVal()
+      if row.mu23e12DZPass and row.mu8e23DZPass:
+        eff_trg_data = eff_trg_data - self.w1.function("m_trg_8_ic_data").getVal()*self.w1.function("e_trg_12_ic_data").getVal()
+        eff_trg_mc = eff_trg_mc - self.w1.function("m_trg_8_ic_mc").getVal()*self.w1.function("e_trg_12_ic_mc").getVal()
       tEff = 0 if eff_trg_mc==0 else eff_trg_data/eff_trg_mc
       eID = self.eIDnoiso90(myEle.Eta(), myEle.Pt())
       eReco = self.eReco(myEle.Eta(), myEle.Pt())

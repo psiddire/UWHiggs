@@ -32,7 +32,7 @@ class EMuBase():
     self.is_GluGlu = self.mcWeight.is_GluGlu
     self.is_VBF = self.mcWeight.is_VBF
 
-    self.Emb = False
+    self.Emb = True
     self.is_recoilC = self.mcWeight.is_recoilC
     self.MetCorrection = self.mcWeight.MetCorrection
     if self.is_recoilC and self.MetCorrection:
@@ -323,7 +323,7 @@ class EMuBase():
       eff_trg_data = self.w1.function("e_trg_23_ic_data").getVal()*self.w1.function("m_trg_8_ic_data").getVal()
       eff_trg_embed = self.w1.function("e_trg_23_ic_embed").getVal()*self.w1.function("m_trg_8_ic_embed").getVal()
       trg_sf = 0 if eff_trg_embed==0 else eff_trg_data/eff_trg_embed
-      weight = weight*row.GenWeight*esel*msel*trgsel*trg_sf*e_id_sf*e_iso_sf*m_id_sf*m_iso_sf*self.EmbedPhi(myEle.Phi(), njets, mjj)*self.EmbedEta(myEle.Eta(), njets, mjj)
+      weight = weight*row.GenWeight*esel*msel*trgsel*trg_sf*e_id_sf*e_iso_sf*m_id_sf*m_iso_sf*self.EmbedPhi(myEle.Phi(), njets, mjj)*self.EmbedEta(myEle.Eta(), njets, mjj)*1.04
 
     self.w1.var("njets").setVal(njets)
     self.w1.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Eta(), myMuon.Eta()))

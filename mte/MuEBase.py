@@ -94,7 +94,7 @@ class MuEBase():
 
   # Trigger
   def trigger(self, row):
-    triggerm23e12 = row.mu23e12DZPass and row.mPt > 24 and row.ePt > 13# and row.eMatchesMu23e12DZFilter and row.eMatchesMu23e12DZPath and row.mMatchesMu23e12DZFilter and row.mMatchesMu23e12DZPath
+    triggerm23e12 = row.mu23e12DZPass and row.mPt > 24 and row.ePt > 13 and row.eMatchesMu23e12DZFilter and row.eMatchesMu23e12DZPath and row.mMatchesMu23e12DZFilter and row.mMatchesMu23e12DZPath
     return bool(triggerm23e12)
 
   # Kinematics requirements on both the leptons
@@ -141,7 +141,7 @@ class MuEBase():
   # Book histograms
   def begin(self):
     for n in Kinematics.plotnames:
-      self.book(n, "mPt", "Muon  Pt", 20, 0, 200)
+      self.book(n, "mPt", "Muon Pt", 20, 0, 200)
       self.book(n, "ePt", "Electron Pt", 20, 0, 200)
       self.book(n, "mEta", "Muon Eta", 20, -3, 3)
       self.book(n, "eEta", "Electron Eta", 20, -3, 3)

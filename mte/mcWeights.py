@@ -88,11 +88,11 @@ class mcWeights:
         if self.is_STtWtop:
             weight = weight*0.00587#0.0056
         if self.is_TTTo2L2Nu:
-            weight = weight*0.02735#0.005818
+            weight = weight*0.00844#0.02735#0.005818
         if self.is_TTToHadronic:
-            weight = weight*0.4256#0.421
+            weight = weight*0.000417#0.4256#0.421
         if self.is_TTToSemiLeptonic:
-            weight = weight*0.002893#0.001377
+            weight = weight*0.00127#0.002893#0.001377
         if self.is_VBFH:
             weight = weight*0.000864
         if self.is_GluGluH:

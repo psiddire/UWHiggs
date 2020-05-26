@@ -58,7 +58,7 @@ tesMC = TauPOGCorrections.make_tau_pog_TES_2017()
 fesTau = TauPOGCorrections.Tau_FES_2017
 tauSF = getTauTriggerSFs()
 
-cmsswBase = '/afs/hep.wisc.edu/home/ndev/CMSSW_10_2_16_UL/src/FinalStateAnalysis/TagAndProbe/data/2017/'
+cmsswBase = '/afs/hep.wisc.edu/home/psiddire/CMSSW_10_2_16_UL/src/FinalStateAnalysis/TagAndProbe/data/2017/'
 f2 = ROOT.TFile(cmsswBase + 'htt_scalefactors_2017_v2.root')
 w2 = f2.Get('w')
 
@@ -145,9 +145,9 @@ def FesTau(eta, dm):
 def FesMuTau(dm):
     fes = 1.0
     if dm == 0:
-        fes = 1.000
+        fes = 0.998
     elif dm == 1:
-        fes = 0.995
+        fes = 0.992
     return fes
 
 def ScaleTau(dm):

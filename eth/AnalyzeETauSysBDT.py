@@ -362,6 +362,14 @@ class AnalyzeETauSysBDT(MegaBase, ETauBase):
         tSys = [x for x in self.tauidSys if x not in tid]
         self.fill_SysNames(row, myEle, myMET, myTau, njets, mjj, weight, tSys)
 
+        # Trigger
+        if self.trigger(row)[0]:
+          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight * 1.02, '/trUp')
+          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight * 0.98, '/trDown')
+        elif self.trigger(row)[1]:
+          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight * 1.054, '/trUp')
+          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight * 0.946, '/trDown')
+
         # Embed Electron Energy Scale
         if abs(myEle.Eta()) < 1.479:
           eCorr = 0.005

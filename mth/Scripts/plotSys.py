@@ -8,7 +8,7 @@ basePlotter = BasePlotter.BasePlotter()
 
 for x in Lists.mc_samples:
     print x
-    Lists.files.extend(glob.glob('../results/%s/AnalyzeMuTauSys27/%s' % (jobid, x)))
+    Lists.files.extend(glob.glob('../results/%s/AnalyzeMuTauSys/%s' % (jobid, x)))
     Lists.lumifiles.extend(glob.glob('../inputs/%s/%s.lumicalc.sum' % (jobid, x)))
 
 for j in Lists.jet:

@@ -14,7 +14,7 @@ qcdSys = ['Rate0JetUp/', 'Rate0JetDown/', 'Rate1JetUp/', 'Rate1JetDown/', 'Rate2
 qcdSysNames = ['QCD_CMS_QCD_0JetRate_2017_13TeVUp', 'QCD_CMS_QCD_0JetRate_2017_13TeVDown', 'QCD_CMS_QCD_1JetRate_2017_13TeVUp', 'QCD_CMS_QCD_1JetRate_2017_13TeVDown', 'QCD_CMS_QCD_2JetRate_2017_13TeVUp', 'QCD_CMS_QCD_2JetRate_2017_13TeVDown', 'QCD_CMS_QCD_0JetShape_2017_13TeVUp', 'QCD_CMS_QCD_0JetShape_2017_13TeVDown', 'QCD_CMS_QCD_1JetShape_2017_13TeVUp', 'QCD_CMS_QCD_1JetShape_2017_13TeVDown', 'QCD_CMS_QCD_2JetShape_2017_13TeVUp', 'QCD_CMS_QCD_2JetShape_2017_13TeVDown', 'QCD_CMS_QCD_Extrapolation_13TeVUp', 'QCD_CMS_QCD_Extrapolation_13TeVDown']
 
 # MC
-mcSys = ['puUp/', 'puDown/', 'pfUp/', 'pfDown/', 'bTagUp/', 'bTagDown/', 'eesUp/', 'eesDown/', '/mes1p2Up', '/mes1p2Down', '/mes2p1Up', '/mes2p1Down', '/mes2p4Up', '/mes2p4Down']
+mcSys = ['puUp/', 'puDown/', 'pfUp/', 'pfDown/', 'bTagUp/', 'bTagDown/', 'eesUp/', 'eesDown/', 'mes1p2Up/', 'mes1p2Down/', 'mes2p1Up/', 'mes2p1Down/', 'mes2p4Up/', 'mes2p4Down/']
 
 mcSysNames = ['_CMS_Pileup_13TeVUp', '_CMS_Pileup_13TeVDown', '_CMS_Prefiring_13TeVUp', '_CMS_Prefiring_13TeVDown', '_CMS_eff_btag_2017_13TeVUp', '_CMS_eff_btag_2017_13TeVDown', '_CMS_scale_e_13TeVUp', '_CMS_scale_e_13TeVDown', '_CMS_scale_m_etaLt1p2_13TeVUp', '_CMS_scale_m_etaLt1p2_13TeVDown', '_CMS_scale_m_eta1p2to2p1_13TeVUp', '_CMS_scale_m_eta1p2to2p1_13TeVDown', '_CMS_scale_m_eta2p1to2p4_13TeVUp', '_CMS_scale_m_eta2p1to2p4_13TeVDown']
 
@@ -65,59 +65,75 @@ def positivize(histogram):
 def normQCD(histogram, i, j, category):
     qcd = histogram.Clone()
     if category=='0Jet':
-        integ = [4605.572, 4669.786, 4541.357, 4605.572, 4605.572, 4605.572, 4605.572, 4455.766, 4755.37, 4605.572, 4605.572, 4605.572, 4605.572, 4109.221, 5242.613]
+        integ = [1893.359, 1915.429, 1871.288, 1893.359, 1893.359, 1893.359, 1893.359, 1832.333, 1954.38, 1893.359, 1893.359, 1893.359, 1893.359, 1567.661, 2305.881]
         qcd.Scale(integ[j]/i)
     elif category=='1Jet':
-        integ = [1223.301, 1223.301, 1223.301, 1249.398, 1197.204, 1223.301, 1223.301, 1223.301, 1223.301, 1232.503, 1214.099, 1223.301, 1223.301, 1078.281, 1408.602]
+        integ = [1217.285, 1217.285, 1217.285, 1243.021, 1191.55, 1217.285, 1217.285, 1217.285, 1217.285, 1225.83, 1208.741, 1217.285, 1217.285, 1076.992, 1397.193]
         qcd.Scale(integ[j]/i)
     elif category=='2Jet':
-        integ = [410.443, 410.443, 410.443, 410.443, 410.443, 421.708, 399.177, 410.443, 410.443, 410.443, 410.443, 412.424, 408.462, 370.994, 461.911]
+        integ = [446.599, 446.599, 446.599, 446.599, 446.599, 458.303, 434.894, 446.599, 446.599, 446.599, 446.599, 447.396, 445.801, 402.451, 503.774]
         qcd.Scale(integ[j]/i)
     elif category=='2JetVBF':
-        integ = [52.476, 52.476, 52.476, 52.476, 52.476, 53.902, 51.05, 52.476, 52.476, 52.476, 52.476, 52.695, 52.258, 49.112, 57.087]
+        integ = [44.134, 44.134, 44.134, 44.134, 44.134, 45.2, 43.067, 44.134, 44.134, 44.134, 44.134, 43.991, 44.276, 39.798, 49.664]
         qcd.Scale(integ[j]/i)
     return qcd
+
+# def normQCD(histogram, i, j, category):
+#     qcd = histogram.Clone()
+#     if category=='0Jet':
+#         integ = [4196.514, 4252.872, 4140.154, 4196.514, 4196.514, 4196.514, 4196.514, 4060.292, 4332.728, 4196.514, 4196.514, 4196.514, 4196.514, 3754.505, 4769.719]
+#         qcd.Scale(integ[j]/i)
+#     elif category=='1Jet':
+#         integ = [1200.379, 1200.379, 1200.379, 1225.956, 1174.803, 1200.379, 1200.379, 1200.379, 1200.379, 1209.326, 1191.433, 1200.379, 1200.379, 1060.21, 1379.009]
+#         qcd.Scale(integ[j]/i)
+#     elif category=='2Jet':
+#         integ = [394.37, 394.37, 394.37, 394.37, 394.37, 405.394, 383.344, 394.37, 394.37, 394.37, 394.37, 396.767, 391.972, 355.003, 445.6]
+#         qcd.Scale(integ[j]/i)
+#     elif category=='2JetVBF':
+#         integ = [56.645, 56.645, 56.645, 56.645, 56.645, 58.169, 55.12, 56.645, 56.645, 56.645, 56.645, 56.844, 56.445, 53.218, 61.152]
+#         qcd.Scale(integ[j]/i)
+#     return qcd
 
 def normQCDBDT(histogram, i, j, category):
     qcd = histogram.Clone()
     if category=='0Jet':
-        integ = [21772.641, 22155.511, 21389.761, 21772.641, 21772.641, 21772.641, 21772.641, 21054.17, 22491.07, 21772.641, 21772.641, 21772.641, 21772.641, 20063.435, 23996.421]
+        integ = [18378.17, 18632.106, 18124.225, 18378.17, 18378.17, 18378.17, 18378.17, 17780.677, 18975.626, 18378.17, 18378.17, 18378.17, 18378.17, 16994.378, 20181.021]
         qcd.Scale(integ[j]/i)
     elif category=='1Jet':
-        integ = [8240.593, 8240.593, 8240.593, 8398.359, 8082.827, 8240.593, 8240.593, 8240.593, 8240.593, 8255.339, 8225.847, 8240.593, 8240.593, 7470.191, 9237.91]
+        integ = [8075.694, 8075.694, 8075.694, 8230.608, 7920.78, 8075.694, 8075.694, 8075.694, 8075.694, 8090.944, 8060.783, 8075.694, 8075.694, 7305.978, 9070.334]
         qcd.Scale(integ[j]/i)
     elif category=='2Jet':
-        integ = [2298.977, 2298.977, 2298.977, 2298.977, 2298.977, 2357.427, 2240.524, 2298.977, 2298.977, 2298.977, 2298.977, 2298.653, 2299.3, 2081.584, 2576.71]
+        integ = [2276.235, 2276.235, 2276.235, 2276.235, 2276.235, 2334.24, 2218.226, 2276.235, 2276.235, 2276.235, 2276.235, 2276.243, 2276.227, 2060.414, 2552.509]
         qcd.Scale(integ[j]/i)
     elif category=='2JetVBF':
-        integ = [407.676, 407.676, 407.676, 407.676, 407.676, 417.983, 397.375, 407.676, 407.676, 407.676, 407.676, 407.477, 407.926, 388.734, 436.159]
+        integ = [394.433, 394.433, 394.433, 394.433, 394.433, 404.503, 384.382, 394.433, 394.433, 394.433, 394.433, 394.483, 394.433, 376.52, 420.799]
         qcd.Scale(integ[j]/i)
     return qcd
 
-def normEmb(histogram, nom, name):
-    h = histogram.Clone()
-    inti = h.Integral()
-    if inti==0:
-        return h
-    if 'Up' in name:
-        h.Scale(1.0000001/inti)
-    else:
-        h.Scale(0.9999999/inti)
-    h.Scale(nom)
-    return h
+# def normEmb(histogram, nom, name):
+#     h = histogram.Clone()
+#     inti = h.Integral()
+#     if inti==0:
+#         return h
+#     if 'Up' in name:
+#         h.Scale(1.0000001/inti)
+#     else:
+#         h.Scale(0.9999999/inti)
+#     h.Scale(nom)
+#     return h
 
-def normHist(h0, h1, h2):
-    h3 = h1.Clone()
-    h4 = h2.Clone()
-    for i in range(1, h0.GetNbinsX()+1):
-        err = (abs(h1.GetBinContent(i) - h0.GetBinContent(i)) + abs(h2.GetBinContent(i) - h0.GetBinContent(i)))/2
-        if h1.GetBinContent(i) - h0.GetBinContent(i) > 0:
-            h3.SetBinContent(i, h0.GetBinContent(i) + err)
-            h4.SetBinContent(i, h0.GetBinContent(i) - err)
-        else:
-            h3.SetBinContent(i, h0.GetBinContent(i) - err)
-            h4.SetBinContent(i, h0.GetBinContent(i) + err)
-    return [h3, h4]
+# def normHist(h0, h1, h2):
+#     h3 = h1.Clone()
+#     h4 = h2.Clone()
+#     for i in range(1, h0.GetNbinsX()+1):
+#         err = (abs(h1.GetBinContent(i) - h0.GetBinContent(i)) + abs(h2.GetBinContent(i) - h0.GetBinContent(i)))/2
+#         if h1.GetBinContent(i) - h0.GetBinContent(i) > 0:
+#             h3.SetBinContent(i, h0.GetBinContent(i) + err)
+#             h4.SetBinContent(i, h0.GetBinContent(i) - err)
+#         else:
+#             h3.SetBinContent(i, h0.GetBinContent(i) - err)
+#             h4.SetBinContent(i, h0.GetBinContent(i) + err)
+#     return [h3, h4]
 
 #def normHist(h0, h1, h2):
 #    h4 = h2.Clone()
@@ -125,3 +141,14 @@ def normHist(h0, h1, h2):
 #        err = h1.GetBinContent(i) - h0.GetBinContent(i)
 #        h4.SetBinContent(i, h0.GetBinContent(i) - err)
 #    return h4
+
+# d = f.mkdir(Lists.drs[k])
+# d.cd()
+# if di=='0Jet':
+#     binning = array.array('d', [-1.0, -0.55, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.2, 0.35, 1.0])
+# elif di=='1Jet':
+#     binning = array.array('d', [-1.0, -0.55, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.3, 1.0])
+# elif di=='2Jet':
+#     binning = array.array('d', [-1.0, -0.55, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.3, 1.0])
+# else:
+#     binning = array.array('d', [-1.0, -0.55, -0.4, -0.3, -0.2, -0.1, 0.0, 0.1, 0.3, 1.0])

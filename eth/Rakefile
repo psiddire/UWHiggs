@@ -26,6 +26,7 @@ def get_sample_names(substring)
   return inputs
 end
 #
+
 samples = Hash[
 		"eraB" => get_sample_names('data_SingleElectron_Run2017B-31Mar2018'),
                 "eraC" => get_sample_names('data_SingleElectron_Run2017C-31Mar2018'),
@@ -44,7 +45,7 @@ samples = Hash[
                 "DY3" => get_sample_names('DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2'),
                 "DY4" => get_sample_names('DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_v2_94X_mc2017_realistic_v14-v2'),
                 "WW" => get_sample_names('WW_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2'),
-                "WZ" => get_sample_names('WZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1'),
+                "WZ" => get_sample_names('WZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_PU2017_94X_mc2017_realistic_v14-v1'),
                 "ZZ" => get_sample_names('ZZ_TuneCP5_13TeV-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2'),
 		"W" => get_sample_names('WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v3'),
                 "W1" => get_sample_names('W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v4'),
@@ -58,11 +59,11 @@ samples = Hash[
 		"STtWtop" => get_sample_names('ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2'),
 		"TTTo2L2Nu" => get_sample_names('TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1'),
 		"TTToHadronic" => get_sample_names('TTToHadronic_TuneCP5_13TeV-powheg-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2'),
-		"TTToSemiLeptonic" => get_sample_names('TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2'),
+                "TTToSemiLeptonic" => get_sample_names('TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1'),
 		"EWKWminus" => get_sample_names('EWKWMinus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2'),
 		"EWKWplus" => get_sample_names('EWKWPlus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2'),
 		"EWKZll" => get_sample_names('EWKZ2Jets_ZToLL_M-50_TuneCP5_13TeV-madgraph-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2'),
-		"EWKZnunu" => get_sample_names('EWKZ2Jets_ZToNuNu_TuneCP5_13TeV-madgraph-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2'),	
+		"EWKZnunu" => get_sample_names('EWKZ2Jets_ZToNuNu_TuneCP5_13TeV-madgraph-pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2'),
 		"vbfHET" => get_sample_names('VBF_LFV_HToETau_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1'),
                 "ggHET" => get_sample_names('GluGlu_LFV_HToETau_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1'),
 		"vbfHTT" => get_sample_names('VBFHToTauTau_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1'),
@@ -90,31 +91,30 @@ def get_plotter_results(analyzer)
   analyzer_base = analyzer.sub('.py', '')
 end
 
-# samples['embedB'] + samples['embedC'] + samples['embedD'] + samples['embedE'] + samples['embedF']
 
-#task :ET => get_analyzer_results("AnalyzeETau.py", samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TTTo2L2Nu'] + samples['TTToHadronic'] + samples['TTToSemiLeptonic'] + samples['vbfHTT'] + samples['ggHTT'] + samples['vbfHWW'] + samples['ggHWW'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ttH'] + samples['ggHET'] + samples['vbfHET'] + samples['EWKWminus'] + samples['EWKWplus'] + samples['EWKZll'] + samples['EWKZnunu'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['DY10'] + samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['embedB'] + samples['embedC'] + samples['embedD'] + samples['embedE'] + samples['embedF'])
-
-task :ET => get_analyzer_results("AnalyzeETau.py", samples['W'] + samples['W1'] + samples['W2'] + samples['W3'] + samples['W4'])
+task :ET => get_analyzer_results("AnalyzeETau.py", samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TTTo2L2Nu'] + samples['TTToHadronic'] + samples['TTToSemiLeptonic'] + samples['vbfHTT'] + samples['ggHTT'] + samples['vbfHWW'] + samples['ggHWW'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ttH'] + samples['ggHET'] + samples['vbfHET'] + samples['EWKWminus'] + samples['EWKWplus'] + samples['EWKZll'] + samples['EWKZnunu'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['DY10'] + samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['embedB'] + samples['embedC'] + samples['embedD'] + samples['embedE'] + samples['embedF'])
 
 task :ZTT => get_analyzer_results("AnalyzeETauZTT.py", samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['embedB'] + samples['embedC'] + samples['embedD'] + samples['embedE'] + samples['embedF'] + samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TTTo2L2Nu'] + samples['TTToHadronic'] + samples['TTToSemiLeptonic'] + samples['vbfHTT'] + samples['ggHTT'] + samples['vbfHWW'] + samples['ggHWW'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ttH'] + samples['ggHET'] + samples['vbfHET'] + samples['EWKWminus'] + samples['EWKWplus'] + samples['EWKZll'] + samples['EWKZnunu'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['DY10'])
 
-task :Sys => get_analyzer_results("AnalyzeETauSys.py", samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TTTo2L2Nu'] + samples['TTToHadronic'] + samples['TTToSemiLeptonic'] + samples['vbfHTT'] + samples['ggHTT'] + samples['vbfHWW'] + samples['ggHWW'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ttH'] + samples['ggHET'] + samples['vbfHET'] + samples['EWKWminus'] + samples['EWKWplus'] + samples['EWKZll'] + samples['EWKZnunu'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['DY10'] + samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['embedB'] + samples['embedC'] + samples['embedD'] + samples['embedE'] + samples['embedF'])
+#task :Sys => get_analyzer_results("AnalyzeETauSys.py", samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TTTo2L2Nu'] + samples['TTToHadronic'] + samples['TTToSemiLeptonic'] + samples['vbfHTT'] + samples['ggHTT'] + samples['vbfHWW'] + samples['ggHWW'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ttH'] + samples['ggHET'] + samples['vbfHET'] + samples['EWKWminus'] + samples['EWKWplus'] + samples['EWKZll'] + samples['EWKZnunu'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['DY10'] + samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['embedB'] + samples['embedC'] + samples['embedD'] + samples['embedE'] + samples['embedF'])
+
+task :Sys => get_analyzer_results("AnalyzeETauSys.py", samples['embedB'] + samples['embedC'] + samples['embedD'] + samples['embedE'] + samples['embedF'])
 
 task :BDT => get_analyzer_results("AnalyzeETauBDT.py", samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['ggHET'] + samples['vbfHET'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'])
 
 task :FBDT => get_analyzer_results("AnalyzeETauFitBDT.py", samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TTTo2L2Nu'] + samples['TTToHadronic'] + samples['TTToSemiLeptonic'] + samples['vbfHTT'] + samples['ggHTT'] + samples['vbfHWW'] + samples['ggHWW'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ttH'] + samples['ggHET'] + samples['vbfHET'] + samples['EWKWminus'] + samples['EWKWplus'] + samples['EWKZll'] + samples['EWKZnunu'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['DY10'] + samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['embedB'] + samples['embedC'] + samples['embedD'] + samples['embedE'] + samples['embedF'])
 
-task :SysBDT => get_analyzer_results("AnalyzeETauSysBDT.py", samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TTTo2L2Nu'] + samples['TTToHadronic'] + samples['TTToSemiLeptonic'] + samples['vbfHTT'] + samples['ggHTT'] + samples['vbfHWW'] + samples['ggHWW'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ttH'] + samples['ggHET'] + samples['vbfHET'] + samples['EWKWminus'] + samples['EWKWplus'] + samples['EWKZll'] + samples['EWKZnunu'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['DY10'] + samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['embedB'] + samples['embedC'] + samples['embedD'] + samples['embedE'] + samples['embedF'])
+task :ZTTBDT => get_analyzer_results("AnalyzeETauZTTBDT.py", samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TTTo2L2Nu'] + samples['TTToHadronic'] + samples['TTToSemiLeptonic'] + samples['vbfHTT'] + samples['ggHTT'] + samples['vbfHWW'] + samples['ggHWW'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ttH'] + samples['ggHET'] + samples['vbfHET'] + samples['EWKWminus'] + samples['EWKWplus'] + samples['EWKZll'] + samples['EWKZnunu'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['DY10'] + samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['embedB'] + samples['embedC'] + samples['embedD'] + samples['embedE'] + samples['embedF'])
 
-#task :ZTTBDT => get_analyzer_results("AnalyzeETauZTTBDT.py", samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TTTo2L2Nu'] + samples['TTToHadronic'] + samples['TTToSemiLeptonic'] + samples['vbfHTT'] + samples['ggHTT'] + samples['vbfHWW'] + samples['ggHWW'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ttH'] + samples['ggHET'] + samples['vbfHET'] + samples['EWKWminus'] + samples['EWKWplus'] + samples['EWKZll'] + samples['EWKZnunu'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['DY10'] + samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['embedB'] + samples['embedC'] + samples['embedD'] + samples['embedE'] + samples['embedF'])
+#task :SysBDT => get_analyzer_results("AnalyzeETauSysBDT.py", samples['STtantitop'] + samples['STttop'] + samples['STtWantitop'] + samples['STtWtop'] + samples['TTTo2L2Nu'] + samples['TTToHadronic'] + samples['TTToSemiLeptonic'] + samples['vbfHTT'] + samples['ggHTT'] + samples['vbfHWW'] + samples['ggHWW'] + samples['WW'] + samples['WZ'] + samples['ZZ'] + samples['Wminus'] + samples['Wplus'] + samples['ZH'] + samples['ttH'] + samples['ggHET'] + samples['vbfHET'] + samples['EWKWminus'] + samples['EWKWplus'] + samples['EWKZll'] + samples['EWKZnunu'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'] + samples['DY10'] + samples['eraB'] + samples['eraC'] + samples['eraD'] + samples['eraE'] + samples['eraF'] + samples['embedB'] + samples['embedC'] + samples['embedD'] + samples['embedE'] + samples['embedF'])
 
-task :ZTTBDT => get_analyzer_results("AnalyzeETauZTTBDT.py", samples['TTTo2L2Nu'] + samples['TTToHadronic'] + samples['TTToSemiLeptonic'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'])
+task :SysBDT => get_analyzer_results("AnalyzeETauSysBDT.py", samples['TTTo2L2Nu'] + samples['TTToHadronic'] + samples['TTToSemiLeptonic'] + samples['DY'] + samples['DY1'] + samples['DY2'] + samples['DY3'] + samples['DY4'])
 
 
 $etdir = "plots/#{$jobid}/AnalyzerMuTau/mt_now/"
-directory $etdir 
+directory $etdir
 file  "#{$etdir}/plot#{$period}.root" do |t|
   sh "echo $jobid"
-  sh "python myNewPlotterReco.py" 
-  
+  sh "python myNewPlotterReco.py"
+
 end

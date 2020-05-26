@@ -46,7 +46,7 @@ class AnalyzeMuTauBDT(MegaBase, MuTauBase):
       elif varname=='dPhiMuTau':
         holder[0] = self.deltaPhi(myMuon.Phi(), myTau.Phi())
       elif varname=='dEtaMuTau':
-        holder[0] = self.deltaPhi(myMuon.Eta(), myTau.Eta())
+        holder[0] = self.deltaEta(myMuon.Eta(), myTau.Eta())
       elif varname=='type1_pfMetEt':
         holder[0] = myMET.Et()
       elif varname=='m_t_collinearMass':

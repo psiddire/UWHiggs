@@ -36,18 +36,18 @@ class mcWeights:
         self.is_recoilC = bool(self.is_DYlow or self.is_DY or self.is_GluGlu or self.is_VBF or self.is_EWK or self.is_VBFH or self.is_GluGluH or self.is_VBFHWW or self.is_GluGluHWW or self.is_W)
         self.MetCorrection = True
         self.DYweight = {
-            0 : 2.584573321,
-            1 : 0.834886353,
-            2 : 0.922662197,
-            3 : 1.814228503,
-            4 : 0.406245799
+            0 : 2.584573321/3,
+            1 : 0.834886353/3,
+            2 : 0.922662197/3,
+            3 : 1.814228503/3,
+            4 : 0.406245799/3
         }
         self.Wweight = {
             0 : 0.0,#28.58021356,
-            1 : 5.70213272,
-            2 : 3.640560097,
-            3 : 2.245532765,
-            4 : 2.36042965
+            1 : 5.70213272/2,
+            2 : 3.640560097/2,
+            3 : 2.245532765/2,
+            4 : 2.36042965/2
         }
 
     def lumiWeight(self, weight): 
@@ -88,11 +88,11 @@ class mcWeights:
         if self.is_STtWtop:
             weight = weight*0.00587#0.0056
         if self.is_TTTo2L2Nu:
-            weight = weight*0.02735#0.005818
+            weight = weight*0.00844#0.02735#0.005818
         if self.is_TTToHadronic:
-            weight = weight*0.4256#0.421
+            weight = weight*0.000417#0.4256#0.421
         if self.is_TTToSemiLeptonic:
-            weight = weight*0.002893#0.001377
+            weight = weight*0.00127#0.002893#0.001377
         if self.is_VBFH:
             weight = weight*0.000864
         if self.is_GluGluH:

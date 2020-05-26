@@ -80,11 +80,12 @@ class MuEQCDBase():
   # Trigger
   def trigger(self, row):
     triggerm23e12 = row.mu23e12DZPass and row.mPt > 24 and row.ePt > 13# and row.eMatchesMu23e12DZFilter and row.eMatchesMu23e12DZPath and row.mMatchesMu23e12DZFilter and row.mMatchesMu23e12DZPath
-    return bool(triggerm23e12)
+    triggerm8e23 = row.mu8e23DZPass and row.mPt > 10 and row.ePt > 24# and row.eMatchesMu8e23DZFilter and row.eMatchesMu8e23DZPath and row.mMatchesMu8e23DZFilter and row.mMatchesMu8e23DZPath
+    return bool(triggerm23e12 or triggerm8e23)
 
   # Kinematics requirements on both the leptons
   def kinematics(self, row):
-    if row.mPt < 24 or abs(row.mEta) >= 2.4:
+    if row.mPt < 10 or abs(row.mEta) >= 2.4:
       return False
     if row.ePt < 13 or abs(row.eEta) >= 2.5:
       return False
@@ -177,13 +178,22 @@ class MuEQCDBase():
   def corrFact(self, row, myMuon, myEle):
     # Apply all the various corrections to the MC samples
     weight = 1.0
+    eff_trg_data = 0
+    eff_trg_mc = 0
     if self.is_mc:
       self.w1.var("m_pt").setVal(myMuon.Pt())
       self.w1.var("m_eta").setVal(myMuon.Eta())
       self.w1.var("e_pt").setVal(myEle.Pt())
       self.w1.var("e_eta").setVal(myEle.Eta())
-      eff_trg_data = self.w1.function("m_trg_23_ic_data").getVal()*self.w1.function("e_trg_12_ic_data").getVal()
-      eff_trg_mc = self.w1.function("m_trg_23_ic_mc").getVal()*self.w1.function("e_trg_12_ic_mc").getVal()
+      if row.mu23e12DZPass:
+        eff_trg_data = eff_trg_data + self.w1.function("m_trg_23_ic_data").getVal()*self.w1.function("e_trg_12_ic_data").getVal()
+        eff_trg_mc = eff_trg_mc + self.w1.function("m_trg_23_ic_mc").getVal()*self.w1.function("e_trg_12_ic_mc").getVal()
+      if row.mu8e23DZPass:
+        eff_trg_data = eff_trg_data + self.w1.function("m_trg_8_ic_data").getVal()*self.w1.function("e_trg_23_ic_data").getVal()
+        eff_trg_mc = eff_trg_mc + self.w1.function("m_trg_8_ic_mc").getVal()*self.w1.function("e_trg_23_ic_mc").getVal()
+      if row.mu23e12DZPass and row.mu8e23DZPass:
+        eff_trg_data = eff_trg_data - self.w1.function("m_trg_8_ic_data").getVal()*self.w1.function("e_trg_12_ic_data").getVal()
+        eff_trg_mc = eff_trg_mc - self.w1.function("m_trg_8_ic_mc").getVal()*self.w1.function("e_trg_12_ic_mc").getVal()
       tEff = 0 if eff_trg_mc==0 else eff_trg_data/eff_trg_mc
       mID = self.muonMediumID(myMuon.Pt(), abs(myMuon.Eta()))
       mIso = self.muonLooseIsoMediumID(myMuon.Pt(), abs(myMuon.Eta()))
