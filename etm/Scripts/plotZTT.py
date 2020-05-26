@@ -17,7 +17,7 @@ for j in Lists.jet:
 
     s = [s1, s2]
 
-    outputdir = 'plots/%s/AnalyzeEMuZTT/2016SelectionsEmbedEta/%s/' % (jobid, s[0])
+    outputdir = 'plots/%s/AnalyzeEMuZTT/2016SelectionsEmbedNew/%s/' % (jobid, s[0])
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 

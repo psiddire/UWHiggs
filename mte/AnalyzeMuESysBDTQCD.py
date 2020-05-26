@@ -80,7 +80,7 @@ class AnalyzeMuESysBDTQCD(MegaBase, MuEQCDBase):
         self.fill_histos(myMuon, myMET, myEle, weight*osl, name+self.qcdsys[i])
 
 
-  def fill_sscategories(self, row, myMuon, myMET, myEle, weight, name=''):
+  def fill_sscategories(self, row, myMuon, myMET, myEle, weight):
     mjj = row.vbfMass
     njets = row.jetVeto30
     self.fill_sshistos(myMuon, myMET, myEle, njets, weight, 'TightSS')

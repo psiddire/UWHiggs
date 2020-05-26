@@ -17,12 +17,12 @@ for j in Lists.jet:
 
     s = [s1, s2]
 
-    outputdir = 'plots/%s/AnalyzeMuESys/2016SelectionsEmbedBDT/%s/' % (jobid, s[0])
+    outputdir = 'plots/%s/AnalyzeMuESys/2016SelectionsEmbedBDTSS/%s/' % (jobid, s[0])
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
     plotter = basePlotter.mcInit(Lists.files, Lists.lumifiles, outputdir, s)
 
     for h in Lists.bdthisto:
-        plotter.plot_mc_vs_data('', ['VBF_LFV_HToMuTau_M125*', 'GluGlu_LFV_HToMuTau_M125*'], h[0], 10, xaxis = h[1], leftside=False, xrange=None, preprocess=None, show_ratio=True, ratio_range=1.5, sort=True, blind_region=True, control=s1, jets=j, year='2016', channel='mutaue')
+        plotter.plot_mc_vs_data('', ['VBF_LFV_HToMuTau_M125*', 'GluGlu_LFV_HToMuTau_M125*'], h[0], 5, xaxis = h[1], leftside=False, xrange=None, preprocess=None, show_ratio=True, ratio_range=1.5, sort=True, blind_region=True, control=s1, jets=j, year='2016', channel='mutaue')
         plotter.save(h[0])

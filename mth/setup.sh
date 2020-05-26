@@ -4,9 +4,10 @@
 export datasrc=/hdfs/store/user/ndev
 export MEGAPATH=/hdfs/store/user/ndev
 
-export jobidmt='Data2016mt'
+#export jobidmt='Data2016mt'
 #export jobidmt='MC2016'
 #export jobidmt='MC2016Sys'
+export jobidmt='MC2016SysJer'
 #export jobidmt='Embed2016MuTau/'
 #export jobidmt='Signal2016'
 export jobid=$jobidmt
@@ -18,5 +19,5 @@ export jobid=$jobidmt
 
 #ls *pyx | sed "s|pyx|so|" | xargs -n 1 -P 10 rake
 
-rake "meta:getinputs[$jobid, $datasrc, mt/metaInfo, mt/summedWeights]"
-#rake "meta:getmeta[inputs/$jobid, mt/metaInfo, 13, mt/summedWeights]"
+#rake "meta:getinputs[$jobid, $datasrc, mt/metaInfo, mt/summedWeights]"
+rake "meta:getmeta[inputs/$jobid, mt/metaInfo, 13, mt/summedWeights]"

@@ -9,13 +9,14 @@ Authors: Prasanna Siddireddy
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 from EMuBase import EMuBase
 import EMTree
+import Kinematics
 from FinalStateAnalysis.TagAndProbe.bTagSF2016 import bTagEventWeight
 
-class AnalyzeMuETT(MegaBase, EMuBase):
+class AnalyzeEMuTTBDT(MegaBase, EMuBase):
   tree = 'em/final/Ntuple'
 
   def __init__(self, tree, outfile, **kwargs):
-    super(AnalyzeEMuTT, self).__init__(tree, outfile, **kwargs)
+    super(AnalyzeEMuTTBDT, self).__init__(tree, outfile, **kwargs)
     self.tree = EMTree.EMTree(tree)
     self.out = outfile
     EMuBase.__init__(self)

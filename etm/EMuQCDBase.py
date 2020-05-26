@@ -24,6 +24,8 @@ class EMuQCDBase():
 
     self.mcWeight = mcWeights.mcWeights(target)
     self.is_data = self.mcWeight.is_data
+    self.is_eraG = self.mcWeight.is_eraG
+    self.is_eraH = self.mcWeight.is_eraH
     self.is_mc = self.mcWeight.is_mc
     self.is_DY = self.mcWeight.is_DY
     self.is_W = self.mcWeight.is_W
@@ -40,11 +42,12 @@ class EMuQCDBase():
     self.muonLooseIsoMediumID = mcCorrections.muonIso_loose_mediumid
     self.muTracking = mcCorrections.muonTracking
     self.eIDnoiso90 = mcCorrections.eIDnoiso90
-    self.muTracking = mcCorrections.muonTracking
-    self.eIDnoiso80 = mcCorrections.eIDnoiso80
-    self.rc = mcCorrections.rc
-    self.w1 = mcCorrections.w1
+    self.MESSys = mcCorrections.MESSys
+    self.RecSys = mcCorrections.RecSys
+
     self.DYreweight = mcCorrections.DYreweight
+    self.w1 = mcCorrections.w1
+    self.rc = mcCorrections.rc
 
     self.DYweight = self.mcWeight.DYweight
     self.Wweight = self.mcWeight.Wweight
@@ -63,8 +66,10 @@ class EMuQCDBase():
     self.names = Kinematics.names
     self.ssnames = Kinematics.ssnames
     self.sys = Kinematics.sys
+    self.recSys = Kinematics.recSys
     self.sssys = Kinematics.sssys
     self.qcdsys = Kinematics.qcdsys
+    self.mesSys = Kinematics.mesSys
     self.functor = Kinematics.functor
     self.var_d = Kinematics.var_d
 
@@ -76,7 +81,10 @@ class EMuQCDBase():
 
   # Trigger
   def trigger(self, row):
-    triggerm8e23 = row.mu8e23DZPass and row.mPt > 10 and row.ePt > 24# and row.eMatchesMu8e23DZFilter and row.eMatchesMu8e23DZPath and row.mMatchesMu8e23DZFilter and row.mMatchesMu8e23DZPath
+    if self.is_eraG or self.is_eraH:
+      triggerm8e23 = row.mu8e23DZPass and row.mPt > 10 and row.ePt > 24# and row.eMatchesMu8e23DZFilter and row.eMatchesMu8e23DZPath and row.mMatchesMu8e23DZFilter and row.mMatchesMu8e23DZPath
+    else:
+      triggerm8e23 = row.mu8e23Pass and row.mPt > 10 and row.ePt > 24# and row.eMatchesMu8e23Filter and row.eMatchesMu8e23Path and row.mMatchesMu8e23Filter and row.mMatchesMu8e23Path
     return bool(triggerm8e23)
 
   # Kinematics requirements on both the leptons
@@ -148,9 +156,26 @@ class EMuQCDBase():
     myMET.SetPtEtaPhiM(row.type1_pfMetEt, 0, row.type1_pfMetPhi, 0)
     myMuon = ROOT.TLorentzVector()
     myMuon.SetPtEtaPhiM(row.mPt, row.mEta, row.mPhi, row.mMass)
+    # Recoil
     if self.is_recoilC and self.MetCorrection:
-      tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30)))
+      if self.is_W:
+        tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30 + 1)))
+      else:
+        tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30)))
       myMET.SetPtEtaPhiM(math.sqrt(tmpMet[0]*tmpMet[0] + tmpMet[1]*tmpMet[1]), 0, math.atan2(tmpMet[1], tmpMet[0]), 0)
+    # Electron Scale Correction
+    if self.is_data:
+      myEle = myEle * ROOT.Double(row.eCorrectedEt/myEle.E())
+    else:
+      myMETpx = myMET.Px() + myEle.Px()
+      myMETpy = myMET.Py() + myEle.Py()
+      if self.is_mc:
+        myEle = myEle * ROOT.Double(row.eCorrectedEt/myEle.E())
+      elif self.is_embed:
+        myEle = myEle * ROOT.Double(0.9976) if abs(myEle.Eta()) < 1.479 else myEle * ROOT.Double(0.993)
+      myMETpx = myMETpx - myEle.Px()
+      myMETpy = myMETpy - myEle.Py()
+      myMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
     return [myEle, myMET, myMuon]
 
 
@@ -185,11 +210,13 @@ class EMuQCDBase():
         else:
           weight = weight*self.Wweight[0]
       if self.is_TT:
-        topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
-        weight = weight*topweight
+        #topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
+        #weight = weight*topweight
         if row.mZTTGenMatching > 2 and row.mZTTGenMatching < 6 and row.eZTTGenMatching > 2 and row.eZTTGenMatching < 6 and self.Emb:
           weight = 0.0
       weight = self.mcWeight.lumiWeight(weight)
+      if weight > 10:
+        weight = 0
 
     njets = row.jetVeto30
 

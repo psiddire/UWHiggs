@@ -86,19 +86,19 @@ class AnalyzeEMuSysQCD(MegaBase, EMuQCDBase):
 
 
   def fill_sscategories(self, row, myEle, myMET, myMuon, weight):
+    dphiemu = self.deltaPhi(myEle.Phi(), myMuon.Phi())
     dphimumet = self.deltaPhi(myMuon.Phi(), myMET.Phi())
     mtemet = self.transverseMass(myEle, myMET)
-    pzeta = row.e_m_PZeta - 0.85 * row.e_m_PZetaVis
     mjj = row.vbfMass
     njets = row.jetVeto30
     self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS')
-    if njets==0 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
+    if njets==0 and mtemet > 60 and dphimumet < 0.7 and dphiemu > 2.5 and myEle.Pt() > 30:
       self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS0Jet')
-    elif njets==1 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
+    elif njets==1 and mtemet > 40 and dphimumet < 0.7 and dphiemu > 1.0 and myEle.Pt() > 26:
       self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS1Jet')
-    elif njets==2 and mjj < 500 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
+    elif njets==2 and mjj < 500 and mtemet > 15 and dphimumet < 0.5 and myEle.Pt() > 26:
       self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS2Jet')
-    elif njets==2 and mjj > 500 and mtemet > 60 and dphimumet < 1 and pzeta > -60:
+    elif njets==2 and mjj > 500 and mtemet > 15 and dphimumet < 0.3 and myEle.Pt() > 26:
       self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS2JetVBF')
 
 

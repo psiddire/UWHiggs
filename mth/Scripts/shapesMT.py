@@ -25,10 +25,9 @@ views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.start
 views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('VBFHToTauTau'), Lists.mc_samples)]),
 views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('GluGluHToWW'), Lists.mc_samples)]),
 views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('VBFHToWW'), Lists.mc_samples)]),
-views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('WminusHToTauTau') or x.startswith('WplusHToTauTau') or x.startswith('ZHToTauTau') , Lists.mc_samples)]),
 views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('TT'), Lists.mc_samples)]),
 views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('ST'), Lists.mc_samples)]),
-views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('ZZ') or x.startswith('WZ') or x.startswith('WW'), Lists.mc_samples)]),
+views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('ZZ') or x.startswith('WZ') or x.startswith('WW') or x.startswith('Wm') or x.startswith('Wp') or x.startswith('ZH'), Lists.mc_samples)]),
 views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('GluGlu_LFV') , Lists.mc_samples)]),
 views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('VBF_LFV') , Lists.mc_samples)])
 ]
@@ -66,17 +65,18 @@ for di in Lists.dirs:
     # Tracking
     for i, tr in enumerate(Lists.trk):
         emb = Lists.positivize(embed.Get('TightOS'+di+tr+'/m_t_CollinearMass'))
-        embSys.append(emb.Rebin(len(binning)-1, Lists.trkNames[i], binning))
+        embSys.append(emb.Rebin(len(binning)-1, Lists.trkNames[i][0], binning))
+        embSys.append(emb.Rebin(len(binning)-1, Lists.trkNames[i][1], binning))
     # Tau Scale
-    for i, sc in enumerate(Lists.scaleSysDeep):
+    for i, sc in enumerate(Lists.scaleSys):
         emb = Lists.positivize(embed.Get('TightOS'+di+sc+'/m_t_CollinearMass'))
-        embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau'+Lists.embscaleSysDeepNames[i][0], binning))
-        embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau'+Lists.embscaleSysDeepNames[i][1], binning))
+        embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau'+Lists.embscaleSysNames[i][0], binning))
+        embSys.append(emb.Rebin(len(binning)-1, 'ZTauTau'+Lists.embscaleSysNames[i][1], binning))
     # Write Histograms
     for eSys in embSys:
         eSys.Write()
 
-    #Fakes
+    # Fakes
     qcdSys = []
     QCD = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('QCD'), Lists.mc_samples)])
     tfakes = QCD.Get('TauLooseOS'+di+'/m_t_CollinearMass')
@@ -96,8 +96,8 @@ for di in Lists.dirs:
     qcd.Add(mc, -1)
     qcd = Lists.positivize(qcd)
     qcdSys.append(qcd.Rebin(len(binning)-1, 'Fakes', binning))
-    #Tau Fake Rate
-    for i, tFR in enumerate(Lists.tauDeepFR):
+    # Tau Fake Rate
+    for i, tFR in enumerate(Lists.tauFR):
         qcd = QCD.Get('TauLooseOS'+di+tFR+'/m_t_CollinearMass')
         qcdmt = QCD.Get('MuonLooseTauLooseOS'+di+tFR+'/m_t_CollinearMass')
         qcd.add(mfakes)
@@ -109,60 +109,57 @@ for di in Lists.dirs:
         mc = Lists.positivize(mc)
         qcd.Add(mc, -1)
         qcd = Lists.positivize(qcd)
-        qcdSys.append(qcd.Rebin(len(binning)-1, 'Fakes'+Lists.tauDeepFRNames[i], binning))
-    #Muon Fake Rate
+        qcdSys.append(qcd.Rebin(len(binning)-1, 'Fakes'+Lists.tauFRNames[i], binning))
+    # Muon Fake Rate
     for i, mFR in enumerate(Lists.muonFR):
         qcd = QCD.Get('MuonLooseOS'+di+mFR+'/m_t_CollinearMass')
-        qcdmt = QCD.Get('MuonLooseTauLooseOS'+di+mFR+'/m_t_CollinearMass')
+        #qcdmt = QCD.Get('MuonLooseTauLooseOS'+di+mFR+'/m_t_CollinearMass')
+        qcdmt = QCD.Get('MuonLooseTauLooseOS'+di+'/m_t_CollinearMass')
         qcd.add(tfakes)
         qcd.add(qcdmt, -1)
         mc = MC.Get('MuonLooseOS'+di+mFR+'/m_t_CollinearMass')
-        mcmt = MC.Get('MuonLooseTauLooseOS'+di+mFR+'/m_t_CollinearMass')
+        #mcmt = MC.Get('MuonLooseTauLooseOS'+di+mFR+'/m_t_CollinearMass')
+        mcmt = MC.Get('MuonLooseTauLooseOS'+di+'/m_t_CollinearMass')
         mc.add(tfakes_mc)
         mc.add(mcmt, -1)
         mc = Lists.positivize(mc)
         qcd.Add(mc, -1)
         qcd = Lists.positivize(qcd)
         qcdSys.append(qcd.Rebin(len(binning)-1, 'Fakes'+Lists.muonFRNames[i], binning))
-    #Write Histograms
+    # Write Histograms
     for qSys in qcdSys:
         qSys.Write()
 
-    #Monte Carlo
+    # Monte Carlo
     for i, sam in enumerate(Lists.samp):
         print sam
         DY = v[i]
         dySys = []
         dy = Lists.positivize(DY.Get('TightOS'+di+'/m_t_CollinearMass'))
         dySys.append(dy.Rebin(len(binning)-1, sam, binning))
-        #Pileup, Prefiring, Lepton Faking Tau, Scale
+        # Pileup, Prefiring, Lepton Faking Tau, Scale
         for j, mSys in enumerate(Lists.mcSys):
             dy = Lists.positivize(DY.Get('TightOS'+di+mSys+'/m_t_CollinearMass'))
             dySys.append(dy.Rebin(len(binning)-1, sam+Lists.mcSysNames[j], binning))
         # Tau Scale
-        for j, sc in enumerate(Lists.scaleSysDeep):
+        for j, sc in enumerate(Lists.scaleSys):
             dy = Lists.positivize(DY.Get('TightOS'+di+sc+'/m_t_CollinearMass'))
-            dySys.append(dy.Rebin(len(binning)-1, sam+Lists.scaleSysDeepNames[j], binning))
-        #Recoil Uncertainty
+            dySys.append(dy.Rebin(len(binning)-1, sam+Lists.scaleSysNames[j], binning))
+        # Recoil Uncertainty
         if sam in Lists.recsamp:
             for j, rSys in enumerate(Lists.recSys):
                 dy = Lists.positivize(DY.Get('TightOS'+di+rSys+'/m_t_CollinearMass'))
                 dySys.append(dy.Rebin(len(binning)-1, sam+Lists.recSysNames[j], binning))
-        #DY pT Reweighting
+        # DY pT Reweighting
         if sam=='Zothers':
             for j, dSys in enumerate(Lists.dyptSys):
                 dy = Lists.positivize(DY.Get('TightOS'+di+dSys+'/m_t_CollinearMass'))
                 dySys.append(dy.Rebin(len(binning)-1, sam+Lists.dyptSysNames[j], binning))
-        #Top pT Reweighting
-        if sam=='TT':
-            for j, tSys in enumerate(Lists.ttSys):
-                dy = Lists.positivize(DY.Get('TightOS'+di+tSys+'/m_t_CollinearMass'))
-                dySys.append(dy.Rebin(len(binning)-1, sam+Lists.ttSysNames[j], binning))
-        #Jet and Unclustered Energy Scale
+        # Jet and Unclustered Energy Scale
         if sam in Lists.norecsamp:
             for j, jSys in enumerate(Lists.jesSys):
                 dy = Lists.positivize(DY.Get('TightOS'+di+jSys+'/m_t_CollinearMass'))
                 dySys.append(dy.Rebin(len(binning)-1, sam+Lists.jesSysNames[j], binning))
-        #Write Histograms
+        # Write Histograms
         for dSys in dySys:
             dSys.Write()

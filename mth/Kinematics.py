@@ -3,7 +3,7 @@ import os
 from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVA
 
 var_d_star = ['mPt', 'tPt', 'dPhiMuTau', 'dEtaMuTau', 'type1_pfMetEt', 'm_t_collinearMass', 'MTTauMET', 'dPhiTauMET']
-xml_name = os.path.join(os.getcwd(), 'bdtdata/dataset2016/weights/TMVAClassification_BDT.weights.xml')
+xml_name = os.path.join(os.getcwd(), 'bdtdata/dataset/weights/TMVAClassification_BDT.weights.xml')
 functor = FunctorFromMVA('BDT method', xml_name, *var_d_star)
 
 def var_d(myMuon, myMET, myTau):
@@ -29,7 +29,7 @@ def deltaR(phi1, phi2, eta1, eta2):
   deta = eta1 - eta2
   dphi = abs(phi1-phi2)
   if (dphi>pi) : dphi = 2*pi-dphi
-  return sqrt(deta*deta + dphi*dphi) 
+  return sqrt(deta*deta + dphi*dphi)
 
 def visibleMass(myLep1, myLep2):
   return (myLep1+myLep2).M()
@@ -60,25 +60,31 @@ names = ['TightOS', 'TightOS0Jet', 'TightOS1Jet', 'TightOS2Jet', 'TightOS2JetVBF
 
 loosenames = ['TauLooseOS', 'MuonLooseOS', 'MuonLooseTauLooseOS', 'TauLooseOS0Jet', 'MuonLooseOS0Jet', 'MuonLooseTauLooseOS0Jet', 'TauLooseOS1Jet', 'MuonLooseOS1Jet', 'MuonLooseTauLooseOS1Jet', 'TauLooseOS2Jet', 'MuonLooseOS2Jet', 'MuonLooseTauLooseOS2Jet', 'TauLooseOS2JetVBF', 'MuonLooseOS2JetVBF', 'MuonLooseTauLooseOS2JetVBF']
 
-jes = ['JetAbsoluteFlavMapUp', 'JetAbsoluteFlavMapDown', 'JetAbsoluteMPFBiasUp', 'JetAbsoluteMPFBiasDown', 'JetAbsoluteScaleUp', 'JetAbsoluteScaleDown', 'JetAbsoluteStatUp', 'JetAbsoluteStatDown', 'JetFlavorQCDUp', 'JetFlavorQCDDown', 'JetFragmentationUp', 'JetFragmentationDown', 'JetPileUpDataMCUp', 'JetPileUpDataMCDown', 'JetPileUpPtBBUp', 'JetPileUpPtBBDown', 'JetPileUpPtEC1Up', 'JetPileUpPtEC1Down', 'JetPileUpPtEC2Up', 'JetPileUpPtEC2Down', 'JetPileUpPtHFUp', 'JetPileUpPtHFDown', 'JetPileUpPtRefUp', 'JetPileUpPtRefDown', 'JetRelativeFSRUp', 'JetRelativeFSRDown', 'JetRelativeJEREC1Up', 'JetRelativeJEREC1Down', 'JetRelativeJEREC2Up', 'JetRelativeJEREC2Down', 'JetRelativeJERHFUp', 'JetRelativeJERHFDown', 'JetRelativePtBBUp', 'JetRelativePtBBDown', 'JetRelativePtEC1Up', 'JetRelativePtEC1Down', 'JetRelativePtEC2Up', 'JetRelativePtEC2Down', 'JetRelativePtHFUp', 'JetRelativePtHFDown', 'JetRelativeStatECUp', 'JetRelativeStatECDown', 'JetRelativeStatFSRUp', 'JetRelativeStatFSRDown', 'JetRelativeStatHFUp', 'JetRelativeStatHFDown', 'JetSinglePionECALUp', 'JetSinglePionECALDown', 'JetSinglePionHCALUp', 'JetSinglePionHCALDown', 'JetTimePtEtaUp', 'JetTimePtEtaDown', 'JetRelativeBalUp', 'JetRelativeBalDown', 'JetRelativeSampleUp', 'JetRelativeSampleDown']
+jes = ['JetAbsoluteUp', 'JetAbsoluteDown', 'JetAbsoluteyearUp', 'JetAbsoluteyearDown', 'JetBBEC1Up', 'JetBBEC1Down', 'JetBBEC1yearUp', 'JetBBEC1yearDown', 'JetFlavorQCDUp', 'JetFlavorQCDDown', 'JetEC2Up', 'JetEC2Down', 'JetEC2yearUp', 'JetEC2yearDown', 'JetHFUp', 'JetHFDown', 'JetHFyearUp', 'JetHFyearDown', 'JetRelativeBalUp', 'JetRelativeBalDown', 'JetRelativeSampleUp', 'JetRelativeSampleDown', 'JERUp', 'JERDown']
 
 ues = ['UnclusteredEnUp', 'UnclusteredEnDown', 'UesCHARGEDUp', 'UesCHARGEDDown', 'UesECALUp', 'UesECALDown', 'UesHCALUp', 'UesHCALDown', 'UesHFUp', 'UesHFDown']
 
-fakes = ['', 'MuonFakep0Up', 'MuonFakep0Down', 'MuonFakep1Up', 'MuonFakep1Down', 'TauFakep0EBDM0Up', 'TauFakep0EBDM0Down', 'TauFakep0EBDM1Up', 'TauFakep0EBDM1Down', 'TauFakep0EBDM10Up', 'TauFakep0EBDM10Down', 'TauFakep0EEDM0Up', 'TauFakep0EEDM0Down', 'TauFakep0EEDM1Up', 'TauFakep0EEDM1Down', 'TauFakep0EEDM10Up', 'TauFakep0EEDM10Down', 'TauFakep1EBDM0Up', 'TauFakep1EBDM0Down', 'TauFakep1EBDM1Up', 'TauFakep1EBDM1Down', 'TauFakep1EBDM10Up', 'TauFakep1EBDM10Down', 'TauFakep1EEDM0Up', 'TauFakep1EEDM0Down', 'TauFakep1EEDM1Up', 'TauFakep1EEDM1Down', 'TauFakep1EEDM10Up', 'TauFakep1EEDM10Down']
+fakes = ['', 'MuonFakep0Up', 'MuonFakep0Down', 'MuonFakep1Up', 'MuonFakep1Down', 'TauFakep0EBDM0Up', 'TauFakep0EBDM0Down', 'TauFakep0EBDM1Up', 'TauFakep0EBDM1Down', 'TauFakep0EBDM10Up', 'TauFakep0EBDM10Down', 'TauFakep0EEDM0Up', 'TauFakep0EEDM0Down', 'TauFakep0EEDM1Up', 'TauFakep0EEDM1Down', 'TauFakep0EEDM10Up', 'TauFakep0EEDM10Down', 'TauFakep1EBDM0Up', 'TauFakep1EBDM0Down', 'TauFakep1EBDM1Up', 'TauFakep1EBDM1Down', 'TauFakep1EBDM10Up', 'TauFakep1EBDM10Down', 'TauFakep1EEDM0Up', 'TauFakep1EEDM0Down', 'TauFakep1EEDM1Up', 'TauFakep1EEDM1Down', 'TauFakep1EEDM10Up', 'TauFakep1EEDM10Down', 'TauFakep0EBDM11Up', 'TauFakep0EBDM11Down', 'TauFakep0EEDM11Up', 'TauFakep0EEDM11Down', 'TauFakep1EBDM11Up', 'TauFakep1EBDM11Down', 'TauFakep1EEDM11Up', 'TauFakep1EEDM11Down']
 
-fakesDeep = fakes + ['TauFakep0EBDM11Up', 'TauFakep0EBDM11Down', 'TauFakep0EEDM11Up', 'TauFakep0EEDM11Down', 'TauFakep1EBDM11Up', 'TauFakep1EBDM11Down', 'TauFakep1EEDM11Up', 'TauFakep1EEDM11Down']
+sys = ['', 'puUp', 'puDown', 'pfUp', 'pfDown', 'tid30Up', 'tid30Down', 'tid35Up', 'tid35Down', 'tid40Up', 'tid40Down', 'recresp0Up', 'recresp0Down', 'recreso0Up', 'recreso0Down', 'recresp1Up', 'recresp1Down', 'recreso1Up', 'recreso1Down', 'recresp2Up', 'recresp2Down', 'recreso2Up', 'recreso2Down', 'bTagUp', 'bTagDown', 'embtrk0Up', 'embtrk0Down', 'embtrk1Up', 'embtrk1Down', 'mtfake0Up', 'mtfake0Down', 'mtfake0p4Up', 'mtfake0p4Down', 'mtfake0p8Up', 'mtfake0p8Down', 'mtfake1p2Up', 'mtfake1p2Down', 'mtfake1p7Up', 'mtfake1p7Down', 'etfakebUp', 'etfakebDown', 'etfakeeUp', 'etfakeeDown', 'etfakeesbdm0Up', 'etfakeesbdm0Down', 'etfakeesbdm1Up', 'etfakeesbdm1Down', 'etfakeesedm0Up', 'etfakeesedm0Down', 'etfakeesedm1Up', 'etfakeesedm1Down', 'mtfakeesdm0Up', 'mtfakeesdm0Down', 'mtfakeesdm1Up', 'mtfakeesdm1Down', 'scaletDM0Up', 'scaletDM0Down', 'scaletDM1Up', 'scaletDM1Down', 'scaletDM10Up', 'scaletDM10Down', 'scaletDM11Up', 'scaletDM11Down', 'mes1p2Up', 'mes1p2Down', 'mes2p1Up', 'mes2p1Down', 'DYptreweightUp', 'DYptreweightDown']
 
-sys = ['', 'puUp', 'puDown', 'pfUp', 'pfDown', 'tidUp', 'tidDown', 'recrespUp', 'recrespDown', 'recresoUp', 'recresoDown', 'bTagUp', 'bTagDown', 'embtrkUp', 'embtrkDown', 'mtfakeUp', 'mtfakeDown', 'etfakeUp', 'etfakeDown', 'etefakeUp', 'etefakeDown', 'scaletDM0Up', 'scaletDM0Down', 'scaletDM1Up', 'scaletDM1Down', 'scaletDM10Up', 'scaletDM10Down', 'mesUp', 'mesDown', 'DYptreweightUp', 'DYptreweightDown', 'TopptreweightUp', 'TopptreweightDown']
+recSys = ['/recresp0Up', '/recresp0Down', '/recreso0Up', '/recreso0Down', '/recresp1Up', '/recresp1Down', '/recreso1Up', '/recreso1Down', '/recresp2Up', '/recresp2Down', '/recreso2Up', '/recreso2Down']
 
-sysDeep = sys + ['scaletDM11Up', 'scaletDM11Down']
+fakeSys = ['/TauFakep0EBDM0Up', '/TauFakep0EBDM0Down', '/TauFakep0EBDM1Up', '/TauFakep0EBDM1Down', '/TauFakep0EBDM10Up', '/TauFakep0EBDM10Down', '/TauFakep0EEDM0Up', '/TauFakep0EEDM0Down', '/TauFakep0EEDM1Up', '/TauFakep0EEDM1Down', '/TauFakep0EEDM10Up', '/TauFakep0EEDM10Down', '/TauFakep1EBDM0Up', '/TauFakep1EBDM0Down', '/TauFakep1EBDM1Up', '/TauFakep1EBDM1Down', '/TauFakep1EBDM10Up', '/TauFakep1EBDM10Down', '/TauFakep1EEDM0Up', '/TauFakep1EEDM0Down', '/TauFakep1EEDM1Up', '/TauFakep1EEDM1Down', '/TauFakep1EEDM10Up', '/TauFakep1EEDM10Down', '/TauFakep0EBDM11Up', '/TauFakep0EBDM11Down', '/TauFakep1EBDM11Up', '/TauFakep1EBDM11Down', '/TauFakep0EEDM11Up', '/TauFakep0EEDM11Down', '/TauFakep1EEDM11Up', '/TauFakep1EEDM11Down']
 
-fakeSys = ['/TauFakep0EBDM0Up', '/TauFakep0EBDM0Down', '/TauFakep0EBDM1Up', '/TauFakep0EBDM1Down', '/TauFakep0EBDM10Up', '/TauFakep0EBDM10Down', '/TauFakep0EEDM0Up', '/TauFakep0EEDM0Down', '/TauFakep0EEDM1Up', '/TauFakep0EEDM1Down', '/TauFakep0EEDM10Up', '/TauFakep0EEDM10Down', '/TauFakep1EBDM0Up', '/TauFakep1EBDM0Down', '/TauFakep1EBDM1Up', '/TauFakep1EBDM1Down', '/TauFakep1EBDM10Up', '/TauFakep1EBDM10Down', '/TauFakep1EEDM0Up', '/TauFakep1EEDM0Down', '/TauFakep1EEDM1Up', '/TauFakep1EEDM1Down', '/TauFakep1EEDM10Up', '/TauFakep1EEDM10Down']
+scaleSys = ['/scaletDM0Up', '/scaletDM0Down', '/scaletDM1Up', '/scaletDM1Down', '/scaletDM10Up', '/scaletDM10Down', '/scaletDM11Up', '/scaletDM11Down']
 
-fakeDeepSys = fakeSys + ['/TauFakep0EBDM11Up', '/TauFakep0EBDM11Down', '/TauFakep1EBDM11Up', '/TauFakep1EBDM11Down', '/TauFakep0EEDM11Up', '/TauFakep0EEDM11Down', '/TauFakep1EEDM11Up', '/TauFakep1EEDM11Down']
+tauidSys = ['/tid30Up', '/tid30Down', '/tid35Up', '/tid35Down', '/tid40Up', '/tid40Down']
 
-scaleSys = ['/scaletDM0Up', '/scaletDM0Down', '/scaletDM1Up', '/scaletDM1Down', '/scaletDM10Up', '/scaletDM10Down']
+mtfakeSys = ['/mtfake0Up', '/mtfake0Down', '/mtfake0p4Up', '/mtfake0p4Down', '/mtfake0p8Up', '/mtfake0p8Down', '/mtfake1p2Up', '/mtfake1p2Down', '/mtfake1p7Up', '/mtfake1p7Down']
 
-scaleDeepSys = scaleSys + ['/scaletDM11Up', '/scaletDM11Down']
+etfakeSys = ['/etfakebUp', '/etfakebDown', '/etfakeeUp', '/etfakeeDown']
+
+etfakeesSys = ['/etfakeesbdm0Up', '/etfakeesbdm0Down', '/etfakeesbdm1Up', '/etfakeesbdm1Down', '/etfakeesedm0Up', '/etfakeesedm0Down', '/etfakeesedm1Up', '/etfakeesedm1Down']
+
+mtfakeesSys = ['/mtfakeesdm0Up', '/mtfakeesdm0Down', '/mtfakeesdm1Up', '/mtfakeesdm1Down']
+
+mesSys = ['/mes1p2Up', '/mes1p2Down', '/mes2p1Up', '/mes2p1Down']
 
 plotnames = ['TauLooseWOS', 'TauLooseOS', 'TauLooseSS', 'MuonLooseWOS', 'MuonLooseOS', 'MuonLooseSS', 'MuonLooseTauLooseWOS', 'MuonLooseTauLooseOS', 'MuonLooseTauLooseSS', 'TightWOS', 'TightOS', 'TightSS', 'TauLooseWOS0Jet', 'TauLooseOS0Jet', 'TauLooseSS0Jet', 'MuonLooseWOS0Jet', 'MuonLooseOS0Jet', 'MuonLooseSS0Jet', 'MuonLooseTauLooseWOS0Jet', 'MuonLooseTauLooseOS0Jet', 'MuonLooseTauLooseSS0Jet', 'TightWOS0Jet', 'TightOS0Jet', 'TightSS0Jet', 'TauLooseWOS1Jet', 'TauLooseOS1Jet', 'TauLooseSS1Jet', 'MuonLooseWOS1Jet', 'MuonLooseOS1Jet', 'MuonLooseSS1Jet', 'MuonLooseTauLooseWOS1Jet', 'MuonLooseTauLooseOS1Jet', 'MuonLooseTauLooseSS1Jet', 'TightWOS1Jet', 'TightOS1Jet', 'TightSS1Jet', 'TauLooseWOS2Jet', 'TauLooseOS2Jet', 'TauLooseSS2Jet', 'MuonLooseWOS2Jet', 'MuonLooseOS2Jet', 'MuonLooseSS2Jet', 'MuonLooseTauLooseWOS2Jet', 'MuonLooseTauLooseOS2Jet', 'MuonLooseTauLooseSS2Jet', 'TightWOS2Jet', 'TightOS2Jet', 'TightSS2Jet', 'TauLooseWOS2JetVBF', 'TauLooseOS2JetVBF', 'TauLooseSS2JetVBF', 'MuonLooseWOS2JetVBF', 'MuonLooseOS2JetVBF', 'MuonLooseSS2JetVBF', 'MuonLooseTauLooseWOS2JetVBF', 'MuonLooseTauLooseOS2JetVBF', 'MuonLooseTauLooseSS2JetVBF', 'TightWOS2JetVBF', 'TightOS2JetVBF', 'TightSS2JetVBF']
 

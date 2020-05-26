@@ -79,7 +79,7 @@ class AnalyzeMuESysQCD(MegaBase, MuEQCDBase):
         self.fill_histos(myMuon, myMET, myEle, weight*osl, name+self.qcdsys[i])
 
 
-  def fill_sscategories(self, row, myMuon, myMET, myEle, weight, name=''):
+  def fill_sscategories(self, row, myMuon, myMET, myEle, weight):
     dphiemu = self.deltaPhi(myEle.Phi(), myMuon.Phi())
     dphiemet = self.deltaPhi(myEle.Phi(), myMET.Phi())
     mtmumet = self.transverseMass(myMuon, myMET)

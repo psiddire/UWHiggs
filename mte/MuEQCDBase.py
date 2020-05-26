@@ -24,6 +24,8 @@ class MuEQCDBase():
 
     self.mcWeight = mcWeights.mcWeights(target)
     self.is_data = self.mcWeight.is_data
+    self.is_eraG = self.mcWeight.is_eraG
+    self.is_eraH = self.mcWeight.is_eraH
     self.is_mc = self.mcWeight.is_mc
     self.is_DY = self.mcWeight.is_DY
     self.is_W = self.mcWeight.is_W
@@ -40,9 +42,12 @@ class MuEQCDBase():
     self.muonLooseIsoMediumID = mcCorrections.muonIso_loose_mediumid
     self.muTracking = mcCorrections.muonTracking
     self.eIDnoiso90 = mcCorrections.eIDnoiso90
-    self.rc = mcCorrections.rc
-    self.w1 = mcCorrections.w1
+    self.MESSys = mcCorrections.MESSys
+    self.RecSys = mcCorrections.RecSys
+
     self.DYreweight = mcCorrections.DYreweight
+    self.w1 = mcCorrections.w1
+    self.rc = mcCorrections.rc
 
     self.DYweight = self.mcWeight.DYweight
     self.Wweight = self.mcWeight.Wweight
@@ -61,8 +66,10 @@ class MuEQCDBase():
     self.names = Kinematics.names
     self.ssnames = Kinematics.ssnames
     self.sys = Kinematics.sys
+    self.recSys = Kinematics.recSys
     self.sssys = Kinematics.sssys
     self.qcdsys = Kinematics.qcdsys
+    self.mesSys = Kinematics.mesSys
     self.functor = Kinematics.functor
     self.var_d = Kinematics.var_d
 
@@ -74,7 +81,10 @@ class MuEQCDBase():
 
   # Trigger
   def trigger(self, row):
-    triggerm23e12 = row.mu23e12DZPass and row.mPt > 24 and row.ePt > 13# and row.eMatchesMu23e12DZFilter and row.eMatchesMu23e12DZPath and row.mMatchesMu23e12DZFilter and row.mMatchesMu23e12DZPath
+    if self.is_eraG or self.is_eraH:
+      triggerm23e12 = row.mu23e12DZPass and row.mPt > 24 and row.ePt > 13# and row.eMatchesMu23e12DZFilter and row.eMatchesMu23e12DZPath and row.mMatchesMu23e12DZFilter and row.mMatchesMu23e12DZPath
+    else:
+      triggerm23e12 = row.mu23e12Pass and row.mPt > 24 and row.ePt > 13# and row.eMatchesMu23e12Filter and row.eMatchesMu23e12Path and row.mMatchesMu23e12Filter and row.mMatchesMu23e12Path
     return bool(triggerm23e12)
 
   # Kinematics requirements on both the leptons
@@ -146,9 +156,26 @@ class MuEQCDBase():
     myMET.SetPtEtaPhiM(row.type1_pfMetEt, 0, row.type1_pfMetPhi, 0)
     myEle = ROOT.TLorentzVector()
     myEle.SetPtEtaPhiM(row.ePt, row.eEta, row.ePhi, row.eMass)
+    # Recoil
     if self.is_recoilC and self.MetCorrection:
-      tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30)))
+      if self.is_W:
+        tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30 + 1)))
+      else:
+        tmpMet = self.Metcorected.CorrectByMeanResolution(row.type1_pfMetEt*math.cos(row.type1_pfMetPhi), row.type1_pfMetEt*math.sin(row.type1_pfMetPhi), row.genpX, row.genpY, row.vispX, row.vispY, int(round(row.jetVeto30)))
       myMET.SetPtEtaPhiM(math.sqrt(tmpMet[0]*tmpMet[0] + tmpMet[1]*tmpMet[1]), 0, math.atan2(tmpMet[1], tmpMet[0]), 0)
+    # Electron Scale Correction
+    if self.is_data:
+      myEle = myEle * ROOT.Double(row.eCorrectedEt/myEle.E())
+    else:
+      myMETpx = myMET.Px() + myEle.Px()
+      myMETpy = myMET.Py() + myEle.Py()
+      if self.is_mc:
+        myEle = myEle * ROOT.Double(row.eCorrectedEt/myEle.E())
+      elif self.is_embed:
+        myEle = myEle * ROOT.Double(0.9976) if abs(myEle.Eta()) < 1.479 else myEle * ROOT.Double(0.993)
+      myMETpx = myMETpx - myEle.Px()
+      myMETpy = myMETpy - myEle.Py()
+      myMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
     return [myMuon, myMET, myEle]
 
 
@@ -168,7 +195,7 @@ class MuEQCDBase():
       mTrk = self.muTracking(myMuon.Eta())[0]
       eID = self.eIDnoiso90(myEle.Eta(), myEle.Pt())
       mcSF = self.rc.kSpreadMC(row.mCharge, myMuon.Pt(), myMuon.Eta(), myMuon.Phi(), row.mGenPt, 0, 0)
-      weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*eID*mcSF*row.prefiring_weight
+      weight = weight*row.GenWeight*pucorrector[''](row.nTruePU)*tEff*mID*mIso*mTrk*mcSF*eID*row.prefiring_weight
       if self.is_DY:
         # DY pT reweighting
         dyweight = self.DYreweight(row.genMass, row.genpT)
@@ -183,8 +210,8 @@ class MuEQCDBase():
         else:
           weight = weight*self.Wweight[0]
       if self.is_TT:
-        topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
-        weight = weight*topweight
+        #topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
+        #weight = weight*topweight
         if row.mZTTGenMatching > 2 and row.mZTTGenMatching < 6 and row.eZTTGenMatching > 2 and row.eZTTGenMatching < 6 and self.Emb:
           weight = 0.0
       weight = self.mcWeight.lumiWeight(weight)

@@ -1,6 +1,6 @@
 from math import sqrt, pi, exp, cos
 import os
-from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVA, FunctorFromMVACat
+from FinalStateAnalysis.StatTools.RooFunctorFromWS import FunctorFromMVA
 
 var_d_star = ['mPt', 'ePt', 'e_m_collinearMass', 'e_m_visibleMass', 'dPhiMuMET', 'dPhiEMET', 'dPhiEMu', 'MTMuMET']
 xml_name = os.path.join(os.getcwd(), "bdtdata/dataset/weights/TMVAClassification_BDT.weights.xml")
@@ -8,13 +8,6 @@ functor = FunctorFromMVA('BDT method', xml_name, *var_d_star)
 
 def var_d(myEle, myMET, myMuon):
   return {'mPt' : myMuon.Pt(), 'ePt' : myEle.Pt(), 'e_m_collinearMass' : collMass(myEle, myMET, myMuon), 'e_m_visibleMass' : visibleMass(myEle, myMuon), 'dPhiMuMET' : deltaPhi(myMuon.Phi(), myMuon.Phi()), 'dPhiEMET' : deltaPhi(myEle.Phi(), myMET.Phi()), 'dPhiEMu' : deltaPhi(myEle.Phi(), myMuon.Phi()), 'MTMuMET' : transverseMass(myMuon, myMET)}
-
-# var_d_star = ['mPt', 'ePt', 'e_m_collinearMass', 'e_m_visibleMass', 'dPhiMuMET', 'dPhiEMET', 'dPhiEMu', 'MTMuMET', 'njets', 'vbfMass']
-# xml_name = os.path.join(os.getcwd(), "bdtdata/datasetCat/weights/TMVAClassification_BDTCat.weights.xml")
-# functor = FunctorFromMVACat('BDTCat method', xml_name, *var_d_star)
-
-# def var_d(myEle, myMET, myMuon, njets, mjj):
-#   return {'mPt' : myMuon.Pt(), 'ePt' : myEle.Pt(), 'e_m_collinearMass' : collMass(myEle, myMET, myMuon), 'e_m_visibleMass' : visibleMass(myEle, myMuon), 'dPhiMuMET' : deltaPhi(myMuon.Phi(), myMuon.Phi()), 'dPhiEMET' : deltaPhi(myEle.Phi(), myMET.Phi()), 'dPhiEMu' : deltaPhi(myEle.Phi(), myMuon.Phi()), 'MTMuMET' : transverseMass(myMuon, myMET), 'njets' : njets, 'vbfMass' : mjj}
 
 def invert_case(letter):
   if letter.upper() == letter:
@@ -63,7 +56,7 @@ def topPtreweight(pt1, pt2):
   wt = sqrt(wt1 * wt2)
   return wt
 
-jes = ['JetAbsoluteFlavMapUp', 'JetAbsoluteFlavMapDown', 'JetAbsoluteMPFBiasUp', 'JetAbsoluteMPFBiasDown', 'JetAbsoluteScaleUp', 'JetAbsoluteScaleDown', 'JetAbsoluteStatUp', 'JetAbsoluteStatDown', 'JetFlavorQCDUp', 'JetFlavorQCDDown', 'JetFragmentationUp', 'JetFragmentationDown', 'JetPileUpDataMCUp', 'JetPileUpDataMCDown', 'JetPileUpPtBBUp', 'JetPileUpPtBBDown', 'JetPileUpPtEC1Up', 'JetPileUpPtEC1Down', 'JetPileUpPtEC2Up', 'JetPileUpPtEC2Down', 'JetPileUpPtHFUp', 'JetPileUpPtHFDown', 'JetPileUpPtRefUp', 'JetPileUpPtRefDown', 'JetRelativeFSRUp', 'JetRelativeFSRDown', 'JetRelativeJEREC1Up', 'JetRelativeJEREC1Down', 'JetRelativeJEREC2Up', 'JetRelativeJEREC2Down', 'JetRelativeJERHFUp', 'JetRelativeJERHFDown', 'JetRelativePtBBUp', 'JetRelativePtBBDown', 'JetRelativePtEC1Up', 'JetRelativePtEC1Down', 'JetRelativePtEC2Up', 'JetRelativePtEC2Down', 'JetRelativePtHFUp', 'JetRelativePtHFDown', 'JetRelativeStatECUp', 'JetRelativeStatECDown', 'JetRelativeStatFSRUp', 'JetRelativeStatFSRDown', 'JetRelativeStatHFUp', 'JetRelativeStatHFDown', 'JetSinglePionECALUp', 'JetSinglePionECALDown', 'JetSinglePionHCALUp', 'JetSinglePionHCALDown', 'JetTimePtEtaUp', 'JetTimePtEtaDown', 'JetRelativeBalUp', 'JetRelativeBalDown', 'JetRelativeSampleUp', 'JetRelativeSampleDown']
+jes = ['JetAbsoluteUp', 'JetAbsoluteDown', 'JetAbsoluteyearUp', 'JetAbsoluteyearDown', 'JetBBEC1Up', 'JetBBEC1Down', 'JetBBEC1yearUp', 'JetBBEC1yearDown', 'JetFlavorQCDUp', 'JetFlavorQCDDown', 'JetEC2Up', 'JetEC2Down', 'JetEC2yearUp', 'JetEC2yearDown', 'JetHFUp', 'JetHFDown', 'JetHFyearUp', 'JetHFyearDown', 'JetRelativeBalUp', 'JetRelativeBalDown', 'JetRelativeSampleUp', 'JetRelativeSampleDown', 'JERUp', 'JERDown']
 
 ues = ['UnclusteredEnUp', 'UnclusteredEnDown', 'UesCHARGEDUp', 'UesCHARGEDDown', 'UesECALUp', 'UesECALDown', 'UesHCALUp', 'UesHCALDown', 'UesHFUp', 'UesHFDown']
 
@@ -71,11 +64,15 @@ names = ['TightOS', 'TightOS0Jet', 'TightOS1Jet', 'TightOS2Jet', 'TightOS2JetVBF
 
 ssnames = ['TightSS', 'TightSS0Jet', 'TightSS1Jet', 'TightSS2Jet', 'TightSS2JetVBF']
 
-fullnames = ['TightOS', 'TightOS0Jet', 'TightOS1Jet', 'TightOS2Jet', 'TightOS2JetVBF', 'TightSS', 'TightSS0Jet', 'TightSS1Jet', 'TightSS2Jet', 'TightSS2JetVBF']
+zttnames = ['TightOS', 'TightOS0Jet', 'TightOS1Jet', 'TightOS2Jet', 'TightOS2JetVBF', 'TightSS', 'TightSS0Jet', 'TightSS1Jet', 'TightSS2Jet', 'TightSS2JetVBF']
 
 plotnames = ['TightOS', 'TightSS', 'TightOS0Jet', 'TightSS0Jet', 'TightOS1Jet', 'TightSS1Jet', 'TightOS0JetCut', 'TightSS0JetCut', 'TightOS1JetCut', 'TightSS1JetCut', 'TightOS2Jet', 'TightSS2Jet', 'TightOS2JetVBF', 'TightSS2JetVBF', 'TightOS2JetCut', 'TightSS2JetCut', 'TightOS2JetVBFCut', 'TightSS2JetVBFCut']
 
-sys = ['', 'puUp', 'puDown', 'pfUp', 'pfDown', 'trUp', 'trDown', 'recrespUp', 'recrespDown', 'recresoUp', 'recresoDown', 'bTagUp', 'bTagDown', 'eescUp', 'eescDown', 'mesUp', 'mesDown', 'DYptreweightUp', 'DYptreweightDown', 'TopptreweightUp', 'TopptreweightDown']
+sys = ['', 'puUp', 'puDown', 'pfUp', 'pfDown', 'recresp0Up', 'recresp0Down', 'recreso0Up', 'recreso0Down', 'recresp1Up', 'recresp1Down', 'recreso1Up', 'recreso1Down', 'recresp2Up', 'recresp2Down', 'recreso2Up', 'recreso2Down', 'bTagUp', 'bTagDown', 'eesUp', 'eesDown', 'mes1p2Up', 'mes1p2Down', 'mes2p1Up', 'mes2p1Down', 'mes2p4Up', 'mes2p4Down', 'DYptreweightUp', 'DYptreweightDown']
+
+recSys = ['/recresp0Up', '/recresp0Down', '/recreso0Up', '/recreso0Down', '/recresp1Up', '/recresp1Down', '/recreso1Up', '/recreso1Down', '/recresp2Up', '/recresp2Down', '/recreso2Up', '/recreso2Down']
+
+mesSys = ['/mes1p2Up', '/mes1p2Down', '/mes2p1Up', '/mes2p1Down', '/mes2p4Up', '/mes2p4Down']
 
 sssys = ['', 'Rate0JetUp', 'Rate0JetDown', 'Shape0JetUp', 'Shape0JetDown', 'Rate1JetUp', 'Rate1JetDown', 'Shape1JetUp', 'Shape1JetDown', 'Rate2JetUp', 'Rate2JetDown', 'Shape2JetUp', 'Shape2JetDown', 'IsoUp', 'IsoDown']
 

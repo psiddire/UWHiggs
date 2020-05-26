@@ -63,7 +63,7 @@ class AnalyzeEMuBDT(MegaBase, EMuBase):
       elif varname=="dEtaEMu":
         holder[0] = self.deltaEta(myEle.Eta(), myMuon.Eta())
       elif varname=="type1_pfMetEt":
-        holder[0] = myMET.Pt()
+        holder[0] = myMET.Et()
       elif varname=="njets":
         holder[0] = int(row.jetVeto30)
       elif varname=="vbfMass":

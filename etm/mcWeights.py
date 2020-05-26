@@ -1,6 +1,8 @@
 class mcWeights:
     def __init__(self, target):
         self.is_data = target.startswith('data_')
+        self.is_eraG = bool('Run2016G' in target)
+        self.is_eraH = bool('Run2016H' in target)
         self.is_embed = target.startswith('embedded_')
         self.is_mc = not self.is_data and not self.is_embed
         self.is_DYlow = bool('DYJetsToLL_M-10to50' in target)
@@ -24,7 +26,11 @@ class mcWeights:
         self.is_STttop = bool('ST_t-channel_top' in target)
         self.is_STtWantitop = bool('ST_tW_antitop' in target)
         self.is_STtWtop = bool('ST_tW_top' in target)
-        self.is_TT = bool('TT_' in target)
+        self.is_TTTo2L2Nu = bool('TTTo2L2Nu' in target)
+        self.is_TTToHadronic = bool('TTToHadronic' in target)
+        self.is_TTToSemiLeptonic = bool('TTToSemiLeptonic' in target)
+        self.is_TT = bool(self.is_TTTo2L2Nu or self.is_TTToHadronic or self.is_TTToSemiLeptonic)
+        #self.is_TT = bool('TT_' in target)
         self.is_ST = bool(self.is_STtantitop or self.is_STttop or self.is_STtWantitop or self.is_STtWtop)
         self.is_VBFH = bool('VBFHToTauTau' in target)
         self.is_GluGluH = bool('GluGluHToTauTau' in target)
@@ -51,13 +57,13 @@ class mcWeights:
         if self.is_DYlow:
             weight = weight*0.0#19.468
         if self.is_WG:
-            weight = weight*0.000699
+            weight = weight*0.00067#0.000699
         if self.is_GluGlu:
             weight = weight*0.0706
         if self.is_VBF:
             weight = weight*0.00147
         if self.is_WW:
-            weight = weight*0.345*(118.7/75.88)
+            weight = weight*0.358*(118.7/75.88)#0.345
         if self.is_WZ:
             weight = weight*0.250*(51.11/27.57)
         if self.is_ZZ:
@@ -73,19 +79,25 @@ class mcWeights:
         if self.is_ZHTT:
             weight = weight*0.00449#0.00512
         if self.is_Wminus:
-            weight = weight*0.0102#0.00514
+            weight = weight*0.00763#0.0102#0.00514
         if self.is_Wplus:
-            weight = weight*0.00649#0.00516
+            weight = weight*0.00516#0.00649#0.00516
         if self.is_STtantitop:
-            weight = weight*0.07577#0.07969
+            weight = weight*0.08059#0.07577#0.07969
         if self.is_STttop:
-            weight = weight*0.08355#0.07969
+            weight = weight*0.09156#0.08355#0.07969
         if self.is_STtWantitop:
-            weight = weight*0.24#0.336
+            weight = weight*0.8957#0.24#0.336
         if self.is_STtWtop:
-            weight = weight*1.558#0.476
-        if self.is_TT:
-            weight = weight*0.676#0.465
+            weight = weight*0.9729#1.558#0.476
+        #if self.is_TT:
+        #    weight = weight*0.4012#0.676#0.465
+        if self.is_TTTo2L2Nu:
+            weight = weight*0.01038
+        if self.is_TTToHadronic:
+            weight = weight*0.00465
+        if self.is_TTToSemiLeptonic:
+            weight = weight*0.01077
         if self.is_VBFH:
             weight = weight*0.00154
         if self.is_GluGluH:
