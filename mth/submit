@@ -1,4 +1,39 @@
+mkdir -p `dirname results/Data_2018_Dec_mt/AnalyzeMuTauSysBDT/ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_-102X_upgrade2018_realistic_v15-v1.root`
+mkdir -p `dirname results/Data_2018_Dec_mt/AnalyzeMuTauSysBDT/ZHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_mt/AnalyzeMuTauSysBDT/ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_-102X_upgrade2018_realistic_v15-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuTauSysBDT.py inputs/Data_2018_Dec_mt/ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_-102X_upgrade2018_realistic_v15-v1.txt results/Data_2018_Dec_mt/AnalyzeMuTauSysBDT/ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_-102X_upgrade2018_realistic_v15-v1.root --verbose >& batch_logs/results_Data_2018_Dec_mt_AnalyzeMuTauSysBDT_ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_-102X_upgrade2018_realistic_v15-v1.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_mt/AnalyzeMuTauSysBDT/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_mt/AnalyzeMuTauSysBDT/ZHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuTauSysBDT.py inputs/Data_2018_Dec_mt/ZHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.txt results/Data_2018_Dec_mt/AnalyzeMuTauSysBDT/ZHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.root --verbose >& batch_logs/results_Data_2018_Dec_mt_AnalyzeMuTauSysBDT_ZHToTauTau_M125_13TeV_powheg_pythia8_-102X_upgrade2018_realistic_v15-v2.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_mt/AnalyzeMuTauSysBDT/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext3-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_mt/AnalyzeMuTauSysBDT/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuTauSysBDT.py inputs/Data_2018_Dec_mt/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15-v1.txt results/Data_2018_Dec_mt/AnalyzeMuTauSysBDT/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15-v1.root --verbose >& batch_logs/results_Data_2018_Dec_mt_AnalyzeMuTauSysBDT_TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15-v1.log &
+sleep 10s
+mkdir -p `dirname results/Data_2018_Dec_mt/AnalyzeMuTauSysBDT/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext2-v2.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_mt/AnalyzeMuTauSysBDT/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext3-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuTauSysBDT.py inputs/Data_2018_Dec_mt/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext3-v2.txt results/Data_2018_Dec_mt/AnalyzeMuTauSysBDT/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext3-v2.root --verbose >& batch_logs/results_Data_2018_Dec_mt_AnalyzeMuTauSysBDT_TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext3-v2.log &
+sleep 10s
 mkdir -p `dirname results/Data_2018_Dec_mt/AnalyzeMuTauSysBDT/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data_2018_Dec_mt/AnalyzeMuTauSysBDT/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext2-v2.root
+mkdir -p batch_logs
+mega-farmout AnalyzeMuTauSysBDT.py inputs/Data_2018_Dec_mt/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext2-v2.txt results/Data_2018_Dec_mt/AnalyzeMuTauSysBDT/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext2-v2.root --verbose >& batch_logs/results_Data_2018_Dec_mt_AnalyzeMuTauSysBDT_TTToHadronic_TuneCP5_13TeV-powheg-pythia8_-102X_upgrade2018_realistic_v15_ext2-v2.log &
+sleep 10s
 mkdir -p `dirname results/Data_2018_Dec_mt/AnalyzeMuTauSysBDT/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_-102X_upgrade2018_realistic_v15-v2.root`
 #using farmout:1
 #dry run:1

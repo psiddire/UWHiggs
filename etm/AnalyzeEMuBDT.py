@@ -11,6 +11,7 @@ from EMuBase import EMuBase
 import EMTree
 import ROOT
 import array
+import math
 
 class AnalyzeEMuBDT(MegaBase, EMuBase):
   tree = 'em/final/Ntuple'
@@ -62,7 +63,7 @@ class AnalyzeEMuBDT(MegaBase, EMuBase):
       elif varname=="dEtaEMu":
         holder[0] = self.deltaEta(myEle.Eta(), myMuon.Eta())
       elif varname=="type1_pfMetEt":
-        holder[0] = myMET.Pt()
+        holder[0] = myMET.Et()
       elif varname=="njets":
         holder[0] = int(row.jetVeto30)
       elif varname=="vbfMass":
@@ -87,7 +88,7 @@ class AnalyzeEMuBDT(MegaBase, EMuBase):
       if math.isnan(row.vbfMass):
         continue
 
-      if self.oppositesign(row):
+      if not self.oppositesign(row):
         self.filltree(row, myEle, myMET, myMuon, weight)
 
 

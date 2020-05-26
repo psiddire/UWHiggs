@@ -53,6 +53,8 @@ end
 
 task :EM => get_analyzer_results("AnalyzeEMu.py", samples['vbfHTT'] + samples['ggHTT'] + samples['vbfHWW'] + samples['ggHWW'] + samples['ggHET'] + samples['vbfHET'])
 
+task :CF => get_analyzer_results("AnalyzeEMuCF.py", samples['ggHET'])
+
 $etdir = "plots/#{$jobid}/AnalyzerMuTau/mt_now/"
 directory $etdir 
 file  "#{$etdir}/plot#{$period}.root" do |t|

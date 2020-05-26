@@ -63,7 +63,7 @@ class AnalyzeMuEBDT(MegaBase, MuEBase):
       elif varname=="dEtaMuE":
         holder[0] = self.deltaEta(myMuon.Eta(), myEle.Eta())
       elif varname=="type1_pfMetEt":
-        holder[0] = myMET.Pt()
+        holder[0] = myMET.Et()
       elif varname=="njets":
         holder[0] = int(row.jetVeto30)
       elif varname=="vbfMass":
@@ -88,7 +88,7 @@ class AnalyzeMuEBDT(MegaBase, MuEBase):
       if math.isnan(row.vbfMass):
         continue
 
-      if self.oppositesign(row):
+      if not self.oppositesign(row):
         self.filltree(row, myMuon, myMET, myEle, weight)
 
 

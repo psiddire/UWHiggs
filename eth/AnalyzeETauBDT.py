@@ -50,7 +50,7 @@ class AnalyzeETauBDT(MegaBase, ETauBase):
       elif varname=='dPhiEMET':
         holder[0] = self.deltaPhi(myEle.Phi(), myMET.Phi())
       elif varname=='dPhiTauMET':
-        holder[0] = self.deltaPhi(myTau.Eta(), myMET.Eta())
+        holder[0] = self.deltaPhi(myTau.Phi(), myMET.Phi())
       elif varname=='e_t_collinearMass':
         holder[0] = self.collMass(myEle, myMET, myTau)
       elif varname=='e_t_visibleMass':
@@ -62,11 +62,11 @@ class AnalyzeETauBDT(MegaBase, ETauBase):
       elif varname=='MTEMET':
         holder[0] = self.transverseMass(myEle, myMET)
       elif varname=='type1_pfMetEt':
-        holder[0] = myMET.Pt()
+        holder[0] = myMET.Et()
       elif varname=='njets':
-        holder[0] = int(row.jetVeto30WoNoisyJets)
+        holder[0] = int(row.jetVeto30)
       elif varname=='vbfMass':
-        holder[0] = row.vbfMassWoNoisyJets
+        holder[0] = row.vbfMass
       elif varname=='weight':
         holder[0] = weight
     self.tree1.Fill()
