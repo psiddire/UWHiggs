@@ -16,8 +16,7 @@ for x in Lists.mc_samples:
 outputdir = 'Shapes/'
 plotter = Plotter(Lists.files, Lists.lumifiles, outputdir)
 
-#f = ROOT.TFile( 'Shapes/shapesMTBDT.root', 'RECREATE')
-f = ROOT.TFile( 'Plotting/shapesMTBDT.root', 'RECREATE')
+f = ROOT.TFile( 'Shapes/shapesMTBDT.root', 'RECREATE')
 
 v = [
 views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('DY'), Lists.mc_samples )]),
@@ -33,36 +32,12 @@ views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.start
 views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('VBF_LFV') , Lists.mc_samples)])
 ]
 
-for di in Lists.dirs:
+for k, di in enumerate(Lists.dirs):
 
-    # if di=='0Jet':
-    #     dr = '0jet'
-    #     binning = array.array('d', [-1.0, -0.65, -0.5, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.25, 1.0])
-    # elif di=='1Jet':
-    #     dr = '1jet'
-    #     binning = array.array('d', [-1.0, -0.65, -0.5, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.3, 1.0])
-    # elif di=='2Jet':
-    #     dr = '2jet_gg'
-    #     binning = array.array('d', [-1.0, -0.6, -0.5, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.3, 1.0])
-    # else:
-    #     dr = '2jet_vbf'
-    #     binning = array.array('d', [-1.0, -0.6, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.3, 1.0])
-
-    if di=='0Jet':
-        dr = '0jet'
-        binning = array.array('d', [-0.65, -0.5, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.25])
-    elif di=='1Jet':
-        dr = '1jet'
-        binning = array.array('d', [-0.65, -0.5, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.3])
-    elif di=='2Jet':
-        dr = '2jet_gg'
-        binning = array.array('d', [-0.6, -0.5, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.3])
-    else:
-        dr = '2jet_vbf'
-        binning = array.array('d', [-0.6, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.3])
+    binning = array.array('d', [-0.7, -0.5, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.35])
 
     # Observed
-    d = f.mkdir(dr)
+    d = f.mkdir(Lists.dr[k])
     d.cd()
     DataTotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('QCD'), Lists.mc_samples)])
     data = Lists.positivize(DataTotal.Get('TightOS'+di+'/bdtDiscriminator'))
@@ -130,13 +105,11 @@ for di in Lists.dirs:
     # Muon Fake Rate
     for i, mFR in enumerate(Lists.muonFR):
         qcd = QCD.Get('MuonLooseOS'+di+mFR+'/bdtDiscriminator')
-        #qcdmt = QCD.Get('MuonLooseTauLooseOS'+di+mFR+'/bdtDiscriminator')
-        qcdmt = QCD.Get('MuonLooseTauLooseOS'+di+'/bdtDiscriminator')
+        qcdmt = QCD.Get('MuonLooseTauLooseOS'+di+mFR+'/bdtDiscriminator')
         qcd.add(tfakes)
         qcd.add(qcdmt, -1)
         mc = MC.Get('MuonLooseOS'+di+mFR+'/bdtDiscriminator')
-        #mcmt = MC.Get('MuonLooseTauLooseOS'+di+mFR+'/bdtDiscriminator')
-        mcmt = MC.Get('MuonLooseTauLooseOS'+di+'/bdtDiscriminator')
+        mcmt = MC.Get('MuonLooseTauLooseOS'+di+mFR+'/bdtDiscriminator')
         mc.add(tfakes_mc)
         mc.add(mcmt, -1)
         mc = Lists.positivize(mc)

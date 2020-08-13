@@ -46,7 +46,7 @@ class AnalyzeMuETTBDT(MegaBase, MuEBase):
       osss = self.corrFact(row, myMuon, myEle)[1]
 
       # b-tag
-      nbtag = row.bjetDeepCSVVeto20Medium_2016_DR0p5
+      nbtag = row.bjetDeepCSVVeto30Medium_2016_DR0p5
       if nbtag > 2:
         nbtag = 2
       if bool(self.is_mc):

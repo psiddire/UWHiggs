@@ -50,7 +50,7 @@ eIDnoiso90 = EGammaPOGCorrections.make_egamma_pog_electronID90_2016()
 Ele25 = EGammaPOGCorrections.el_Ele25_2016
 EleIdIso = EGammaPOGCorrections.el_IdIso_2016
 
-cmsswBase = '/afs/hep.wisc.edu/home/psiddire/CMSSW_10_2_16_UL/src/FinalStateAnalysis/TagAndProbe/data/2016/'
+cmsswBase = os.environ['CMSSW_BASE'] + '/src/FinalStateAnalysis/TagAndProbe/data/2016/'
 f1 = ROOT.TFile(cmsswBase + 'htt_scalefactors_legacy_2016.root')
 w1 = f1.Get('w')
 

@@ -30,7 +30,8 @@ class MuTauBase():
     self.is_DY = self.mcWeight.is_DY
     self.is_W = self.mcWeight.is_W
     self.is_TT = self.mcWeight.is_TT
-    self.is_ZHTT = self.mcWeight.is_ZHTT
+    self.is_ST = self.mcWeight.is_ST
+    self.is_VV = self.mcWeight.is_VV
     self.is_GluGlu = self.mcWeight.is_GluGlu
     self.is_VBF = self.mcWeight.is_VBF
 
@@ -164,7 +165,7 @@ class MuTauBase():
 
   # Third Lepton Veto
   def vetos(self, row):
-    return bool(row.eVetoZTTp001dxyz < 0.5) and bool(row.muVetoZTTp001dxyz < 0.5) and bool(row.tauVetoPt20LooseMVALTVtx < 0.5)
+    return bool(row.eVetoZTTp001dxyz < 0.5) and bool(row.muVetoZTTp001dxyz < 0.5) and bool(row.tauVetoPtDeepVtx < 0.5)
 
   # Di-muon veto
   def dimuonveto(self, row):
@@ -341,9 +342,10 @@ class MuTauBase():
           weight = weight * self.Wweight[row.numGenJets]
         else:
           weight = weight * self.Wweight[0]
-      if self.is_TT:
-        #topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
-        #weight = weight*topweight
+      # if self.is_TT:
+      #   topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
+      #   weight = weight*topweight
+      if self.is_TT or self.is_ST or self.is_VV:
         if row.mZTTGenMatching > 2 and row.mZTTGenMatching < 6 and row.tZTTGenMatching > 2 and row.tZTTGenMatching < 6 and self.Emb:
           weight = 0.0
       weight = self.mcWeight.lumiWeight(weight)
@@ -381,7 +383,7 @@ class MuTauBase():
       else:
         m_idiso_sf = self.w1.function('m_idlooseiso_ic_embed_ratio').getVal()
       m_trg_sf = self.w1.function('m_trg_ic_embed_ratio').getVal()
-      weight = row.GenWeight*dm*msel*tsel*trgsel*m_idiso_sf*m_trg_sf*self.EmbedPt(myMuon.Pt(), njets, mjj)
+      weight = row.GenWeight*dm*msel*tsel*trgsel*m_idiso_sf*m_trg_sf#*self.EmbedPt(myMuon.Pt(), njets, mjj)
       # Tau Identification
       if self.obj2_tight(row):
         weight = weight * self.deepTauVSjet_Emb_tight(myTau.Pt())[0]

@@ -1,10 +1,6 @@
-export jobidem='Data2016'
-#export jobidem='MC2016'
-#export jobidem='MC2016Sys'
-#export jobidem='Embed2016ElMu'
-#export jobidem='Signal2016'
-export MEGAPATH=/hdfs/store/user/ndev
+export MEGAPATH=/hdfs/store/user/psiddire
 export farmout=1
 export dryrun=1
 export CutFlow=1
+export jobidem='Data2016JEC'
 export jobid=$jobidem

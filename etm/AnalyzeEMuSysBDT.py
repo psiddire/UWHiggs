@@ -125,7 +125,7 @@ class AnalyzeEMuSysBDT(MegaBase, EMuBase):
 
       self.fill_categories(myEle, myMET, myMuon, njets, mjj, weight, '')
 
-      # Recoil
+      # Recoil Response and Resolution
       if self.is_recoilC and self.MetCorrection:
         if self.is_W:
           nj = njets + 1
@@ -217,14 +217,11 @@ class AnalyzeEMuSysBDT(MegaBase, EMuBase):
       if self.is_DY:
         dyweight = self.DYreweight(row.genMass, row.genpT)
         if dyweight==0:
-          self.fill_categories(myEle, myMET, myMuon, njets, mjj, weight, '/DYptreweightUp')
-          self.fill_categories(myEle, myMET, myMuon, njets, mjj, weight, '/DYptreweightDown')
+          self.fill_categories(myEle, myMET, myMuon, njets, mjj, 0, '/DYptreweightUp')
+          self.fill_categories(myEle, myMET, myMuon, njets, mjj, 0, '/DYptreweightDown')
         else:
           self.fill_categories(myEle, myMET, myMuon, njets, mjj, weight*(1.1*dyweight-0.1)/dyweight, '/DYptreweightUp')
           self.fill_categories(myEle, myMET, myMuon, njets, mjj, weight*(0.9*dyweight+0.1)/dyweight, '/DYptreweightDown')
-      elif self.is_DYlow:
-        self.fill_categories(myEle, myMET, myMuon, njets, mjj, weight, '/DYptreweightUp')
-        self.fill_categories(myEle, myMET, myMuon, njets, mjj, weight, '/DYptreweightDown')
 
       # UES/JES
       if not (self.is_recoilC and self.MetCorrection):
@@ -232,13 +229,10 @@ class AnalyzeEMuSysBDT(MegaBase, EMuBase):
           myMET.SetPtEtaPhiM(getattr(row, 'type1_pfMet_shiftedPt_'+u), 0, getattr(row, 'type1_pfMet_shiftedPhi_'+u), 0)
           self.fill_categories(myEle, myMET, myMuon, njets, mjj, weight, '/'+u)
         for j in self.jes:
-          if self.is_ZHTT:
-            self.fill_categories(myEle, myMET, myMuon, njets, mjj, weight, '/'+j)
-          else:
-            myMET.SetPtEtaPhiM(getattr(row, 'type1_pfMet_shiftedPt_'+j), 0, getattr(row, 'type1_pfMet_shiftedPhi_'+j), 0)
-            njets = getattr(row, 'jetVeto30_'+j)
-            mjj = getattr(row, 'vbfMass_'+j)
-            self.fill_categories(myEle, myMET, myMuon, njets, mjj, weight, '/'+j)
+          myMET.SetPtEtaPhiM(getattr(row, 'type1_pfMet_shiftedPt_'+j), 0, getattr(row, 'type1_pfMet_shiftedPhi_'+j), 0)
+          njets = getattr(row, 'jetVeto30_'+j)
+          mjj = getattr(row, 'vbfMass_'+j)
+          self.fill_categories(myEle, myMET, myMuon, njets, mjj, weight, '/'+j)
 
     else:
       self.fill_categories(myEle, myMET, myMuon, njets, mjj, weight, '')

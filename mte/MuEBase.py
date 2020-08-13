@@ -31,11 +31,12 @@ class MuEBase():
     self.is_DY = self.mcWeight.is_DY
     self.is_W = self.mcWeight.is_W
     self.is_TT = self.mcWeight.is_TT
-    self.is_ZHTT = self.mcWeight.is_ZHTT
+    self.is_ST = self.mcWeight.is_ST
+    self.is_VV = self.mcWeight.is_VV
     self.is_GluGlu = self.mcWeight.is_GluGlu
     self.is_VBF = self.mcWeight.is_VBF
 
-    self.Emb = True
+    self.Emb = False
     self.is_recoilC = self.mcWeight.is_recoilC
     self.MetCorrection = self.mcWeight.MetCorrection
     if self.is_recoilC and self.MetCorrection:
@@ -141,7 +142,7 @@ class MuEBase():
 
   # Third lepton veto
   def vetos(self, row):
-    return bool(row.eVetoZTTp001dxyz < 0.5) and bool(row.muVetoZTTp001dxyz < 0.5) and bool(row.tauVetoPt20LooseMVALTVtx < 0.5)
+    return bool(row.eVetoZTTp001dxyz < 0.5) and bool(row.muVetoZTTp001dxyz < 0.5) and bool(row.tauVetoPtDeepVtx < 0.5)
 
   # Book histograms
   def begin(self):
@@ -291,9 +292,10 @@ class MuEBase():
           weight = weight*self.Wweight[row.numGenJets]
         else:
           weight = weight*self.Wweight[0]
-      if self.is_TT:
-        #topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
-        #weight = weight*topweight
+      # if self.is_TT:
+      #   topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
+      #   weight = weight*topweight
+      if self.is_TT or self.is_ST or self.is_VV:
         if row.mZTTGenMatching > 2 and row.mZTTGenMatching < 6 and row.eZTTGenMatching > 2 and row.eZTTGenMatching < 6 and self.Emb:
           weight = 0.0
       weight = self.mcWeight.lumiWeight(weight)

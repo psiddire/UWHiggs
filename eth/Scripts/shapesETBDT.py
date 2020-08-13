@@ -32,23 +32,12 @@ views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.start
 views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('VBF_LFV') , Lists.mc_samples)])
 ]
 
-for di in Lists.dirs:
+for k, di in enumerate(Lists.dirs):
 
-    if di=='0Jet':
-        dr = '0jet'
-        binning = array.array('d', [-1.0, -0.5, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.2, 1.0])
-    elif di=='1Jet':
-        dr = '1jet'
-        binning = array.array('d', [-1.0, -0.5, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.25, 1.0])
-    elif di=='2Jet':
-        dr = '2jet_gg'
-        binning = array.array('d', [-1.0, -0.5, -0.4, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.3, 1.0])
-    else:
-        dr = '2jet_vbf'
-        binning = array.array('d', [-1.0, -0.5, -0.4, -0.3, -0.2, -0.1, 0.0, 0.1, 0.3, 1.0])
+    binning = array.array('d', [-0.6, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.05, 0.1, 0.15, 0.35])
 
     # Observed
-    d = f.mkdir(dr)
+    d = f.mkdir(Lists.dr[k])
     d.cd()
     DataTotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('QCD'), Lists.mc_samples)])
     data = Lists.positivize(DataTotal.Get('TightOS'+di+'/bdtDiscriminator'))

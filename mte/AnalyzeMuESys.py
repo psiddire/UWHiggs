@@ -101,7 +101,7 @@ class AnalyzeMuESys(MegaBase, MuEBase):
         self.fill_histos(myMuon, myMET, myEle, weight*osl, name+self.qcdsys[i])
 
 
-  def fill_sscategories(self, row, myMuon, myMET, myEle, weight, name=''):
+  def fill_sscategories(self, row, myMuon, myMET, myEle, weight):
     dphiemu = self.deltaPhi(myEle.Phi(), myMuon.Phi())
     dphiemet = self.deltaPhi(myEle.Phi(), myMET.Phi())
     mtmumet = self.transverseMass(myMuon, myMET)
@@ -109,13 +109,13 @@ class AnalyzeMuESys(MegaBase, MuEBase):
     njets = row.jetVeto30
     self.fill_sshistos(myMuon, myMET, myEle, njets, weight, 'TightSS')
     if njets==0 and mtmumet > 60 and dphiemet < 0.7 and dphiemu > 2.5 and myMuon.Pt() > 30:
-        self.fill_sshistos(myMuon, myMET, myEle, njets, weight, 'TightSS0Jet')
+      self.fill_sshistos(myMuon, myMET, myEle, njets, weight, 'TightSS0Jet')
     elif njets==1 and mtmumet > 40 and dphiemet < 0.7 and dphiemu > 1.0 and myMuon.Pt() > 26:
-        self.fill_sshistos(myMuon, myMET, myEle, njets, weight, 'TightSS1Jet')
+      self.fill_sshistos(myMuon, myMET, myEle, njets, weight, 'TightSS1Jet')
     elif njets==2 and mjj < 550 and mtmumet > 15 and dphiemet < 0.5 and myMuon.Pt() > 26:
-        self.fill_sshistos(myMuon, myMET, myEle, njets, weight, 'TightSS2Jet')
+      self.fill_sshistos(myMuon, myMET, myEle, njets, weight, 'TightSS2Jet')
     elif njets==2 and mjj > 550 and mtmumet > 15 and dphiemet < 0.3 and myMuon.Pt() > 26:
-        self.fill_sshistos(myMuon, myMET, myEle, njets, weight, 'TightSS2JetVBF')
+      self.fill_sshistos(myMuon, myMET, myEle, njets, weight, 'TightSS2JetVBF')
 
 
   def fill_sys(self, row, myMuon, myMET, myEle, weight):
@@ -222,8 +222,8 @@ class AnalyzeMuESys(MegaBase, MuEBase):
       if self.is_DY:
         dyweight = self.DYreweight(row.genMass, row.genpT)
         if dyweight==0:
-          self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, '/DYptreweightUp')
-          self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, '/DYptreweightDown')
+          self.fill_categories(myMuon, myMET, myEle, njets, mjj, 0, '/DYptreweightUp')
+          self.fill_categories(myMuon, myMET, myEle, njets, mjj, 0, '/DYptreweightDown')
         else:
           self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight*(1.1*dyweight-0.1)/dyweight, '/DYptreweightUp')
           self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight*(0.9*dyweight+0.1)/dyweight, '/DYptreweightDown')
@@ -234,13 +234,10 @@ class AnalyzeMuESys(MegaBase, MuEBase):
           myMET.SetPtEtaPhiM(getattr(row, 'type1_pfMet_shiftedPt_'+u), 0, getattr(row, 'type1_pfMet_shiftedPhi_'+u), 0)
           self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, '/'+u)
         for j in self.jes:
-          if self.is_ZHTT:
-            self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, '/'+j)
-          else:
-            myMET.SetPtEtaPhiM(getattr(row, 'type1_pfMet_shiftedPt_'+j), 0, getattr(row, 'type1_pfMet_shiftedPhi_'+j), 0)
-            njets = getattr(row, 'jetVeto30_'+j)
-            mjj = getattr(row, 'vbfMass_'+j)
-            self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, '/'+j)
+          myMET.SetPtEtaPhiM(getattr(row, 'type1_pfMet_shiftedPt_'+j), 0, getattr(row, 'type1_pfMet_shiftedPhi_'+j), 0)
+          njets = getattr(row, 'jetVeto30_'+j)
+          mjj = getattr(row, 'vbfMass_'+j)
+          self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, '/'+j)
 
     else:
       self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, '')

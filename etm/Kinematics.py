@@ -7,7 +7,7 @@ xml_name = os.path.join(os.getcwd(), "bdtdata/dataset/weights/TMVAClassification
 functor = FunctorFromMVA('BDT method', xml_name, *var_d_star)
 
 def var_d(myEle, myMET, myMuon):
-  return {'mPt' : myMuon.Pt(), 'ePt' : myEle.Pt(), 'e_m_collinearMass' : collMass(myEle, myMET, myMuon), 'e_m_visibleMass' : visibleMass(myEle, myMuon), 'dPhiMuMET' : deltaPhi(myMuon.Phi(), myMuon.Phi()), 'dPhiEMET' : deltaPhi(myEle.Phi(), myMET.Phi()), 'dPhiEMu' : deltaPhi(myEle.Phi(), myMuon.Phi()), 'MTMuMET' : transverseMass(myMuon, myMET)}
+  return {'mPt' : myMuon.Pt(), 'ePt' : myEle.Pt(), 'e_m_collinearMass' : collMass(myEle, myMET, myMuon), 'e_m_visibleMass' : visibleMass(myEle, myMuon), 'dPhiMuMET' : deltaPhi(myMuon.Phi(), myMET.Phi()), 'dPhiEMET' : deltaPhi(myEle.Phi(), myMET.Phi()), 'dPhiEMu' : deltaPhi(myEle.Phi(), myMuon.Phi()), 'MTMuMET' : transverseMass(myMuon, myMET)}
 
 def invert_case(letter):
   if letter.upper() == letter:
@@ -64,7 +64,7 @@ names = ['TightOS', 'TightOS0Jet', 'TightOS1Jet', 'TightOS2Jet', 'TightOS2JetVBF
 
 ssnames = ['TightSS', 'TightSS0Jet', 'TightSS1Jet', 'TightSS2Jet', 'TightSS2JetVBF']
 
-zttnames = ['TightOS', 'TightOS0Jet', 'TightOS1Jet', 'TightOS2Jet', 'TightOS2JetVBF', 'TightSS', 'TightSS0Jet', 'TightSS1Jet', 'TightSS2Jet', 'TightSS2JetVBF']
+zttnames = ['TightOS', 'TightSS', 'TightOS0Jet', 'TightSS0Jet', 'TightOS1Jet', 'TightSS1Jet', 'TightOS2Jet', 'TightSS2Jet', 'TightOS2JetVBF', 'TightSS2JetVBF']
 
 plotnames = ['TightOS', 'TightSS', 'TightOS0Jet', 'TightSS0Jet', 'TightOS1Jet', 'TightSS1Jet', 'TightOS0JetCut', 'TightSS0JetCut', 'TightOS1JetCut', 'TightSS1JetCut', 'TightOS2Jet', 'TightSS2Jet', 'TightOS2JetVBF', 'TightSS2JetVBF', 'TightOS2JetCut', 'TightSS2JetCut', 'TightOS2JetVBFCut', 'TightSS2JetVBFCut']
 

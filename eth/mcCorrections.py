@@ -46,7 +46,7 @@ esTau = TauPOGCorrections.make_tau_pog_ES_2016()
 tesMC = TauPOGCorrections.make_tau_pog_TES_2016()
 fesTau = TauPOGCorrections.Tau_FES_2016
 
-cmsswBase = '/afs/hep.wisc.edu/home/psiddire/CMSSW_10_2_16_UL/src/FinalStateAnalysis/TagAndProbe/data/2016/'
+cmsswBase = os.environ['CMSSW_BASE'] + '/src/FinalStateAnalysis/TagAndProbe/data/2016/'
 f1 = ROOT.TFile(cmsswBase + 'htt_scalefactors_legacy_2016.root')
 w1 = f1.Get('w')
 

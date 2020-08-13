@@ -20,10 +20,10 @@ def puCorrector(target=''):
     pucorrector = {'' : make_puCorrector('GGHMT')}
     return pucorrector
 
-rc = RoccoR.RoccoR("2016/RoccoR/RoccoR2016.txt")
+rc = RoccoR.RoccoR('2016/RoccoR/RoccoR2016.txt')
 DYreweight = DYCorrection.make_DYreweight_2016()
-Metcorected = RecoilCorrector.Metcorrected("2016/TypeI-PFMet_Run2016_legacy.root")
-MetSys = MEtSys.MEtSystematics("2016/PFMEtSys_2016.root")
+Metcorected = RecoilCorrector.Metcorrected('2016/TypeI-PFMet_Run2016_legacy.root')
+MetSys = MEtSys.MEtSystematics('2016/PFMEtSys_2016.root')
 muonID_tight = MuonPOGCorrections.make_muon_pog_PFTight_2016()
 muonID_medium = MuonPOGCorrections.make_muon_pog_PFMedium_2016()
 muonID_loose = MuonPOGCorrections.make_muon_pog_PFLoose_2016()
@@ -44,9 +44,9 @@ deepTauVSjet_Emb_vloose = TauPOGCorrections.make_tau_pog_DeepTauVSjet_EMB_2016('
 esTau = TauPOGCorrections.make_tau_pog_ES_2016()
 fesTau = TauPOGCorrections.Tau_FES_2016
 
-cmsswBase = "/afs/hep.wisc.edu/home/psiddire/CMSSW_10_2_16_UL/src/FinalStateAnalysis/TagAndProbe/data/"
-f1 = ROOT.TFile(cmsswBase + "2016/htt_scalefactors_legacy_2016.root")
-w1 = f1.Get("w")
+cmsswBase = os.environ['CMSSW_BASE'] + '/src/FinalStateAnalysis/TagAndProbe/data/'
+f1 = ROOT.TFile(cmsswBase + '2016/htt_scalefactors_legacy_2016.root')
+w1 = f1.Get('w')
 
 def FesTau(eta, dm):
     fes = (1.0, 0.0, 0.0)

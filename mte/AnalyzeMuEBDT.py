@@ -88,7 +88,10 @@ class AnalyzeMuEBDT(MegaBase, MuEBase):
       if math.isnan(row.vbfMass):
         continue
 
-      if self.oppositesign(row):
+      if not self.oppositesign(row) and self.is_data:
+        self.filltree(row, myMuon, myMET, myEle, weight)
+
+      if self.oppositesign(row) and not self.is_data:
         self.filltree(row, myMuon, myMET, myEle, weight)
 
 

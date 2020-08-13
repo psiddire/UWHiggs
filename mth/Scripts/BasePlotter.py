@@ -15,7 +15,7 @@ ROOT.gStyle.SetOptStat(0)
 class BasePlotter():
 
     def mcInit(self, files, lumifiles, outputdir, s):
-
+        
         plotter = Plotter(files, lumifiles, outputdir)
 
         DYtotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x :  x.startswith('DY'), Lists.mc_samples)])

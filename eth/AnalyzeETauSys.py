@@ -116,6 +116,7 @@ class AnalyzeETauSys(MegaBase, ETauBase):
 
     if self.is_mc:
 
+      # Nominal Histograms
       self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '')
       self.fill_loosecategories(row, myEle, myMET, myTau, njets, mjj, weight, '')
 
@@ -311,14 +312,11 @@ class AnalyzeETauSys(MegaBase, ETauBase):
           tmpMET = self.tauPtC(row, tmpMET, uncorTau)[0]
           self.fill_categories(row, myEle, tmpMET, myTau, njets, mjj, weight, '/'+u)
         for j in self.jes:
-          if self.is_ZHTT:
-            self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/'+j)
-          else:
-            tmpMET.SetPtEtaPhiM(getattr(row, 'type1_pfMet_shiftedPt_'+j), 0, getattr(row, 'type1_pfMet_shiftedPhi_'+j), 0)
-            tmpMET = self.tauPtC(row, tmpMET, uncorTau)[0]
-            njets = getattr(row, 'jetVeto30_'+j)
-            mjj = getattr(row, 'vbfMass_'+j)
-            self.fill_categories(row, myEle, tmpMET, myTau, njets, mjj, weight, '/'+j)
+          tmpMET.SetPtEtaPhiM(getattr(row, 'type1_pfMet_shiftedPt_'+j), 0, getattr(row, 'type1_pfMet_shiftedPhi_'+j), 0)
+          tmpMET = self.tauPtC(row, tmpMET, uncorTau)[0]
+          njets = getattr(row, 'jetVeto30_'+j)
+          mjj = getattr(row, 'vbfMass_'+j)
+          self.fill_categories(row, myEle, tmpMET, myTau, njets, mjj, weight, '/'+j)
 
     else:
       self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '')

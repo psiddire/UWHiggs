@@ -1,14 +1,12 @@
 #!/bin/bash
 
 # Get the data
-export datasrc=/hdfs/store/user/ndev
-export MEGAPATH=/hdfs/store/user/ndev
+export datasrc=/hdfs/store/user/psiddire
+export MEGAPATH=/hdfs/store/user/psiddire
 
-#export jobidem='Data2016'
-#export jobidem='MC2016Sys'
-export jobidem='MC2016SysJer'
-#export jobidem='Embed2016ElMu'
-#export jobidem='Signal2016'
+export jobidem='Data2016JEC'
+#export jobidem='Embed2016JEC'
+#export jobidem='MC2016JEC'
 export jobid=$jobidem
 
 export afile=`find $datasrc/$jobid | grep root | head -n 1`

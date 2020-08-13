@@ -83,30 +83,27 @@ class AnalyzeETauBDT(MegaBase, ETauBase):
 
       weight = self.corrFact(row, myEle, myTau)
 
-      if self.is_data:
+      if self.is_data and not self.oppositesign(row):
+        # Electron and Tau Loose Isolation
         if not self.obj2_tight(row) and self.obj2_loose(row) and not self.obj1_tight(row) and self.obj1_loose(row):
           frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
           frEle = self.fakeRateEle(myEle.Pt())
           weight = weight*frTau*frEle*-1
-          if not self.oppositesign(row):
-            self.filltree(row, myEle, myMET, myTau, weight)
-
+          self.filltree(row, myEle, myMET, myTau, weight)
+        # Tau Loose Isolation
         if not self.obj2_tight(row) and self.obj2_loose(row) and self.obj1_tight(row):
           frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
           weight = weight*frTau
-          if not self.oppositesign(row):
-            self.filltree(row, myEle, myMET, myTau, weight)
-
+          self.filltree(row, myEle, myMET, myTau, weight)
+        # Electron Loose Isolation
         if not self.obj1_tight(row) and self.obj1_loose(row) and self.obj2_tight(row):
           frEle = self.fakeRateEle(myEle.Pt())
           weight = weight*frEle
-          if not self.oppositesign(row):
-            self.filltree(row, myEle, myMET, myTau, weight)
+          self.filltree(row, myEle, myMET, myTau, weight)
 
-      if self.is_mc:
+      if self.is_mc and self.oppositesign(row):
         if self.obj2_tight(row) and self.obj1_tight(row):
-          if self.oppositesign(row):
-            self.filltree(row, myEle, myMET, myTau, weight)
+          self.filltree(row, myEle, myMET, myTau, weight)
 
 
   def finish(self):

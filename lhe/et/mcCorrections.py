@@ -37,7 +37,7 @@ deepTauVSjet_Emb_vloose = TauPOGCorrections.make_tau_pog_DeepTauVSjet_EMB_2016('
 esTau = TauPOGCorrections.make_tau_pog_ES_2016()
 fesTau = TauPOGCorrections.Tau_FES_2016
 
-cmsswBase = '/afs/hep.wisc.edu/home/psiddire/CMSSW_10_2_16_UL/src/FinalStateAnalysis/TagAndProbe/data/'
+cmsswBase = os.environ['CMSSW_BASE'] + '/src/FinalStateAnalysis/TagAndProbe/data/'
 f1 = ROOT.TFile(cmsswBase + '2016/htt_scalefactors_legacy_2016.root')
 w1 = f1.Get('w')
 

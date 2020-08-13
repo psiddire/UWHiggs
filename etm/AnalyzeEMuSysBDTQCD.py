@@ -9,14 +9,8 @@ Authors: Prasanna Siddireddy
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 from EMuQCDBase import EMuQCDBase
 import EMTree
-import ROOT
-import math
 import itertools
 import os
-import mcCorrections
-
-target = os.path.basename(os.environ['megatarget'])
-pucorrector = mcCorrections.puCorrector(target)
 
 class AnalyzeEMuSysBDTQCD(MegaBase, EMuQCDBase):
   tree = 'em/final/Ntuple'
@@ -42,13 +36,13 @@ class AnalyzeEMuSysBDTQCD(MegaBase, EMuQCDBase):
       self.book(f, 'bdtDiscriminator', 'BDT Discriminator', 200, -1.0, 1.0)
 
 
-  def fill_histos(self, myEle, myMET, myMuon, njets, mjj, weight, name=''):
+  def fill_histos(self, myEle, myMET, myMuon, weight, name=''):
     histos = self.histograms
     mva = self.functor(**self.var_d(myEle, myMET, myMuon))
     histos[name+'/bdtDiscriminator'].Fill(mva, weight)
 
 
-  def fill_sshistos(self, myEle, myMET, myMuon, njets, mjj, weight, name=''):
+  def fill_sshistos(self, myEle, myMET, myMuon, njets, weight, name=''):
     self.w1.var("njets").setVal(njets)
     self.w1.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Eta(), myMuon.Eta()))
     self.w1.var("e_pt").setVal(myEle.Pt())
@@ -71,33 +65,33 @@ class AnalyzeEMuSysBDTQCD(MegaBase, EMuQCDBase):
     if '0Jet' in name:
       oslist = [osss, osss0rup, osss0rdown, osss0sup, osss0sdown, osss, osss, osss, osss, osss, osss, osss, osss, osssisoup, osssisodown]
       for i, osl in enumerate(oslist):
-        self.fill_histos(myEle, myMET, myMuon, njets, mjj, weight*osl, name+self.qcdsys[i])
+        self.fill_histos(myEle, myMET, myMuon, weight*osl, name+self.qcdsys[i])
     elif '1Jet' in name:
       oslist = [osss, osss, osss, osss, osss, osss1rup, osss1rdown, osss1sup, osss1sdown, osss, osss, osss, osss, osssisoup, osssisodown]
       for i, osl in enumerate(oslist):
-        self.fill_histos(myEle, myMET, myMuon, njets, mjj, weight*osl, name+self.qcdsys[i])
+        self.fill_histos(myEle, myMET, myMuon, weight*osl, name+self.qcdsys[i])
     elif '2Jet' in name:
       oslist = [osss, osss, osss, osss, osss, osss, osss, osss, osss, osss2rup, osss2rdown, osss2sup, osss2sdown, osssisoup, osssisodown]
       for i, osl in enumerate(oslist):
-        self.fill_histos(myEle, myMET, myMuon, njets, mjj, weight*osl, name+self.qcdsys[i])
+        self.fill_histos(myEle, myMET, myMuon, weight*osl, name+self.qcdsys[i])
     else:
       oslist = [osss, osss, osss, osss, osss, osss, osss, osss, osss, osss, osss, osss, osss, osss, osss]
       for i, osl in enumerate(oslist):
-        self.fill_histos(myEle, myMET, myMuon, njets, mjj, weight*osl, name+self.qcdsys[i])
+        self.fill_histos(myEle, myMET, myMuon, weight*osl, name+self.qcdsys[i])
 
 
   def fill_sscategories(self, row, myEle, myMET, myMuon, weight):
     mjj = row.vbfMass
     njets = row.jetVeto30
-    self.fill_sshistos(myEle, myMET, myMuon, njets, mjj, weight, 'TightSS')
+    self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS')
     if njets==0:
-      self.fill_sshistos(myEle, myMET, myMuon, njets, mjj, weight, 'TightSS0Jet')
+      self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS0Jet')
     elif njets==1:
-      self.fill_sshistos(myEle, myMET, myMuon, njets, mjj, weight, 'TightSS1Jet')
+      self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS1Jet')
     elif njets==2 and mjj < 500:
-      self.fill_sshistos(myEle, myMET, myMuon, njets, mjj, weight, 'TightSS2Jet')
+      self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS2Jet')
     elif njets==2 and mjj > 500:
-      self.fill_sshistos(myEle, myMET, myMuon, njets, mjj, weight, 'TightSS2JetVBF')
+      self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS2JetVBF')
 
 
   def process(self):

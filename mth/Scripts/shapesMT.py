@@ -32,20 +32,19 @@ views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.start
 views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('VBF_LFV') , Lists.mc_samples)])
 ]
 
-for di in Lists.dirs:
+for k, di in enumerate(Lists.dirs):
 
     if di=='0Jet':
-        dr = '0jet'
+        binning = array.array('d', range(0, 300, 10))
     elif di=='1Jet':
-        dr = '1jet'
+        binning = array.array('d', range(0, 300, 10))
     elif di=='2Jet':
-        dr = '2jet_gg'
+        binning = array.array('d', range(0, 300, 25))
     else:
-        dr = '2jet_vbf'
-    binning = array.array('d', range(0, 300, 10))
+        binning = array.array('d', range(0, 300, 25))
 
     # Observed
-    d = f.mkdir(dr)
+    d = f.mkdir(Lists.dr[k])
     d.cd()
     DataTotal = views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.startswith('QCD'), Lists.mc_samples)])
     data = Lists.positivize(DataTotal.Get('TightOS'+di+'/m_t_CollinearMass'))
@@ -113,13 +112,11 @@ for di in Lists.dirs:
     # Muon Fake Rate
     for i, mFR in enumerate(Lists.muonFR):
         qcd = QCD.Get('MuonLooseOS'+di+mFR+'/m_t_CollinearMass')
-        #qcdmt = QCD.Get('MuonLooseTauLooseOS'+di+mFR+'/m_t_CollinearMass')
-        qcdmt = QCD.Get('MuonLooseTauLooseOS'+di+'/m_t_CollinearMass')
+        qcdmt = QCD.Get('MuonLooseTauLooseOS'+di+mFR+'/m_t_CollinearMass')
         qcd.add(tfakes)
         qcd.add(qcdmt, -1)
         mc = MC.Get('MuonLooseOS'+di+mFR+'/m_t_CollinearMass')
-        #mcmt = MC.Get('MuonLooseTauLooseOS'+di+mFR+'/m_t_CollinearMass')
-        mcmt = MC.Get('MuonLooseTauLooseOS'+di+'/m_t_CollinearMass')
+        mcmt = MC.Get('MuonLooseTauLooseOS'+di+mFR+'/m_t_CollinearMass')
         mc.add(tfakes_mc)
         mc.add(mcmt, -1)
         mc = Lists.positivize(mc)

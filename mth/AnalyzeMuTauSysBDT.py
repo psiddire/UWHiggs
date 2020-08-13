@@ -312,14 +312,11 @@ class AnalyzeMuTauSysBDT(MegaBase, MuTauBase):
           tmpMET = self.tauPtC(row, tmpMET, uncorTau)[0]
           self.fill_categories(row, myMuon, tmpMET, myTau, njets, mjj, weight, '/'+u)
         for j in self.jes:
-          if self.is_ZHTT:
-            self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '/'+j)
-          else:
-            tmpMET.SetPtEtaPhiM(getattr(row, 'type1_pfMet_shiftedPt_'+j), 0, getattr(row, 'type1_pfMet_shiftedPhi_'+j), 0)
-            tmpMET = self.tauPtC(row, tmpMET, uncorTau)[0]
-            njets = getattr(row, 'jetVeto30_'+j)
-            mjj = getattr(row, 'vbfMass_'+j)
-            self.fill_categories(row, myMuon, tmpMET, myTau, njets, mjj, weight, '/'+j)
+          tmpMET.SetPtEtaPhiM(getattr(row, 'type1_pfMet_shiftedPt_'+j), 0, getattr(row, 'type1_pfMet_shiftedPhi_'+j), 0)
+          tmpMET = self.tauPtC(row, tmpMET, uncorTau)[0]
+          njets = getattr(row, 'jetVeto30_'+j)
+          mjj = getattr(row, 'vbfMass_'+j)
+          self.fill_categories(row, myMuon, tmpMET, myTau, njets, mjj, weight, '/'+j)
 
     else:
       self.fill_categories(row, myMuon, myMET, myTau, njets, mjj, weight, '')

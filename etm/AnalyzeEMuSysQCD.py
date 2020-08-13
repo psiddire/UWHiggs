@@ -9,14 +9,8 @@ Authors: Prasanna Siddireddy
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 from EMuQCDBase import EMuQCDBase
 import EMTree
-import ROOT
-import math
 import itertools
 import os
-import mcCorrections
-
-target = os.path.basename(os.environ['megatarget'])
-pucorrector = mcCorrections.puCorrector(target)
 
 class AnalyzeEMuSysQCD(MegaBase, EMuQCDBase):
   tree = 'em/final/Ntuple'

@@ -217,8 +217,8 @@ class AnalyzeMuESysBDT(MegaBase, MuEBase):
       if self.is_DY:
         dyweight = self.DYreweight(row.genMass, row.genpT)
         if dyweight==0:
-          self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, '/DYptreweightUp')
-          self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, '/DYptreweightDown')
+          self.fill_categories(myMuon, myMET, myEle, njets, mjj, 0, '/DYptreweightUp')
+          self.fill_categories(myMuon, myMET, myEle, njets, mjj, 0, '/DYptreweightDown')
         else:
           self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight*(1.1*dyweight-0.1)/dyweight, '/DYptreweightUp')
           self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight*(0.9*dyweight+0.1)/dyweight, '/DYptreweightDown')
@@ -229,13 +229,10 @@ class AnalyzeMuESysBDT(MegaBase, MuEBase):
           myMET.SetPtEtaPhiM(getattr(row, 'type1_pfMet_shiftedPt_'+u), 0, getattr(row, 'type1_pfMet_shiftedPhi_'+u), 0)
           self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, '/'+u)
         for j in self.jes:
-          if self.is_ZHTT:
-            self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, '/'+j)
-          else:
-            myMET.SetPtEtaPhiM(getattr(row, 'type1_pfMet_shiftedPt_'+j), 0, getattr(row, 'type1_pfMet_shiftedPhi_'+j), 0)
-            njets = getattr(row, 'jetVeto30_'+j)
-            mjj = getattr(row, 'vbfMass_'+j)
-            self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, '/'+j)
+          myMET.SetPtEtaPhiM(getattr(row, 'type1_pfMet_shiftedPt_'+j), 0, getattr(row, 'type1_pfMet_shiftedPhi_'+j), 0)
+          njets = getattr(row, 'jetVeto30_'+j)
+          mjj = getattr(row, 'vbfMass_'+j)
+          self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, '/'+j)
 
     else:
       self.fill_categories(myMuon, myMET, myEle, njets, mjj, weight, '')
