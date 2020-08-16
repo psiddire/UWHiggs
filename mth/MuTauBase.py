@@ -30,6 +30,8 @@ class MuTauBase():
     self.is_DY = self.mcWeight.is_DY
     self.is_W = self.mcWeight.is_W
     self.is_TT = self.mcWeight.is_TT
+    self.is_ST = self.mcWeight.is_ST
+    self.is_VV = self.mcWeight.is_VV
     self.is_GluGlu = self.mcWeight.is_GluGlu
     self.is_VBF = self.mcWeight.is_VBF
 
@@ -163,7 +165,7 @@ class MuTauBase():
 
   # Third Lepton Veto
   def vetos(self, row):
-    return bool(row.eVetoZTTp001dxyz < 0.5) and bool(row.muVetoZTTp001dxyz < 0.5) and bool(row.tauVetoPt20LooseMVALTVtx < 0.5)
+    return bool(row.eVetoZTTp001dxyz < 0.5) and bool(row.muVetoZTTp001dxyz < 0.5) and bool(row.tauVetoPtDeepVtx < 0.5)
 
   # Di-muon veto
   def dimuonveto(self, row):
@@ -196,6 +198,7 @@ class MuTauBase():
       self.book(n, 'dPhiMuMET', 'Delta Phi Mu MET', 40, 0, 4)
       self.book(n, 'dPhiTauMET', 'Delta Phi Tau MET', 40, 0, 4)
       self.book(n, 'dPhiMuTau', 'Delta Phi Mu Tau', 40, 0, 4)
+      self.book(n, 'dRMuTau', 'Delta R Mu Tau', 60, 0, 6)
       self.book(n, 'MTMuMET', 'Muon MET Transverse Mass', 20, 0, 200)
       self.book(n, 'MTTauMET', 'Tau MET Transverse Mass', 20, 0, 200)
 
@@ -226,6 +229,7 @@ class MuTauBase():
     histos[name+'/dPhiMuMET'].Fill(self.deltaPhi(myMuon.Phi(), myMET.Phi()), weight)
     histos[name+'/dPhiTauMET'].Fill(self.deltaPhi(myTau.Phi(), myMET.Phi()), weight)
     histos[name+'/dPhiMuTau'].Fill(self.deltaPhi(myMuon.Phi(), myTau.Phi()), weight)
+    histos[name+'/dRMuTau'].Fill(self.deltaR(myMuon.Phi(), myTau.Phi(), myMuon.Eta(), myTau.Eta()), weight)
     histos[name+'/MTMuMET'].Fill(self.transverseMass(myMuon, myMET), weight)
     histos[name+'/MTTauMET'].Fill(self.transverseMass(myTau, myMET), weight)
 
@@ -343,9 +347,10 @@ class MuTauBase():
           weight = weight * self.Wweight[row.numGenJets]
         else:
           weight = weight * self.Wweight[0]
-      if self.is_TT:
-        #topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
-        #weight = weight*topweight
+      # if self.is_TT:
+      #   topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
+      #   weight = weight*topweight
+      if self.is_TT or self.is_ST or self.is_VV:
         if row.mZTTGenMatching > 2 and row.mZTTGenMatching < 6 and row.tZTTGenMatching > 2 and row.tZTTGenMatching < 6 and self.Emb:
           weight = 0.0
       weight = self.mcWeight.lumiWeight(weight)

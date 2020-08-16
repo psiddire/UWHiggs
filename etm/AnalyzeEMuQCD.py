@@ -32,9 +32,6 @@ class AnalyzeEMuQCD(MegaBase, EMuBase):
       weight = self.corrFact(row, myEle, myMuon)[0]
       osss = self.corrFact(row, myEle, myMuon)[1]
 
-      njets = row.jetVeto30WoNoisyJets
-      mjj = row.vbfMassWoNoisyJets
-
       if self.obj1_loose(row) and not self.obj1_tight(row) and self.obj2_iso(row):
         if self.oppositesign(row):
           self.fill_histos(row, myEle, myMET, myMuon, weight, 'TightOS')

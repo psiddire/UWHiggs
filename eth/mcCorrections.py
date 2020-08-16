@@ -58,7 +58,7 @@ tesMC = TauPOGCorrections.make_tau_pog_TES_2017()
 fesTau = TauPOGCorrections.Tau_FES_2017
 tauSF = getTauTriggerSFs()
 
-cmsswBase = '/afs/hep.wisc.edu/home/psiddire/CMSSW_10_2_16_UL/src/FinalStateAnalysis/TagAndProbe/data/2017/'
+cmsswBase = os.environ['CMSSW_BASE'] + '/src/FinalStateAnalysis/TagAndProbe/data/2017/'
 f2 = ROOT.TFile(cmsswBase + 'htt_scalefactors_2017_v2.root')
 w2 = f2.Get('w')
 
@@ -82,7 +82,7 @@ def EmbedPt(pt, njets, mjj):
         corr = wpt3.GetBinContent(wpt3.GetXaxis().FindBin(pt))
     else:
         corr = 1.0
-    if corr > 3.0:
+    if corr > 2.0:
         return 1
     else:
         return corr
@@ -118,8 +118,6 @@ def EmbedPhi(phi, njets, mjj):
         return wphi1.GetBinContent(wphi1.GetXaxis().FindBin(phi))
     elif njets==2 and mjj < 500:
         return wphi2.GetBinContent(wphi2.GetXaxis().FindBin(phi))
-    elif njets==2 and mjj > 500:
-        return wphi3.GetBinContent(wphi3.GetXaxis().FindBin(phi))
     else:
         return 1.0
 

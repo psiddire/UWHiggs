@@ -29,6 +29,8 @@ class ETauBase():
     self.is_DY = self.mcWeight.is_DY
     self.is_W = self.mcWeight.is_W
     self.is_TT = self.mcWeight.is_TT
+    self.is_ST = self.mcWeight.is_ST
+    self.is_VV = self.mcWeight.is_VV
     self.is_GluGlu = self.mcWeight.is_GluGlu
     self.is_VBF = self.mcWeight.is_VBF
 
@@ -40,7 +42,6 @@ class ETauBase():
       self.MetSys = mcCorrections.MetSys
     self.tauSF = mcCorrections.tauSF
 
-    self.eIDnoiso90 = mcCorrections.eIDnoiso90
     self.eIDnoiso80 = mcCorrections.eIDnoiso80
     self.eReco = mcCorrections.eReco
     self.deepTauVSe = mcCorrections.deepTauVSe
@@ -174,7 +175,7 @@ class ETauBase():
 
   # Veto of events with additional leptons coming from the primary vertex
   def vetos(self, row):
-    return bool(row.eVetoZTTp001dxyz < 0.5) and bool(row.muVetoZTTp001dxyz < 0.5) and bool(row.tauVetoPt20LooseMVALTVtx < 0.5)
+    return bool(row.eVetoZTTp001dxyz < 0.5) and bool(row.muVetoZTTp001dxyz < 0.5) and bool(row.tauVetoPtDeepVtx < 0.5)
 
   # Di-electron veto
   def dieleveto(self, row):
@@ -373,9 +374,10 @@ class ETauBase():
           weight = weight * self.Wweight[row.numGenJets]
         else:
           weight = weight * self.Wweight[0]
-      if self.is_TT:
-        #topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
-        #weight = weight*topweight
+      # if self.is_TT:
+      #   topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
+      #   weight = weight*topweight
+      if self.is_TT or self.is_ST or self.is_VV:
         if row.eZTTGenMatching > 2 and row.eZTTGenMatching < 6 and row.tZTTGenMatching > 2 and row.tZTTGenMatching < 6 and self.Emb:
           weight = 0.0
       weight = self.mcWeight.lumiWeight(weight)

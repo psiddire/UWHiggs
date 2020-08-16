@@ -1,0 +1,49 @@
+mkdir -p `dirname results/Data2017JEC/AnalyzeEMTree/data_MuonEG_Run2017B-31Mar2018.root`
+mkdir -p `dirname results/Data2017JEC/AnalyzeEMTree/data_MuonEG_Run2017C-31Mar2018.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data2017JEC/AnalyzeEMTree/data_MuonEG_Run2017B-31Mar2018.root
+mkdir -p batch_logs
+mega-farmout AnalyzeEMTree.py inputs/Data2017JEC/data_MuonEG_Run2017B-31Mar2018.txt results/Data2017JEC/AnalyzeEMTree/data_MuonEG_Run2017B-31Mar2018.root --verbose >& batch_logs/results_Data2017JEC_AnalyzeEMTree_data_MuonEG_Run2017B-31Mar2018.log &
+sleep 10s
+mkdir -p `dirname results/Data2017JEC/AnalyzeEMTree/data_MuonEG_Run2017D-31Mar2018.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data2017JEC/AnalyzeEMTree/data_MuonEG_Run2017C-31Mar2018.root
+mkdir -p batch_logs
+mega-farmout AnalyzeEMTree.py inputs/Data2017JEC/data_MuonEG_Run2017C-31Mar2018.txt results/Data2017JEC/AnalyzeEMTree/data_MuonEG_Run2017C-31Mar2018.root --verbose >& batch_logs/results_Data2017JEC_AnalyzeEMTree_data_MuonEG_Run2017C-31Mar2018.log &
+sleep 10s
+mkdir -p `dirname results/Data2017JEC/AnalyzeEMTree/data_MuonEG_Run2017E-31Mar2018.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data2017JEC/AnalyzeEMTree/data_MuonEG_Run2017D-31Mar2018.root
+mkdir -p batch_logs
+mega-farmout AnalyzeEMTree.py inputs/Data2017JEC/data_MuonEG_Run2017D-31Mar2018.txt results/Data2017JEC/AnalyzeEMTree/data_MuonEG_Run2017D-31Mar2018.root --verbose >& batch_logs/results_Data2017JEC_AnalyzeEMTree_data_MuonEG_Run2017D-31Mar2018.log &
+sleep 10s
+mkdir -p `dirname results/Data2017JEC/AnalyzeEMTree/data_MuonEG_Run2017F-31Mar2018.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data2017JEC/AnalyzeEMTree/data_MuonEG_Run2017E-31Mar2018.root
+mkdir -p batch_logs
+mega-farmout AnalyzeEMTree.py inputs/Data2017JEC/data_MuonEG_Run2017E-31Mar2018.txt results/Data2017JEC/AnalyzeEMTree/data_MuonEG_Run2017E-31Mar2018.root --verbose >& batch_logs/results_Data2017JEC_AnalyzeEMTree_data_MuonEG_Run2017E-31Mar2018.log &
+sleep 10s
+mkdir -p `dirname results/Data2017JEC/AnalyzeEMTree/VBF_LFV_HToEMu_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data2017JEC/AnalyzeEMTree/data_MuonEG_Run2017F-31Mar2018.root
+mkdir -p batch_logs
+mega-farmout AnalyzeEMTree.py inputs/Data2017JEC/data_MuonEG_Run2017F-31Mar2018.txt results/Data2017JEC/AnalyzeEMTree/data_MuonEG_Run2017F-31Mar2018.root --verbose >& batch_logs/results_Data2017JEC_AnalyzeEMTree_data_MuonEG_Run2017F-31Mar2018.log &
+sleep 10s
+mkdir -p `dirname results/Data2017JEC/AnalyzeEMTree/GluGlu_LFV_HToEMu_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.root`
+#using farmout:1
+#dry run:1
+export megatarget=results/Data2017JEC/AnalyzeEMTree/VBF_LFV_HToEMu_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeEMTree.py inputs/Data2017JEC/VBF_LFV_HToEMu_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.txt results/Data2017JEC/AnalyzeEMTree/VBF_LFV_HToEMu_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.root --verbose >& batch_logs/results_Data2017JEC_AnalyzeEMTree_VBF_LFV_HToEMu_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.log &
+sleep 10s
+#using farmout:1
+#dry run:1
+export megatarget=results/Data2017JEC/AnalyzeEMTree/GluGlu_LFV_HToEMu_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.root
+mkdir -p batch_logs
+mega-farmout AnalyzeEMTree.py inputs/Data2017JEC/GluGlu_LFV_HToEMu_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.txt results/Data2017JEC/AnalyzeEMTree/GluGlu_LFV_HToEMu_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.root --verbose >& batch_logs/results_Data2017JEC_AnalyzeEMTree_GluGlu_LFV_HToEMu_M125_13TeV_powheg_pythia8_v2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1.log &
+sleep 10s

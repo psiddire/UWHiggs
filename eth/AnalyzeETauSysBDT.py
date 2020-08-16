@@ -289,8 +289,8 @@ class AnalyzeETauSysBDT(MegaBase, ETauBase):
       if self.is_DY:
         dyweight = self.DYreweight(row.genMass, row.genpT)
         if dyweight==0:
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/DYptreweightUp')
-          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight, '/DYptreweightDown')
+          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, 0, '/DYptreweightUp')
+          self.fill_categories(row, myEle, myMET, myTau, njets, mjj, 0, '/DYptreweightDown')
         else:
           self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight*(1.1*dyweight-0.1)/dyweight, '/DYptreweightUp')
           self.fill_categories(row, myEle, myMET, myTau, njets, mjj, weight*(0.9*dyweight+0.1)/dyweight, '/DYptreweightDown')
@@ -391,18 +391,18 @@ class AnalyzeETauSysBDT(MegaBase, ETauBase):
         self.fill_categories(row, tmpEle, tmpMET, myTau, njets, mjj, weight, '/eesDown')
 
         # Embed Tau Energy Scale
-        tes = self.ScaleTau(row.tDecayMode)
+        tes = self.ScaleEmbTau(row.tDecayMode)
         sSys = [x for x in self.scaleSys if x not in tes[1]]
         self.fill_SysNames(row, myEle, myMET, myTau, njets, mjj, weight, sSys)
-        myMETpx = myMET.Px() - tes[0] * myTau.Px()
-        myMETpy = myMET.Py() - tes[0] * myTau.Py()
+        myMETpx = myMET.Px() - tes[0][1] * myTau.Px()
+        myMETpy = myMET.Py() - tes[0][1] * myTau.Py()
         tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-        tmpTau = myTau * ROOT.Double(1.000 + tes[0])
+        tmpTau = myTau * ROOT.Double(1.000 + tes[0][1])
         self.fill_categories(row, myEle, tmpMET, tmpTau, njets, mjj, weight, tes[1][0])
-        myMETpx = myMET.Px() + tes[0] * myTau.Px()
-        myMETpy = myMET.Py() + tes[0] * myTau.Py()
+        myMETpx = myMET.Px() - tes[0][2] * myTau.Px()
+        myMETpy = myMET.Py() - tes[0][2] * myTau.Py()
         tmpMET.SetPxPyPzE(myMETpx, myMETpy, 0, math.sqrt(myMETpx * myMETpx + myMETpy * myMETpy))
-        tmpTau = myTau * ROOT.Double(1.000 - tes[0])
+        tmpTau = myTau * ROOT.Double(1.000 + tes[0][2])
         self.fill_categories(row, myEle, tmpMET, tmpTau, njets, mjj, weight, tes[1][1])
 
         # Embed Tracking
@@ -432,7 +432,7 @@ class AnalyzeETauSysBDT(MegaBase, ETauBase):
 
 
   def tauFRSys(self, row, myEle, myMET, myTau, njets, mjj, weight):
-    if not self.obj2_tight(row) and self.obj2_loose(row):
+    if not self.obj2_tight(row) and self.obj2_loose(row) and self.obj1_loose(row):
       if abs(myTau.Eta()) < 1.5:
         if row.tDecayMode == 0:
           self.fill_taufr(row, myEle, myMET, myTau, njets, mjj, weight, 'EBDM0')

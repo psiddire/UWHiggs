@@ -108,8 +108,12 @@ for k, di in enumerate(Lists.dirs):
         # Recoil Response and Resolution
         if sam in Lists.recsamp:
             for j, rSys in enumerate(Lists.recSys):
-                dy = Lists.positivize(DY.Get(rSys+'m_e_CollinearMass'))
-                dySys.append(dy.Rebin(len(binning)-1, sam+Lists.recSysNames[j], binning))
+                if di=='2JetVBF':
+                    dy = Lists.positivize(DY.Get('m_e_CollinearMass'))
+                    dySys.append(dy.Rebin(len(binning)-1, sam+Lists.recSysNames[j], binning))
+                else:
+                    dy = Lists.positivize(DY.Get(rSys+'m_e_CollinearMass'))
+                    dySys.append(dy.Rebin(len(binning)-1, sam+Lists.recSysNames[j], binning))
         # DY Pt Reweighting
         if sam=='Zothers':
             for j, dSys in enumerate(Lists.dyptSys):

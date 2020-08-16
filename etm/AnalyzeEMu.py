@@ -4,7 +4,7 @@ Run LFV H->EMu analysis in the e+tau_mu channel.
 
 Authors: Prasanna Siddireddy
 
-'''  
+'''
 
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 from EMuBase import EMuBase
@@ -35,6 +35,7 @@ class AnalyzeEMu(MegaBase, EMuBase):
       njets = row.jetVeto30WoNoisyJets
       mjj = row.vbfMassWoNoisyJets
 
+      dphiemu = self.deltaPhi(myEle.Phi(), myMuon.Phi())
       dphimumet = self.deltaPhi(myMuon.Phi(), myMET.Phi())
       mtemet = self.transverseMass(myEle, myMET)
 
@@ -42,37 +43,37 @@ class AnalyzeEMu(MegaBase, EMuBase):
         self.fill_histos(row, myEle, myMET, myMuon, weight, 'TightOS')
         if njets==0:
           self.fill_histos(row, myEle, myMET, myMuon, weight, 'TightOS0Jet')
-          if mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+          if mtemet > 60 and dphimumet < 0.7 and dphiemu > 2.5 and myEle.Pt() > 30:
             self.fill_histos(row, myEle, myMET, myMuon, weight, 'TightOS0JetCut')
         elif njets==1:
           self.fill_histos(row, myEle, myMET, myMuon, weight, 'TightOS1Jet')
-          if mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+          if mtemet > 40 and dphimumet < 0.7 and dphiemu > 1.0 and myEle.Pt() > 26:
             self.fill_histos(row, myEle, myMET, myMuon, weight, 'TightOS1JetCut')
         elif njets==2 and mjj < 500:
           self.fill_histos(row, myEle, myMET, myMuon, weight, 'TightOS2Jet')
-          if mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+          if mtemet > 15 and dphimumet < 0.5 and myEle.Pt() > 26:
             self.fill_histos(row, myEle, myMET, myMuon, weight, 'TightOS2JetCut')
         elif njets==2 and mjj > 500:
           self.fill_histos(row, myEle, myMET, myMuon, weight, 'TightOS2JetVBF')
-          if mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+          if mtemet > 15 and dphimumet < 0.3 and myEle.Pt() > 26:
             self.fill_histos(row, myEle, myMET, myMuon, weight, 'TightOS2JetVBFCut')
       else:
         self.fill_histos(row, myEle, myMET, myMuon, weight*osss, 'TightSS')
         if njets==0:
           self.fill_histos(row, myEle, myMET, myMuon, weight*osss, 'TightSS0Jet')
-          if mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+          if mtemet > 60 and dphimumet < 0.7 and dphiemu > 2.5 and myEle.Pt() > 30:
             self.fill_histos(row, myEle, myMET, myMuon, weight*osss, 'TightSS0JetCut')
         elif njets==1:
           self.fill_histos(row, myEle, myMET, myMuon, weight*osss, 'TightSS1Jet')
-          if mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+          if mtemet > 40 and dphimumet < 0.7 and dphiemu > 1.0 and myEle.Pt() > 26:
             self.fill_histos(row, myEle, myMET, myMuon, weight*osss, 'TightSS1JetCut')
         elif njets==2 and mjj < 500:
           self.fill_histos(row, myEle, myMET, myMuon, weight*osss, 'TightSS2Jet')
-          if mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+          if mtemet > 15 and dphimumet < 0.5 and myEle.Pt() > 26:
             self.fill_histos(row, myEle, myMET, myMuon, weight*osss, 'TightSS2JetCut')
         elif njets==2 and mjj > 500:
           self.fill_histos(row, myEle, myMET, myMuon, weight*osss, 'TightSS2JetVBF')
-          if mtemet > 60 and dphimumet < 1 and row.e_m_PZeta > -60:
+          if mtemet > 15 and dphimumet < 0.3 and myEle.Pt() > 26:
             self.fill_histos(row, myEle, myMET, myMuon, weight*osss, 'TightSS2JetVBFCut')
 
 

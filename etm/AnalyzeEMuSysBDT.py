@@ -217,8 +217,8 @@ class AnalyzeEMuSysBDT(MegaBase, EMuBase):
       if self.is_DY:
         dyweight = self.DYreweight(row.genMass, row.genpT)
         if dyweight==0:
-          self.fill_categories(myEle, myMET, myMuon, njets, mjj, weight, '/DYptreweightUp')
-          self.fill_categories(myEle, myMET, myMuon, njets, mjj, weight, '/DYptreweightDown')
+          self.fill_categories(myEle, myMET, myMuon, njets, mjj, 0, '/DYptreweightUp')
+          self.fill_categories(myEle, myMET, myMuon, njets, mjj, 0, '/DYptreweightDown')
         else:
           self.fill_categories(myEle, myMET, myMuon, njets, mjj, weight*(1.1*dyweight-0.1)/dyweight, '/DYptreweightUp')
           self.fill_categories(myEle, myMET, myMuon, njets, mjj, weight*(0.9*dyweight+0.1)/dyweight, '/DYptreweightDown')

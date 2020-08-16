@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<MethodSetup Method="Category::Category_Cuts">
+  <GeneralInfo>
+    <Info name="TMVA Release" value="4.2.1 [262657]"/>
+    <Info name="ROOT Release" value="6.12/07 [396295]"/>
+    <Info name="Creator" value="psiddire"/>
+    <Info name="Date" value="Sun Aug 16 17:14:54 2020"/>
+    <Info name="Host" value="Linux cmsbuild16.cern.ch 3.10.0-1062.4.1.el7.x86_64 #1 SMP Fri Oct 18 17:15:30 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux"/>
+    <Info name="Dir" value="/afs/hep.wisc.edu/user/psiddire/CMSSW_10_2_22/src/UWHiggs2017/em"/>
+    <Info name="Training events" value="796838"/>
+    <Info name="TrainingTime" value="2.90870667e-05"/>
+    <Info name="AnalysisType" value="Classification"/>
+  </GeneralInfo>
+  <Options>
+    <Option name="V" modified="Yes">False</Option>
+    <Option name="VerbosityLevel" modified="No">Default</Option>
+    <Option name="VarTransform" modified="No">None</Option>
+    <Option name="H" modified="No">False</Option>
+    <Option name="CreateMVAPdfs" modified="No">False</Option>
+    <Option name="IgnoreNegWeightsInTraining" modified="No">False</Option>
+  </Options>
+  <Variables NVar="3">
+    <Variable VarIndex="0" Expression="mPt" Label="mPt" Title="mPt" Unit="" Internal="mPt" Type="F" Min="2.40006123e+01" Max="8.40800232e+02"/>
+    <Variable VarIndex="1" Expression="ePt" Label="ePt" Title="ePt" Unit="" Internal="ePt" Type="F" Min="2.18928623e+01" Max="9.85712830e+02"/>
+    <Variable VarIndex="2" Expression="type1_pfMetEt" Label="type1_pfMetEt" Title="type1_pfMetEt" Unit="" Internal="type1_pfMetEt" Type="F" Min="4.72128615e-02" Max="2.69481177e+03"/>
+  </Variables>
+  <Spectators NSpec="0"/>
+  <Classes NClass="2">
+    <Class Name="Signal" Index="0"/>
+    <Class Name="Background" Index="1"/>
+  </Classes>
+  <Transformations NTransformations="0"/>
+  <MVAPdfs/>
+  <Weights NSubMethods="0"/>
+</MethodSetup>

@@ -58,21 +58,21 @@ class AnalyzeETauZTT(MegaBase, ETauBase):
       if not self.obj2_tight(row) and self.obj2_loose(row) and self.obj1_tight(row):
         frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
         weight = weight*frTau
-        self.fill_histos(row, myEle, myMET, myTau, weight, 'TauLooseOS')
+        self.fill_histos_gen(row, myEle, myMET, myTau, weight, 'TauLooseOS')
 
       if not self.obj1_tight(row) and self.obj1_loose(row) and self.obj2_tight(row):
         frEle = self.fakeRateEle(myEle.Pt())
         weight = weight*frEle
-        self.fill_histos(row, myEle, myMET, myTau, weight, 'EleLooseOS')
+        self.fill_histos_gen(row, myEle, myMET, myTau, weight, 'EleLooseOS')
 
       if not self.obj2_tight(row) and self.obj2_loose(row) and not self.obj1_tight(row) and self.obj1_loose(row):
         frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
         frEle = self.fakeRateEle(myEle.Pt())
         weight = weight*frEle*frTau
-        self.fill_histos(row, myEle, myMET, myTau, weight, 'EleLooseTauLooseOS')
+        self.fill_histos_gen(row, myEle, myMET, myTau, weight, 'EleLooseTauLooseOS')
 
       if self.obj2_tight(row) and self.obj1_tight(row):
-        self.fill_histos(row, myEle, myMET, myTau, weight, 'TightOS')
+        self.fill_histos_gen(row, myEle, myMET, myTau, weight, 'TightOS')
 
 
   def finish(self):

@@ -1,7 +1,8 @@
 import math
 import ROOT
+import os
 
-cmsswBase = '/afs/hep.wisc.edu/home/psiddire/CMSSW_10_2_16_UL/src/FinalStateAnalysis/TagAndProbe/data/'
+cmsswBase = os.environ['CMSSW_BASE'] + '/src/FinalStateAnalysis/TagAndProbe/data/'
 f = ROOT.TFile(cmsswBase + '2017/FRMMT.root')
 bdm0 = f.Get('EBDM0')
 bdm1 = f.Get('EBDM1')

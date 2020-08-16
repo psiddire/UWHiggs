@@ -52,7 +52,7 @@ class AnalyzeMuTauSys(MegaBase, MuTauBase):
   def fill_categories(self, row, myMuon, myMET, myTau, njets, mjj, weight, name=''):
     if self.obj2_tight(row) and self.obj1_tight(row):
       self.fill_histos(myMuon, myMET, myTau, weight, 'TightOS'+name)
-      if njets==0 and self.transverseMass(myTau, myMET) < 105:
+      if njets==0 and self.transverseMass(myTau, myMET) < 105 and self.visibleMass(myMuon, myTau) > 50:
         self.fill_histos(myMuon, myMET, myTau, weight, 'TightOS0Jet'+name)
       elif njets==1 and self.transverseMass(myTau, myMET) < 105:
         self.fill_histos(myMuon, myMET, myTau, weight, 'TightOS1Jet'+name)
@@ -67,7 +67,7 @@ class AnalyzeMuTauSys(MegaBase, MuTauBase):
       frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
       weight = weight*frTau
       self.fill_histos(myMuon, myMET, myTau, weight, 'TauLooseOS'+name)
-      if njets==0 and self.transverseMass(myTau, myMET) < 105:
+      if njets==0 and self.transverseMass(myTau, myMET) < 105 and self.visibleMass(myMuon, myTau) > 50:
         self.fill_histos(myMuon, myMET, myTau, weight, 'TauLooseOS0Jet'+name)
       elif njets==1 and self.transverseMass(myTau, myMET) < 105:
         self.fill_histos(myMuon, myMET, myTau, weight, 'TauLooseOS1Jet'+name)
@@ -80,7 +80,7 @@ class AnalyzeMuTauSys(MegaBase, MuTauBase):
       frMuon = self.fakeRateMuon(myMuon.Pt())
       weight = weight*frMuon
       self.fill_histos(myMuon, myMET, myTau, weight, 'MuonLooseOS'+name)
-      if njets==0 and self.transverseMass(myTau, myMET) < 105:
+      if njets==0 and self.transverseMass(myTau, myMET) < 105 and self.visibleMass(myMuon, myTau) > 50:
         self.fill_histos(myMuon, myMET, myTau, weight, 'MuonLooseOS0Jet'+name)
       elif njets==1 and self.transverseMass(myTau, myMET) < 105:
         self.fill_histos(myMuon, myMET, myTau, weight, 'MuonLooseOS1Jet'+name)
@@ -94,7 +94,7 @@ class AnalyzeMuTauSys(MegaBase, MuTauBase):
       frMuon = self.fakeRateMuon(myMuon.Pt())
       weight = weight*frMuon*frTau
       self.fill_histos(myMuon, myMET, myTau, weight, 'MuonLooseTauLooseOS'+name)
-      if njets==0 and self.transverseMass(myTau, myMET) < 105:
+      if njets==0 and self.transverseMass(myTau, myMET) < 105 and self.visibleMass(myMuon, myTau) > 50:
         self.fill_histos(myMuon, myMET, myTau, weight, 'MuonLooseTauLooseOS0Jet'+name)
       elif njets==1 and self.transverseMass(myTau, myMET) < 105:
         self.fill_histos(myMuon, myMET, myTau, weight, 'MuonLooseTauLooseOS1Jet'+name)

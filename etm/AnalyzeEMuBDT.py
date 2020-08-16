@@ -88,7 +88,10 @@ class AnalyzeEMuBDT(MegaBase, EMuBase):
       if math.isnan(row.vbfMassWoNoisyJets):
         continue
 
-      if not self.oppositesign(row):
+      if not self.oppositesign(row) and self.is_data:
+        self.filltree(row, myEle, myMET, myMuon, weight)
+
+      if self.oppositesign(row) and not self.is_data:
         self.filltree(row, myEle, myMET, myMuon, weight)
 
 

@@ -29,6 +29,8 @@ class MuEBase():
     self.is_DY = self.mcWeight.is_DY
     self.is_W = self.mcWeight.is_W
     self.is_TT = self.mcWeight.is_TT
+    self.is_ST = self.mcWeight.is_ST
+    self.is_VV = self.mcWeight.is_VV
     self.is_GluGlu = self.mcWeight.is_GluGlu
     self.is_VBF = self.mcWeight.is_VBF
 
@@ -136,37 +138,37 @@ class MuEBase():
 
   # Third lepton veto
   def vetos(self, row):
-    return bool(row.eVetoZTTp001dxyz < 0.5) and bool(row.muVetoZTTp001dxyz < 0.5) and bool(row.tauVetoPt20LooseMVALTVtx < 0.5)
+    return bool(row.eVetoZTTp001dxyz < 0.5) and bool(row.muVetoZTTp001dxyz < 0.5) and bool(row.tauVetoPtDeepVtx < 0.5)
 
   # Book histograms
   def begin(self):
     for n in Kinematics.plotnames:
-      self.book(n, "mPt", "Muon Pt", 20, 0, 200)
-      self.book(n, "ePt", "Electron Pt", 20, 0, 200)
-      self.book(n, "mEta", "Muon Eta", 20, -3, 3)
-      self.book(n, "eEta", "Electron Eta", 20, -3, 3)
-      self.book(n, "mPhi", "Muon Phi", 20, -4, 4)
-      self.book(n, "ePhi", "Electron Phi", 20, -4, 4)
-      self.book(n, "type1_pfMetEt", "Type1 MET Et", 20, 0, 200)
-      self.book(n, "type1_pfMetPhi", "Type1 MET Phi", 20, -4, 4)
-      self.book(n, "j1Pt", "Jet 1 Pt", 30, 0, 300)
-      self.book(n, "j2Pt", "Jet 2 Pt", 30, 0, 300)
-      self.book(n, "j1Eta", "Jet 1 Eta", 20, -3, 3)
-      self.book(n, "j2Eta", "Jet 2 Eta", 20, -3, 3)
-      self.book(n, "j1Phi", "Jet 1 Phi", 20, -4, 4)
-      self.book(n, "j2Phi", "Jet 2 Phi", 20, -4, 4)
-      self.book(n, "m_e_Mass", "Muon + Electron Mass", 30, 0, 300)
-      self.book(n, "m_e_CollMass", "Muon + Electron Collinear Mass", 30, 0, 300)
-      self.book(n, "m_e_PZeta", "Muon + Electron PZeta", 80, -400, 400)
-      self.book(n, "numOfJets", "Number of Jets", 5, 0, 5)
-      self.book(n, "vbfMass", "VBF Mass", 100, 0, 1000)
-      self.book(n, "numOfVtx", "Number of Vertices", 100, 0, 100)
-      self.book(n, "dEtaMuE", "Delta Eta Mu E", 50, 0, 5)
-      self.book(n, "dPhiMuE", "Delta Phi Mu E", 40, 0, 4)
-      self.book(n, "dPhiEMET", "Delta Phi E MET", 40, 0, 4)
-      self.book(n, "dPhiMuMET", "Delta Phi Mu MET", 40, 0, 4)
-      self.book(n, "MTEMET", "Electron MET Transverse Mass", 20, 0, 200)
-      self.book(n, "MTMuMET", "Mu MET Transverse Mass", 20, 0, 200)
+      self.book(n, 'mPt', 'Muon Pt', 20, 0, 200)
+      self.book(n, 'ePt', 'Electron Pt', 20, 0, 200)
+      self.book(n, 'mEta', 'Muon Eta', 20, -3, 3)
+      self.book(n, 'eEta', 'Electron Eta', 20, -3, 3)
+      self.book(n, 'mPhi', 'Muon Phi', 20, -4, 4)
+      self.book(n, 'ePhi', 'Electron Phi', 20, -4, 4)
+      self.book(n, 'type1_pfMetEt', 'Type1 MET Et', 20, 0, 200)
+      self.book(n, 'type1_pfMetPhi', 'Type1 MET Phi', 20, -4, 4)
+      self.book(n, 'j1Pt', 'Jet 1 Pt', 30, 0, 300)
+      self.book(n, 'j2Pt', 'Jet 2 Pt', 30, 0, 300)
+      self.book(n, 'j1Eta', 'Jet 1 Eta', 20, -3, 3)
+      self.book(n, 'j2Eta', 'Jet 2 Eta', 20, -3, 3)
+      self.book(n, 'j1Phi', 'Jet 1 Phi', 20, -4, 4)
+      self.book(n, 'j2Phi', 'Jet 2 Phi', 20, -4, 4)
+      self.book(n, 'm_e_Mass', 'Muon + Electron Mass', 30, 0, 300)
+      self.book(n, 'm_e_CollMass', 'Muon + Electron Collinear Mass', 30, 0, 300)
+      self.book(n, 'm_e_PZeta', 'Muon + Electron PZeta', 80, -400, 400)
+      self.book(n, 'numOfJets', 'Number of Jets', 5, 0, 5)
+      self.book(n, 'vbfMass', 'VBF Mass', 100, 0, 1000)
+      self.book(n, 'numOfVtx', 'Number of Vertices', 100, 0, 100)
+      self.book(n, 'dEtaMuE', 'Delta Eta Mu E', 50, 0, 5)
+      self.book(n, 'dPhiMuE', 'Delta Phi Mu E', 40, 0, 4)
+      self.book(n, 'dPhiMuMET', 'Delta Phi Mu MET', 40, 0, 4)
+      self.book(n, 'dPhiEMET', 'Delta Phi E MET', 40, 0, 4)
+      self.book(n, 'MTMuMET', 'Mu MET Transverse Mass', 20, 0, 200)
+      self.book(n, 'MTEMET', 'Electron MET Transverse Mass', 20, 0, 200)
 
   def fill_histos(self, row, myMuon, myMET, myEle, weight, name=''):
     histos = self.histograms
@@ -187,15 +189,15 @@ class MuEBase():
     histos[name+'/m_e_Mass'].Fill(self.visibleMass(myMuon, myEle), weight)
     histos[name+'/m_e_CollMass'].Fill(self.collMass(myMuon, myMET, myEle), weight)
     histos[name+'/m_e_PZeta'].Fill(row.e_m_PZeta, weight)
-    histos[name+'/numOfJets'].Fill(row.jetVeto30WoNoisyJets, weight)
-    histos[name+'/vbfMass'].Fill(row.vbfMassWoNoisyJets, weight)
+    histos[name+'/numOfJets'].Fill(row.jetVeto30, weight)
+    histos[name+'/vbfMass'].Fill(row.vbfMass, weight)
     histos[name+'/numOfVtx'].Fill(row.nvtx, weight)
     histos[name+'/dEtaMuE'].Fill(self.deltaEta(myMuon.Eta(), myEle.Eta()), weight)
     histos[name+'/dPhiMuE'].Fill(self.deltaPhi(myMuon.Phi(), myEle.Phi()), weight)
-    histos[name+'/dPhiEMET'].Fill(self.deltaPhi(myEle.Phi(), myMET.Phi()), weight)
     histos[name+'/dPhiMuMET'].Fill(self.deltaPhi(myMuon.Phi(), myMET.Phi()), weight)
-    histos[name+'/MTEMET'].Fill(self.transverseMass(myEle, myMET), weight)
+    histos[name+'/dPhiEMET'].Fill(self.deltaPhi(myEle.Phi(), myMET.Phi()), weight)
     histos[name+'/MTMuMET'].Fill(self.transverseMass(myMuon, myMET), weight)
+    histos[name+'/MTEMET'].Fill(self.transverseMass(myEle, myMET), weight)
 
   # Selections
   def eventSel(self, row):
@@ -260,12 +262,12 @@ class MuEBase():
     # Apply all the various corrections to the MC samples
     weight = 1.0
     if self.is_mc:
-      self.w1.var("m_pt").setVal(myMuon.Pt())
-      self.w1.var("m_eta").setVal(myMuon.Eta())
-      self.w1.var("e_pt").setVal(myEle.Pt())
-      self.w1.var("e_eta").setVal(myEle.Eta())
-      eff_trg_data = self.w1.function("m_trg_23_ic_data").getVal()*self.w1.function("e_trg_12_ic_data").getVal()
-      eff_trg_mc = self.w1.function("m_trg_23_ic_mc").getVal()*self.w1.function("e_trg_12_ic_mc").getVal()
+      self.w1.var('m_pt').setVal(myMuon.Pt())
+      self.w1.var('m_eta').setVal(myMuon.Eta())
+      self.w1.var('e_pt').setVal(myEle.Pt())
+      self.w1.var('e_eta').setVal(myEle.Eta())
+      eff_trg_data = self.w1.function('m_trg_23_ic_data').getVal()*self.w1.function('e_trg_12_ic_data').getVal()
+      eff_trg_mc = self.w1.function('m_trg_23_ic_mc').getVal()*self.w1.function('e_trg_12_ic_mc').getVal()
       tEff = 0 if eff_trg_mc==0 else eff_trg_data/eff_trg_mc
       mID = self.muonTightID(myMuon.Pt(), abs(myMuon.Eta()))
       mIso = self.muonTightIsoTightID(myMuon.Pt(), abs(myMuon.Eta()))
@@ -288,9 +290,10 @@ class MuEBase():
           weight = weight*self.Wweight[row.numGenJets]
         else:
           weight = weight*self.Wweight[0]
-      if self.is_TT:
-        #topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
-        #weight = weight*topweight
+      # if self.is_TT:
+      #   topweight = self.topPtreweight(row.topQuarkPt1, row.topQuarkPt2)
+      #   weight = weight*topweight
+      if self.is_TT or self.is_ST or self.is_VV:
         if row.mZTTGenMatching > 2 and row.mZTTGenMatching < 6 and row.eZTTGenMatching > 2 and row.eZTTGenMatching < 6 and self.Emb:
           weight = 0.0
       weight = self.mcWeight.lumiWeight(weight)
@@ -299,37 +302,37 @@ class MuEBase():
     mjj = row.vbfMassWoNoisyJets
 
     if self.is_embed:
-      self.w1.var("gt_pt").setVal(myMuon.Pt())
-      self.w1.var("gt_eta").setVal(myMuon.Eta())
-      msel = self.w1.function("m_sel_idEmb_ratio").getVal()
-      self.w1.var("gt_pt").setVal(myEle.Pt())
-      self.w1.var("gt_eta").setVal(myEle.Eta())
-      esel = self.w1.function("m_sel_idEmb_ratio").getVal()
-      self.w1.var("gt1_pt").setVal(myMuon.Pt())
-      self.w1.var("gt1_eta").setVal(myMuon.Eta())
-      self.w1.var("gt2_pt").setVal(myEle.Pt())
-      self.w1.var("gt2_eta").setVal(myEle.Eta())
-      trgsel = self.w1.function("m_sel_trg_ratio").getVal()
-      self.w1.var("m_pt").setVal(myMuon.Pt())
-      self.w1.var("m_eta").setVal(myMuon.Eta())
-      self.w1.var("m_iso").setVal(row.mRelPFIsoDBDefaultR04)
-      m_id_sf = self.w1.function("m_id_embed_kit_ratio").getVal()
-      m_iso_sf = self.w1.function("m_iso_binned_embed_kit_ratio").getVal()
-      self.w1.var("e_pt").setVal(myEle.Pt())
-      self.w1.var("e_eta").setVal(myEle.Eta())
-      self.w1.var("e_iso").setVal(row.eRelPFIsoRho)
-      e_id_sf = self.w1.function("e_id80_embed_kit_ratio").getVal()
-      e_iso_sf = self.w1.function("e_iso_binned_embed_kit_ratio").getVal()
-      eff_trg_data = self.w1.function("m_trg_23_ic_data").getVal()*self.w1.function("e_trg_12_ic_data").getVal()
-      eff_trg_embed = self.w1.function("m_trg_23_ic_embed").getVal()*self.w1.function("e_trg_12_ic_embed").getVal()
+      self.w1.var('gt_pt').setVal(myMuon.Pt())
+      self.w1.var('gt_eta').setVal(myMuon.Eta())
+      msel = self.w1.function('m_sel_idEmb_ratio').getVal()
+      self.w1.var('gt_pt').setVal(myEle.Pt())
+      self.w1.var('gt_eta').setVal(myEle.Eta())
+      esel = self.w1.function('m_sel_idEmb_ratio').getVal()
+      self.w1.var('gt1_pt').setVal(myMuon.Pt())
+      self.w1.var('gt1_eta').setVal(myMuon.Eta())
+      self.w1.var('gt2_pt').setVal(myEle.Pt())
+      self.w1.var('gt2_eta').setVal(myEle.Eta())
+      trgsel = self.w1.function('m_sel_trg_ratio').getVal()
+      self.w1.var('m_pt').setVal(myMuon.Pt())
+      self.w1.var('m_eta').setVal(myMuon.Eta())
+      self.w1.var('m_iso').setVal(row.mRelPFIsoDBDefaultR04)
+      m_id_sf = self.w1.function('m_id_embed_kit_ratio').getVal()
+      m_iso_sf = self.w1.function('m_iso_binned_embed_kit_ratio').getVal()
+      self.w1.var('e_pt').setVal(myEle.Pt())
+      self.w1.var('e_eta').setVal(myEle.Eta())
+      self.w1.var('e_iso').setVal(row.eRelPFIsoRho)
+      e_id_sf = self.w1.function('e_id80_embed_kit_ratio').getVal()
+      e_iso_sf = self.w1.function('e_iso_binned_embed_kit_ratio').getVal()
+      eff_trg_data = self.w1.function('m_trg_23_ic_data').getVal()*self.w1.function('e_trg_12_ic_data').getVal()
+      eff_trg_embed = self.w1.function('m_trg_23_ic_embed').getVal()*self.w1.function('e_trg_12_ic_embed').getVal()
       trg_sf = 0 if eff_trg_embed==0 else eff_trg_data/eff_trg_embed
       weight = weight*row.GenWeight*msel*esel*trgsel*trg_sf*m_id_sf*m_iso_sf*e_id_sf*e_iso_sf*self.EmbedPhi(myEle.Phi(), njets, mjj)*self.EmbedEta(myEle.Eta(), njets, mjj)
 
-    self.w1.var("njets").setVal(njets)
-    self.w1.var("dR").setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Eta(), myMuon.Eta()))
-    self.w1.var("e_pt").setVal(myEle.Pt())
-    self.w1.var("m_pt").setVal(myMuon.Pt())
-    osss = self.w1.function("em_qcd_osss").getVal()
+    self.w1.var('njets').setVal(njets)
+    self.w1.var('dR').setVal(self.deltaR(myEle.Phi(), myMuon.Phi(), myEle.Eta(), myMuon.Eta()))
+    self.w1.var('e_pt').setVal(myEle.Pt())
+    self.w1.var('m_pt').setVal(myMuon.Pt())
+    osss = self.w1.function('em_qcd_osss').getVal()
 
     # b-tag
     nbtag = row.bjetDeepCSVVeto20Medium_2017_DR0p5

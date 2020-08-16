@@ -36,13 +36,13 @@ class AnalyzeETau(MegaBase, ETauBase):
         elif njets==2 and mjj > 500:
           self.fill_histos(row, myEle, myMET, myTau, weight, name[0]+'2JetVBF')
       self.fill_histos(row, myEle, myMET, myTau, weight, name[1])
-      if njets==0 and self.transverseMass(myTau, myMET) < 60:
+      if njets==0:
         self.fill_histos(row, myEle, myMET, myTau, weight, name[1]+'0Jet')
-      elif njets==1 and self.transverseMass(myTau, myMET) < 60:
+      elif njets==1:
         self.fill_histos(row, myEle, myMET, myTau, weight, name[1]+'1Jet')
-      elif njets==2 and mjj < 500 and self.transverseMass(myTau, myMET) < 60:
+      elif njets==2 and mjj < 500:
         self.fill_histos(row, myEle, myMET, myTau, weight, name[1]+'2Jet')
-      elif njets==2 and mjj > 500 and self.transverseMass(myTau, myMET) < 60:
+      elif njets==2 and mjj > 500:
         self.fill_histos(row, myEle, myMET, myTau, weight, name[1]+'2JetVBF')
     if not self.oppositesign(row):
       self.fill_histos(row, myEle, myMET, myTau, weight, name[2])

@@ -83,30 +83,27 @@ class AnalyzeMuTauBDT(MegaBase, MuTauBase):
 
       weight = self.corrFact(row, myMuon, myTau)
 
-      if self.is_data:
+      if self.is_data and not self.oppositesign(row):
+        # Muon and Tau Loose Isolation
         if not self.obj2_tight(row) and self.obj2_loose(row) and not self.obj1_tight(row) and self.obj1_loose(row):
           frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
           frMuon = self.fakeRateMuon(myMuon.Pt())
           weight = weight*frTau*frMuon*-1
-          if not self.oppositesign(row):
-            self.filltree(row, myMuon, myMET, myTau, weight)
-
+          self.filltree(row, myMuon, myMET, myTau, weight)
+        # Tau Loose Isolation
         if not self.obj2_tight(row) and self.obj2_loose(row) and self.obj1_tight(row):
           frTau = self.fakeRate(myTau.Pt(), myTau.Eta(), row.tDecayMode)
           weight = weight*frTau
-          if not self.oppositesign(row):
-            self.filltree(row, myMuon, myMET, myTau, weight)
-
+          self.filltree(row, myMuon, myMET, myTau, weight)
+        # Muon Loose Isolation
         if not self.obj1_tight(row) and self.obj1_loose(row) and self.obj2_tight(row):
           frMuon = self.fakeRateMuon(myMuon.Pt())
           weight = weight*frMuon
-          if not self.oppositesign(row):
-            self.filltree(row, myMuon, myMET, myTau, weight)
+          self.filltree(row, myMuon, myMET, myTau, weight)
 
-      if self.is_mc:
+      if self.is_mc and self.oppositesign(row):
         if self.obj2_tight(row) and self.obj1_tight(row):
-          if self.oppositesign(row):
-            self.filltree(row, myMuon, myMET, myTau, weight)
+          self.filltree(row, myMuon, myMET, myTau, weight)
 
   # Write the histograms to the output files
   def finish(self):

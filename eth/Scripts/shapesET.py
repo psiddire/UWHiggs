@@ -34,13 +34,15 @@ views.SumView( *[ plotter.get_view(regex) for regex in filter(lambda x : x.start
 
 for di in Lists.dirs:
 
-    binning = array.array('d', range(0, 300, 10))
     if di=='0Jet':
         dr = '0jet'
+        binning = array.array('d', range(0, 300, 10))
     elif di=='1Jet':
         dr = '1jet'
+        binning = array.array('d', range(0, 300, 10))
     elif di=='2Jet':
         dr = '2jet_gg'
+        binning = array.array('d', range(0, 300, 25))
     else:
         dr = '2jet_vbf'
         binning = array.array('d', range(0, 300, 25))

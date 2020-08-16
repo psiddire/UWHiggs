@@ -9,14 +9,8 @@ Authors: Prasanna Siddireddy
 from FinalStateAnalysis.PlotTools.MegaBase import MegaBase
 from EMuQCDBase import EMuQCDBase
 import EMTree
-import ROOT
-import math
 import itertools
 import os
-import mcCorrections
-
-target = os.path.basename(os.environ['megatarget'])
-pucorrector = mcCorrections.puCorrector(target)
 
 class AnalyzeEMuSysBDTQCD(MegaBase, EMuQCDBase):
   tree = 'em/final/Ntuple'
@@ -87,8 +81,6 @@ class AnalyzeEMuSysBDTQCD(MegaBase, EMuQCDBase):
 
 
   def fill_sscategories(self, row, myEle, myMET, myMuon, weight):
-    dphimumet = self.deltaPhi(myMuon.Phi(), myMET.Phi())
-    mtemet = self.transverseMass(myEle, myMET)
     mjj = row.vbfMassWoNoisyJets
     njets = row.jetVeto30WoNoisyJets
     self.fill_sshistos(myEle, myMET, myMuon, njets, weight, 'TightSS')

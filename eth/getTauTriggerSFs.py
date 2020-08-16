@@ -23,8 +23,7 @@ class getTauTriggerSFs :
         print "Loading Efficiencies for Tau %s ID WP %s" % (self.wpType, self.tauWP)
 
         # Assume this is in CMSSW with the below path structure
-        base = os.environ['CMSSW_BASE']
-        cmsswBase = '/afs/hep.wisc.edu/home/ndev/CMSSW_10_2_16_UL/src/FinalStateAnalysis/TagAndProbe/data/'
+        cmsswBase = os.environ['CMSSW_BASE'] + '/src/FinalStateAnalysis/TagAndProbe/data/'
         self.f_old = ROOT.TFile( cmsswBase + '2017/tauTriggerEfficiencies2017.root', 'r' )
         self.f = ROOT.TFile( cmsswBase + '2017/tauTriggerEfficiencies2017_New.root', 'r' )
 
