@@ -1,0 +1,374 @@
+<?xml version="1.0"?>
+<MethodSetup Method="Category::Category_Cuts0">
+  <GeneralInfo>
+    <Info name="TMVA Release" value="4.2.1 [262657]"/>
+    <Info name="ROOT Release" value="6.12/07 [396295]"/>
+    <Info name="Creator" value="psiddire"/>
+    <Info name="Date" value="Sun Aug 16 22:45:17 2020"/>
+    <Info name="Host" value="Linux cmsbuild16.cern.ch 3.10.0-1062.4.1.el7.x86_64 #1 SMP Fri Oct 18 17:15:30 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux"/>
+    <Info name="Dir" value="/afs/hep.wisc.edu/user/psiddire/CMSSW_10_2_22/src/UWHiggs2017/em"/>
+    <Info name="Training events" value="782260"/>
+    <Info name="TrainingTime" value="5.50119661e+03"/>
+    <Info name="AnalysisType" value="Classification"/>
+  </GeneralInfo>
+  <Options>
+    <Option name="V" modified="Yes">False</Option>
+    <Option name="VerbosityLevel" modified="No">Default</Option>
+    <Option name="VarTransform" modified="No">None</Option>
+    <Option name="H" modified="No">False</Option>
+    <Option name="CreateMVAPdfs" modified="No">False</Option>
+    <Option name="IgnoreNegWeightsInTraining" modified="No">False</Option>
+  </Options>
+  <Variables NVar="3">
+    <Variable VarIndex="0" Expression="mPt" Label="mPt" Title="mPt" Unit="" Internal="mPt" Type="F" Min="2.40005054e+01" Max="8.01502319e+02"/>
+    <Variable VarIndex="1" Expression="ePt" Label="ePt" Title="ePt" Unit="" Internal="ePt" Type="F" Min="2.18889561e+01" Max="7.63846863e+02"/>
+    <Variable VarIndex="2" Expression="type1_pfMetEt" Label="type1_pfMetEt" Title="type1_pfMetEt" Unit="" Internal="type1_pfMetEt" Type="F" Min="4.72128615e-02" Max="2.69481177e+03"/>
+  </Variables>
+  <Spectators NSpec="0"/>
+  <Classes NClass="2">
+    <Class Name="Signal" Index="0"/>
+    <Class Name="Background" Index="1"/>
+  </Classes>
+  <Transformations NTransformations="0"/>
+  <MVAPdfs/>
+  <Weights NSubMethods="1">
+    <SubMethod Index="0" Method="Cuts::Category_Cuts0_0" Cut="e_m_Mass &lt; 160" Variables="type1_pfMetEt">
+      <GeneralInfo>
+        <Info name="TMVA Release" value="4.2.1 [262657]"/>
+        <Info name="ROOT Release" value="6.12/07 [396295]"/>
+        <Info name="Creator" value="psiddire"/>
+        <Info name="Date" value="Sun Aug 16 22:45:17 2020"/>
+        <Info name="Host" value="Linux cmsbuild16.cern.ch 3.10.0-1062.4.1.el7.x86_64 #1 SMP Fri Oct 18 17:15:30 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux"/>
+        <Info name="Dir" value="/afs/hep.wisc.edu/user/psiddire/CMSSW_10_2_22/src/UWHiggs2017/em"/>
+        <Info name="Training events" value="761112"/>
+        <Info name="TrainingTime" value="5.49884400e+03"/>
+        <Info name="AnalysisType" value="Classification"/>
+      </GeneralInfo>
+      <Options>
+        <Option name="V" modified="Yes">False</Option>
+        <Option name="VerbosityLevel" modified="No">Default</Option>
+        <Option name="VarTransform" modified="No">None</Option>
+        <Option name="H" modified="Yes">False</Option>
+        <Option name="CreateMVAPdfs" modified="No">False</Option>
+        <Option name="IgnoreNegWeightsInTraining" modified="No">False</Option>
+        <Option name="FitMethod" modified="Yes">GA</Option>
+        <Option name="EffMethod" modified="Yes">EffSel</Option>
+        <Option name="CutRangeMin" size="1" modified="No">-1.000000e+00</Option>
+        <Option name="CutRangeMax" size="1" modified="No">-1.000000e+00</Option>
+        <Option name="VarProp" size="1" modified="No">FMin</Option>
+      </Options>
+      <Variables NVar="1">
+        <Variable VarIndex="0" Expression="type1_pfMetEt" Label="type1_pfMetEt" Title="type1_pfMetEt" Unit="" Internal="type1_pfMetEt" Type="F" Min="4.72128615e-02" Max="6.60520020e+02"/>
+      </Variables>
+      <Classes NClass="2">
+        <Class Name="Signal" Index="0"/>
+        <Class Name="Background" Index="1"/>
+      </Classes>
+      <Transformations NTransformations="0"/>
+      <MVAPdfs/>
+      <Weights OptimisationMethod="0" FitMethod="1" nbins="100">
+        <!--Below are the optimised cuts for 1 variables: Format: ibin(hist) effS effB cutMin[ivar=0] cutMax[ivar=0] ... cutMin[ivar=n-1] cutMax[ivar=n-1]-->
+        <Bin ibin="1" effS="0.0000000000000000e+00" effB="0.0000000000000000e+00">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="-3.3785015696096541e+00"/>
+        </Bin>
+        <Bin ibin="2" effS="1.0000000000000000e-02" effB="2.3126734886318445e-03">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="3.5289948708422401e+00"/>
+        </Bin>
+        <Bin ibin="3" effS="2.0000000000000000e-02" effB="5.7816836051642895e-03">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="5.1797470025548815e+00"/>
+        </Bin>
+        <Bin ibin="4" effS="2.9999999999999999e-02" effB="9.0194270014762878e-03">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="6.2470466863855165e+00"/>
+        </Bin>
+        <Bin ibin="5" effS="4.0000000000000001e-02" effB="1.2141535989940166e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="7.2119640003767707e+00"/>
+        </Bin>
+        <Bin ibin="6" effS="5.0000000000000003e-02" effB="1.5494912862777710e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="8.0974985338535390e+00"/>
+        </Bin>
+        <Bin ibin="7" effS="5.9999999999999998e-02" effB="1.9195189699530602e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="8.8346151271160522e+00"/>
+        </Bin>
+        <Bin ibin="8" effS="7.0000000000000007e-02" effB="2.1045329049229622e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="9.6204014341772393e+00"/>
+        </Bin>
+        <Bin ibin="9" effS="8.0000000000000002e-02" effB="2.4283071979880333e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="1.0181997718872836e+01"/>
+        </Bin>
+        <Bin ibin="10" effS="8.9999999999999997e-02" effB="2.7636447921395302e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="1.0826681310267109e+01"/>
+        </Bin>
+        <Bin ibin="11" effS="1.0000000000000001e-01" effB="3.1914897263050079e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="1.1575254507173739e+01"/>
+        </Bin>
+        <Bin ibin="12" effS="1.1000000000000000e-01" effB="3.5615172237157822e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="1.2054517242643271e+01"/>
+        </Bin>
+        <Bin ibin="13" effS="1.2000000000000000e-01" effB="-1.0000000149011612e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="0.0000000000000000e+00"/>
+        </Bin>
+        <Bin ibin="14" effS="1.3000000000000000e-01" effB="4.2437557131052017e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="1.3445631716008585e+01"/>
+        </Bin>
+        <Bin ibin="15" effS="1.4000000000000001e-01" effB="4.5328397303819656e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="1.3948422026748759e+01"/>
+        </Bin>
+        <Bin ibin="16" effS="1.4999999999999999e-01" effB="4.7872342169284821e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="1.4302906216736556e+01"/>
+        </Bin>
+        <Bin ibin="17" effS="1.6000000000000000e-01" effB="5.4925996810197830e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="1.5221152182589918e+01"/>
+        </Bin>
+        <Bin ibin="18" effS="1.7000000000000001e-01" effB="5.6544870138168335e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="1.5457807337384885e+01"/>
+        </Bin>
+        <Bin ibin="19" effS="1.7999999999999999e-01" effB="5.8279372751712799e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="1.5893132802861047e+01"/>
+        </Bin>
+        <Bin ibin="20" effS="1.9000000000000000e-01" effB="6.2904722988605499e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="1.6512697956856613e+01"/>
+        </Bin>
+        <Bin ibin="21" effS="2.0000000000000001e-01" effB="6.6951900720596313e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="1.6987478166421120e+01"/>
+        </Bin>
+        <Bin ibin="22" effS="2.0999999999999999e-01" effB="6.9727107882499695e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="1.7445650677542801e+01"/>
+        </Bin>
+        <Bin ibin="23" effS="2.2000000000000000e-01" effB="7.4468083679676056e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="1.8015756016359720e+01"/>
+        </Bin>
+        <Bin ibin="24" effS="2.3000000000000001e-01" effB="7.7358931303024292e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="1.8301091707321220e+01"/>
+        </Bin>
+        <Bin ibin="25" effS="2.3999999999999999e-01" effB="7.9324699938297272e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="1.8704327994625928e+01"/>
+        </Bin>
+        <Bin ibin="26" effS="2.5000000000000000e-01" effB="8.4065683186054230e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="1.9314947199100615e+01"/>
+        </Bin>
+        <Bin ibin="27" effS="2.6000000000000001e-01" effB="8.8228493928909302e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="1.9833238204827140e+01"/>
+        </Bin>
+        <Bin ibin="28" effS="2.7000000000000002e-01" effB="9.0888068079948425e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="2.0133107180158110e+01"/>
+        </Bin>
+        <Bin ibin="29" effS="2.8000000000000003e-01" effB="9.4357080757617950e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="2.0633319363285750e+01"/>
+        </Bin>
+        <Bin ibin="30" effS="2.8999999999999998e-01" effB="9.7363561391830444e-02">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="2.0958647318630810e+01"/>
+        </Bin>
+        <Bin ibin="31" effS="2.9999999999999999e-01" effB="1.0256706923246384e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="2.1540448579740456e+01"/>
+        </Bin>
+        <Bin ibin="32" effS="3.1000000000000000e-01" effB="1.0418593883514404e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="2.1858180010011260e+01"/>
+        </Bin>
+        <Bin ibin="33" effS="3.2000000000000001e-01" effB="1.0938946157693863e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="2.2457633765250129e+01"/>
+        </Bin>
+        <Bin ibin="34" effS="3.3000000000000002e-01" effB="1.1378353834152222e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="2.2905675025133938e+01"/>
+        </Bin>
+        <Bin ibin="35" effS="3.4000000000000002e-01" effB="1.1702127754688263e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="2.3195637363798870e+01"/>
+        </Bin>
+        <Bin ibin="36" effS="3.5000000000000003e-01" effB="1.2164662778377533e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="2.3665406562623012e+01"/>
+        </Bin>
+        <Bin ibin="37" effS="3.5999999999999999e-01" effB="1.2696577608585358e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="2.4165047327084512e+01"/>
+        </Bin>
+        <Bin ibin="38" effS="3.7000000000000000e-01" effB="1.3182239234447479e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="2.4593190687727294e+01"/>
+        </Bin>
+        <Bin ibin="39" effS="3.8000000000000000e-01" effB="1.3586956262588501e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="2.5017647478057185e+01"/>
+        </Bin>
+        <Bin ibin="40" effS="3.9000000000000001e-01" effB="1.4061054587364197e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="2.5456773651317775e+01"/>
+        </Bin>
+        <Bin ibin="41" effS="4.0000000000000002e-01" effB="1.4708603918552399e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="2.6062560413125169e+01"/>
+        </Bin>
+        <Bin ibin="42" effS="4.1000000000000003e-01" effB="1.5020814538002014e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="2.6386259917235350e+01"/>
+        </Bin>
+        <Bin ibin="43" effS="4.1999999999999998e-01" effB="1.5228955447673798e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="2.6779058247452561e+01"/>
+        </Bin>
+        <Bin ibin="44" effS="4.2999999999999999e-01" effB="1.5760870277881622e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="2.7210875083290610e+01"/>
+        </Bin>
+        <Bin ibin="45" effS="4.4000000000000000e-01" effB="1.6350601613521576e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="2.7777963483929760e+01"/>
+        </Bin>
+        <Bin ibin="46" effS="4.5000000000000001e-01" effB="1.6651250422000885e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="2.8155838585332269e+01"/>
+        </Bin>
+        <Bin ibin="47" effS="4.6000000000000002e-01" effB="1.7160037159919739e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="2.8638433498491750e+01"/>
+        </Bin>
+        <Bin ibin="48" effS="4.7000000000000003e-01" effB="1.7761333286762238e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="2.9124439190588504e+01"/>
+        </Bin>
+        <Bin ibin="49" effS="4.7999999999999998e-01" effB="1.8119797110557556e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="2.9534412210713000e+01"/>
+        </Bin>
+        <Bin ibin="50" effS="4.8999999999999999e-01" effB="1.8605458736419678e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="3.0015232478028885e+01"/>
+        </Bin>
+        <Bin ibin="51" effS="5.0000000000000000e-01" effB="1.9183626770973206e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="3.0468576445865843e+01"/>
+        </Bin>
+        <Bin ibin="52" effS="5.1000000000000001e-01" effB="1.9680851697921753e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="3.0927148832893209e+01"/>
+        </Bin>
+        <Bin ibin="53" effS="5.2000000000000002e-01" effB="2.0201203227043152e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="3.1492737404176381e+01"/>
+        </Bin>
+        <Bin ibin="54" effS="5.3000000000000003e-01" effB="2.0814062654972076e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="3.2072707080094126e+01"/>
+        </Bin>
+        <Bin ibin="55" effS="5.4000000000000004e-01" effB="2.1415357291698456e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="3.2557265596798977e+01"/>
+        </Bin>
+        <Bin ibin="56" effS="5.5000000000000004e-01" effB="2.1820074319839478e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="3.2911081044531663e+01"/>
+        </Bin>
+        <Bin ibin="57" effS="5.6000000000000005e-01" effB="2.2398243844509125e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="3.3423419034074847e+01"/>
+        </Bin>
+        <Bin ibin="58" effS="5.7000000000000006e-01" effB="2.2987975180149078e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="3.3963921036278080e+01"/>
+        </Bin>
+        <Bin ibin="59" effS="5.7999999999999996e-01" effB="2.3566143214702606e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="3.4423282446667166e+01"/>
+        </Bin>
+        <Bin ibin="60" effS="5.8999999999999997e-01" effB="2.4190564453601837e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="3.4964235219062978e+01"/>
+        </Bin>
+        <Bin ibin="61" effS="5.9999999999999998e-01" effB="2.4884368479251862e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="3.5604666758989310e+01"/>
+        </Bin>
+        <Bin ibin="62" effS="6.0999999999999999e-01" effB="2.5323775410652161e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="3.6051785597385788e+01"/>
+        </Bin>
+        <Bin ibin="63" effS="6.2000000000000000e-01" effB="2.5901943445205688e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="3.6639874569973394e+01"/>
+        </Bin>
+        <Bin ibin="64" effS="6.3000000000000000e-01" effB="2.6641997694969177e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="3.7307619867184115e+01"/>
+        </Bin>
+        <Bin ibin="65" effS="6.4000000000000001e-01" effB="2.7439871430397034e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="3.7832193871493132e+01"/>
+        </Bin>
+        <Bin ibin="66" effS="6.5000000000000002e-01" effB="2.8145238757133484e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="3.8430607591333853e+01"/>
+        </Bin>
+        <Bin ibin="67" effS="6.6000000000000003e-01" effB="2.8630897402763367e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="3.8921642669182773e+01"/>
+        </Bin>
+        <Bin ibin="68" effS="6.7000000000000004e-01" effB="2.9220628738403320e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="3.9476079083144633e+01"/>
+        </Bin>
+        <Bin ibin="69" effS="6.8000000000000005e-01" effB="3.0111008882522583e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="4.0222353003065464e+01"/>
+        </Bin>
+        <Bin ibin="70" effS="6.9000000000000006e-01" effB="3.0793249607086182e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="4.0953804730888578e+01"/>
+        </Bin>
+        <Bin ibin="71" effS="7.0000000000000007e-01" effB="3.1244218349456787e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="4.1433861289026694e+01"/>
+        </Bin>
+        <Bin ibin="72" effS="7.0999999999999996e-01" effB="3.2215544581413269e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="4.2238542648615088e+01"/>
+        </Bin>
+        <Bin ibin="73" effS="7.1999999999999997e-01" effB="3.2897782325744629e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="4.2937992792821809e+01"/>
+        </Bin>
+        <Bin ibin="74" effS="7.2999999999999998e-01" effB="3.3499076962471008e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="4.3507209007115854e+01"/>
+        </Bin>
+        <Bin ibin="75" effS="7.3999999999999999e-01" effB="3.4343200922012329e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="4.4234699663840452e+01"/>
+        </Bin>
+        <Bin ibin="76" effS="7.5000000000000000e-01" effB="3.5060131549835205e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="4.4940415629907520e+01"/>
+        </Bin>
+        <Bin ibin="77" effS="7.6000000000000001e-01" effB="3.6147087812423706e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="4.5771731063077418e+01"/>
+        </Bin>
+        <Bin ibin="78" effS="7.7000000000000002e-01" effB="3.7176227569580078e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="4.6518358912959208e+01"/>
+        </Bin>
+        <Bin ibin="79" effS="7.8000000000000003e-01" effB="3.8216930627822876e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="4.7411980377840656e+01"/>
+        </Bin>
+        <Bin ibin="80" effS="7.9000000000000004e-01" effB="3.8922294974327087e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="4.8157425637953608e+01"/>
+        </Bin>
+        <Bin ibin="81" effS="8.0000000000000004e-01" effB="4.0043941140174866e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="4.9017766709436941e+01"/>
+        </Bin>
+        <Bin ibin="82" effS="8.1000000000000005e-01" effB="4.1269659996032715e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="4.9954093193081476e+01"/>
+        </Bin>
+        <Bin ibin="83" effS="8.2000000000000006e-01" effB="4.2206290364265442e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="5.0880460906575536e+01"/>
+        </Bin>
+        <Bin ibin="84" effS="8.3000000000000007e-01" effB="4.3489825725555420e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="5.1892922251060583e+01"/>
+        </Bin>
+        <Bin ibin="85" effS="8.3999999999999997e-01" effB="4.4646161794662476e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="5.2935729772785365e+01"/>
+        </Bin>
+        <Bin ibin="86" effS="8.4999999999999998e-01" effB="4.5779374241828918e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="5.4063569087105563e+01"/>
+        </Bin>
+        <Bin ibin="87" effS="8.5999999999999999e-01" effB="4.7166976332664490e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="5.5215716773633204e+01"/>
+        </Bin>
+        <Bin ibin="88" effS="8.7000000000000000e-01" effB="4.8462074995040894e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="5.6447157868499971e+01"/>
+        </Bin>
+        <Bin ibin="89" effS="8.8000000000000000e-01" effB="4.9976873397827148e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="5.7826451613967819e+01"/>
+        </Bin>
+        <Bin ibin="90" effS="8.9000000000000001e-01" effB="5.1364475488662720e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="5.9208450481391409e+01"/>
+        </Bin>
+        <Bin ibin="91" effS="9.0000000000000002e-01" effB="5.3075855970382690e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="6.0871528944497015e+01"/>
+        </Bin>
+        <Bin ibin="92" effS="9.1000000000000003e-01" effB="5.4648476839065552e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="6.2530357688016238e+01"/>
+        </Bin>
+        <Bin ibin="93" effS="9.2000000000000004e-01" effB="5.6521737575531006e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="6.4456953661035513e+01"/>
+        </Bin>
+        <Bin ibin="94" effS="9.3000000000000005e-01" effB="5.8626270294189453e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="6.6503917661434997e+01"/>
+        </Bin>
+        <Bin ibin="95" effS="9.4000000000000006e-01" effB="6.1077708005905151e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="6.8998975584721762e+01"/>
+        </Bin>
+        <Bin ibin="96" effS="9.5000000000000007e-01" effB="6.3852912187576294e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="7.1683310485720327e+01"/>
+        </Bin>
+        <Bin ibin="97" effS="9.5999999999999996e-01" effB="6.6951900720596313e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="7.4945096723746431e+01"/>
+        </Bin>
+        <Bin ibin="98" effS="9.6999999999999997e-01" effB="7.0386219024658203e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="7.9169353880825227e+01"/>
+        </Bin>
+        <Bin ibin="99" effS="9.7999999999999998e-01" effB="7.4387145042419434e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="8.4930975796719451e+01"/>
+        </Bin>
+        <Bin ibin="100" effS="9.8999999999999999e-01" effB="8.0816382169723511e-01">
+          <Cuts cutMin_0="-1.0000000000000000e+30" cutMax_0="9.4627798238220606e+01"/>
+        </Bin>
+      </Weights>
+    </SubMethod>
+  </Weights>
+</MethodSetup>

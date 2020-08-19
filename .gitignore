@@ -2,7 +2,6 @@
 CVS
 *.pdf
 *.png
-*.C
 *.tex
 *.json
 __init__.py
